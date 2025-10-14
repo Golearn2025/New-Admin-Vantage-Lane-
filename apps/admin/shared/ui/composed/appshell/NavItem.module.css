@@ -4,7 +4,7 @@
   width: 100%;
 }
 
-.navItem {
+.navLink {
   display: flex;
   align-items: center;
   width: 100%;
@@ -16,39 +16,31 @@
   cursor: pointer;
   min-height: 44px; /* A11y touch target */
   position: relative;
-  
-  &:hover {
-    color: var(--color-text-secondary);
-    background-color: var(--color-surface-elevated);
-  }
-  
-  &:focus-visible {
-    outline: 2px solid var(--color-border-focus);
-    outline-offset: 2px;
-    color: var(--color-accent2-500);
-  }
 }
 
-/* Charcoal Premium Navigation Items */
-.navItem {
-  background: transparent;
-}
-
-.navItem:hover {
+/* NavLink Hover & Focus States */
+.navLink:hover {
+  color: var(--color-text-secondary);
   background: var(--color-surface-glass);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border: 1px solid var(--color-border-muted);
 }
 
+.navLink:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+  color: var(--color-accent2-500);
+}
+
 /* Active state */
-.navItem.active {
+.navLink.active {
   color: var(--color-accent-500);
   background-color: var(--color-surface-secondary);
   font-weight: var(--font-medium);
 }
 
-.navItem.active .navIcon {
+.navLink.active .navIcon {
   color: var(--color-accent-500);
 }
 

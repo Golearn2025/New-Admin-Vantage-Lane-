@@ -8,8 +8,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { AppShell } from '@admin/shared/ui/composed/appshell';
-import { UserRole } from '@admin/shared/ui/composed/appshell/types';
+import { AppShell, UserRole } from '@admin/shared/ui/composed/appshell';
 
 interface AdminLayoutProps {
   children: React.ReactNode;

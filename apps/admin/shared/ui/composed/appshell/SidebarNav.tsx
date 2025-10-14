@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import { Icon } from '@admin/shared/ui/icons';
 import { BrandName } from '@admin/shared/ui/composed/BrandName';
 import { NavItem } from './NavItem';
 import { SidebarNavProps } from './types';
@@ -73,12 +74,16 @@ export function SidebarNav({
         </div>
       </div>
       
-      {/* Footer info */}
+      {/* Sign Out - în josul sidebar-ului */}
       <div className={styles.sidebarFooter}>
-        <div className={styles.footerInfo}>
-          <span className={styles.appVersion}>v2.1</span>
-          <span className={styles.buildInfo}>FROZEN</span>
-        </div>
+        <a 
+          href="/logout" 
+          className={styles.signOutLink}
+          onClick={onNavigate ? () => onNavigate('/logout') : undefined}
+        >
+          <Icon name="settings" size={20} />
+          <span>Sign Out</span>
+        </a>
       </div>
     </nav>
   );

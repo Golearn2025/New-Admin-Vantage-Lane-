@@ -12,6 +12,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
+import { BrandBackground } from '@admin/shared/ui/composed/BrandBackground';
 import { AuthCard } from '@admin/shared/ui/composed/AuthCard';
 import { FormRow } from '@admin/shared/ui/composed/FormRow';
 import { ErrorBanner } from '@admin/shared/ui/composed/ErrorBanner';

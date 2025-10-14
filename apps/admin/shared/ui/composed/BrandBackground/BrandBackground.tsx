@@ -9,7 +9,7 @@ import React from 'react';
 import styles from './BrandBackground.module.css';
 
 export type BrandBackgroundProps = {
-  variant?: 'login' | 'shell';
+  variant?: 'login' | 'shell' | 'topbar';
   className?: string | undefined;
   children?: React.ReactNode;
 };

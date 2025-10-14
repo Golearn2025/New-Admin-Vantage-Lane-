@@ -48,26 +48,26 @@
     },
     "dark": {
       "bg": {
-        "primary": "#0f1419",
-        "secondary": "#1a1f2e", 
-        "tertiary": "#252b3a",
+        "primary": "#0a0b0d",
+        "secondary": "#121416", 
+        "tertiary": "#1a1d21",
         "gradient": {
-          "from": "#0f1419",
-          "via": "#1a1f2e", 
-          "to": "#1f1f23"
+          "from": "#0a0b0d",
+          "via": "#121416", 
+          "to": "#1a1d21"
         }
       },
       "surface": {
-        "primary": "#1e293b",
-        "secondary": "#334155",
+        "primary": "#121416",
+        "secondary": "#1a1d21",
         "elevated": "rgba(255, 255, 255, 0.04)",
         "overlay": "rgba(0, 0, 0, 0.8)",
         "glass": "rgba(255, 255, 255, 0.04)"
       },
       "border": {
-        "default": "#475569",
-        "muted": "#334155",
-        "strong": "#64748b",
+        "default": "#2a2d31",
+        "muted": "#1a1d21",
+        "strong": "#3a3d41",
         "focus": "#f1d16a"
       },
       "text": {

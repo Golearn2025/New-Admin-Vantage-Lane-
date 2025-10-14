@@ -1,8 +1,8 @@
 /* BrandBackground Styles - Cristi's 6-Layer Carbon Fiber */
 
 .bg {
-  /* CRISTI'S EXACT COLORS - Enhanced luxury gradient */
-  background: linear-gradient(135deg, #0a0b0d 0%, #121416 50%, #1a1d21 100%);
+  /* CRISTI'S COLORS via tokens (acum corecte) */
+  background: linear-gradient(135deg, var(--color-bg-gradient-from) 0%, var(--color-bg-gradient-via) 50%, var(--color-bg-gradient-to) 100%);
   position: relative;
   min-height: 100vh;
 }
@@ -15,6 +15,12 @@
 /* Variant: Shell - intensity standard */
 .shell {
   opacity: 1; /* Full intensity pentru AppShell */
+}
+
+/* Variant: Topbar - foarte subtil */
+.topbar {
+  opacity: 0.8; /* Foarte subtil pentru topbar */
+  min-height: 60px; /* Height specific pentru topbar */
 }
 
 /* Layer 1: Luxury golden accents */

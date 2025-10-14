@@ -78,9 +78,9 @@
   border-radius: var(--radius-md);
 }
 
-/* Search Section */
+/* Search Section - moved to left */
 .searchSection {
-  flex: 1;
+  flex: 0 0 400px; /* Fixed width instead of flex: 1 */
   max-width: 400px;
 }
 
@@ -118,11 +118,12 @@
   }
 }
 
-/* Right Section */
+/* Right Section - pushed to far right */
 .rightSection {
   display: flex;
   align-items: center;
   gap: var(--spacing-3);
+  margin-left: auto; /* Push to far right */
 }
 
 /* Icon Button (notifications etc) */

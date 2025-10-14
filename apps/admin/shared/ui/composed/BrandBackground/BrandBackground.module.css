@@ -1,8 +1,8 @@
 /* BrandBackground Styles - Cristi's 6-Layer Carbon Fiber */
 
 .bg {
-  /* Base luxury gradient */
-  background: linear-gradient(135deg, var(--color-bg-gradient-from) 0%, var(--color-bg-gradient-via) 50%, var(--color-bg-gradient-to) 100%);
+  /* CRISTI'S EXACT COLORS - Enhanced luxury gradient */
+  background: linear-gradient(135deg, #0a0b0d 0%, #121416 50%, #1a1d21 100%);
   position: relative;
   min-height: 100vh;
 }

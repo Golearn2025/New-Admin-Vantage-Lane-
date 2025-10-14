@@ -238,7 +238,11 @@
   transition: transform var(--motion-hover);
 }
 
-/* User Dropdown */
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* User Dropdown - REUTILIZABIL */
 .userDropdown {
   position: absolute;
   top: 100%;
@@ -250,7 +254,7 @@
   box-shadow: var(--shadow-lg);
   min-width: 200px;
   z-index: 1000;
-  display: none; /* Hidden by default */
+  /* display controlled by React state - REUTILIZABIL */
 }
 
 .dropdownItem {

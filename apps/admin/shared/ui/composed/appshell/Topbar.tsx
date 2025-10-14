@@ -5,7 +5,7 @@
  * A11y compliant cu skip link și keyboard navigation.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Icon } from '@admin/shared/ui/icons';
 import { BrandName } from '@admin/shared/ui/composed/BrandName';
 import { TopbarProps } from './types';
@@ -16,6 +16,15 @@ export function Topbar({
   onMenuToggle,
   searchPlaceholder = "Search..."
 }: TopbarProps) {
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+
+  const handleUserMenuToggle = () => {
+    setIsUserDropdownOpen(!isUserDropdownOpen);
+  };
+
+  const handleUserMenuClose = () => {
+    setIsUserDropdownOpen(false);
+  };
   
   return (
     <header 
@@ -83,7 +92,8 @@ export function Topbar({
           <button
             className={styles.userButton}
             aria-label="User menu"
-            aria-expanded="false"
+            aria-expanded={isUserDropdownOpen}
+            onClick={handleUserMenuToggle}
             type="button"
           >
             <div className={styles.userAvatar}>
@@ -100,20 +110,32 @@ export function Topbar({
             <Icon 
               name="chevronDown" 
               size={16} 
-              className={styles.userChevron}
+              className={`${styles.userChevron} ${isUserDropdownOpen ? styles.chevronOpen : ''}`}
               aria-hidden="true"
             />
           </button>
           
-          {/* User dropdown - placeholder pentru viitoare implementare */}
-          <div className={styles.userDropdown} role="menu" aria-hidden="true">
-            <a href="/settings/profile" className={styles.dropdownItem} role="menuitem">
-              Profile Settings
-            </a>
-            <a href="/logout" className={styles.dropdownItem} role="menuitem">
-              Sign Out
-            </a>
-          </div>
+          {/* User dropdown - REUTILIZABIL */}
+          {isUserDropdownOpen && (
+            <div className={styles.userDropdown} role="menu" aria-hidden="false">
+              <a 
+                href="/settings/profile" 
+                className={styles.dropdownItem} 
+                role="menuitem"
+                onClick={handleUserMenuClose}
+              >
+                Profile Settings
+              </a>
+              <a 
+                href="/logout" 
+                className={styles.dropdownItem} 
+                role="menuitem"
+                onClick={handleUserMenuClose}
+              >
+                Sign Out
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </header>

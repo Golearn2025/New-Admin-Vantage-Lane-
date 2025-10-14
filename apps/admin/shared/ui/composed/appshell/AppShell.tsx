@@ -11,6 +11,7 @@ import React, { useState, useEffect } from 'react';
 import { SidebarNav } from './SidebarNav';
 import { Topbar } from './Topbar';
 import { Drawer } from './Drawer';
+import { BrandBackground } from '@admin/shared/ui/composed/BrandBackground';
 import { AppShellProps } from './types';
 import styles from './AppShell.module.css';
 
@@ -59,11 +60,7 @@ export function AppShell({
   };
 
   return (
-    <div className={styles.appShell}>
-      {/* Cristi's Carbon Fiber Layers */}
-      <div className={styles.carbonHex} />
-      <div className={styles.carbonWeave} />
-      <div className={styles.metallicReflections} />
+    <BrandBackground variant="shell" className={styles.appShell}>
       {/* Desktop Sidebar - persistent */}
       {!isMobile && (
         <SidebarNav
@@ -113,6 +110,6 @@ export function AppShell({
           aria-hidden="true"
         />
       )}
-    </div>
+    </BrandBackground>
   );
 }

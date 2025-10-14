@@ -44,11 +44,10 @@ export function NavItem({
     <div className={styles.navItemWrapper}>
       <a
         href={href}
+        className={`${styles.navLink} ${isActive ? styles.active : ''}`}
         onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        className={navItemClasses}
-        aria-current={isActive ? 'page' : undefined}
         aria-expanded={hasChildren ? isExpanded : undefined}
+        aria-current={isActive ? "page" : undefined}
         role="menuitem"
         tabIndex={0}
       >

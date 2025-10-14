@@ -14,13 +14,12 @@ import styles from './Topbar.module.css';
 export function Topbar({
   role,
   onMenuToggle,
-  searchPlaceholder = "Search...",
-  variant = 'minimal'
+  searchPlaceholder = "Search..."
 }: TopbarProps) {
   
   return (
     <header 
-      className={`${styles.topbar} ${styles[variant]}`}
+      className={styles.topbar}
       role="banner"
     >
       {/* Skip to content link pentru A11y */}

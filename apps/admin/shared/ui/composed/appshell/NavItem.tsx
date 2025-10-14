@@ -19,8 +19,7 @@ export function NavItem({
   hasChildren = false,
   isExpanded = false,
   children,
-  onNavigate,
-  variant = 'minimal'
+  onNavigate
 }: NavItemProps) {
   
   const handleClick = (e: React.MouseEvent) => {
@@ -37,7 +36,6 @@ export function NavItem({
 
   const navItemClasses = [
     styles.navItem,
-    styles[variant],
     isActive ? styles.active : '',
     hasChildren ? styles.hasChildren : ''
   ].filter(Boolean).join(' ');

@@ -15,15 +15,14 @@ import styles from './SidebarNav.module.css';
 export function SidebarNav({
   role,
   currentPath,
-  onNavigate,
-  variant = 'minimal'
+  onNavigate
 }: SidebarNavProps) {
   
   const menuItems = getMenuForRole(role);
   
   return (
     <nav 
-      className={`${styles.sidebar} ${styles[variant]}`}
+      className={styles.sidebar}
       role="navigation"
       aria-label="Main navigation"
     >
@@ -68,7 +67,6 @@ export function SidebarNav({
                 isExpanded={isExpanded}
                 children={item.children}
                 onNavigate={onNavigate}
-                variant={variant}
               />
             );
           })}

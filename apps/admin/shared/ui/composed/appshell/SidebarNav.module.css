@@ -14,13 +14,8 @@
   overflow: hidden;
 }
 
-/* Variant: Minimal */
-.sidebar.minimal {
-  background: var(--color-bg-secondary);
-}
-
-/* Variant: Luxe */
-.sidebar.luxe {
+/* Charcoal Premium Sidebar */
+.sidebar {
   background: var(--color-surface-glass);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);

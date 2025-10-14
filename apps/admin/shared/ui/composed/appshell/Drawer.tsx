@@ -15,8 +15,7 @@ import styles from './Drawer.module.css';
 export function Drawer({
   isOpen,
   onClose,
-  children,
-  variant = 'minimal'
+  children
 }: DrawerProps) {
   
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -87,7 +86,7 @@ export function Drawer({
   return (
     <div
       ref={drawerRef}
-      className={`${styles.drawer} ${styles[variant]} ${isOpen ? styles.open : ''}`}
+      className={`${styles.drawer} ${isOpen ? styles.open : ''}`}
       role="dialog"
       aria-modal="true"
       aria-label="Navigation menu"

@@ -29,22 +29,12 @@
   }
 }
 
-/* Variant: Minimal */
-.navItem.minimal {
+/* Charcoal Premium Navigation Items */
+.navItem {
   background: transparent;
 }
 
-.navItem.minimal:hover {
-  background: var(--color-surface-elevated);
-}
-
-/* Variant: Luxe */
-.navItem.luxe {
-  background: transparent;
-  backdrop-filter: none;
-}
-
-.navItem.luxe:hover {
+.navItem:hover {
   background: var(--color-surface-glass);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);

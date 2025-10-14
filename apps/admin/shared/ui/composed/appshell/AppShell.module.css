@@ -6,13 +6,8 @@
   background: var(--color-bg-primary);
 }
 
-/* Variant: Minimal */
-.appShell.minimal {
-  background: var(--color-bg-primary);
-}
-
-/* Variant: Luxe - gradient background */
-.appShell.luxe {
+/* Charcoal Premium - Final Design */
+.appShell {
   background: radial-gradient(
     ellipse at top,
     var(--color-bg-gradient-from) 0%,
@@ -22,8 +17,8 @@
   position: relative;
 }
 
-/* Subtle noise texture pentru luxe variant */
-.appShell.luxe::before {
+/* Subtle noise texture pentru premium effect */
+.appShell::before {
   content: '';
   position: fixed;
   top: 0;
@@ -109,7 +104,7 @@
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .appShell.luxe::before {
+  .appShell::before {
     display: none; /* Remove noise animation */
   }
   
@@ -120,11 +115,11 @@
 
 /* High contrast mode */
 @media (prefers-contrast: high) {
-  .appShell.luxe {
-    background: var(--color-bg-primary); /* Fallback la solid color */
+  .appShell {
+    background: var(--color-bg-primary) !important; /* Fallback la solid color */
   }
   
-  .appShell.luxe::before {
+  .appShell::before {
     display: none;
   }
 }

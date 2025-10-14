@@ -18,7 +18,7 @@ export function AppShell({
   role,
   currentPath,
   children,
-  variant = 'minimal'
+  variant = 'luxe'
 }: AppShellProps) {
   
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
@@ -59,14 +59,13 @@ export function AppShell({
   };
 
   return (
-    <div className={`${styles.appShell} ${styles[variant]}`}>
+    <div className={styles.appShell}>
       {/* Desktop Sidebar - persistent */}
       {!isMobile && (
         <SidebarNav
           role={role}
           currentPath={currentPath}
           onNavigate={handleNavigate}
-          variant={variant}
         />
       )}
 
@@ -75,13 +74,11 @@ export function AppShell({
         <Drawer
           isOpen={isMobileDrawerOpen}
           onClose={handleDrawerClose}
-          variant={variant}
         >
           <SidebarNav
             role={role}
             currentPath={currentPath}
             onNavigate={handleNavigate}
-            variant={variant}
           />
         </Drawer>
       )}
@@ -92,7 +89,6 @@ export function AppShell({
         <Topbar
           role={role}
           onMenuToggle={handleMenuToggle}
-          variant={variant}
         />
 
         {/* Page Content */}

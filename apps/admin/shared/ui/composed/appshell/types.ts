@@ -21,14 +21,13 @@ export interface AppShellProps {
   role: UserRole;
   currentPath: string;
   children: React.ReactNode;
-  variant?: 'minimal' | 'luxe';
+  variant?: 'luxe';
 }
 
 export interface SidebarNavProps {
   role: UserRole;
   currentPath: string;
   onNavigate: (href: string) => void;
-  variant?: 'minimal' | 'luxe';
 }
 
 export interface NavItemProps {
@@ -41,14 +40,12 @@ export interface NavItemProps {
   isExpanded?: boolean;
   children?: string[] | undefined;
   onNavigate: (href: string) => void;
-  variant?: 'minimal' | 'luxe';
 }
 
 export interface TopbarProps {
   role: UserRole;
   onMenuToggle: () => void;
   searchPlaceholder?: string;
-  variant?: 'minimal' | 'luxe';
 }
 
 export interface BreadcrumbItem {
@@ -74,5 +71,4 @@ export interface DrawerProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  variant?: 'minimal' | 'luxe';
 }

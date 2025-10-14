@@ -15,13 +15,8 @@
   z-index: 50;
 }
 
-/* Variant: Minimal */
-.topbar.minimal {
-  background: var(--color-bg-secondary);
-}
-
-/* Variant: Luxe */
-.topbar.luxe {
+/* Charcoal Premium Topbar */
+.topbar {
   background: var(--color-surface-glass);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);

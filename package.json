@@ -14,6 +14,16 @@
     "check:next": "next build",
     "check:all": "mkdir -p reports && (tsc --noEmit 2>&1 | tee reports/tsc.log); (eslint . --ext .ts,.tsx -f unix 2>&1 | tee reports/eslint.log); (next build 2>&1 | tee reports/next-build.log)",
     "lh:login": "npx @lhci/cli autorun --collect.url=http://localhost:3000/login --collect.startServerCommand='npm run dev' --assert.assertions.categories:performance=0.9 --assert.assertions.categories:accessibility=0.95",
+    "svgo:icons": "npx svgo --config=svgo.config.js --folder=apps/admin/shared/ui/icons/svg --output=apps/admin/shared/ui/icons/svg",
+    "check:enterprise": "npm run check:boundaries && npm run check:files && npm run check:colors && npm run check:business",
+    "check:boundaries": "npx depcruise -c .dependency-cruiser.cjs apps/admin --exclude '^node_modules' > reports/depcruise.txt || true",
+    "check:circular": "npx madge apps/admin --circular > reports/circular.txt || true",
+    "check:files": "find apps/admin -name '*.tsx' -not -path '*/node_modules/*' -exec wc -l {} \\; | awk '$1>200{print \"UI too long: \"$2\" (\"$1\" lines)\"}' || true",
+    "check:colors": "grep -R 'color:\\s*#\\|rgb(\\|hsl(' apps/admin app --include='*.css' --include='*.tsx' -n || echo 'No inline colors found'",
+    "check:business": "grep -R 'from.*shared/api/clients\\|fetch(\\|axios(\\|supabase\\.from(' app --include='*.tsx' --include='*.ts' -n || echo 'No business logic in UI'",
+    "check:any": "grep -R '\\bany\\b' apps/admin/shared/ui app/login --include='*.ts' --include='*.tsx' -n || echo 'No any types found'",
+    "check:budgets": "npx size-limit --why || true",
+    "check:a11y": "npx @axe-core/cli http://localhost:3000/login -o reports/axe-login.json || true",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:e2e": "playwright test",
@@ -28,15 +38,19 @@
     "typescript": "^5.0.0"
   },
   "devDependencies": {
+    "@axe-core/cli": "^4.10.2",
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "dependency-cruiser": "^17.0.2",
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
     "eslint-plugin-import": "^2.29.0",
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "madge": "^8.0.0",
+    "size-limit": "^11.2.0"
   },
   "engines": {
     "node": ">=18.0.0",

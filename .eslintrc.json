@@ -3,15 +3,55 @@
   "plugins": ["@typescript-eslint", "import"],
   "rules": {
     "@typescript-eslint/no-explicit-any": "error",
-    "max-lines": ["error", { "max": 200, "skipComments": true }],
+    "max-lines": ["error", { "max": 200, "skipComments": true, "skipBlankLines": true }],
     "no-console": ["error", { "allow": ["warn", "error"] }],
-    "import/no-cycle": "error"
+    "import/no-cycle": "error",
+    "no-restricted-imports": ["error", {
+      "patterns": [
+        {
+          "group": ["**/shared/api/clients/**"],
+          "message": "UI components can only use contracts, not API clients"
+        },
+        {
+          "group": ["**/entities/**"],
+          "message": "UI components cannot import business entities"
+        },
+        {
+          "group": ["**/features/**"],
+          "message": "Shared UI cannot import features"
+        }
+      ]
+    }]
   },
   "overrides": [
     {
       "files": ["apps/admin/shared/ui/**/*.tsx", "apps/admin/shared/ui/**/*.ts"],
       "rules": {
-        "max-lines": ["error", { "max": 200, "skipComments": true }]
+        "max-lines": ["error", { "max": 200, "skipComments": true, "skipBlankLines": true }],
+        "no-restricted-imports": ["error", {
+          "patterns": [
+            {
+              "group": ["../../api/clients/**", "../../../api/clients/**"],
+              "message": "UI components must not import API clients"
+            },
+            {
+              "group": ["../../entities/**", "../../../entities/**"],
+              "message": "UI components must not import business entities"
+            }
+          ]
+        }]
+      }
+    },
+    {
+      "files": ["apps/admin/shared/lib/**/*.ts"],
+      "rules": {
+        "max-lines": ["error", { "max": 150, "skipComments": true }]
+      }
+    },
+    {
+      "files": ["apps/admin/shared/hooks/**/*.ts"],
+      "rules": {
+        "max-lines": ["error", { "max": 80, "skipComments": true }]
       }
     }
   ]

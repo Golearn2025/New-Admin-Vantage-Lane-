@@ -1,0 +1,312 @@
+/* Topbar Styles - Application Header */
+
+.topbar {
+  height: 60px;
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border-default);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-4);
+  gap: var(--spacing-4);
+  position: fixed;
+  top: 0;
+  left: 240px; /* Desktop: după sidebar */
+  right: 0;
+  z-index: 50;
+}
+
+/* Variant: Minimal */
+.topbar.minimal {
+  background: var(--color-bg-secondary);
+}
+
+/* Variant: Luxe */
+.topbar.luxe {
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
+/* Skip link pentru A11y */
+.skipLink {
+  position: absolute;
+  top: -40px;
+  left: var(--spacing-4);
+  background: var(--color-accent-500);
+  color: var(--color-bg-primary);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: var(--font-medium);
+  z-index: 1000;
+  transition: top var(--motion-hover);
+}
+
+.skipLink:focus {
+  top: var(--spacing-2);
+}
+
+/* Mobile menu button */
+.menuButton {
+  display: none; /* Hidden pe desktop */
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: var(--spacing-2);
+  border-radius: var(--radius-md);
+  min-height: 44px;
+  min-width: 44px;
+  
+  &:hover {
+    background: var(--color-surface-elevated);
+    color: var(--color-text-primary);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+}
+
+/* Mobile logo */
+.mobileLogo {
+  display: none; /* Hidden pe desktop */
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.logoImage {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+}
+
+/* Search Section */
+.searchSection {
+  flex: 1;
+  max-width: 400px;
+}
+
+.searchContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: var(--spacing-3);
+  color: var(--color-text-muted);
+  z-index: 1;
+}
+
+.searchInput {
+  width: 100%;
+  height: 40px;
+  padding: 0 var(--spacing-3) 0 var(--spacing-8);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--font-base);
+  
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 2px rgba(241, 209, 106, 0.2);
+  }
+}
+
+/* Right Section */
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+/* Icon Button (notifications etc) */
+.iconButton {
+  position: relative;
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: var(--spacing-2);
+  border-radius: var(--radius-md);
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    background: var(--color-surface-elevated);
+    color: var(--color-text-primary);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+}
+
+.notificationBadge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: var(--color-danger-default);
+  color: white;
+  font-size: var(--font-xs);
+  font-weight: var(--font-semibold);
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* User Menu */
+.userMenu {
+  position: relative;
+}
+
+.userButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: var(--spacing-2);
+  border-radius: var(--radius-md);
+  min-height: 44px;
+  
+  &:hover {
+    background: var(--color-surface-elevated);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  background: var(--color-accent-500);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.userInitials {
+  color: var(--color-bg-primary);
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.userName {
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.userRole {
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.userChevron {
+  color: var(--color-text-muted);
+  transition: transform var(--motion-hover);
+}
+
+/* User Dropdown */
+.userDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--spacing-2);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  min-width: 200px;
+  z-index: 1000;
+  display: none; /* Hidden by default */
+}
+
+.dropdownItem {
+  display: block;
+  padding: var(--spacing-3) var(--spacing-4);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-size: var(--font-sm);
+  
+  &:hover {
+    background: var(--color-surface-secondary);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: -2px;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .topbar {
+    left: 0; /* Full width pe mobile */
+    padding: 0 var(--spacing-4);
+  }
+  
+  .menuButton {
+    display: flex; /* Show pe mobile */
+  }
+  
+  .mobileLogo {
+    display: flex; /* Show pe mobile */
+  }
+  
+  .searchSection {
+    max-width: none;
+    flex: 1;
+  }
+  
+  .userInfo {
+    display: none; /* Hide user info pe mobile pentru spațiu */
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .topbar.luxe {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  
+  .userChevron {
+    transition: none;
+  }
+}

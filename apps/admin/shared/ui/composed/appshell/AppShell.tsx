@@ -60,6 +60,10 @@ export function AppShell({
 
   return (
     <div className={styles.appShell}>
+      {/* Cristi's Carbon Fiber Layers */}
+      <div className={styles.carbonHex} />
+      <div className={styles.carbonWeave} />
+      <div className={styles.metallicReflections} />
       {/* Desktop Sidebar - persistent */}
       {!isMobile && (
         <SidebarNav

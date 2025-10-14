@@ -6,18 +6,14 @@
   background: var(--color-bg-primary);
 }
 
-/* Charcoal Premium - Final Design */
+/* CRISTI'S BACKGROUND - 6 Layers Carbon Fiber Luxury */
 .appShell {
-  background: radial-gradient(
-    ellipse at top,
-    var(--color-bg-gradient-from) 0%,
-    var(--color-bg-gradient-via) 45%,
-    var(--color-bg-gradient-to) 100%
-  );
+  /* Base luxury gradient */
+  background: linear-gradient(135deg, #0a0b0d 0%, #121416 50%, #1a1d21 100%);
   position: relative;
 }
 
-/* Landing Page Noise Texture - Unified cu Website */
+/* Layer 1: Luxury golden accents */
 .appShell::before {
   content: '';
   position: fixed;
@@ -25,10 +21,69 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.02;
+  background: 
+    radial-gradient(ellipse at 30% 20%, rgba(203,178,106,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse at 70% 80%, rgba(229,212,133,0.02) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
+}
+
+/* Layer 2: Vertical vignette */
+.appShell::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(1200px 900px at 50% -10%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 80%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Layer 3: Carbon Fiber Hexagonal Pattern */
+.carbonHex {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-conic-gradient(from 30deg at 50% 50%, rgba(255,255,255,0.02) 0deg, rgba(203,178,106,0.08) 60deg, rgba(255,255,255,0.02) 120deg, rgba(229,212,133,0.06) 180deg, rgba(255,255,255,0.02) 240deg, rgba(203,178,106,0.04) 300deg, rgba(255,255,255,0.02) 360deg);
+  background-size: 8px 8px;
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Layer 4: Carbon Fiber Weave Lines */
+.carbonWeave {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    repeating-linear-gradient(45deg, rgba(203,178,106,0.06) 0px, rgba(203,178,106,0.06) 1px, transparent 1px, transparent 4px), 
+    repeating-linear-gradient(-45deg, rgba(229,212,133,0.04) 0px, rgba(229,212,133,0.04) 1px, transparent 1px, transparent 4px);
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Layer 5: Metallic Reflections */
+.metallicReflections {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(135deg, transparent 40%, rgba(203,178,106,0.15) 50%, transparent 60%), 
+    linear-gradient(45deg, transparent 40%, rgba(229,212,133,0.12) 50%, transparent 60%);
+  background-size: 24px 24px;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 5;
 }
 
 /* Main Area - content space */
@@ -38,7 +93,7 @@
   flex-direction: column;
   margin-left: 240px; /* Desktop: space pentru sidebar */
   position: relative;
-  z-index: 2; /* Above noise texture */
+  z-index: 10; /* Above all background layers */
 }
 
 /* Page Content */

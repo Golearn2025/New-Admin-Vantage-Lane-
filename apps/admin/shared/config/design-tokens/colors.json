@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Color Tokens - FROZEN (Brand Mapping Applied)",
+  "description": "Design tokens for colors with Vantage Lane brand mapping - cannot be modified without freeze-exception",
+  "colors": {
+    "light": {
+      "bg": {
+        "primary": "#ffffff",
+        "secondary": "#fefdf2",
+        "tertiary": "#fdf9e3"
+      },
+      "surface": {
+        "primary": "#ffffff",
+        "secondary": "#fefdf2",
+        "elevated": "#ffffff",
+        "overlay": "rgba(0, 0, 0, 0.5)"
+      },
+      "border": {
+        "default": "#e2e8f0",
+        "muted": "#f1f5f9", 
+        "strong": "#cbd5e1",
+        "focus": "#eab308"
+      },
+      "text": {
+        "primary": "#0f172a",
+        "secondary": "#475569",
+        "muted": "#64748b",
+        "inverse": "#ffffff",
+        "disabled": "#94a3b8"
+      },
+      "accent": {
+        "50": "#fefdf2",
+        "100": "#fdf9e3",
+        "200": "#fbf0c2",
+        "300": "#f7e397",
+        "400": "#f1d16a",
+        "500": "#eab308",
+        "600": "#d4a307",
+        "700": "#a16207",
+        "800": "#854d0e",
+        "900": "#713f12"
+      },
+      "accent2": {
+        "500": "#d4a307",
+        "600": "#ca8a04",
+        "700": "#a16207"
+      }
+    },
+    "dark": {
+      "bg": {
+        "primary": "#0f1419",
+        "secondary": "#1a1f2e", 
+        "tertiary": "#252b3a",
+        "gradient": {
+          "from": "#0f1419",
+          "via": "#1e293b", 
+          "to": "#312e81"
+        }
+      },
+      "surface": {
+        "primary": "#1e293b",
+        "secondary": "#334155",
+        "elevated": "rgba(255, 255, 255, 0.04)",
+        "overlay": "rgba(0, 0, 0, 0.8)",
+        "glass": "rgba(255, 255, 255, 0.04)"
+      },
+      "border": {
+        "default": "#475569",
+        "muted": "#334155",
+        "strong": "#64748b",
+        "focus": "#f1d16a"
+      },
+      "text": {
+        "primary": "#f8fafc",
+        "secondary": "#cbd5e1",
+        "muted": "#94a3b8",
+        "inverse": "#0f172a",
+        "disabled": "#64748b"
+      },
+      "accent": {
+        "50": "#713f12",
+        "100": "#854d0e",
+        "200": "#a16207",
+        "300": "#ca8a04",
+        "400": "#eab308",
+        "500": "#f1d16a",
+        "600": "#f7e397",
+        "700": "#fbf0c2",
+        "800": "#fdf9e3",
+        "900": "#fefdf2"
+      },
+      "accent2": {
+        "500": "#f7e397",
+        "600": "#f1d16a",
+        "700": "#eab308"
+      }
+    },
+    "semantic": {
+      "success": {
+        "light": "#dcfce7",
+        "default": "#16a34a",
+        "dark": "#15803d"
+      },
+      "warning": {
+        "light": "#fef3c7",
+        "default": "#d97706",
+        "dark": "#92400e"
+      },
+      "danger": {
+        "light": "#fee2e2",
+        "default": "#dc2626",
+        "dark": "#991b1b"
+      },
+      "info": {
+        "light": "#dbeafe",
+        "default": "#3b82f6",
+        "dark": "#1e40af"
+      }
+    }
+  }
+}

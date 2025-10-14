@@ -1,0 +1,50 @@
+/**
+ * AuthCard Component - Reusable Authentication Wrapper
+ * 
+ * Card wrapper cu logo header și form layout pentru authentication flows.
+ * Folosește DOAR design tokens și core components.
+ */
+
+import { ReactNode } from 'react';
+import { BrandName } from '@admin/shared/ui/composed/BrandName';
+import styles from './AuthCard.module.css';
+
+export interface AuthCardProps {
+  children: ReactNode;
+  title?: string;
+  subtitle?: string;
+}
+
+export function AuthCard({ children, title, subtitle }: AuthCardProps) {
+  return (
+    <div className={styles['container']}>
+      <div className={styles['card']}>
+        <div className={styles['header']}>
+          {/* Logo from /public/brand/logo.png */}
+          <img 
+            src="/brand/logo.png"
+            alt="Vantage Lane"
+            className={styles['logo']}
+            loading="eager"
+          />
+          
+          <BrandName size="xl" />
+          
+          <p className={styles['brandSubtitle']}>
+            Admin Access
+          </p>
+          
+          {title && (
+            <h2 className={styles['title']}>
+              {title}
+            </h2>
+          )}
+        </div>
+        
+        <div className={styles['content']}>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}

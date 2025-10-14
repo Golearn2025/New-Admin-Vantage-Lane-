@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Border Radius Tokens - FROZEN",
+  "description": "Design tokens for border radius - cannot be modified without freeze-exception", 
+  "radius": {
+    "none": "0px",
+    "sm": "4px",
+    "md": "8px",
+    "lg": "12px",
+    "xl": "16px",
+    "2xl": "24px",
+    "full": "9999px"
+  },
+  "semanticRadius": {
+    "input": "8px",
+    "button": "8px", 
+    "card": "12px",
+    "modal": "16px",
+    "avatar": "9999px"
+  }
+}

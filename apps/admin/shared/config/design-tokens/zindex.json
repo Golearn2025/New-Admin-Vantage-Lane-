@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Z-Index Tokens - FROZEN",
+  "description": "Design tokens for z-index layering - cannot be modified without freeze-exception",
+  "zIndex": {
+    "auto": "auto",
+    "base": 0,
+    "docked": 10,
+    "sticky": 20,
+    "banner": 30,
+    "overlay": 40,
+    "dropdown": 1000,
+    "modal": 1300,
+    "toast": 1400,
+    "tooltip": 1500,
+    "max": 2147483647
+  }
+}

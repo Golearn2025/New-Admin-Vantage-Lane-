@@ -1,0 +1,191 @@
+/**
+ * Global Styles - Design Tokens CSS Variables
+ * 
+ * This file defines CSS custom properties based on our design tokens.
+ * These variables are FROZEN and can only be modified via design-tokens JSON files.
+ */
+
+:root {
+  /* Dark Premium Theme Variables */
+  --color-bg-primary: #0f1419;
+  --color-bg-secondary: #1a1f2e;
+  --color-bg-tertiary: #252b3a;
+  --color-bg-gradient-from: #0f1419;
+  --color-bg-gradient-via: #1e293b;
+  --color-bg-gradient-to: #312e81;
+  
+  --color-surface-primary: #1e293b;
+  --color-surface-secondary: #334155;
+  --color-surface-elevated: rgba(255, 255, 255, 0.04);
+  --color-surface-glass: rgba(255, 255, 255, 0.04);
+  --color-surface-overlay: rgba(0, 0, 0, 0.8);
+  
+  --color-border-default: rgba(255, 255, 255, 0.1);
+  --color-border-muted: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-border-focus: #f1d16a;
+  
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  --color-text-inverse: #0f172a;
+  --color-text-disabled: #64748b;
+  
+  /* Brand Accent Colors (Gold) */
+  --color-accent-50: #fefdf2;
+  --color-accent-100: #fdf9e3;
+  --color-accent-200: #fbf0c2;
+  --color-accent-300: #f7e397;
+  --color-accent-400: #f1d16a;
+  --color-accent-500: #eab308;
+  --color-accent-600: #d4a307;
+  --color-accent-700: #a16207;
+  --color-accent-800: #854d0e;
+  --color-accent-900: #713f12;
+  
+  /* Brand Accent2 (Hover/Focus) */
+  --color-accent2-500: #d4a307;
+  --color-accent2-600: #ca8a04;
+  --color-accent2-700: #a16207;
+  
+  --color-success-light: #dcfce7;
+  --color-success-default: #16a34a;
+  --color-success-dark: #15803d;
+  
+  --color-warning-light: #fef3c7;
+  --color-warning-default: #d97706;
+  --color-warning-dark: #92400e;
+  
+  --color-danger-light: #fee2e2;
+  --color-danger-default: #dc2626;
+  --color-danger-dark: #991b1b;
+  
+  /* Typography */
+  --font-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
+  
+  --font-xs: 12px;
+  --font-sm: 14px;
+  --font-base: 16px;
+  --font-lg: 20px;
+  --font-xl: 24px;
+  --font-2xl: 32px;
+  
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  
+  --line-height-tight: 1.4;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
+  
+  /* Spacing */
+  --spacing-0: 0px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+  --spacing-32: 128px;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+  
+  --radius-input: 8px;
+  --radius-button: 8px;
+  --radius-card: 12px;
+  --radius-modal: 16px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-dropdown: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-focus: 0 0 0 2px rgba(59, 130, 246, 0.5);
+  
+  /* Z-Index */
+  --z-auto: auto;
+  --z-base: 0;
+  --z-docked: 10;
+  --z-sticky: 20;
+  --z-banner: 30;
+  --z-overlay: 40;
+  --z-dropdown: 1000;
+  --z-modal: 1300;
+  --z-toast: 1400;
+  --z-tooltip: 1500;
+  --z-max: 2147483647;
+  
+  /* Motion */
+  --motion-duration-instant: 0ms;
+  --motion-duration-fast: 120ms;
+  --motion-duration-normal: 160ms;
+  --motion-duration-slow: 200ms;
+  --motion-duration-slower: 300ms;
+  
+  --motion-easing-linear: linear;
+  --motion-easing-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --motion-easing-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --motion-easing-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-easing-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  --motion-fade-in: opacity 160ms cubic-bezier(0, 0, 0.2, 1);
+  --motion-slide-up: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-scale-in: transform 120ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --motion-hover: all 120ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Global Reset & Base Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  font-size: var(--font-base);
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Remove default button styles */
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Remove default input styles */
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}

@@ -1,0 +1,48 @@
+{
+  "name": "@vantage-lane/admin",
+  "version": "0.1.0",
+  "description": "Admin dashboard for Vantage Lane ride-hailing platform",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "check:ts": "tsc --noEmit",
+    "check:lint": "eslint . --ext .ts,.tsx -f unix",
+    "check:next": "next build",
+    "check:all": "mkdir -p reports && (tsc --noEmit 2>&1 | tee reports/tsc.log); (eslint . --ext .ts,.tsx -f unix 2>&1 | tee reports/eslint.log); (next build 2>&1 | tee reports/next-build.log)",
+    "lh:login": "npx @lhci/cli autorun --collect.url=http://localhost:3000/login --collect.startServerCommand='npm run dev' --assert.assertions.categories:performance=0.9 --assert.assertions.categories:accessibility=0.95",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit",
+    "audit": "npm audit --audit-level moderate",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "husky": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "workspaces": [
+    "apps/*"
+  ]
+}

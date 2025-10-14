@@ -1,0 +1,96 @@
+/* AuthCard Styles - Uses only design tokens */
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--spacing-4);
+  background: radial-gradient(circle at 30% 20%, var(--color-bg-gradient-to), var(--color-bg-gradient-via), var(--color-bg-gradient-from));
+  position: relative;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border-muted);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-8);
+  box-shadow: var(--shadow-xl);
+  position: relative;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-6);
+}
+
+.logo {
+  max-width: 140px;
+  height: auto;
+  margin-bottom: var(--spacing-4);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.brandSubtitle {
+  margin-top: var(--spacing-1);
+  font-size: var(--font-base);
+  font-weight: var(--font-normal);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-6) 0;
+  line-height: var(--line-height-normal);
+}
+
+.title {
+  font-size: var(--font-lg);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-6) 0;
+  line-height: var(--line-height-tight);
+}
+
+/* Content area intentionally minimal for flexibility */
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .card {
+    width: 90%;
+    padding: var(--spacing-6);
+  }
+  
+  .container {
+    padding: var(--spacing-3);
+  }
+}
+
+@media (min-width: 768px) {
+  .logo {
+    max-width: 160px;
+  }
+  
+  .container {
+    padding: var(--spacing-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .logo {
+    max-width: 180px;
+  }
+}

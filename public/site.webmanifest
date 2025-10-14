@@ -1,0 +1,20 @@
+{
+  "name": "Vantage Lane Admin",
+  "short_name": "VL Admin", 
+  "description": "Vantage Lane Administration Dashboard",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1419",
+  "theme_color": "#eab308",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/brand/logo.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["business", "productivity", "transport"],
+  "lang": "en"
+}

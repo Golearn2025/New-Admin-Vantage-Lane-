@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🔍 Running pre-push validation checks..."
+npm run check:all || exit 1
+echo "✅ All checks passed! Push proceeding..."

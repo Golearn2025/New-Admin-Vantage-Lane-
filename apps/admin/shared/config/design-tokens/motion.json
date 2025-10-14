@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Motion Tokens - FROZEN",
+  "description": "Design tokens for animations and transitions - cannot be modified without freeze-exception", 
+  "motion": {
+    "duration": {
+      "instant": "0ms",
+      "fast": "120ms", 
+      "normal": "160ms",
+      "slow": "200ms",
+      "slower": "300ms"
+    },
+    "easing": {
+      "linear": "linear",
+      "easeIn": "cubic-bezier(0.4, 0, 1, 1)",
+      "easeOut": "cubic-bezier(0, 0, 0.2, 1)", 
+      "easeInOut": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "spring": "cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+    }
+  },
+  "semanticMotion": {
+    "fadeIn": "opacity 160ms cubic-bezier(0, 0, 0.2, 1)",
+    "slideUp": "transform 200ms cubic-bezier(0.4, 0, 0.2, 1)",
+    "scaleIn": "transform 120ms cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+    "hover": "all 120ms cubic-bezier(0, 0, 0.2, 1)"
+  }
+}

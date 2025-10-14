@@ -1,0 +1,20 @@
+{
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "editor.formatOnSave": true,
+  "files.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/.git": true
+  },
+  "search.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/.git": true
+  },
+  "json.schemaDownload.enable": false,
+  "files.associations": {
+    "CODEOWNERS": "plaintext",
+    ".github/CODEOWNERS": "plaintext"
+  }
+}

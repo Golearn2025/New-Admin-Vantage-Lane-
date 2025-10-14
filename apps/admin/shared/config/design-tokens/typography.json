@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Typography Tokens - FROZEN",
+  "description": "Design tokens for typography - cannot be modified without freeze-exception",
+  "typography": {
+    "fontFamily": {
+      "sans": [
+        "Inter",
+        "-apple-system", 
+        "BlinkMacSystemFont",
+        "Segoe UI",
+        "Roboto", 
+        "Helvetica Neue",
+        "Arial",
+        "sans-serif"
+      ],
+      "mono": [
+        "JetBrains Mono",
+        "SF Mono",
+        "Monaco",
+        "Inconsolata",
+        "Roboto Mono",
+        "monospace"
+      ]
+    },
+    "fontSize": {
+      "xs": "12px",
+      "sm": "14px", 
+      "base": "16px",
+      "lg": "20px",
+      "xl": "24px",
+      "2xl": "32px"
+    },
+    "fontWeight": {
+      "normal": 400,
+      "medium": 500,
+      "semibold": 600
+    },
+    "lineHeight": {
+      "tight": 1.4,
+      "normal": 1.5,
+      "relaxed": 1.6
+    },
+    "letterSpacing": {
+      "tight": "-0.025em",
+      "normal": "0",
+      "wide": "0.025em"
+    }
+  }
+}

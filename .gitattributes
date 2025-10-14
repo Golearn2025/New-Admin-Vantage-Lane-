@@ -1,0 +1,23 @@
+* text=auto eol=lf
+
+# Documents
+*.md text
+*.txt text
+*.json text
+
+# Source code
+*.ts text
+*.tsx text
+*.js text
+*.jsx text
+*.css text
+*.scss text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary

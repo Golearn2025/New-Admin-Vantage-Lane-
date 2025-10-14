@@ -6,23 +6,23 @@
  */
 
 :root {
-  /* Dark Premium Theme Variables */
-  --color-bg-primary: #0f1419;
-  --color-bg-secondary: #1a1f2e;
-  --color-bg-tertiary: #252b3a;
-  --color-bg-gradient-from: #0f1419;
-  --color-bg-gradient-via: #1e293b;
-  --color-bg-gradient-to: #312e81;
+  /* CRISTI'S DARK THEME - Pure Black Carbon Fiber */
+  --color-bg-primary: #0a0b0d;
+  --color-bg-secondary: #121416;
+  --color-bg-tertiary: #1a1d21;
+  --color-bg-gradient-from: #0a0b0d;
+  --color-bg-gradient-via: #121416;
+  --color-bg-gradient-to: #1a1d21;
   
-  --color-surface-primary: #1e293b;
-  --color-surface-secondary: #334155;
+  --color-surface-primary: #121416;
+  --color-surface-secondary: #1a1d21;
   --color-surface-elevated: rgba(255, 255, 255, 0.04);
   --color-surface-glass: rgba(255, 255, 255, 0.04);
   --color-surface-overlay: rgba(0, 0, 0, 0.8);
   
-  --color-border-default: rgba(255, 255, 255, 0.1);
-  --color-border-muted: rgba(255, 255, 255, 0.06);
-  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-border-default: #2a2d31;
+  --color-border-muted: #1a1d21;
+  --color-border-strong: #3a3d41;
   --color-border-focus: #f1d16a;
   
   --color-text-primary: #f8fafc;

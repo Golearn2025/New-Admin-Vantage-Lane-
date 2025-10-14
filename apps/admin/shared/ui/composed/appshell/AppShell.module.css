@@ -78,10 +78,6 @@
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .appShell::before {
-    display: none; /* Remove noise animation */
-  }
-  
   .drawerOverlay {
     animation: none;
   }
@@ -91,9 +87,5 @@
 @media (prefers-contrast: high) {
   .appShell {
     background: var(--color-bg-primary) !important; /* Fallback la solid color */
-  }
-  
-  .appShell::before {
-    display: none;
   }
 }

@@ -97,10 +97,11 @@ export default function LoginPage() {
   const isFormDisabled = state === 'loading' || state === 'locked';
 
   return (
-    <main className={styles['page']}>
-      <AuthCard 
-        title="Sign In"
-      >
+    <BrandBackground variant="login">
+      <main className={styles['page']}>
+        <AuthCard 
+          title="Sign In"
+        >
         {error && (
           <ErrorBanner
             type={error.type === 'invalid_creds' ? 'error' : error.type === 'server_error' ? 'error' : 'warning'}
@@ -178,5 +179,6 @@ export default function LoginPage() {
         </div>
       </AuthCard>
     </main>
+    </BrandBackground>
   );
 }

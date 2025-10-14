@@ -74,6 +74,7 @@ export default function AppShellPage() {
             <option value="/settings">Settings</option>
           </select>
         </div>
+
       </div>
 
       {/* Variant Info */}
@@ -95,9 +96,9 @@ export default function AppShellPage() {
               </>
             ) : (
               <>
-                <div className={styles.feature}>✨ Glass blur effects</div>
-                <div className={styles.feature}>✨ Premium aesthetics</div>
-                <div className={styles.feature}>⚠️ Requires modern browsers</div>
+                <div className={styles.feature}>✨ Charcoal Premium gradient</div>
+                <div className={styles.feature}>💎 Glass blur effects</div>
+                <div className={styles.feature}>🌟 Sophisticated dark aesthetic</div>
                 <div className={styles.feature}>⚠️ Higher GPU usage</div>
               </>
             )}
@@ -120,51 +121,102 @@ export default function AppShellPage() {
             )}
           </div>
         </div>
+
+        <div className={styles.infoCard}>
+          <h4>✨ Luxe Design - Charcoal Premium</h4>
+          <div className={styles.features}>
+            <div className={styles.feature}>🎨 Elegant charcoal gradient background</div>
+            <div className={styles.feature}>💎 Glass blur effects on surfaces</div>
+            <div className={styles.feature}>✨ Premium semi-transparent elements</div>
+            <div className={styles.feature}>🌟 Sophisticated dark aesthetic</div>
+          </div>
+        </div>
       </div>
 
-      {/* Demo AppShell */}
+      {/* Demo Components - Doar părțile relevante */}
       <div className={styles.demoContainer}>
         <div className={styles.demoLabel}>
-          Live Demo - {currentVariant === 'minimal' ? 'Minimal' : 'Luxe'} | {currentRole}
+          Style Demo - {currentVariant === 'minimal' ? 'Minimal' : 'Luxe'} | {currentRole}
         </div>
         
-        <div className={styles.appShellDemo}>
-          <AppShell
-            role={currentRole}
-            currentPath={currentPath}
-            variant={currentVariant}
-          >
-            <div className={styles.demoContent}>
-              <h1>Welcome to {currentPath}</h1>
-              <p>This is a demo of the AppShell component with {currentVariant} variant.</p>
-              
-              <div className={styles.demoStats}>
-                <div className={styles.stat}>
-                  <span className={styles.statLabel}>Current Role:</span>
-                  <span className={styles.statValue}>{currentRole}</span>
-                </div>
-                <div className={styles.stat}>
-                  <span className={styles.statLabel}>Variant:</span>
-                  <span className={styles.statValue}>{currentVariant}</span>
-                </div>
-                <div className={styles.stat}>
-                  <span className={styles.statLabel}>Path:</span>
-                  <span className={styles.statValue}>{currentPath}</span>
-                </div>
-              </div>
-
-              <div className={styles.demoInstructions}>
-                <h3>Test Features:</h3>
-                <ul>
-                  <li>🖱️ Click navigation items to see active states</li>
-                  <li>📱 Resize window to test mobile drawer</li>
-                  <li>⌨️ Use Tab/Enter for keyboard navigation</li>
-                  <li>🔄 Switch variants to compare performance</li>
-                  <li>👥 Change roles to see RBAC in action</li>
-                </ul>
+        <div className={styles.styleDemo}>
+          {/* Sidebar Preview */}
+          <div className={`${styles.sidebarPreview} ${styles[currentVariant]}`}>
+            <div className={styles.previewHeader}>
+              <img src="/brand/logo.png" alt="Logo" className={styles.previewLogo} />
+              <div className={styles.previewBrand}>
+                <span className={styles.brandVantage}>Vantage</span>
+                <span className={styles.brandLane}>Lane</span>
               </div>
             </div>
-          </AppShell>
+            
+            <div className={styles.previewRole}>
+              {currentRole === 'admin' ? 'ADMINISTRATOR' : 'OPERATOR'}
+            </div>
+            
+            <div className={styles.previewMenu}>
+              <div className={`${styles.previewItem} ${styles.active}`}>
+                <span className={styles.previewIcon}>📊</span> Dashboard
+              </div>
+              <div className={styles.previewItem}>
+                <span className={styles.previewIcon}>📅</span> Bookings
+              </div>
+              {currentRole === 'admin' && (
+                <>
+                  <div className={styles.previewItem}>
+                    <span className={styles.previewIcon}>👥</span> Users
+                  </div>
+                  <div className={styles.previewItem}>
+                    <span className={styles.previewIcon}>💳</span> Payments
+                  </div>
+                  <div className={styles.previewItem}>
+                    <span className={styles.previewIcon}>⚙️</span> Settings
+                  </div>
+                </>
+              )}
+              {currentRole === 'operator' && (
+                <div className={styles.previewItem}>
+                  <span className={styles.previewIcon}>🚗</span> Drivers Only
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* Content Preview */}
+          <div className={`${styles.contentPreview} ${styles[currentVariant]}`}>
+            <div className={`${styles.topbarPreview} ${styles[currentVariant]}`}>
+              <span className={styles.previewSearch}>🔍 Search...</span>
+              <span className={styles.previewUser}>👤 John Doe</span>
+            </div>
+            
+            <div className={styles.pagePreview}>
+              <h2>Variant {currentVariant === 'minimal' ? 'A - Minimal' : 'B - Luxe'}</h2>
+              <p>Role: <strong>{currentRole}</strong></p>
+              
+              <div className={styles.variantFeatures}>
+                {currentVariant === 'minimal' ? (
+                  <>
+                    <div className={styles.feature}>✅ Solid backgrounds</div>
+                    <div className={styles.feature}>✅ Best performance</div>
+                    <div className={styles.feature}>✅ Wide browser support</div>
+                  </>
+                ) : (
+                  <>
+                    <div className={styles.feature}>✨ Glass blur effects</div>
+                    <div className={styles.feature}>✨ Premium aesthetics</div>
+                    <div className={styles.feature}>✨ Backdrop filter magic</div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className={styles.fullDemoLink}>
+          <p>Pentru a vedea AppShell-ul complet în acțiune:</p>
+          <a href="/dashboard" className={styles.fullDemoButton}>
+            🚀 Deschide Full AppShell Demo
+          </a>
         </div>
       </div>
     </div>

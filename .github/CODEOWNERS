@@ -1,34 +1,15 @@
 # CODEOWNERS
 # This file defines who owns and must review changes to specific paths
 
-# Frozen zones - require special approval + ADR
-/apps/admin/schema/**                        @core-db @security
-/apps/admin/security/**                      @security
-/apps/admin/shared/config/design-tokens/**   @design
-/apps/admin/shared/config/feature-flags/**   @core-platform
-
-# UI Components (FROZEN)
-/apps/admin/shared/ui/core/**                @design @core-frontend
-/apps/admin/shared/ui/composed/**            @design @core-frontend
-
 # Authentication (FROZEN)
 /app/login/**                                @design @core-frontend @core-auth
 
-# API Contracts (FROZEN)
-/apps/admin/shared/api/contracts/**          @core-api
-
-# Business Logic
-/apps/admin/entities/**                      @core-domain
-/apps/admin/features/**                      @core-frontend
-/apps/admin/shared/lib/**                    @core-frontend
-/apps/admin/shared/api/clients/**            @core-api
+# UI Components (FROZEN)  
+/apps/admin/shared/ui/core/**                @design
+/apps/admin/shared/ui/composed/**            @design @core-frontend
 
 # Application Pages
 /app/**                                      @core-frontend
-
-# Tools & Testing
-/apps/admin/tools/**                         @core-platform
-/apps/admin/tests/**                         @qa
 
 # Documentation
 /apps/admin/docs/**                          @tech-writers

@@ -1,12 +1,12 @@
 /**
- * Login Page - Single Authentication for All Roles
+ * Login Page - Supabase Authentication
  * 
- * Implementează EXACT LOGIN-BRIEF.md cu toate requirements:
+ * Implements Supabase auth with server actions.
  * - Responsive xs-xl cu card centrat
  * - Brand colors și logo
  * - A11y compliance (WCAG 2.1 AA)
- * - 5 stări: idle, loading, invalid_creds, locked, server_error
  * - Role-based redirects după autentificare
+ * - Zero fetch în UI - doar server actions
  */
 
 'use client';
@@ -18,6 +18,7 @@ import { FormRow } from '@admin/shared/ui/composed/FormRow';
 import { ErrorBanner } from '@admin/shared/ui/composed/ErrorBanner';
 import { Button } from '@admin/shared/ui/core/Button';
 import { Checkbox } from '@admin/shared/ui/core/Checkbox';
+import { signInWithPassword } from '@admin/shared/api/auth/actions';
 import styles from './login.module.css';
 
 type LoginState = 'idle' | 'loading' | 'invalid_creds' | 'locked' | 'server_error';
@@ -45,44 +46,31 @@ export default function LoginPage() {
     setError(null);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Create FormData from form
+      const formData = new FormData(e.currentTarget);
+      const email = String(formData.get('email') || '');
+      const password = String(formData.get('password') || '');
       
-      // Mock authentication logic
-      if (email === 'admin@test.com' && password === 'admin') {
-        // Redirect based on role (mock)
-        window.location.href = '/dashboard';
-      } else if (email === 'operator@test.com' && password === 'operator') {
-        window.location.href = '/bookings/active';
-      } else if (email.includes('locked')) {
-        setState('locked');
-        setError({
-          type: 'locked',
-          message: 'Account temporarily locked',
-          details: 'Too many failed attempts. Try again in 15 minutes.',
-          retryIn: 15
-        });
-      } else if (email.includes('server')) {
-        setState('server_error');
-        setError({
-          type: 'server_error',
-          message: 'Service temporarily unavailable',
-          details: 'Please try again or contact support if the problem persists.'
-        });
-      } else {
+      // Call server action
+      const result = await signInWithPassword(email, password);
+      
+      // Server action handles redirect on success
+      // Only handle errors here
+      if (result && !result.ok) {
         setState('invalid_creds');
         setError({
           type: 'invalid_creds',
-          message: 'Invalid email or password',
+          message: result.error || 'Authentication failed',
           details: 'Please check your credentials and try again.'
         });
       }
-    } catch (err) {
+      
+    } catch (err: any) {
       setState('server_error');
       setError({
         type: 'server_error',
         message: 'Service temporarily unavailable',
-        details: 'Please try again or contact support if the problem persists.'
+        details: err.message || 'Please try again or contact support if the problem persists.'
       });
     }
   };

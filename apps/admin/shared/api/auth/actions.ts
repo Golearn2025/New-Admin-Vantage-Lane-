@@ -17,12 +17,13 @@ import { supaServer } from '../clients/supabase';
  * @param password - User password
  * @returns Auth result with success/error and redirect
  */
-export async function signInWithPassword(email: string, password: string) {
+export async function signInWithPassword(email: string, password: string, rememberMe?: boolean) {
   // Debug environment variables
   console.log('🔐 Auth Debug:', {
     url: process.env.NEXT_PUBLIC_SUPABASE_URL,
     hasKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    keyLength: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.length
+    keyLength: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.length,
+    rememberMe: rememberMe
   });
 
   const supabase = supaServer(cookies());
@@ -31,6 +32,24 @@ export async function signInWithPassword(email: string, password: string) {
     email,
     password,
   });
+
+  // Set session persistence based on remember me
+  if (data.session && rememberMe) {
+    // Set longer session cookies for remember me (30 days)
+    cookies().set('sb-access-token', data.session.access_token, {
+      maxAge: 30 * 24 * 60 * 60, // 30 days
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax'
+    });
+    
+    cookies().set('sb-refresh-token', data.session.refresh_token, {
+      maxAge: 30 * 24 * 60 * 60, // 30 days  
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax'
+    });
+  }
 
   if (error) {
     console.log('🚨 Supabase Auth Error:', error);

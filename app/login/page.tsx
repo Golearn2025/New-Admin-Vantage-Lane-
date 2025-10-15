@@ -51,9 +51,10 @@ export default function LoginPage() {
       const formData = new FormData(e.currentTarget);
       const email = String(formData.get('email') || '');
       const password = String(formData.get('password') || '');
+      const remember = Boolean(formData.get('remember'));
       
       // Call server action
-      const result = await signInWithPassword(email, password);
+      const result = await signInWithPassword(email, password, remember);
       
       // Server action handles redirect on success
       // Only handle errors here
@@ -155,6 +156,7 @@ export default function LoginPage() {
             <div className={styles['options']}>
               <Checkbox
                 id="remember"
+                name="remember"
                 label="Remember me"
                 checked={rememberMe}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRememberMe(e.target.checked)}

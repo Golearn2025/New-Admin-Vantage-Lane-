@@ -4,9 +4,13 @@
  * Tests for bookings listing endpoint contracts and RLS policies.
  */
 
-// @ts-nocheck - Jest setup will be configured in M0.4
-// Mock Jest globals for contract validation
-import type { BookingsListRequest, BookingsListResponse, BookingListItem } from '../../shared/api/contracts/bookings';
+// Jest setup will be configured in M0.4
+import type { BookingsListRequest, BookingsListResponse } from '../../shared/api/contracts/bookings';
+
+// Mock Jest globals
+declare const describe: any;
+declare const it: any;
+declare const expect: any;
 
 describe('Bookings List Contract', () => {
   describe('Request Validation', () => {
@@ -87,7 +91,7 @@ describe('Bookings List Contract', () => {
       };
 
       expect(validResponse.data).toHaveLength(1);
-      expect(validResponse.data[0].fare_amount).toEqual(2500);
+      expect(validResponse.data?.[0]?.fare_amount).toEqual(2500);
       expect(validResponse.pagination.total_count).toEqual(150);
       expect(validResponse.performance.query_duration_ms).toBeLessThan(100);
     });

@@ -5,8 +5,13 @@
  * and that final role structure works correctly.
  */
 
-// @ts-nocheck - RLS tests will be implemented in M0.4
+// RLS tests will be implemented in M0.4
 import type { UserListItem } from '../../shared/api/contracts/users';
+
+// Mock Jest globals
+declare const describe: any;
+declare const it: any;
+declare const expect: any;
 
 describe('R0 RBAC Cleanup Validation', () => {
   describe('Role Enum Validation', () => {

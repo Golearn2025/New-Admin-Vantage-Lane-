@@ -4,9 +4,13 @@
  * Tests for users listing endpoint contracts and RLS policies.
  */
 
-// @ts-nocheck - Jest setup will be configured in M0.4
-// Mock Jest globals for contract validation
-import type { UsersListRequest, UsersListResponse, UserListItem } from '../../shared/api/contracts/users';
+// Jest setup will be configured in M0.4
+import type { UsersListRequest, UsersListResponse } from '../../shared/api/contracts/users';
+
+// Mock Jest globals
+declare const describe: any;
+declare const it: any;
+declare const expect: any;
 
 describe('Users List Contract', () => {
   describe('Request Validation', () => {
@@ -38,7 +42,7 @@ describe('Users List Contract', () => {
 
     it('should validate role enum values', () => {
       const validRoles = ['customer', 'driver', 'operator', 'admin', 'corporate'];
-      const testRole: UsersListRequest['filters']['role'] = 'driver';
+      const testRole: NonNullable<UsersListRequest['filters']>['role'] = 'driver';
       
       expect(validRoles).toContain(testRole);
     });
@@ -75,9 +79,9 @@ describe('Users List Contract', () => {
         }
       };
 
-      expect(validResponse.data[0].role).toEqual('driver');
-      expect(validResponse.data[0].rating).toBeGreaterThanOrEqual(1);
-      expect(validResponse.data[0].rating).toBeLessThanOrEqual(5);
+      expect(validResponse.data?.[0]?.role).toEqual('driver');
+      expect(validResponse.data?.[0]?.rating).toBeGreaterThanOrEqual(1);
+      expect(validResponse.data?.[0]?.rating).toBeLessThanOrEqual(5);
     });
   });
 });

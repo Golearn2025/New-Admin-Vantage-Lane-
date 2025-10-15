@@ -4,9 +4,13 @@
  * Tests for payments listing endpoint contracts and RLS policies.
  */
 
-// @ts-nocheck - Jest setup will be configured in M0.4
-// Mock Jest globals for contract validation
-import type { PaymentsListRequest, PaymentsListResponse, PaymentListItem } from '../../shared/api/contracts/payments';
+// Jest setup will be configured in M0.4
+import type { PaymentsListRequest, PaymentsListResponse } from '../../shared/api/contracts/payments';
+
+// Mock Jest globals
+declare const describe: any;
+declare const it: any;
+declare const expect: any;
 
 describe('Payments List Contract', () => {
   describe('Request Validation', () => {
@@ -73,8 +77,8 @@ describe('Payments List Contract', () => {
         }
       };
 
-      expect(validResponse.data[0].amount).toEqual(2500);
-      expect(validResponse.data[0].net_amount).toEqual(2400);
+      expect(validResponse.data?.[0]?.amount).toEqual(2500);
+      expect(validResponse.data?.[0]?.net_amount).toEqual(2400);
       expect(validResponse.summary.total_amount).toEqual(125000);
       expect(validResponse.summary.currency).toEqual('USD');
     });

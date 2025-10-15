@@ -16,7 +16,7 @@ export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  function Checkbox({ label, error, disabled = false, indeterminate = false, className = '', ...props }, ref) {
+  function Checkbox({ label, error, disabled = false, className = '', ...props }, ref) {
     const hasError = Boolean(error);
     
     return (

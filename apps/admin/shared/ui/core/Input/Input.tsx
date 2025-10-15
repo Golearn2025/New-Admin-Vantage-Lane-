@@ -17,7 +17,7 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
   rightIcon?: ReactNode;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(({
+export const Input = forwardRef<HTMLInputElement, InputProps>(function Input({
   error,
   hint,
   disabled = false,
@@ -27,7 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
   className = '',
   id,
   ...props
-}, ref) => {
+}, ref) {
   const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
   const errorId = error ? `${inputId}-error` : undefined;
   const hintId = hint ? `${inputId}-hint` : undefined;

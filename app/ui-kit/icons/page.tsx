@@ -109,7 +109,7 @@ export default function IconsPage() {
                   <Icon name={icon.name} size={24} />
                 </div>
                 <div className={styles.iconInfo}>
-                  <span className={styles.iconLabel}>{icon.label}</span>
+                  <span className={styles.iconLabel}>&quot;{icon.name}&quot;</span>
                   <code className={styles.iconName}>{icon.name}</code>
                 </div>
               </div>

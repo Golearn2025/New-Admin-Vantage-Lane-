@@ -40,7 +40,7 @@ export default function BackgroundDemo() {
           <div className={styles.preview}>
             <BrandBackground variant="shell" className={styles.miniPreview}>
               <div className={styles.previewContent}>
-                <p>AppShell Background</p>
+                <p>Scroll pentru parallax... it&apos;s beautiful!</p>
                 <small>6 layers cu intensitate full</small>
               </div>
             </BrandBackground>

@@ -6,7 +6,6 @@
  */
 
 import { Button } from '@admin/shared/ui/core/Button';
-import { Input } from '@admin/shared/ui/core/Input';
 import { Card } from '@admin/shared/ui/core/Card';
 import { FormRow } from '@admin/shared/ui/composed/FormRow';
 import styles from './UIKit.module.css';

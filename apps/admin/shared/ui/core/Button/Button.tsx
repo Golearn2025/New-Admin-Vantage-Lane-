@@ -1,5 +1,5 @@
+import React from 'react';
 import { ReactNode, ButtonHTMLAttributes } from 'react';
-import { tokens } from '@admin/shared/config/design-tokens';
 import styles from './Button.module.css';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

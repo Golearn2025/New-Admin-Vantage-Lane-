@@ -10,14 +10,14 @@
 'use client';
 
 import { AppShell } from '@admin/shared/ui/composed/appshell';
+import { usePathname } from 'next/navigation';
 import styles from './appshell.module.css';
 
 export default function AppShellDemo() {
+  const pathname = usePathname();
 
-  const handleNavigate = (href: string) => {
-    console.log('Navigate to:', href);
-    // Demo: just log, no actual navigation
-  };
+  // Pentru demo, user role e admin
+  const userRole = 'admin' as const;
 
   return (
     <div className={styles.demoContainer}>
@@ -35,8 +35,8 @@ export default function AppShellDemo() {
         
         <div className={styles.demoFrame}>
           <AppShell
-            role="admin"
-            currentPath="/dashboard"
+            role={userRole}
+            currentPath={pathname}
           >
             <div className={styles.demoContent}>
               <h3>Admin Dashboard Content</h3>
@@ -124,7 +124,8 @@ export default function AppShellDemo() {
             </ul>
           </div>
           <div className={styles.responsiveItem}>
-            <h4>📱 Mobile (≤768px)</h4>
+            <h2>AppShell Demo</h2>
+            <p>Navigation system cu RBAC roles si mobile drawer.</p>
             <ul>
               <li>Hamburger menu → drawer</li>
               <li>User info hidden</li>

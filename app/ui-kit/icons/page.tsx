@@ -132,7 +132,7 @@ export default function IconsPage() {
           </div>
           <div className={styles.infoCard}>
             <h3>A11y Ready</h3>
-            <p>Support pentru aria-label și role="img" automat.</p>
+            <p>Support pentru aria-label și role=&quot;img&quot; automat.</p>
           </div>
         </div>
       </section>

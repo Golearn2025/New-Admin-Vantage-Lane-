@@ -11,7 +11,7 @@
 
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
 import { BrandBackground } from '@admin/shared/ui/composed/BrandBackground';
 import { AuthCard } from '@admin/shared/ui/composed/AuthCard';
 import { FormRow } from '@admin/shared/ui/composed/FormRow';
@@ -67,12 +67,12 @@ export default function LoginPage() {
         });
       }
       
-    } catch (err: any) {
+    } catch (err: unknown) {
       setState('server_error');
       setError({
         type: 'server_error',
         message: 'Service temporarily unavailable',
-        details: err.message || 'Please try again or contact support if the problem persists.'
+        details: (err instanceof Error ? err.message : 'Unknown error') || 'Please try again or contact support if the problem persists.'
       });
     }
   };

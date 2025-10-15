@@ -50,7 +50,7 @@ export default function AppShellDemo() {
                 <ul>
                   <li>🔒 Role-based access control</li>
                   <li>📱 Mobile responsive (drawer overlay)</li>
-                  <li>🎨 Cristi's carbon fiber background</li>
+                  <li>🎨 Cristi&apos;s carbon fiber background</li>
                   <li>♿ A11y compliant (skip links, aria-*)</li>
                   <li>🎭 Glass blur effects pe toate surfaces</li>
                 </ul>

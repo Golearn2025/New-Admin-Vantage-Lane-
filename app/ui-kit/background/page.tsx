@@ -15,7 +15,7 @@ export default function BackgroundDemo() {
     <div className={styles.demoContainer}>
       <h1 className={styles.title}>BrandBackground - All Variants</h1>
       <p className={styles.subtitle}>
-        Cristi's 6-layer carbon fiber background cu variante reutilizabile
+        Cristi&apos;s 6-layer carbon fiber background cu variante reutilizabile
       </p>
 
       <div className={styles.variantGrid}>

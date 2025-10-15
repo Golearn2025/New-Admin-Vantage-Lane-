@@ -7,11 +7,6 @@
 // Jest setup will be configured in M0.4
 import type { UsersListRequest, UsersListResponse } from '../../shared/api/contracts/users';
 
-// Mock Jest globals
-declare const describe: any;
-declare const it: any;
-declare const expect: any;
-
 describe('Users List Contract', () => {
   describe('Request Validation', () => {
     it('should validate UsersListRequest structure', () => {

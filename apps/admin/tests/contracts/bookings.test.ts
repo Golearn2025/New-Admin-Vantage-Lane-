@@ -7,11 +7,6 @@
 // Jest setup will be configured in M0.4
 import type { BookingsListRequest, BookingsListResponse } from '../../shared/api/contracts/bookings';
 
-// Mock Jest globals
-declare const describe: any;
-declare const it: any;
-declare const expect: any;
-
 describe('Bookings List Contract', () => {
   describe('Request Validation', () => {
     it('should validate BookingsListRequest structure', () => {

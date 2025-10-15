@@ -7,11 +7,6 @@
 // Jest setup will be configured in M0.4
 import type { PaymentsListRequest, PaymentsListResponse } from '../../shared/api/contracts/payments';
 
-// Mock Jest globals
-declare const describe: any;
-declare const it: any;
-declare const expect: any;
-
 describe('Payments List Contract', () => {
   describe('Request Validation', () => {
     it('should validate PaymentsListRequest structure', () => {

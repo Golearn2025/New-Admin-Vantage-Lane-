@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { IconName, IconProps, BaseIconProps } from './types';
+import { IconProps, BaseIconProps } from './types';
 
 // Import toate componentele
 import { Dashboard } from './Dashboard';

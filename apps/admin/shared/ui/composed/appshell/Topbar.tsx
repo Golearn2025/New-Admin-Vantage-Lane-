@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { Icon } from '@admin/shared/ui/icons';
 import { BrandName } from '@admin/shared/ui/composed/BrandName';
 import { signOutAction } from '@admin/shared/api/auth/actions';
@@ -69,10 +70,13 @@ export function Topbar({
       
       {/* Logo - doar pe mobile când sidebar e hidden */}
       <div className={styles.mobileLogo}>
-        <img 
+        <Image 
           src="/brand/logo.png"
           alt="Vantage Lane"
+          width={36}
+          height={36}
           className={styles.logoImage}
+          priority
         />
         <BrandName size="md" />
       </div>

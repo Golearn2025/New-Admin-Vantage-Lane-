@@ -6,6 +6,7 @@
  */
 
 import { ReactNode } from 'react';
+import Image from 'next/image';
 import { BrandName } from '@admin/shared/ui/composed/BrandName';
 import styles from './AuthCard.module.css';
 
@@ -20,11 +21,13 @@ export function AuthCard({ children, title }: AuthCardProps) {
       <div className={styles['card']}>
         <div className={styles['header']}>
           {/* Logo from /public/brand/logo.png */}
-          <img 
+          <Image 
             src="/brand/logo.png"
             alt="Vantage Lane"
+            width={180}
+            height={40}
             className={styles['logo']}
-            loading="eager"
+            priority
           />
           
           <BrandName size="xl" />

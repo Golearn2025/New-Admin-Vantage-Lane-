@@ -6,6 +6,7 @@
  */
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Icon } from '@admin/shared/ui/icons';
 import { BrandName } from '@admin/shared/ui/composed/BrandName';
 import { NavItem } from './NavItem';
@@ -54,11 +55,13 @@ export function SidebarNav({
     >
       {/* Brand Header */}
       <div className={styles.brandHeader}>
-        <img
+        <Image
           src="/brand/logo.png"
           alt="Vantage Lane"
+          width={48}
+          height={48}
           className={styles.logo}
-          loading="eager"
+          priority
         />
 
         {!isCollapsed && (

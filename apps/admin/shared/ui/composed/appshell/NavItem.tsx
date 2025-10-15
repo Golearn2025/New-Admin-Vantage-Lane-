@@ -18,7 +18,7 @@ export function NavItem({
   isActive = false,
   hasChildren = false,
   isExpanded = false,
-  children,
+  subpages,
   onNavigate,
   onToggleExpand
 }: NavItemProps) {
@@ -35,18 +35,6 @@ export function NavItem({
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      onNavigate(href);
-    }
-  };
-
-  const navItemClasses = [
-    styles.navItem,
-    isActive ? styles.active : '',
-    hasChildren ? styles.hasChildren : ''
-  ].filter(Boolean).join(' ');
 
   return (
     <div className={styles.navItemWrapper}>
@@ -87,9 +75,9 @@ export function NavItem({
       </a>
       
       {/* Children submenu */}
-      {hasChildren && children && isExpanded && (
+      {hasChildren && subpages && isExpanded && (
         <div className={styles.submenu} role="menu">
-          {children.map((childPath) => (
+          {subpages.map((childPath: string) => (
             <a
               key={childPath}
               href={childPath}

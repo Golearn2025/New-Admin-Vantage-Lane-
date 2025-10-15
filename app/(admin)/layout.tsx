@@ -7,7 +7,7 @@
 
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { AppShell, UserRole } from '@admin/shared/ui/composed/appshell';
 
 interface AdminLayoutProps {
@@ -16,15 +16,10 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
-  const router = useRouter();
 
   // TODO: Replace with real authentication
   // For demo purposes, assume admin role
   const userRole: UserRole = 'admin';
-
-  const handleNavigate = (href: string) => {
-    router.push(href);
-  };
 
   return (
     <AppShell

@@ -12,10 +12,9 @@ import styles from './AuthCard.module.css';
 export interface AuthCardProps {
   children: ReactNode;
   title?: string;
-  subtitle?: string;
 }
 
-export function AuthCard({ children, title, subtitle }: AuthCardProps) {
+export function AuthCard({ children, title }: AuthCardProps) {
   return (
     <div className={styles['container']}>
       <div className={styles['card']}>

@@ -44,7 +44,7 @@ export interface NavItemProps {
   isActive?: boolean;
   hasChildren?: boolean;
   isExpanded?: boolean;
-  children?: string[] | undefined;
+  subpages?: string[] | undefined;
   onNavigate: (href: string) => void;
   // Reutilizabile expand control
   onToggleExpand?: (href: string) => void;

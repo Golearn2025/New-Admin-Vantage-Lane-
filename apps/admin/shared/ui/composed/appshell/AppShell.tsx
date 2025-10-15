@@ -18,8 +18,7 @@ import styles from './AppShell.module.css';
 export function AppShell({
   role,
   currentPath,
-  children,
-  variant = 'luxe'
+  children
 }: AppShellProps) {
 
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);

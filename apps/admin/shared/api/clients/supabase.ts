@@ -5,7 +5,7 @@
  * Uses environment variables from .env.local
  */
 
-import { createBrowserClient, createServerClient } from '@supabase/ssr';
+import { createBrowserClient, createServerClient, type CookieOptions } from '@supabase/ssr';
 import { type ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 
 /**
@@ -30,10 +30,10 @@ export const supaServer = (cookieStore: ReadonlyRequestCookies) =>
         get(name: string) {
           return cookieStore.get(name)?.value;
         },
-        set(name: string, value: string, options: any) {
+        set(name: string, value: string, options: CookieOptions) {
           cookieStore.set({ name, value, ...options });
         },
-        remove(name: string, options: any) {
+        remove(name: string, options: CookieOptions) {
           cookieStore.set({ name, value: '', ...options });
         }
       }

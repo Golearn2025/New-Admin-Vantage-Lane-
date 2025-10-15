@@ -5,7 +5,6 @@
  * Folosește DOAR design tokens și asigură A11y compliance.
  */
 
-import { ReactNode } from 'react';
 import { Button } from '@admin/shared/ui/core/Button';
 import styles from './ErrorBanner.module.css';
 

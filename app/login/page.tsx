@@ -38,7 +38,7 @@ export default function LoginPage() {
   const [state, setState] = useState<LoginState>('idle');
   const [error, setError] = useState<LoginError | null>(null);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (state === 'loading') return;

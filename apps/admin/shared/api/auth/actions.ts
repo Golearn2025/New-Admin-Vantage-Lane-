@@ -18,13 +18,6 @@ import { supaServer } from '../clients/supabase';
  * @returns Auth result with success/error and redirect
  */
 export async function signInWithPassword(email: string, password: string, rememberMe?: boolean) {
-  // Debug environment variables
-  console.log('🔐 Auth Debug:', {
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    hasKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    keyLength: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.length,
-    rememberMe: rememberMe
-  });
 
   const supabase = supaServer(cookies());
   
@@ -52,7 +45,6 @@ export async function signInWithPassword(email: string, password: string, rememb
   }
 
   if (error) {
-    console.log('🚨 Supabase Auth Error:', error);
     return { 
       ok: false, 
       error: error.message 
@@ -113,17 +105,8 @@ export async function signOut() {
  * Sign out action for form actions (returns void)
  */
 export async function signOutAction() {
-  console.log('🔓 SignOut Action Called - Topbar/Sidebar');
-  
   const supabase = supaServer(cookies());
-  
-  const { error } = await supabase.auth.signOut();
-  
-  if (error) {
-    console.log('🚨 SignOut Error:', error.message);
-  } else {
-    console.log('✅ SignOut Success - Redirecting to /login');
-  }
+  await supabase.auth.signOut();
   
   // Force redirect to login and replace history
   redirect('/login');

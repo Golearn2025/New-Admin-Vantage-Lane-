@@ -110,7 +110,7 @@ export function SidebarNav({
                 isActive={isActive}
                 hasChildren={!!item.children}
                 isExpanded={isExpanded}
-                children={item.children}
+                subpages={item.children}
                 onNavigate={onNavigate}
                 {...(expandable && { onToggleExpand: handleToggleExpand })}
               />

@@ -11,6 +11,7 @@ import { BrandName } from '@admin/shared/ui/composed/BrandName';
 import { NavItem } from './NavItem';
 import { SidebarNavProps } from './types';
 import { getMenuForRole, isMenuItemActive, isMenuItemExpanded } from './menu-config';
+import { signOutAction } from '@admin/shared/api/auth/actions';
 import styles from './SidebarNav.module.css';
 
 export function SidebarNav({
@@ -76,14 +77,15 @@ export function SidebarNav({
       
       {/* Sign Out - în josul sidebar-ului */}
       <div className={styles.sidebarFooter}>
-        <a 
-          href="/logout" 
-          className={styles.signOutLink}
-          onClick={onNavigate ? () => onNavigate('/logout') : undefined}
-        >
-          <Icon name="settings" size={20} />
-          <span>Sign Out</span>
-        </a>
+        <form action={signOutAction}>
+          <button 
+            type="submit"
+            className={styles.signOutLink}
+          >
+            <Icon name="settings" size={20} />
+            <span>Sign Out</span>
+          </button>
+        </form>
       </div>
     </nav>
   );

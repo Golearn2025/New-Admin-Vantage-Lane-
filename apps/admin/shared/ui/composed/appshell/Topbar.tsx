@@ -8,6 +8,7 @@
 import React, { useState } from 'react';
 import { Icon } from '@admin/shared/ui/icons';
 import { BrandName } from '@admin/shared/ui/composed/BrandName';
+import { signOutAction } from '@admin/shared/api/auth/actions';
 import { TopbarProps } from './types';
 import styles from './Topbar.module.css';
 
@@ -126,14 +127,23 @@ export function Topbar({
               >
                 Profile Settings
               </a>
-              <a 
-                href="/logout" 
-                className={styles.dropdownItem} 
-                role="menuitem"
-                onClick={handleUserMenuClose}
-              >
-                Sign Out
-              </a>
+              <form action={signOutAction} style={{ margin: 0 }}>
+                <button 
+                  type="submit"
+                  className={styles.dropdownItem} 
+                  role="menuitem"
+                  onClick={handleUserMenuClose}
+                  style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    width: '100%', 
+                    textAlign: 'left',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Sign Out
+                </button>
+              </form>
             </div>
           )}
         </div>

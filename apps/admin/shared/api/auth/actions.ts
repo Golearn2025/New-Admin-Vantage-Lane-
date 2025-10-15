@@ -18,6 +18,13 @@ import { supaServer } from '../clients/supabase';
  * @returns Auth result with success/error and redirect
  */
 export async function signInWithPassword(email: string, password: string) {
+  // Debug environment variables
+  console.log('🔐 Auth Debug:', {
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    hasKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    keyLength: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.length
+  });
+
   const supabase = supaServer(cookies());
   
   const { data, error } = await supabase.auth.signInWithPassword({
@@ -26,6 +33,7 @@ export async function signInWithPassword(email: string, password: string) {
   });
 
   if (error) {
+    console.log('🚨 Supabase Auth Error:', error);
     return { 
       ok: false, 
       error: error.message 
@@ -79,6 +87,18 @@ export async function signOut() {
   }
 
   // Redirect to login after successful logout
+  redirect('/login');
+}
+
+/**
+ * Sign out action for form actions (returns void)
+ */
+export async function signOutAction() {
+  const supabase = supaServer(cookies());
+  
+  await supabase.auth.signOut();
+  
+  // Force redirect to login and replace history
   redirect('/login');
 }
 

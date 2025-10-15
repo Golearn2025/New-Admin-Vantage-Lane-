@@ -21,7 +21,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: var(--spacing-6);
+  margin-bottom: var(--spacing-4); /* Reduced from spacing-6 */
 }
 
 .submitButton {

@@ -33,6 +33,7 @@ interface LoginError {
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [state, setState] = useState<LoginState>('idle');
   const [error, setError] = useState<LoginError | null>(null);
@@ -106,6 +107,7 @@ export default function LoginPage() {
           <fieldset className={styles['fieldset']} disabled={isFormDisabled}>
             <FormRow
               id="email"
+              name="email"
               type="email"
               label="Email address"
               value={email}
@@ -113,21 +115,42 @@ export default function LoginPage() {
               required={true}
               autoComplete="username"
               autoFocus={true}
-              placeholder="you@company.com"
+              placeholder="admin@test.com"
               disabled={isFormDisabled}
             />
             
-            <FormRow
-              id="password"
-              type="password"
-              label="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required={true}
-              autoComplete="current-password"
-              placeholder="••••••••"
-              disabled={isFormDisabled}
-            />
+            <div style={{ position: 'relative' }}>
+              <FormRow
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                label="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required={true}
+                autoComplete="current-password"
+                placeholder="••••••••"
+                disabled={isFormDisabled}
+                rightIcon={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: '4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      color: 'var(--color-text-secondary)'
+                    }}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? '🙈' : '👁️'}
+                  </button>
+                }
+              />
+            </div>
             
             <div className={styles['options']}>
               <Checkbox

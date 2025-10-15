@@ -12,20 +12,20 @@
 
 .card {
   width: 100%;
-  max-width: 520px;
+  max-width: 420px; /* Reduced from 520px */
   background: var(--color-surface-glass);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--color-border-muted);
   border-radius: var(--radius-xl);
-  padding: var(--spacing-8);
+  padding: var(--spacing-6); /* Reduced from spacing-8 */
   box-shadow: var(--shadow-xl);
   position: relative;
 }
 
 .header {
   text-align: center;
-  margin-bottom: var(--spacing-6);
+  margin-bottom: var(--spacing-4); /* Reduced from spacing-6 */
 }
 
 .logo {

@@ -19,12 +19,20 @@ export function NavItem({
   hasChildren = false,
   isExpanded = false,
   children,
-  onNavigate
+  onNavigate,
+  onToggleExpand
 }: NavItemProps) {
   
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    onNavigate(href);
+    
+    // If has children și onToggleExpand provided, toggle expand
+    if (hasChildren && onToggleExpand) {
+      onToggleExpand(href);
+    } else {
+      // Normal navigation
+      onNavigate(href);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

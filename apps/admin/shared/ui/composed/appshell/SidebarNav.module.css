@@ -58,6 +58,10 @@
   padding: var(--spacing-3) var(--spacing-4);
   background: var(--color-surface-elevated);
   border-bottom: 1px solid var(--color-border-muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2);
 }
 
 .roleLabel {
@@ -66,6 +70,60 @@
   color: var(--color-accent-500);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+/* Collapse Toggle - Săgeată mică fină albă */
+.collapseToggle {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--motion-hover);
+}
+
+.collapseToggle:hover {
+  color: rgba(255, 255, 255, 0.9);
+  transform: scale(1.1);
+}
+
+.collapseToggle:focus-visible {
+  outline: 1px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Rotează săgeata când e collapsed - pointer stânga */
+.sidebar.collapsed .collapseToggle {
+  transform: rotate(-90deg);
+}
+
+.sidebar.collapsed .collapseToggle:hover {
+  transform: rotate(-90deg) scale(1.1);
+}
+
+/* Collapsed State - Shrink sidebar */
+.sidebar.collapsed {
+  width: 70px;
+  transition: width var(--motion-base);
+}
+
+/* Hide text elements when collapsed */
+.sidebar.collapsed .brandInfo,
+.sidebar.collapsed .brandSubtitle,
+.sidebar.collapsed .roleLabel,
+.sidebar.collapsed .navLabel,
+.sidebar.collapsed .badge,
+.sidebar.collapsed .submenu {
+  display: none;
+}
+
+/* Center icons when collapsed */
+.sidebar.collapsed .navLink {
+  justify-content: center;
+  padding: var(--spacing-3);
 }
 
 /* Menu Section */
@@ -165,7 +223,8 @@
 /* Mobile Hidden - doar desktop persistent */
 @media (max-width: 768px) {
   .sidebar {
-    display: none; /* Hidden pe mobile, doar prin Drawer */
+    display: none;
+    /* Hidden pe mobile, doar prin Drawer */
   }
 }
 

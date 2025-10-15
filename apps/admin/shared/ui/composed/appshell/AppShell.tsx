@@ -21,19 +21,20 @@ export function AppShell({
   children,
   variant = 'luxe'
 }: AppShellProps) {
-  
+
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   // Detect mobile viewport
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
@@ -59,6 +60,10 @@ export function AppShell({
     setIsMobileDrawerOpen(false);
   };
 
+  const handleSidebarCollapse = (collapsed: boolean) => {
+    setIsSidebarCollapsed(collapsed);
+  };
+
   return (
     <BrandBackground variant="shell" className={styles.appShell}>
       {/* Desktop Sidebar - persistent */}
@@ -67,6 +72,9 @@ export function AppShell({
           role={role}
           currentPath={currentPath}
           onNavigate={handleNavigate}
+          collapsible={true}
+          expandable={true}
+          onToggleCollapse={handleSidebarCollapse}
         />
       )}
 
@@ -85,15 +93,16 @@ export function AppShell({
       )}
 
       {/* Main Content Area */}
-      <div className={styles.mainArea}>
+      <div className={`${styles.mainArea} ${isSidebarCollapsed ? styles.mainAreaCollapsed : ''}`}>
         {/* Topbar */}
         <Topbar
           role={role}
           onMenuToggle={handleMenuToggle}
+          sidebarCollapsed={isSidebarCollapsed}
         />
 
         {/* Page Content */}
-        <main 
+        <main
           id="main-content"
           className={styles.pageContent}
           role="main"
@@ -104,7 +113,7 @@ export function AppShell({
 
       {/* Mobile drawer overlay */}
       {isMobile && isMobileDrawerOpen && (
-        <div 
+        <div
           className={styles.drawerOverlay}
           onClick={handleDrawerClose}
           aria-hidden="true"

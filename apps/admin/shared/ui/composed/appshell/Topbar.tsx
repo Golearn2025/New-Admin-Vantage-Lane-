@@ -15,7 +15,8 @@ import styles from './Topbar.module.css';
 export function Topbar({
   role,
   onMenuToggle,
-  searchPlaceholder = "Search..."
+  searchPlaceholder = "Search...",
+  sidebarCollapsed = false
 }: TopbarProps) {
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -47,7 +48,7 @@ export function Topbar({
   
   return (
     <header 
-      className={styles.topbar}
+      className={`${styles.topbar} ${sidebarCollapsed ? styles.topbarCollapsed : ''}`}
       role="banner"
     >
       {/* Skip to content link pentru A11y */}

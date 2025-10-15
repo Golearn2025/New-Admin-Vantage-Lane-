@@ -13,6 +13,12 @@
   left: 240px; /* Desktop: după sidebar */
   right: 0;
   z-index: 50;
+  transition: left var(--motion-base);
+}
+
+/* Topbar când sidebar e collapsed */
+.topbarCollapsed {
+  left: 70px !important;
 }
 
 /* Charcoal Premium Topbar */
@@ -282,8 +288,9 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-  .topbar {
-    left: 0; /* Full width pe mobile */
+  .topbar,
+  .topbar.topbarCollapsed {
+    left: 0 !important; /* Full width pe mobile */
     padding: 0 var(--spacing-4);
   }
   

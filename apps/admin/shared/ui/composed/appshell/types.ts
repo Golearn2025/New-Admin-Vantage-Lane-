@@ -28,6 +28,12 @@ export interface SidebarNavProps {
   role: UserRole;
   currentPath: string;
   onNavigate: (href: string) => void;
+  // Reutilizabile features
+  collapsible?: boolean;
+  defaultCollapsed?: boolean;
+  expandable?: boolean;
+  onToggleCollapse?: (collapsed: boolean) => void;
+  onToggleExpand?: (href: string, expanded: boolean) => void;
 }
 
 export interface NavItemProps {
@@ -40,12 +46,15 @@ export interface NavItemProps {
   isExpanded?: boolean;
   children?: string[] | undefined;
   onNavigate: (href: string) => void;
+  // Reutilizabile expand control
+  onToggleExpand?: (href: string) => void;
 }
 
 export interface TopbarProps {
   role: UserRole;
   onMenuToggle: () => void;
   searchPlaceholder?: string;
+  sidebarCollapsed?: boolean;
 }
 
 export interface BreadcrumbItem {

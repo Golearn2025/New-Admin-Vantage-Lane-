@@ -263,6 +263,12 @@
   color: var(--color-text-primary);
   text-decoration: none;
   font-size: var(--font-sm);
+  /* Button specific styles */
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
 
 .dropdownItem:hover {

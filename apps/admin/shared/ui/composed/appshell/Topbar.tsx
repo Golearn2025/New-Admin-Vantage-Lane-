@@ -5,7 +5,7 @@
  * A11y compliant cu skip link și keyboard navigation.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Icon } from '@admin/shared/ui/icons';
 import { BrandName } from '@admin/shared/ui/composed/BrandName';
 import { signOutAction } from '@admin/shared/api/auth/actions';
@@ -18,6 +18,7 @@ export function Topbar({
   searchPlaceholder = "Search..."
 }: TopbarProps) {
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleUserMenuToggle = () => {
     setIsUserDropdownOpen(!isUserDropdownOpen);
@@ -26,6 +27,23 @@ export function Topbar({
   const handleUserMenuClose = () => {
     setIsUserDropdownOpen(false);
   };
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsUserDropdownOpen(false);
+      }
+    };
+
+    if (isUserDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isUserDropdownOpen]);
   
   return (
     <header 
@@ -89,7 +107,7 @@ export function Topbar({
         </button>
         
         {/* User menu */}
-        <div className={styles.userMenu}>
+        <div className={styles.userMenu} ref={dropdownRef}>
           <button
             className={styles.userButton}
             aria-label="User menu"
@@ -132,14 +150,6 @@ export function Topbar({
                   type="submit"
                   className={styles.dropdownItem} 
                   role="menuitem"
-                  onClick={handleUserMenuClose}
-                  style={{ 
-                    background: 'none', 
-                    border: 'none', 
-                    width: '100%', 
-                    textAlign: 'left',
-                    cursor: 'pointer'
-                  }}
                 >
                   Sign Out
                 </button>

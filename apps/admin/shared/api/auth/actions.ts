@@ -94,9 +94,17 @@ export async function signOut() {
  * Sign out action for form actions (returns void)
  */
 export async function signOutAction() {
+  console.log('🔓 SignOut Action Called - Topbar/Sidebar');
+  
   const supabase = supaServer(cookies());
   
-  await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut();
+  
+  if (error) {
+    console.log('🚨 SignOut Error:', error.message);
+  } else {
+    console.log('✅ SignOut Success - Redirecting to /login');
+  }
   
   // Force redirect to login and replace history
   redirect('/login');

@@ -144,6 +144,12 @@
   font-size: var(--font-sm);
   font-weight: var(--font-medium);
   transition: all var(--motion-hover);
+  /* Button specific styles */
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
 
 .signOutLink:hover {

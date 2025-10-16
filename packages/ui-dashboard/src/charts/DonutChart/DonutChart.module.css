@@ -1,0 +1,106 @@
+/**
+ * DonutChart Styles
+ */
+
+.container {
+  width: 100%;
+  position: relative;
+  background: var(--vl-bg-card, white);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Empty State */
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyText {
+  color: var(--vl-text-muted, #6b7280);
+  font-size: 14px;
+}
+
+/* Tooltip */
+.tooltip {
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: none;
+}
+
+.tooltipLabel {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  margin: 0 0 4px;
+}
+
+.tooltipValue {
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Loading Skeleton */
+.skeleton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 40px;
+}
+
+.skeletonDonut {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 40px solid var(--vl-skeleton, #e5e7eb);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Dark Mode */
+:global(.dark) .container {
+  background: var(--vl-bg-card-dark, #1f2937);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+:global(.dark) .tooltip {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+:global(.dark) .tooltipLabel {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+:global(.dark) .tooltipValue {
+  color: black;
+}
+
+:global(.dark) .skeletonDonut {
+  border-color: var(--vl-skeleton-dark, #374151);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+  
+  .skeletonDonut {
+    width: 150px;
+    height: 150px;
+    border-width: 30px;
+  }
+}

@@ -5,11 +5,11 @@ export default function DashboardPage() {
       <p style={{ color: 'var(--color-text-secondary)' }}>
         Admin Dashboard - Charcoal Premium Design
       </p>
-      
-      <div style={{ 
-        marginTop: 'var(--spacing-8)', 
-        padding: 'var(--spacing-4)', 
-        background: 'var(--color-surface-elevated)', 
+
+      <div style={{
+        marginTop: 'var(--spacing-8)',
+        padding: 'var(--spacing-4)',
+        background: 'var(--color-surface-elevated)',
         borderRadius: 'var(--radius-md)',
         border: '1px solid var(--color-border-default)'
       }}>

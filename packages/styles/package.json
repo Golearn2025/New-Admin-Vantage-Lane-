@@ -1,0 +1,27 @@
+{
+  "name": "@vantage-lane/styles",
+  "version": "0.1.0",
+  "description": "Design tokens and theme CSS variables",
+  "main": "./globals.css",
+  "exports": {
+    "./globals.css": "./globals.css",
+    "./tokens.css": "./tokens/tokens.css",
+    "./theme-dark.css": "./themes/dark.css",
+    "./theme-light.css": "./themes/light.css"
+  },
+  "files": [
+    "globals.css",
+    "tokens",
+    "themes"
+  ],
+  "scripts": {
+    "build": "echo 'No build needed for CSS-only package'"
+  },
+  "keywords": [
+    "css",
+    "design-tokens",
+    "theme",
+    "dark-mode"
+  ],
+  "license": "MIT"
+}

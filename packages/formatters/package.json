@@ -1,0 +1,35 @@
+{
+  "name": "@vantage-lane/formatters",
+  "version": "0.1.0",
+  "description": "Currency, number, date formatters + i18n helpers",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "formatters",
+    "currency",
+    "i18n",
+    "date",
+    "number"
+  ],
+  "license": "MIT"
+}

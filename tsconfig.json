@@ -26,7 +26,12 @@
       "@admin/entities/*": ["./apps/admin/entities/*"],
       "@admin/features/*": ["./apps/admin/features/*"],
       "@admin/shared/*": ["./apps/admin/shared/*"],
-      "@/app/*": ["./app/*"]
+      "@/app/*": ["./app/*"],
+      "@vantage-lane/ui-core": ["./packages/ui-core/src"],
+      "@vantage-lane/ui-icons": ["./packages/ui-icons/src"],
+      "@vantage-lane/styles": ["./packages/styles"],
+      "@vantage-lane/formatters": ["./packages/formatters/src"],
+      "@vantage-lane/contracts": ["./packages/contracts/src"]
     },
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,

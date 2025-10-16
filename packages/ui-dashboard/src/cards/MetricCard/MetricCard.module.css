@@ -1,0 +1,197 @@
+/**
+ * MetricCard Styles
+ * Premium gradient variant with glassmorphism support
+ * All colors via CSS vars - NO hardcoded values
+ */
+
+.card {
+  padding: 24px;
+  border-radius: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* Gradient Variant - Premium */
+.card--gradient {
+  background: linear-gradient(135deg, var(--gradient-from), var(--gradient-to));
+  color: white;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card--gradient:hover {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+/* Gradient Presets */
+.gradient--purple {
+  --gradient-from: var(--vl-grad-purple-from, #667eea);
+  --gradient-to: var(--vl-grad-purple-to, #764ba2);
+}
+
+.gradient--pink {
+  --gradient-from: var(--vl-grad-pink-from, #f093fb);
+  --gradient-to: var(--vl-grad-pink-to, #f5576c);
+}
+
+.gradient--blue {
+  --gradient-from: var(--vl-grad-blue-from, #4facfe);
+  --gradient-to: var(--vl-grad-blue-to, #00f2fe);
+}
+
+.gradient--green {
+  --gradient-from: var(--vl-grad-green-from, #43e97b);
+  --gradient-to: var(--vl-grad-green-to, #38f9d7);
+}
+
+.gradient--orange {
+  --gradient-from: var(--vl-grad-orange-from, #fa709a);
+  --gradient-to: var(--vl-grad-orange-to, #fee140);
+}
+
+/* Glass Variant - Modern */
+.card--glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  color: var(--vl-text, #111827);
+}
+
+/* Minimal Variant - Clean */
+.card--minimal {
+  background: var(--vl-bg-card, white);
+  border: 1px solid var(--vl-border, #e5e7eb);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: var(--vl-text, #111827);
+}
+
+/* Header */
+.header {
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.subtitle {
+  font-size: 12px;
+  margin: 4px 0 0;
+  opacity: 0.7;
+}
+
+/* Value */
+.value {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 8px 0;
+  line-height: 1;
+  animation: countUp 0.8s ease-out;
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Delta (Trend) */
+.delta {
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card--gradient .delta {
+  opacity: 0.95;
+}
+
+.deltaLabel {
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* Loading State */
+.loading {
+  pointer-events: none;
+}
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeletonTitle,
+.skeletonValue,
+.skeletonDelta {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonTitle {
+  height: 16px;
+  width: 60%;
+}
+
+.skeletonValue {
+  height: 40px;
+  width: 80%;
+}
+
+.skeletonDelta {
+  height: 14px;
+  width: 40%;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Dark Mode Support */
+:global(.dark) .card--glass {
+  background: rgba(17, 24, 39, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+:global(.dark) .card--minimal {
+  background: var(--vl-bg-card-dark, #1f2937);
+  border-color: var(--vl-border-dark, #374151);
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card {
+    padding: 20px;
+    min-height: 140px;
+  }
+  
+  .value {
+    font-size: 28px;
+  }
+}

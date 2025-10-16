@@ -147,6 +147,74 @@
   --motion-slide-up: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --motion-scale-in: transform 120ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --motion-hover: all 120ms cubic-bezier(0, 0, 0.2, 1);
+
+  /* ============================================ */
+  /* PREMIUM DASHBOARD VARS (DARK MODE ONLY)     */
+  /* ============================================ */
+  
+  /* Premium Card Backgrounds */
+  --vl-bg-card: rgba(26, 29, 33, 0.6);
+  --vl-bg-card-elevated: rgba(42, 45, 49, 0.8);
+  --vl-bg-card-glass: rgba(255, 255, 255, 0.03);
+  
+  /* Premium Gradients */
+  --vl-grad-purple-from: #667eea;
+  --vl-grad-purple-to: #764ba2;
+  --vl-grad-pink-from: #f093fb;
+  --vl-grad-pink-to: #f5576c;
+  --vl-grad-blue-from: #4facfe;
+  --vl-grad-blue-to: #00f2fe;
+  --vl-grad-green-from: #43e97b;
+  --vl-grad-green-to: #38f9d7;
+  --vl-grad-orange-from: #fa709a;
+  --vl-grad-orange-to: #fee140;
+  --vl-grad-gold-from: #f1d16a;
+  --vl-grad-gold-to: #d4a307;
+  
+  /* Chart Colors - NEON */
+  --vl-chart-primary: #a78bfa;
+  --vl-chart-success: #10f77e;
+  --vl-chart-warning: #fbbf24;
+  --vl-chart-danger: #ff2d55;
+  --vl-chart-info: #0af5ff;
+  --vl-chart-gold: #ffd60a;
+  --vl-chart-grid: rgba(255, 255, 255, 0.05);
+  --vl-chart-axis: rgba(255, 255, 255, 0.3);
+  
+  /* Trend Colors - NEON */
+  --vl-trend-up: #00ff88;
+  --vl-trend-down: #ff2d55;
+  --vl-trend-neutral: rgba(255, 255, 255, 0.7);
+  
+  /* Premium Shadows & Glow */
+  --vl-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  --vl-shadow-card-hover: 0 12px 48px rgba(0, 0, 0, 0.6), 0 0 2px rgba(255, 255, 255, 0.15) inset;
+  --vl-shadow-card-elevated: 0 20px 64px rgba(0, 0, 0, 0.8), 0 0 3px rgba(255, 255, 255, 0.2) inset;
+  
+  --vl-glow-purple: 0 0 20px rgba(102, 126, 234, 0.3), 0 0 40px rgba(102, 126, 234, 0.15);
+  --vl-glow-pink: 0 0 20px rgba(240, 147, 251, 0.3), 0 0 40px rgba(240, 147, 251, 0.15);
+  --vl-glow-blue: 0 0 20px rgba(79, 172, 254, 0.3), 0 0 40px rgba(79, 172, 254, 0.15);
+  --vl-glow-green: 0 0 20px rgba(67, 233, 123, 0.3), 0 0 40px rgba(67, 233, 123, 0.15);
+  --vl-glow-gold: 0 0 20px rgba(241, 209, 106, 0.3), 0 0 40px rgba(241, 209, 106, 0.15);
+  
+  /* Glass & Blur */
+  --vl-glass-bg: rgba(26, 29, 33, 0.4);
+  --vl-glass-border: rgba(255, 255, 255, 0.08);
+  --vl-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --vl-blur-amount: blur(24px);
+  
+  /* Skeleton Loading */
+  --vl-skeleton: rgba(255, 255, 255, 0.05);
+  --vl-skeleton-shimmer: rgba(255, 255, 255, 0.1);
+  
+  /* Text */
+  --vl-text: #f8fafc;
+  --vl-text-muted: #94a3b8;
+  --vl-text-inverse: #0a0b0d;
+  
+  /* Borders */
+  --vl-border: rgba(255, 255, 255, 0.08);
+  --vl-border-strong: rgba(255, 255, 255, 0.12);
 }
 
 /* Global Reset & Base Styles */

@@ -1,58 +1,157 @@
 /**
- * MetricCard Styles
- * Premium gradient variant with glassmorphism support
+ * MetricCard Styles - ULTRA PREMIUM DARK MODE
+ * Glassmorphism + Glow + Inner Shadows
  * All colors via CSS vars - NO hardcoded values
  */
 
 .card {
   padding: 24px;
-  border-radius: 16px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  min-height: 160px;
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 180px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.02);
 }
 
-/* Gradient Variant - Premium */
+/* Gradient Variant - DARK PREMIUM with COLORED SHADOWS */
 .card--gradient {
-  background: linear-gradient(135deg, var(--gradient-from), var(--gradient-to));
-  color: white;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  position: relative;
+  background: linear-gradient(135deg, 
+    color-mix(in srgb, var(--gradient-from) 70%, black),
+    color-mix(in srgb, var(--gradient-to) 60%, black)
+  );
+  color: #ffffff;
+  box-shadow: var(--vl-shadow-card), var(--glow);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Dark gradient overlay for depth */
+.card--gradient::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(0, 0, 0, 0.3) 0%, 
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.card--gradient > * {
+  position: relative;
+  z-index: 1;
 }
 
 .card--gradient:hover {
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--vl-shadow-card-hover), var(--glow-hover);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-6px) scale(1.02);
 }
 
-/* Gradient Presets */
+/* ULTRA CONTRAST - Text POP OUT (subtle glow) */
+.card--gradient .title {
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.6),
+    0 0 1px rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.01em;
+}
+
+.card--gradient .subtitle {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 
+    0 0 8px rgba(255, 255, 255, 0.15),
+    0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* VALUE - HUGE EMPHASIS with subtle colored glow */
+.card--gradient .value {
+  color: #ffffff;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-shadow: 
+    0 0 20px var(--value-glow, rgba(255, 255, 255, 0.3)),
+    0 0 10px var(--value-glow, rgba(255, 255, 255, 0.2)),
+    0 2px 10px rgba(0, 0, 0, 0.8),
+    0 0 2px rgba(255, 255, 255, 0.6);
+  filter: drop-shadow(0 0 12px var(--value-glow, rgba(255, 255, 255, 0.25)));
+}
+
+/* TREND - Clean with minimal shadow for depth */
+.card--gradient .delta {
+  font-weight: 800;
+  font-size: 15px;
+  text-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.8),
+    0 0 1px rgba(255, 255, 255, 0.3);
+  opacity: 1 !important;
+}
+
+/* Gradient Presets with Glow */
 .gradient--purple {
   --gradient-from: var(--vl-grad-purple-from, #667eea);
   --gradient-to: var(--vl-grad-purple-to, #764ba2);
+  --glow: var(--vl-glow-purple);
+  --glow-hover: 0 0 30px rgba(102, 126, 234, 0.5), 0 0 60px rgba(102, 126, 234, 0.25);
 }
 
 .gradient--pink {
   --gradient-from: var(--vl-grad-pink-from, #f093fb);
   --gradient-to: var(--vl-grad-pink-to, #f5576c);
+  --glow: var(--vl-glow-pink);
+  --glow-hover: 0 0 30px rgba(240, 147, 251, 0.5), 0 0 60px rgba(240, 147, 251, 0.25);
 }
 
 .gradient--blue {
   --gradient-from: var(--vl-grad-blue-from, #4facfe);
   --gradient-to: var(--vl-grad-blue-to, #00f2fe);
+  --glow: var(--vl-glow-blue);
+  --glow-hover: 0 0 30px rgba(79, 172, 254, 0.5), 0 0 60px rgba(79, 172, 254, 0.25);
 }
 
 .gradient--green {
   --gradient-from: var(--vl-grad-green-from, #43e97b);
   --gradient-to: var(--vl-grad-green-to, #38f9d7);
+  --glow: var(--vl-glow-green);
+  --glow-hover: 0 0 30px rgba(67, 233, 123, 0.5), 0 0 60px rgba(67, 233, 123, 0.25);
 }
 
 .gradient--orange {
   --gradient-from: var(--vl-grad-orange-from, #fa709a);
   --gradient-to: var(--vl-grad-orange-to, #fee140);
+  --glow: 0 0 20px rgba(250, 112, 154, 0.3), 0 0 40px rgba(254, 225, 64, 0.15);
+  --glow-hover: 0 0 30px rgba(250, 112, 154, 0.5), 0 0 60px rgba(254, 225, 64, 0.25);
 }
 
 /* Glass Variant - Modern */

@@ -1,15 +1,25 @@
 /**
- * BarBasic Styles
- * Clean chart container with loading states
+ * BarBasic Styles - ULTRA PREMIUM GLASSMORPHISM
+ * Dark mode optimized with glow effects
  */
 
 .container {
   width: 100%;
   position: relative;
-  background: var(--vl-bg-card, white);
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: var(--vl-glass-bg, rgba(26, 29, 33, 0.4));
+  backdrop-filter: var(--vl-blur-amount, blur(24px));
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--vl-glass-border, rgba(255, 255, 255, 0.08));
+  box-shadow: var(--vl-shadow-card, 0 4px 24px rgba(0, 0, 0, 0.4));
+  transition: transform 0.12s ease-out, border-color 0.12s ease-out, box-shadow 0.12s ease-out;
+  will-change: transform;
+}
+
+.container:hover {
+  border-color: var(--vl-border-strong, rgba(255, 255, 255, 0.12));
+  box-shadow: var(--vl-glass-shadow, 0 8px 32px rgba(0, 0, 0, 0.5));
+  transform: translateY(-2px);
 }
 
 /* Empty State */
@@ -70,28 +80,6 @@
   50% {
     opacity: 0.5;
   }
-}
-
-/* Dark Mode */
-:global(.dark) .container {
-  background: var(--vl-bg-card-dark, #1f2937);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-:global(.dark) .tooltip {
-  background: rgba(255, 255, 255, 0.95);
-}
-
-:global(.dark) .tooltipLabel {
-  color: rgba(0, 0, 0, 0.7);
-}
-
-:global(.dark) .tooltipValue {
-  color: black;
-}
-
-:global(.dark) .skeletonBar {
-  background: var(--vl-skeleton-dark, #374151);
 }
 
 /* Responsive */

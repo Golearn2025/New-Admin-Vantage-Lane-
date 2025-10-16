@@ -1,2 +1,5 @@
-export { Card } from './Card';
-export type { CardProps } from './Card';
+/**
+ * Compatibility shim for Card component
+ * Re-exports from @vantage-lane/ui-core
+ */
+export * from '@vantage-lane/ui-core';

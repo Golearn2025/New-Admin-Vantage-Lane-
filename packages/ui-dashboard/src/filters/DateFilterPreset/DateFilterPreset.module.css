@@ -1,0 +1,79 @@
+/**
+ * DateFilterPreset Styles - Dark Theme
+ * 100% REUSABLE across projects
+ */
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--vl-spacing-sm, 8px);
+  padding: var(--vl-spacing-md, 12px);
+  background: var(--vl-bg-secondary, #1a1a1a);
+  border-radius: var(--vl-radius-md, 8px);
+  border: 1px solid var(--vl-border-color, #2a2a2a);
+}
+
+.button {
+  padding: var(--vl-spacing-sm, 8px) var(--vl-spacing-md, 16px);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vl-text-secondary, #a0a0a0);
+  background: transparent;
+  border: 1px solid var(--vl-border-color, #2a2a2a);
+  border-radius: var(--vl-radius-sm, 6px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.button:hover {
+  color: var(--vl-text-primary, #ffffff);
+  background: var(--vl-bg-hover, #2a2a2a);
+  border-color: var(--vl-border-hover, #3a3a3a);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--vl-focus-color, #4a9eff);
+  outline-offset: 2px;
+}
+
+.button.active {
+  color: var(--vl-text-inverse, #ffffff);
+  background: var(--vl-primary, #4a9eff);
+  border-color: var(--vl-primary, #4a9eff);
+}
+
+/* Variant: Compact */
+.variant-compact {
+  padding: var(--vl-spacing-xs, 4px);
+  gap: var(--vl-spacing-xs, 4px);
+}
+
+.variant-compact .button {
+  padding: var(--vl-spacing-xs, 4px) var(--vl-spacing-sm, 12px);
+  font-size: 13px;
+}
+
+/* Variant: Pills */
+.variant-pills {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.variant-pills .button {
+  border-radius: 999px;
+  padding: var(--vl-spacing-xs, 6px) var(--vl-spacing-md, 16px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .button {
+    width: 100%;
+    text-align: center;
+  }
+}

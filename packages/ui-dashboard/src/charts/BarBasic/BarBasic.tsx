@@ -44,7 +44,8 @@ function CustomTooltip({ active, payload, label }: TooltipProps<number, string>)
 
 export function BarBasic({
   data,
-  unit = 'count',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  unit: _unit = 'count',
   loading = false,
   height = 300,
   color = CHART_COLORS.primary,

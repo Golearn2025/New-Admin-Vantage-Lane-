@@ -59,7 +59,8 @@ function CustomTooltip({ active, payload, label }: TooltipProps<number, string>)
 export function StackedBarChart({
   data,
   series,
-  unit = 'count',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  unit: _unit = 'count',
   loading = false,
   height = 300,
   className = '',

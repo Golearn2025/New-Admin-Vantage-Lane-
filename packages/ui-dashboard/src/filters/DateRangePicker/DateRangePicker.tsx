@@ -39,7 +39,8 @@ export function DateRangePicker({
   onChange,
   minDate = new Date(2020, 0, 1),
   maxDate = new Date(),
-  showTime = false,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  showTime: _showTime = false,
   placeholder = 'Select date range',
 }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);

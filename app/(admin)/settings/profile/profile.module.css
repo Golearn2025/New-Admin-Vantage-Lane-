@@ -1,0 +1,127 @@
+/**
+ * Profile Page Styles - PREMIUM GOLD/VIOLET
+ * 
+ * Zero inline colors - design tokens only
+ */
+
+.container {
+  min-height: 100vh;
+  padding: 24px;           /* ✅ CA DASHBOARD - padding normal */
+  max-width: 1600px;       /* ✅ CA DASHBOARD - max-width control */
+  margin: 0 auto;          /* ✅ CA DASHBOARD - centrat */
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header {
+  margin-bottom: 28px;     /* ✅ CA DASHBOARD */
+  position: relative;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg,
+      #CBB26A 0%,
+      #764BA2 100%);
+  box-shadow: 0 0 10px rgba(203, 178, 106, 0.5);
+}
+
+.title {
+  font-size: 36px;         /* ✅ CA DASHBOARD */
+  font-weight: 800;        /* ✅ CA DASHBOARD */
+  color: #F1D16A;
+  margin: 0 0 8px 0;       /* ✅ CA DASHBOARD */
+  letter-spacing: -0.03em; /* ✅ CA DASHBOARD */
+  line-height: 1.2;        /* ✅ CA DASHBOARD */
+  text-shadow: 0 0 40px rgba(241, 209, 106, 0.5);
+}
+
+@keyframes shimmer {
+
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.2);
+  }
+}
+
+.subtitle {
+  font-size: 15px;         /* ✅ CA DASHBOARD */
+  color: rgba(241, 209, 106, 0.8);
+  margin: 0;
+  font-weight: 400;        /* ✅ CA DASHBOARD */
+  text-shadow: 0 0 10px rgba(203, 178, 106, 0.2);
+}
+
+.loading {
+  padding: var(--vl-spacing-12);
+  text-align: center;
+  font-size: var(--vl-font-size-lg);
+  background: linear-gradient(135deg,
+      rgba(203, 178, 106, 0.05),
+      rgba(118, 75, 162, 0.05));
+  border-radius: var(--vl-radius-xl);
+  border: 1px solid rgba(203, 178, 106, 0.2);
+  color: rgba(203, 178, 106, 0.9);
+  box-shadow: 0 0 40px rgba(203, 178, 106, 0.1);
+}
+
+.error {
+  padding: var(--vl-spacing-6);
+  background: linear-gradient(135deg,
+      rgba(250, 112, 154, 0.15),
+      rgba(254, 225, 64, 0.1));
+  border: 1px solid rgba(250, 112, 154, 0.5);
+  border-radius: var(--vl-radius-xl);
+  color: #fee140;
+  text-align: center;
+  font-size: var(--vl-font-size-lg);
+  font-weight: 600;
+  box-shadow: 0 0 30px rgba(250, 112, 154, 0.2);
+}
+
+/* Responsive - CA DASHBOARD */
+@media (max-width: 1024px) {
+  .container {
+    padding: 20px;
+  }
+  .title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+  .title {
+    font-size: 24px;
+  }
+  .subtitle {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .container {
+    padding: 32px;
+  }
+}

@@ -13,8 +13,8 @@
 'use client';
 
 import { MetricCard } from '@vantage-lane/ui-dashboard';
-import type { CardSpec } from '@admin/shared/config/dashboard.spec';
-import { useDashboardMetrics } from './useDashboardMetrics';
+import { useDashboardMetrics, type DashboardMetrics as DashboardMetricsType } from './useDashboardMetrics';
+import { type CardSpec } from '@admin/shared/config/dashboard.spec';
 import styles from './DashboardMetrics.module.css';
 
 interface DashboardMetricsProps {
@@ -47,17 +47,22 @@ export function DashboardMetrics({ specs, startDate, endDate }: DashboardMetrics
   // Loading state - show skeleton cards
   if (isLoading || !metrics) {
     return (
-      <div className={styles.metricsGrid}>
-        {specs.map((spec, index) => (
-          <MetricCard
-            key={spec.key}
-            spec={spec}
-            value={null}
-            loading={true}
-            variant="gradient"
-            gradient={getGradientForIndex(index)}
-          />
-        ))}
+      <div
+        className={styles.cardGrid}
+      >
+        {specs.map((spec, index) => {
+          const value = (metrics && getCardValues(metrics)[spec.field]) ?? null;
+          return (
+            <MetricCard
+              key={spec.key}
+              spec={spec}
+              value={value}
+              loading={isLoading}
+              variant="gradient"
+              gradient={getGradientForIndex(index)}
+            />
+          );
+        })}
       </div>
     );
   }
@@ -90,7 +95,7 @@ export function DashboardMetrics({ specs, startDate, endDate }: DashboardMetrics
 /**
  * Map API metrics to card display values - EXACT MATCH with spec fields
  */
-function getCardValues(metrics: any): Record<string, number> {
+function getCardValues(metrics: DashboardMetricsType): Record<string, number> {
   return {
     // Row 1: Financial Overview
     total_revenue_pence: metrics.total_revenue_pence || 0,
@@ -111,10 +116,12 @@ function getCardValues(metrics: any): Record<string, number> {
  */
 function getGradientForIndex(index: number): 'purple' | 'pink' | 'blue' | 'green' | 'orange' | 'gold' {
   const gradients: Array<'purple' | 'pink' | 'blue' | 'green' | 'orange' | 'gold'> = [
-    'purple',
-    'pink', 
-    'blue',
-    'green',
+    'purple',   // Card 1 - violet premium
+    'pink',     // Card 2 - roz premium  
+    'blue',     // Card 3 - albastru premium
+    'green',    // Card 4 - verde premium
+    'orange',   // Card 5 - portocaliu premium
+    'gold',     // Card 6 - auriu premium
   ];
   return gradients[index % gradients.length] || 'purple';
 }
@@ -123,6 +130,6 @@ function getGradientForIndex(index: number): 'purple' | 'pink' | 'blue' | 'green
  * TODO: Calculate delta from historical data
  * For now, return null (no trend indicator)
  */
-function getDeltaForMetric(key: string): number | null {
+function getDeltaForMetric(_key: string): number | null {
   return null;
 }

@@ -9,6 +9,14 @@ import { IconName } from '@admin/shared/ui/icons';
 
 export type UserRole = 'admin' | 'operator';
 
+export interface UserInfo {
+  name: string;
+  email: string;
+  role: UserRole;
+  avatar?: string;
+  auth_user_id?: string;
+}
+
 export interface NavMenuItem {
   icon: IconName;
   label: string;
@@ -22,6 +30,7 @@ export interface AppShellProps {
   currentPath: string;
   children: React.ReactNode;
   variant?: 'luxe';
+  user?: UserInfo;
 }
 
 export interface SidebarNavProps {
@@ -55,6 +64,7 @@ export interface TopbarProps {
   onMenuToggle: () => void;
   searchPlaceholder?: string;
   sidebarCollapsed?: boolean;
+  user?: UserInfo;
 }
 
 export interface BreadcrumbItem {

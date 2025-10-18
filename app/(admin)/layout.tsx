@@ -9,6 +9,7 @@
 
 import { usePathname } from 'next/navigation';
 import { AppShell, UserRole } from '@admin/shared/ui/composed/appshell';
+import { useCurrentUser } from '@admin/shared/hooks/useCurrentUser';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -16,15 +17,31 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
+  const { user, loading } = useCurrentUser();
 
-  // TODO: Replace with real authentication
-  // For demo purposes, assume admin role
-  const userRole: UserRole = 'admin';
+  // Determine role from user data or fallback to admin
+  const userRole: UserRole = user?.role || 'admin';
+
+  // Show loading state while fetching user
+  if (loading) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        height: '100vh',
+        background: 'var(--vl-color-background)'
+      }}>
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <AppShell
       role={userRole}
       currentPath={pathname}
+      {...(user && { user })}
     >
       {children}
     </AppShell>

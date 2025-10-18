@@ -36,11 +36,11 @@ export default function DashboardPage() {
   // Convert pence to pounds for display
   const convertedCharts = charts ? {
     ...charts,
-    revenue_trend: (charts.revenue_trend || []).map((item: any) => ({
+    revenue_trend: (charts.revenue_trend || []).map((item: { x: string; y: number }) => ({
       x: item.x,
       y: item.y / 100, // Convert pence to pounds
     })),
-    operator_performance: (charts.operator_performance || []).map((item: any) => ({
+    operator_performance: (charts.operator_performance || []).map((item: { x: string; bookings: number; revenue: number; commission: number }) => ({
       x: item.x,
       bookings: item.bookings,
       revenue: item.revenue / 100, // Convert pence to pounds
@@ -54,7 +54,7 @@ export default function DashboardPage() {
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Dashboard</h1>
-          <p className={styles.subtitle}>Welcome back! Here's your business overview.</p>
+          <p className={styles.subtitle}>Welcome back! Here&apos;s your business overview.</p>
         </div>
       </div>
 
@@ -62,7 +62,7 @@ export default function DashboardPage() {
       <div className={styles.filtersContainer}>
         <DateFilterPreset
           value={preset}
-          onChange={(newPreset, range) => setPreset(newPreset)}
+          onChange={(newPreset) => setPreset(newPreset)}
           presets={['today', 'yesterday', 'last_7_days', 'last_30_days', 'this_month', 'last_month', 'this_year', 'all_time']}
           variant="default"
           showCustom={true}
@@ -128,7 +128,7 @@ export default function DashboardPage() {
             <div className={styles.chartCard}>
               <h3 className={styles.chartTitle}>Booking Status</h3>
               <DonutChart 
-                data={(convertedCharts.status_distribution || []).map((item: any) => ({
+                data={(convertedCharts.status_distribution || []).map((item: { name: string; value: number }) => ({
                   name: item.name,
                   value: item.value,
                   color: item.name === 'COMPLETED' ? 'var(--vl-chart-success)' : 'var(--vl-chart-warning)',

@@ -15,10 +15,12 @@ export interface RBACOptions {
   requireActive?: boolean;
 }
 
+import type { User } from '@supabase/supabase-js';
+
 export interface RBACResult {
   authorized: boolean;
-  user?: any;
-  adminUser?: any;
+  user?: User;
+  adminUser?: Record<string, unknown>;
   error?: NextResponse;
 }
 

@@ -5,6 +5,9 @@
  * These variables are FROZEN and can only be modified via design-tokens JSON files.
  */
 
+/* Import Design Tokens from ui-core */
+@import '../packages/ui-core/src/tokens/index.css';
+
 :root {
   /* CRISTI'S DARK THEME - Pure Black Carbon Fiber */
   --color-bg-primary: #0a0b0d;
@@ -13,24 +16,24 @@
   --color-bg-gradient-from: #0a0b0d;
   --color-bg-gradient-via: #121416;
   --color-bg-gradient-to: #1a1d21;
-  
+
   --color-surface-primary: #121416;
   --color-surface-secondary: #1a1d21;
   --color-surface-elevated: rgba(255, 255, 255, 0.04);
   --color-surface-glass: rgba(255, 255, 255, 0.04);
   --color-surface-overlay: rgba(0, 0, 0, 0.8);
-  
+
   --color-border-default: #2a2d31;
   --color-border-muted: #1a1d21;
   --color-border-strong: #3a3d41;
   --color-border-focus: #f1d16a;
-  
+
   --color-text-primary: #f8fafc;
   --color-text-secondary: #cbd5e1;
   --color-text-muted: #94a3b8;
   --color-text-inverse: #0f172a;
   --color-text-disabled: #64748b;
-  
+
   /* Brand Accent Colors (Gold) */
   --color-accent-50: #fefdf2;
   --color-accent-100: #fdf9e3;
@@ -42,43 +45,43 @@
   --color-accent-700: #a16207;
   --color-accent-800: #854d0e;
   --color-accent-900: #713f12;
-  
+
   /* Brand Accent2 (Hover/Focus) */
   --color-accent2-500: #d4a307;
   --color-accent2-600: #ca8a04;
   --color-accent2-700: #a16207;
-  
+
   --color-success-light: #dcfce7;
   --color-success-default: #16a34a;
   --color-success-dark: #15803d;
-  
+
   --color-warning-light: #fef3c7;
   --color-warning-default: #d97706;
   --color-warning-dark: #92400e;
-  
+
   --color-danger-light: #fee2e2;
   --color-danger-default: #dc2626;
   --color-danger-dark: #991b1b;
-  
+
   /* Typography */
   --font-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
-  
+
   --font-xs: 12px;
   --font-sm: 14px;
   --font-base: 16px;
   --font-lg: 20px;
   --font-xl: 24px;
   --font-2xl: 32px;
-  
+
   --font-normal: 400;
   --font-medium: 500;
   --font-semibold: 600;
-  
+
   --line-height-tight: 1.4;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.6;
-  
+
   /* Spacing */
   --spacing-0: 0px;
   --spacing-1: 4px;
@@ -92,7 +95,7 @@
   --spacing-20: 80px;
   --spacing-24: 96px;
   --spacing-32: 128px;
-  
+
   /* Border Radius */
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -100,23 +103,23 @@
   --radius-xl: 16px;
   --radius-2xl: 24px;
   --radius-full: 9999px;
-  
+
   --radius-input: 8px;
   --radius-button: 8px;
   --radius-card: 12px;
   --radius-modal: 16px;
-  
+
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  
+
   --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   --shadow-dropdown: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   --shadow-focus: 0 0 0 2px rgba(59, 130, 246, 0.5);
-  
+
   /* Z-Index */
   --z-auto: auto;
   --z-base: 0;
@@ -129,20 +132,20 @@
   --z-toast: 1400;
   --z-tooltip: 1500;
   --z-max: 2147483647;
-  
+
   /* Motion */
   --motion-duration-instant: 0ms;
   --motion-duration-fast: 120ms;
   --motion-duration-normal: 160ms;
   --motion-duration-slow: 200ms;
   --motion-duration-slower: 300ms;
-  
+
   --motion-easing-linear: linear;
   --motion-easing-ease-in: cubic-bezier(0.4, 0, 1, 1);
   --motion-easing-ease-out: cubic-bezier(0, 0, 0.2, 1);
   --motion-easing-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --motion-easing-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  
+
   --motion-fade-in: opacity 160ms cubic-bezier(0, 0, 0.2, 1);
   --motion-slide-up: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --motion-scale-in: transform 120ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -151,12 +154,12 @@
   /* ============================================ */
   /* PREMIUM DASHBOARD VARS (DARK MODE ONLY)     */
   /* ============================================ */
-  
+
   /* Premium Card Backgrounds */
   --vl-bg-card: rgba(26, 29, 33, 0.6);
   --vl-bg-card-elevated: rgba(42, 45, 49, 0.8);
   --vl-bg-card-glass: rgba(255, 255, 255, 0.03);
-  
+
   /* Premium Gradients */
   --vl-grad-purple-from: #667eea;
   --vl-grad-purple-to: #764ba2;
@@ -170,7 +173,7 @@
   --vl-grad-orange-to: #fee140;
   --vl-grad-gold-from: #f1d16a;
   --vl-grad-gold-to: #d4a307;
-  
+
   /* Chart Colors - NEON */
   --vl-chart-primary: #a78bfa;
   --vl-chart-success: #10f77e;
@@ -180,38 +183,38 @@
   --vl-chart-gold: #ffd60a;
   --vl-chart-grid: rgba(255, 255, 255, 0.05);
   --vl-chart-axis: rgba(255, 255, 255, 0.3);
-  
+
   /* Trend Colors - NEON */
   --vl-trend-up: #00ff88;
   --vl-trend-down: #ff2d55;
   --vl-trend-neutral: rgba(255, 255, 255, 0.7);
-  
+
   /* Premium Shadows & Glow */
   --vl-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1) inset;
   --vl-shadow-card-hover: 0 12px 48px rgba(0, 0, 0, 0.6), 0 0 2px rgba(255, 255, 255, 0.15) inset;
   --vl-shadow-card-elevated: 0 20px 64px rgba(0, 0, 0, 0.8), 0 0 3px rgba(255, 255, 255, 0.2) inset;
-  
+
   --vl-glow-purple: 0 0 20px rgba(102, 126, 234, 0.3), 0 0 40px rgba(102, 126, 234, 0.15);
   --vl-glow-pink: 0 0 20px rgba(240, 147, 251, 0.3), 0 0 40px rgba(240, 147, 251, 0.15);
   --vl-glow-blue: 0 0 20px rgba(79, 172, 254, 0.3), 0 0 40px rgba(79, 172, 254, 0.15);
   --vl-glow-green: 0 0 20px rgba(67, 233, 123, 0.3), 0 0 40px rgba(67, 233, 123, 0.15);
   --vl-glow-gold: 0 0 20px rgba(241, 209, 106, 0.3), 0 0 40px rgba(241, 209, 106, 0.15);
-  
+
   /* Glass & Blur */
   --vl-glass-bg: rgba(26, 29, 33, 0.4);
   --vl-glass-border: rgba(255, 255, 255, 0.08);
   --vl-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   --vl-blur-amount: blur(24px);
-  
+
   /* Skeleton Loading */
   --vl-skeleton: rgba(255, 255, 255, 0.05);
   --vl-skeleton-shimmer: rgba(255, 255, 255, 0.1);
-  
+
   /* Text */
   --vl-text: #f8fafc;
   --vl-text-muted: #94a3b8;
   --vl-text-inverse: #0a0b0d;
-  
+
   /* Borders */
   --vl-border: rgba(255, 255, 255, 0.08);
   --vl-border-strong: rgba(255, 255, 255, 0.12);

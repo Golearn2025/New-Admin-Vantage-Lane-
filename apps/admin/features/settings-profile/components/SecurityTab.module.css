@@ -1,0 +1,143 @@
+/**
+ * SecurityTab Styles - PREMIUM GOLD
+ * 
+ * Styles pentru security items, sessions, danger zone.
+ * Color: #F1D16A (gold primary)
+ */
+
+/* Security Items */
+.securityItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(241, 209, 106, 0.15);
+}
+
+.securityContent {
+  flex: 1;
+}
+
+.securityTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+}
+
+.securityDesc {
+  font-size: 14px;
+  color: rgba(241, 209, 106, 0.7);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.enabled {
+  color: #43e97b;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(67, 233, 123, 0.4);
+}
+
+.disabled {
+  color: #ff6b6b;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(255, 107, 107, 0.4);
+}
+
+/* Session Card */
+.sessionCard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.5),
+      rgba(241, 209, 106, 0.08));
+  border: 2px solid rgba(241, 209, 106, 0.25);
+  border-radius: 16px;
+  position: relative;
+}
+
+.sessionIcon {
+  font-size: 40px;
+  filter: drop-shadow(0 0 12px rgba(241, 209, 106, 0.4));
+}
+
+.sessionContent {
+  flex: 1;
+}
+
+.sessionTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+}
+
+.sessionInfo {
+  font-size: 14px;
+  color: rgba(241, 209, 106, 0.8);
+  margin: 0;
+  line-height: 1.8;
+}
+
+.activeNow {
+  color: #43e97b;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(67, 233, 123, 0.4);
+}
+
+.currentBadge {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  color: #000000;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Danger Zone */
+.dangerZone {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+  background: linear-gradient(135deg,
+      rgba(255, 107, 107, 0.1),
+      rgba(255, 59, 48, 0.05));
+  border-radius: 12px;
+  border: 2px solid rgba(255, 107, 107, 0.3);
+}
+
+.dangerTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ff6b6b;
+  margin: 0 0 8px 0;
+  text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+
+  .securityItem,
+  .dangerZone {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sessionCard {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .currentBadge {
+    align-self: center;
+  }
+}

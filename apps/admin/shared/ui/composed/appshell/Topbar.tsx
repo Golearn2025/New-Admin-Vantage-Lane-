@@ -13,11 +13,27 @@ import { signOutAction } from '@admin/shared/api/auth/actions';
 import { TopbarProps } from './types';
 import styles from './Topbar.module.css';
 
+/**
+ * Extract initials from user name
+ */
+function getInitials(name: string): string {
+  const parts = name.trim().split(' ').filter(p => p.length > 0);
+  if (parts.length >= 2) {
+    const first = parts[0]?.charAt(0) || '';
+    const last = parts[parts.length - 1]?.charAt(0) || '';
+    if (first && last) {
+      return (first + last).toUpperCase();
+    }
+  }
+  return name.substring(0, Math.min(2, name.length)).toUpperCase() || 'U';
+}
+
 export function Topbar({
   role,
   onMenuToggle,
   searchPlaceholder = "Search...",
-  sidebarCollapsed = false
+  sidebarCollapsed = false,
+  user
 }: TopbarProps) {
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -121,11 +137,15 @@ export function Topbar({
             type="button"
           >
             <div className={styles.userAvatar}>
-              <span className={styles.userInitials}>JD</span>
+              <span className={styles.userInitials}>
+                {user ? getInitials(user.name) : 'U'}
+              </span>
             </div>
             
             <div className={styles.userInfo}>
-              <span className={styles.userName}>John Doe</span>
+              <span className={styles.userName}>
+                {user?.name || 'User'}
+              </span>
               <span className={styles.userRole}>
                 {role === 'admin' ? 'Administrator' : 'Operator'}
               </span>

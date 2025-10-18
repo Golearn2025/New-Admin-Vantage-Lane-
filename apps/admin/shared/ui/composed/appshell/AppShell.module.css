@@ -10,9 +10,11 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 240px; /* Desktop: space pentru sidebar */
+  margin-left: 240px;
+  /* Desktop: space pentru sidebar */
   position: relative;
-  z-index: 10; /* Above all background layers */
+  z-index: 10;
+  /* Above all background layers */
   transition: margin-left var(--motion-base);
 }
 
@@ -24,8 +26,9 @@
 /* Page Content */
 .pageContent {
   flex: 1;
-  padding: var(--spacing-6);
-  margin-top: 60px; /* Space pentru topbar */
+  padding: 0;  /* ✅ FĂRĂ padding - fiecare pagină își controlează propriul padding! */
+  margin-top: 60px;
+  /* Space pentru topbar */
   min-height: calc(100vh - 60px);
   overflow-x: auto;
 }
@@ -49,6 +52,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -57,30 +61,13 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .mainArea {
-    margin-left: 0; /* Full width pe mobile */
+    margin-left: 0;
+    /* Full width pe mobile */
   }
-  
-  .pageContent {
-    padding: var(--spacing-4);
-  }
+  /* ✅ pageContent padding removed - fiecare pagină își controlează propriul padding! */
 }
 
-/* Tablet adjustments */
-@media (max-width: 1024px) {
-  .pageContent {
-    padding: var(--spacing-5);
-  }
-}
-
-/* Large screens - more spacing */
-@media (min-width: 1440px) {
-  .pageContent {
-    padding: var(--spacing-8);
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
+/* ✅ Tablet și Large screen adjustments removed - fiecare pagină își controlează propriul padding și max-width! */
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
@@ -92,6 +79,7 @@
 /* High contrast mode */
 @media (prefers-contrast: high) {
   .appShell {
-    background: var(--color-bg-primary) !important; /* Fallback la solid color */
+    background: var(--color-bg-primary) !important;
+    /* Fallback la solid color */
   }
 }

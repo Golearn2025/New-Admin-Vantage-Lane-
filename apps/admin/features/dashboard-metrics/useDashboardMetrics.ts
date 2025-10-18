@@ -48,7 +48,10 @@ const fetcher = async (url: string): Promise<DashboardMetrics> => {
   });
   
   if (!res.ok) {
-    const error: any = new Error('Failed to fetch dashboard metrics');
+    interface FetchError extends Error {
+      status?: number;
+    }
+    const error: FetchError = new Error('Failed to fetch dashboard metrics');
     error.status = res.status;
     throw error;
   }

@@ -110,20 +110,20 @@ export function StackedBarChart({
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }} />
           <Legend />
           {series.map((s, index) => {
-            const barProps: any = {
+            const isLast = index === series.length - 1;
+            const baseProps = {
               key: s.key,
               dataKey: s.key,
               name: s.label,
               stackId: "stack",
-              fill: s.color || defaultColors[index % defaultColors.length],
+              fill: s.color ?? defaultColors[index % defaultColors.length],
               animationDuration: 800,
             };
-            
-            if (index === series.length - 1) {
-              barProps.radius = [8, 8, 0, 0];
-            }
-            
-            return <Bar {...barProps} />;
+            return isLast ? (
+              <Bar {...baseProps} radius={[8, 8, 0, 0]} />
+            ) : (
+              <Bar {...baseProps} />
+            );
           })}
         </BarChart>
       </ResponsiveContainer>

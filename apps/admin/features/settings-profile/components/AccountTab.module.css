@@ -1,0 +1,156 @@
+/**
+ * AccountTab Styles - PREMIUM GOLD
+ * 
+ * Styles pentru info cards, badges, și organization display.
+ * Color: #F1D16A (gold primary)
+ */
+
+/* Info Grid */
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.infoCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.5),
+      rgba(241, 209, 106, 0.08));
+  border: 2px solid rgba(241, 209, 106, 0.25);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.infoCard:hover {
+  border-color: rgba(241, 209, 106, 0.4);
+  background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.6),
+      rgba(241, 209, 106, 0.12));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(241, 209, 106, 0.15);
+}
+
+.infoIcon {
+  font-size: 36px;
+  filter: drop-shadow(0 0 12px rgba(241, 209, 106, 0.4));
+}
+
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.infoLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(241, 209, 106, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.infoValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Role Badges */
+.badgeAdmin,
+.badgeSupport {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badgeAdmin {
+  background: linear-gradient(135deg, #F1D16A, #E5C953);
+  color: #000000;
+  box-shadow: 0 4px 12px rgba(241, 209, 106, 0.4);
+}
+
+.badgeSupport {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.4);
+}
+
+.statusActive {
+  font-size: 18px;
+  font-weight: 700;
+  color: #43e97b;
+  text-shadow: 0 0 12px rgba(67, 233, 123, 0.5);
+}
+
+/* Organization Card */
+.orgCard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px;
+  background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.5),
+      rgba(241, 209, 106, 0.08));
+  border: 2px solid rgba(241, 209, 106, 0.25);
+  border-radius: 16px;
+}
+
+.orgIcon {
+  font-size: 48px;
+  filter: drop-shadow(0 0 16px rgba(241, 209, 106, 0.4));
+}
+
+.orgContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.orgLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(241, 209, 106, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.orgValue {
+  font-size: 22px;
+  font-weight: 800;
+  color: #F1D16A;
+  text-shadow: 0 0 20px rgba(241, 209, 106, 0.4);
+}
+
+.orgHint {
+  font-size: 13px;
+  color: rgba(241, 209, 106, 0.6);
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .infoCard {
+    padding: 20px;
+  }
+
+  .orgCard {
+    flex-direction: column;
+    text-align: center;
+  }
+}

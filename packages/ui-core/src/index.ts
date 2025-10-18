@@ -1,9 +1,23 @@
 /**
  * @vantage-lane/ui-core
- * Core UI primitives - Button, Input, Card, Checkbox
+ * Core UI primitives & Components
+ * 
+ * Design tokens first approach - zero hardcoded values
  */
 
+// Core Primitives
 export * from './Button';
 export * from './Input';
 export * from './Card';
 export * from './Checkbox';
+
+// Form Components
+export * from './FormField';
+
+// Profile Components
+export * from './ProfileCard';
+export * from './ProfileSection';
+export * from './SaveButton';
+
+// Navigation Components
+export * from './Tabs';

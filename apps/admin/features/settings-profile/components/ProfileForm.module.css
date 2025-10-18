@@ -1,0 +1,190 @@
+/**
+ * ProfileForm Styles - PREMIUM GOLD
+ * 
+ * Layout aerisit folosind tot spațiul disponibil.
+ * Color: #F1D16A (gold primary)
+ */
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(241, 209, 106, 0.2);
+  border-top-color: #F1D16A;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.loading p {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(241, 209, 106, 0.8);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Banners */
+.errorBanner,
+.successBanner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 28px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.errorBanner {
+  background: linear-gradient(135deg,
+      rgba(255, 107, 107, 0.15),
+      rgba(255, 59, 48, 0.1));
+  border: 2px solid rgba(255, 107, 107, 0.4);
+  color: #ff6b6b;
+}
+
+.successBanner {
+  background: linear-gradient(135deg,
+      rgba(67, 233, 123, 0.15),
+      rgba(56, 249, 215, 0.1));
+  border: 2px solid rgba(67, 233, 123, 0.4);
+  color: #43e97b;
+}
+
+.errorIcon,
+.successIcon {
+  font-size: 24px;
+}
+
+/* Save Bar - Floating Bottom */
+.saveBar {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.saveBarContent {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 20px 32px;
+  background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.95),
+      rgba(241, 209, 106, 0.15));
+  border: 2px solid rgba(241, 209, 106, 0.6);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(241, 209, 106, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.saveBarText {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #F1D16A;
+  text-shadow: 0 0 20px rgba(241, 209, 106, 0.4);
+}
+
+.saveBarIcon {
+  font-size: 24px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+.saveBarActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .saveBar {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    transform: none;
+  }
+
+  .saveBarContent {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .saveBarActions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .saveBarActions button {
+    width: 100%;
+  }
+}

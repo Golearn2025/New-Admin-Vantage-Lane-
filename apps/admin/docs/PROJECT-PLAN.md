@@ -13,11 +13,11 @@ Admin dashboard pentru platforma de ride-hailing Vantage Lane.
 - [x] CODEOWNERS setup
 - [x] Documentație de bază
 
-### M0.2 - Design System (Next)
-- [ ] Design tokens înghețați
-- [ ] Componente UI core minime
-- [ ] Ghiduri de stilizare
-- [ ] A11y guidelines
+### M0.2 - Design System ✅ (Completat)
+- [x] Design tokens înghețați (9 fișiere complete)
+- [x] Componente UI core minime (33 componente)
+- [x] Ghiduri de stilizare (CSS tokens)
+- [x] A11y guidelines (în documentație)
 
 ### M1.0 - Authentication & Authorization
 - [ ] Login flow complet
@@ -25,10 +25,23 @@ Admin dashboard pentru platforma de ride-hailing Vantage Lane.
 - [ ] Security policies
 - [ ] Audit logging
 
-### M2.0 - Core Features
-- [ ] Dashboard principal
-- [ ] Gestionare rezervări
-- [ ] Gestionare utilizatori
+### M0.4 - Design Tokens Refactoring ✅ (Completat 2025-10-18)
+- [x] Sistem complet de design tokens (6 categorii)
+- [x] Eliminat 137 hardcodări din 6 componente
+- [x] 100% token-based CSS (zero culori inline)
+- [x] Export centralizat în packages/ui-core
+- [x] Documentație completă (2 rapoarte)
+
+### M0.5 - Settings Profile ✅ (Completat 2025-10-17)
+- [x] ProfileForm cu 3 tabs (Personal, Account, Security)
+- [x] Integrare Supabase pentru save
+- [x] Type-safe cu AdminProfile interface
+- [x] Responsive + dark theme
+
+### M2.0 - Core Features (În progres)
+- [x] Dashboard principal (implementat complet cu filters)
+- [ ] Gestionare rezervări (bookings lists) - NEXT
+- [ ] Gestionare utilizatori (users management)
 - [ ] Monitoring de bază
 
 ### M3.0 - Advanced Features

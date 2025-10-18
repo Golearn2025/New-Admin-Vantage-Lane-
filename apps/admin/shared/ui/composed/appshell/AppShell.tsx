@@ -18,7 +18,8 @@ import styles from './AppShell.module.css';
 export function AppShell({
   role,
   currentPath,
-  children
+  children,
+  user
 }: AppShellProps) {
 
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
@@ -98,6 +99,7 @@ export function AppShell({
           role={role}
           onMenuToggle={handleMenuToggle}
           sidebarCollapsed={isSidebarCollapsed}
+          {...(user && { user })}
         />
 
         {/* Page Content */}

@@ -44,7 +44,7 @@
     color-mix(in srgb, var(--gradient-from) 70%, black),
     color-mix(in srgb, var(--gradient-to) 60%, black)
   );
-  color: #ffffff;
+  color: var(--vl-color-white, #ffffff);
   box-shadow: var(--vl-shadow-card), var(--glow);
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
@@ -79,7 +79,7 @@
 
 /* ULTRA CONTRAST - Text POP OUT (subtle glow) */
 .card--gradient .title {
-  color: #ffffff;
+  color: var(--vl-color-white, #ffffff);
   font-weight: 700;
   text-shadow: 
     0 0 10px rgba(255, 255, 255, 0.2),
@@ -97,7 +97,7 @@
 
 /* VALUE - HUGE EMPHASIS with subtle colored glow */
 .card--gradient .value {
-  color: #ffffff;
+  color: var(--vl-color-white, #ffffff);
   font-weight: 900;
   letter-spacing: -0.03em;
   text-shadow: 

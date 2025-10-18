@@ -1,0 +1,48 @@
+/**
+ * Design Tokens - Spacing
+ * 
+ * Spacing scale consistent pentru padding, margin, gap.
+ * Bazat pe scale de 4px.
+ */
+
+:root {
+  /* Base Spacing Scale (4px base) */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-7: 28px;
+  --spacing-8: 32px;
+  --spacing-9: 36px;
+  --spacing-10: 40px;
+  --spacing-11: 44px;
+  --spacing-12: 48px;
+  --spacing-14: 56px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+
+  /* Semantic Spacing */
+  --spacing-xs: var(--spacing-1);    /* 4px */
+  --spacing-sm: var(--spacing-2);    /* 8px */
+  --spacing-md: var(--spacing-4);    /* 16px */
+  --spacing-lg: var(--spacing-6);    /* 24px */
+  --spacing-xl: var(--spacing-8);    /* 32px */
+  --spacing-2xl: var(--spacing-10);  /* 40px */
+  --spacing-3xl: var(--spacing-12);  /* 48px */
+
+  /* Container Spacing */
+  --container-padding: 40px;
+  --container-padding-mobile: 20px;
+  --section-gap: 48px;
+  --section-gap-mobile: 32px;
+
+  /* Component Spacing */
+  --card-padding: 36px;
+  --card-padding-mobile: 24px;
+  --input-padding-x: 24px;
+  --input-padding-y: 18px;
+  --button-padding-x: 40px;
+  --button-padding-y: 16px;
+}

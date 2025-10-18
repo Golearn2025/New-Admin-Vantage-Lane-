@@ -1,0 +1,65 @@
+/**
+ * Design Tokens - Colors
+ * 
+ * Toate culorile proiectului centralizate.
+ * SCHIMBĂ AICI pentru a actualiza culoarea în tot proiectul!
+ */
+
+:root {
+  /* Primary Colors - GOLD */
+  --color-primary: #F1D16A;
+  --color-primary-light: #E5D485;
+  --color-primary-dark: #E5C953;
+  --color-primary-darker: #D9BD47;
+  --color-primary-accent: #CBB26A;
+
+  /* Secondary Colors - PURPLE/VIOLET */
+  --color-secondary: #764BA2;
+  --color-secondary-light: #A78BFA;
+  --color-secondary-dark: #667EEA;
+  --color-secondary-accent: #9b59b6;
+
+  /* Background Colors */
+  --color-bg-primary: #0A0A0A;
+  --color-bg-secondary: #121416;
+  --color-bg-tertiary: #1a1d21;
+  --color-bg-elevated: #1e2124;
+
+  /* Text Colors */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: rgba(255, 255, 255, 0.8);
+  --color-text-tertiary: rgba(255, 255, 255, 0.6);
+  --color-text-disabled: rgba(255, 255, 255, 0.4);
+
+  /* Status Colors */
+  --color-success: #43e97b;
+  --color-success-light: #38f9d7;
+  --color-error: #ff6b6b;
+  --color-error-dark: #ff3b30;
+  --color-warning: #ffa500;
+  --color-info: #3B82F6;
+
+  /* Border Colors */
+  --color-border-primary: rgba(241, 209, 106, 0.25);
+  --color-border-secondary: rgba(241, 209, 106, 0.15);
+  --color-border-hover: rgba(241, 209, 106, 0.4);
+  --color-border-focus: rgba(241, 209, 106, 0.8);
+
+  /* Opacity Variations */
+  --color-primary-alpha-5: rgba(241, 209, 106, 0.05);
+  --color-primary-alpha-8: rgba(241, 209, 106, 0.08);
+  --color-primary-alpha-10: rgba(241, 209, 106, 0.1);
+  --color-primary-alpha-15: rgba(241, 209, 106, 0.15);
+  --color-primary-alpha-20: rgba(241, 209, 106, 0.2);
+  --color-primary-alpha-30: rgba(241, 209, 106, 0.3);
+  --color-primary-alpha-40: rgba(241, 209, 106, 0.4);
+  --color-primary-alpha-60: rgba(241, 209, 106, 0.6);
+  --color-primary-alpha-80: rgba(241, 209, 106, 0.8);
+  --color-primary-alpha-95: rgba(241, 209, 106, 0.95);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  --gradient-secondary: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-light));
+  --gradient-surface: linear-gradient(135deg, rgba(0, 0, 0, 0.6), var(--color-primary-alpha-8));
+  --gradient-hover: linear-gradient(135deg, rgba(0, 0, 0, 0.7), var(--color-primary-alpha-15));
+}

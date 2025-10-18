@@ -1,0 +1,118 @@
+/**
+ * FormField Styles - PREMIUM GOLD
+ * 
+ * Design modern premium folosind culoarea gold din proiect.
+ * Color: #F1D16A (gold primary)
+ */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  width: 100%;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-sm);
+  font-weight: var(--font-bold);
+  color: var(--color-accent-400);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+}
+
+.labelIcon {
+  font-size: var(--font-lg);
+  filter: drop-shadow(var(--shadow-gold-sm));
+}
+
+.required {
+  color: var(--color-danger-default);
+  margin-left: var(--spacing-1);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: var(--spacing-4) var(--spacing-6);
+  font-family: inherit;
+  font-size: var(--font-md);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
+  border: var(--border-width-2) solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  outline: none;
+  transition: var(--transition-medium);
+  box-shadow: var(--shadow-inner);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: var(--spacing-30);
+  line-height: var(--line-height-relaxed);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.input:hover:not(:disabled):not(:read-only),
+.textarea:hover:not(:disabled):not(:read-only) {
+  border-color: var(--color-border-strong);
+  background: var(--color-bg-tertiary);
+  box-shadow: var(--shadow-gold-sm);
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--color-border-focus);
+  background: var(--color-bg-tertiary);
+  box-shadow: var(--shadow-gold-md);
+}
+
+.input:disabled,
+.textarea:disabled,
+.input:read-only,
+.textarea:read-only {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--color-bg-primary);
+  border-color: var(--color-border-subtle);
+}
+
+.hasError {
+  border-color: var(--color-danger-default) !important;
+  background: var(--color-danger-alpha-10) !important;
+}
+
+.hasError:focus {
+  box-shadow: var(--shadow-danger) !important;
+}
+
+.errorText {
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-danger-default);
+  text-shadow: var(--text-shadow-sm);
+}
+
+.hint {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+
+  .input,
+  .textarea {
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: var(--font-base);
+  }
+}

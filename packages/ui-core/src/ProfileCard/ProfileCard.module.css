@@ -1,0 +1,180 @@
+/**
+ * ProfileCard Styles - PREMIUM GOLD/VIOLET
+ * 
+ * Modern, aerisit, scalabil
+ * Zero inline colors - design tokens only
+ */
+
+.card {
+  position: relative;
+  background: linear-gradient(135deg,
+    var(--color-bg-secondary),
+    var(--color-bg-tertiary)
+  );
+  border-radius: var(--radius-2xl);
+  padding: var(--spacing-10);
+  border: var(--border-width-1) solid var(--color-border-subtle);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-medium);
+  backdrop-filter: blur(10px);
+}
+
+.card:hover {
+  border-color: var(--color-border-default);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px);
+}
+
+/* Variants */
+.highlight {
+  border-color: var(--color-border-default);
+  background: linear-gradient(135deg,
+    var(--color-primary-alpha-10),
+    var(--color-purple-alpha-10)
+  );
+}
+
+.muted {
+  opacity: 0.8;
+  border-color: var(--color-border-muted);
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-8);
+  padding-bottom: var(--spacing-6);
+  border-bottom: var(--border-width-2) solid var(--color-border-subtle);
+}
+
+.headerIcon {
+  font-size: var(--font-2xl);
+  filter: drop-shadow(var(--shadow-gold-md));
+}
+
+.title {
+  font-size: var(--font-xl);
+  font-weight: var(--font-extrabold);
+  background: linear-gradient(135deg, 
+    var(--color-primary),
+    var(--color-accent-400),
+    var(--color-purple)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+/* Fields */
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--spacing-8);
+  align-items: start;
+  padding: var(--spacing-5) 0;
+  border-bottom: var(--border-width-1) solid var(--color-border-muted);
+}
+
+.fieldRow:last-child {
+  border-bottom: none;
+}
+
+.fieldLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  font-size: var(--font-sm);
+  font-weight: var(--font-bold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+}
+
+.fieldIcon {
+  font-size: var(--font-lg);
+  filter: drop-shadow(var(--shadow-gold-sm));
+}
+
+.fieldValue {
+  display: flex;
+  align-items: center;
+  min-height: var(--spacing-11);
+}
+
+.valueText {
+  font-size: var(--font-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-normal);
+}
+
+/* Editable inputs */
+.input,
+.textarea {
+  width: 100%;
+  padding: var(--spacing-4) var(--spacing-5);
+  font-family: inherit;
+  font-size: var(--font-lg);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
+  border: var(--border-width-2) solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  outline: none;
+  transition: var(--transition-base);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: var(--spacing-25);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input:hover,
+.textarea:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-bg-tertiary);
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--color-border-focus);
+  background: var(--color-bg-tertiary);
+  box-shadow: var(--shadow-gold-md);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card {
+    padding: var(--spacing-6);
+  }
+
+  .fieldRow {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-3);
+  }
+
+  .fieldLabel {
+    font-size: var(--font-xs);
+  }
+
+  .valueText,
+  .input,
+  .textarea {
+    font-size: var(--font-md);
+  }
+}

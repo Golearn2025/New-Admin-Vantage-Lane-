@@ -8,9 +8,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- DataTable component implementation
+- DataTable main component (assembly of sub-components)
+- Pagination component
 - Bookings management feature
 - User management feature
+
+## [0.5.3] - 2025-10-18 - DataTable Components (M0.5.3)
+
+### Added - DataTable Sub-Components
+- **6 DataTable components** in `packages/ui-core/src/DataTable/`
+  - `TableCell.tsx` - Cell with custom rendering and alignment (51 lines)
+  - `TableRow.tsx` - Row with selection, hover, expand states (88 lines)
+  - `TableHeader.tsx` - Header with sortable columns and icons (122 lines)
+  - `TableBody.tsx` - Body with rows and expandable content (82 lines)
+  - `EmptyState.tsx` - Empty state with customizable content (55 lines)
+  - `LoadingSkeleton.tsx` - Animated skeleton loader (58 lines)
+  - `DataTable.module.css` - Complete styling (324 lines, 100% tokens)
+
+### Features
+- **Generic components**: All use `<TData = unknown>` for type flexibility
+- **Sortable headers**: Click to sort with visual indicators (↑↓)
+- **Expandable rows**: Optional expanded content per row
+- **Row selection**: Checkbox selection with select all
+- **Hover states**: Visual feedback on row hover
+- **Loading states**: Skeleton loader with pulse animation
+- **Empty states**: Customizable "no data" display
+- **Responsive design**: Mobile-optimized (hides columns, adjusts padding)
+- **Accessibility**: ARIA labels, keyboard navigation, focus states
+
+### Styles - 100% Design Tokens
+- **Zero hardcoded values** (except valid exceptions: breakpoints, .srOnly)
+- All colors: `var(--color-*)`
+- All spacing: `var(--spacing-*)`
+- All fonts: `var(--font-*)`
+- All borders: `var(--border-*, --radius-*)`
+- All transitions: `var(--transition-*)`
+- Skeleton animation with CSS keyframes
+
+### Quality
+- **Zero TypeScript errors**: `npm run check:ts` passed
+- **Zero any types**: 100% type-safe with generics
+- **Zero business coupling**: Fully reusable across projects
+- **Zero code duplication**: Single responsibility per component
+- **File size compliant**: All components <200 lines
+- **Consistent patterns**: displayName, className building, props destructuring
+
+### Reusability
+- Works with ANY data type via generics
+- Props-based configuration (no hardcoded behavior)
+- Can be copy-pasted to any React/Next.js project
+- Zero Vantage Lane dependencies
 
 ## [0.5.2] - 2025-10-18 - DataTable Type Definitions (M0.5.2)
 

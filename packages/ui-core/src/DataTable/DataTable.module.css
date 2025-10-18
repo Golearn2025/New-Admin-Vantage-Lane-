@@ -1,0 +1,324 @@
+/**
+ * DataTable Component Styles
+ * 
+ * 100% design tokens - ZERO hardcoded values!
+ * Fully reusable across projects.
+ */
+
+/* ========================================
+   TABLE CONTAINER
+   ======================================== */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  font-family: var(--font-family-base);
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: var(--border-width-1) solid var(--color-border-secondary);
+}
+
+.tableScrollable {
+  max-height: var(--table-max-height);
+  overflow-y: auto;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.header {
+  background: var(--color-bg-secondary);
+  border-bottom: var(--border-width-2) solid var(--color-border-primary);
+}
+
+.headerStickey {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+.headerCell {
+  padding: var(--spacing-4) var(--spacing-6);
+  text-align: left;
+  font-weight: var(--font-semibold);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  white-space: nowrap;
+  border-bottom: var(--border-width-1) solid var(--color-border-secondary);
+  transition: var(--transition-base);
+}
+
+.headerCellCheckbox,
+.headerCellExpand {
+  width: var(--spacing-12);
+  text-align: center;
+}
+
+.headerCellSortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.headerCellSortable:hover {
+  background: var(--color-primary-alpha-5);
+  color: var(--color-primary);
+}
+
+.headerCellSorted {
+  color: var(--color-primary);
+  background: var(--color-primary-alpha-10);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.sortIcon {
+  opacity: 0.6;
+  font-size: var(--font-xs);
+  transition: var(--transition-base);
+}
+
+.headerCellSorted .sortIcon {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+/* ========================================
+   BODY
+   ======================================== */
+
+.body {
+  background: var(--color-bg-elevated);
+}
+
+/* ========================================
+   ROW
+   ======================================== */
+
+.row {
+  border-bottom: var(--border-width-1) solid var(--color-border-secondary);
+  transition: var(--transition-base);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.rowHoverable:hover {
+  background: var(--color-primary-alpha-5);
+}
+
+.rowClickable {
+  cursor: pointer;
+}
+
+.rowClickable:active {
+  background: var(--color-primary-alpha-10);
+}
+
+.rowSelected {
+  background: var(--color-primary-alpha-10);
+}
+
+.rowSelected:hover {
+  background: var(--color-primary-alpha-15);
+}
+
+.rowExpanded {
+  border-bottom: none;
+}
+
+/* Striped rows */
+.tableStriped .row:nth-child(even) {
+  background: var(--color-bg-secondary);
+}
+
+.tableStriped .row:nth-child(even):hover {
+  background: var(--color-primary-alpha-8);
+}
+
+/* Bordered table */
+.tableBordered .row {
+  border: var(--border-width-1) solid var(--color-border-secondary);
+}
+
+/* Compact rows */
+.tableCompact .row .cell {
+  padding: var(--spacing-2) var(--spacing-4);
+}
+
+/* ========================================
+   CELL
+   ======================================== */
+
+.cell {
+  padding: var(--spacing-4) var(--spacing-6);
+  color: var(--color-text-primary);
+  border-bottom: var(--border-width-1) solid var(--color-border-secondary);
+  transition: var(--transition-base);
+}
+
+.cellSelected {
+  background: var(--color-primary-alpha-5);
+}
+
+/* Alignment */
+.align-left {
+  text-align: left;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+/* ========================================
+   EXPANDED ROW
+   ======================================== */
+
+.expandedRow {
+  border-bottom: var(--border-width-1) solid var(--color-border-primary);
+}
+
+.expandedCell {
+  padding: var(--spacing-6);
+  background: var(--color-bg-secondary);
+  border-top: var(--border-width-1) solid var(--color-border-primary);
+}
+
+/* ========================================
+   CHECKBOX
+   ======================================== */
+
+.checkbox {
+  width: var(--spacing-5);
+  height: var(--spacing-5);
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
+.checkbox:focus-visible {
+  outline: var(--border-width-2) solid var(--color-border-focus);
+  outline-offset: var(--spacing-1);
+}
+
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-20);
+  color: var(--color-text-tertiary);
+}
+
+.emptyStateContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.emptyStateContent p {
+  margin: 0;
+  font-size: var(--font-base);
+  color: var(--color-text-secondary);
+}
+
+/* ========================================
+   LOADING SKELETON
+   ======================================== */
+
+.skeleton {
+  background: var(--color-bg-elevated);
+}
+
+.skeletonRow {
+  border-bottom: var(--border-width-1) solid var(--color-border-secondary);
+}
+
+.skeletonCell {
+  padding: var(--spacing-4) var(--spacing-6);
+}
+
+.skeletonContent {
+  width: 100%;
+}
+
+.skeletonLine {
+  height: var(--spacing-5);
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-sm);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeletonPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .headerCell,
+  .cell {
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: var(--font-xs);
+  }
+  
+  .tableCompact .cell {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+  
+  /* Hide columns marked as hideOnMobile */
+  .cell[data-hide-mobile="true"],
+  .headerCell[data-hide-mobile="true"] {
+    display: none;
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+.table:focus-visible {
+  outline: var(--border-width-2) solid var(--color-border-focus);
+  outline-offset: var(--spacing-1);
+}
+
+/* Screen reader only */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

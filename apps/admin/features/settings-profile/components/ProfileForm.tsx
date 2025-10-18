@@ -51,11 +51,6 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
     setSaving(false);
   };
 
-  const handleDiscard = () => {
-    setPendingChanges(null);
-    setSaveSuccess(false);
-  };
-
   if (loading) {
     return (
       <div className={styles.loading}>

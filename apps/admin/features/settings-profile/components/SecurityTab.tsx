@@ -20,12 +20,10 @@ interface SecurityTabProps {
 export function SecurityTab({ profile }: SecurityTabProps) {
   const handleChangePassword = () => {
     // TODO: Implement password change
-    console.log('Change password clicked');
   };
 
   const handleEnable2FA = () => {
     // TODO: Implement 2FA enable
-    console.log('Enable 2FA clicked');
   };
 
   return (
@@ -115,7 +113,7 @@ export function SecurityTab({ profile }: SecurityTabProps) {
               Permanently delete your account and all associated data. This action cannot be undone.
             </p>
           </div>
-          <SaveButton onClick={() => console.log('Delete account')} variant="secondary">
+          <SaveButton onClick={() => {/* TODO: Implement delete account */}} variant="secondary">
             Delete Account
           </SaveButton>
         </div>

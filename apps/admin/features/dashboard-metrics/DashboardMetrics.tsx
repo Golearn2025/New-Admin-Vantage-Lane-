@@ -127,9 +127,12 @@ function getGradientForIndex(index: number): 'purple' | 'pink' | 'blue' | 'green
 }
 
 /**
+ * Get delta (percentage change) for a metric
+ * 
  * TODO: Calculate delta from historical data
  * For now, return null (no trend indicator)
  */
-function getDeltaForMetric(_key: string): number | null {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getDeltaForMetric(key: string): number | null {
   return null;
 }

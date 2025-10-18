@@ -9,8 +9,10 @@
 
 import React from 'react';
 import { useCurrentUser } from '@admin/shared/hooks/useCurrentUser';
-import { ProfileForm } from '@admin/features/settings-profile';
-import { useProfileData, type AdminProfile } from '@admin/features/settings-profile';
+// eslint-disable-next-line no-restricted-imports -- Page can import from features
+import { ProfileForm } from '../../../../apps/admin/features/settings-profile';
+// eslint-disable-next-line no-restricted-imports -- Page can import from features
+import { useProfileData, type AdminProfile } from '../../../../apps/admin/features/settings-profile';
 import styles from './profile.module.css';
 
 export default function ProfilePage() {

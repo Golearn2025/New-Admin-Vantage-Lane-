@@ -56,23 +56,51 @@
 
 /* Variant styles */
 .primary {
-  background-color: var(--color-accent-500);
-  color: var(--color-text-inverse);
-  border-color: var(--color-accent-500);
+  background: var(--theme-gradient);
+  color: white;
+  border-color: var(--theme-primary);
+  box-shadow: var(--theme-shadow-button);
+  position: relative;
+  overflow: hidden;
 }
 
-.primary:hover {
-  background-color: var(--color-accent2-500);
-  border-color: var(--color-accent2-500);
+.primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--theme-gradient-hover);
+  opacity: 0;
+  transition: opacity var(--motion-duration-normal);
+}
+
+.primary:hover:not(.disabled):not(.loading) {
+  box-shadow: var(--theme-shadow-button-hover), var(--theme-glow);
+  transform: translateY(-1px);
+}
+
+.primary:hover:not(.disabled):not(.loading)::before {
+  opacity: 1;
 }
 
 .primary:focus-visible {
-  box-shadow: var(--shadow-focus);
+  box-shadow: var(--theme-shadow-focus);
 }
 
 .primary:active:not(.disabled):not(.loading) {
-  background-color: var(--color-accent-700);
-  border-color: var(--color-accent-700);
+  transform: translateY(0);
+  box-shadow: var(--theme-shadow-button);
+}
+
+/* Ensure content is above gradient overlay */
+.primary .content,
+.primary .leftIcon,
+.primary .rightIcon,
+.primary .spinner {
+  position: relative;
+  z-index: 1;
 }
 
 .secondary {
@@ -87,11 +115,21 @@
 
 .outline {
   background-color: transparent;
-  color: var(--color-accent-500);
-  border-color: var(--color-accent-500);
+  color: var(--theme-primary);
+  border-color: var(--theme-primary);
   
   &:hover:not(.disabled):not(.loading) {
-    background-color: var(--color-accent-50);
+    background-color: var(--theme-primary-alpha-10);
+    box-shadow: var(--theme-glow);
+    transform: translateY(-1px);
+  }
+  
+  &:focus-visible {
+    box-shadow: var(--theme-shadow-focus);
+  }
+  
+  &:active:not(.disabled):not(.loading) {
+    transform: translateY(0);
   }
 }
 

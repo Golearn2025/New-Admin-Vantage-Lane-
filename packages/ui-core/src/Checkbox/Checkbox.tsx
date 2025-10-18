@@ -9,7 +9,7 @@ import { InputHTMLAttributes, forwardRef } from 'react';
 import styles from './Checkbox.module.css';
 
 export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
-  label: string;
+  label?: string;
   error?: string;
   disabled?: boolean;
   indeterminate?: boolean;
@@ -31,12 +31,14 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             aria-invalid={hasError}
             aria-describedby={error ? `${props.id}-error` : undefined}
           />
-          <label 
-            htmlFor={props.id}
-            className={`${styles['label']} ${disabled ? styles['disabled'] : ''}`}
-          >
-            {label}
-          </label>
+          {label && (
+            <label 
+              htmlFor={props.id}
+              className={`${styles['label']} ${disabled ? styles['disabled'] : ''}`}
+            >
+              {label}
+            </label>
+          )}
         </div>
         
         {error && (

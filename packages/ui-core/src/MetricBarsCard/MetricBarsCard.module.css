@@ -1,0 +1,259 @@
+/**
+ * METRIC BARS CARD STYLES - PREMIUM
+ */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  min-height: 280px;
+}
+
+/* ============================================ */
+/* HEADER                                       */
+/* ============================================ */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+}
+
+.title {
+  font-size: var(--font-lg);
+  font-weight: var(--font-semibold);
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.subtitle {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  margin: var(--spacing-1) 0 0;
+}
+
+/* ============================================ */
+/* BARS CONTAINER                               */
+/* ============================================ */
+
+.barsContainer {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-3);
+  flex: 1;
+  min-height: 140px;
+  padding: var(--spacing-4) 0;
+}
+
+.barWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-width: 0;
+}
+
+/* Bar Track (background) */
+.barTrack {
+  width: 100%;
+  height: 100%;
+  background: var(--color-surface-secondary);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  border: 1px solid var(--color-border-muted);
+}
+
+/* Animated Bar */
+.bar {
+  width: 100%;
+  background: var(--theme-gradient);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  position: relative;
+  transition: all var(--motion-duration-normal);
+  animation: barGrow 0.8s var(--motion-easing-ease-out) forwards;
+  transform-origin: bottom;
+}
+
+@keyframes barGrow {
+  from {
+    height: 0 !important;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Premium glow effect on hover */
+.barWrapper:hover .bar {
+  filter: brightness(1.2);
+  box-shadow: 0 -2px 12px currentColor !important;
+}
+
+/* Shimmer effect */
+.bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+  animation-delay: inherit;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+}
+
+/* Bar Label */
+.barLabel {
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+  font-weight: var(--font-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  transition: color var(--motion-duration-fast);
+}
+
+.barWrapper:hover .barLabel {
+  color: var(--theme-primary);
+}
+
+/* ============================================ */
+/* FOOTER                                       */
+/* ============================================ */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--color-border-muted);
+}
+
+/* Total */
+.total {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.totalLabel {
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: var(--font-medium);
+}
+
+.totalValue {
+  font-size: var(--font-2xl);
+  font-weight: var(--font-bold);
+  background: var(--theme-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Action Button */
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: transparent;
+  border: 1px solid var(--theme-primary);
+  border-radius: var(--radius-md);
+  color: var(--theme-primary);
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: var(--motion-hover);
+  white-space: nowrap;
+}
+
+.actionButton:hover {
+  background: var(--theme-primary-alpha-10);
+  box-shadow: var(--theme-glow);
+  transform: translateX(2px);
+}
+
+.actionButton:active {
+  transform: translateX(0);
+}
+
+.actionIcon {
+  transition: transform var(--motion-duration-fast);
+}
+
+.actionButton:hover .actionIcon {
+  transform: translateX(2px);
+}
+
+/* ============================================ */
+/* RESPONSIVE                                   */
+/* ============================================ */
+
+@media (max-width: 640px) {
+  .card {
+    min-height: 240px;
+  }
+
+  .barsContainer {
+    min-height: 100px;
+    gap: var(--spacing-2);
+  }
+
+  .title {
+    font-size: var(--font-base);
+  }
+
+  .totalValue {
+    font-size: var(--font-xl);
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actionButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ============================================ */
+/* REDUCED MOTION                               */
+/* ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    animation: none;
+  }
+
+  .bar::before {
+    animation: none;
+  }
+}

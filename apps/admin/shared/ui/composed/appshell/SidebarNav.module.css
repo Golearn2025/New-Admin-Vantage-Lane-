@@ -37,6 +37,14 @@
   height: 40px;
   flex-shrink: 0;
   border-radius: var(--radius-md);
+  transition: all var(--motion-duration-normal);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+/* Premium: Logo gets theme glow on sidebar hover */
+.sidebar:hover .logo {
+  box-shadow: var(--theme-glow);
+  transform: scale(1.05);
 }
 
 .brandInfo {
@@ -67,9 +75,10 @@
 .roleLabel {
   font-size: var(--font-sm);
   font-weight: var(--font-medium);
-  color: var(--color-accent-500);
+  color: var(--theme-primary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-shadow: var(--theme-glow);
 }
 
 /* Collapse Toggle - Săgeată mică fină albă */

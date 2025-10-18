@@ -6,6 +6,33 @@
  */
 
 :root {
+  /* ============================================ */
+  /* THEME VARIABLES (Dynamic - changes per theme) */
+  /* ============================================ */
+  
+  /* DEFAULT THEME: Vantage Gold (#d3aa31) */
+  --theme-primary: #d3aa31;
+  --theme-primary-dark: #b8922a;
+  --theme-primary-light: #e5c65f;
+  --theme-primary-alpha-10: rgba(211, 170, 49, 0.1);
+  --theme-primary-alpha-20: rgba(211, 170, 49, 0.2);
+  --theme-primary-alpha-30: rgba(211, 170, 49, 0.3);
+  
+  --theme-gradient: linear-gradient(135deg, #d3aa31 0%, #e5c65f 100%);
+  --theme-gradient-hover: linear-gradient(135deg, #b8922a 0%, #d3aa31 100%);
+  --theme-glow: 0 0 20px rgba(211, 170, 49, 0.4);
+  --theme-glow-strong: 0 0 30px rgba(211, 170, 49, 0.6);
+  
+  --theme-shadow-card: 0 4px 16px rgba(211, 170, 49, 0.15);
+  --theme-shadow-card-hover: 0 8px 24px rgba(211, 170, 49, 0.25);
+  --theme-shadow-button: 0 2px 8px rgba(211, 170, 49, 0.2);
+  --theme-shadow-button-hover: 0 4px 12px rgba(211, 170, 49, 0.3);
+  --theme-shadow-focus: 0 0 0 3px rgba(211, 170, 49, 0.3);
+
+  /* ============================================ */
+  /* BASE COLORS (Static - never change)         */
+  /* ============================================ */
+  
   /* CRISTI'S DARK THEME - Pure Black Carbon Fiber */
   --color-bg-primary: #0a0b0d;
   --color-bg-secondary: #121416;

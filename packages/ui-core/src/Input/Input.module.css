@@ -10,6 +10,12 @@
   font-weight: var(--font-medium);
   color: var(--color-text-primary);
   line-height: var(--line-height-normal);
+  transition: color var(--motion-duration-fast);
+}
+
+/* Label gets theme color when input is focused */
+.wrapper:focus-within .label {
+  color: var(--theme-primary);
 }
 
 .required {
@@ -45,8 +51,8 @@
   
   &:focus {
     outline: none;
-    border-color: var(--color-border-focus);
-    box-shadow: 0 0 0 2px rgba(241, 209, 106, 0.2);
+    border-color: var(--theme-primary);
+    box-shadow: var(--theme-shadow-focus);
     background-color: rgba(255, 255, 255, 0.08);
   }
   
@@ -98,6 +104,7 @@
   align-items: center;
   color: var(--color-text-muted);
   z-index: 1;
+  transition: color var(--motion-duration-fast);
 }
 
 .rightIcon {
@@ -107,6 +114,13 @@
   align-items: center;
   color: var(--color-text-muted);
   z-index: 1;
+  transition: color var(--motion-duration-fast);
+}
+
+/* Icons get theme color when input is focused */
+.wrapper:focus-within .leftIcon,
+.wrapper:focus-within .rightIcon {
+  color: var(--theme-primary);
 }
 
 /* Error state */

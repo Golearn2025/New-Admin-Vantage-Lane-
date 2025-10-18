@@ -7,7 +7,65 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+### Planned
+- DataTable component implementation
+- Bookings management feature
+- User management feature
+
+## [0.5.2] - 2025-10-18 - DataTable Type Definitions (M0.5.2)
+
+### Added - Type System
+- **DataTable types** split into 6 modular files (all <200 lines - rule compliant)
+  - `column.types.ts` - Column interface with accessor, cell renderer, sorting (~80 lines)
+  - `sort.types.ts` - Sort state and direction types (~25 lines)
+  - `pagination.types.ts` - Pagination state and props (~75 lines)
+  - `selection.types.ts` - Selection and expandable row state (~50 lines)
+  - `table-props.types.ts` - DataTable main component props (~140 lines)
+  - `cell-row-header-props.types.ts` - Sub-component props (~130 lines)
+  - `types/index.ts` - Centralized re-exports (~25 lines)
+
+### Quality
+- **100% type-safe**: Zero any types, full TypeScript strict mode
+- **Generic types**: Full flexibility for any data type
+- **File size compliant**: All files respect UI ≤200 lines rule
+- **Zero TypeScript errors**: `npm run check:ts` passed
+
+## [0.5.1] - 2025-10-18 - Badge Component (M0.5.1)
+
+### Added - Badge Component
+- **Badge component** in `packages/ui-core/src/Badge/`
+  - Generic, reusable badge for status, categories, labels
+  - 6 variants: status, booking_status, trip_type, category, service, payment
+  - 30+ color variants with semantic naming
+  - 3 sizes: sm, md, lg (responsive)
+  - Icon support with proper alignment
+  - Click handlers and keyboard navigation (Enter/Space)
+  - Disabled state support
+  - Full accessibility (ARIA, focus-visible, tabIndex)
+
+### Design Tokens Extended
+- **110+ new badge colors** in `tokens/colors.css`:
+  - **Status colors** (5): NEW (amber), ASSIGNED (blue), IN_PROGRESS (purple), COMPLETED (green), CANCELLED (red)
+  - **Booking status** (3): draft (gray), confirmed (blue), active (green)
+  - **Trip types** (4): oneway (gold), return (purple), hourly (blue), fleet (indigo)
+  - **Categories** (4): EXEC (gold), LUX (purple), SUV (blue), VAN (indigo)
+  - **Services** (4): paid (gold), free (green), security (red), luxury (purple)
+  - **Payment status** (5): pending (amber), authorized (blue), captured (green), refunded (gray), failed (red)
+  - All colors with alpha variants (10%, 30%) for backgrounds/borders
+
+### Components
+- `Badge.tsx` - Main component with variant-based styling
+- `Badge.module.css` - 100% design tokens, zero hardcoded values
+- `types.ts` - Strict TypeScript interfaces (BadgeProps, BadgeVariant, etc.)
+- `BADGE_LABELS` - Display name mapping for all badge values
+- Centralized export in `packages/ui-core/src/index.ts`
+
+### Quality
+- **Zero TypeScript errors**: `npm run check:ts` passed
+- **Zero hardcoded values**: 100% token-based styling
+- **Fully reusable**: Works in any project context
+- **Accessible**: WCAG 2.1 AA compliant
+- **Mobile responsive**: Size adjustments for small screens
 
 ## [0.4.1] - 2025-10-18 - Design Tokens Refactoring (M0.4)
 

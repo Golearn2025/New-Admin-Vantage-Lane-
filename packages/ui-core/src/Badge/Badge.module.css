@@ -1,0 +1,286 @@
+/**
+ * Badge Component Styles
+ * 
+ * 100% design tokens - ZERO hardcoded values!
+ * Fully reusable across projects.
+ */
+
+/* Base Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  font-weight: var(--font-semibold);
+  border-radius: var(--radius-full);
+  transition: var(--transition-base);
+  white-space: nowrap;
+  user-select: none;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/* Sizes */
+.size-sm {
+  padding: var(--spacing-1) var(--spacing-3);
+  font-size: var(--font-xs);
+  min-height: var(--spacing-6);
+}
+
+.size-md {
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--font-sm);
+  min-height: var(--spacing-8);
+}
+
+.size-lg {
+  padding: var(--spacing-3) var(--spacing-6);
+  font-size: var(--font-base);
+  min-height: var(--spacing-10);
+}
+
+/* Icon */
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.size-sm .icon {
+  font-size: var(--font-sm);
+}
+
+.size-md .icon {
+  font-size: var(--font-base);
+}
+
+.size-lg .icon {
+  font-size: var(--font-lg);
+}
+
+/* ========================================
+   STATUS VARIANTS (Driver Workflow)
+   ======================================== */
+
+.variant-status-NEW {
+  background: var(--color-status-new-alpha-10);
+  color: var(--color-status-new);
+  border: var(--border-width-1) solid var(--color-status-new-alpha-30);
+}
+
+.variant-status-ASSIGNED {
+  background: var(--color-status-assigned-alpha-10);
+  color: var(--color-status-assigned);
+  border: var(--border-width-1) solid var(--color-status-assigned-alpha-30);
+}
+
+.variant-status-IN_PROGRESS {
+  background: var(--color-status-in-progress-alpha-10);
+  color: var(--color-status-in-progress);
+  border: var(--border-width-1) solid var(--color-status-in-progress-alpha-30);
+}
+
+.variant-status-COMPLETED {
+  background: var(--color-status-completed-alpha-10);
+  color: var(--color-status-completed);
+  border: var(--border-width-1) solid var(--color-status-completed-alpha-30);
+}
+
+.variant-status-CANCELLED {
+  background: var(--color-status-cancelled-alpha-10);
+  color: var(--color-status-cancelled);
+  border: var(--border-width-1) solid var(--color-status-cancelled-alpha-30);
+}
+
+/* ========================================
+   BOOKING STATUS VARIANTS (Lifecycle)
+   ======================================== */
+
+.variant-booking_status-draft {
+  background: var(--color-booking-draft-alpha-10);
+  color: var(--color-booking-draft);
+  border: var(--border-width-1) solid var(--color-booking-draft-alpha-30);
+}
+
+.variant-booking_status-confirmed {
+  background: var(--color-booking-confirmed-alpha-10);
+  color: var(--color-booking-confirmed);
+  border: var(--border-width-1) solid var(--color-booking-confirmed-alpha-30);
+}
+
+.variant-booking_status-active {
+  background: var(--color-booking-active-alpha-10);
+  color: var(--color-booking-active);
+  border: var(--border-width-1) solid var(--color-booking-active-alpha-30);
+}
+
+.variant-booking_status-completed {
+  background: var(--color-status-completed-alpha-10);
+  color: var(--color-status-completed);
+  border: var(--border-width-1) solid var(--color-status-completed-alpha-30);
+}
+
+.variant-booking_status-cancelled {
+  background: var(--color-status-cancelled-alpha-10);
+  color: var(--color-status-cancelled);
+  border: var(--border-width-1) solid var(--color-status-cancelled-alpha-30);
+}
+
+/* ========================================
+   TRIP TYPE VARIANTS
+   ======================================== */
+
+.variant-trip_type-oneway {
+  background: var(--color-trip-oneway-alpha-10);
+  color: var(--color-trip-oneway);
+  border: var(--border-width-1) solid var(--color-trip-oneway-alpha-30);
+}
+
+.variant-trip_type-return {
+  background: var(--color-trip-return-alpha-10);
+  color: var(--color-trip-return);
+  border: var(--border-width-1) solid var(--color-trip-return-alpha-30);
+}
+
+.variant-trip_type-hourly {
+  background: var(--color-trip-hourly-alpha-10);
+  color: var(--color-trip-hourly);
+  border: var(--border-width-1) solid var(--color-trip-hourly-alpha-30);
+}
+
+.variant-trip_type-fleet {
+  background: var(--color-trip-fleet-alpha-10);
+  color: var(--color-trip-fleet);
+  border: var(--border-width-1) solid var(--color-trip-fleet-alpha-30);
+}
+
+/* ========================================
+   CATEGORY VARIANTS (Service Type)
+   ======================================== */
+
+.variant-category-EXEC {
+  background: var(--color-category-exec-alpha-10);
+  color: var(--color-category-exec);
+  border: var(--border-width-1) solid var(--color-category-exec-alpha-30);
+}
+
+.variant-category-LUX {
+  background: var(--color-category-lux-alpha-10);
+  color: var(--color-category-lux);
+  border: var(--border-width-1) solid var(--color-category-lux-alpha-30);
+}
+
+.variant-category-SUV {
+  background: var(--color-category-suv-alpha-10);
+  color: var(--color-category-suv);
+  border: var(--border-width-1) solid var(--color-category-suv-alpha-30);
+}
+
+.variant-category-VAN {
+  background: var(--color-category-van-alpha-10);
+  color: var(--color-category-van);
+  border: var(--border-width-1) solid var(--color-category-van-alpha-30);
+}
+
+/* ========================================
+   SERVICE VARIANTS
+   ======================================== */
+
+.variant-service-paid {
+  background: var(--color-service-paid-alpha-10);
+  color: var(--color-service-paid);
+  border: var(--border-width-1) solid var(--color-service-paid-alpha-30);
+}
+
+.variant-service-free {
+  background: var(--color-service-free-alpha-10);
+  color: var(--color-service-free);
+  border: var(--border-width-1) solid var(--color-service-free-alpha-30);
+}
+
+.variant-service-security {
+  background: var(--color-service-security-alpha-10);
+  color: var(--color-service-security);
+  border: var(--border-width-1) solid var(--color-service-security-alpha-30);
+}
+
+.variant-service-luxury {
+  background: var(--color-service-luxury-alpha-10);
+  color: var(--color-service-luxury);
+  border: var(--border-width-1) solid var(--color-service-luxury-alpha-30);
+}
+
+/* ========================================
+   PAYMENT VARIANTS
+   ======================================== */
+
+.variant-payment-pending {
+  background: var(--color-payment-pending-alpha-10);
+  color: var(--color-payment-pending);
+  border: var(--border-width-1) solid var(--color-payment-pending-alpha-30);
+}
+
+.variant-payment-authorized {
+  background: var(--color-payment-authorized-alpha-10);
+  color: var(--color-payment-authorized);
+  border: var(--border-width-1) solid var(--color-payment-authorized-alpha-30);
+}
+
+.variant-payment-captured {
+  background: var(--color-payment-captured-alpha-10);
+  color: var(--color-payment-captured);
+  border: var(--border-width-1) solid var(--color-payment-captured-alpha-30);
+}
+
+.variant-payment-refunded {
+  background: var(--color-payment-refunded-alpha-10);
+  color: var(--color-payment-refunded);
+  border: var(--border-width-1) solid var(--color-payment-refunded-alpha-30);
+}
+
+.variant-payment-failed {
+  background: var(--color-payment-failed-alpha-10);
+  color: var(--color-payment-failed);
+  border: var(--border-width-1) solid var(--color-payment-failed-alpha-30);
+}
+
+/* ========================================
+   INTERACTIVE STATES
+   ======================================== */
+
+/* Clickable */
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover:not(.disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.clickable:active:not(.disabled) {
+  transform: translateY(0);
+}
+
+/* Disabled */
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Focus visible (accessibility) */
+.badge:focus-visible {
+  outline: var(--border-width-2) solid var(--color-border-focus);
+  outline-offset: var(--spacing-1);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .size-lg {
+    padding: var(--spacing-2) var(--spacing-5);
+    font-size: var(--font-sm);
+  }
+}

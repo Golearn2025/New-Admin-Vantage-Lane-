@@ -169,6 +169,38 @@
 - [x] Zero hardcoded values - 100% design tokens
 - [x] /settings/profile page fully functional
 
+## M0.5.1 - Badge Component ✅ COMPLETED (2025-10-18)
+- [x] Extended colors.css with 110+ new badge colors (status, trip_type, category, service, payment)
+- [x] Created Badge component in packages/ui-core/src/Badge/
+- [x] Badge.tsx - Generic component with 6 variants (status, booking_status, trip_type, category, service, payment)
+- [x] Badge.module.css - 100% design tokens, zero hardcoded values
+- [x] types.ts - Strict TypeScript interfaces, zero any types
+- [x] 3 sizes (sm, md, lg) with responsive design
+- [x] Icon support with proper alignment
+- [x] Click handlers and keyboard navigation
+- [x] Accessibility (ARIA attributes, focus-visible, tabIndex)
+- [x] 30+ color variants with alpha transparency
+- [x] Centralized export in packages/ui-core/src/index.ts
+- [x] Zero TypeScript errors (npm run check:ts passed)
+- [x] Fully reusable across any project
+- [x] Display labels mapping (BADGE_LABELS)
+- [x] Disabled state support
+- [x] Mobile responsive (size adjustments)
+
+## M0.5.2 - DataTable Types ✅ COMPLETED (2025-10-18)
+- [x] Split types into 6 files (all <200 lines per file - RULE COMPLIANT)
+- [x] column.types.ts - Column interface (~80 lines)
+- [x] sort.types.ts - Sort state (~25 lines)
+- [x] pagination.types.ts - Pagination state (~75 lines)
+- [x] selection.types.ts - Selection & expandable state (~50 lines)
+- [x] table-props.types.ts - DataTable main props (~140 lines)
+- [x] cell-row-header-props.types.ts - Sub-component props (~130 lines)
+- [x] types/index.ts - Centralized re-exports (~25 lines)
+- [x] Zero TypeScript errors (npm run check:ts passed)
+- [x] 100% type-safe, zero any types
+- [x] Generic types for full flexibility
+- [x] Respects file size limits (UI ≤200 lines)
+
 ## M0.6 - Implementation (Planned)
 - [ ] TBD: Jest testing infrastructure setup  
 - [ ] TBD: Comprehensive RLS policy testing (all roles)

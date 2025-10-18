@@ -21,3 +21,6 @@ export * from './SaveButton';
 
 // Navigation Components
 export * from './Tabs';
+
+// Display Components
+export * from './Badge';

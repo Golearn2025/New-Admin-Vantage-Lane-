@@ -24,3 +24,7 @@ export * from './Tabs';
 
 // Display Components
 export * from './Badge';
+
+// Data Display Components
+export * from './Pagination';
+export * from './DataTable';

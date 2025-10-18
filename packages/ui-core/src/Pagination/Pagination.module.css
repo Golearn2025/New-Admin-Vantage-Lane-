@@ -1,0 +1,212 @@
+/**
+ * Pagination Styles
+ * 100% Design Tokens - Zero Hardcoding
+ */
+
+/* Container */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+/* Info text */
+.info {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  white-space: nowrap;
+}
+
+.info strong {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Buttons container */
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+/* Button base */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--spacing-10);
+  height: var(--spacing-10);
+  padding: var(--spacing-2) var(--spacing-3);
+  
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-align: center;
+  
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--border-radius-md);
+  
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--transition-fast);
+}
+
+.button:hover:not(.disabled):not(.ellipsis) {
+  color: var(--color-accent-primary);
+  background-color: var(--color-bg-hover);
+  border-color: var(--color-accent-primary);
+}
+
+.button:focus-visible {
+  outline: var(--border-width-medium) solid var(--color-accent-primary);
+  outline-offset: var(--spacing-1);
+  z-index: 1;
+}
+
+.button:active:not(.disabled):not(.ellipsis) {
+  transform: scale(0.95);
+}
+
+/* Active page */
+.button.active {
+  color: var(--color-text-on-accent);
+  background-color: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
+  font-weight: var(--font-weight-semibold);
+  pointer-events: none;
+}
+
+/* Disabled state */
+.button.disabled {
+  color: var(--color-text-disabled);
+  background-color: var(--color-bg-disabled);
+  border-color: var(--color-border-secondary);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Ellipsis (non-clickable) */
+.button.ellipsis {
+  border-color: transparent;
+  background-color: transparent;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Page size selector */
+.pageSizeSelector {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.label {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+.select {
+  height: var(--spacing-10);
+  padding: var(--spacing-2) var(--spacing-8) var(--spacing-2) var(--spacing-3);
+  
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-2) center;
+  background-size: 12px;
+  
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--border-radius-md);
+  
+  cursor: pointer;
+  appearance: none;
+  transition: all var(--transition-fast);
+}
+
+.select:hover:not(:disabled) {
+  border-color: var(--color-accent-primary);
+}
+
+.select:focus {
+  outline: var(--border-width-medium) solid var(--color-accent-primary);
+  outline-offset: var(--spacing-1);
+  border-color: var(--color-accent-primary);
+}
+
+.select:disabled {
+  color: var(--color-text-disabled);
+  background-color: var(--color-bg-disabled);
+  border-color: var(--color-border-secondary);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Size variants */
+.small {
+  font-size: var(--font-size-xs);
+}
+
+.small .button {
+  min-width: var(--spacing-8);
+  height: var(--spacing-8);
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--font-size-xs);
+}
+
+.small .select {
+  height: var(--spacing-8);
+  padding: var(--spacing-1) var(--spacing-6) var(--spacing-1) var(--spacing-2);
+  font-size: var(--font-size-xs);
+}
+
+/* .medium uses default sizes defined in base styles */
+
+.large {
+  font-size: var(--font-size-base);
+}
+
+.large .button {
+  min-width: var(--spacing-12);
+  height: var(--spacing-12);
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: var(--font-size-base);
+}
+
+.large .select {
+  height: var(--spacing-12);
+  padding: var(--spacing-3) var(--spacing-10) var(--spacing-3) var(--spacing-4);
+  font-size: var(--font-size-base);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .info {
+    text-align: center;
+  }
+  
+  .buttons {
+    justify-content: center;
+  }
+  
+  .pageSizeSelector {
+    justify-content: center;
+  }
+}

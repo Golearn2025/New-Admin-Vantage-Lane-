@@ -41,7 +41,7 @@ export function BookingsTable({
   });
 
   // Don't navigate on row click when expandable
-  const handleRowClick = (row: BookingListItem) => {
+  const handleRowClick = (_row: BookingListItem) => {
     // Click expands/collapses - navigation handled by "View Full Details" button
   };
 

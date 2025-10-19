@@ -56,13 +56,16 @@ class Logger {
     
     // In development, log to console for debugging
     if (this.isDevelopment) {
-      const logFn = level === 'error' ? console.error : 
-                    level === 'warn' ? console.warn : 
+      // eslint-disable-next-line no-console
+      const logFn = level === 'error' ? console.error :
+                    level === 'warn' ? console.warn :
                     console.log;
       
       if (context) {
+        // eslint-disable-next-line no-console
         logFn(prefix, message, context);
       } else {
+        // eslint-disable-next-line no-console
         logFn(prefix, message);
       }
     }

@@ -10,7 +10,8 @@
 # 4. Security headers configured
 ###############################################################################
 
-set -e
+# Don't exit on error - we want to show all results
+# set -e
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  🏥 P0 HEALTH CHECK - Critical Items Verification"
@@ -49,7 +50,9 @@ check_file "lib/config/env.ts"
 
 # Check P0-2: Error handling
 check_file "app/error.tsx"
+check_file "app/global-error.tsx"
 check_file "app/not-found.tsx"
+check_file "app/loading.tsx"
 
 # Check P0-3: Health check
 check_file "app/api/health/route.ts"
@@ -85,16 +88,8 @@ else
   check_fail ".env.local file missing (copy from .env.example)"
 fi
 
-echo ""
-echo "🏗️  Checking build..."
-echo ""
-
-# Check if project builds
-if npm run build > /dev/null 2>&1; then
-  check_pass "Project builds successfully"
-else
-  check_fail "Project build failed"
-fi
+# Build check is done separately in check:all or check:everything
+# Skipping here to avoid duplication and long wait times
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

@@ -125,12 +125,12 @@ export interface TableHeaderProps<TData = unknown> {
   /**
    * Current sort state
    */
-  sort?: SortState;
+  sortState?: SortState;
   
   /**
    * Sort change handler
    */
-  onSortChange?: (columnId: string) => void;
+  onSort?: (columnId: string) => void;
   
   /**
    * Additional CSS class

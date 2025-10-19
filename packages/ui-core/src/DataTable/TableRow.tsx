@@ -8,7 +8,7 @@
 
 import React from 'react';
 import styles from './DataTable.module.css';
-import { TableRowProps } from './types';
+import { TableRowProps } from './types/index';
 import { TableCell } from './TableCell';
 
 export function TableRow<TData = unknown>({

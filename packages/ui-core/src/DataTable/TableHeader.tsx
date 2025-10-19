@@ -8,7 +8,7 @@
 
 import React from 'react';
 import styles from './DataTable.module.css';
-import { TableHeaderProps } from './types';
+import { TableHeaderProps } from './types/index';
 
 export function TableHeader<TData = unknown>({
   columns,
@@ -17,23 +17,23 @@ export function TableHeader<TData = unknown>({
   isAllSelected = false,
   isIndeterminate = false,
   onSelectAll,
-  sort,
-  onSortChange,
+  sortState,
+  onSort,
   className,
 }: TableHeaderProps<TData>): JSX.Element {
   // Handle column header click (for sorting)
   const handleHeaderClick = (columnId: string, isSortable: boolean) => {
-    if (isSortable && onSortChange) {
-      onSortChange(columnId);
+    if (isSortable && onSort) {
+      onSort(columnId);
     }
   };
   
   // Get sort icon for column
   const getSortIcon = (columnId: string) => {
-    if (!sort || sort.columnId !== columnId) {
+    if (!sortState || sortState.columnId !== columnId) {
       return '⇅'; // Unsorted
     }
-    return sort.direction === 'asc' ? '↑' : '↓';
+    return sortState.direction === 'asc' ? '↑' : '↓';
   };
   
   // Build CSS classes
@@ -75,7 +75,7 @@ export function TableHeader<TData = unknown>({
         {/* Data columns */}
         {columns.map((column) => {
           const isSortable = column.sortable ?? false;
-          const isSorted = sort?.columnId === column.id;
+          const isSorted = sortState?.columnId === column.id;
           
           const cellClasses = [
             styles.headerCell,

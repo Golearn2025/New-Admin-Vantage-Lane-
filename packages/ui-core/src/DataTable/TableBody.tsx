@@ -9,7 +9,7 @@
 import React, { ReactNode } from 'react';
 import styles from './DataTable.module.css';
 import { TableRow } from './TableRow';
-import { Column } from './types';
+import { Column } from './types/index';
 
 interface TableBodyProps<TData = unknown> {
   data: TData[];

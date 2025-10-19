@@ -7,7 +7,7 @@
 
 import React from 'react';
 import styles from './DataTable.module.css';
-import { TableCellProps } from './types';
+import { TableCellProps } from './types/index';
 
 export function TableCell<TData = unknown>({
   row,

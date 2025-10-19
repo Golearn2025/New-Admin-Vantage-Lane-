@@ -14,9 +14,10 @@ export type {
   TableCellProps,
   TableRowProps,
   TableHeaderProps,
-} from './types';
+} from './types/index';
 
 // Components
+export { DataTable } from './DataTable';
 export { TableCell } from './TableCell';
 export { TableRow } from './TableRow';
 export { TableHeader } from './TableHeader';

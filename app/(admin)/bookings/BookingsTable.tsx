@@ -40,11 +40,6 @@ export function BookingsTable({
     pageSize,
   });
 
-  // Don't navigate on row click when expandable
-  const handleRowClick = (_row: BookingListItem) => {
-    // Click expands/collapses - navigation handled by "View Full Details" button
-  };
-
   return (
     <div className={styles.container}>
       {/* Header */}
@@ -116,7 +111,6 @@ export function BookingsTable({
         emptyState="No bookings found."
         expandable={true}
         renderExpandedRow={(booking) => <BookingExpandedRow booking={booking} />}
-        onRowClick={handleRowClick}
         striped={true}
         bordered={true}
         stickyHeader={true}

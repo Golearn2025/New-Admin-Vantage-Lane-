@@ -50,25 +50,25 @@ class Logger {
   /**
    * Internal log method
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  /* eslint-disable no-console */
   private log(level: LogLevel, message: string, context?: LogContext): void {
     const timestamp = new Date().toISOString();
     const prefix = `[${timestamp}] [${level.toUpperCase()}]`;
     
     // In development, log to console for debugging
     if (this.isDevelopment) {
-      // eslint-disable-next-line no-console
       const logFn = level === 'error' ? console.error :
                     level === 'warn' ? console.warn :
                     console.log;
       
       if (context) {
-        // eslint-disable-next-line no-console
         logFn(prefix, message, context);
       } else {
-        // eslint-disable-next-line no-console
         logFn(prefix, message);
       }
     }
+    /* eslint-enable no-console */
     
     // In production, you can extend this to send to monitoring service
     // Example: Sentry, DataDog, CloudWatch, etc.

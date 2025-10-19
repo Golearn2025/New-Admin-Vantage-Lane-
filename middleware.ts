@@ -7,6 +7,7 @@
 
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, NextRequest } from 'next/server'
+import '@/lib/config/env' // Validate environment variables at startup
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({

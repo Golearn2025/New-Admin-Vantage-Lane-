@@ -24,6 +24,8 @@
     "check:any": "grep -R '\\bany\\b' apps/admin/shared/ui app/login --include='*.ts' --include='*.tsx' -n || echo 'No any types found'",
     "check:budgets": "npx size-limit --why || true",
     "check:a11y": "npx @axe-core/cli http://localhost:3000/login -o reports/axe-login.json || true",
+    "check:health": "bash scripts/check-health.sh",
+    "check:p0": "npm run check:health",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:e2e": "playwright test",

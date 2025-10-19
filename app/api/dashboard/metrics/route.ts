@@ -8,6 +8,7 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
+import { logger } from '@/lib/utils/logger';
 import { NextResponse } from 'next/server';
 
 interface DashboardMetricsResponse {
@@ -94,7 +95,7 @@ export async function GET(request: Request) {
     });
 
     if (error) {
-      console.error('Error fetching dashboard metrics:', error);
+      logger.error('Error fetching dashboard metrics', { error: error.message });
       return NextResponse.json(
         { error: 'Failed to fetch metrics' },
         { status: 500 }
@@ -127,7 +128,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(metrics);
   } catch (error) {
-    console.error('Unexpected error in dashboard metrics:', error);
+    logger.error('Unexpected error in dashboard metrics API', { error: error instanceof Error ? error.message : String(error) });
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

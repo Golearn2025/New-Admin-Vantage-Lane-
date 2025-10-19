@@ -1,0 +1,149 @@
+/**
+ * BookingExpandedRow Styles
+ * All values use design tokens (no hardcoded values)
+ */
+
+.container {
+  padding: var(--spacing-lg);
+  background-color: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border);
+}
+
+.header {
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.infoText {
+  font-weight: var(--font-weight-medium);
+}
+
+.secondaryText {
+  color: var(--color-text-secondary);
+}
+
+.statsText {
+  margin-top: var(--spacing-xs);
+  color: var(--color-info);
+}
+
+.priceAmount {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.priceLabel {
+  color: var(--color-text-secondary);
+}
+
+.routeSection {
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-primary);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+  margin-bottom: var(--spacing-md);
+}
+
+.routeTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text-primary);
+}
+
+.routeContent {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.routeColumn {
+  flex: 1;
+}
+
+.pickupCard {
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-xs);
+  background-color: var(--color-success-light);
+}
+
+.dropoffCard {
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-xs);
+  background-color: var(--color-danger-light);
+}
+
+.pickupLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-success-dark);
+}
+
+.dropoffLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-danger-dark);
+}
+
+.locationName {
+  font-weight: var(--font-weight-medium);
+}
+
+.routeArrow {
+  font-size: var(--font-size-xl);
+}
+
+.actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: flex-end;
+}
+
+.buttonSecondary {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: var(--transition-base);
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.buttonSecondary:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.buttonPrimary {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: var(--transition-base);
+  background-color: var(--color-primary);
+  border: none;
+  color: white;
+}
+
+.buttonPrimary:hover {
+  opacity: 0.9;
+}

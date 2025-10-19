@@ -83,14 +83,57 @@ export interface BookingsListResponse {
 
 export interface BookingListItem {
   id: string;
-  status: 'pending' | 'active' | 'completed' | 'cancelled';
+  reference: string; // CB-00XXX
+  
+  // Real workflow status
+  status: 'pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress' | 'completed' | 'cancelled';
+  
+  // Urgency flags
+  is_urgent: boolean;  // True if <3h until pickup and no driver assigned
+  is_new: boolean;     // True if created in last 24h
+  
+  // Trip info
+  trip_type: 'oneway' | 'return' | 'hourly' | 'fleet';
+  category: string; // EXEC, LUX, SUV, VAN
+  vehicle_model: string | null; // exec_5_series, lux_s_class, etc
+  
+  // Customer
   customer_name: string;
+  customer_phone: string;
+  customer_total_bookings: number;
+  
+  // Locations
   pickup_location: string;
   destination: string;
-  scheduled_at: string | null; // ISO 8601, null for immediate bookings
-  created_at: string;          // ISO 8601
-  fare_amount: number;         // In cents
+  
+  // Dates
+  scheduled_at: string | null; // ISO 8601, when the trip happens
+  created_at: string;          // ISO 8601, when booking was made
+  
+  // Trip details
+  distance_miles: number | null;
+  duration_min: number | null;
+  hours: number | null; // For hourly bookings
+  
+  // Return trip (if applicable)
+  return_date: string | null;
+  return_time: string | null;
+  
+  // Fleet (if applicable)
+  fleet_executive: number | null;
+  fleet_s_class: number | null;
+  fleet_v_class: number | null;
+  fleet_suv: number | null;
+  
+  // Pricing
+  fare_amount: number;         // In cents (total with extras)
+  
+  // Assignment
   driver_name: string | null;
+  driver_id: string | null;
+  vehicle_id: string | null;
+  
+  // Meta
   operator_name: string;
   source: 'app' | 'web' | 'call_center' | 'partner_api';
 }

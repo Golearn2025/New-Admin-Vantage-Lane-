@@ -9,6 +9,7 @@ import { TableHeader } from './TableHeader';
 import { TableBody } from './TableBody';
 import { EmptyState } from './EmptyState';
 import { LoadingSkeleton } from './LoadingSkeleton';
+import { Pagination } from '../Pagination';
 import { getRowId as defaultGetRowId } from './DataTable.utils';
 import type { DataTableProps } from './types/index';
 import styles from './DataTable.module.css';
@@ -19,12 +20,12 @@ export function DataTable<TData = unknown>({
   getRowId = defaultGetRowId,
   // selectable = false, // TODO: Implement selection
   // onSelectionChange, // TODO: Implement selection
-  // expandable = false, // TODO: Implement expandable rows
-  // renderExpandedRow, // TODO: Implement expandable rows
+  expandable = false,
+  renderExpandedRow,
   sort,
   onSortChange,
   pagination,
-  // onPaginationChange, // TODO: Implement pagination change callback
+  onPaginationChange,
   loading = false,
   skeletonRows = 5,
   emptyState,
@@ -41,6 +42,9 @@ export function DataTable<TData = unknown>({
   // Internal sort state (uncontrolled)
   const [internalSort, setInternalSort] = React.useState(sort || { columnId: null, direction: null });
   const activeSort = sort || internalSort;
+
+  // Expanded rows state
+  const [expandedIds, setExpandedIds] = React.useState<Set<string>>(new Set());
 
   const handleSort = React.useCallback((columnId: string) => {
     const newSort = {
@@ -75,6 +79,24 @@ export function DataTable<TData = unknown>({
     const end = start + pagination.pageSize;
     return sortedData.slice(start, end);
   }, [sortedData, pagination]);
+
+  // Handle row click with expansion
+  const handleRowClick = React.useCallback((row: TData, event: React.MouseEvent) => {
+    if (expandable && renderExpandedRow) {
+      const rowIndex = data.indexOf(row);
+      const rowId = getRowId(row, rowIndex);
+      setExpandedIds((prev) => {
+        const next = new Set(prev);
+        if (next.has(rowId)) {
+          next.delete(rowId);
+        } else {
+          next.add(rowId);
+        }
+        return next;
+      });
+    }
+    onRowClick?.(row, event);
+  }, [expandable, renderExpandedRow, getRowId, data, onRowClick]);
 
   // Loading state
   if (loading) {
@@ -114,6 +136,10 @@ export function DataTable<TData = unknown>({
     );
   }
 
+  // Calculate total pages
+  const totalPages = pagination ? Math.ceil(pagination.totalCount / pagination.pageSize) : 0;
+  const currentPage = pagination ? pagination.pageIndex + 1 : 1;
+
   return (
     <div className={`${styles.container} ${className}`}>
       <div
@@ -138,10 +164,40 @@ export function DataTable<TData = unknown>({
             data={displayData}
             columns={columns}
             getRowId={getRowId}
-            {...(onRowClick && { onRowClick })}
+            {...(expandable && { expandedIds, renderExpandedRow })}
+            onRowClick={handleRowClick}
           />
         </table>
       </div>
+
+      {/* Pagination */}
+      {pagination && pagination.totalCount > 0 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={pagination.totalCount}
+          pageSize={pagination.pageSize}
+          onPageChange={(page) => {
+            onPaginationChange?.({
+              pageIndex: page - 1,
+              pageSize: pagination.pageSize,
+              totalCount: pagination.totalCount,
+            });
+          }}
+          onPageSizeChange={(newPageSize) => {
+            onPaginationChange?.({
+              pageIndex: 0, // Reset to first page
+              pageSize: newPageSize,
+              totalCount: pagination.totalCount,
+            });
+          }}
+          showInfo={true}
+          showPageSizeSelector={true}
+          showPrevNext={true}
+          showFirstLast={false}
+          size="medium"
+        />
+      )}
     </div>
   );
 }

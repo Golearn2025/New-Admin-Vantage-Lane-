@@ -10,6 +10,7 @@
 import { usePathname } from 'next/navigation';
 import { AppShell, UserRole } from '@admin/shared/ui/composed/appshell';
 import { useCurrentUser } from '@admin/shared/hooks/useCurrentUser';
+import styles from './layout.module.css';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -25,13 +26,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   // Show loading state while fetching user
   if (loading) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        height: '100vh',
-        background: 'var(--vl-color-background)'
-      }}>
+      <div className={styles.loadingContainer}>
         Loading...
       </div>
     );

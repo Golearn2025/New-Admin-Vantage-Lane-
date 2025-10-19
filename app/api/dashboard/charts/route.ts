@@ -8,6 +8,7 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
+import { logger } from '@/lib/utils/logger';
 
 interface ChartDataPoint {
   x: string;
@@ -90,7 +91,7 @@ export async function GET(request: Request) {
     });
 
     if (error) {
-      console.error('Error fetching dashboard charts:', error);
+      logger.error('Error fetching dashboard charts', { error: error.message });
       return NextResponse.json(
         { error: 'Failed to fetch charts' },
         { status: 500 }
@@ -114,7 +115,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(charts);
   } catch (error) {
-    console.error('Unexpected error in dashboard charts:', error);
+    logger.error('Unexpected error in dashboard charts API', { error: error instanceof Error ? error.message : String(error) });
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

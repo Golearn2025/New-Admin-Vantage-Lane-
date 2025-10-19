@@ -6,6 +6,7 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
+import { logger } from '@/lib/utils/logger';
 import { NextResponse } from 'next/server';
 
 export type AdminRole = 'super_admin' | 'admin' | 'operator';
@@ -106,7 +107,7 @@ export async function checkAdminAccess(
       adminUser,
     };
   } catch (error) {
-    console.error('RBAC check error:', error);
+    logger.error('RBAC check error', { error: error instanceof Error ? error.message : String(error) });
     return {
       authorized: false,
       error: NextResponse.json(

@@ -9,6 +9,7 @@
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { logger } from '@/lib/utils/logger';
 import type { UserInfo } from '@admin/shared/ui/composed/appshell/types';
 
 interface AdminUser {
@@ -59,7 +60,7 @@ export function useCurrentUser() {
           setUser(null);
         }
       } catch (err) {
-        console.error('Error fetching current user:', err);
+        logger.error('Error fetching current user in useCurrentUser', { error: err instanceof Error ? err.message : String(err) });
         setError(err instanceof Error ? err : new Error('Unknown error'));
         setUser(null);
       } finally {

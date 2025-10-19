@@ -51,7 +51,10 @@ export function Icon({ name, size = 24, className, 'aria-label': ariaLabel }: Ic
   const IconComponent = iconMap[name];
   
   if (!IconComponent) {
-    console.warn(`Icon "${name}" not found`);
+    // eslint-disable-next-line no-console -- Library code: warn about missing icons in development
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(`Icon "${name}" not found in icon registry`);
+    }
     return null;
   }
   
@@ -65,7 +68,7 @@ export function Icon({ name, size = 24, className, 'aria-label': ariaLabel }: Ic
 }
 
 // Export types
-export type { IconName, IconProps } from './types';
+export type { IconName, IconProps, BaseIconProps } from './types';
 
 // Export individual components pentru tree-shaking
 export {

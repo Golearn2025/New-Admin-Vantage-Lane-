@@ -106,7 +106,7 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
 
       {/* ✅ Save button DOAR pe Personal Info tab */}
       {activeTab === 'personal' && (
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '32px' }}>
+        <div className={styles.saveButtonContainer}>
           <SaveButton onClick={handleSave} variant="primary" loading={saving}>
             Save Changes
           </SaveButton>

@@ -26,6 +26,7 @@
     "check:a11y": "npx @axe-core/cli http://localhost:3000/login -o reports/axe-login.json || true",
     "check:health": "bash scripts/check-health.sh",
     "check:p0": "npm run check:health",
+    "check:everything": "bash scripts/check-everything.sh",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:e2e": "playwright test",

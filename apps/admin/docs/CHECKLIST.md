@@ -148,6 +148,67 @@
 - [x] Refactored Input: 5 hardcoded values → 0 (100% tokens)
 - [x] TOTAL: Eliminated 137 hardcoded values across 6 components
 - [x] Created centralized export in packages/ui-core/src/index.ts
+
+## M0.5.4 - Badge Component ✅ COMPLETED (2025-10-18)
+- [x] Badge.tsx component (147 lines) with 6 variants
+- [x] Badge.types.ts with full TypeScript definitions
+- [x] Badge.module.css (100% design tokens, zero hardcoding)
+- [x] 30+ color variants (primary, success, warning, danger, info, neutral)
+- [x] 6 size variants (xs, sm, md, lg, xl, 2xl)
+- [x] Dot indicator option
+- [x] Icon support (before/after)
+- [x] Pill shape option
+- [x] Outline variant
+- [x] Removable badge with onRemove callback
+- [x] Full accessibility (ARIA labels)
+- [x] Export in packages/ui-core/src/index.ts
+
+## M0.5.5 - Pagination Component ✅ COMPLETED (2025-10-18)
+- [x] Pagination.tsx main component (199 lines)
+- [x] PaginationButton.tsx (90 lines) - Page number buttons
+- [x] PaginationInfo.tsx (34 lines) - "Showing X-Y of Z" display
+- [x] Pagination.types.ts (96 lines) - Type definitions
+- [x] Pagination.module.css (212 lines) - 100% design tokens
+- [x] Smart page number calculation with ellipsis (1, 2, 3, ..., 10)
+- [x] Previous/Next navigation buttons
+- [x] First/Last buttons (optional)
+- [x] Rows per page selector with custom options
+- [x] Size variants (small, medium, large)
+- [x] Loading/disabled states
+- [x] Keyboard accessible (ARIA labels)
+- [x] Responsive design (mobile collapse)
+- [x] Export in packages/ui-core/src/index.ts
+
+## M0.5.6 - DataTable Component System ✅ COMPLETED (2025-10-19)
+- [x] DataTable.tsx main component (148 lines) ✅ <200 lines
+- [x] DataTable.hooks.ts custom hooks (106 lines) ✅ <150 lines
+- [x] DataTable.utils.ts utilities (86 lines) ✅ <150 lines
+- [x] DataTable.module.css core styles (196 lines) ✅ <200 lines
+- [x] DataTable.states.module.css states (140 lines) ✅ <200 lines
+- [x] DataTable.variants.module.css variants (51 lines) ✅ <200 lines
+- [x] TableHeader.tsx with sort support (123 lines)
+- [x] TableBody.tsx with row rendering
+- [x] TableCell.tsx with custom rendering
+- [x] TableRow.tsx with click handlers
+- [x] EmptyState.tsx for no data
+- [x] LoadingSkeleton.tsx for loading state
+- [x] Complete type system (7 type files)
+- [x] Sort by column (asc/desc/none cycle)
+- [x] Pagination integration (uses Pagination component)
+- [x] Loading skeleton with configurable rows
+- [x] Empty state with custom message
+- [x] Striped/bordered/compact variants
+- [x] Sticky header option
+- [x] Responsive design
+- [x] Full ARIA accessibility
+- [x] Click handlers for rows
+- [x] Custom row/cell rendering
+- [x] Generic <TData> for type safety
+- [x] 100% design tokens (zero hardcoding)
+- [x] TypeScript: 0 errors ✅
+- [x] ESLint: 0 errors ✅
+- [x] All files <200 lines ✅
+- [x] Export in packages/ui-core/src/index.ts
 - [x] Zero TypeScript errors (npm run check:ts passed)
 - [x] Zero inline colors/values - 100% token-based system
 - [x] Theme change capability - modify 1 token, entire app updates

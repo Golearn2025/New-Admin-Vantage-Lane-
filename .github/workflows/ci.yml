@@ -1,0 +1,49 @@
+name: Vantage Lane CI
+
+on:
+  push:
+    branches: [ main, develop, 'chore/**', 'feat/**', 'fix/**' ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    name: Lint, Guard & Build
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [20.x]
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10
+      
+      - name: 🟢 Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      
+      - name: 📚 Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: 🛡️ Run UI Component Guard
+        run: pnpm guard:ui
+      
+      - name: 🔍 Run ESLint
+        run: pnpm lint
+      
+      - name: 🏗️ Build application
+        run: pnpm build
+        env:
+          # Disable telemetry during CI builds
+          NEXT_TELEMETRY_DISABLED: 1
+      
+      - name: ✅ All checks passed
+        run: echo "✅ CI pipeline completed successfully!"

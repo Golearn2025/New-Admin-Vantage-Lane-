@@ -34,6 +34,7 @@
     "check:advanced": "npm run check:quality && npm run check:duplicates && npm run check:deadcode && npm run check:performance",
     "gen:component": "plop component",
     "guard:ui": "node scripts/guard-components.mjs",
+    "check:ci": "pnpm guard:ui && pnpm lint && pnpm build",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:e2e": "playwright test",

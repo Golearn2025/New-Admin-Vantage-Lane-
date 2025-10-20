@@ -11,7 +11,7 @@ import React, { useState, useEffect } from 'react';
 import { SidebarNav } from './SidebarNav';
 import { Topbar } from './Topbar';
 import { Drawer } from './Drawer';
-import { BrandBackground } from '@admin/shared/ui/composed/BrandBackground';
+import { BrandBackground } from '@admin-shared/ui/composed/BrandBackground';
 import { AppShellProps } from './types';
 import styles from './AppShell.module.css';
 

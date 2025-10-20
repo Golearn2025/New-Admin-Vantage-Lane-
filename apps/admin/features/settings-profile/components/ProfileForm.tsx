@@ -9,8 +9,8 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { Tabs, type Tab } from '@admin/shared/ui/core/Tabs';
-import { SaveButton } from '@admin/shared/ui/core/SaveButton';
+import { Tabs, type Tab } from '@admin-shared/ui/core/Tabs';
+import { SaveButton } from '@admin-shared/ui/core/SaveButton';
 import { PersonalInfoTab } from './PersonalInfoTab';
 import { AccountTab } from './AccountTab';
 import { SecurityTab } from './SecurityTab';

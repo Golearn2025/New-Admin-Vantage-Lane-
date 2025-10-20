@@ -8,7 +8,7 @@
 'use client';
 
 import React from 'react';
-import { ProfileSection } from '@admin/shared/ui/core/ProfileSection';
+import { ProfileSection } from '@admin-shared/ui/core/ProfileSection';
 import type { AdminProfile } from '../hooks/useProfileData';
 import styles from './AccountTab.module.css';
 

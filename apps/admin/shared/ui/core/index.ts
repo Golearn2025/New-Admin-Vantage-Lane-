@@ -7,7 +7,7 @@
  * PR #2: Button, Input, Card, Checkbox moved to packages/ui-core
  * 
  * Usage (unchanged):
- * import { Button, Input, Card } from '@admin/shared/ui/core';
+ * import { Button, Input, Card } from '@admin-shared/ui/core';
  */
 
 export * from '@vantage-lane/ui-core';

@@ -14,7 +14,7 @@
 
 import { MetricCard } from '@vantage-lane/ui-dashboard';
 import { useDashboardMetrics, type DashboardMetrics as DashboardMetricsType } from './useDashboardMetrics';
-import { type CardSpec } from '@admin/shared/config/dashboard.spec';
+import { type CardSpec } from '@admin-shared/config/dashboard.spec';
 import styles from './DashboardMetrics.module.css';
 
 interface DashboardMetricsProps {

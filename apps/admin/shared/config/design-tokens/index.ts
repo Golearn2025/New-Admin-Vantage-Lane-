@@ -5,7 +5,7 @@
  * Any changes require ADR and multi-team approval.
  * 
  * Usage:
- * import { tokens } from '@admin/shared/config/design-tokens';
+ * import { tokens } from '@admin-shared/config/design-tokens';
  * const primaryColor = tokens.colors.accent[500];
  */
 

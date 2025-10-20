@@ -9,8 +9,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ProfileSection } from '@admin/shared/ui/core/ProfileSection';
-import { FormField } from '@admin/shared/ui/core/FormField';
+import { ProfileSection } from '@admin-shared/ui/core/ProfileSection';
+import { FormField } from '@admin-shared/ui/core/FormField';
 import type { AdminProfile } from '../hooks/useProfileData';
 
 interface PersonalInfoTabProps {

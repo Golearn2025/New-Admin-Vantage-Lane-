@@ -7,12 +7,12 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Icon } from '@admin/shared/ui/icons';
-import { BrandName } from '@admin/shared/ui/composed/BrandName';
+import { Icon } from '@admin-shared/ui/icons';
+import { BrandName } from '@admin-shared/ui/composed/BrandName';
 import { NavItem } from './NavItem';
 import { SidebarNavProps } from './types';
 import { getMenuForRole, isMenuItemActive, isMenuItemExpanded } from './menu-config';
-import { signOutAction } from '@admin/shared/api/auth/actions';
+import { signOutAction } from '@admin-shared/api/auth/actions';
 import styles from './SidebarNav.module.css';
 
 export function SidebarNav({

@@ -7,7 +7,7 @@
  * PR #3: All icons moved to packages/ui-icons
  * 
  * Usage (unchanged):
- * import { Dashboard, Calendar, Icon } from '@admin/shared/ui/icons';
+ * import { Dashboard, Calendar, Icon } from '@admin-shared/ui/icons';
  */
 
 export * from '@vantage-lane/ui-icons';

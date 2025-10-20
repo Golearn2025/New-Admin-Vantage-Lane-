@@ -6,7 +6,7 @@
 'use client';
 
 import { MetricCard, BarBasic } from '@vantage-lane/ui-dashboard';
-import { DASHBOARD_CARDS } from '@admin/shared/config/dashboard.spec';
+import { DASHBOARD_CARDS } from '@admin-shared/config/dashboard.spec';
 
 // Mock data
 const mockBarData = [

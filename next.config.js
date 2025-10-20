@@ -1,4 +1,8 @@
-const path = require('path');
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -12,13 +16,13 @@ const nextConfig = {
   },
   
   webpack: (config) => {
-    config.resolve.alias['@admin'] = path.resolve(__dirname, 'app/(admin)');
-    config.resolve.alias['@admin-shared'] = path.resolve(__dirname, 'apps/admin/shared');
-    config.resolve.alias['@contracts'] = path.resolve(__dirname, 'packages/contracts/src');
-    config.resolve.alias['@ui-core'] = path.resolve(__dirname, 'packages/ui-core/src');
-    config.resolve.alias['@ui-dashboard'] = path.resolve(__dirname, 'packages/ui-dashboard/src');
-    config.resolve.alias['@formatters'] = path.resolve(__dirname, 'packages/formatters/src');
-    config.resolve.alias['@styles'] = path.resolve(__dirname, 'packages/styles');
+    config.resolve.alias['@admin'] = resolve(__dirname, 'app/(admin)');
+    config.resolve.alias['@admin-shared'] = resolve(__dirname, 'apps/admin/shared');
+    config.resolve.alias['@contracts'] = resolve(__dirname, 'packages/contracts/src');
+    config.resolve.alias['@ui-core'] = resolve(__dirname, 'packages/ui-core/src');
+    config.resolve.alias['@ui-dashboard'] = resolve(__dirname, 'packages/ui-dashboard/src');
+    config.resolve.alias['@formatters'] = resolve(__dirname, 'packages/formatters/src');
+    config.resolve.alias['@styles'] = resolve(__dirname, 'packages/styles');
     return config;
   },
   

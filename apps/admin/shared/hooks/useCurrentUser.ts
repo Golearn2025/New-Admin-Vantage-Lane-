@@ -10,7 +10,7 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { logger } from '@/lib/utils/logger';
-import type { UserInfo } from '@admin/shared/ui/composed/appshell/types';
+import type { UserInfo } from '@admin-shared/ui/composed/appshell/types';
 
 interface AdminUser {
   id: string;

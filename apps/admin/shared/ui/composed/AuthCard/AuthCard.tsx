@@ -7,7 +7,7 @@
 
 import { ReactNode } from 'react';
 import Image from 'next/image';
-import { BrandName } from '@admin/shared/ui/composed/BrandName';
+import { BrandName } from '@admin-shared/ui/composed/BrandName';
 import styles from './AuthCard.module.css';
 
 export interface AuthCardProps {

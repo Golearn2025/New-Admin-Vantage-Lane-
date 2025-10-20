@@ -20,10 +20,20 @@ export type IconName =
   | 'auditHistory'
   | 'settings'
   | 'prices'
-  | 'creditCard'
   | 'banknote'
   | 'chevronDown'
-  | 'menu';
+  | 'menu'
+  | 'clock'
+  | 'plane'
+  | 'route'
+  | 'user'
+  | 'luggage'
+  | 'creditCard'
+  | 'currency'
+  | 'userPlus'
+  | 'eye'
+  | 'download'
+  | 'copy';
 
 export interface BaseIconProps {
   size?: number;

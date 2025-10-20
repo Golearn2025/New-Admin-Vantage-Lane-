@@ -8,10 +8,9 @@
 'use client';
 
 import React from 'react';
-import { useCurrentUser } from '@admin/shared/hooks/useCurrentUser';
-// eslint-disable-next-line no-restricted-imports -- Page can import from features
+import { useCurrentUser } from '@admin-shared/hooks/useCurrentUser';
+// NOTE: ProfileForm stays in features/ as it's a complete feature module
 import { ProfileForm } from '../../../../apps/admin/features/settings-profile';
-// eslint-disable-next-line no-restricted-imports -- Page can import from features
 import { useProfileData, type AdminProfile } from '../../../../apps/admin/features/settings-profile';
 import styles from './profile.module.css';
 

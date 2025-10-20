@@ -21,6 +21,7 @@ export function DataTable<TData = unknown>({
   // selectable = false, // TODO: Implement selection
   // onSelectionChange, // TODO: Implement selection
   expandable = false,
+  expandedIds: controlledExpandedIds,
   renderExpandedRow,
   sort,
   onSortChange,
@@ -43,8 +44,9 @@ export function DataTable<TData = unknown>({
   const [internalSort, setInternalSort] = React.useState(sort || { columnId: null, direction: null });
   const activeSort = sort || internalSort;
 
-  // Expanded rows state
-  const [expandedIds, setExpandedIds] = React.useState<Set<string>>(new Set());
+  // Expanded rows state (controlled or uncontrolled)
+  const [internalExpandedIds, setInternalExpandedIds] = React.useState<Set<string>>(new Set());
+  const expandedIds = controlledExpandedIds || internalExpandedIds;
 
   const handleSort = React.useCallback((columnId: string) => {
     const newSort = {
@@ -80,23 +82,11 @@ export function DataTable<TData = unknown>({
     return sortedData.slice(start, end);
   }, [sortedData, pagination]);
 
-  // Handle row click with expansion
+  // Handle row click - NO auto-expansion, just pass to onRowClick
   const handleRowClick = React.useCallback((row: TData, event: React.MouseEvent) => {
-    if (expandable && renderExpandedRow) {
-      const rowIndex = data.indexOf(row);
-      const rowId = getRowId(row, rowIndex);
-      setExpandedIds((prev) => {
-        const next = new Set(prev);
-        if (next.has(rowId)) {
-          next.delete(rowId);
-        } else {
-          next.add(rowId);
-        }
-        return next;
-      });
-    }
+    // Only call onRowClick if provided - don't auto-expand
     onRowClick?.(row, event);
-  }, [expandable, renderExpandedRow, getRowId, data, onRowClick]);
+  }, [onRowClick]);
 
   // Loading state
   if (loading) {

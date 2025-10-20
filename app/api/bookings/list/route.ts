@@ -1,43 +1,57 @@
 /**
- * Bookings List API Route
- * 
- * GET /api/bookings/list
- * Returns paginated list of bookings with filters
- * Uses Supabase RLS for security
- * 
- * Refactored: Split into modules for maintainability
- * - types.ts: Type definitions
- * - query-builder.ts: Database queries
- * - transform.ts: Data transformation
- * - route.ts: Orchestration (this file)
+ * Bookings List API - Orchestration Only
+ * NO business logic here - just coordination
+ * Compliant: <150 lines
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/utils/logger';
-import type { BookingsListResponse } from '@admin/shared/api/contracts/bookings';
-import type { QueryParams } from './types';
+import type { BookingsListResponse } from '@admin-shared/api/contracts/bookings';
 import { fetchBookingsData } from './query-builder';
 import { transformBookingsData } from './transform';
+import type { QueryParams } from './types';
 
 export async function GET(request: NextRequest) {
   const startTime = Date.now();
   
   try {
-    // Parse query parameters
-    const params = parseQueryParams(request);
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const pageSize = Math.min(parseInt(searchParams.get('page_size') || '25', 10), 100);
+    const statusParam = searchParams.get('status');
     
-    // Create Supabase client
+    const params: QueryParams = {
+      page,
+      pageSize,
+      status: statusParam as any,
+    };
+    
     const supabase = await createClient();
     
-    // Fetch all data from database
+    // Fetch data
     const queryResult = await fetchBookingsData(supabase, params);
     
-    // Transform to API response format
+    // Transform data
     const items = transformBookingsData(queryResult);
     
-    // Build response with pagination
-    const response = buildResponse(items, queryResult.totalCount, params, startTime);
+    // Build response
+    const totalPages = Math.ceil(queryResult.totalCount / pageSize);
+    const response: BookingsListResponse = {
+      data: items,
+      pagination: {
+        total_count: queryResult.totalCount,
+        page_size: pageSize,
+        has_next_page: page < totalPages,
+        has_previous_page: page > 1,
+        current_page: page,
+        total_pages: totalPages,
+      },
+      performance: {
+        query_duration_ms: Date.now() - startTime,
+        cache_hit: false,
+      },
+    };
     
     return NextResponse.json(response);
     
@@ -50,47 +64,4 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-/**
- * Parse and validate query parameters
- */
-function parseQueryParams(request: NextRequest): QueryParams {
-  const { searchParams } = new URL(request.url);
-  
-  const page = parseInt(searchParams.get('page') || '1', 10);
-  const pageSize = Math.min(parseInt(searchParams.get('page_size') || '25', 10), 100);
-  const statusParam = searchParams.get('status');
-  const status = statusParam as 'pending' | 'active' | 'completed' | 'cancelled' | null;
-  
-  return { page, pageSize, status };
-}
-
-/**
- * Build final API response with pagination metadata
- */
-function buildResponse(
-  items: BookingsListResponse['data'],
-  totalCount: number,
-  params: QueryParams,
-  startTime: number
-): BookingsListResponse {
-  const { page, pageSize } = params;
-  const totalPages = Math.ceil(totalCount / pageSize);
-  
-  return {
-    data: items,
-    pagination: {
-      total_count: totalCount,
-      page_size: pageSize,
-      has_next_page: page < totalPages,
-      has_previous_page: page > 1,
-      current_page: page,
-      total_pages: totalPages,
-    },
-    performance: {
-      query_duration_ms: Date.now() - startTime,
-      cache_hit: false,
-    },
-  };
 }

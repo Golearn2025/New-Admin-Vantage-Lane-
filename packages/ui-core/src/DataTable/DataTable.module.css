@@ -28,7 +28,9 @@
 
 .table {
   width: 100%;
+  table-layout: fixed;  /* ✅ FORȚEAZĂ width-urile exacte - ZERO spațiu extra! */
   border-collapse: collapse;
+  border-spacing: 0;  /* ✅ ZERO spațiu între coloane */
   background: var(--color-bg-elevated);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -65,8 +67,8 @@
 }
 
 .headerCell {
-  padding: var(--spacing-4) var(--spacing-6);
-  text-align: left;
+  padding: var(--spacing-3) var(--spacing-2);  /* ✅ ULTRA COMPACT: 12px 8px */
+  text-align: left;  /* ✅ DEFAULT - override cu .align-* dacă e nevoie */
   font-weight: var(--font-semibold);
   font-size: var(--font-sm);
   color: var(--color-text-secondary);
@@ -75,6 +77,7 @@
   white-space: nowrap;
   border-bottom: var(--border-width-1) solid var(--color-border-secondary);
   transition: var(--transition-base);
+  vertical-align: middle;  /* ✅ Aliniere verticală perfectă */
 }
 
 .headerCellCheckbox,
@@ -167,10 +170,12 @@
    ======================================== */
 
 .cell {
-  padding: var(--spacing-4) var(--spacing-6);
+  padding: var(--spacing-3) var(--spacing-2);  /* ✅ ULTRA COMPACT: 12px 8px */
+  text-align: left;  /* ✅ DEFAULT - same ca header */
   color: var(--color-text-primary);
   border-bottom: var(--border-width-1) solid var(--color-border-secondary);
   transition: var(--transition-base);
+  vertical-align: middle;  /* ✅ Aliniere verticală perfectă */
 }
 
 .cellSelected {

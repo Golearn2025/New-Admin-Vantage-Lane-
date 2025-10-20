@@ -39,13 +39,13 @@
    ======================================== */
 
 .align-left {
-  text-align: left;
+  text-align: left !important;  /* ✅ Override any defaults */
 }
 
 .align-center {
-  text-align: center;
+  text-align: center !important;  /* ✅ FORȚEAZĂ centrat perfect */
 }
 
 .align-right {
-  text-align: right;
+  text-align: right !important;  /* ✅ Override any defaults */
 }

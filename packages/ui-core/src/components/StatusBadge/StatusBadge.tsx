@@ -28,38 +28,31 @@ export interface StatusBadgeProps {
 
 const STATUS_CONFIG = {
   pending: {
-    label: 'Pending',
-    icon: '🔵',
+    label: 'New Booking',
     className: 'status-badge--pending',
   },
   assigned: {
     label: 'Assigned',
-    icon: '🟡',
     className: 'status-badge--assigned',
   },
   en_route: {
     label: 'En Route',
-    icon: '🚗',
     className: 'status-badge--en-route',
   },
   arrived: {
     label: 'Arrived',
-    icon: '📍',
     className: 'status-badge--arrived',
   },
   in_progress: {
     label: 'In Progress',
-    icon: '🟢',
     className: 'status-badge--in-progress',
   },
   completed: {
     label: 'Completed',
-    icon: '✅',
     className: 'status-badge--completed',
   },
   cancelled: {
     label: 'Cancelled',
-    icon: '🔴',
     className: 'status-badge--cancelled',
   },
 } as const;
@@ -87,12 +80,10 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
 
   return (
     <span className={classes}>
-      {showIcon && <span className="status-badge__icon">{config.icon}</span>}
       <span className="status-badge__label">{config.label}</span>
       {isUrgent && (
         <span className="status-badge__urgent-indicator">URGENT</span>
       )}
-      {isNew && <span className="status-badge__new-indicator">NEW</span>}
     </span>
   );
 };

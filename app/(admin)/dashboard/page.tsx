@@ -1,11 +1,11 @@
 'use client';
 
 import { BarBasic, LineChart, StackedBarChart, DonutChart, DateFilterPreset, DateRangePicker } from '@vantage-lane/ui-dashboard';
-import { DASHBOARD_CARDS } from '@admin/shared/config/dashboard.spec';
-// eslint-disable-next-line no-restricted-imports -- Page can import from features
+import { DASHBOARD_CARDS } from '@admin-shared/config/dashboard.spec';
+// NOTE: DashboardMetrics stays in features/ as it's a complete feature module
 import { DashboardMetrics } from '../../../apps/admin/features/dashboard-metrics/DashboardMetrics';
-import { useDateFilter } from '@admin/shared/hooks/useDateFilter';
-import { determineChartGrouping } from '@admin/shared/utils/chartGrouping';
+import { useDateFilter } from '@admin-shared/hooks/useDateFilter';
+import { determineChartGrouping } from '@admin-shared/utils/chartGrouping';
 import useSWR from 'swr';
 import styles from './dashboard.module.css';
 

@@ -29,3 +29,7 @@ export * from './components/StatusBadge';
 // Data Display Components
 export * from './Pagination';
 export * from './DataTable';
+
+// Action Components
+export * from './ActionButton';
+export * from './ActionMenu';

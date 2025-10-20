@@ -7,11 +7,11 @@
  */
 
 import React from 'react';
-import type { BookingListItem } from '@admin/shared/api/contracts/bookings';
+import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
 import { StatusBadge } from '@vantage-lane/ui-core';
 import type { BookingStatus } from '@vantage-lane/ui-core';
 import { BookingInfoCard } from './BookingInfoCard';
-import { calculateFleetTotal } from '../columns/helpers';
+import { calculateFleetTotal } from '../helpers';
 import styles from './BookingExpandedRow.module.css';
 
 interface BookingExpandedRowProps {

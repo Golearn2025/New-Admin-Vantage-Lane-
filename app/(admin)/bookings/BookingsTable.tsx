@@ -8,12 +8,13 @@
  * Refactored: All inline styles moved to CSS module
  */
 
-import React, { useState } from 'react';
-import { DataTable } from '@vantage-lane/ui-core';
-import type { BookingListItem } from '@admin/shared/api/contracts/bookings';
-import { bookingsColumns } from './columns';
+import React, { useState, useCallback } from 'react';
+import { DataTable, StatusBadge } from '@vantage-lane/ui-core';
+import type { Column } from '@vantage-lane/ui-core';
+import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
 import { useBookingsList } from './hooks/useBookingsList';
 import { BookingExpandedRow } from './components/BookingExpandedRow';
+import { getBookingsColumns } from './columns';
 import styles from './BookingsTable.module.css';
 
 interface BookingsTableProps {
@@ -32,6 +33,9 @@ export function BookingsTable({
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [allSelected, setAllSelected] = useState(false);
 
   const { bookings, loading, error, totalCount, fetchBookings } = useBookingsList({
     statusFilter,
@@ -39,6 +43,76 @@ export function BookingsTable({
     currentPage,
     pageSize,
   });
+
+  // Toggle expand for a booking
+  const toggleExpand = (bookingId: string) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(bookingId)) {
+        next.delete(bookingId);
+      } else {
+        next.add(bookingId);
+      }
+      return next;
+    });
+  };
+
+  // Handle select all
+  const handleSelectAll = useCallback((checked: boolean) => {
+    if (checked) {
+      const allIds = new Set(bookings.map(b => b.id));
+      setSelectedIds(allIds);
+      setAllSelected(true);
+    } else {
+      setSelectedIds(new Set());
+      setAllSelected(false);
+    }
+  }, [bookings]);
+
+  // Handle select individual row
+  const handleSelectRow = useCallback((id: string, checked: boolean) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (checked) {
+        next.add(id);
+      } else {
+        next.delete(id);
+        setAllSelected(false);
+      }
+      return next;
+    });
+  }, []);
+
+  // Create columns with expand toggle and select
+  const columnsWithExpand = React.useMemo(() => {
+    const baseColumns = getBookingsColumns({ 
+      onSelectAll: handleSelectAll,
+      onSelectRow: handleSelectRow,
+      allSelected,
+      selectedIds
+    });
+    
+    return baseColumns.map((col) => {
+      if (col.id === 'expand') {
+        return {
+          ...col,
+          cell: (row: BookingListItem) => (
+            <button 
+              className={styles.expandButton}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleExpand(row.id);
+              }}
+              aria-label={expandedIds.has(row.id) ? 'Collapse row' : 'Expand row'}
+            >
+              {expandedIds.has(row.id) ? '▼' : '▶️'}
+            </button>
+          ),
+        };
+      }
+      return col;
+    });
+  }, [expandedIds, allSelected, selectedIds, handleSelectAll, handleSelectRow]);
 
   return (
     <div className={styles.container}>
@@ -106,10 +180,11 @@ export function BookingsTable({
       {/* DataTable */}
       <DataTable<BookingListItem>
         data={bookings}
-        columns={bookingsColumns}
+        columns={columnsWithExpand}
         loading={loading}
         emptyState="No bookings found."
         expandable={true}
+        expandedIds={expandedIds}
         renderExpandedRow={(booking) => <BookingExpandedRow booking={booking} />}
         striped={true}
         bordered={true}

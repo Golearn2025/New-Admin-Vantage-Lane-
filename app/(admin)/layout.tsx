@@ -8,8 +8,8 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { AppShell, UserRole } from '@admin/shared/ui/composed/appshell';
-import { useCurrentUser } from '@admin/shared/hooks/useCurrentUser';
+import { AppShell, UserRole } from '@admin-shared/ui/composed/appshell';
+import { useCurrentUser } from '@admin-shared/hooks/useCurrentUser';
 import styles from './layout.module.css';
 
 interface AdminLayoutProps {

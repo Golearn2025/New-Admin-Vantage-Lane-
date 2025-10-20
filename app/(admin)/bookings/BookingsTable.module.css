@@ -4,7 +4,12 @@
  */
 
 .container {
-  padding: var(--spacing-xl);
+  width: 100%;
+  max-width: 100%;  /* ✅ NU depășește lățimea disponibilă */
+  min-height: calc(100vh - 60px);
+  padding: var(--spacing-4);  /* ✅ Reduced: 16px în loc de 24px */
+  overflow-x: auto;  /* ✅ Scroll orizontal DOAR pe tabel, nu pe pagină */
+  box-sizing: border-box;  /* ✅ Include padding în width */
 }
 
 .header {
@@ -94,4 +99,18 @@
   border-radius: var(--border-radius-md);
   margin-bottom: var(--spacing-xl);
   color: var(--color-danger);
+}
+
+.expandButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  padding: var(--spacing-1);
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.expandButton:hover {
+  color: var(--color-text-primary);
 }

@@ -12,13 +12,13 @@
 'use client';
 
 import { useState } from 'react';
-import { BrandBackground } from '@admin/shared/ui/composed/BrandBackground';
-import { AuthCard } from '@admin/shared/ui/composed/AuthCard';
-import { FormRow } from '@admin/shared/ui/composed/FormRow';
-import { ErrorBanner } from '@admin/shared/ui/composed/ErrorBanner';
-import { Button } from '@admin/shared/ui/core/Button';
-import { Checkbox } from '@admin/shared/ui/core/Checkbox';
-import { signInWithPassword } from '@admin/shared/api/auth/actions';
+import { BrandBackground } from '@admin-shared/ui/composed/BrandBackground';
+import { AuthCard } from '@admin-shared/ui/composed/AuthCard';
+import { FormRow } from '@admin-shared/ui/composed/FormRow';
+import { ErrorBanner } from '@admin-shared/ui/composed/ErrorBanner';
+import { Button } from '@admin-shared/ui/core/Button';
+import { Checkbox } from '@admin-shared/ui/core/Checkbox';
+import { signInWithPassword } from '@admin-shared/api/auth/actions';
 import styles from './login.module.css';
 
 type LoginState = 'idle' | 'loading' | 'invalid_creds' | 'locked' | 'server_error';

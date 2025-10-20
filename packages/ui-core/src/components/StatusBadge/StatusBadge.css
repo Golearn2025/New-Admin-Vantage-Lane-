@@ -11,7 +11,7 @@
   align-items: center;
   gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--border-radius-md);
+  border-radius: var(--radius-xl);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   line-height: 1.2;
@@ -136,7 +136,7 @@
   padding: 1px var(--spacing-xs);
   background-color: #DC2626;
   color: white;
-  border-radius: var(--border-radius-sm);
+  border-radius: var(--radius-lg);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
@@ -156,7 +156,7 @@
   padding: 1px var(--spacing-xs);
   background-color: #3B82F6;
   color: white;
-  border-radius: var(--border-radius-sm);
+  border-radius: var(--radius-lg);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;

@@ -100,7 +100,11 @@ export interface BookingListItem {
   // Customer
   customer_name: string;
   customer_phone: string;
+  customer_email: string | null;
   customer_total_bookings: number;
+  customer_loyalty_tier: 'bronze' | 'silver' | 'gold' | 'platinum' | null;
+  customer_status: 'active' | 'inactive' | 'suspended' | null;
+  customer_total_spent: number; // In cents
   
   // Locations
   pickup_location: string;
@@ -114,6 +118,9 @@ export interface BookingListItem {
   distance_miles: number | null;
   duration_min: number | null;
   hours: number | null; // For hourly bookings
+  passenger_count: number | null;
+  bag_count: number | null;
+  flight_number: string | null;
   
   // Return trip (if applicable)
   return_date: string | null;
@@ -127,6 +134,15 @@ export interface BookingListItem {
   
   // Pricing
   fare_amount: number;         // In cents (total with extras)
+  base_price: number;          // In cents (transport only)
+  paid_services: Array<{
+    service_code: string;
+    unit_price: number;        // In cents
+    quantity: number;
+  }>;
+  payment_method: string;      // CARD, CASH, etc
+  payment_status: string;      // pending, authorized, captured
+  currency: string;            // GBP, EUR, USD
   
   // Assignment
   driver_name: string | null;

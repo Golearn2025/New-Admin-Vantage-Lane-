@@ -48,6 +48,12 @@ export interface DataTableProps<TData = unknown> {
   expandable?: boolean;
   
   /**
+   * Controlled expanded row IDs (optional)
+   * If not provided, expansion state is managed internally
+   */
+  expandedIds?: Set<string>;
+  
+  /**
    * Render expanded row content
    */
   renderExpandedRow?: (row: TData) => ReactNode;

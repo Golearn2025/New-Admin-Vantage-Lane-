@@ -5,6 +5,8 @@
   background: linear-gradient(135deg, var(--color-bg-gradient-from) 0%, var(--color-bg-gradient-via) 50%, var(--color-bg-gradient-to) 100%);
   position: relative;
   min-height: 100vh;
+  width: 100%;
+  /* Asigură că background-ul ocupă tot spațiul, inclusiv scroll */
 }
 
 /* Variant: Login - puțin mai subtil */

@@ -1,7 +1,7 @@
 /** useBookingsList Hook - Compliant: <80 lines */
 
 import { useState, useEffect, useCallback } from 'react';
-import type { BookingListItem, BookingsListResponse } from '@admin/shared/api/contracts/bookings';
+import type { BookingListItem, BookingsListResponse } from '@admin-shared/api/contracts/bookings';
 import { logger } from '@/lib/utils/logger';
 
 interface Props {
@@ -25,6 +25,9 @@ export function useBookingsList({ statusFilter = [], selectedStatus = 'all', cur
   const [error, setError] = useState<string | null>(null);
   const [totalCount, setTotalCount] = useState(0);
 
+  // Convert statusFilter to string for stable dependency
+  const statusFilterKey = statusFilter.sort().join(',');
+  
   const fetchBookings = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -55,7 +58,8 @@ export function useBookingsList({ statusFilter = [], selectedStatus = 'all', cur
     } finally {
       setLoading(false);
     }
-  }, [currentPage, pageSize, selectedStatus, statusFilter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, pageSize, selectedStatus, statusFilterKey]);
 
   useEffect(() => { fetchBookings(); }, [fetchBookings]);
 

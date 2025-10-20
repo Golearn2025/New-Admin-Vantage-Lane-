@@ -9,6 +9,14 @@
     "no-restricted-imports": ["error", {
       "patterns": [
         {
+          "group": ["../../../*", "../../../../*", "../../../../../*"],
+          "message": "Use path aliases (@admin, @admin-shared, etc.) instead of deep relative imports"
+        },
+        {
+          "group": ["**/apps/admin/features/**", "**/apps/admin/entities/**"],
+          "message": "Do not import from apps/admin/features or entities - these are empty/deprecated"
+        },
+        {
           "group": ["**/shared/api/clients/**"],
           "message": "UI components can only use contracts, not API clients"
         },

@@ -9,11 +9,7 @@
 
 import React from 'react';
 import { useCurrentUser } from '@admin-shared/hooks/useCurrentUser';
-// NOTE: ProfileForm stays in apps/admin/features/ as it's one of 2 complete kept feature modules
-// eslint-disable-next-line no-restricted-imports -- Kept feature: settings-profile (1 of 2)
-import { ProfileForm } from '../../../../apps/admin/features/settings-profile';
-// eslint-disable-next-line no-restricted-imports -- Kept feature: settings-profile (1 of 2)
-import { useProfileData, type AdminProfile } from '../../../../apps/admin/features/settings-profile';
+import { ProfileForm, useProfileData, type AdminProfile } from '@admin/settings/profile/feature';
 import styles from './profile.module.css';
 
 export default function ProfilePage() {

@@ -2,8 +2,7 @@
 
 import { BarBasic, LineChart, StackedBarChart, DonutChart, DateFilterPreset, DateRangePicker } from '@vantage-lane/ui-dashboard';
 import { DASHBOARD_CARDS } from '@admin-shared/config/dashboard.spec';
-// NOTE: DashboardMetrics stays in features/ as it's a complete feature module
-import { DashboardMetrics } from '../../../apps/admin/features/dashboard-metrics/DashboardMetrics';
+import { DashboardMetrics } from '@admin/dashboard/feature';
 import { useDateFilter } from '@admin-shared/hooks/useDateFilter';
 import { determineChartGrouping } from '@admin-shared/utils/chartGrouping';
 import useSWR from 'swr';

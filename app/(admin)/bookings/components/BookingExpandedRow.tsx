@@ -1,6 +1,6 @@
 /**
  * Booking Expanded Row Component
- * 
+ *
  * Shows complete booking details when row is expanded
  * Compliant: <200 lines (UI component)
  * Refactored: All inline styles moved to CSS module
@@ -26,9 +26,7 @@ export function BookingExpandedRow({ booking }: BookingExpandedRowProps) {
     <div className={styles.container}>
       {/* Header */}
       <div className={styles.header}>
-        <h3 className={styles.title}>
-          Booking Details - {booking.reference}
-        </h3>
+        <h3 className={styles.title}>Booking Details - {booking.reference}</h3>
         <StatusBadge
           status={booking.status as BookingStatus}
           isUrgent={booking.is_urgent}
@@ -53,48 +51,57 @@ export function BookingExpandedRow({ booking }: BookingExpandedRowProps) {
 
         {/* Trip Details */}
         <BookingInfoCard icon="🚗" title="Trip Info">
-          <div><strong>Type:</strong> {booking.trip_type}</div>
-          <div><strong>Category:</strong> {booking.category}</div>
-          {booking.distance_miles && <div><strong>Distance:</strong> {Math.round(booking.distance_miles)} miles</div>}
-          {booking.duration_min && <div><strong>Duration:</strong> {Math.floor(booking.duration_min / 60)}h {booking.duration_min % 60}m</div>}
-          {booking.hours && <div><strong>Hours:</strong> {booking.hours}h rental</div>}
-          {fleetTotal > 0 && <div><strong>Fleet:</strong> {fleetTotal} vehicles</div>}
+          <div>
+            <strong>Type:</strong> {booking.trip_type}
+          </div>
+          <div>
+            <strong>Category:</strong> {booking.category}
+          </div>
+          {booking.distance_miles && (
+            <div>
+              <strong>Distance:</strong> {Math.round(booking.distance_miles)} miles
+            </div>
+          )}
+          {booking.duration_min && (
+            <div>
+              <strong>Duration:</strong> {Math.floor(booking.duration_min / 60)}h{' '}
+              {booking.duration_min % 60}m
+            </div>
+          )}
+          {booking.hours && (
+            <div>
+              <strong>Hours:</strong> {booking.hours}h rental
+            </div>
+          )}
+          {fleetTotal > 0 && (
+            <div>
+              <strong>Fleet:</strong> {fleetTotal} vehicles
+            </div>
+          )}
         </BookingInfoCard>
 
         {/* Pricing */}
         <BookingInfoCard icon="💰" title="Pricing">
-          <div className={styles.priceAmount}>
-            £{(booking.fare_amount / 100).toFixed(2)}
-          </div>
+          <div className={styles.priceAmount}>£{(booking.fare_amount / 100).toFixed(2)}</div>
           <div className={styles.priceLabel}>Total fare (incl. extras)</div>
         </BookingInfoCard>
       </div>
 
       {/* Route Section */}
       <div className={styles.routeSection}>
-        <h4 className={styles.routeTitle}>
-          📍 Route
-        </h4>
+        <h4 className={styles.routeTitle}>📍 Route</h4>
         <div className={styles.routeContent}>
           <div className={styles.routeColumn}>
             <div className={styles.pickupCard}>
-              <div className={styles.pickupLabel}>
-                PICKUP
-              </div>
-              <div className={styles.locationName}>
-                {booking.pickup_location}
-              </div>
+              <div className={styles.pickupLabel}>PICKUP</div>
+              <div className={styles.locationName}>{booking.pickup_location}</div>
             </div>
           </div>
           <div className={styles.routeArrow}>→</div>
           <div className={styles.routeColumn}>
             <div className={styles.dropoffCard}>
-              <div className={styles.dropoffLabel}>
-                DROPOFF
-              </div>
-              <div className={styles.locationName}>
-                {booking.destination}
-              </div>
+              <div className={styles.dropoffLabel}>DROPOFF</div>
+              <div className={styles.locationName}>{booking.destination}</div>
             </div>
           </div>
         </div>
@@ -102,14 +109,8 @@ export function BookingExpandedRow({ booking }: BookingExpandedRowProps) {
 
       {/* Actions */}
       <div className={styles.actions}>
-        <button className={styles.buttonSecondary}>
-          👁️ View Full Details
-        </button>
-        {!booking.driver_id && (
-          <button className={styles.buttonPrimary}>
-            🚗 Assign Driver
-          </button>
-        )}
+        <button className={styles.buttonSecondary}>👁️ View Full Details</button>
+        {!booking.driver_id && <button className={styles.buttonPrimary}>🚗 Assign Driver</button>}
       </div>
     </div>
   );

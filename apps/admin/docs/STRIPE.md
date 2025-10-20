@@ -9,10 +9,10 @@ Integration cu Stripe pentru processing plăți în Vantage Lane Admin.
 ```mermaid
 sequenceDiagram
     participant C as Customer
-    participant F as Frontend  
+    participant F as Frontend
     participant B as Backend
     participant S as Stripe
-    
+
     C->>F: Initiate payment
     F->>B: Create payment intent
     B->>S: Create PaymentIntent
@@ -27,17 +27,19 @@ sequenceDiagram
 ## Stripe Configuration
 
 ### Webhooks
+
 ```typescript
 const webhookEvents = [
   'payment_intent.succeeded',
-  'payment_intent.payment_failed', 
+  'payment_intent.payment_failed',
   'charge.dispute.created',
   'invoice.payment_succeeded',
-  'customer.subscription.updated'
+  'customer.subscription.updated',
 ];
 ```
 
 ### Products & Pricing
+
 ```typescript
 interface RideProduct {
   id: string; // Stripe product ID
@@ -49,12 +51,14 @@ interface RideProduct {
 ## Payment Methods
 
 ### Supported Types
+
 - **Cards**: Visa, Mastercard, American Express
 - **Digital Wallets**: Apple Pay, Google Pay
 - **Bank Transfers**: SEPA (EU), ACH (US)
 - **Buy Now Pay Later**: Klarna, Afterpay
 
 ### Implementation
+
 ```typescript
 // Create payment intent
 const createPaymentIntent = async (bookingId: string, amount: number) => {
@@ -63,13 +67,13 @@ const createPaymentIntent = async (bookingId: string, amount: number) => {
     currency: 'eur',
     metadata: {
       booking_id: bookingId,
-      customer_id: customerId
+      customer_id: customerId,
     },
     automatic_payment_methods: {
       enabled: true,
     },
   });
-  
+
   return paymentIntent.client_secret;
 };
 ```
@@ -77,12 +81,14 @@ const createPaymentIntent = async (bookingId: string, amount: number) => {
 ## Refunds & Disputes
 
 ### Refund Policy
+
 - **Full refund**: cancelled >24h before ride
-- **Partial refund**: cancelled 2-24h before ride  
+- **Partial refund**: cancelled 2-24h before ride
 - **No refund**: cancelled <2h before ride
 - **Emergency refund**: driver no-show, safety issues
 
 ### Dispute Management
+
 ```typescript
 interface DisputeHandling {
   auto_response: boolean; // For low-value disputes
@@ -98,29 +104,33 @@ interface DisputeHandling {
 ## Payouts to Drivers
 
 ### Payout Schedule
+
 - **Frequency**: Daily pentru active drivers
 - **Minimum**: 10 EUR minimum payout
 - **Processing time**: 2-3 business days
 - **Fees**: Stripe payout fees apply
 
 ### Commission Structure
+
 ```typescript
 const commissionRates = {
-  standard: 0.15,    // 15% commission
-  premium: 0.12,     // 12% for premium drivers
-  corporate: 0.10    // 10% for corporate contracts
+  standard: 0.15, // 15% commission
+  premium: 0.12, // 12% for premium drivers
+  corporate: 0.1, // 10% for corporate contracts
 };
 ```
 
 ## Financial Reporting
 
 ### Required Reports
+
 - **Daily settlements**: total GMV, fees, net revenue
 - **Monthly statements**: per-driver earnings
 - **Tax reporting**: 1099/VAT compliance
 - **Chargeback reports**: dispute tracking
 
 ### Data Export
+
 ```typescript
 interface FinancialExport {
   period: 'daily' | 'weekly' | 'monthly';
@@ -133,12 +143,14 @@ interface FinancialExport {
 ## Compliance & Security
 
 ### PCI Compliance
+
 - **Level**: Merchant Level 4 (SAQ-A)
 - **Card data**: Never stored on our servers
 - **Tokenization**: Stripe tokens only
 - **HTTPS**: All payment pages
 
 ### Regulatory Compliance
+
 - **PSD2**: Strong Customer Authentication (EU)
 - **GDPR**: Data protection și right to deletion
 - **Tax compliance**: VAT collection per jurisdiction
@@ -146,16 +158,18 @@ interface FinancialExport {
 ## Testing Strategy
 
 ### Test Cards
+
 ```typescript
 const testCards = {
   successful: '4242424242424242',
-  declined: '4000000000000002', 
+  declined: '4000000000000002',
   insufficient_funds: '4000000000009995',
-  disputed: '4000000000000259'
+  disputed: '4000000000000259',
 };
 ```
 
 ### Webhook Testing
+
 ```bash
 # Test webhook endpoints
 stripe listen --forward-to localhost:3000/api/webhooks/stripe
@@ -164,16 +178,18 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 ## Error Handling
 
 ### Common Errors
+
 ```typescript
 const errorHandling = {
   card_declined: 'Please try a different payment method',
   insufficient_funds: 'Insufficient funds on your card',
-  expired_card: 'Your card has expired', 
-  processing_error: 'Payment processing failed, please try again'
+  expired_card: 'Your card has expired',
+  processing_error: 'Payment processing failed, please try again',
 };
 ```
 
 ### Monitoring & Alerts
+
 - **Failed payments**: >5% rate triggers alert
 - **Webhook failures**: immediate notification
 - **Chargeback rate**: >1% triggers review

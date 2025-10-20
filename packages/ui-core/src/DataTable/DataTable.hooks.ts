@@ -77,10 +77,7 @@ export function useTableSelection() {
 /**
  * Hook for pagination logic (simplified)
  */
-export function useTablePagination(
-  totalItems: number,
-  initialPageSize = 10
-) {
+export function useTablePagination(totalItems: number, initialPageSize = 10) {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(initialPageSize);
 

@@ -5,11 +5,11 @@
 
 .container {
   width: 100%;
-  max-width: 100%;  /* ✅ NU depășește lățimea disponibilă */
+  max-width: 100%; /* ✅ NU depășește lățimea disponibilă */
   min-height: calc(100vh - 60px);
-  padding: var(--spacing-4);  /* ✅ Reduced: 16px în loc de 24px */
-  overflow-x: auto;  /* ✅ Scroll orizontal DOAR pe tabel, nu pe pagină */
-  box-sizing: border-box;  /* ✅ Include padding în width */
+  padding: var(--spacing-4); /* ✅ Reduced: 16px în loc de 24px */
+  overflow-x: auto; /* ✅ Scroll orizontal DOAR pe tabel, nu pe pagină */
+  box-sizing: border-box; /* ✅ Include padding în width */
 }
 
 .header {

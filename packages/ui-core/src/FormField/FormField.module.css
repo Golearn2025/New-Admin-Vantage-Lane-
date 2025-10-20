@@ -109,7 +109,6 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-
   .input,
   .textarea {
     padding: var(--spacing-3) var(--spacing-4);

@@ -1,6 +1,6 @@
 /**
  * SecurityTab - TAB 3: Security Settings
- * 
+ *
  * Tab pentru security settings (password, 2FA, sessions).
  * Limită: ≤150 linii
  */
@@ -101,11 +101,7 @@ export function SecurityTab({ profile }: SecurityTabProps) {
         </div>
       </ProfileSection>
 
-      <ProfileSection
-        title="Danger Zone"
-        icon="⚠️"
-        description="Irreversible actions"
-      >
+      <ProfileSection title="Danger Zone" icon="⚠️" description="Irreversible actions">
         <div className={styles.dangerZone}>
           <div className={styles.securityContent}>
             <h4 className={styles.dangerTitle}>Delete Account</h4>
@@ -113,7 +109,12 @@ export function SecurityTab({ profile }: SecurityTabProps) {
               Permanently delete your account and all associated data. This action cannot be undone.
             </p>
           </div>
-          <SaveButton onClick={() => {/* TODO: Implement delete account */}} variant="secondary">
+          <SaveButton
+            onClick={() => {
+              /* TODO: Implement delete account */
+            }}
+            variant="secondary"
+          >
             Delete Account
           </SaveButton>
         </div>

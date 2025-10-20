@@ -1,6 +1,6 @@
 /**
  * LoadingSkeleton Component
- * 
+ *
  * Display skeleton rows while table is loading.
  * <80 linii - respectă regulile proiectului!
  */
@@ -13,13 +13,13 @@ interface LoadingSkeletonProps {
    * Number of columns
    */
   columns: number;
-  
+
   /**
    * Number of skeleton rows to display
    * @default 5
    */
   rows?: number;
-  
+
   /**
    * Additional CSS class
    */
@@ -31,13 +31,8 @@ export const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
   rows = 5,
   className,
 }) => {
-  const classes = [
-    styles.skeleton,
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-  
+  const classes = [styles.skeleton, className].filter(Boolean).join(' ');
+
   return (
     <tbody className={classes}>
       {Array.from({ length: rows }).map((_, rowIndex) => (

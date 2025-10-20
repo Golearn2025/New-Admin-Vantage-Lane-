@@ -16,19 +16,14 @@ export function PaginationInfo({
 }: PaginationInfoProps): React.ReactElement {
   const start = Math.min((currentPage - 1) * pageSize + 1, totalItems);
   const end = Math.min(currentPage * pageSize, totalItems);
-  
+
   if (totalItems === 0) {
-    return (
-      <div className={`${styles.info} ${styles[size]} ${className}`}>
-        No items
-      </div>
-    );
+    return <div className={`${styles.info} ${styles[size]} ${className}`}>No items</div>;
   }
-  
+
   return (
     <div className={`${styles.info} ${styles[size]} ${className}`}>
-      Showing <strong>{start}</strong>-<strong>{end}</strong> of{' '}
-      <strong>{totalItems}</strong>
+      Showing <strong>{start}</strong>-<strong>{end}</strong> of <strong>{totalItems}</strong>
     </div>
   );
 }

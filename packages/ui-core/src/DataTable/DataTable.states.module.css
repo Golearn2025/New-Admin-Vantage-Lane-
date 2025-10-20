@@ -87,7 +87,8 @@
 }
 
 @keyframes skeletonPulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -105,14 +106,14 @@
     padding: var(--spacing-3) var(--spacing-4);
     font-size: var(--font-xs);
   }
-  
+
   .tableCompact .cell {
     padding: var(--spacing-2) var(--spacing-3);
   }
-  
+
   /* Hide columns marked as hideOnMobile */
-  .cell[data-hide-mobile="true"],
-  .headerCell[data-hide-mobile="true"] {
+  .cell[data-hide-mobile='true'],
+  .headerCell[data-hide-mobile='true'] {
     display: none;
   }
 }

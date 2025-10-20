@@ -11,13 +11,7 @@ export function Cancel({ size = 24, className, 'aria-label': ariaLabel }: BaseIc
       role="img"
       aria-label={ariaLabel || 'Cancel'}
     >
-      <circle
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth={1.5}
-      />
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={1.5} />
       <line
         x1="15"
         y1="9"

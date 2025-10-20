@@ -83,19 +83,20 @@
 .status-badge--new {
   position: relative;
   animation: pulseGlow 2s ease-in-out infinite;
-  box-shadow: 
+  box-shadow:
     0 0 8px var(--color-status-assigned-alpha-30),
     0 0 16px var(--color-status-assigned-alpha-10);
 }
 
 @keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 
+  0%,
+  100% {
+    box-shadow:
       0 0 8px var(--color-status-assigned-alpha-30),
       0 0 16px var(--color-status-assigned-alpha-10);
   }
   50% {
-    box-shadow: 
+    box-shadow:
       0 0 12px var(--color-status-assigned-alpha-30),
       0 0 24px var(--color-status-assigned-alpha-30),
       0 0 32px var(--color-status-assigned-alpha-10);
@@ -109,20 +110,21 @@
   border: 2px solid var(--color-status-cancelled) !important;
   font-weight: var(--font-weight-bold);
   animation: urgentPulse 1.5s ease-in-out infinite;
-  box-shadow: 
+  box-shadow:
     0 0 12px var(--color-status-cancelled-alpha-30),
     0 0 24px var(--color-status-cancelled-alpha-10);
 }
 
 @keyframes urgentPulse {
-  0%, 100% {
-    box-shadow: 
+  0%,
+  100% {
+    box-shadow:
       0 0 12px var(--color-status-cancelled-alpha-30),
       0 0 24px var(--color-status-cancelled-alpha-10);
     transform: scale(1);
   }
   50% {
-    box-shadow: 
+    box-shadow:
       0 0 20px var(--color-status-cancelled-alpha-30),
       0 0 40px var(--color-status-cancelled-alpha-30),
       0 0 60px var(--color-status-cancelled-alpha-10);
@@ -146,8 +148,13 @@
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 /* New Indicator */
@@ -188,7 +195,7 @@
   .status-badge--urgent {
     animation: none;
   }
-  
+
   .status-badge__urgent-indicator {
     animation: none;
   }

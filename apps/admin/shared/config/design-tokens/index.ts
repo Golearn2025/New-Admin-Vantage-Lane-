@@ -1,9 +1,9 @@
 /**
  * Design Tokens - FROZEN
- * 
+ *
  * These design tokens are frozen and cannot be modified without freeze-exception.
  * Any changes require ADR and multi-team approval.
- * 
+ *
  * Usage:
  * import { tokens } from '@admin-shared/config/design-tokens';
  * const primaryColor = tokens.colors.accent[500];
@@ -42,7 +42,7 @@ export type BreakpointToken = keyof typeof tokens.breakpoints;
 // CSS Custom Properties generator
 export const generateCSSVariables = () => {
   const cssVars: Record<string, string> = {};
-  
+
   // Colors
   Object.entries(tokens.colors).forEach(([category, values]) => {
     if (typeof values === 'object') {
@@ -53,11 +53,11 @@ export const generateCSSVariables = () => {
       cssVars[`--color-${category}`] = values as string;
     }
   });
-  
+
   // Spacing
   Object.entries(tokens.spacing).forEach(([key, value]) => {
     cssVars[`--spacing-${key}`] = value;
   });
-  
+
   return cssVars;
 };

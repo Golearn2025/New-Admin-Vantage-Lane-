@@ -13,7 +13,7 @@ export function calculateFleetTotal(booking: BookingListItem): number {
   if (booking.trip_type !== 'fleet') {
     return 0;
   }
-  
+
   return (
     (booking.fleet_executive || 0) +
     (booking.fleet_s_class || 0) +
@@ -28,10 +28,10 @@ export function calculateFleetTotal(booking: BookingListItem): number {
 export function formatDate(dateStr: string | null): string {
   if (!dateStr) return 'N/A';
   const date = new Date(dateStr);
-  return date.toLocaleDateString('en-GB', { 
-    day: '2-digit', 
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
     month: 'short',
-    year: 'numeric'
+    year: 'numeric',
   });
 }
 
@@ -41,9 +41,9 @@ export function formatDate(dateStr: string | null): string {
 export function formatTime(dateStr: string | null): string {
   if (!dateStr) return '';
   const date = new Date(dateStr);
-  return date.toLocaleTimeString('en-GB', { 
-    hour: '2-digit', 
-    minute: '2-digit' 
+  return date.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
   });
 }
 
@@ -52,7 +52,7 @@ export function formatTime(dateStr: string | null): string {
  */
 export function formatDateTime(dateStr: string | null, type: 'date' | 'time' | 'full'): string {
   if (!dateStr) return 'N/A';
-  
+
   switch (type) {
     case 'date':
       return formatDate(dateStr);
@@ -70,11 +70,16 @@ export function formatDateTime(dateStr: string | null, type: 'date' | 'time' | '
  */
 export function getTripTypeIcon(tripType: string): string {
   switch (tripType) {
-    case 'return': return '⟲';
-    case 'oneway': return '→';
-    case 'hourly': return '⏱';
-    case 'fleet': return '🚗';
-    default: return '→';
+    case 'return':
+      return '⟲';
+    case 'oneway':
+      return '→';
+    case 'hourly':
+      return '⏱';
+    case 'fleet':
+      return '🚗';
+    default:
+      return '→';
   }
 }
 
@@ -85,16 +90,16 @@ export function formatTripDetails(booking: BookingListItem): string {
   if (booking.trip_type === 'hourly') {
     return `${booking.hours || 1}h rental`;
   }
-  
+
   if (booking.trip_type === 'fleet') {
     const total = calculateFleetTotal(booking);
     return `${total} vehicles`;
   }
-  
+
   if (booking.distance_miles && booking.duration_min) {
     return `${booking.distance_miles.toFixed(1)} mi • ${booking.duration_min} min`;
   }
-  
+
   return 'N/A';
 }
 
@@ -110,7 +115,7 @@ export function getVehicleDisplay(booking: BookingListItem): string {
     if (booking.fleet_suv) parts.push(`${booking.fleet_suv}x SUV`);
     return parts.join(', ') || 'N/A';
   }
-  
+
   const parts = [];
   if (booking.passenger_count) parts.push(`${booking.passenger_count}x Pass`);
   if (booking.bag_count) parts.push(`${booking.bag_count}x Bags`);

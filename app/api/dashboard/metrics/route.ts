@@ -1,6 +1,6 @@
 /**
  * Dashboard Metrics API
- * 
+ *
  * Returns aggregated metrics from Supabase function get_dashboard_metrics()
  * - Cache: 5 minutes TTL
  * - RBAC: Admin/Super Admin only
@@ -17,13 +17,13 @@ interface DashboardMetricsResponse {
   total_bookings: number;
   avg_booking_pence: number;
   platform_commission_pence: number;
-  
+
   // Row 2: Operations & Future
   operator_payout_pence: number;
   cancelled_count: number;
   refunds_total_pence: number;
   scheduled_count: number;
-  
+
   // Meta
   cached: boolean;
   timestamp: string;
@@ -41,13 +41,13 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const startDate = searchParams.get('start_date');
     const endDate = searchParams.get('end_date');
-    
+
     // Create cache key based on date range
     const cacheKey = `${startDate}-${endDate}`;
-    
+
     // Check cache first (cache per date range)
     const now = Date.now();
-    if (cachedData && (now - cacheTime) < CACHE_TTL && cachedData.cacheKey === cacheKey) {
+    if (cachedData && now - cacheTime < CACHE_TTL && cachedData.cacheKey === cacheKey) {
       return NextResponse.json({
         ...cachedData,
         cached: true,
@@ -56,15 +56,15 @@ export async function GET(request: Request) {
 
     // Create Supabase client with user context (RLS enforced)
     const supabase = await createClient();
-    
+
     // Get authenticated user
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // RBAC check - verify user is admin
@@ -75,17 +75,11 @@ export async function GET(request: Request) {
       .single();
 
     if (rbacError || !adminUser) {
-      return NextResponse.json(
-        { error: 'Forbidden - Admin access required' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
     }
 
     if (!adminUser.is_active || !['super_admin', 'admin'].includes(adminUser.role)) {
-      return NextResponse.json(
-        { error: 'Forbidden - Insufficient permissions' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Forbidden - Insufficient permissions' }, { status: 403 });
     }
 
     // Call database function with date range
@@ -96,10 +90,7 @@ export async function GET(request: Request) {
 
     if (error) {
       logger.error('Error fetching dashboard metrics', { error: error.message });
-      return NextResponse.json(
-        { error: 'Failed to fetch metrics' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch metrics' }, { status: 500 });
     }
 
     // Parse and validate response
@@ -109,13 +100,13 @@ export async function GET(request: Request) {
       total_bookings: data.total_bookings || 0,
       avg_booking_pence: data.avg_booking_pence || 0,
       platform_commission_pence: data.platform_commission_pence || 0,
-      
+
       // Row 2
       operator_payout_pence: data.operator_payout_pence || 0,
       cancelled_count: data.cancelled_count || 0,
       refunds_total_pence: data.refunds_total_pence || 0,
       scheduled_count: data.scheduled_count || 0,
-      
+
       // Meta
       cached: false,
       timestamp: new Date().toISOString(),
@@ -128,10 +119,9 @@ export async function GET(request: Request) {
 
     return NextResponse.json(metrics);
   } catch (error) {
-    logger.error('Unexpected error in dashboard metrics API', { error: error instanceof Error ? error.message : String(error) });
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    logger.error('Unexpected error in dashboard metrics API', {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

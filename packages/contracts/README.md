@@ -24,19 +24,20 @@ const cardSpec: CardSpec = {
   label: 'GMV Completed',
   unit: 'GBP_pence',
   endpoint: '/api/dashboard/metrics',
-  params: { window: 'this_month' }
+  params: { window: 'this_month' },
 };
 
 const error: ErrorPayload = {
   code: 'DATABASE_ERROR',
   message: 'Failed to fetch data',
-  meta: { timestamp: '2025-01-16T10:00:00Z' }
+  meta: { timestamp: '2025-01-16T10:00:00Z' },
 };
 ```
 
 ## Types Available
 
 ### Dashboard
+
 - `CardSpec` - Card configuration
 - `ChartSpec` - Chart configuration
 - `CardProps` - Card component props
@@ -44,12 +45,14 @@ const error: ErrorPayload = {
 - `MetricsResponse` - API metrics response
 
 ### API
+
 - `ErrorPayload` - Unified error structure
 - `ErrorCode` - Standard error codes
 - `AdapterResponse<T>` - Data adapter response
 - `Unit` - Measurement units (`count` | `GBP_pence` | `percentage`)
 
 ### States
+
 - `ComponentState` - `loading` | `success` | `empty` | `error` | `N_A`
 
 ## License

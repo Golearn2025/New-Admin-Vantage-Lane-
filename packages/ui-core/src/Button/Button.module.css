@@ -5,29 +5,29 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-2);
-  
+
   font-family: var(--font-sans);
   font-weight: var(--font-medium);
   line-height: var(--line-height-normal);
-  
+
   border-radius: var(--radius-button);
   border: 1px solid transparent;
-  
+
   transition: var(--motion-hover);
   cursor: pointer;
-  
+
   /* Focus styles for accessibility */
   &:focus-visible {
     outline: 2px solid var(--color-border-focus);
     outline-offset: 2px;
   }
-  
+
   /* Loading state */
   &.loading {
     cursor: not-allowed;
     opacity: 0.7;
   }
-  
+
   /* Disabled state */
   &.disabled {
     cursor: not-allowed;
@@ -79,7 +79,7 @@
   background-color: var(--color-surface-secondary);
   color: var(--color-text-primary);
   border-color: var(--color-border-default);
-  
+
   &:hover:not(.disabled):not(.loading) {
     background-color: var(--color-bg-tertiary);
   }
@@ -89,7 +89,7 @@
   background-color: transparent;
   color: var(--color-accent-500);
   border-color: var(--color-accent-500);
-  
+
   &:hover:not(.disabled):not(.loading) {
     background-color: var(--color-accent-50);
   }
@@ -99,7 +99,7 @@
   background-color: transparent;
   color: var(--color-text-primary);
   border-color: transparent;
-  
+
   &:hover:not(.disabled):not(.loading) {
     background-color: var(--color-bg-tertiary);
   }
@@ -109,7 +109,7 @@
   background-color: var(--color-danger-default);
   color: var(--color-text-inverse);
   border-color: var(--color-danger-default);
-  
+
   &:hover:not(.disabled):not(.loading) {
     background-color: var(--color-danger-dark);
     border-color: var(--color-danger-dark);

@@ -19,9 +19,7 @@ export function BookingInfoCard({ icon, title, children }: BookingInfoCardProps)
       <h4 className={styles.title}>
         {icon} {title}
       </h4>
-      <div className={styles.content}>
-        {children}
-      </div>
+      <div className={styles.content}>{children}</div>
     </div>
   );
 }

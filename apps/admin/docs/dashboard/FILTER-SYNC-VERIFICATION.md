@@ -9,7 +9,8 @@
 
 ```typescript
 // app/(admin)/dashboard/page.tsx - Line 19
-const { dateRange, preset, setPreset, setCustomRange, getAPIParams } = useDateFilter('last_30_days');
+const { dateRange, preset, setPreset, setCustomRange, getAPIParams } =
+  useDateFilter('last_30_days');
 ```
 
 **UN SINGUR `useDateFilter`** → Toate componentele folosesc aceleași date!
@@ -20,7 +21,7 @@ const { dateRange, preset, setPreset, setCustomRange, getAPIParams } = useDateFi
 
 ```typescript
 // Line 80-84
-<DashboardMetrics 
+<DashboardMetrics
   specs={DASHBOARD_CARDS}
   startDate={getAPIParams().start_date}  ← ✅ DIN FILTRE
   endDate={getAPIParams().end_date}      ← ✅ DIN FILTRE
@@ -28,8 +29,9 @@ const { dateRange, preset, setPreset, setCustomRange, getAPIParams } = useDateFi
 ```
 
 **Flow:**
+
 ```
-User schimbă filtru 
+User schimbă filtru
   → useDateFilter actualizează dateRange
   → getAPIParams() returnează start_date, end_date
   → DashboardMetrics primește noile date
@@ -54,6 +56,7 @@ const { data: charts } = useSWR(`/api/dashboard/charts?${apiParams}`, fetcher);
 ```
 
 **Flow:**
+
 ```
 User schimbă filtru
   → useDateFilter actualizează dateRange
@@ -127,6 +130,7 @@ User schimbă filtru
 ## ✅ VERIFICARE PUNCT CU PUNCT
 
 ### **1. Filtre UI:**
+
 ```typescript
 // ✅ DateFilterPreset
 <DateFilterPreset
@@ -142,9 +146,10 @@ User schimbă filtru
 ```
 
 ### **2. Carduri Metrics:**
+
 ```typescript
 // ✅ DashboardMetrics Component
-<DashboardMetrics 
+<DashboardMetrics
   startDate={getAPIParams().start_date}       // ✅ Din useDateFilter
   endDate={getAPIParams().end_date}           // ✅ Din useDateFilter
 />
@@ -158,20 +163,22 @@ useSWR(apiUrl, fetcher);  // ✅ Fetch cu date range
 ```
 
 ### **3. Grafice Charts:**
+
 ```typescript
 // ✅ API URL cu query params
 const apiParams = new URLSearchParams({
-  ...getAPIParams(),                          // ✅ start_date, end_date
-  grouping: grouping.sqlGroup,                // ✅ hour/day/week/month
+  ...getAPIParams(), // ✅ start_date, end_date
+  grouping: grouping.sqlGroup, // ✅ hour/day/week/month
 });
 
-useSWR(`/api/dashboard/charts?${apiParams}`, fetcher);  // ✅ Fetch cu date + grouping
+useSWR(`/api/dashboard/charts?${apiParams}`, fetcher); // ✅ Fetch cu date + grouping
 ```
 
 ### **4. Auto-Grouping:**
+
 ```typescript
 // ✅ Determină grouping bazat pe date range
-const grouping = determineChartGrouping(dateRange);  // ✅ Din useDateFilter
+const grouping = determineChartGrouping(dateRange); // ✅ Din useDateFilter
 
 // Examples:
 // - Today → hourly (24 points)
@@ -184,18 +191,18 @@ const grouping = determineChartGrouping(dateRange);  // ✅ Din useDateFilter
 
 ## 🧪 TEST MATRIX
 
-| User Action | Expected Behavior | Status |
-|-------------|-------------------|--------|
-| Click "Today" | Carduri + Grafice → Date din azi, grouping: hourly | ✅ |
-| Click "Yesterday" | Carduri + Grafice → Date ieri, grouping: hourly | ✅ |
-| Click "Last 7 Days" | Carduri + Grafice → Ultimele 7 zile, grouping: daily | ✅ |
-| Click "Last 30 Days" | Carduri + Grafice → Ultimele 30 zile, grouping: daily | ✅ |
-| Click "This Month" | Carduri + Grafice → Luna curentă, grouping: daily | ✅ |
-| Click "Last Month" | Carduri + Grafice → Luna trecută, grouping: daily | ✅ |
-| Click "This Year" | Carduri + Grafice → Anul curent, grouping: monthly | ✅ |
-| Click "All Time" | Carduri + Grafice → Toată perioada, grouping: monthly | ✅ |
-| Select Custom Range (7 zile) | Carduri + Grafice → Range selectat, grouping: daily | ✅ |
-| Select Custom Range (12 luni) | Carduri + Grafice → Range selectat, grouping: monthly | ✅ |
+| User Action                   | Expected Behavior                                     | Status |
+| ----------------------------- | ----------------------------------------------------- | ------ |
+| Click "Today"                 | Carduri + Grafice → Date din azi, grouping: hourly    | ✅     |
+| Click "Yesterday"             | Carduri + Grafice → Date ieri, grouping: hourly       | ✅     |
+| Click "Last 7 Days"           | Carduri + Grafice → Ultimele 7 zile, grouping: daily  | ✅     |
+| Click "Last 30 Days"          | Carduri + Grafice → Ultimele 30 zile, grouping: daily | ✅     |
+| Click "This Month"            | Carduri + Grafice → Luna curentă, grouping: daily     | ✅     |
+| Click "Last Month"            | Carduri + Grafice → Luna trecută, grouping: daily     | ✅     |
+| Click "This Year"             | Carduri + Grafice → Anul curent, grouping: monthly    | ✅     |
+| Click "All Time"              | Carduri + Grafice → Toată perioada, grouping: monthly | ✅     |
+| Select Custom Range (7 zile)  | Carduri + Grafice → Range selectat, grouping: daily   | ✅     |
+| Select Custom Range (12 luni) | Carduri + Grafice → Range selectat, grouping: monthly | ✅     |
 
 ---
 
@@ -221,6 +228,7 @@ const apiParams = new URLSearchParams({
 ```
 
 **Rezultat:**
+
 - Click pe "Today" → Ambele fetch cu `start_date=2025-10-16T00:00:00Z, end_date=2025-10-16T23:59:59Z`
 - Click pe "This Month" → Ambele fetch cu `start_date=2025-10-01T00:00:00Z, end_date=2025-10-31T23:59:59Z`
 
@@ -230,13 +238,13 @@ const apiParams = new URLSearchParams({
 
 **DA, TOTUL ESTE LEGAT CORECT LA FILTRE! 🎉**
 
-| Component | Legat la filtre? | Source |
-|-----------|------------------|--------|
-| DateFilterPreset | ✅ DA | useDateFilter → setPreset |
-| DateRangePicker | ✅ DA | useDateFilter → setCustomRange |
-| Metric Cards | ✅ DA | getAPIParams() → startDate, endDate |
-| Charts | ✅ DA | getAPIParams() → start_date, end_date, grouping |
-| Auto-Grouping | ✅ DA | dateRange → determineChartGrouping |
+| Component        | Legat la filtre? | Source                                          |
+| ---------------- | ---------------- | ----------------------------------------------- |
+| DateFilterPreset | ✅ DA            | useDateFilter → setPreset                       |
+| DateRangePicker  | ✅ DA            | useDateFilter → setCustomRange                  |
+| Metric Cards     | ✅ DA            | getAPIParams() → startDate, endDate             |
+| Charts           | ✅ DA            | getAPIParams() → start_date, end_date, grouping |
+| Auto-Grouping    | ✅ DA            | dateRange → determineChartGrouping              |
 
 **TOATE componentele reacționează la schimbări în filtre!**
 

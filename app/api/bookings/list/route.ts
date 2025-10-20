@@ -14,33 +14,34 @@ import type { QueryParams } from './types';
 
 export async function GET(request: NextRequest) {
   const startTime = Date.now();
-  
+
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1', 10);
     const pageSize = Math.min(parseInt(searchParams.get('page_size') || '25', 10), 100);
     const statusParam = searchParams.get('status');
-    
+
     // Validate status parameter
     const validStatuses = ['pending', 'active', 'completed', 'cancelled'] as const;
-    const status: QueryParams['status'] = statusParam && validStatuses.includes(statusParam as typeof validStatuses[number])
-      ? (statusParam as typeof validStatuses[number])
-      : null;
-    
+    const status: QueryParams['status'] =
+      statusParam && validStatuses.includes(statusParam as (typeof validStatuses)[number])
+        ? (statusParam as (typeof validStatuses)[number])
+        : null;
+
     const params: QueryParams = {
       page,
       pageSize,
       status,
     };
-    
+
     const supabase = await createClient();
-    
+
     // Fetch data
     const queryResult = await fetchBookingsData(supabase, params);
-    
+
     // Transform data
     const items = transformBookingsData(queryResult);
-    
+
     // Build response
     const totalPages = Math.ceil(queryResult.totalCount / pageSize);
     const response: BookingsListResponse = {
@@ -58,16 +59,12 @@ export async function GET(request: NextRequest) {
         cache_hit: false,
       },
     };
-    
+
     return NextResponse.json(response);
-    
   } catch (error) {
-    logger.error('Unexpected error in bookings list API', { 
-      error: error instanceof Error ? error.message : String(error) 
+    logger.error('Unexpected error in bookings list API', {
+      error: error instanceof Error ? error.message : String(error),
     });
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

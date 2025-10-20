@@ -188,13 +188,14 @@
 ```typescript
 // apps/admin/shared/hooks/useDateFilter.ts - Line 41
 const setPreset = useCallback((newPreset: DatePreset) => {
-  setPresetState(newPreset);                    // 1. Update preset state
+  setPresetState(newPreset); // 1. Update preset state
   const range = getDateRangeForPreset(newPreset); // 2. Calculate date range
-  setDateRange(range);                          // 3. Update dateRange state
+  setDateRange(range); // 3. Update dateRange state
 }, []);
 ```
 
 **CE FACE:**
+
 1. Marchează preset-ul selectat ('today', 'yesterday', etc.)
 2. Calculează start/end date pentru preset-ul respectiv
 3. Actualizează `dateRange` state → TRIGGER RE-RENDER
@@ -208,12 +209,13 @@ const setPreset = useCallback((newPreset: DatePreset) => {
 ```typescript
 // apps/admin/shared/hooks/useDateFilter.ts - Line 47
 const setCustomRange = useCallback((range: DateRange) => {
-  setPresetState('custom');  // 1. Mark as custom
-  setDateRange(range);       // 2. Update dateRange with selected range
+  setPresetState('custom'); // 1. Mark as custom
+  setDateRange(range); // 2. Update dateRange with selected range
 }, []);
 ```
 
 **CE FACE:**
+
 1. Marchează că e range custom (nu preset)
 2. Actualizează `dateRange` cu range-ul selectat din calendar
 3. TRIGGER RE-RENDER
@@ -231,10 +233,11 @@ const getAPIParams = useCallback(() => {
     start_date: formatDateForAPI(dateRange.start),
     end_date: formatDateForAPI(dateRange.end),
   };
-}, [dateRange]);  // ← RE-COMPUTE când dateRange se schimbă!
+}, [dateRange]); // ← RE-COMPUTE când dateRange se schimbă!
 ```
 
 **CE FACE:**
+
 - Se recalculează AUTOMAT când `dateRange` se schimbă
 - Returnează `start_date` și `end_date` în format ISO 8601
 - Folosit de carduri și grafice pentru API calls
@@ -269,26 +272,26 @@ New data from API → UI updates
 
 ## 🧪 TEST MATRIX - TABURI
 
-| Tab Click | dateRange Update | Carduri Update | Grafice Update | Grouping |
-|-----------|------------------|----------------|----------------|----------|
-| Today | 2025-10-16 00:00 → 23:59 | ✅ Sum azi | ✅ 24 bars (hourly) | Per Hour |
-| Yesterday | 2025-10-15 00:00 → 23:59 | ✅ Sum ieri | ✅ 24 bars (hourly) | Per Hour |
-| Last 7 Days | 2025-10-10 → 2025-10-16 | ✅ Sum 7 zile | ✅ 7 bars (daily) | Per Day |
-| Last 30 Days | 2025-09-17 → 2025-10-16 | ✅ Sum 30 zile | ✅ 30 bars (daily) | Per Day |
-| This Month | 2025-10-01 → 2025-10-31 | ✅ Sum lună | ✅ 31 bars (daily) | Per Day |
-| This Year | 2025-01-01 → 2025-12-31 | ✅ Sum an | ✅ 12 bars (monthly) | Per Month |
+| Tab Click    | dateRange Update         | Carduri Update | Grafice Update       | Grouping  |
+| ------------ | ------------------------ | -------------- | -------------------- | --------- |
+| Today        | 2025-10-16 00:00 → 23:59 | ✅ Sum azi     | ✅ 24 bars (hourly)  | Per Hour  |
+| Yesterday    | 2025-10-15 00:00 → 23:59 | ✅ Sum ieri    | ✅ 24 bars (hourly)  | Per Hour  |
+| Last 7 Days  | 2025-10-10 → 2025-10-16  | ✅ Sum 7 zile  | ✅ 7 bars (daily)    | Per Day   |
+| Last 30 Days | 2025-09-17 → 2025-10-16  | ✅ Sum 30 zile | ✅ 30 bars (daily)   | Per Day   |
+| This Month   | 2025-10-01 → 2025-10-31  | ✅ Sum lună    | ✅ 31 bars (daily)   | Per Day   |
+| This Year    | 2025-01-01 → 2025-12-31  | ✅ Sum an      | ✅ 12 bars (monthly) | Per Month |
 
 ---
 
 ## 🧪 TEST MATRIX - CALENDAR
 
-| Custom Range | dateRange Update | Carduri Update | Grafice Update | Grouping |
-|--------------|------------------|----------------|----------------|----------|
-| 1 zi | Selected day | ✅ Sum 1 zi | ✅ 24 bars (hourly) | Per Hour |
-| 7 zile | Start → End | ✅ Sum 7 zile | ✅ 7 bars (daily) | Per Day |
-| 30 zile | Start → End | ✅ Sum 30 zile | ✅ 30 bars (daily) | Per Day |
-| 90 zile | Start → End | ✅ Sum 90 zile | ✅ ~13 bars (weekly) | Per Week |
-| 365 zile | Start → End | ✅ Sum an | ✅ 12 bars (monthly) | Per Month |
+| Custom Range | dateRange Update | Carduri Update | Grafice Update       | Grouping  |
+| ------------ | ---------------- | -------------- | -------------------- | --------- |
+| 1 zi         | Selected day     | ✅ Sum 1 zi    | ✅ 24 bars (hourly)  | Per Hour  |
+| 7 zile       | Start → End      | ✅ Sum 7 zile  | ✅ 7 bars (daily)    | Per Day   |
+| 30 zile      | Start → End      | ✅ Sum 30 zile | ✅ 30 bars (daily)   | Per Day   |
+| 90 zile      | Start → End      | ✅ Sum 90 zile | ✅ ~13 bars (weekly) | Per Week  |
+| 365 zile     | Start → End      | ✅ Sum an      | ✅ 12 bars (monthly) | Per Month |
 
 ---
 
@@ -298,9 +301,10 @@ New data from API → UI updates
 
 ```typescript
 // CARDURI - useDashboardMetrics.ts
-const apiUrl = options?.startDate && options?.endDate
-  ? `/api/dashboard/metrics?start_date=${options.startDate}&end_date=${options.endDate}`
-  : '/api/dashboard/metrics';
+const apiUrl =
+  options?.startDate && options?.endDate
+    ? `/api/dashboard/metrics?start_date=${options.startDate}&end_date=${options.endDate}`
+    : '/api/dashboard/metrics';
 
 useSWR(apiUrl, fetcher);
 // ↑ Când apiUrl se schimbă → SWR auto re-fetch!
@@ -309,7 +313,7 @@ useSWR(apiUrl, fetcher);
 ```typescript
 // GRAFICE - page.tsx
 const apiParams = new URLSearchParams({
-  ...getAPIParams(),  // ← Se schimbă când dateRange se schimbă
+  ...getAPIParams(), // ← Se schimbă când dateRange se schimbă
   grouping: grouping.sqlGroup,
 });
 
@@ -318,6 +322,7 @@ useSWR(`/api/dashboard/charts?${apiParams}`, fetcher);
 ```
 
 **SWR Key Changes:**
+
 - User click "Today" → `getAPIParams()` returnează noi values
 - API URL se schimbă (ex: `start_date=2025-10-16`)
 - SWR detectează key change → Auto re-fetch
@@ -329,12 +334,12 @@ useSWR(`/api/dashboard/charts?${apiParams}`, fetcher);
 
 **DA! CÂND DAI CLICK PE TABURI SAU CALENDAR, SE SCHIMBĂ TOTUL!** 🎉
 
-| Interaction | State Change | Carduri Update | Grafice Update | Grouping Update |
-|-------------|--------------|----------------|----------------|-----------------|
-| Click "Today" | ✅ | ✅ | ✅ | ✅ Hourly |
-| Click "Last 7 Days" | ✅ | ✅ | ✅ | ✅ Daily |
-| Click "This Year" | ✅ | ✅ | ✅ | ✅ Monthly |
-| Select Calendar Range | ✅ | ✅ | ✅ | ✅ Auto |
+| Interaction           | State Change | Carduri Update | Grafice Update | Grouping Update |
+| --------------------- | ------------ | -------------- | -------------- | --------------- |
+| Click "Today"         | ✅           | ✅             | ✅             | ✅ Hourly       |
+| Click "Last 7 Days"   | ✅           | ✅             | ✅             | ✅ Daily        |
+| Click "This Year"     | ✅           | ✅             | ✅             | ✅ Monthly      |
+| Select Calendar Range | ✅           | ✅             | ✅             | ✅ Auto         |
 
 **TOATE componentele reacționează instant la schimbări!**
 

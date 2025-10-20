@@ -72,11 +72,11 @@
     /* Ensure no horizontal scroll */
     overflow-x: hidden;
   }
-  
+
   .options {
     margin-bottom: var(--spacing-8);
   }
-  
+
   .submitButton {
     margin-bottom: var(--spacing-6);
   }

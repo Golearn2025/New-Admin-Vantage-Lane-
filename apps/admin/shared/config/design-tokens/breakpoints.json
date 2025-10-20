@@ -1,10 +1,10 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#", 
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Breakpoint Tokens - FROZEN",
   "description": "Design tokens for responsive breakpoints - cannot be modified without freeze-exception",
   "breakpoints": {
     "xs": "480px",
-    "sm": "768px", 
+    "sm": "768px",
     "md": "1024px",
     "lg": "1440px",
     "xl": "1920px"
@@ -12,7 +12,7 @@
   "mediaQueries": {
     "xs": "(max-width: 480px)",
     "sm": "(max-width: 768px)",
-    "md": "(max-width: 1024px)", 
+    "md": "(max-width: 1024px)",
     "lg": "(max-width: 1440px)",
     "xl": "(min-width: 1441px)",
     "smUp": "(min-width: 481px)",

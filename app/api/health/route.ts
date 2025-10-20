@@ -1,14 +1,14 @@
 /**
  * Health Check Endpoint
- * 
+ *
  * GET /api/health
- * 
+ *
  * Used by Render (or other platforms) to check if the app is healthy.
  * Tests:
  * - App is running
  * - Database connection (Supabase)
  * - Environment variables loaded
- * 
+ *
  * Returns:
  * - 200 OK if healthy
  * - 503 Service Unavailable if unhealthy
@@ -36,7 +36,7 @@ export async function GET() {
     const responseTime = Date.now() - startTime;
 
     // Determine overall health
-    const isHealthy = Object.values(checks).every(check => check.status === 'ok');
+    const isHealthy = Object.values(checks).every((check) => check.status === 'ok');
 
     if (isHealthy) {
       return NextResponse.json(
@@ -83,12 +83,9 @@ export async function GET() {
  * Check environment variables
  */
 function checkEnvironment(): { status: 'ok' | 'error'; message?: string } {
-  const required = [
-    'NEXT_PUBLIC_SUPABASE_URL',
-    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-  ];
+  const required = ['NEXT_PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_ANON_KEY'];
 
-  const missing = required.filter(key => !process.env[key]);
+  const missing = required.filter((key) => !process.env[key]);
 
   if (missing.length > 0) {
     return {
@@ -109,11 +106,7 @@ async function checkDatabase(): Promise<{ status: 'ok' | 'error'; message?: stri
 
     // Simple query to check connection
     // Using a system table that always exists
-    const { error } = await supabase
-      .from('bookings')
-      .select('id')
-      .limit(1)
-      .maybeSingle();
+    const { error } = await supabase.from('bookings').select('id').limit(1).maybeSingle();
 
     if (error) {
       // If table doesn't exist or RLS blocks, that's still "connected"

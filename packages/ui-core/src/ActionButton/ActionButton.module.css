@@ -14,19 +14,19 @@
   align-items: center;
   justify-content: flex-start;
   gap: var(--spacing-2);
-  
+
   font-family: var(--font-sans);
   font-weight: var(--font-medium);
   font-size: var(--font-sm);
   line-height: var(--line-height-normal);
-  
+
   border-radius: var(--radius-md);
   border: 1px solid transparent;
-  
+
   transition: all var(--motion-duration-fast) var(--motion-easing-standard);
   cursor: pointer;
   white-space: nowrap;
-  
+
   /* Focus styles for accessibility */
   &:focus-visible {
     outline: 2px solid var(--color-border-focus);

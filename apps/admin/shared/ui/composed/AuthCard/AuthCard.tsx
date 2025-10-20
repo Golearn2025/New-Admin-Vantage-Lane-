@@ -1,6 +1,6 @@
 /**
  * AuthCard Component - Reusable Authentication Wrapper
- * 
+ *
  * Card wrapper cu logo header și form layout pentru authentication flows.
  * Folosește DOAR design tokens și core components.
  */
@@ -21,7 +21,7 @@ export function AuthCard({ children, title }: AuthCardProps) {
       <div className={styles['card']}>
         <div className={styles['header']}>
           {/* Logo from /public/brand/logo.png */}
-          <Image 
+          <Image
             src="/brand/logo.png"
             alt="Vantage Lane"
             width={180}
@@ -29,23 +29,15 @@ export function AuthCard({ children, title }: AuthCardProps) {
             className={styles['logo']}
             priority
           />
-          
+
           <BrandName size="xl" />
-          
-          <p className={styles['brandSubtitle']}>
-            Admin Access
-          </p>
-          
-          {title && (
-            <h2 className={styles['title']}>
-              {title}
-            </h2>
-          )}
+
+          <p className={styles['brandSubtitle']}>Admin Access</p>
+
+          {title && <h2 className={styles['title']}>{title}</h2>}
         </div>
-        
-        <div className={styles['content']}>
-          {children}
-        </div>
+
+        <div className={styles['content']}>{children}</div>
       </div>
     </div>
   );

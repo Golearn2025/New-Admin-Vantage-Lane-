@@ -7,9 +7,7 @@
 
 .section {
   position: relative;
-  background: linear-gradient(135deg,
-      var(--color-bg-primary),
-      var(--color-primary-alpha-5));
+  background: linear-gradient(135deg, var(--color-bg-primary), var(--color-primary-alpha-5));
   border: var(--border-width-2) solid var(--color-border-default);
   border-radius: var(--radius-2xl);
   padding: var(--spacing-9);
@@ -26,9 +24,7 @@
 
 .highlight {
   border-color: var(--color-border-strong);
-  background: linear-gradient(135deg,
-      var(--color-bg-secondary),
-      var(--color-primary-alpha-10));
+  background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-primary-alpha-10));
 }
 
 .header {

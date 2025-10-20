@@ -1,6 +1,6 @@
 /**
  * TableBody Component
- * 
+ *
  * Table body with rows, expandable content, and empty/loading states.
  * Generic component - works with any data type.
  * <100 linii - respectă regulile proiectului!
@@ -36,20 +36,15 @@ export function TableBody<TData = unknown>({
   hoverable = false,
   className,
 }: TableBodyProps<TData>): JSX.Element {
-  const classes = [
-    styles.body,
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-  
+  const classes = [styles.body, className].filter(Boolean).join(' ');
+
   return (
     <tbody className={classes}>
       {data.map((row, index) => {
         const rowId = getRowId(row, index);
         const isSelected = selectedIds.has(rowId);
         const isExpanded = expandedIds.has(rowId);
-        
+
         return (
           <React.Fragment key={rowId}>
             {/* Main row */}
@@ -63,7 +58,7 @@ export function TableBody<TData = unknown>({
               {...(onRowClick && { onClick: onRowClick })}
               {...(onRowHover && { onHover: onRowHover })}
             />
-            
+
             {/* Expanded row content */}
             {isExpanded && renderExpandedRow && (
               <tr className={styles.expandedRow}>

@@ -11,20 +11,8 @@ export function Payments({ size = 24, className, 'aria-label': ariaLabel }: Base
       role="img"
       aria-label={ariaLabel}
     >
-      <rect
-        x="1"
-        y="5"
-        width="22"
-        height="14"
-        rx="2"
-        stroke="currentColor"
-        strokeWidth={1.5}
-      />
-      <path
-        d="M1 10h22"
-        stroke="currentColor"
-        strokeWidth={1.5}
-      />
+      <rect x="1" y="5" width="22" height="14" rx="2" stroke="currentColor" strokeWidth={1.5} />
+      <path d="M1 10h22" stroke="currentColor" strokeWidth={1.5} />
     </svg>
   );
 }

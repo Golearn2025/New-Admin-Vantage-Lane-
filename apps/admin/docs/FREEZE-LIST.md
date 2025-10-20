@@ -6,21 +6,26 @@ Aceste căi sunt **înghețate** și nu se pot modifica fără excepție și pro
 
 - `/apps/admin/schema/**` - Schema de bază de date
 - `/apps/admin/security/**` - Configurări de securitate
+
 ## UI Core Components (FROZEN)
+
 Modificări doar cu freeze-exception + ADR
 
 ### Componente atomice
+
 - `/apps/admin/shared/ui/core/Button/` - @design @core-frontend
 - `/apps/admin/shared/ui/core/Input/` - @design @core-frontend
 - `/apps/admin/shared/ui/core/Card/` - @design @core-frontend
 - `/apps/admin/shared/ui/core/Checkbox/` - @design @core-frontend
 
 ### Componente compuse
+
 - `/apps/admin/shared/ui/composed/AuthCard/` - @design @core-frontend
-- `/apps/admin/shared/ui/composed/FormRow/` - @design @core-frontend  
+- `/apps/admin/shared/ui/composed/FormRow/` - @design @core-frontend
 - `/apps/admin/shared/ui/composed/ErrorBanner/` - @design @core-frontend
 
 ### Authentication Pages
+
 - `/app/login/` - @design @core-frontend @core-auth
 
 - `/apps/admin/shared/config/design-tokens/**` - Token-uri de design
@@ -39,6 +44,7 @@ Pentru orice modificare în aceste căi:
 ## Impact
 
 Modificările în zonele înghețate pot afecta:
+
 - Securitatea sistemului
 - Compatibilitatea API
 - Stabilitatea componentelor de bază

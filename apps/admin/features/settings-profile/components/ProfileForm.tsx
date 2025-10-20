@@ -1,6 +1,6 @@
 /**
  * ProfileForm - FORM PRINCIPAL PROFIL
- * 
+ *
  * Form complet cu 3 tabs: Personal Info, Account, Security.
  * Include logica de auto-save în baza de date.
  * Limită: ≤200 linii
@@ -31,7 +31,7 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
   const [activeTab, setActiveTab] = useState('personal');
 
   const handleChange = useCallback((updates: Partial<AdminProfile>) => {
-    setPendingChanges(prev => ({ ...prev, ...updates }));
+    setPendingChanges((prev) => ({ ...prev, ...updates }));
   }, []);
 
   const handleSave = async () => {
@@ -97,9 +97,9 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
         </div>
       )}
 
-      <Tabs 
-        tabs={tabs} 
-        defaultTab="personal" 
+      <Tabs
+        tabs={tabs}
+        defaultTab="personal"
         variant="premium"
         onChange={(tabId) => setActiveTab(tabId)}
       />

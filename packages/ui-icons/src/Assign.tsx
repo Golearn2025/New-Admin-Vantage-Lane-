@@ -18,13 +18,7 @@ export function Assign({ size = 24, className, 'aria-label': ariaLabel }: BaseIc
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle
-        cx="9"
-        cy="7"
-        r="4"
-        stroke="currentColor"
-        strokeWidth={1.5}
-      />
+      <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth={1.5} />
       <line
         x1="19"
         y1="8"

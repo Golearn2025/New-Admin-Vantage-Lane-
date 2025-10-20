@@ -1,6 +1,6 @@
 /**
  * Dashboard Feature Adapter
- * 
+ *
  * Temporary adapter for the dashboard-metrics feature kept in apps/admin/features.
  * When we move the feature to app/(admin)/dashboard/, we only update this file's exports.
  * All page imports remain stable.

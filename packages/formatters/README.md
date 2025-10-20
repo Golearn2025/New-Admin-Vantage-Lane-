@@ -20,14 +20,14 @@ import { formatCurrency, formatNumber, formatDate, formatPercent } from '@vantag
 
 // Currency (pence → GBP)
 formatCurrency(12345); // "£123.45"
-formatCurrency(null);  // "N/A"
+formatCurrency(null); // "N/A"
 
 // Number (with thousand separators)
 formatNumber(1234567); // "1,234,567"
 
 // Date
-formatDate("2025-01-15T10:30:00Z", 'short'); // "15/01/2025"
-formatRelativeTime("2025-01-15T10:28:00Z"); // "2 minutes ago"
+formatDate('2025-01-15T10:30:00Z', 'short'); // "15/01/2025"
+formatRelativeTime('2025-01-15T10:28:00Z'); // "2 minutes ago"
 
 // Percentage
 formatPercent(12.5); // "12.50%"

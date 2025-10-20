@@ -27,6 +27,7 @@ packages/ui-dashboard/src/
 ```
 
 **Caracteristici:**
+
 - ✅ ZERO dependencies pe app-specific logic
 - ✅ Poate fi folosit în ORICE proiect
 - ✅ TypeScript strict
@@ -47,6 +48,7 @@ apps/admin/shared/
 ```
 
 **Caracteristici:**
+
 - ✅ Hook pentru state management
 - ✅ Smart auto-grouping (daily → monthly → quarterly)
 - ✅ Follows industry best practices (Google Analytics, Stripe)
@@ -84,16 +86,16 @@ import { determineChartGrouping } from '@admin/shared/utils/chartGrouping';
 
 export default function DashboardPage() {
   const { dateRange, preset, setPreset, setCustomRange, getAPIParams } = useDateFilter('this_month');
-  
+
   // Fetch data with date range
   const { data } = useSWR(
     `/api/dashboard/metrics?${new URLSearchParams(getAPIParams())}`,
     fetcher
   );
-  
+
   // Determine chart grouping
   const grouping = determineChartGrouping(dateRange);
-  
+
   return (
     <div>
       {/* Preset buttons */}
@@ -102,13 +104,13 @@ export default function DashboardPage() {
         onChange={(preset, range) => setPreset(preset)}
         presets={['today', 'yesterday', 'last_7_days', 'last_30_days', 'this_month']}
       />
-      
+
       {/* Calendar picker */}
       <DateRangePicker
         value={dateRange}
         onChange={(range) => setCustomRange(range)}
       />
-      
+
       {/* Your charts using filtered data */}
       <LineChart data={data.revenue_trend} grouping={grouping.label} />
     </div>
@@ -137,6 +139,7 @@ Quick select buttons pentru perioade comune.
 ```
 
 **Props:**
+
 - `value`: DatePreset - Selected preset
 - `onChange`: (preset, dateRange) => void
 - `presets`: DatePreset[] - Available presets
@@ -163,6 +166,7 @@ Calendar picker pentru custom date ranges.
 ```
 
 **Props:**
+
 - `value`: DateRange - Current date range
 - `onChange`: (dateRange) => void
 - `minDate`: Date - Minimum allowed date
@@ -240,18 +244,19 @@ const label = formatXAxisLabel(new Date(), 'monthly');
 
 ## 📊 Auto-Grouping Logic (BEST PRACTICES)
 
-| Date Range      | Auto Grouping | Expected Points | Example                    |
-|-----------------|---------------|-----------------|----------------------------|
-| Today/Yesterday | Hourly        | 24 points       | 00:00, 01:00, ..., 23:00   |
-| Last 7 days     | Daily         | 7 points        | Mon, Tue, ..., Sun         |
-| Last 30 days    | Daily         | 30 points       | 1, 2, 3, ..., 30           |
-| Last 90 days    | Weekly        | ~13 points      | Week 1, Week 2, ...        |
-| Last 365 days   | Monthly       | 12 points       | Jan, Feb, ..., Dec         |
-| Last 2 years    | Monthly       | 24 points       | Jan'23, Feb'23, ...        |
-| 2+ years        | Quarterly     | 8+ points       | Q1'22, Q2'22, ...          |
-| 5+ years        | Yearly        | N points        | 2020, 2021, ...            |
+| Date Range      | Auto Grouping | Expected Points | Example                  |
+| --------------- | ------------- | --------------- | ------------------------ |
+| Today/Yesterday | Hourly        | 24 points       | 00:00, 01:00, ..., 23:00 |
+| Last 7 days     | Daily         | 7 points        | Mon, Tue, ..., Sun       |
+| Last 30 days    | Daily         | 30 points       | 1, 2, 3, ..., 30         |
+| Last 90 days    | Weekly        | ~13 points      | Week 1, Week 2, ...      |
+| Last 365 days   | Monthly       | 12 points       | Jan, Feb, ..., Dec       |
+| Last 2 years    | Monthly       | 24 points       | Jan'23, Feb'23, ...      |
+| 2+ years        | Quarterly     | 8+ points       | Q1'22, Q2'22, ...        |
+| 5+ years        | Yearly        | N points        | 2020, 2021, ...          |
 
 **Follows industry standards from:**
+
 - Google Analytics
 - Stripe Dashboard
 - Shopify Analytics
@@ -269,14 +274,14 @@ import { useDateFilter } from '@admin/shared/hooks/useDateFilter';
 
 function MyDashboard() {
   const {
-    dateRange,     // Current DateRange
-    preset,        // Current DatePreset
-    setPreset,     // Set by preset
+    dateRange, // Current DateRange
+    preset, // Current DatePreset
+    setPreset, // Set by preset
     setCustomRange, // Set custom range
-    getAPIParams,  // Get { start_date, end_date } for API
-    reset,         // Reset to default
+    getAPIParams, // Get { start_date, end_date } for API
+    reset, // Reset to default
   } = useDateFilter('this_month');
-  
+
   // Use in API calls
   const params = getAPIParams();
   // { start_date: "2024-10-01T00:00:00Z", end_date: "2024-10-31T23:59:59Z" }

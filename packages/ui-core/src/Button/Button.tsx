@@ -14,7 +14,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export function Button({
   variant = 'primary',
-  size = 'md', 
+  size = 'md',
   loading = false,
   disabled = false,
   children,
@@ -29,8 +29,10 @@ export function Button({
     styles[size],
     loading && styles.loading,
     disabled && styles.disabled,
-    className
-  ].filter(Boolean).join(' ');
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <button
@@ -46,11 +48,9 @@ export function Button({
           {leftIcon}
         </span>
       ) : null}
-      
-      <span className={styles.content}>
-        {children}
-      </span>
-      
+
+      <span className={styles.content}>{children}</span>
+
       {rightIcon && !loading && (
         <span className={styles.rightIcon} aria-hidden="true">
           {rightIcon}

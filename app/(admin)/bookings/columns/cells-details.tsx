@@ -9,7 +9,14 @@ import React from 'react';
 import { StatusBadge } from '@vantage-lane/ui-core';
 import type { BookingStatus } from '@vantage-lane/ui-core';
 import { Route, Clock, Calendar, Plane, User, Luggage, CreditCard } from '@vantage-lane/ui-icons';
-import { formatDate, formatTime, formatLocation, formatPrice, formatServiceName, formatVehicleModel } from './helpers';
+import {
+  formatDate,
+  formatTime,
+  formatLocation,
+  formatPrice,
+  formatServiceName,
+  formatVehicleModel,
+} from './helpers';
 import styles from '../columns.module.css';
 import type { BookingColumn } from './schema';
 
@@ -33,12 +40,16 @@ export const getRouteColumn = (): BookingColumn => ({
         <div className={styles.routeDetailPrimary}>
           <Calendar size={14} />
           <span className={styles.routeLabelPrimary}>PICKUP:</span>
-          <span className={styles.routeDatePrimary}>{formatDate(row.scheduled_at)} {formatTime(row.scheduled_at)}</span>
+          <span className={styles.routeDatePrimary}>
+            {formatDate(row.scheduled_at)} {formatTime(row.scheduled_at)}
+          </span>
         </div>
       )}
       <div className={styles.routeDetailSecondary}>
         <span className={styles.routeLabelSecondary}>Created:</span>
-        <span>{formatDate(row.created_at)} {formatTime(row.created_at)}</span>
+        <span>
+          {formatDate(row.created_at)} {formatTime(row.created_at)}
+        </span>
       </div>
       {row.flight_number && (
         <div className={styles.routeDetail}>
@@ -57,15 +68,11 @@ export const getVehicleColumn = (): BookingColumn => ({
   width: '120px',
   cell: (row) => {
     const vehicleModel = formatVehicleModel(row.vehicle_model);
-    
+
     return (
       <div className={styles.vehicleCell}>
-        <div className={styles.vehicleCategoryBadge}>
-          {row.category}
-        </div>
-        <div className={styles.vehicleModel}>
-          {vehicleModel}
-        </div>
+        <div className={styles.vehicleCategoryBadge}>{row.category}</div>
+        <div className={styles.vehicleModel}>{vehicleModel}</div>
         <div className={styles.vehicleCapacityRow}>
           <User size={14} />
           <span>{row.passenger_count} Pass</span>

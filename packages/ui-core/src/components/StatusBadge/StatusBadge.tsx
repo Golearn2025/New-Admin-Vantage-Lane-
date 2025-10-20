@@ -1,6 +1,6 @@
 /**
  * StatusBadge Component
- * 
+ *
  * Premium status badge with glow effects for critical statuses
  * Follows design tokens - 100% reusable
  */
@@ -8,7 +8,7 @@
 import React from 'react';
 import './StatusBadge.module.css';
 
-export type BookingStatus = 
+export type BookingStatus =
   | 'pending'
   | 'assigned'
   | 'en_route'
@@ -81,9 +81,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   return (
     <span className={classes}>
       <span className="status-badge__label">{config.label}</span>
-      {isUrgent && (
-        <span className="status-badge__urgent-indicator">URGENT</span>
-      )}
+      {isUrgent && <span className="status-badge__urgent-indicator">URGENT</span>}
     </span>
   );
 };

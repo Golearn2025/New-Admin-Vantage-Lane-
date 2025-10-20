@@ -1,6 +1,6 @@
 /**
  * Icon Types - Design System Icons
- * 
+ *
  * Toate iconițele disponibile în aplicație.
  * Tree-shakable, consistent style (24x24, stroke 1.5).
  */

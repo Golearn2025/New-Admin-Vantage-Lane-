@@ -1,6 +1,6 @@
 /**
  * Past Bookings Page
- * 
+ *
  * Shows bookings in final states:
  * - COMPLETED: Trip finished successfully
  * - CANCELLED: Booking cancelled (by customer, driver, or admin)

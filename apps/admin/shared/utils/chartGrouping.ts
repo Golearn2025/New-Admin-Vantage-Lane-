@@ -1,19 +1,19 @@
 /**
  * Chart Grouping Utilities - REUSABLE
- * 
+ *
  * Smart auto-grouping logic based on date range
  * Follows industry best practices (Google Analytics, Stripe, Shopify)
  */
 
 import { differenceInDays, type DateRange } from '@vantage-lane/ui-dashboard';
 
-export type ChartGrouping = 
-  | 'hourly'   // 24 points (hours)
-  | 'daily'    // 7-365 points (days)
-  | 'weekly'   // ~13 points (weeks)
-  | 'monthly'  // 12-24 points (months)
+export type ChartGrouping =
+  | 'hourly' // 24 points (hours)
+  | 'daily' // 7-365 points (days)
+  | 'weekly' // ~13 points (weeks)
+  | 'monthly' // 12-24 points (months)
   | 'quarterly' // 4-8 points (quarters)
-  | 'yearly';  // N points (years)
+  | 'yearly'; // N points (years)
 
 export interface GroupingStrategy {
   grouping: ChartGrouping;
@@ -28,7 +28,7 @@ export interface GroupingStrategy {
  */
 export function determineChartGrouping(dateRange: DateRange): GroupingStrategy {
   const days = differenceInDays(dateRange.end, dateRange.start) + 1; // +1 to include end date
-  
+
   // Today or Yesterday → Hourly
   if (days <= 1) {
     return {
@@ -38,7 +38,7 @@ export function determineChartGrouping(dateRange: DateRange): GroupingStrategy {
       sqlGroup: 'hour',
     };
   }
-  
+
   // Last 7 days → Daily
   if (days <= 7) {
     return {
@@ -48,7 +48,7 @@ export function determineChartGrouping(dateRange: DateRange): GroupingStrategy {
       sqlGroup: 'day',
     };
   }
-  
+
   // Last 31 days (1 month) → Daily
   if (days <= 31) {
     return {
@@ -58,7 +58,7 @@ export function determineChartGrouping(dateRange: DateRange): GroupingStrategy {
       sqlGroup: 'day',
     };
   }
-  
+
   // Last 90 days (3 months) → Weekly
   if (days <= 90) {
     return {
@@ -68,7 +68,7 @@ export function determineChartGrouping(dateRange: DateRange): GroupingStrategy {
       sqlGroup: 'week',
     };
   }
-  
+
   // Last 365 days (1 year) → Monthly
   if (days <= 365) {
     return {
@@ -78,7 +78,7 @@ export function determineChartGrouping(dateRange: DateRange): GroupingStrategy {
       sqlGroup: 'month',
     };
   }
-  
+
   // Last 730 days (2 years) → Monthly
   if (days <= 730) {
     return {
@@ -88,9 +88,10 @@ export function determineChartGrouping(dateRange: DateRange): GroupingStrategy {
       sqlGroup: 'month',
     };
   }
-  
+
   // More than 2 years → Quarterly
-  if (days <= 1825) { // ~5 years
+  if (days <= 1825) {
+    // ~5 years
     return {
       grouping: 'quarterly',
       expectedPoints: Math.ceil(days / 90),
@@ -98,7 +99,7 @@ export function determineChartGrouping(dateRange: DateRange): GroupingStrategy {
       sqlGroup: 'quarter',
     };
   }
-  
+
   // More than 5 years → Yearly
   return {
     grouping: 'yearly',
@@ -111,7 +112,10 @@ export function determineChartGrouping(dateRange: DateRange): GroupingStrategy {
 /**
  * Get SQL GROUP BY clause for Supabase
  */
-export function getSQLGroupingClause(grouping: ChartGrouping, dateColumn: string = 'created_at'): string {
+export function getSQLGroupingClause(
+  grouping: ChartGrouping,
+  dateColumn: string = 'created_at'
+): string {
   switch (grouping) {
     case 'hourly':
       return `DATE_TRUNC('hour', ${dateColumn})`;
@@ -160,7 +164,7 @@ function getWeekNumber(date: Date): number {
   const dayNum = d.getUTCDay() || 7;
   d.setUTCDate(d.getUTCDate() + 4 - dayNum);
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+  return Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
 }
 
 /**

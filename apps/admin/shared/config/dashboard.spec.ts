@@ -1,7 +1,7 @@
 /**
  * Dashboard Specification - Centralized Config
  * Spec-driven architecture for cards and charts
- * 
+ *
  * This file re-exports all dashboard configurations
  * for easy imports: import { DASHBOARD_CARDS, DASHBOARD_CHARTS } from '@admin-shared/config/dashboard.spec'
  */

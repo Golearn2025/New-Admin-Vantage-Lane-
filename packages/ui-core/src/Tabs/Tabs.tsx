@@ -1,6 +1,6 @@
 /**
  * Tabs Component - PREMIUM GOLD/VIOLET
- * 
+ *
  * Reutilizabil tabs component cu design premium.
  * Limită: ≤200 linii
  */
@@ -24,12 +24,7 @@ export interface TabsProps {
   variant?: 'default' | 'premium';
 }
 
-export function Tabs({ 
-  tabs, 
-  defaultTab, 
-  onChange,
-  variant = 'premium'
-}: TabsProps) {
+export function Tabs({ tabs, defaultTab, onChange, variant = 'premium' }: TabsProps) {
   const [activeTab, setActiveTab] = useState(defaultTab || tabs[0]?.id);
 
   const handleTabClick = (tabId: string) => {
@@ -37,7 +32,7 @@ export function Tabs({
     onChange?.(tabId);
   };
 
-  const activeTabContent = tabs.find(tab => tab.id === activeTab)?.content;
+  const activeTabContent = tabs.find((tab) => tab.id === activeTab)?.content;
 
   return (
     <div className={`${styles.container} ${styles[variant]}`}>

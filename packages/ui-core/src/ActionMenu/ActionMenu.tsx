@@ -1,9 +1,9 @@
 /**
  * ActionMenu Component
- * 
+ *
  * Dropdown menu for actions.
  * 100% design tokens, NO business logic, fully modular.
- * 
+ *
  * Usage:
  * <ActionMenu
  *   trigger={<ActionButton icon={<More />} label="More" />}
@@ -50,12 +50,7 @@ export function ActionMenu({
     setIsOpen(false);
   };
 
-  const menuClasses = [
-    styles.menu,
-    styles[position],
-    isOpen && styles.open,
-    className,
-  ]
+  const menuClasses = [styles.menu, styles[position], isOpen && styles.open, className]
     .filter(Boolean)
     .join(' ');
 

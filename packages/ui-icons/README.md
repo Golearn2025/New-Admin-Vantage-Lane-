@@ -22,7 +22,7 @@ npm install @vantage-lane/ui-icons
 ```tsx
 import { Dashboard, Calendar, Menu } from '@vantage-lane/ui-icons';
 
-<Dashboard size={24} color="var(--color-text-primary)" />
+<Dashboard size={24} color="var(--color-text-primary)" />;
 ```
 
 ## Available Icons

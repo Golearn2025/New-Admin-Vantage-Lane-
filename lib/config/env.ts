@@ -1,19 +1,16 @@
 /**
  * Environment Variables Validation
- * 
+ *
  * Validates all required environment variables at app startup.
  * Throws explicit errors if any variable is missing.
- * 
+ *
  * Run this ONCE at app initialization to fail fast.
  */
 
 /**
  * Required environment variables
  */
-const requiredEnvVars = [
-  'NEXT_PUBLIC_SUPABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-] as const;
+const requiredEnvVars = ['NEXT_PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_ANON_KEY'] as const;
 
 /**
  * Optional environment variables (with warnings)
@@ -53,7 +50,7 @@ export function validateEnv(): void {
     const errorMessage = [
       '❌ MISSING REQUIRED ENVIRONMENT VARIABLES:',
       '',
-      ...missing.map(v => `  - ${v}`),
+      ...missing.map((v) => `  - ${v}`),
       '',
       'Please create .env.local file with required variables.',
       'See .env.example for reference.',
@@ -65,7 +62,7 @@ export function validateEnv(): void {
   // Log warnings for optional variables
   if (warnings.length > 0 && process.env.NODE_ENV === 'development') {
     console.warn('⚠️  Optional environment variables not set:');
-    warnings.forEach(v => console.warn(`  - ${v}`));
+    warnings.forEach((v) => console.warn(`  - ${v}`));
     console.warn('Some features may not work correctly.');
   }
 }
@@ -81,13 +78,13 @@ export const env = {
     anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
   },
-  
+
   // Google Maps
   googleMaps: {
     clientKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     serverKey: process.env.GOOGLE_MAPS_API_KEY_SERVER,
   },
-  
+
   // App
   nodeEnv: process.env.NODE_ENV || 'development',
   isDevelopment: process.env.NODE_ENV === 'development',
@@ -100,8 +97,7 @@ export const env = {
 export function validateSupabaseUrl(url: string): boolean {
   try {
     const parsed = new URL(url);
-    return parsed.hostname.endsWith('.supabase.co') || 
-           parsed.hostname === 'localhost';
+    return parsed.hostname.endsWith('.supabase.co') || parsed.hostname === 'localhost';
   } catch {
     return false;
   }

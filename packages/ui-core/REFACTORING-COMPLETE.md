@@ -14,6 +14,7 @@ Eliminat TOATE hardcodările din componente și transformat în sistem bazat pe 
 ## 📊 REZULTATE
 
 ### Design Tokens Creat:
+
 - ✅ `tokens/colors.css` - 50+ culori
 - ✅ `tokens/spacing.css` - Scale 4-80px
 - ✅ `tokens/typography.css` - Fonts, weights, line heights
@@ -23,6 +24,7 @@ Eliminat TOATE hardcodările din componente și transformat în sistem bazat pe 
 - ✅ `tokens/index.css` - Import centralizat
 
 ### Componente Refactorizate:
+
 1. ✅ ProfileCard - 37 → 0 hardcodări
 2. ✅ FormField - 33 → 0 hardcodări
 3. ✅ Tabs - 26 → 0 hardcodări
@@ -37,6 +39,7 @@ Eliminat TOATE hardcodările din componente și transformat în sistem bazat pe 
 ## 💡 CUM FOLOSEȘTI
 
 ### Import Tokens în CSS:
+
 ```css
 .myComponent {
   color: var(--color-primary);
@@ -47,11 +50,12 @@ Eliminat TOATE hardcodările din componente și transformat în sistem bazat pe 
 ```
 
 ### Schimbare Temă:
+
 ```css
 /* tokens/colors.css */
---color-primary: #F1D16A; /* Gold */
+--color-primary: #f1d16a; /* Gold */
 /* Change to: */
---color-primary: #3B82F6; /* Blue */
+--color-primary: #3b82f6; /* Blue */
 ```
 
 → Toată aplicația se actualizează instant!
@@ -71,6 +75,7 @@ export * from './Tabs';
 ```
 
 ### Import:
+
 ```typescript
 import { FormField, Tabs, SaveButton } from '@ui-core';
 ```

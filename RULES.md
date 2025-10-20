@@ -22,13 +22,13 @@
 
 ### **Enforced by ESLint:**
 
-| File Type | Max Lines | Rule | Override |
-|-----------|-----------|------|----------|
-| **UI Components** (.tsx) | 200 | `max-lines: 200` | ❌ BLOCKED |
-| **Logic/Utils** (.ts in /lib/) | 150 | `max-lines: 150` | ❌ BLOCKED |
-| **Hooks** (.ts in /hooks/) | 80 | `max-lines: 80` | ❌ BLOCKED |
-| **Types** (.types.ts) | 150 | `max-lines: 150` | ⚠️ Warning |
-| **Tests** (.test.ts) | 300 | No limit | ✅ Allowed |
+| File Type                      | Max Lines | Rule             | Override   |
+| ------------------------------ | --------- | ---------------- | ---------- |
+| **UI Components** (.tsx)       | 200       | `max-lines: 200` | ❌ BLOCKED |
+| **Logic/Utils** (.ts in /lib/) | 150       | `max-lines: 150` | ❌ BLOCKED |
+| **Hooks** (.ts in /hooks/)     | 80        | `max-lines: 80`  | ❌ BLOCKED |
+| **Types** (.types.ts)          | 150       | `max-lines: 150` | ⚠️ Warning |
+| **Tests** (.test.ts)           | 300       | No limit         | ✅ Allowed |
 
 ### **How to Check:**
 
@@ -41,6 +41,7 @@ npm run check:files
 ```
 
 ### **Current Violations:** 7 files
+
 ```
 ❌ app/api/bookings/list/route.ts - 249 lines (limit: 150)
 ❌ packages/ui-core/src/DataTable/DataTable.tsx - 203 lines (limit: 200)
@@ -64,14 +65,15 @@ npm run check:files
 ```typescript
 // ❌ BLOCKED
 const data: any = fetchData();
-function process(input: any) { }
+function process(input: any) {}
 
 // ✅ CORRECT
 const data: User[] = fetchData();
-function process(input: UserInput): ProcessedData { }
+function process(input: UserInput): ProcessedData {}
 ```
 
 **Check Command:**
+
 ```bash
 npm run check:any
 # Output: "No any types found" or list of violations
@@ -84,6 +86,7 @@ npm run check:any
 ### **Rule 2: Strict TypeScript**
 
 **tsconfig.json:**
+
 ```json
 {
   "compilerOptions": {
@@ -98,6 +101,7 @@ npm run check:any
 ```
 
 **Check Command:**
+
 ```bash
 npm run check:ts
 # Or:
@@ -116,20 +120,21 @@ tsc --noEmit
 // ❌ BLOCKED
 <div style={{ color: '#ff0000', padding: '16px' }}>
 
-// ❌ BLOCKED  
+// ❌ BLOCKED
 <div style={{ backgroundColor: 'var(--color-bg)' }}>
 
 // ✅ CORRECT
 <div className={styles.container}>
 
 // ✅ CORRECT (only design tokens in inline, rare cases)
-<div style={{ 
+<div style={{
   color: 'var(--color-text-primary)',
-  padding: 'var(--spacing-md)' 
+  padding: 'var(--spacing-md)'
 }}>
 ```
 
 **Check Command:**
+
 ```bash
 npm run check:colors
 # Finds: style={{, color: #, rgb(, hsl(
@@ -143,6 +148,7 @@ npm run check:colors
 ### **Rule 4: No Hardcoded Colors**
 
 **Only allowed in:**
+
 - `packages/ui-core/src/tokens/*.css` (design tokens)
 - `app/globals.css` (token definitions)
 
@@ -161,6 +167,7 @@ npm run check:colors
 ```
 
 **Check Command:**
+
 ```bash
 npm run check:colors
 ```
@@ -193,6 +200,7 @@ logger.info('User action', { userId, action });
 **Current Violations:** 10 console statements
 
 **Files:**
+
 ```
 1. app/api/bookings/list/route.ts:82, 243
 2. app/api/dashboard/metrics/route.ts:97, 130
@@ -216,10 +224,10 @@ logger.info('User action', { userId, action });
 ```typescript
 // ❌ BLOCKED - Business logic in component
 function BookingCard({ booking }: Props) {
-  const total = booking.basePrice + 
+  const total = booking.basePrice +
     booking.services.reduce((sum, s) => sum + s.price, 0);
   const isUrgent = new Date(booking.pickupTime) < new Date(Date.now() + 3 * 60 * 60 * 1000);
-  
+
   return <div>{total}</div>;
 }
 
@@ -232,12 +240,13 @@ export function isBookingUrgent(booking: Booking): boolean { }
 function BookingCard({ booking }: Props) {
   const total = calculateTotal(booking);
   const isUrgent = isBookingUrgent(booking);
-  
+
   return <div>{total}</div>;
 }
 ```
 
 **Check Command:**
+
 ```bash
 npm run check:business
 # Finds: fetch(, axios(, supabase.from( in UI files
@@ -266,6 +275,7 @@ function Component() {
 ```
 
 **Enforced by:**
+
 - ESLint `no-restricted-imports`
 - Pattern blocks: `**/shared/api/clients/**` in UI
 
@@ -277,11 +287,11 @@ function Component() {
 // ❌ BLOCKED - UI importing business entities
 import { BookingEntity } from '@/entities/booking';
 
-// ❌ BLOCKED - Shared UI importing features  
+// ❌ BLOCKED - Shared UI importing features
 import { BookingsTable } from '@/features/bookings-table';
 
 // ❌ BLOCKED - Circular dependencies
-import { A } from './B';  // where B imports from A
+import { A } from './B'; // where B imports from A
 
 // ✅ CORRECT
 import { BookingType } from '@/shared/api/contracts';
@@ -289,6 +299,7 @@ import { useBookings } from '@/shared/hooks';
 ```
 
 **Check Commands:**
+
 ```bash
 # Check import boundaries
 npm run check:boundaries
@@ -303,14 +314,15 @@ npm run check:circular
 
 ### **Rule 9: Performance Budgets**
 
-| Metric | Budget | Enforcement |
-|--------|--------|-------------|
-| **LCP** (Largest Contentful Paint) | <2s | Lighthouse CI |
-| **TTFB** (Time To First Byte) | <200ms | Lighthouse CI |
-| **Bundle Size** (initial) | <180KB gzipped | size-limit |
-| **DB Query p95** | <200ms | Monitoring |
+| Metric                             | Budget         | Enforcement   |
+| ---------------------------------- | -------------- | ------------- |
+| **LCP** (Largest Contentful Paint) | <2s            | Lighthouse CI |
+| **TTFB** (Time To First Byte)      | <200ms         | Lighthouse CI |
+| **Bundle Size** (initial)          | <180KB gzipped | size-limit    |
+| **DB Query p95**                   | <200ms         | Monitoring    |
 
 **Check Commands:**
+
 ```bash
 # Check bundle size
 npm run check:budgets
@@ -336,6 +348,7 @@ const { data } = await fetch('/api/bookings/list?page=1&page_size=25');
 ```
 
 **Required for:**
+
 - All lists with >50 items
 - All data tables
 - All search results
@@ -377,12 +390,14 @@ logger.info('User logged in', { userId: user.id });
 ### **Rule 13: Test Coverage**
 
 **Required:**
+
 - ✅ 1 contract test per API endpoint
 - ✅ 1 RLS test per database table
 - ⚠️ Unit tests for business logic
 - ⚠️ E2E tests for critical flows
 
 **Check Commands:**
+
 ```bash
 npm run test              # Unit tests
 npm run test:e2e          # E2E tests
@@ -395,11 +410,13 @@ npm run test:e2e          # E2E tests
 ### **Rule 14: Documentation Required**
 
 **Update on every change:**
+
 - ✅ STRUCTURE.md (this file auto-updates)
 - ✅ CHANGELOG.md (manual entry)
 - ✅ Relevant docs in /apps/admin/docs/
 
 **Files that require documentation:**
+
 - New features
 - API endpoints
 - Database schema changes
@@ -424,10 +441,12 @@ npm run check:all
 ```
 
 **What happens:**
+
 - ✅ Pass → Push proceeds
 - ❌ Fail → Push blocked until fixed
 
 **Logs saved to:**
+
 - `reports/tsc.log`
 - `reports/eslint.log`
 - `reports/next-build.log`
@@ -494,18 +513,18 @@ npm run check:circular    # Circular dependencies
 
 ## 📋 CURRENT COMPLIANCE STATUS
 
-| Rule | Status | Violations | Action |
-|------|--------|------------|--------|
-| File Sizes | 🟡 95% | 7 files | Fix before merge |
-| TypeScript any | ✅ 100% | 0 | ✅ Perfect |
-| Console Statements | 🔴 0% | 10 | **P0 - Fix now** |
-| Inline Styles | 🔴 0% | 147 | **P0 - Fix now** |
-| Hardcoded Colors | ✅ 100% | 0 | ✅ Perfect |
-| Business Logic in UI | ✅ 95% | Few cases | Monitor |
-| Import Boundaries | ✅ 90% | Few violations | Review |
-| Server Pagination | ✅ 100% | 0 | ✅ Perfect |
-| RLS Security | ✅ 100% | 0 | ✅ Perfect |
-| Documentation | ✅ 95% | Some gaps | Update |
+| Rule                 | Status  | Violations     | Action           |
+| -------------------- | ------- | -------------- | ---------------- |
+| File Sizes           | 🟡 95%  | 7 files        | Fix before merge |
+| TypeScript any       | ✅ 100% | 0              | ✅ Perfect       |
+| Console Statements   | 🔴 0%   | 10             | **P0 - Fix now** |
+| Inline Styles        | 🔴 0%   | 147            | **P0 - Fix now** |
+| Hardcoded Colors     | ✅ 100% | 0              | ✅ Perfect       |
+| Business Logic in UI | ✅ 95%  | Few cases      | Monitor          |
+| Import Boundaries    | ✅ 90%  | Few violations | Review           |
+| Server Pagination    | ✅ 100% | 0              | ✅ Perfect       |
+| RLS Security         | ✅ 100% | 0              | ✅ Perfect       |
+| Documentation        | ✅ 95%  | Some gaps      | Update           |
 
 **Overall Compliance:** 70% (Target: 100%)
 
@@ -524,6 +543,7 @@ npm run check:circular    # Circular dependencies
 ## 📝 RULES SUMMARY
 
 ✅ **ENFORCED BY TOOLING:**
+
 - File size limits (ESLint)
 - No `any` types (ESLint)
 - No console (ESLint)
@@ -531,11 +551,13 @@ npm run check:circular    # Circular dependencies
 - Pre-push validation (Husky)
 
 ⚠️ **MANUAL REVIEW:**
+
 - Inline styles (script check)
 - Business logic in UI (script check)
 - Documentation updates (PR review)
 
 🎯 **AUTOMATIC:**
+
 - TypeScript compilation
 - Build success
 - Performance budgets

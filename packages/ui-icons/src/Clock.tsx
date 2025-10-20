@@ -11,13 +11,7 @@ export function Clock({ size = 24, className, 'aria-label': ariaLabel }: BaseIco
       role="img"
       aria-label={ariaLabel}
     >
-      <circle
-        cx="12"
-        cy="12"
-        r="9"
-        stroke="currentColor"
-        strokeWidth={1.5}
-      />
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth={1.5} />
       <path
         d="M12 7v5l3 3"
         stroke="currentColor"

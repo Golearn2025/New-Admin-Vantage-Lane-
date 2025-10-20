@@ -5,7 +5,17 @@
  */
 
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, TooltipProps, Legend } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  TooltipProps,
+  Legend,
+} from 'recharts';
 import styles from './StackedBarChart.module.css';
 import { CHART_COLORS } from '../../theme/palettes';
 
@@ -41,10 +51,7 @@ function CustomTooltip({ active, payload, label }: TooltipProps<number, string>)
       <div className={styles.tooltipValues}>
         {payload.map((entry, index) => (
           <div key={index} className={styles.tooltipEntry}>
-            <span 
-              className={styles.tooltipDot} 
-              style={{ backgroundColor: entry.color }}
-            />
+            <span className={styles.tooltipDot} style={{ backgroundColor: entry.color }} />
             <span className={styles.tooltipName}>{entry.name}:</span>
             <span className={styles.tooltipValue}>
               {entry.value !== undefined ? entry.value.toLocaleString('en-GB') : 'N/A'}
@@ -99,15 +106,8 @@ export function StackedBarChart({
       <ResponsiveContainer width="100%" height={height}>
         <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--vl-chart-grid, #e5e7eb)" />
-          <XAxis 
-            dataKey="x" 
-            stroke="var(--vl-chart-axis, #6b7280)"
-            style={{ fontSize: '12px' }}
-          />
-          <YAxis 
-            stroke="var(--vl-chart-axis, #6b7280)"
-            style={{ fontSize: '12px' }}
-          />
+          <XAxis dataKey="x" stroke="var(--vl-chart-axis, #6b7280)" style={{ fontSize: '12px' }} />
+          <YAxis stroke="var(--vl-chart-axis, #6b7280)" style={{ fontSize: '12px' }} />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }} />
           <Legend />
           {series.map((s, index) => {
@@ -116,15 +116,11 @@ export function StackedBarChart({
               key: s.key,
               dataKey: s.key,
               name: s.label,
-              stackId: "stack",
+              stackId: 'stack',
               fill: s.color ?? defaultColors[index % defaultColors.length],
               animationDuration: 800,
             };
-            return isLast ? (
-              <Bar {...baseProps} radius={[8, 8, 0, 0]} />
-            ) : (
-              <Bar {...baseProps} />
-            );
+            return isLast ? <Bar {...baseProps} radius={[8, 8, 0, 0]} /> : <Bar {...baseProps} />;
           })}
         </BarChart>
       </ResponsiveContainer>

@@ -1,9 +1,9 @@
 /**
  * Badge Component
- * 
+ *
  * Generic, reusable badge component for displaying status, categories, and other labels.
  * 100% type-safe, 100% design tokens, fully reusable.
- * 
+ *
  * @example
  * ```tsx
  * <Badge variant="status" value="NEW" size="md" />

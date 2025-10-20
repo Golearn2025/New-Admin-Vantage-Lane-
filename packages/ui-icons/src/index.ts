@@ -1,6 +1,6 @@
 /**
  * Icons - Design System Icon Set
- * 
+ *
  * Tree-shakable SVG icons pentru Vantage Lane Admin.
  * Consistent style: 24x24, stroke 1.5, currentColor.
  */
@@ -77,7 +77,7 @@ const iconMap = {
  */
 export function Icon({ name, size = 24, className, 'aria-label': ariaLabel }: IconProps) {
   const IconComponent = iconMap[name];
-  
+
   if (!IconComponent) {
     // eslint-disable-next-line no-console -- Library code: warn about missing icons in development
     if (process.env.NODE_ENV === 'development') {
@@ -85,11 +85,11 @@ export function Icon({ name, size = 24, className, 'aria-label': ariaLabel }: Ic
     }
     return null;
   }
-  
+
   const props: BaseIconProps = {
     size,
     ...(className && { className }),
-    ...( ariaLabel && { 'aria-label': ariaLabel }),
+    ...(ariaLabel && { 'aria-label': ariaLabel }),
   };
 
   return React.createElement(IconComponent, props);

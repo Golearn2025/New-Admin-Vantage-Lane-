@@ -1,6 +1,6 @@
 /**
  * AppShell - Dark Premium Navigation System
- * 
+ *
  * Export pentru componentele principale de navigație.
  * Tree-shakable imports pentru performanță optimă.
  */
@@ -25,5 +25,5 @@ export type {
   DrawerProps,
   BreadcrumbItem,
   BreadcrumbsProps,
-  PageHeaderProps
+  PageHeaderProps,
 } from './types';

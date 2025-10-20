@@ -1,6 +1,6 @@
 /**
  * Date Period Functions - 100% REUSABLE
- * 
+ *
  * Functions for calculating start/end of periods
  * No dependencies on specific app logic
  */

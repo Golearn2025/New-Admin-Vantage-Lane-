@@ -1,9 +1,9 @@
 /**
  * ActionButton Component
- * 
+ *
  * Reusable action button for tables and forms.
  * 100% design tokens, NO business logic, fully modular.
- * 
+ *
  * Usage:
  * <ActionButton
  *   variant="primary"
@@ -30,7 +30,7 @@ export function ActionButton({
   ...props
 }: ActionButtonProps) {
   const isIconOnly = !label;
-  
+
   const buttonClasses = [
     styles.button,
     styles[variant],
@@ -56,9 +56,11 @@ export function ActionButton({
       {loading ? (
         <span className={styles.spinner} aria-hidden="true" />
       ) : (
-        icon && <span className={styles.icon} aria-hidden="true">
-          {icon}
-        </span>
+        icon && (
+          <span className={styles.icon} aria-hidden="true">
+            {icon}
+          </span>
+        )
       )}
       {label && <span className={styles.label}>{label}</span>}
     </button>

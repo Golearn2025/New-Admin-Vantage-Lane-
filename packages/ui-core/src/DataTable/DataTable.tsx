@@ -41,33 +41,41 @@ export function DataTable<TData = unknown>({
   ariaLabel,
 }: DataTableProps<TData>): React.ReactElement {
   // Internal sort state (uncontrolled)
-  const [internalSort, setInternalSort] = React.useState(sort || { columnId: null, direction: null });
+  const [internalSort, setInternalSort] = React.useState(
+    sort || { columnId: null, direction: null }
+  );
   const activeSort = sort || internalSort;
 
   // Expanded rows state (controlled or uncontrolled)
   const [internalExpandedIds, setInternalExpandedIds] = React.useState<Set<string>>(new Set());
   const expandedIds = controlledExpandedIds || internalExpandedIds;
 
-  const handleSort = React.useCallback((columnId: string) => {
-    const newSort = {
-      columnId,
-      direction: activeSort.columnId === columnId && activeSort.direction === 'asc' ? 'desc' as const : 'asc' as const,
-    };
-    setInternalSort(newSort);
-    onSortChange?.(newSort);
-  }, [activeSort, onSortChange]);
+  const handleSort = React.useCallback(
+    (columnId: string) => {
+      const newSort = {
+        columnId,
+        direction:
+          activeSort.columnId === columnId && activeSort.direction === 'asc'
+            ? ('desc' as const)
+            : ('asc' as const),
+      };
+      setInternalSort(newSort);
+      onSortChange?.(newSort);
+    },
+    [activeSort, onSortChange]
+  );
 
   // Apply sort (must be before early returns)
   const sortedData = React.useMemo(() => {
     if (!data || data.length === 0 || !activeSort.columnId || !activeSort.direction) return data;
-    
+
     const column = columns.find((col) => col.id === activeSort.columnId);
     if (!column || !column.accessor) return data;
 
     return [...data].sort((a, b) => {
       const aVal = column.accessor!(a);
       const bVal = column.accessor!(b);
-      
+
       const comparison = String(aVal).localeCompare(String(bVal));
       return activeSort.direction === 'asc' ? comparison : -comparison;
     });
@@ -76,17 +84,20 @@ export function DataTable<TData = unknown>({
   // Apply pagination (must be before early returns)
   const displayData = React.useMemo(() => {
     if (!pagination || !sortedData || sortedData.length === 0) return sortedData;
-    
+
     const start = pagination.pageIndex * pagination.pageSize;
     const end = start + pagination.pageSize;
     return sortedData.slice(start, end);
   }, [sortedData, pagination]);
 
   // Handle row click - NO auto-expansion, just pass to onRowClick
-  const handleRowClick = React.useCallback((row: TData, event: React.MouseEvent) => {
-    // Only call onRowClick if provided - don't auto-expand
-    onRowClick?.(row, event);
-  }, [onRowClick]);
+  const handleRowClick = React.useCallback(
+    (row: TData, event: React.MouseEvent) => {
+      // Only call onRowClick if provided - don't auto-expand
+      onRowClick?.(row, event);
+    },
+    [onRowClick]
+  );
 
   // Loading state
   if (loading) {
@@ -94,11 +105,7 @@ export function DataTable<TData = unknown>({
       <div className={`${styles.container} ${className}`}>
         <div className={styles.tableWrapper} style={{ maxHeight }}>
           <table className={styles.table} aria-label={ariaLabel}>
-            <TableHeader
-              columns={columns}
-              sortState={activeSort}
-              onSort={handleSort}
-            />
+            <TableHeader columns={columns} sortState={activeSort} onSort={handleSort} />
             <LoadingSkeleton columns={columns.length} rows={skeletonRows} />
           </table>
         </div>
@@ -112,14 +119,8 @@ export function DataTable<TData = unknown>({
       <div className={`${styles.container} ${className}`}>
         <div className={styles.tableWrapper}>
           <table className={styles.table} aria-label={ariaLabel}>
-            <TableHeader
-              columns={columns}
-              sortState={activeSort}
-              onSort={handleSort}
-            />
-            <EmptyState colSpan={columns.length}>
-              {emptyState || 'No data available'}
-            </EmptyState>
+            <TableHeader columns={columns} sortState={activeSort} onSort={handleSort} />
+            <EmptyState colSpan={columns.length}>{emptyState || 'No data available'}</EmptyState>
           </table>
         </div>
       </div>
@@ -145,11 +146,7 @@ export function DataTable<TData = unknown>({
           `.trim()}
           aria-label={ariaLabel}
         >
-          <TableHeader
-            columns={columns}
-            sortState={activeSort}
-            onSort={handleSort}
-          />
+          <TableHeader columns={columns} sortState={activeSort} onSort={handleSort} />
           <TableBody
             data={displayData}
             columns={columns}

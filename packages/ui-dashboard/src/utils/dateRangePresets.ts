@@ -1,6 +1,6 @@
 /**
  * Date Range Presets - 100% REUSABLE
- * 
+ *
  * Convert preset names to actual date ranges
  * No dependencies on specific app logic
  */
@@ -25,7 +25,7 @@ import {
  */
 export function getDateRangeForPreset(preset: DatePreset): DateRange {
   const now = new Date();
-  
+
   switch (preset) {
     case 'today':
       return {
@@ -34,7 +34,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'Today',
       };
-      
+
     case 'yesterday':
       const yesterday = subtractDays(now, 1);
       return {
@@ -43,7 +43,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'Yesterday',
       };
-      
+
     case 'this_week':
       return {
         start: startOfWeek(now),
@@ -51,7 +51,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'This Week',
       };
-      
+
     case 'last_week':
       const lastWeekDate = subtractDays(now, 7);
       return {
@@ -60,7 +60,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'Last Week',
       };
-      
+
     case 'this_month':
       return {
         start: startOfMonth(now),
@@ -68,7 +68,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'This Month',
       };
-      
+
     case 'last_month':
       const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
       return {
@@ -77,7 +77,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'Last Month',
       };
-      
+
     case 'this_quarter':
       return {
         start: startOfQuarter(now),
@@ -85,7 +85,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'This Quarter',
       };
-      
+
     case 'last_quarter':
       const lastQuarter = new Date(now.getFullYear(), now.getMonth() - 3, 1);
       return {
@@ -94,7 +94,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'Last Quarter',
       };
-      
+
     case 'this_year':
       return {
         start: startOfYear(now),
@@ -102,7 +102,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'This Year',
       };
-      
+
     case 'last_year':
       const lastYear = new Date(now.getFullYear() - 1, 0, 1);
       return {
@@ -111,7 +111,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'Last Year',
       };
-      
+
     case 'last_7_days':
       return {
         start: startOfDay(subtractDays(now, 6)),
@@ -119,7 +119,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'Last 7 Days',
       };
-      
+
     case 'last_30_days':
       return {
         start: startOfDay(subtractDays(now, 29)),
@@ -127,7 +127,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'Last 30 Days',
       };
-      
+
     case 'last_90_days':
       return {
         start: startOfDay(subtractDays(now, 89)),
@@ -135,7 +135,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'Last 90 Days',
       };
-      
+
     case 'last_365_days':
       return {
         start: startOfDay(subtractDays(now, 364)),
@@ -143,7 +143,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'Last 365 Days',
       };
-      
+
     case 'all_time':
       return {
         start: new Date(2020, 0, 1), // Arbitrary old date
@@ -151,7 +151,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'All Time',
       };
-      
+
     case 'custom':
       return {
         start: startOfMonth(now),
@@ -159,7 +159,7 @@ export function getDateRangeForPreset(preset: DatePreset): DateRange {
         preset,
         label: 'Custom Range',
       };
-      
+
     default:
       return {
         start: startOfMonth(now),

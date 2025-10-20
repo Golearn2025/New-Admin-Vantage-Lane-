@@ -1,6 +1,6 @@
 /**
  * TableCell Component
- * 
+ *
  * Individual table cell with alignment, custom rendering, and accessibility.
  * Generic component - works with any data type.
  */
@@ -18,7 +18,7 @@ export function TableCell<TData = unknown>({
 }: TableCellProps<TData>): JSX.Element {
   // Render custom cell if provided
   const cellContent = column.cell ? column.cell(row, value) : String(value ?? '');
-  
+
   // Build CSS classes
   const classes = [
     styles.cell,
@@ -29,20 +29,16 @@ export function TableCell<TData = unknown>({
   ]
     .filter(Boolean)
     .join(' ');
-  
+
   // Build inline styles for width
   const cellStyles: React.CSSProperties = {
     width: column.width,
     minWidth: column.minWidth,
     maxWidth: column.maxWidth,
   };
-  
+
   return (
-    <td 
-      className={classes} 
-      style={cellStyles}
-      data-column-id={column.id}
-    >
+    <td className={classes} style={cellStyles} data-column-id={column.id}>
       {cellContent}
     </td>
   );

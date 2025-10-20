@@ -1,9 +1,9 @@
 /**
  * DateFilterPreset Component - 100% REUSABLE
- * 
+ *
  * Quick select buttons for common date ranges
  * Used in dashboards, reports, analytics, etc.
- * 
+ *
  * ZERO dependencies on app-specific logic
  */
 
@@ -17,19 +17,19 @@ import styles from './DateFilterPreset.module.css';
 export interface DateFilterPresetProps {
   /** Current selected preset */
   value?: DatePreset;
-  
+
   /** Callback when preset changes */
   onChange: (preset: DatePreset, dateRange: DateRange) => void;
-  
+
   /** Available presets to show */
   presets?: DatePreset[];
-  
+
   /** Show "Custom" button */
   showCustom?: boolean;
-  
+
   /** Variant style */
   variant?: 'default' | 'compact' | 'pills';
-  
+
   /** Custom labels for presets */
   labels?: Partial<Record<DatePreset, string>>;
 }
@@ -73,19 +73,19 @@ export function DateFilterPreset({
   labels,
 }: DateFilterPresetProps) {
   const [selected, setSelected] = useState<DatePreset>(value);
-  
+
   const handlePresetClick = (preset: DatePreset) => {
     setSelected(preset);
     const dateRange = getDateRangeForPreset(preset);
     onChange(preset, dateRange);
   };
-  
+
   const getLabel = (preset: DatePreset): string => {
     return labels?.[preset] || DEFAULT_LABELS[preset];
   };
-  
+
   const allPresets = showCustom ? [...presets, 'custom' as DatePreset] : presets;
-  
+
   return (
     <div className={`${styles.container} ${styles[`variant-${variant}`]}`}>
       {allPresets.map((preset) => (

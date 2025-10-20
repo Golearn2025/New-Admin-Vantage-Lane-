@@ -9,23 +9,24 @@
 
 ### API Error Codes (Backend)
 
-| Code | HTTP Status | Meaning | Retry? |
-|------|-------------|---------|--------|
-| `DATABASE_ERROR` | 500 | Supabase query failed | Yes |
-| `TIMEOUT` | 504 | Request exceeded 5s | Yes |
-| `FORBIDDEN` | 403 | RLS policy violation (operator without org_id) | No |
-| `NO_DATA` | 200 | Query successful but 0 rows (API emits, UI renders empty state) | No |
-| `N_A` | 200 | Metric unavailable (UI decides based on null + context, not API code) | No |
-| `INVALID_UUID` | 422 | organization_id malformed | No |
-| `RATE_LIMITED` | 429 | Too many requests (check Retry-After header) | Yes (after delay) |
+| Code             | HTTP Status | Meaning                                                               | Retry?            |
+| ---------------- | ----------- | --------------------------------------------------------------------- | ----------------- |
+| `DATABASE_ERROR` | 500         | Supabase query failed                                                 | Yes               |
+| `TIMEOUT`        | 504         | Request exceeded 5s                                                   | Yes               |
+| `FORBIDDEN`      | 403         | RLS policy violation (operator without org_id)                        | No                |
+| `NO_DATA`        | 200         | Query successful but 0 rows (API emits, UI renders empty state)       | No                |
+| `N_A`            | 200         | Metric unavailable (UI decides based on null + context, not API code) | No                |
+| `INVALID_UUID`   | 422         | organization_id malformed                                             | No                |
+| `RATE_LIMITED`   | 429         | Too many requests (check Retry-After header)                          | Yes (after delay) |
 
 **Unified Error Payload Format:**
+
 ```typescript
 interface ErrorResponse {
   code: ErrorCode;
   message: string;
   meta?: {
-    retry_after?: number;  // Seconds (for RATE_LIMITED)
+    retry_after?: number; // Seconds (for RATE_LIMITED)
     timestamp?: string;
     [key: string]: unknown;
   };
@@ -33,6 +34,7 @@ interface ErrorResponse {
 ```
 
 **Example:**
+
 ```json
 {
   "code": "DATABASE_ERROR",
@@ -83,14 +85,14 @@ interface ErrorResponse {
 
 ### State Properties
 
-| State | Skeleton | Content | Error Banner | Retry Button | aria-busy |
-|-------|----------|---------|--------------|--------------|-----------|
-| `idle` | No | No | No | No | false |
-| `loading` | Yes | No | No | No | true |
-| `success` | No | Yes | No | No | false |
-| `empty` | No | Empty message | No | No | false |
-| `N/A` | No | N/A indicator | No | No | false |
-| `error` | No | No | Yes | Yes (conditional) | false |
+| State     | Skeleton | Content       | Error Banner | Retry Button      | aria-busy |
+| --------- | -------- | ------------- | ------------ | ----------------- | --------- |
+| `idle`    | No       | No            | No           | No                | false     |
+| `loading` | Yes      | No            | No           | No                | true      |
+| `success` | No       | Yes           | No           | No                | false     |
+| `empty`   | No       | Empty message | No           | No                | false     |
+| `N/A`     | No       | N/A indicator | No           | No                | false     |
+| `error`   | No       | No            | Yes          | Yes (conditional) | false     |
 
 ---
 
@@ -101,26 +103,31 @@ interface ErrorResponse {
 **Trigger:** Supabase query failure  
 **UI State:** `error`  
 **Display:**
+
 - Border: `var(--color-danger-default)` (red)
 - Icon: Alert triangle (20×20)
 - Message: "Failed to load data. Please try again."
 - CTA: "Retry" button (primary variant)
 
 **Behavior:**
+
 - User clicks Retry → transition to `loading` → re-fetch
 - Max 3 retries, then show "Contact support" message
 
 **Code Example (Card):**
+
 ```tsx
-{state === 'error' && (
-  <div className="error-state">
-    <AlertTriangle size={20} color="var(--color-danger-default)" />
-    <p>Failed to load data</p>
-    <Button variant="primary" size="sm" onClick={handleRetry}>
-      Retry
-    </Button>
-  </div>
-)}
+{
+  state === 'error' && (
+    <div className="error-state">
+      <AlertTriangle size={20} color="var(--color-danger-default)" />
+      <p>Failed to load data</p>
+      <Button variant="primary" size="sm" onClick={handleRetry}>
+        Retry
+      </Button>
+    </div>
+  );
+}
 ```
 
 ---
@@ -130,6 +137,7 @@ interface ErrorResponse {
 **Trigger:** Request >5s  
 **UI State:** `error`  
 **Display:**
+
 - Border: `var(--color-warning-default)` (orange)
 - Icon: Clock icon
 - Message: "Request timed out. Check your connection."
@@ -144,12 +152,14 @@ interface ErrorResponse {
 **Trigger:** RLS violation (operator accesses without organization_id)  
 **UI State:** `error`  
 **Display:**
+
 - Border: `var(--color-danger-default)`
 - Icon: Lock icon
 - Message: "Access denied. Contact your administrator."
 - CTA: NO retry button (not retriable)
 
 **RBAC Context:**
+
 ```typescript
 // Operator without org_id → API returns 403
 if (role === 'operator' && !organization_id) {
@@ -158,6 +168,7 @@ if (role === 'operator' && !organization_id) {
 ```
 
 **Behavior:**
+
 - NO retry (RLS won't change mid-session)
 - Show message + link to support
 
@@ -168,6 +179,7 @@ if (role === 'operator' && !organization_id) {
 **Trigger:** Query successful but 0 rows  
 **UI State:** `empty`  
 **Display:**
+
 - Background: `var(--color-surface-elevated)` (normal card)
 - Icon: Inbox icon (opacity 32%)
 - Message: "No data for selected period"
@@ -175,17 +187,21 @@ if (role === 'operator' && !organization_id) {
 - CTA: NO retry button (data doesn't exist)
 
 **Example (Card):**
+
 ```tsx
-{state === 'empty' && (
-  <div className="empty-state">
-    <Inbox size={48} opacity={0.32} />
-    <p className="message">No data for selected period</p>
-    <p className="sublabel">Try selecting a different time range</p>
-  </div>
-)}
+{
+  state === 'empty' && (
+    <div className="empty-state">
+      <Inbox size={48} opacity={0.32} />
+      <p className="message">No data for selected period</p>
+      <p className="sublabel">Try selecting a different time range</p>
+    </div>
+  );
+}
 ```
 
 **Distinction from Error:**
+
 - Empty = valid state (query worked, no results)
 - Error = failure state (query broken)
 
@@ -196,27 +212,33 @@ if (role === 'operator' && !organization_id) {
 **Trigger:** Metric unavailable in context  
 **UI State:** `N/A`  
 **Display:**
+
 - Value: "N/A" (large, muted color)
 - Sublabel: Reason (ex: "Refunds table not configured")
 - Icon: Info circle (optional)
 - Border: Normal (not error)
 
 **Examples:**
+
 - Refunds card când refunds table doesn't exist
 - Platform commission când operator role (hidden metric)
 - Forecasted metrics când historical data <7 days
 
 **Code Example:**
+
 ```tsx
-{state === 'N/A' && (
-  <div className="na-state">
-    <div className="value">N/A</div>
-    <div className="sublabel">{fallback_reason}</div>
-  </div>
-)}
+{
+  state === 'N/A' && (
+    <div className="na-state">
+      <div className="value">N/A</div>
+      <div className="sublabel">{fallback_reason}</div>
+    </div>
+  );
+}
 ```
 
 **Distinction:**
+
 - N/A = metric conceptually unavailable
 - Empty = metric available but no data yet
 
@@ -227,10 +249,12 @@ if (role === 'operator' && !organization_id) {
 **Trigger:** Malformed organization_id parameter  
 **UI State:** `error`  
 **Display:**
+
 - Message: "Invalid organization ID. Please refresh."
 - CTA: "Refresh" button → reload page
 
 **Behavior:**
+
 - NOT retriable with same params
 - Likely app bug or corrupted JWT → needs fresh session
 
@@ -241,19 +265,22 @@ if (role === 'operator' && !organization_id) {
 **Trigger:** >60 requests/minute from same IP  
 **UI State:** `error`  
 **Display:**
+
 - Message: "Too many requests. Please wait {retry_after} seconds."
 - CTA: "Retry" disabled for {retry_after}s, then enabled
 
 **Behavior:**
+
 - Read `Retry-After` header from API response (HTTP 429)
 - Fallback to 30s if header missing
 - Auto-retry after delay
 - Show countdown timer: "Retry available in 25s..."
 
 **Implementation:**
+
 ```typescript
-const retryAfter = response.headers.get('Retry-After') 
-  ? parseInt(response.headers.get('Retry-After')!) 
+const retryAfter = response.headers.get('Retry-After')
+  ? parseInt(response.headers.get('Retry-After')!)
   : 30;
 
 // OR from meta if JSON response
@@ -277,17 +304,19 @@ function logError(code: ErrorCode, context: Record<string, unknown>) {
       card_key: context.card_key,
       endpoint: context.endpoint,
       user_role: context.user_role,
-      timestamp: new Date().toISOString()
-    }
+      timestamp: new Date().toISOString(),
+    },
   });
 }
 ```
 
 **Do NOT log:**
+
 - Sensitive params (JWT tokens, API keys)
 - User PII (email, org names)
 
 **DO log:**
+
 - Error code
 - Component name
 - Endpoint URL (sanitized)
@@ -299,6 +328,7 @@ function logError(code: ErrorCode, context: Record<string, unknown>) {
 ## 5. User-Facing Error Messages
 
 ### Tone Guidelines
+
 - **Calm:** Avoid alarming language ("Failed" > "Oops! Something went wrong!")
 - **Actionable:** Tell user what to do ("Retry" > "Error occurred")
 - **Honest:** Don't hide errors ("Contact support" not "Try later")
@@ -325,6 +355,7 @@ function logError(code: ErrorCode, context: Record<string, unknown>) {
 ```
 
 **Usage in Component:**
+
 ```typescript
 import { t } from '@admin/shared/i18n';
 
@@ -340,11 +371,13 @@ const message = t(`dashboard.error.${error.code}`, { reason: error.meta?.reason 
 ## 6. Retry Strategy
 
 ### Retriable Errors
+
 - DATABASE_ERROR
 - TIMEOUT
 - RATE_LIMITED
 
 ### Non-Retriable Errors
+
 - FORBIDDEN (RLS won't change)
 - INVALID_UUID (needs fix, not retry)
 - NO_DATA (data doesn't exist)
@@ -398,13 +431,13 @@ async function fetchWithRetry(
 
 ### Screen Reader Announcements
 
-| State | Announcement |
-|-------|--------------|
-| loading | "Loading data" (aria-busy) |
-| success | "Data loaded" (aria-live=polite) |
-| empty | "No data available" (aria-live=polite) |
-| error | "Error: Failed to load data" (aria-live=assertive) |
-| N/A | "Not applicable: {reason}" (aria-live=polite) |
+| State   | Announcement                                       |
+| ------- | -------------------------------------------------- |
+| loading | "Loading data" (aria-busy)                         |
+| success | "Data loaded" (aria-live=polite)                   |
+| empty   | "No data available" (aria-live=polite)             |
+| error   | "Error: Failed to load data" (aria-live=assertive) |
+| N/A     | "Not applicable: {reason}" (aria-live=polite)      |
 
 ---
 
@@ -412,12 +445,12 @@ async function fetchWithRetry(
 
 ### Color Coding
 
-| State | Border | Background | Icon Color |
-|-------|--------|------------|------------|
-| success | default | elevated | primary |
-| empty | default | elevated | muted (32% opacity) |
-| N/A | default | elevated | neutral |
-| error | critical | elevated | critical |
+| State   | Border   | Background | Icon Color          |
+| ------- | -------- | ---------- | ------------------- |
+| success | default  | elevated   | primary             |
+| empty   | default  | elevated   | muted (32% opacity) |
+| N/A     | default  | elevated   | neutral             |
+| error   | critical | elevated   | critical            |
 
 ### Animation
 

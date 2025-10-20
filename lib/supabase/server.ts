@@ -1,6 +1,6 @@
 /**
  * Supabase Server Client
- * 
+ *
  * Creates a Supabase client for server-side usage (API routes, Server Components)
  * - Uses cookies for authentication
  * - RLS policies enforced

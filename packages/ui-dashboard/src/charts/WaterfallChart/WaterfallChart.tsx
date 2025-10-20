@@ -5,7 +5,17 @@
  */
 
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, TooltipProps, Cell } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  TooltipProps,
+  Cell,
+} from 'recharts';
 import styles from './WaterfallChart.module.css';
 import { CHART_COLORS } from '../../theme/palettes';
 
@@ -30,7 +40,7 @@ function CustomTooltip({ active, payload, label }: TooltipProps<number, string>)
   if (!active || !payload || !payload.length) return null;
 
   const value = payload[0]?.value;
-  
+
   return (
     <div className={styles.tooltip}>
       <p className={styles.tooltipLabel}>{label}</p>
@@ -96,15 +106,12 @@ export function WaterfallChart({
       <ResponsiveContainer width="100%" height={height}>
         <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--vl-chart-grid, #e5e7eb)" />
-          <XAxis 
-            dataKey="name" 
+          <XAxis
+            dataKey="name"
             stroke="var(--vl-chart-axis, #6b7280)"
             style={{ fontSize: '12px' }}
           />
-          <YAxis 
-            stroke="var(--vl-chart-axis, #6b7280)"
-            style={{ fontSize: '12px' }}
-          />
+          <YAxis stroke="var(--vl-chart-axis, #6b7280)" style={{ fontSize: '12px' }} />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }} />
           <Bar dataKey="value" radius={[8, 8, 0, 0]} animationDuration={800}>
             {chartData.map((entry, index) => {

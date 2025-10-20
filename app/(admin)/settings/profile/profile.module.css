@@ -6,9 +6,9 @@
 
 .container {
   min-height: 100vh;
-  padding: 24px;           /* ✅ CA DASHBOARD - padding normal */
-  max-width: 1600px;       /* ✅ CA DASHBOARD - max-width control */
-  margin: 0 auto;          /* ✅ CA DASHBOARD - centrat */
+  padding: 24px; /* ✅ CA DASHBOARD - padding normal */
+  max-width: 1600px; /* ✅ CA DASHBOARD - max-width control */
+  margin: 0 auto; /* ✅ CA DASHBOARD - centrat */
   animation: fadeIn 0.3s ease-out;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .header {
-  margin-bottom: 28px;     /* ✅ CA DASHBOARD */
+  margin-bottom: 28px; /* ✅ CA DASHBOARD */
   position: relative;
 }
 
@@ -35,24 +35,21 @@
   left: 0;
   width: 120px;
   height: 2px;
-  background: linear-gradient(90deg,
-      #CBB26A 0%,
-      #764BA2 100%);
+  background: linear-gradient(90deg, #cbb26a 0%, #764ba2 100%);
   box-shadow: 0 0 10px rgba(203, 178, 106, 0.5);
 }
 
 .title {
-  font-size: 36px;         /* ✅ CA DASHBOARD */
-  font-weight: 800;        /* ✅ CA DASHBOARD */
-  color: #F1D16A;
-  margin: 0 0 8px 0;       /* ✅ CA DASHBOARD */
+  font-size: 36px; /* ✅ CA DASHBOARD */
+  font-weight: 800; /* ✅ CA DASHBOARD */
+  color: #f1d16a;
+  margin: 0 0 8px 0; /* ✅ CA DASHBOARD */
   letter-spacing: -0.03em; /* ✅ CA DASHBOARD */
-  line-height: 1.2;        /* ✅ CA DASHBOARD */
+  line-height: 1.2; /* ✅ CA DASHBOARD */
   text-shadow: 0 0 40px rgba(241, 209, 106, 0.5);
 }
 
 @keyframes shimmer {
-
   0%,
   100% {
     filter: brightness(1);
@@ -64,10 +61,10 @@
 }
 
 .subtitle {
-  font-size: 15px;         /* ✅ CA DASHBOARD */
+  font-size: 15px; /* ✅ CA DASHBOARD */
   color: rgba(241, 209, 106, 0.8);
   margin: 0;
-  font-weight: 400;        /* ✅ CA DASHBOARD */
+  font-weight: 400; /* ✅ CA DASHBOARD */
   text-shadow: 0 0 10px rgba(203, 178, 106, 0.2);
 }
 
@@ -75,9 +72,7 @@
   padding: var(--vl-spacing-12);
   text-align: center;
   font-size: var(--vl-font-size-lg);
-  background: linear-gradient(135deg,
-      rgba(203, 178, 106, 0.05),
-      rgba(118, 75, 162, 0.05));
+  background: linear-gradient(135deg, rgba(203, 178, 106, 0.05), rgba(118, 75, 162, 0.05));
   border-radius: var(--vl-radius-xl);
   border: 1px solid rgba(203, 178, 106, 0.2);
   color: rgba(203, 178, 106, 0.9);
@@ -86,9 +81,7 @@
 
 .error {
   padding: var(--vl-spacing-6);
-  background: linear-gradient(135deg,
-      rgba(250, 112, 154, 0.15),
-      rgba(254, 225, 64, 0.1));
+  background: linear-gradient(135deg, rgba(250, 112, 154, 0.15), rgba(254, 225, 64, 0.1));
   border: 1px solid rgba(250, 112, 154, 0.5);
   border-radius: var(--vl-radius-xl);
   color: #fee140;

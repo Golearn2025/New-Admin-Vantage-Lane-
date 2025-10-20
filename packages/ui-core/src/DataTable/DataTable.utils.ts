@@ -30,9 +30,7 @@ export function isColumnSortable<TData>(column: Column<TData>): boolean {
 /**
  * Get visible columns
  */
-export function getVisibleColumns<TData>(
-  columns: Column<TData>[]
-): Column<TData>[] {
+export function getVisibleColumns<TData>(columns: Column<TData>[]): Column<TData>[] {
   // For now, all columns are visible (hidden property not yet in Column type)
   return columns;
 }
@@ -86,6 +84,6 @@ export function getTableStateSummary(
 } {
   const start = Math.min((currentPage - 1) * pageSize + 1, totalItems);
   const end = Math.min(currentPage * pageSize, totalItems);
-  
+
   return { start, end, total: totalItems };
 }

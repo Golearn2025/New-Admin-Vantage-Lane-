@@ -1,6 +1,6 @@
 /**
  * EmptyState Component
- * 
+ *
  * Display when table has no data.
  * <50 linii - respectă regulile proiectului!
  */
@@ -13,30 +13,21 @@ interface EmptyStateProps {
    * Number of columns (for colspan)
    */
   colSpan: number;
-  
+
   /**
    * Custom empty state content
    */
   children?: ReactNode;
-  
+
   /**
    * Additional CSS class
    */
   className?: string;
 }
 
-export const EmptyState: React.FC<EmptyStateProps> = ({
-  colSpan,
-  children,
-  className,
-}) => {
-  const classes = [
-    styles.emptyState,
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-  
+export const EmptyState: React.FC<EmptyStateProps> = ({ colSpan, children, className }) => {
+  const classes = [styles.emptyState, className].filter(Boolean).join(' ');
+
   return (
     <tbody>
       <tr>

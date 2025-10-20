@@ -1,6 +1,6 @@
 /**
  * Badge Component - Public API
- * 
+ *
  * Centralized export for Badge component.
  */
 

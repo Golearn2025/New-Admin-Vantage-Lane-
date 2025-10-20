@@ -1,6 +1,6 @@
 /**
  * TableRow Component
- * 
+ *
  * Individual table row with selection, hover, and expansion support.
  * Generic component - works with any data type.
  * <100 linii - respectă regulile proiectului!
@@ -28,21 +28,21 @@ export function TableRow<TData = unknown>({
       onClick(row, event);
     }
   };
-  
+
   // Handle mouse enter
   const handleMouseEnter = () => {
     if (onHover) {
       onHover(row);
     }
   };
-  
+
   // Handle mouse leave
   const handleMouseLeave = () => {
     if (onHover) {
       onHover(null);
     }
   };
-  
+
   // Build CSS classes
   const classes = [
     styles.row,
@@ -54,7 +54,7 @@ export function TableRow<TData = unknown>({
   ]
     .filter(Boolean)
     .join(' ');
-  
+
   return (
     <tr
       className={classes}
@@ -67,10 +67,10 @@ export function TableRow<TData = unknown>({
     >
       {columns.map((column) => {
         // Get cell value using accessor or id
-        const value = column.accessor 
+        const value = column.accessor
           ? column.accessor(row)
           : (row as Record<string, unknown>)[column.id];
-        
+
         return (
           <TableCell
             key={column.id}

@@ -1,21 +1,16 @@
 /**
  * Bookings Columns - Barrel Export
- * 
+ *
  * Main entry point for bookings table columns configuration.
  */
 
 import type { BookingsColumnsProps, BookingColumn } from './schema';
-import { 
-  getSelectColumn, 
-  getExpandColumn, 
-  getReferenceColumn, 
-  getCustomerColumn 
-} from './cells';
-import { 
-  getRouteColumn, 
-  getVehicleColumn, 
-  getPaymentColumn, 
-  getStatusColumn 
+import { getSelectColumn, getExpandColumn, getReferenceColumn, getCustomerColumn } from './cells';
+import {
+  getRouteColumn,
+  getVehicleColumn,
+  getPaymentColumn,
+  getStatusColumn,
 } from './cells-details';
 import { getActionsColumn } from './actions';
 

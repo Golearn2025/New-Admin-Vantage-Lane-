@@ -2,7 +2,7 @@
 
 /**
  * Bookings Table Component - REUSABLE
- * 
+ *
  * Premium bookings table with filters, pagination, and StatusBadge
  * Compliant: <200 lines
  * Refactored: All inline styles moved to CSS module
@@ -57,16 +57,19 @@ export function BookingsTable({
   };
 
   // Handle select all
-  const handleSelectAll = useCallback((checked: boolean) => {
-    if (checked) {
-      const allIds = new Set(bookings.map(b => b.id));
-      setSelectedIds(allIds);
-      setAllSelected(true);
-    } else {
-      setSelectedIds(new Set());
-      setAllSelected(false);
-    }
-  }, [bookings]);
+  const handleSelectAll = useCallback(
+    (checked: boolean) => {
+      if (checked) {
+        const allIds = new Set(bookings.map((b) => b.id));
+        setSelectedIds(allIds);
+        setAllSelected(true);
+      } else {
+        setSelectedIds(new Set());
+        setAllSelected(false);
+      }
+    },
+    [bookings]
+  );
 
   // Handle select individual row
   const handleSelectRow = useCallback((id: string, checked: boolean) => {
@@ -84,19 +87,19 @@ export function BookingsTable({
 
   // Create columns with expand toggle and select
   const columnsWithExpand = React.useMemo(() => {
-    const baseColumns = getBookingsColumns({ 
+    const baseColumns = getBookingsColumns({
       onSelectAll: handleSelectAll,
       onSelectRow: handleSelectRow,
       allSelected,
-      selectedIds
+      selectedIds,
     });
-    
+
     return baseColumns.map((col) => {
       if (col.id === 'expand') {
         return {
           ...col,
           cell: (row: BookingListItem) => (
-            <button 
+            <button
               className={styles.expandButton}
               onClick={(e) => {
                 e.stopPropagation();
@@ -117,9 +120,7 @@ export function BookingsTable({
     <div className={styles.container}>
       {/* Header */}
       <div className={styles.header}>
-        <h1 className={styles.title}>
-          {title}
-        </h1>
+        <h1 className={styles.title}>{title}</h1>
         {description && (
           <p className={styles.description}>
             {description} ({totalCount} total)
@@ -131,10 +132,7 @@ export function BookingsTable({
       <div className={styles.filtersContainer}>
         {showStatusFilter && (
           <div className={styles.filterGroup}>
-            <label
-              htmlFor="status-filter"
-              className={styles.filterLabel}
-            >
+            <label htmlFor="status-filter" className={styles.filterLabel}>
               Status:
             </label>
             <select
@@ -159,11 +157,7 @@ export function BookingsTable({
         )}
 
         <div className={styles.actionsContainer}>
-          <button
-            onClick={fetchBookings}
-            disabled={loading}
-            className={styles.refreshButton}
-          >
+          <button onClick={fetchBookings} disabled={loading} className={styles.refreshButton}>
             {loading ? 'Loading...' : '🔄 Refresh'}
           </button>
         </div>

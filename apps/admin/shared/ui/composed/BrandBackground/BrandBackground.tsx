@@ -1,6 +1,6 @@
 /**
  * BrandBackground Component - Reutilizabil
- * 
+ *
  * Background cu Cristi's 6-layer carbon fiber pentru întreaga aplicație.
  * Poate fi folosit în login, AppShell, sau oriunde altundeva.
  */
@@ -14,10 +14,10 @@ export type BrandBackgroundProps = {
   children?: React.ReactNode;
 };
 
-export function BrandBackground({ 
-  variant = 'login', 
-  className = '', 
-  children 
+export function BrandBackground({
+  variant = 'login',
+  className = '',
+  children,
 }: BrandBackgroundProps) {
   return (
     <div className={`${styles.bg} ${styles[variant]} ${className}`}>
@@ -27,7 +27,7 @@ export function BrandBackground({
       <div className={styles.carbonHex} />
       <div className={styles.carbonWeave} />
       <div className={styles.metallicReflections} />
-      
+
       {children}
     </div>
   );

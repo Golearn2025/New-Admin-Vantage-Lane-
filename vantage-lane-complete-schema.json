@@ -9,115 +9,200 @@
     {
       "table_name": "admin_users",
       "columns": [
-        {"column_name": "id", "data_type": "uuid", "is_nullable": "NO", "column_default": "gen_random_uuid()"},
-        {"column_name": "auth_user_id", "data_type": "uuid", "is_nullable": "YES"},
-        {"column_name": "email", "data_type": "character varying", "is_nullable": "NO"},
-        {"column_name": "name", "data_type": "character varying", "is_nullable": "YES"},
-        {"column_name": "role", "data_type": "character varying", "is_nullable": "YES", "column_default": "'admin'::character varying"},
-        {"column_name": "is_active", "data_type": "boolean", "is_nullable": "YES", "column_default": "true"},
-        {"column_name": "last_login", "data_type": "timestamp without time zone", "is_nullable": "YES"},
-        {"column_name": "created_at", "data_type": "timestamp without time zone", "is_nullable": "YES", "column_default": "now()"},
-        {"column_name": "default_operator_id", "data_type": "uuid", "is_nullable": "YES"}
+        {
+          "column_name": "id",
+          "data_type": "uuid",
+          "is_nullable": "NO",
+          "column_default": "gen_random_uuid()"
+        },
+        { "column_name": "auth_user_id", "data_type": "uuid", "is_nullable": "YES" },
+        { "column_name": "email", "data_type": "character varying", "is_nullable": "NO" },
+        { "column_name": "name", "data_type": "character varying", "is_nullable": "YES" },
+        {
+          "column_name": "role",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": "'admin'::character varying"
+        },
+        {
+          "column_name": "is_active",
+          "data_type": "boolean",
+          "is_nullable": "YES",
+          "column_default": "true"
+        },
+        {
+          "column_name": "last_login",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()"
+        },
+        { "column_name": "default_operator_id", "data_type": "uuid", "is_nullable": "YES" }
       ]
     },
     {
       "table_name": "bookings",
       "columns": [
-        {"column_name": "id", "data_type": "uuid", "is_nullable": "NO", "column_default": "gen_random_uuid()"},
-        {"column_name": "booking_reference", "data_type": "character varying", "is_nullable": "YES"},
-        {"column_name": "customer_id", "data_type": "uuid", "is_nullable": "YES"},
-        {"column_name": "auth_user_id", "data_type": "uuid", "is_nullable": "YES"},
-        {"column_name": "organization_id", "data_type": "uuid", "is_nullable": "YES"},
-        {"column_name": "booking_type", "data_type": "character varying", "is_nullable": "YES"},
-        {"column_name": "service_type", "data_type": "character varying", "is_nullable": "YES"},
-        {"column_name": "status", "data_type": "character varying", "is_nullable": "YES"},
-        {"column_name": "passenger_count", "data_type": "integer", "is_nullable": "YES"},
-        {"column_name": "luggage_count", "data_type": "integer", "is_nullable": "YES"},
-        {"column_name": "pickup_datetime", "data_type": "timestamp without time zone", "is_nullable": "YES"},
-        {"column_name": "assigned_driver_id", "data_type": "uuid", "is_nullable": "YES"},
-        {"column_name": "assigned_vehicle_id", "data_type": "uuid", "is_nullable": "YES"},
-        {"column_name": "billing_entity_id", "data_type": "uuid", "is_nullable": "YES"},
-        {"column_name": "created_at", "data_type": "timestamp without time zone", "is_nullable": "YES"},
-        {"column_name": "updated_at", "data_type": "timestamp without time zone", "is_nullable": "YES"}
+        {
+          "column_name": "id",
+          "data_type": "uuid",
+          "is_nullable": "NO",
+          "column_default": "gen_random_uuid()"
+        },
+        {
+          "column_name": "booking_reference",
+          "data_type": "character varying",
+          "is_nullable": "YES"
+        },
+        { "column_name": "customer_id", "data_type": "uuid", "is_nullable": "YES" },
+        { "column_name": "auth_user_id", "data_type": "uuid", "is_nullable": "YES" },
+        { "column_name": "organization_id", "data_type": "uuid", "is_nullable": "YES" },
+        { "column_name": "booking_type", "data_type": "character varying", "is_nullable": "YES" },
+        { "column_name": "service_type", "data_type": "character varying", "is_nullable": "YES" },
+        { "column_name": "status", "data_type": "character varying", "is_nullable": "YES" },
+        { "column_name": "passenger_count", "data_type": "integer", "is_nullable": "YES" },
+        { "column_name": "luggage_count", "data_type": "integer", "is_nullable": "YES" },
+        {
+          "column_name": "pickup_datetime",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES"
+        },
+        { "column_name": "assigned_driver_id", "data_type": "uuid", "is_nullable": "YES" },
+        { "column_name": "assigned_vehicle_id", "data_type": "uuid", "is_nullable": "YES" },
+        { "column_name": "billing_entity_id", "data_type": "uuid", "is_nullable": "YES" },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES"
+        }
       ]
     },
     {
-      "table_name": "customers", 
+      "table_name": "customers",
       "columns": [
-        {"column_name": "id", "data_type": "uuid", "is_nullable": "NO"},
-        {"column_name": "auth_user_id", "data_type": "uuid", "is_nullable": "YES"},
-        {"column_name": "email", "data_type": "character varying", "is_nullable": "NO"},
-        {"column_name": "first_name", "data_type": "character varying", "is_nullable": "YES"},
-        {"column_name": "last_name", "data_type": "character varying", "is_nullable": "YES"},
-        {"column_name": "phone", "data_type": "character varying", "is_nullable": "YES"},
-        {"column_name": "status", "data_type": "USER-DEFINED", "udt_name": "customer_status_enum"}
+        { "column_name": "id", "data_type": "uuid", "is_nullable": "NO" },
+        { "column_name": "auth_user_id", "data_type": "uuid", "is_nullable": "YES" },
+        { "column_name": "email", "data_type": "character varying", "is_nullable": "NO" },
+        { "column_name": "first_name", "data_type": "character varying", "is_nullable": "YES" },
+        { "column_name": "last_name", "data_type": "character varying", "is_nullable": "YES" },
+        { "column_name": "phone", "data_type": "character varying", "is_nullable": "YES" },
+        { "column_name": "status", "data_type": "USER-DEFINED", "udt_name": "customer_status_enum" }
       ]
     },
     {
       "table_name": "drivers",
       "columns": [
-        {"column_name": "id", "data_type": "uuid", "is_nullable": "NO"},
-        {"column_name": "organization_id", "data_type": "uuid", "is_nullable": "NO"},
-        {"column_name": "email", "data_type": "character varying", "is_nullable": "NO"},
-        {"column_name": "first_name", "data_type": "character varying", "is_nullable": "NO"},
-        {"column_name": "last_name", "data_type": "character varying", "is_nullable": "NO"},
-        {"column_name": "phone", "data_type": "character varying", "is_nullable": "NO"},
-        {"column_name": "status", "data_type": "character varying", "is_nullable": "YES"}
+        { "column_name": "id", "data_type": "uuid", "is_nullable": "NO" },
+        { "column_name": "organization_id", "data_type": "uuid", "is_nullable": "NO" },
+        { "column_name": "email", "data_type": "character varying", "is_nullable": "NO" },
+        { "column_name": "first_name", "data_type": "character varying", "is_nullable": "NO" },
+        { "column_name": "last_name", "data_type": "character varying", "is_nullable": "NO" },
+        { "column_name": "phone", "data_type": "character varying", "is_nullable": "NO" },
+        { "column_name": "status", "data_type": "character varying", "is_nullable": "YES" }
       ]
     },
     {
       "table_name": "organizations",
       "columns": [
-        {"column_name": "id", "data_type": "uuid", "is_nullable": "NO"},
-        {"column_name": "name", "data_type": "character varying", "is_nullable": "NO"},
-        {"column_name": "contact_email", "data_type": "character varying", "is_nullable": "NO"},
-        {"column_name": "is_active", "data_type": "boolean", "is_nullable": "YES"}
+        { "column_name": "id", "data_type": "uuid", "is_nullable": "NO" },
+        { "column_name": "name", "data_type": "character varying", "is_nullable": "NO" },
+        { "column_name": "contact_email", "data_type": "character varying", "is_nullable": "NO" },
+        { "column_name": "is_active", "data_type": "boolean", "is_nullable": "YES" }
       ]
     },
     {
       "table_name": "vehicles",
       "columns": [
-        {"column_name": "id", "data_type": "uuid", "is_nullable": "NO"},
-        {"column_name": "organization_id", "data_type": "uuid", "is_nullable": "NO"},
-        {"column_name": "driver_id", "data_type": "uuid", "is_nullable": "YES"},
-        {"column_name": "category", "data_type": "character varying", "is_nullable": "NO"},
-        {"column_name": "make", "data_type": "character varying", "is_nullable": "NO"},
-        {"column_name": "model", "data_type": "character varying", "is_nullable": "NO"},
-        {"column_name": "license_plate", "data_type": "character varying", "is_nullable": "NO"}
+        { "column_name": "id", "data_type": "uuid", "is_nullable": "NO" },
+        { "column_name": "organization_id", "data_type": "uuid", "is_nullable": "NO" },
+        { "column_name": "driver_id", "data_type": "uuid", "is_nullable": "YES" },
+        { "column_name": "category", "data_type": "character varying", "is_nullable": "NO" },
+        { "column_name": "make", "data_type": "character varying", "is_nullable": "NO" },
+        { "column_name": "model", "data_type": "character varying", "is_nullable": "NO" },
+        { "column_name": "license_plate", "data_type": "character varying", "is_nullable": "NO" }
       ]
     },
     {
       "table_name": "support_tickets",
       "columns": [
-        {"column_name": "id", "data_type": "uuid", "is_nullable": "NO"},
-        {"column_name": "ticket_number", "data_type": "character varying", "is_nullable": "YES"},
-        {"column_name": "customer_id", "data_type": "uuid", "is_nullable": "YES"},
-        {"column_name": "subject", "data_type": "character varying", "is_nullable": "NO"},
-        {"column_name": "status", "data_type": "character varying", "is_nullable": "YES"},
-        {"column_name": "priority", "data_type": "character varying", "is_nullable": "YES"}
+        { "column_name": "id", "data_type": "uuid", "is_nullable": "NO" },
+        { "column_name": "ticket_number", "data_type": "character varying", "is_nullable": "YES" },
+        { "column_name": "customer_id", "data_type": "uuid", "is_nullable": "YES" },
+        { "column_name": "subject", "data_type": "character varying", "is_nullable": "NO" },
+        { "column_name": "status", "data_type": "character varying", "is_nullable": "YES" },
+        { "column_name": "priority", "data_type": "character varying", "is_nullable": "YES" }
       ]
     }
   ],
   "foreign_keys": [
-    {"table_name": "bookings", "column_name": "customer_id", "foreign_table_name": "customers", "foreign_column_name": "id"},
-    {"table_name": "bookings", "column_name": "assigned_driver_id", "foreign_table_name": "drivers", "foreign_column_name": "id"},
-    {"table_name": "bookings", "column_name": "assigned_vehicle_id", "foreign_table_name": "vehicles", "foreign_column_name": "id"},
-    {"table_name": "bookings", "column_name": "organization_id", "foreign_table_name": "organizations", "foreign_column_name": "id"},
-    {"table_name": "drivers", "column_name": "organization_id", "foreign_table_name": "organizations", "foreign_column_name": "id"},
-    {"table_name": "vehicles", "column_name": "organization_id", "foreign_table_name": "organizations", "foreign_column_name": "id"},
-    {"table_name": "vehicles", "column_name": "driver_id", "foreign_table_name": "drivers", "foreign_column_name": "id"},
-    {"table_name": "support_tickets", "column_name": "customer_id", "foreign_table_name": "customers", "foreign_column_name": "id"}
+    {
+      "table_name": "bookings",
+      "column_name": "customer_id",
+      "foreign_table_name": "customers",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "bookings",
+      "column_name": "assigned_driver_id",
+      "foreign_table_name": "drivers",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "bookings",
+      "column_name": "assigned_vehicle_id",
+      "foreign_table_name": "vehicles",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "bookings",
+      "column_name": "organization_id",
+      "foreign_table_name": "organizations",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "drivers",
+      "column_name": "organization_id",
+      "foreign_table_name": "organizations",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "vehicles",
+      "column_name": "organization_id",
+      "foreign_table_name": "organizations",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "vehicles",
+      "column_name": "driver_id",
+      "foreign_table_name": "drivers",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "support_tickets",
+      "column_name": "customer_id",
+      "foreign_table_name": "customers",
+      "foreign_column_name": "id"
+    }
   ],
   "enums": [
     {
-      "enum_name": "customer_status_enum", 
+      "enum_name": "customer_status_enum",
       "labels": ["active", "suspended", "deleted", "pending_verification"]
     }
   ],
   "rls_policies": [
-    {"table": "bookings", "policy": "bookings_own_data", "cmd": "ALL"},
-    {"table": "customers", "policy": "customers_own_data", "cmd": "ALL"},
-    {"table": "bookings", "policy": "super_admin_all_bookings", "cmd": "ALL"}
+    { "table": "bookings", "policy": "bookings_own_data", "cmd": "ALL" },
+    { "table": "customers", "policy": "customers_own_data", "cmd": "ALL" },
+    { "table": "bookings", "policy": "super_admin_all_bookings", "cmd": "ALL" }
   ],
   "business_context": {
     "domain": "Transportation/Ride-hailing platform",

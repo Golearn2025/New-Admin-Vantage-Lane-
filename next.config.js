@@ -14,7 +14,7 @@ const nextConfig = {
     // During build, we want strict ESLint checking
     ignoreDuringBuilds: false,
   },
-  
+
   webpack: (config) => {
     config.resolve.alias['@admin'] = resolve(__dirname, 'app/(admin)');
     config.resolve.alias['@admin-shared'] = resolve(__dirname, 'apps/admin/shared');
@@ -25,7 +25,7 @@ const nextConfig = {
     config.resolve.alias['@styles'] = resolve(__dirname, 'packages/styles');
     return config;
   },
-  
+
   // Security headers
   async headers() {
     return [

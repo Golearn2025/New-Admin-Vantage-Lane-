@@ -78,12 +78,98 @@ importers:
       plop:
         specifier: ^4.0.4
         version: 4.0.4(@types/node@20.19.22)
+      prettier:
+        specifier: 3.2.5
+        version: 3.2.5
       size-limit:
         specifier: ^11.2.0
         version: 11.2.0
       tsup:
         specifier: ^8.0.0
         version: 8.5.0(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
+
+  packages/contracts:
+    devDependencies:
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.0(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/formatters:
+    devDependencies:
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.0(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/styles: {}
+
+  packages/ui-core:
+    dependencies:
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.3.26
+      '@types/react-dom':
+        specifier: ^18.0.0
+        version: 18.3.7(@types/react@18.3.26)
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.0(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/ui-dashboard:
+    dependencies:
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+      recharts:
+        specifier: ^2.0.0
+        version: 2.15.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.3.26
+      '@types/react-dom':
+        specifier: ^18.0.0
+        version: 18.3.7(@types/react@18.3.26)
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.0(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/ui-icons:
+    dependencies:
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+    devDependencies:
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.3.26
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.0(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
 
 packages:
 
@@ -2675,6 +2761,11 @@ packages:
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+
+  prettier@3.2.5:
+    resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   pretty-format@30.2.0:
     resolution: {integrity: sha512-9uBdv/B4EefsuAL+pWqueZyZS2Ba+LxfFeQ9DN14HU4bN8bhaxKdkpjpB6fs9+pSjIBu+FXQHImEg8j/Lw0+vA==}
@@ -6130,6 +6221,8 @@ snapshots:
       - supports-color
 
   prelude-ls@1.2.1: {}
+
+  prettier@3.2.5: {}
 
   pretty-format@30.2.0:
     dependencies:

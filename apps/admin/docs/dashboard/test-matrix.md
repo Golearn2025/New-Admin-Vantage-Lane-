@@ -7,14 +7,14 @@
 
 ## 1. Test Categories
 
-| Category | Tool | Coverage Target | Pass Criteria |
-|----------|------|-----------------|---------------|
-| **A11y** | axe-core, NVDA, VoiceOver | WCAG 2.1 AA | 0 violations |
-| **Visual** | Chromatic, Percy | Snapshots per state | 100% match or approved diff |
-| **Performance** | Lighthouse CI | FCP, LCP, TBT | Card <200ms, Chart <400ms |
-| **Unit** | Jest, RTL | Props, state, formatters | 100% branch coverage |
-| **Integration** | Jest, MSW | API → UI flow | All scenarios covered |
-| **E2E** | Playwright | User journeys | Critical paths only |
+| Category        | Tool                      | Coverage Target          | Pass Criteria               |
+| --------------- | ------------------------- | ------------------------ | --------------------------- |
+| **A11y**        | axe-core, NVDA, VoiceOver | WCAG 2.1 AA              | 0 violations                |
+| **Visual**      | Chromatic, Percy          | Snapshots per state      | 100% match or approved diff |
+| **Performance** | Lighthouse CI             | FCP, LCP, TBT            | Card <200ms, Chart <400ms   |
+| **Unit**        | Jest, RTL                 | Props, state, formatters | 100% branch coverage        |
+| **Integration** | Jest, MSW                 | API → UI flow            | All scenarios covered       |
+| **E2E**         | Playwright                | User journeys            | Critical paths only         |
 
 ---
 
@@ -23,11 +23,13 @@
 ### Automated (axe-core)
 
 **Test Scope:**
+
 - All CardKit variants (Basic, Trend, MetricPair, Target, Alert)
 - All ChartKit types (Bar, Line, Area, Donut, Waterfall)
 - All states (loading, success, empty, error, N/A)
 
 **Rules Checked:**
+
 - Color contrast ≥4.5:1 (WCAG AA)
 - Focus indicators visible
 - ARIA labels present and descriptive
@@ -36,6 +38,7 @@
 - Landmarks present (`role="status"`, `role="alert"`)
 
 **Command:**
+
 ```bash
 npm run test:a11y
 # Runs axe-core against all component states
@@ -51,20 +54,21 @@ npm run test:a11y
 
 **Test Cases:**
 
-| Component | State | Expected Announcement |
-|-----------|-------|----------------------|
-| KPI.Basic | success | "GMV Completed: £1,234.56, This month" |
-| KPI.Basic | loading | "GMV Completed, Loading data" (aria-busy) |
-| KPI.Basic | empty | "GMV Completed, No data for selected period" |
-| KPI.Basic | error | "Error: Failed to load GMV Completed" |
-| KPI.Basic | N/A | "GMV Completed: Not applicable, Feature disabled" |
-| Bar.Basic | success | "Bar chart: Daily Completed Bookings, 30 data points" |
-| Bar.Basic | keyboard | Navigate bars with arrows, Enter shows tooltip |
-| Bar.Basic | fallback | Hidden table with data accessible when chart fails |
-| Donut.Snapshot | legend | "Toggle Completed bookings, currently shown" |
-| ChartKit | reduced-motion | All animations disabled, instant transitions |
+| Component      | State          | Expected Announcement                                 |
+| -------------- | -------------- | ----------------------------------------------------- |
+| KPI.Basic      | success        | "GMV Completed: £1,234.56, This month"                |
+| KPI.Basic      | loading        | "GMV Completed, Loading data" (aria-busy)             |
+| KPI.Basic      | empty          | "GMV Completed, No data for selected period"          |
+| KPI.Basic      | error          | "Error: Failed to load GMV Completed"                 |
+| KPI.Basic      | N/A            | "GMV Completed: Not applicable, Feature disabled"     |
+| Bar.Basic      | success        | "Bar chart: Daily Completed Bookings, 30 data points" |
+| Bar.Basic      | keyboard       | Navigate bars with arrows, Enter shows tooltip        |
+| Bar.Basic      | fallback       | Hidden table with data accessible when chart fails    |
+| Donut.Snapshot | legend         | "Toggle Completed bookings, currently shown"          |
+| ChartKit       | reduced-motion | All animations disabled, instant transitions          |
 
 **Pass Criteria:**
+
 - All states announced correctly
 - Keyboard navigation fluid (Tab, Arrow keys, Enter, Esc)
 - Tooltip content accessible via `aria-describedby`
@@ -87,6 +91,7 @@ npm run test:a11y
 8. **Tab** out → Focus moves to next chart
 
 **Pass Criteria:**
+
 - Focus order logical (cards top-to-bottom, left-to-right)
 - Focus ring visible (2px offset, primary color)
 - No keyboard traps
@@ -100,22 +105,23 @@ npm run test:a11y
 
 **Snapshot Matrix:**
 
-| Component | Variants | States | Total Snapshots |
-|-----------|----------|--------|-----------------|
-| KPI.Basic | compact, regular | 5 (loading, success, empty, error, N/A) | 10 |
-| KPI.Trend | compact, regular | 5 | 10 |
-| KPI.MetricPair | horizontal, vertical | 5 | 10 |
-| KPI.Target | compact, regular | 5 | 10 |
-| KPI.Alert | compact, regular | 6 (+ alert triggered) | 12 |
-| Bar.Basic | default | 5 | 5 |
-| Bar.Stacked | default | 5 | 5 |
-| Line.Basic | default | 5 | 5 |
-| Area.Cumulative | default | 5 | 5 |
-| Donut.Snapshot | default | 5 | 5 |
-| Waterfall.Financial | default | 5 | 5 |
-| **TOTAL** | | | **82 snapshots** |
+| Component           | Variants             | States                                  | Total Snapshots  |
+| ------------------- | -------------------- | --------------------------------------- | ---------------- |
+| KPI.Basic           | compact, regular     | 5 (loading, success, empty, error, N/A) | 10               |
+| KPI.Trend           | compact, regular     | 5                                       | 10               |
+| KPI.MetricPair      | horizontal, vertical | 5                                       | 10               |
+| KPI.Target          | compact, regular     | 5                                       | 10               |
+| KPI.Alert           | compact, regular     | 6 (+ alert triggered)                   | 12               |
+| Bar.Basic           | default              | 5                                       | 5                |
+| Bar.Stacked         | default              | 5                                       | 5                |
+| Line.Basic          | default              | 5                                       | 5                |
+| Area.Cumulative     | default              | 5                                       | 5                |
+| Donut.Snapshot      | default              | 5                                       | 5                |
+| Waterfall.Financial | default              | 5                                       | 5                |
+| **TOTAL**           |                      |                                         | **82 snapshots** |
 
 **Breakpoints Tested:**
+
 - Mobile (375px)
 - Tablet (768px)
 - Desktop (1920px)
@@ -123,6 +129,7 @@ npm run test:a11y
 **Total with Breakpoints:** 82 × 3 = **246 snapshots**
 
 **Pass Criteria:**
+
 - 100% match OR approved visual diff
 - No unintended layout shifts
 - Colors match design tokens
@@ -135,32 +142,36 @@ npm run test:a11y
 
 **Metrics:**
 
-| Metric | Card Target | Chart Target | Measurement |
-|--------|-------------|--------------|-------------|
-| **FCP** (First Contentful Paint) | <200ms | <400ms | Time to skeleton |
-| **LCP** (Largest Contentful Paint) | <200ms | <400ms | Time to data render |
-| **TBT** (Total Blocking Time) | <50ms | <100ms | Main thread blocking |
-| **CLS** (Cumulative Layout Shift) | 0 | <0.1 | Layout stability |
-| **FPS** (Scroll) | ≥55fps | ≥55fps | Smooth scrolling |
+| Metric                             | Card Target | Chart Target | Measurement          |
+| ---------------------------------- | ----------- | ------------ | -------------------- |
+| **FCP** (First Contentful Paint)   | <200ms      | <400ms       | Time to skeleton     |
+| **LCP** (Largest Contentful Paint) | <200ms      | <400ms       | Time to data render  |
+| **TBT** (Total Blocking Time)      | <50ms       | <100ms       | Main thread blocking |
+| **CLS** (Cumulative Layout Shift)  | 0           | <0.1         | Layout stability     |
+| **FPS** (Scroll)                   | ≥55fps      | ≥55fps       | Smooth scrolling     |
 
 **Test Scenarios:**
 
 1. **Card Render:**
+
    - Load dashboard with 7 cards
    - Measure FCP for first card
    - Pass: <200ms from mount to skeleton visible
 
 2. **Chart Render (90 bars):**
+
    - Load Bar.Basic with 90 bars
    - Measure LCP for chart fully rendered
    - Pass: <400ms
 
 3. **Chart Render (365 points):**
+
    - Load Line.Basic with 365 points
    - Measure LCP
    - Pass: <400ms
 
 4. **Scroll Performance:**
+
    - Scroll dashboard with 7 cards + 4 charts
    - Measure FPS via Chrome DevTools
    - Pass: ≥55fps, no jank
@@ -171,12 +182,14 @@ npm run test:a11y
    - Pass: CLS <0.1
 
 **Command:**
+
 ```bash
 npm run test:perf
 # Runs Lighthouse CI with custom budgets
 ```
 
 **Pass Criteria:**
+
 - All metrics green
 - No performance regressions vs baseline
 
@@ -509,14 +522,14 @@ describe('Responsive Layout', () => {
 
 ## 9. Test Coverage Requirements
 
-| Layer | Target | Tool |
-|-------|--------|------|
-| **Unit** | 100% branch | Jest coverage report |
-| **Integration** | All API scenarios | MSW + Jest |
-| **E2E** | Critical paths only | Playwright (3 journeys) |
-| **A11y** | 0 violations | axe-core |
-| **Visual** | 246 snapshots | Chromatic |
-| **Performance** | All budgets green | Lighthouse CI |
+| Layer           | Target              | Tool                    |
+| --------------- | ------------------- | ----------------------- |
+| **Unit**        | 100% branch         | Jest coverage report    |
+| **Integration** | All API scenarios   | MSW + Jest              |
+| **E2E**         | Critical paths only | Playwright (3 journeys) |
+| **A11y**        | 0 violations        | axe-core                |
+| **Visual**      | 246 snapshots       | Chromatic               |
+| **Performance** | All budgets green   | Lighthouse CI           |
 
 ---
 

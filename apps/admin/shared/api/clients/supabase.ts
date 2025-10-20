@@ -1,6 +1,6 @@
 /**
  * Supabase Client Configuration
- * 
+ *
  * Browser and Server clients for Supabase auth and database operations.
  * Uses environment variables from .env.local
  */
@@ -25,7 +25,7 @@ export const supaServer = (cookieStore: ReadonlyRequestCookies) =>
   createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { 
+    {
       cookies: {
         get(name: string) {
           return cookieStore.get(name)?.value;
@@ -35,7 +35,7 @@ export const supaServer = (cookieStore: ReadonlyRequestCookies) =>
         },
         remove(name: string, options: CookieOptions) {
           cookieStore.set({ name, value: '', ...options });
-        }
-      }
+        },
+      },
     }
   );

@@ -257,6 +257,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 ```
 
 **Rulează:**
+
 ```bash
 chmod +x check-everything.sh
 ./check-everything.sh
@@ -285,12 +286,14 @@ Bifează înainte de commit:
 ## 🎯 **WORKFLOW RECOMANDAT:**
 
 ### **VARIANTA 1: Quick Check (3 minute)**
+
 ```bash
 npm run check:all && npm run check:p0
 # Dacă trece → COMMIT!
 ```
 
 ### **VARIANTA 2: Full Check (10 minute)**
+
 ```bash
 npm run check:all
 npm run check:p0
@@ -301,6 +304,7 @@ npm test
 ```
 
 ### **VARIANTA 3: Pre-Push Hook (automat)**
+
 ```bash
 # Git pre-push hook deja configurat!
 # Rulează automat la: git push
@@ -312,6 +316,7 @@ npm test
 ## 📊 **CE ÎNSEAMNĂ FIECARE ERROR:**
 
 ### **TypeScript Errors:**
+
 ```bash
 error TS2740: Type '...' is missing properties
 
@@ -322,6 +327,7 @@ FIX:
 ```
 
 ### **ESLint Errors:**
+
 ```bash
 Error: Unexpected console statement
 
@@ -331,6 +337,7 @@ FIX:
 ```
 
 ### **Build Errors:**
+
 ```bash
 Failed to compile
 
@@ -341,6 +348,7 @@ FIX:
 ```
 
 ### **P0 Errors:**
+
 ```bash
 ❌ File missing: app/error.tsx
 
@@ -388,6 +396,7 @@ După `npm run check:all`, găsești rapoarte în:
 ## 🎓 **BEST PRACTICES:**
 
 ### **Înainte de fiecare commit:**
+
 ```bash
 1. Rulează: npm run check:all
 2. Verifică: npm run check:p0
@@ -397,6 +406,7 @@ După `npm run check:all`, găsești rapoarte în:
 ```
 
 ### **Înainte de Pull Request:**
+
 ```bash
 1. Rulează: ./check-everything.sh
 2. Verifică: npm audit
@@ -407,6 +417,7 @@ După `npm run check:all`, găsești rapoarte în:
 ```
 
 ### **Înainte de Production Deploy:**
+
 ```bash
 1. Merge la main branch
 2. Rulează: npm run check:all
@@ -423,6 +434,7 @@ După `npm run check:all`, găsești rapoarte în:
 ## 🔧 **TROUBLESHOOTING:**
 
 ### **Problem: npm run check:all fails**
+
 ```bash
 # Solution:
 1. Verifică ce a failed (tsc, eslint, build)
@@ -432,6 +444,7 @@ După `npm run check:all`, găsești rapoarte în:
 ```
 
 ### **Problem: P0 check fails**
+
 ```bash
 # Solution:
 1. Verifică ce fișier lipsește
@@ -441,6 +454,7 @@ După `npm run check:all`, găsești rapoarte în:
 ```
 
 ### **Problem: Build succeeds dar app crashes**
+
 ```bash
 # Solution:
 1. Check environment variables

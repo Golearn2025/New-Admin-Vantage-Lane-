@@ -35,6 +35,7 @@
 **License:** MIT
 
 **Pros:**
+
 - ✅ Compositional API: `<LineChart><Line /><XAxis /></LineChart>`
 - ✅ Native TypeScript, excellent type inference
 - ✅ Tree-shakeable: import only `BarChart`, not entire lib
@@ -44,11 +45,13 @@
 - ✅ Customizable via props: `stroke`, `fill`, `radius`, `animationDuration`
 
 **Cons:**
+
 - ⚠️ Verbose for complex customizations (need wrapper components)
 - ⚠️ No built-in Waterfall chart (need custom implementation)
 - ⚠️ Animation API limited (can't easily customize easing)
 
 **Use Cases:**
+
 - Bar.Basic → `<BarChart>`
 - Bar.Stacked → `<BarChart><Bar stackId="a" /></BarChart>`
 - Line.Basic → `<LineChart><Line /></LineChart>`
@@ -56,6 +59,7 @@
 - Donut.Snapshot → `<PieChart><Pie innerRadius="60%" /></PieChart>`
 
 **Example Integration:**
+
 ```tsx
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -66,7 +70,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
     <Tooltip />
     <Bar dataKey="y" fill="var(--color-accent-500)" radius={[8, 8, 0, 0]} />
   </BarChart>
-</ResponsiveContainer>
+</ResponsiveContainer>;
 ```
 
 ---
@@ -77,11 +81,13 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 **TypeScript:** Via @types (not native)
 
 **Pros:**
+
 - ✅ Mature, widely used
 - ✅ Extensive plugin ecosystem
 - ✅ Good documentation
 
 **Cons:**
+
 - ❌ Bundle size exceeds budget by 45%
 - ❌ Imperative API (canvas context), harder to integrate with React
 - ❌ TypeScript support via @types, not native
@@ -97,11 +103,13 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 **TypeScript:** Native
 
 **Pros:**
+
 - ✅ Beautiful defaults
 - ✅ Excellent animation system
 - ✅ Native TypeScript
 
 **Cons:**
+
 - ❌ Bundle size nearly 2x budget
 - ❌ Over-engineered for simple dashboards
 - ❌ Heavy React wrapper overhead
@@ -117,11 +125,13 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 **TypeScript:** Via @types
 
 **Pros:**
+
 - ✅ Maximum flexibility
 - ✅ Small core bundle
 - ✅ Industry standard for custom viz
 
 **Cons:**
+
 - ❌ Low-level API, high maintenance burden
 - ❌ Steep learning curve for team
 - ❌ Need to build everything from scratch (axes, legends, tooltips)
@@ -135,12 +145,14 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 ## Waterfall Chart — Custom SVG Rationale
 
 **Why Custom:**
+
 - Recharts no built-in Waterfall
 - Victory Waterfall exists but pulls entire Victory bundle
 - Waterfall use case specialized: financial flow visualization
 - Custom SVG keeps control over animations and accessibility
 
 **Implementation Plan:**
+
 - Lightweight wrapper `<WaterfallChart>` using native SVG
 - Props: `data`, `unit`, `show_connectors`, `highlight_total`
 - Render:
@@ -152,6 +164,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 - Performance: <400ms for 8 steps (max limit)
 
 **Trade-offs:**
+
 - ✅ Keeps bundle under budget (42KB Recharts + 3KB custom = 45KB)
 - ✅ Full control over premium animations
 - ⚠️ Custom code maintenance (but isolated, <150 lines)
@@ -162,14 +175,14 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 
 **Test Environment:** M1 Mac, Chrome 120, React 18
 
-| Chart Type | Data Points | Render Time | Bundle Contribution |
-|------------|-------------|-------------|---------------------|
-| Bar.Basic (Recharts) | 30 bars | ~180ms | 8KB |
-| Bar.Basic (Recharts) | 90 bars | ~280ms | 8KB |
-| Line.Basic (Recharts) | 365 points | ~350ms | 10KB |
-| Area.Cumulative (Recharts) | 365 points | ~360ms | 12KB |
-| Donut.Snapshot (Recharts) | 8 slices | ~120ms | 9KB |
-| Waterfall.Financial (Custom SVG) | 8 steps | ~90ms | 3KB |
+| Chart Type                       | Data Points | Render Time | Bundle Contribution |
+| -------------------------------- | ----------- | ----------- | ------------------- |
+| Bar.Basic (Recharts)             | 30 bars     | ~180ms      | 8KB                 |
+| Bar.Basic (Recharts)             | 90 bars     | ~280ms      | 8KB                 |
+| Line.Basic (Recharts)            | 365 points  | ~350ms      | 10KB                |
+| Area.Cumulative (Recharts)       | 365 points  | ~360ms      | 12KB                |
+| Donut.Snapshot (Recharts)        | 8 slices    | ~120ms      | 9KB                 |
+| Waterfall.Financial (Custom SVG) | 8 steps     | ~90ms       | 3KB                 |
 
 **Total Bundle:** ~50KB (within revised budget)
 
@@ -178,12 +191,14 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 ## Accessibility Strategy
 
 **Recharts:**
+
 - Add `role="img"` to `ResponsiveContainer`
 - Add `aria-label` describing chart purpose
 - Provide hidden `<table>` fallback for screen readers
 - Keyboard navigation via custom focus management
 
 **Custom Waterfall:**
+
 - Each bar `<rect>` with `role="button"` and `aria-label="{label}: {value}"`
 - Tab navigation through bars
 - Tooltip on focus with `aria-describedby`
@@ -193,12 +208,14 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 ## Maintenance & Upgrades
 
 **Recharts:**
+
 - Current: 2.10.x (Jan 2024 release)
 - Update cadence: Minor releases every 3-4 months
 - Breaking changes: Rare (last major: 2.0 in 2021)
 - Risk: Low
 
 **Custom SVG:**
+
 - No external deps
 - Maintenance: Internal team
 - Risk: Medium (team knowledge required)
@@ -208,13 +225,16 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 ## Migration Path (Future)
 
 **If Bundle Budget Increases:**
+
 - Consider migrating Waterfall to Victory if budget allows +40KB
 
 **If Performance Issues:**
+
 - Add virtualization layer for >90 bars using `react-window`
 - Consider Canvas fallback for Line/Area with >500 points
 
 **If Recharts Abandoned:**
+
 - Fallback to Chart.js (mature, stable)
 - Migration cost: Medium (API rewrite needed)
 
@@ -222,16 +242,16 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 
 ## Decision Matrix
 
-| Criteria | Recharts | Chart.js | Victory | D3 | Custom SVG |
-|----------|----------|----------|---------|----|-----------
-| Bundle Size (50KB budget) | ✅ 42KB | ❌ 65KB | ❌ 85KB | ✅ 30KB | ✅ 3KB |
-| TypeScript Native | ✅ Yes | ❌ No | ✅ Yes | ❌ No | ✅ Yes |
-| Composable/React-friendly | ✅ Yes | ⚠️ Imperative | ✅ Yes | ❌ Low-level | ✅ Yes |
-| Performance (90 bars) | ✅ 280ms | ✅ 250ms | ❌ 450ms | ✅ 200ms* | ✅ 90ms |
-| Maintenance Burden | ✅ Low | ✅ Low | ⚠️ Medium | ❌ High | ⚠️ Medium |
-| Accessibility | ⚠️ Manual | ⚠️ Manual | ✅ Good | ❌ Manual | ✅ Full Control |
+| Criteria                  | Recharts  | Chart.js      | Victory   | D3           | Custom SVG      |
+| ------------------------- | --------- | ------------- | --------- | ------------ | --------------- |
+| Bundle Size (50KB budget) | ✅ 42KB   | ❌ 65KB       | ❌ 85KB   | ✅ 30KB      | ✅ 3KB          |
+| TypeScript Native         | ✅ Yes    | ❌ No         | ✅ Yes    | ❌ No        | ✅ Yes          |
+| Composable/React-friendly | ✅ Yes    | ⚠️ Imperative | ✅ Yes    | ❌ Low-level | ✅ Yes          |
+| Performance (90 bars)     | ✅ 280ms  | ✅ 250ms      | ❌ 450ms  | ✅ 200ms\*   | ✅ 90ms         |
+| Maintenance Burden        | ✅ Low    | ✅ Low        | ⚠️ Medium | ❌ High      | ⚠️ Medium       |
+| Accessibility             | ⚠️ Manual | ⚠️ Manual     | ✅ Good   | ❌ Manual    | ✅ Full Control |
 
-*D3 perf assumes optimized implementation
+\*D3 perf assumes optimized implementation
 
 ---
 
@@ -245,6 +265,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 **Maintenance:** Acceptable (Recharts stable, Custom SVG isolated)
 
 **Approval Criteria Met:**
+
 - ✅ Bundle ≤50KB (official revised budget)
 - ✅ TypeScript native (Recharts + Custom)
 - ✅ Performance <400ms for all chart types

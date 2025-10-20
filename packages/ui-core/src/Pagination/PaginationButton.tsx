@@ -17,12 +17,12 @@ export function PaginationButton({
 }: PaginationButtonProps): React.ReactElement {
   const isActive = typeof page === 'number' && page === currentPage;
   const isEllipsis = page === 'ellipsis';
-  
+
   const getButtonContent = () => {
     if (typeof page === 'number') {
       return page;
     }
-    
+
     switch (page) {
       case 'prev':
         return '‹';
@@ -38,12 +38,12 @@ export function PaginationButton({
         return page;
     }
   };
-  
+
   const getAriaLabel = () => {
     if (typeof page === 'number') {
       return `Page ${page}`;
     }
-    
+
     switch (page) {
       case 'prev':
         return 'Previous page';
@@ -57,7 +57,7 @@ export function PaginationButton({
         return undefined;
     }
   };
-  
+
   if (isEllipsis) {
     return (
       <span
@@ -68,7 +68,7 @@ export function PaginationButton({
       </span>
     );
   }
-  
+
   return (
     <button
       type="button"

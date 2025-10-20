@@ -40,18 +40,18 @@
   min-width: var(--spacing-10);
   height: var(--spacing-10);
   padding: var(--spacing-2) var(--spacing-3);
-  
+
   font-family: var(--font-family-base);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   line-height: 1;
   text-align: center;
-  
+
   color: var(--color-text-primary);
   background-color: var(--color-bg-primary);
   border: var(--border-width-thin) solid var(--color-border-primary);
   border-radius: var(--border-radius-md);
-  
+
   cursor: pointer;
   user-select: none;
   transition: all var(--transition-fast);
@@ -116,21 +116,21 @@
 .select {
   height: var(--spacing-10);
   padding: var(--spacing-2) var(--spacing-8) var(--spacing-2) var(--spacing-3);
-  
+
   font-family: var(--font-family-base);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  
+
   color: var(--color-text-primary);
   background-color: var(--color-bg-primary);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right var(--spacing-2) center;
   background-size: 12px;
-  
+
   border: var(--border-width-thin) solid var(--color-border-primary);
   border-radius: var(--border-radius-md);
-  
+
   cursor: pointer;
   appearance: none;
   transition: all var(--transition-fast);
@@ -197,15 +197,15 @@
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .info {
     text-align: center;
   }
-  
+
   .buttons {
     justify-content: center;
   }
-  
+
   .pageSizeSelector {
     justify-content: center;
   }

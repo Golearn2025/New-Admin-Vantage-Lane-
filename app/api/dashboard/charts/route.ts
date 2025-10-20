@@ -1,6 +1,6 @@
 /**
  * Dashboard Charts API
- * 
+ *
  * Returns chart data from Supabase function get_dashboard_charts()
  * - Cache: 5 minutes TTL
  * - RBAC: Admin/Super Admin only
@@ -42,13 +42,13 @@ export async function GET(request: Request) {
     const startDate = searchParams.get('start_date');
     const endDate = searchParams.get('end_date');
     const grouping = searchParams.get('grouping') || 'day';
-    
+
     // Create cache key based on params
     const cacheKey = `${startDate}-${endDate}-${grouping}`;
-    
+
     // Check cache first
     const now = Date.now();
-    if (cachedData && (now - cacheTime) < CACHE_TTL && cachedData.cacheKey === cacheKey) {
+    if (cachedData && now - cacheTime < CACHE_TTL && cachedData.cacheKey === cacheKey) {
       return NextResponse.json({
         ...cachedData,
         cached: true,
@@ -57,15 +57,15 @@ export async function GET(request: Request) {
 
     // Create Supabase client
     const supabase = await createClient();
-    
+
     // Get authenticated user
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // RBAC check
@@ -75,12 +75,13 @@ export async function GET(request: Request) {
       .eq('auth_user_id', user.id)
       .single();
 
-    if (rbacError || !adminUser || !adminUser.is_active || 
-        !['super_admin', 'admin'].includes(adminUser.role)) {
-      return NextResponse.json(
-        { error: 'Forbidden' },
-        { status: 403 }
-      );
+    if (
+      rbacError ||
+      !adminUser ||
+      !adminUser.is_active ||
+      !['super_admin', 'admin'].includes(adminUser.role)
+    ) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     // Call database function with params
@@ -92,10 +93,7 @@ export async function GET(request: Request) {
 
     if (error) {
       logger.error('Error fetching dashboard charts', { error: error.message });
-      return NextResponse.json(
-        { error: 'Failed to fetch charts' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch charts' }, { status: 500 });
     }
 
     // Parse response
@@ -115,10 +113,9 @@ export async function GET(request: Request) {
 
     return NextResponse.json(charts);
   } catch (error) {
-    logger.error('Unexpected error in dashboard charts API', { error: error instanceof Error ? error.message : String(error) });
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    logger.error('Unexpected error in dashboard charts API', {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

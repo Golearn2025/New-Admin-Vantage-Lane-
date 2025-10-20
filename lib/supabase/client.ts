@@ -1,6 +1,6 @@
 /**
  * Supabase Client - Browser
- * 
+ *
  * Client-side Supabase pentru use în React components.
  * Uses createBrowserClient pentru client-side rendering.
  */

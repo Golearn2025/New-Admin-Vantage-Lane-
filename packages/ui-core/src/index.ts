@@ -1,7 +1,7 @@
 /**
  * @vantage-lane/ui-core
  * Core UI primitives & Components
- * 
+ *
  * Design tokens first approach - zero hardcoded values
  */
 

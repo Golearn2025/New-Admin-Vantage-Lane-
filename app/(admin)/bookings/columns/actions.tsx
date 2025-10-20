@@ -6,7 +6,20 @@
 
 import React from 'react';
 import { ActionButton, ActionMenu } from '@vantage-lane/ui-core';
-import { Edit, More, Email, Phone, Cancel, Calendar, Clock, UserPlus, Eye, Download, Copy, CreditCard } from '@vantage-lane/ui-icons';
+import {
+  Edit,
+  More,
+  Email,
+  Phone,
+  Cancel,
+  Calendar,
+  Clock,
+  UserPlus,
+  Eye,
+  Download,
+  Copy,
+  CreditCard,
+} from '@vantage-lane/ui-icons';
 import styles from '../columns.module.css';
 import type { BookingColumn } from './schema';
 
@@ -43,11 +56,7 @@ export const getActionsColumn = (): BookingColumn => ({
       />
       <ActionMenu
         trigger={
-          <ActionButton
-            variant="secondary"
-            icon={<More size={16} />}
-            aria-label="More Options"
-          />
+          <ActionButton variant="secondary" icon={<More size={16} />} aria-label="More Options" />
         }
         items={[
           // VIEWING & INFO
@@ -72,7 +81,7 @@ export const getActionsColumn = (): BookingColumn => ({
             },
           },
           { separator: true },
-          
+
           // COMMUNICATION
           {
             icon: <Email size={14} />,
@@ -95,7 +104,7 @@ export const getActionsColumn = (): BookingColumn => ({
             },
           },
           { separator: true },
-          
+
           // DOCUMENT ACTIONS
           {
             icon: <Download size={14} />,
@@ -118,7 +127,7 @@ export const getActionsColumn = (): BookingColumn => ({
             },
           },
           { separator: true },
-          
+
           // BOOKING MANAGEMENT
           {
             icon: <Copy size={14} />,
@@ -171,7 +180,7 @@ export const getActionsColumn = (): BookingColumn => ({
             },
           },
           { separator: true },
-          
+
           // CRITICAL ACTIONS
           {
             icon: <Cancel size={14} />,

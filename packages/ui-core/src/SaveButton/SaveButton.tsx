@@ -1,6 +1,6 @@
 /**
  * SaveButton Component - PREMIUM
- * 
+ *
  * Button premium pentru save actions.
  * Limită: ≤80 linii
  */

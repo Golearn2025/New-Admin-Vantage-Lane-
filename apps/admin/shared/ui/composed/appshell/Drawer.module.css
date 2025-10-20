@@ -51,12 +51,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   &:hover {
     background: var(--color-surface-elevated);
     color: var(--color-text-primary);
   }
-  
+
   &:focus-visible {
     outline: 2px solid var(--color-border-focus);
     outline-offset: 2px;
@@ -119,11 +119,11 @@
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  
+
   .closeIcon {
     transition: none;
   }
-  
+
   .closeButton:hover .closeIcon {
     transform: rotate(-90deg); /* Fără scale animation */
   }

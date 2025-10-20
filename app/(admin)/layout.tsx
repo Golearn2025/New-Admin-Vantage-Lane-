@@ -1,6 +1,6 @@
 /**
  * Admin Layout - AppShell Integration
- * 
+ *
  * Layout global pentru toate paginile admin.
  * Wraps children în AppShell cu RBAC și navigation.
  */
@@ -25,19 +25,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   // Show loading state while fetching user
   if (loading) {
-    return (
-      <div className={styles.loadingContainer}>
-        Loading...
-      </div>
-    );
+    return <div className={styles.loadingContainer}>Loading...</div>;
   }
 
   return (
-    <AppShell
-      role={userRole}
-      currentPath={pathname}
-      {...(user && { user })}
-    >
+    <AppShell role={userRole} currentPath={pathname} {...(user && { user })}>
       {children}
     </AppShell>
   );

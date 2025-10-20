@@ -1,11 +1,11 @@
 /**
  * Date Types - 100% REUSABLE
- * 
+ *
  * Type definitions for date utilities
  * Can be used in ANY project
  */
 
-export type DatePreset = 
+export type DatePreset =
   | 'today'
   | 'yesterday'
   | 'this_week'

@@ -25,19 +25,19 @@
 .menu {
   position: absolute;
   z-index: 1000;
-  
+
   min-width: 200px;
   max-width: 280px;
-  
+
   background: var(--color-surface-elevated);
   border: 1px solid var(--color-border-secondary);
   border-radius: var(--radius-lg);
-  
+
   box-shadow: var(--shadow-lg);
   backdrop-filter: blur(8px);
-  
+
   padding: var(--spacing-2);
-  
+
   opacity: 0;
   transform: translateY(-8px);
   animation: menuFadeIn var(--motion-duration-normal) var(--motion-easing-standard) forwards;
@@ -91,21 +91,21 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-3);
-  
+
   width: 100%;
   padding: var(--spacing-2) var(--spacing-3);
-  
+
   font-family: var(--font-sans);
   font-size: var(--font-sm);
   font-weight: var(--font-normal);
   line-height: var(--line-height-normal);
   text-align: left;
-  
+
   color: var(--color-text-primary);
   background: transparent;
   border: none;
   border-radius: var(--radius-md);
-  
+
   cursor: pointer;
   transition: all var(--motion-duration-fast) var(--motion-easing-standard);
 }

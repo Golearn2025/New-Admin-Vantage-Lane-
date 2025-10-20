@@ -25,6 +25,7 @@ npm run check:everything && npm run check:advanced && npm test
 ## 📋 **TOATE SCRIPTURILE (30+):**
 
 ### **🚀 BASIC CHECKS:**
+
 ```bash
 npm run dev              # Development server
 npm run build            # Production build
@@ -37,6 +38,7 @@ npm audit                # Security vulnerabilities
 ```
 
 ### **✅ STANDARD CHECKS:**
+
 ```bash
 npm run check:ts         # TypeScript compilation
 npm run check:lint       # ESLint code quality
@@ -45,6 +47,7 @@ npm run check:all        # ★ TS + Lint + Build + Reports
 ```
 
 ### **🏥 P0 CRITICAL CHECKS:**
+
 ```bash
 npm run check:p0         # ★ P0 critical items
 npm run check:health     # Alias pentru p0
@@ -52,6 +55,7 @@ npm run check:everything # ★ Full verification (TS + Lint + Build + P0 + Secur
 ```
 
 ### **🏗️ ARCHITECTURE CHECKS:**
+
 ```bash
 npm run check:enterprise # ★ All architecture checks
 npm run check:boundaries # Module dependencies
@@ -63,6 +67,7 @@ npm run check:any        # No 'any' types
 ```
 
 ### **🔍 ADVANCED QUALITY CHECKS (NEW!):**
+
 ```bash
 npm run check:quality      # ★ any, colors, magic numbers, TODOs
 npm run check:duplicates   # ★ Code duplication analysis
@@ -72,6 +77,7 @@ npm run check:advanced     # ★ ALL ABOVE COMBINED
 ```
 
 ### **📊 PERFORMANCE & ACCESSIBILITY:**
+
 ```bash
 npm run lh:login         # Lighthouse (90% perf, 95% a11y)
 npm run check:a11y       # Axe accessibility audit
@@ -82,42 +88,46 @@ npm run check:budgets    # Bundle size limits
 
 ## 📊 **VERIFICATION MATRIX:**
 
-| Check Type | Script | Duration | When to Run |
-|------------|--------|----------|-------------|
-| **TypeScript** | `check:ts` | 30s | Durante dev |
-| **ESLint** | `check:lint` | 30s | Durante dev |
-| **Build** | `check:next` | 2 min | Pre-commit |
-| **All Basic** | `check:all` | 3 min | ★ Pre-commit standard |
-| **P0 Critical** | `check:p0` | 1 min | After P0 changes |
-| **Everything** | `check:everything` | 5 min | ★ Pre-commit major |
-| **Quality** | `check:quality` | 2 min | Weekly |
-| **Duplicates** | `check:duplicates` | 1 min | Weekly |
-| **Dead Code** | `check:deadcode` | 1 min | Weekly |
-| **Performance** | `check:performance` | 2 min | Weekly |
-| **Advanced** | `check:advanced` | 5 min | ★ Pre-PR |
-| **Enterprise** | `check:enterprise` | 2 min | Pre-PR |
-| **Tests** | `test` | varies | Pre-PR |
+| Check Type      | Script              | Duration | When to Run           |
+| --------------- | ------------------- | -------- | --------------------- |
+| **TypeScript**  | `check:ts`          | 30s      | Durante dev           |
+| **ESLint**      | `check:lint`        | 30s      | Durante dev           |
+| **Build**       | `check:next`        | 2 min    | Pre-commit            |
+| **All Basic**   | `check:all`         | 3 min    | ★ Pre-commit standard |
+| **P0 Critical** | `check:p0`          | 1 min    | After P0 changes      |
+| **Everything**  | `check:everything`  | 5 min    | ★ Pre-commit major    |
+| **Quality**     | `check:quality`     | 2 min    | Weekly                |
+| **Duplicates**  | `check:duplicates`  | 1 min    | Weekly                |
+| **Dead Code**   | `check:deadcode`    | 1 min    | Weekly                |
+| **Performance** | `check:performance` | 2 min    | Weekly                |
+| **Advanced**    | `check:advanced`    | 5 min    | ★ Pre-PR              |
+| **Enterprise**  | `check:enterprise`  | 2 min    | Pre-PR                |
+| **Tests**       | `test`              | varies   | Pre-PR                |
 
 ---
 
 ## 🎯 **WORKFLOW RECOMANDAT:**
 
 ### **📅 DAILY (în development):**
+
 ```bash
 npm run check:ts      # Check types frecvent
 ```
 
 ### **🔄 PRE-COMMIT SMALL:**
+
 ```bash
 npm run check:all     # 3 min - standard
 ```
 
 ### **🔄 PRE-COMMIT MAJOR:**
+
 ```bash
 npm run check:everything  # 5 min - full
 ```
 
 ### **📝 PRE-PULL REQUEST:**
+
 ```bash
 npm run check:everything  # Full basic
 npm run check:advanced    # Quality analysis
@@ -126,6 +136,7 @@ npm test                  # Unit tests
 ```
 
 ### **📅 WEEKLY CLEANUP:**
+
 ```bash
 npm run check:advanced    # Find quality issues
 npm run check:deadcode    # Remove unused code
@@ -133,6 +144,7 @@ npm run check:duplicates  # Refactor duplicates
 ```
 
 ### **📅 MONTHLY REVIEW:**
+
 ```bash
 npm run check:performance # Optimize bundle
 npm run check:enterprise  # Architecture review
@@ -144,6 +156,7 @@ npm audit                 # Security update
 ## 📚 **DOCUMENTAȚIA COMPLETĂ:**
 
 ### **1. PRE-COMMIT-CHECKLIST.md**
+
 ```
 📄 Ghid complet pre-commit (70+ secțiuni)
    - Quick start
@@ -154,6 +167,7 @@ npm audit                 # Security update
 ```
 
 ### **2. ADVANCED-QUALITY-CHECKS.md** ⭐ **NEW!**
+
 ```
 📄 Ghid advanced quality (13 verificări)
    - any types
@@ -166,6 +180,7 @@ npm audit                 # Security update
 ```
 
 ### **3. P0-FILES-CHECKLIST.md**
+
 ```
 📄 Lista toate P0 critical files
    - 9 P0 items
@@ -176,6 +191,7 @@ npm audit                 # Security update
 ```
 
 ### **4. scripts/README.md**
+
 ```
 📄 Ghid toate scripturile
    - Available scripts
@@ -185,6 +201,7 @@ npm audit                 # Security update
 ```
 
 ### **5. STRUCTURE.md**
+
 ```
 📄 Project structure
    - Directory layout
@@ -378,6 +395,7 @@ Project Root/
 ## 💡 **PRO TIPS:**
 
 ### **1. Use Aliases:**
+
 ```bash
 # Add la .bashrc/.zshrc:
 alias qa='npm run check:all'
@@ -387,6 +405,7 @@ alias qad='npm run check:advanced'
 ```
 
 ### **2. VS Code Tasks:**
+
 ```json
 {
   "label": "Quality Check",
@@ -396,12 +415,14 @@ alias qad='npm run check:advanced'
 ```
 
 ### **3. Git Hooks (automated):**
+
 ```bash
 # Pre-push hook (deja configurat):
 git push  # Auto-runs check:all
 ```
 
 ### **4. Watch Mode:**
+
 ```bash
 # Terminal 1: Development
 npm run dev
@@ -415,12 +436,14 @@ npm run check:ts -- --watch
 ## 🎯 **NEXT STEPS:**
 
 ### **Pentru fiecare commit nou:**
+
 1. ✅ Rulează `npm run check:all`
 2. ✅ Review git diff
 3. ✅ Commit cu mesaj descriptiv
 4. ✅ Push (auto-runs checks)
 
 ### **Pentru Pull Requests:**
+
 1. ✅ Rulează `npm run check:everything`
 2. ✅ Rulează `npm run check:advanced`
 3. ✅ Review all modified files
@@ -428,6 +451,7 @@ npm run check:ts -- --watch
 5. ✅ Create PR cu description
 
 ### **Pentru Production Deploy:**
+
 1. ✅ Merge la main
 2. ✅ Rulează `npm run check:everything`
 3. ✅ Rulează `npm run check:advanced`

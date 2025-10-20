@@ -1,6 +1,6 @@
 /**
  * ProfileSection Component - REUTILIZABIL
- * 
+ *
  * Secțiune pentru grupare fields în profile forms.
  * Limită: ≤100 linii
  */
@@ -37,9 +37,7 @@ export function ProfileSection({
         </div>
       </div>
 
-      <div className={styles.content}>
-        {children}
-      </div>
+      <div className={styles.content}>{children}</div>
     </div>
   );
 }

@@ -38,24 +38,24 @@ export const GRADIENT_PRESETS = {
 /* CHART COLORS - NORMAL (Professional)        */
 /* ============================================ */
 export const CHART_COLORS_NORMAL = {
-  primary: '#667eea',   // Purple
-  success: '#10b981',   // Green
-  warning: '#f59e0b',   // Orange
-  danger: '#ef4444',    // Red
-  info: '#3b82f6',      // Blue
-  gold: '#f1d16a',      // Gold
+  primary: '#667eea', // Purple
+  success: '#10b981', // Green
+  warning: '#f59e0b', // Orange
+  danger: '#ef4444', // Red
+  info: '#3b82f6', // Blue
+  gold: '#f1d16a', // Gold
 } as const;
 
 /* ============================================ */
 /* CHART COLORS - NEON (Vibrant/Modern)        */
 /* ============================================ */
 export const CHART_COLORS_NEON = {
-  primary: '#a78bfa',   // Purple Neon
-  success: '#10f77e',   // Green Neon
-  warning: '#fbbf24',   // Yellow Neon
-  danger: '#ff2d55',    // Pink-Red Neon
-  info: '#0af5ff',      // Cyan Neon
-  gold: '#ffd60a',      // Gold Neon
+  primary: '#a78bfa', // Purple Neon
+  success: '#10f77e', // Green Neon
+  warning: '#fbbf24', // Yellow Neon
+  danger: '#ff2d55', // Pink-Red Neon
+  info: '#0af5ff', // Cyan Neon
+  gold: '#ffd60a', // Gold Neon
 } as const;
 
 /* ============================================ */
@@ -74,8 +74,8 @@ export const CHART_COLORS = {
 /* TREND COLORS - NORMAL                        */
 /* ============================================ */
 export const TREND_COLORS_NORMAL = {
-  up: '#10b981',     // Green
-  down: '#ef4444',   // Red
+  up: '#10b981', // Green
+  down: '#ef4444', // Red
   neutral: '#94a3b8', // Gray
 } as const;
 
@@ -83,8 +83,8 @@ export const TREND_COLORS_NORMAL = {
 /* TREND COLORS - NEON                          */
 /* ============================================ */
 export const TREND_COLORS_NEON = {
-  up: '#00ff88',     // Neon Green
-  down: '#ff2d55',   // Neon Pink-Red
+  up: '#00ff88', // Neon Green
+  down: '#ff2d55', // Neon Pink-Red
   neutral: 'rgba(255, 255, 255, 0.7)', // White
 } as const;
 

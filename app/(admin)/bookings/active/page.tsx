@@ -1,6 +1,6 @@
 /**
  * Active Bookings Page
- * 
+ *
  * Shows bookings in active states:
  * - PENDING: New bookings waiting for driver
  * - ASSIGNED: Driver assigned, pending pickup

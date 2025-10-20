@@ -1,6 +1,6 @@
 /**
  * DataTable Types - Index
- * 
+ *
  * Re-export all type definitions.
  * <20 linii - respectă regulile proiectului!
  */
@@ -19,8 +19,8 @@ export type { SelectionState, ExpandableState } from './selection.types';
 
 // Component props
 export type { DataTableProps } from './table-props.types';
-export type { 
-  TableCellProps, 
-  TableRowProps, 
-  TableHeaderProps 
+export type {
+  TableCellProps,
+  TableRowProps,
+  TableHeaderProps,
 } from './cell-row-header-props.types';

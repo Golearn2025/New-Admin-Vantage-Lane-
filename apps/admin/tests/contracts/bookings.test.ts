@@ -1,11 +1,14 @@
 /**
  * Bookings API Contract Tests
- * 
+ *
  * Tests for bookings listing endpoint contracts and RLS policies.
  */
 
 // Jest setup will be configured in M0.4
-import type { BookingsListRequest, BookingsListResponse } from '../../shared/api/contracts/bookings';
+import type {
+  BookingsListRequest,
+  BookingsListResponse,
+} from '../../shared/api/contracts/bookings';
 
 describe('Bookings List Contract', () => {
   describe('Request Validation', () => {
@@ -16,19 +19,19 @@ describe('Bookings List Contract', () => {
           operator_id: 'op-123',
           date_range: {
             start: '2024-01-01T00:00:00Z',
-            end: '2024-01-31T23:59:59Z'
-          }
+            end: '2024-01-31T23:59:59Z',
+          },
         },
         sort: {
           field: 'created_at',
-          direction: 'desc'
+          direction: 'desc',
         },
         cursor: {
           created_at: '2024-01-15T10:30:00Z',
-          id: 'booking-uuid-123'
+          id: 'booking-uuid-123',
         },
         page_size: 25,
-        columns: ['id', 'status', 'customer_name', 'pickup_location']
+        columns: ['id', 'status', 'customer_name', 'pickup_location'],
       };
 
       // Type checking ensures contract compliance
@@ -42,8 +45,8 @@ describe('Bookings List Contract', () => {
       const request: BookingsListRequest = {
         filters: {
           status: 'pending', // Must be one of: 'pending' | 'active' | 'completed' | 'cancelled'
-          source: 'app'      // Must be one of: 'app' | 'web' | 'call_center' | 'partner_api'
-        }
+          source: 'app', // Must be one of: 'app' | 'web' | 'call_center' | 'partner_api'
+        },
       };
 
       expect(['pending', 'active', 'completed', 'cancelled']).toContain(request.filters?.status);
@@ -66,8 +69,8 @@ describe('Bookings List Contract', () => {
             fare_amount: 2500, // in cents
             driver_name: null,
             operator_name: 'Metro Taxi',
-            source: 'app'
-          }
+            source: 'app',
+          },
         ],
         pagination: {
           total_count: 150,
@@ -76,13 +79,13 @@ describe('Bookings List Contract', () => {
           has_previous_page: false,
           next_cursor: {
             created_at: '2024-01-15T10:25:00Z',
-            id: 'booking-124'
-          }
+            id: 'booking-124',
+          },
         },
         performance: {
           query_duration_ms: 45,
-          cache_hit: false
-        }
+          cache_hit: false,
+        },
       };
 
       expect(validResponse.data).toHaveLength(1);
@@ -100,7 +103,7 @@ describe('Bookings List Contract', () => {
         'idx_bookings_operator_created_at',
         'idx_bookings_driver_created_at',
         'idx_bookings_source_created_at',
-        'idx_bookings_scheduled_at'
+        'idx_bookings_scheduled_at',
       ];
 
       // Verify all required indexes are documented
@@ -117,11 +120,11 @@ describe('Bookings RLS Policies', () => {
       // Mock RLS policy test
       const adminUser = { role: 'admin', id: 'admin-123' };
       const query = 'SELECT * FROM bookings WHERE 1=1';
-      
+
       // In actual implementation, this would test RLS policy:
       // "Admins can view all bookings" ON bookings FOR SELECT TO authenticated
       // USING (auth.jwt() ->> 'role' IN ('admin', 'operator'));
-      
+
       expect(adminUser.role).toEqual('admin');
       expect(query).toContain('bookings');
     });
@@ -132,11 +135,11 @@ describe('Bookings RLS Policies', () => {
       // Mock RLS policy test
       const customerUser = { role: 'customer', id: 'customer-123' };
       const query = 'SELECT * FROM bookings WHERE customer_id = $1';
-      
+
       // In actual implementation, this would test RLS policy:
       // "Customers can view own bookings" ON bookings FOR SELECT TO authenticated
       // USING (customer_id = auth.uid());
-      
+
       expect(customerUser.role).toEqual('customer');
       expect(query).toContain('customer_id = $1');
     });
@@ -144,10 +147,10 @@ describe('Bookings RLS Policies', () => {
 
   describe('Driver Access', () => {
     it('should allow drivers to view their assigned bookings', async () => {
-      // Mock RLS policy test  
+      // Mock RLS policy test
       const driverUser = { role: 'driver', id: 'driver-123' };
       const query = 'SELECT * FROM bookings WHERE driver_id = $1';
-      
+
       // In actual implementation, this would test RLS policy for drivers
       expect(driverUser.role).toEqual('driver');
       expect(query).toContain('driver_id = $1');

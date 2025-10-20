@@ -1,6 +1,6 @@
 /**
  * API Contracts Index - FROZEN
- * 
+ *
  * All API contracts for listing endpoints.
  * These contracts are FROZEN and require ADR for modifications.
  */
@@ -45,7 +45,7 @@ export type SortDirection = 'asc' | 'desc';
 // Common date range filter
 export interface DateRangeFilter {
   start: string; // ISO 8601 format
-  end: string;   // ISO 8601 format
+  end: string; // ISO 8601 format
 }
 
 // Standard list response structure

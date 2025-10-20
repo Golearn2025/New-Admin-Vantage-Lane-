@@ -22,21 +22,24 @@ npm run check:performance  # Bundle size, reusability
 ## 📋 **CE VERIFICĂM:**
 
 ### **1. ANY TYPES** ❌
+
 ```typescript
 // ❌ BAD - Type any
-function process(data: any) { }
+function process(data: any) {}
 
 // ✅ GOOD - Specific type
-function process(data: BookingListItem) { }
+function process(data: BookingListItem) {}
 ```
 
 **Check:**
+
 ```bash
 npm run check:any
 # sau în check:quality
 ```
 
 **Ce detectează:**
+
 - TypeScript `any` types
 - Missing type annotations
 - Unsafe type assertions
@@ -46,10 +49,11 @@ npm run check:any
 ---
 
 ### **2. HARDCODED COLORS** 🎨
+
 ```css
 /* ❌ BAD - Hardcoded color */
 .button {
-  color: #F1D16A;
+  color: #f1d16a;
 }
 
 /* ✅ GOOD - Design token */
@@ -59,12 +63,14 @@ npm run check:any
 ```
 
 **Check:**
+
 ```bash
 npm run check:colors
 # sau în check:quality
 ```
 
 **Ce detectează:**
+
 - Inline colors: `color: #...`
 - RGB values: `rgb(...)`
 - HSL values: `hsl(...)`
@@ -75,25 +81,30 @@ npm run check:colors
 ---
 
 ### **3. MAGIC NUMBERS** 🔢
+
 ```typescript
 // ❌ BAD - Magic number
 setTimeout(callback, 5000);
-if (count > 100) { }
+if (count > 100) {
+}
 
 // ✅ GOOD - Named constants
 const TIMEOUT_MS = 5000;
 const MAX_ITEMS = 100;
 
 setTimeout(callback, TIMEOUT_MS);
-if (count > MAX_ITEMS) { }
+if (count > MAX_ITEMS) {
+}
 ```
 
 **Check:**
+
 ```bash
 npm run check:quality
 ```
 
 **Ce detectează:**
+
 - Hardcoded numbers >9
 - Duplicate numeric values
 - Unexplained thresholds
@@ -104,6 +115,7 @@ npm run check:quality
 ---
 
 ### **4. HARDCODED STRINGS** 📝
+
 ```typescript
 // ❌ BAD - Hardcoded text
 <button>Click here to continue</button>
@@ -113,11 +125,13 @@ npm run check:quality
 ```
 
 **Check:**
+
 ```bash
 npm run check:quality
 ```
 
 **Ce detectează:**
+
 - Hardcoded UI text
 - Potential i18n issues
 - Repeated string literals
@@ -128,6 +142,7 @@ npm run check:quality
 ---
 
 ### **5. TODO/FIXME COMMENTS** 📝
+
 ```typescript
 // ❌ BAD - Unresolved TODO
 // TODO: Implement this feature
@@ -137,11 +152,13 @@ npm run check:quality
 ```
 
 **Check:**
+
 ```bash
 npm run check:quality
 ```
 
 **Ce detectează:**
+
 - `TODO` comments
 - `FIXME` comments
 - `XXX` markers
@@ -153,6 +170,7 @@ npm run check:quality
 ---
 
 ### **6. BUSINESS LOGIC ÎN UI** 🏗️
+
 ```typescript
 // ❌ BAD - Business logic în component
 function BookingCard() {
@@ -168,12 +186,14 @@ function BookingCard() {
 ```
 
 **Check:**
+
 ```bash
 npm run check:business
 # sau în check:quality
 ```
 
 **Ce detectează:**
+
 - Direct Supabase calls în components
 - `fetch()` în UI
 - axios în components
@@ -184,6 +204,7 @@ npm run check:business
 ---
 
 ### **7. CODE DUPLICATION** 📋
+
 ```typescript
 // ❌ BAD - Duplicated code
 function processBooking1() {
@@ -207,11 +228,13 @@ function processBooking(type) {
 ```
 
 **Check:**
+
 ```bash
 npm run check:duplicates
 ```
 
 **Ce detectează:**
+
 - Repeated function patterns
 - Similar code blocks
 - Copy-pasted components
@@ -224,9 +247,10 @@ npm run check:duplicates
 ---
 
 ### **8. DEAD CODE** 💀
+
 ```typescript
 // ❌ BAD - Unused export
-export function unusedFunction() { }
+export function unusedFunction() {}
 
 // ❌ BAD - Empty file
 // (file with < 5 lines)
@@ -236,11 +260,13 @@ export function unusedFunction() { }
 ```
 
 **Check:**
+
 ```bash
 npm run check:deadcode
 ```
 
 **Ce detectează:**
+
 - Unused exports
 - Empty files (< 5 lines)
 - Commented out code
@@ -253,6 +279,7 @@ npm run check:deadcode
 ---
 
 ### **9. LARGE FILES** 📏
+
 ```
 ❌ BAD:
   DashboardPage.tsx - 500 lines
@@ -264,12 +291,14 @@ npm run check:deadcode
 ```
 
 **Check:**
+
 ```bash
 npm run check:files
 # sau în check:performance
 ```
 
 **Ce detectează:**
+
 - Files > 200 lines (warning)
 - Files > 300 lines (error)
 
@@ -279,6 +308,7 @@ npm run check:files
 ---
 
 ### **10. COMPONENT REUSABILITY** ♻️
+
 ```
 ✅ GOOD STRUCTURE:
 
@@ -293,11 +323,13 @@ apps/admin/           # App-specific components
 ```
 
 **Check:**
+
 ```bash
 npm run check:performance
 ```
 
 **Ce detectează:**
+
 - Reusable vs app-specific ratio
 - Component extraction opportunities
 - Design system usage
@@ -308,6 +340,7 @@ npm run check:performance
 ---
 
 ### **11. IMPORT EFFICIENCY** 📦
+
 ```typescript
 // ❌ BAD - Relative imports
 import { Button } from '../../../ui-core/Button';
@@ -317,11 +350,13 @@ import { Button } from '@ui-core';
 ```
 
 **Check:**
+
 ```bash
 npm run check:performance
 ```
 
 **Ce detectează:**
+
 - Relative vs barrel imports ratio
 - Deep import paths
 - Import organization
@@ -332,6 +367,7 @@ npm run check:performance
 ---
 
 ### **12. PERFORMANCE ANTI-PATTERNS** ⚡
+
 ```typescript
 // ❌ BAD - Inline function (re-renders)
 <button onClick={() => handleClick()}>
@@ -342,11 +378,13 @@ const handleClick = useCallback(() => { }, []);
 ```
 
 **Check:**
+
 ```bash
 npm run check:performance
 ```
 
 **Ce detectează:**
+
 - Inline functions în JSX
 - Complex useEffect dependencies
 - Missing memoization
@@ -357,6 +395,7 @@ npm run check:performance
 ---
 
 ### **13. DESIGN TOKENS USAGE** 🎨
+
 ```css
 /* ✅ EXCELLENT */
 .button {
@@ -369,11 +408,13 @@ npm run check:performance
 ```
 
 **Check:**
+
 ```bash
 npm run check:performance
 ```
 
 **Ce detectează:**
+
 - % CSS files using tokens
 - Design system consistency
 
@@ -385,10 +426,13 @@ npm run check:performance
 ## 🚀 **WORKFLOW COMPLET:**
 
 ### **VARIANTA 1: Quick Quality Check (2 min)**
+
 ```bash
 npm run check:quality
 ```
+
 **Verifică:**
+
 - ✅ any types
 - ✅ hardcoded colors
 - ✅ magic numbers
@@ -398,10 +442,13 @@ npm run check:quality
 ---
 
 ### **VARIANTA 2: Advanced Quality Check (5 min)**
+
 ```bash
 npm run check:advanced
 ```
+
 **Verifică:**
+
 - ✅ check:quality (all above)
 - ✅ check:duplicates (code duplication)
 - ✅ check:deadcode (unused code)
@@ -410,6 +457,7 @@ npm run check:advanced
 ---
 
 ### **VARIANTA 3: Complete Check (10 min)**
+
 ```bash
 npm run check:everything    # P0 + basic
 npm run check:advanced      # Quality + duplicates + deadcode + performance
@@ -422,6 +470,7 @@ npm test                    # Unit tests
 ## 📊 **REZULTATE EXPECTED:**
 
 ### **✅ EXCELLENT SCORE:**
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   📊 QUALITY RESULTS
@@ -432,7 +481,7 @@ npm test                    # Unit tests
   Magic numbers:       5 ✅
   TODOs:               2 ✅
   Business logic:      0 ✅
-  
+
   Code duplication:    Low ✅
   Dead code:          < 10 issues ✅
   Reusability:         35% ✅
@@ -447,24 +496,25 @@ npm test                    # Unit tests
 
 ## 🎯 **TARGETS SUMMARY:**
 
-| Check | Target | Priority |
-|-------|--------|----------|
-| **any types** | 0 | 🔴 Critical |
-| **Hardcoded colors** | 0 | 🔴 Critical |
-| **Business logic în UI** | 0 | 🔴 Critical |
-| **Magic numbers** | < 10 | 🟡 Important |
-| **TODOs** | < 5 | 🟡 Important |
-| **Code duplication** | Low | 🟡 Important |
-| **Dead code** | < 10 | 🟡 Important |
-| **Large files** | < 300 lines | 🟡 Important |
-| **Reusability ratio** | > 30% | 🟢 Nice to have |
-| **Token usage** | > 80% | 🟢 Nice to have |
+| Check                    | Target      | Priority        |
+| ------------------------ | ----------- | --------------- |
+| **any types**            | 0           | 🔴 Critical     |
+| **Hardcoded colors**     | 0           | 🔴 Critical     |
+| **Business logic în UI** | 0           | 🔴 Critical     |
+| **Magic numbers**        | < 10        | 🟡 Important    |
+| **TODOs**                | < 5         | 🟡 Important    |
+| **Code duplication**     | Low         | 🟡 Important    |
+| **Dead code**            | < 10        | 🟡 Important    |
+| **Large files**          | < 300 lines | 🟡 Important    |
+| **Reusability ratio**    | > 30%       | 🟢 Nice to have |
+| **Token usage**          | > 80%       | 🟢 Nice to have |
 
 ---
 
 ## 🔧 **HOW TO FIX:**
 
 ### **1. any Types:**
+
 ```bash
 # Find all:
 npm run check:any
@@ -476,6 +526,7 @@ npm run check:any
 ```
 
 ### **2. Hardcoded Colors:**
+
 ```bash
 # Find all:
 npm run check:colors
@@ -487,6 +538,7 @@ npm run check:colors
 ```
 
 ### **3. Magic Numbers:**
+
 ```bash
 # Find all:
 npm run check:quality
@@ -498,6 +550,7 @@ const PAGE_SIZE = 20;
 ```
 
 ### **4. Code Duplication:**
+
 ```bash
 # Find all:
 npm run check:duplicates
@@ -509,6 +562,7 @@ npm run check:duplicates
 ```
 
 ### **5. Dead Code:**
+
 ```bash
 # Find all:
 npm run check:deadcode
@@ -525,22 +579,26 @@ npm run check:deadcode
 ## 📝 **BEST PRACTICES:**
 
 ### **Înainte de fiecare commit:**
+
 ```bash
 npm run check:quality  # Quick check
 ```
 
 ### **Înainte de Pull Request:**
+
 ```bash
 npm run check:advanced  # Full quality check
 ```
 
 ### **Weekly cleanup:**
+
 ```bash
 npm run check:deadcode      # Remove unused code
 npm run check:duplicates    # Refactor duplicates
 ```
 
 ### **Monthly review:**
+
 ```bash
 npm run check:performance   # Optimize bundle
 npm run check:enterprise    # Architecture review
@@ -578,12 +636,14 @@ npm run check:enterprise    # Architecture review
 ## 🚀 **AUTOMATION:**
 
 ### **Git Pre-commit Hook:**
+
 ```bash
 # .husky/pre-commit
 npm run check:quality || exit 1
 ```
 
 ### **CI/CD Pipeline:**
+
 ```yaml
 # .github/workflows/quality.yml
 - name: Quality Checks

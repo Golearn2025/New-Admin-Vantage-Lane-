@@ -17,7 +17,7 @@
       },
       "border": {
         "default": "#e2e8f0",
-        "muted": "#f1f5f9", 
+        "muted": "#f1f5f9",
         "strong": "#cbd5e1",
         "focus": "#eab308"
       },
@@ -49,11 +49,11 @@
     "dark": {
       "bg": {
         "primary": "#0a0b0d",
-        "secondary": "#121416", 
+        "secondary": "#121416",
         "tertiary": "#1a1d21",
         "gradient": {
           "from": "#0a0b0d",
-          "via": "#121416", 
+          "via": "#121416",
           "to": "#1a1d21"
         }
       },

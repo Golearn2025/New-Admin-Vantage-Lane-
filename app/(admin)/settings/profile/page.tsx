@@ -1,6 +1,6 @@
 /**
  * Profile Settings Page
- * 
+ *
  * Permite adminului să își editeze profilul.
  * Limită: ≤150 linii (page logic rule)
  */
@@ -39,12 +39,7 @@ export default function ProfilePage() {
 
       <div className={styles.content}>
         {profile ? (
-          <ProfileForm
-            profile={profile}
-            loading={loading}
-            error={error}
-            onSave={handleSave}
-          />
+          <ProfileForm profile={profile} loading={loading} error={error} onSave={handleSave} />
         ) : loading ? (
           <div className={styles.loading}>Loading your profile...</div>
         ) : (

@@ -2,10 +2,10 @@
 
 /**
  * Error Boundary - Global Error Handler
- * 
+ *
  * Catches all errors in the app and displays a friendly error page.
  * Logs errors to logger for monitoring.
- * 
+ *
  * Next.js automatic error boundary - wraps all routes.
  */
 
@@ -28,74 +28,90 @@ export default function Error({ error, reset }: ErrorProps) {
   }, [error]);
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      padding: '24px',
-      background: 'var(--vl-color-background, #0a0a0a)',
-      color: 'var(--color-text-primary, #ffffff)',
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-    }}>
-      <div style={{
-        maxWidth: '600px',
-        textAlign: 'center',
-      }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        padding: '24px',
+        background: 'var(--vl-color-background, #0a0a0a)',
+        color: 'var(--color-text-primary, #ffffff)',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+      }}
+    >
+      <div
+        style={{
+          maxWidth: '600px',
+          textAlign: 'center',
+        }}
+      >
         {/* Error Icon */}
-        <div style={{
-          fontSize: '64px',
-          marginBottom: '24px',
-        }}>
+        <div
+          style={{
+            fontSize: '64px',
+            marginBottom: '24px',
+          }}
+        >
           ⚠️
         </div>
 
         {/* Error Title */}
-        <h1 style={{
-          fontSize: '32px',
-          fontWeight: '700',
-          marginBottom: '16px',
-          color: 'var(--color-danger, #ff6b6b)',
-        }}>
+        <h1
+          style={{
+            fontSize: '32px',
+            fontWeight: '700',
+            marginBottom: '16px',
+            color: 'var(--color-danger, #ff6b6b)',
+          }}
+        >
           Something went wrong
         </h1>
 
         {/* Error Message */}
-        <p style={{
-          fontSize: '16px',
-          color: 'var(--color-text-secondary, #a0a0a0)',
-          marginBottom: '32px',
-          lineHeight: '1.6',
-        }}>
+        <p
+          style={{
+            fontSize: '16px',
+            color: 'var(--color-text-secondary, #a0a0a0)',
+            marginBottom: '32px',
+            lineHeight: '1.6',
+          }}
+        >
           We encountered an unexpected error. Our team has been notified and is working on a fix.
         </p>
 
         {/* Error Details (development only) */}
         {process.env.NODE_ENV === 'development' && (
-          <details style={{
-            marginBottom: '32px',
-            padding: '16px',
-            background: 'rgba(255, 107, 107, 0.1)',
-            border: '1px solid rgba(255, 107, 107, 0.3)',
-            borderRadius: '8px',
-            textAlign: 'left',
-          }}>
-            <summary style={{
-              cursor: 'pointer',
-              fontWeight: '600',
-              marginBottom: '12px',
-              color: 'var(--color-danger, #ff6b6b)',
-            }}>
+          <details
+            style={{
+              marginBottom: '32px',
+              padding: '16px',
+              background: 'rgba(255, 107, 107, 0.1)',
+              border: '1px solid rgba(255, 107, 107, 0.3)',
+              borderRadius: '8px',
+              textAlign: 'left',
+            }}
+          >
+            <summary
+              style={{
+                cursor: 'pointer',
+                fontWeight: '600',
+                marginBottom: '12px',
+                color: 'var(--color-danger, #ff6b6b)',
+              }}
+            >
               Error Details (Dev Only)
             </summary>
-            <pre style={{
-              fontSize: '12px',
-              overflow: 'auto',
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word',
-              color: 'var(--color-text-secondary, #a0a0a0)',
-            }}>
+            <pre
+              style={{
+                fontSize: '12px',
+                overflow: 'auto',
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-word',
+                color: 'var(--color-text-secondary, #a0a0a0)',
+              }}
+            >
               {error.message}
               {error.stack && `\n\n${error.stack}`}
               {error.digest && `\n\nDigest: ${error.digest}`}
@@ -104,12 +120,14 @@ export default function Error({ error, reset }: ErrorProps) {
         )}
 
         {/* Actions */}
-        <div style={{
-          display: 'flex',
-          gap: '16px',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: '16px',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+          }}
+        >
           <button
             onClick={reset}
             style={{
@@ -123,14 +141,14 @@ export default function Error({ error, reset }: ErrorProps) {
               cursor: 'pointer',
               transition: 'opacity 0.2s',
             }}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.8')}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
           >
             Try Again
           </button>
 
           <button
-            onClick={() => window.location.href = '/'}
+            onClick={() => (window.location.href = '/')}
             style={{
               padding: '12px 24px',
               backgroundColor: 'transparent',
@@ -142,19 +160,23 @@ export default function Error({ error, reset }: ErrorProps) {
               cursor: 'pointer',
               transition: 'background-color 0.2s',
             }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)')
+            }
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
           >
             Go to Dashboard
           </button>
         </div>
 
         {/* Support Info */}
-        <p style={{
-          marginTop: '32px',
-          fontSize: '14px',
-          color: 'var(--color-text-secondary, #666)',
-        }}>
+        <p
+          style={{
+            marginTop: '32px',
+            fontSize: '14px',
+            color: 'var(--color-text-secondary, #666)',
+          }}
+        >
           If this problem persists, please contact support.
         </p>
       </div>

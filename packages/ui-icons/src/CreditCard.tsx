@@ -11,21 +11,8 @@ export function CreditCard({ size = 24, className, 'aria-label': ariaLabel }: Ba
       role="img"
       aria-label={ariaLabel}
     >
-      <rect
-        x="2"
-        y="5"
-        width="20"
-        height="14"
-        rx="2"
-        stroke="currentColor"
-        strokeWidth={1.5}
-      />
-      <path
-        d="M2 10h20"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-      />
+      <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth={1.5} />
+      <path d="M2 10h20" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
     </svg>
   );
 }

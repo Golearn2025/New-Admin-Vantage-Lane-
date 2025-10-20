@@ -13,12 +13,14 @@
 ### 🎯 **COMPONENTE REUTILIZABILE DISPONIBILE**
 
 #### ✅ **UI-CORE (4 componente)**
+
 - [x] Button - cu toate variantele (primary, secondary, outline, ghost, danger)
 - [x] Card - cu gradient variants
 - [x] Checkbox - cu A11y compliance
 - [x] Input - cu validation și error states
 
 #### ✅ **UI-DASHBOARD (8 componente)**
+
 - [x] MetricCard - cu gradiente premium
 - [x] BarBasic - grafic simplu
 - [x] DonutChart - chart circular
@@ -29,10 +31,12 @@
 - [x] DateRangePicker - selector interval
 
 #### ✅ **UI-ICONS (11 iconuri)**
+
 - [x] Calendar, ChevronDown, Dashboard, Documents, Menu
 - [x] Monitoring, Payments, Refunds, Settings, Support, Users
 
 #### ✅ **COMPOSED COMPONENTS (10 componente)**
+
 - [x] AuthCard - pentru autentificare
 - [x] BrandBackground - fundal brand
 - [x] BrandName - logo și branding
@@ -47,30 +51,35 @@
 ### 📝 **WORKFLOW DEZVOLTARE PAGINI NOI**
 
 #### 🚀 **FAZA 1: PLANIFICARE**
+
 - [ ] Analizează pagina în planul v1.0
 - [ ] Verifică contractele API necesare
 - [ ] Identifică componentele reutilizabile aplicabile
 - [ ] Planifică structura de fișiere conform Feature-Sliced Design
 
 #### 🔧 **FAZA 2: SETUP**
+
 - [ ] Creează directorul în `/app/(admin)/[nume-pagina]`
 - [ ] Adaugă page.tsx cu layout standard
 - [ ] Configurează rutele în navigation
 - [ ] Setup CSS Module pentru styling
 
 #### 🎨 **FAZA 3: DEZVOLTARE COMPONENTE**
+
 - [ ] **PRIMUL**: Folosește componentele existente
 - [ ] **AL DOILEA**: Creează componente noi DOAR dacă absolut necesar
 - [ ] **AL TREILEA**: Respectă design tokens (zero culori inline)
 - [ ] **AL PATRULEA**: Implementează responsive design
 
 #### 🔗 **FAZA 4: INTEGRARE API**
+
 - [ ] Implementează contractele API lipsă
 - [ ] Adaugă keyset pagination pentru liste
 - [ ] Testează cu date mock înainte de backend
 - [ ] Implementează error handling
 
 #### ✅ **FAZA 5: QUALITY ASSURANCE**
+
 - [ ] Verifică limite fișiere (UI ≤200, logică ≤150)
 - [ ] Rulează ESLint și corectează toate problemele
 - [ ] Testează TypeScript strict (zero 'any')
@@ -78,6 +87,7 @@
 - [ ] Testează responsive pe toate breakpoint-urile
 
 #### 📚 **FAZA 6: DOCUMENTAȚIE**
+
 - [ ] Actualizează CHECKLIST.md cu progresul
 - [ ] Documentează API-urile noi în contracts
 - [ ] Adaugă entry în CHANGELOG.md
@@ -107,6 +117,7 @@
 ### 📊 **COMPONENTE LIPSĂ DE IMPLEMENTAT**
 
 #### 🔴 **PRIORITATE ÎNALTĂ (pentru pagini complexe)**
+
 - [ ] **Table** - virtualized pentru liste mari
 - [ ] **Modal** - pentru formulare și confirmări
 - [ ] **Select** - dropdown cu search
@@ -114,6 +125,7 @@
 - [ ] **Tabs** - pentru organizare conținut
 
 #### 🟡 **PRIORITATE MEDIE (pentru UX îmbunătățit)**
+
 - [ ] **Toast** - notificări non-blocking
 - [ ] **Badge** - indicators status
 - [ ] **Avatar** - profiluri utilizatori
@@ -121,6 +133,7 @@
 - [ ] **Switch** - toggle states
 
 #### 🟢 **PRIORITATE SCĂZUTĂ (polish final)**
+
 - [ ] **EmptyState** - stări goale
 - [ ] **ErrorState** - stări eroare
 - [ ] **Skeleton** - loading placeholders
@@ -130,7 +143,9 @@
 ### 🎯 **URMĂTOARELE PAGINI DE DEZVOLTAT**
 
 #### 📅 **SPRINT 1: Pagini Core**
+
 - [ ] **Bookings List** (`/bookings/active`)
+
   - Folosește: Table, DateRangePicker, Badge, Pagination
   - API: bookings.list (✅ implementat)
   - Complexitate: Medie
@@ -141,7 +156,9 @@
   - Complexitate: Înaltă
 
 #### 📅 **SPRINT 2: Pagini Business**
+
 - [ ] **Documents Review** (`/documents`)
+
   - Folosește: Table, Badge, Modal, Tabs
   - API: documents.list (✅ implementat)
   - Complexitate: Medie
@@ -152,17 +169,20 @@
   - Complexitate: Medie
 
 #### 📅 **SPRINT 3: Pagini Financiare**
+
 - [ ] **Payments** (`/payments`)
   - API: payments.list (✅), refunds.list (❌), disputes.list (❌)
   - Necesită: Implementare contracte lipsă
   - Complexitate: Înaltă
 
 ### ⚡ **QUICK WINS (implementare rapidă)**
+
 1. **Bookings Active** - toate componentele disponibile
 2. **Users All** - majoritatea componentelor disponibile
 3. **Documents** - componente simple necesare
 
 ### 🚧 **BLOCKERS IDENTIFICATE**
+
 1. **Contracte API lipsă** - refunds, disputes, payouts, prices
 2. **Table component** - critic pentru toate listele
 3. **Modal component** - necesar pentru forms și confirmări

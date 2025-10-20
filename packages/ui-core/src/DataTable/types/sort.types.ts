@@ -1,6 +1,6 @@
 /**
  * Sort Types
- * 
+ *
  * Type definitions pentru sorting în DataTable.
  * <40 linii - respectă regulile proiectului!
  */
@@ -18,7 +18,7 @@ export interface SortState {
    * Column ID being sorted
    */
   columnId: string | null;
-  
+
   /**
    * Sort direction
    */

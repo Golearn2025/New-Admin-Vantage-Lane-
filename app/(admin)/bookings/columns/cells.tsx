@@ -11,11 +11,16 @@ import { getTripIcon } from './helpers';
 import styles from '../columns.module.css';
 import type { BookingColumn, BookingsColumnsProps } from './schema';
 
-export const getSelectColumn = ({ onSelectAll, onSelectRow, allSelected = false, selectedIds = new Set() }: BookingsColumnsProps): BookingColumn => ({
+export const getSelectColumn = ({
+  onSelectAll,
+  onSelectRow,
+  allSelected = false,
+  selectedIds = new Set(),
+}: BookingsColumnsProps): BookingColumn => ({
   id: 'select',
   header: (
-    <input 
-      type="checkbox" 
+    <input
+      type="checkbox"
       className={styles.checkbox}
       checked={allSelected}
       onChange={(e) => onSelectAll?.(e.target.checked)}
@@ -24,8 +29,8 @@ export const getSelectColumn = ({ onSelectAll, onSelectRow, allSelected = false,
   ),
   width: '40px',
   cell: (row) => (
-    <input 
-      type="checkbox" 
+    <input
+      type="checkbox"
       className={styles.checkbox}
       checked={selectedIds.has(row.id)}
       onChange={(e) => onSelectRow?.(row.id, e.target.checked)}
@@ -48,9 +53,7 @@ export const getReferenceColumn = (): BookingColumn => ({
   width: '120px',
   cell: (row) => (
     <div className={styles.referenceCell}>
-      <div className={styles.referenceId}>
-        {row.reference}
-      </div>
+      <div className={styles.referenceId}>{row.reference}</div>
       <div className={styles.referenceType}>
         {getTripIcon(row.trip_type)} {row.trip_type.toUpperCase()}
       </div>
@@ -65,10 +68,8 @@ export const getCustomerColumn = (): BookingColumn => ({
   width: '150px',
   cell: (row) => (
     <div className={styles.customerCell}>
-      <div className={styles.customerName}>
-        {row.customer_name}
-      </div>
-      <a 
+      <div className={styles.customerName}>{row.customer_name}</div>
+      <a
         href={`tel:${row.customer_phone}`}
         className={styles.customerContact}
         onClick={(e) => e.stopPropagation()}
@@ -77,7 +78,7 @@ export const getCustomerColumn = (): BookingColumn => ({
         <span>{row.customer_phone}</span>
       </a>
       {row.customer_email && (
-        <a 
+        <a
           href={`mailto:${row.customer_email}`}
           className={styles.customerEmail}
           onClick={(e) => e.stopPropagation()}
@@ -86,7 +87,7 @@ export const getCustomerColumn = (): BookingColumn => ({
           <span>{row.customer_email}</span>
         </a>
       )}
-      
+
       {/* Customer Stats */}
       <div className={styles.customerStats}>
         <div className={styles.customerStat}>

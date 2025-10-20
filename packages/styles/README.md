@@ -25,8 +25,8 @@ import '@vantage-lane/styles/globals.css';
 ### Import specific parts
 
 ```typescript
-import '@vantage-lane/styles/tokens.css';      // Color, spacing, typography tokens
-import '@vantage-lane/styles/theme-dark.css';  // Dark theme (Charcoal Premium)
+import '@vantage-lane/styles/tokens.css'; // Color, spacing, typography tokens
+import '@vantage-lane/styles/theme-dark.css'; // Dark theme (Charcoal Premium)
 import '@vantage-lane/styles/theme-light.css'; // Light theme (future)
 ```
 

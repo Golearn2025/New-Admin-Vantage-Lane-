@@ -1,6 +1,6 @@
 /**
  * ActionMenu - Dropdown menu component
- * 
+ *
  * Export barrel for clean imports:
  * import { ActionMenu } from '@ui-core';
  */

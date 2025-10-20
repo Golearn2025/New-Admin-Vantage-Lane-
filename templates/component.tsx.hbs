@@ -1,0 +1,16 @@
+'use client';
+import React from 'react';
+import styles from './{{name}}.module.css';
+import '@styles/tokens.css';
+
+export type {{name}}Props = { children?: React.ReactNode; as?: keyof JSX.IntrinsicElements; disabled?: boolean; };
+
+export function {{name}}({ children, as='div', disabled=false, ...rest }: {{name}}Props) {
+  const Comp = as as any;
+  return (
+    <Comp data-vl-component="{{name}}" aria-disabled={disabled || undefined} className={styles.root} {...rest}>
+      {children}
+    </Comp>
+  );
+}
+// ≤200 linii; doar var(--token) pt culori/spații/radii; fără hardcodări

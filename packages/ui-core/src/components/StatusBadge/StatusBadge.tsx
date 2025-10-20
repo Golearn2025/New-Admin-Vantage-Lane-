@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import './StatusBadge.css';
+import './StatusBadge.module.css';
 
 export type BookingStatus = 
   | 'pending'

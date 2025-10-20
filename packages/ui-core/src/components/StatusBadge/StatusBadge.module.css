@@ -3,6 +3,7 @@
  * 
  * Premium badge design with glow effects
  * 100% Design Tokens - Zero Hardcoding
+ * Note: Design tokens are loaded globally via app/globals.css
  */
 
 /* Base Badge */
@@ -49,15 +50,15 @@
 }
 
 .status-badge--en-route {
-  background-color: #FFF7ED;
-  color: #EA580C;
-  border: 1px solid #FB923C;
+  background-color: var(--color-status-new-alpha-10);
+  color: var(--color-status-new);
+  border: 1px solid var(--color-status-new);
 }
 
 .status-badge--arrived {
-  background-color: #F5F3FF;
-  color: #7C3AED;
-  border: 1px solid #A78BFA;
+  background-color: var(--color-status-in-progress-alpha-10);
+  color: var(--color-status-in-progress);
+  border: 1px solid var(--color-status-in-progress);
 }
 
 .status-badge--in-progress {
@@ -83,48 +84,48 @@
   position: relative;
   animation: pulseGlow 2s ease-in-out infinite;
   box-shadow: 
-    0 0 8px rgba(59, 130, 246, 0.3),
-    0 0 16px rgba(59, 130, 246, 0.2);
+    0 0 8px var(--color-status-assigned-alpha-30),
+    0 0 16px var(--color-status-assigned-alpha-10);
 }
 
 @keyframes pulseGlow {
   0%, 100% {
     box-shadow: 
-      0 0 8px rgba(59, 130, 246, 0.3),
-      0 0 16px rgba(59, 130, 246, 0.2);
+      0 0 8px var(--color-status-assigned-alpha-30),
+      0 0 16px var(--color-status-assigned-alpha-10);
   }
   50% {
     box-shadow: 
-      0 0 12px rgba(59, 130, 246, 0.5),
-      0 0 24px rgba(59, 130, 246, 0.3),
-      0 0 32px rgba(59, 130, 246, 0.1);
+      0 0 12px var(--color-status-assigned-alpha-30),
+      0 0 24px var(--color-status-assigned-alpha-30),
+      0 0 32px var(--color-status-assigned-alpha-10);
   }
 }
 
 /* URGENT Badge Effect - Strong Red Pulsing */
 .status-badge--urgent {
-  background-color: #FEE2E2 !important;
-  color: #DC2626 !important;
-  border: 2px solid #EF4444 !important;
+  background-color: var(--color-status-cancelled-alpha-10) !important;
+  color: var(--color-status-cancelled) !important;
+  border: 2px solid var(--color-status-cancelled) !important;
   font-weight: var(--font-weight-bold);
   animation: urgentPulse 1.5s ease-in-out infinite;
   box-shadow: 
-    0 0 12px rgba(239, 68, 68, 0.4),
-    0 0 24px rgba(239, 68, 68, 0.2);
+    0 0 12px var(--color-status-cancelled-alpha-30),
+    0 0 24px var(--color-status-cancelled-alpha-10);
 }
 
 @keyframes urgentPulse {
   0%, 100% {
     box-shadow: 
-      0 0 12px rgba(239, 68, 68, 0.4),
-      0 0 24px rgba(239, 68, 68, 0.2);
+      0 0 12px var(--color-status-cancelled-alpha-30),
+      0 0 24px var(--color-status-cancelled-alpha-10);
     transform: scale(1);
   }
   50% {
     box-shadow: 
-      0 0 20px rgba(239, 68, 68, 0.6),
-      0 0 40px rgba(239, 68, 68, 0.4),
-      0 0 60px rgba(239, 68, 68, 0.2);
+      0 0 20px var(--color-status-cancelled-alpha-30),
+      0 0 40px var(--color-status-cancelled-alpha-30),
+      0 0 60px var(--color-status-cancelled-alpha-10);
     transform: scale(1.02);
   }
 }
@@ -134,8 +135,8 @@
   display: inline-block;
   margin-left: var(--spacing-xs);
   padding: 1px var(--spacing-xs);
-  background-color: #DC2626;
-  color: white;
+  background-color: var(--color-status-cancelled);
+  color: var(--color-text-primary);
   border-radius: var(--radius-lg);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
@@ -154,8 +155,8 @@
   display: inline-block;
   margin-left: var(--spacing-xs);
   padding: 1px var(--spacing-xs);
-  background-color: #3B82F6;
-  color: white;
+  background-color: var(--color-status-assigned);
+  color: var(--color-text-primary);
   border-radius: var(--radius-lg);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);

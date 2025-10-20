@@ -1,0 +1,121 @@
+/**
+ * AVATAR STYLES - PREMIUM
+ */
+
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--theme-primary-alpha-10);
+  color: var(--theme-primary);
+  font-weight: var(--font-semibold);
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid var(--color-bg-primary);
+  transition: all var(--motion-duration-fast);
+}
+
+.avatar:hover {
+  transform: scale(1.05);
+  box-shadow: var(--theme-glow);
+}
+
+/* ============================================ */
+/* SIZES                                        */
+/* ============================================ */
+
+.size-xs {
+  width: 24px;
+  height: 24px;
+  font-size: var(--font-xs);
+}
+
+.size-sm {
+  width: 32px;
+  height: 32px;
+  font-size: var(--font-sm);
+}
+
+.size-md {
+  width: 40px;
+  height: 40px;
+  font-size: var(--font-base);
+}
+
+.size-lg {
+  width: 48px;
+  height: 48px;
+  font-size: var(--font-lg);
+}
+
+.size-xl {
+  width: 64px;
+  height: 64px;
+  font-size: var(--font-xl);
+}
+
+.size-2xl {
+  width: 80px;
+  height: 80px;
+  font-size: var(--font-2xl);
+}
+
+/* ============================================ */
+/* IMAGE                                        */
+/* ============================================ */
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================ */
+/* INITIALS                                     */
+/* ============================================ */
+
+.initials {
+  line-height: 1;
+}
+
+/* ============================================ */
+/* STATUS INDICATOR                             */
+/* ============================================ */
+
+.status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+  border: 2px solid var(--color-bg-primary);
+}
+
+.status-online {
+  background: var(--color-success-500);
+}
+
+.status-offline {
+  background: var(--color-text-muted);
+}
+
+.status-away {
+  background: var(--color-warning-500);
+}
+
+.status-busy {
+  background: var(--color-danger-default);
+}
+
+/* ============================================ */
+/* REDUCED MOTION                               */
+/* ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar:hover {
+    transform: none;
+  }
+}

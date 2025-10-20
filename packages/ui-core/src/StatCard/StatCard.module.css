@@ -1,0 +1,202 @@
+/**
+ * STAT CARD STYLES - PREMIUM
+ */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  min-height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Premium background effect */
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(
+    circle,
+    var(--theme-primary-alpha-10) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--motion-duration-normal);
+  pointer-events: none;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+/* ============================================ */
+/* LABEL                                        */
+/* ============================================ */
+
+.label {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================ */
+/* VALUE                                        */
+/* ============================================ */
+
+.value {
+  font-size: var(--font-4xl);
+  font-weight: var(--font-bold);
+  background: var(--theme-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  animation: valueAppear 0.6s var(--motion-easing-ease-out) forwards;
+}
+
+@keyframes valueAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================ */
+/* FOOTER                                       */
+/* ============================================ */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-top: auto;
+}
+
+/* ============================================ */
+/* TREND                                        */
+/* ============================================ */
+
+.trend {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
+}
+
+.trendPositive {
+  color: var(--color-success-500);
+}
+
+.trendNegative {
+  color: var(--color-danger-default);
+}
+
+.trendLabel {
+  font-weight: var(--font-normal);
+  color: var(--color-text-muted);
+  margin-left: var(--spacing-1);
+  font-size: var(--font-xs);
+}
+
+/* ============================================ */
+/* CHART                                        */
+/* ============================================ */
+
+.chartContainer {
+  flex-shrink: 0;
+  opacity: 0.8;
+  transition: opacity var(--motion-duration-fast);
+}
+
+.card:hover .chartContainer {
+  opacity: 1;
+}
+
+.chart {
+  display: block;
+}
+
+.chartLine {
+  animation: chartDraw 1s var(--motion-easing-ease-out) forwards;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+}
+
+@keyframes chartDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.chartArea {
+  animation: chartFadeIn 1s var(--motion-easing-ease-out) forwards;
+  opacity: 0;
+}
+
+@keyframes chartFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================ */
+/* RESPONSIVE                                   */
+/* ============================================ */
+
+@media (max-width: 640px) {
+  .card {
+    min-height: 160px;
+  }
+
+  .value {
+    font-size: var(--font-3xl);
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
+
+  .chartContainer {
+    width: 100%;
+  }
+
+  .chart {
+    width: 100%;
+    height: 30px;
+  }
+}
+
+/* ============================================ */
+/* REDUCED MOTION                               */
+/* ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .value {
+    animation: none;
+  }
+
+  .chartLine {
+    animation: none;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+
+  .chartArea {
+    animation: none;
+    opacity: 1;
+  }
+}

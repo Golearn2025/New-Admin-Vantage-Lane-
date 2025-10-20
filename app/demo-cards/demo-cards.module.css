@@ -1,0 +1,204 @@
+/**
+ * DASHBOARD CARDS DEMO STYLES
+ */
+
+.page {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    var(--color-bg-primary) 0%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-tertiary) 100%
+  );
+}
+
+/* Header */
+.header {
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border-strong);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.headerContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.title {
+  font-size: var(--font-3xl);
+  font-weight: var(--font-bold);
+  margin: 0;
+  background: var(--theme-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: var(--font-base);
+  color: var(--color-text-secondary);
+  margin: var(--spacing-2) 0 0;
+}
+
+/* Content */
+.content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-8) var(--spacing-6);
+}
+
+/* Sections */
+.section {
+  margin-bottom: var(--spacing-12);
+}
+
+.sectionTitle {
+  font-size: var(--font-2xl);
+  font-weight: var(--font-bold);
+  margin: 0 0 var(--spacing-2);
+  color: var(--color-text-primary);
+}
+
+.sectionDesc {
+  font-size: var(--font-base);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-6);
+}
+
+/* Cards Grid */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-4);
+}
+
+/* Info Panel */
+.infoPanel {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-8);
+  box-shadow: var(--shadow-lg);
+}
+
+.infoPanel h3 {
+  font-size: var(--font-xl);
+  font-weight: var(--font-bold);
+  margin: 0 0 var(--spacing-4);
+  color: var(--theme-primary);
+}
+
+.infoPanel ul {
+  margin: 0 0 var(--spacing-6);
+  padding-left: var(--spacing-6);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+.infoPanel li {
+  margin-bottom: var(--spacing-2);
+}
+
+.infoPanel strong {
+  color: var(--color-text-primary);
+}
+
+.codeBlock {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-4);
+  overflow-x: auto;
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: var(--font-sm);
+  color: var(--theme-primary);
+  line-height: var(--line-height-relaxed);
+}
+
+/* Badge & Avatar Showcase */
+.badgeShowcase {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  padding: var(--spacing-4);
+  background: var(--color-surface-elevated);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-default);
+}
+
+.badgeGroup h4 {
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-3) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badgeFlex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  align-items: center;
+}
+
+/* Tabs Demo */
+.tabDemo {
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+}
+
+.tabDemo h3 {
+  margin: 0 0 var(--spacing-3) 0;
+  font-size: var(--font-base);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-secondary);
+}
+
+.tabContent {
+  padding: var(--spacing-4);
+  background: var(--color-surface-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-default);
+}
+
+.tabContent h4 {
+  margin: 0 0 var(--spacing-2) 0;
+  font-size: var(--font-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+
+.tabContent p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .title {
+    font-size: var(--font-2xl);
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+}

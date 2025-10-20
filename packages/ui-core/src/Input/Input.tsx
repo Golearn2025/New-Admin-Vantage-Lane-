@@ -9,6 +9,7 @@ import { ReactNode, InputHTMLAttributes, forwardRef } from 'react';
 import styles from './Input.module.css';
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+  label?: string;
   error?: string;
   hint?: string;
   disabled?: boolean;
@@ -18,6 +19,7 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input({
+  label,
   error,
   hint,
   disabled = false,
@@ -48,6 +50,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input({
 
   return (
     <div className={wrapperClasses}>
+      {label && (
+        <label htmlFor={inputId} className={styles.label}>
+          {label}
+          {props.required && <span className={styles.required}>*</span>}
+        </label>
+      )}
       <div className={styles.inputWrapper}>
         {leftIcon && (
           <span className={styles.leftIcon} aria-hidden="true">

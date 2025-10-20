@@ -1,0 +1,183 @@
+/**
+ * PROGRESS CARD STYLES - PREMIUM
+ */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  min-height: 240px;
+}
+
+/* ============================================ */
+/* HEADER                                       */
+/* ============================================ */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+}
+
+.title {
+  font-size: var(--font-lg);
+  font-weight: var(--font-semibold);
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.subtitle {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  margin: var(--spacing-1) 0 0;
+}
+
+/* ============================================ */
+/* PROGRESS LIST                                */
+/* ============================================ */
+
+.progressList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.progressItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+/* Label Row */
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.label {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-medium);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.value {
+  font-size: var(--font-sm);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.percentage {
+  font-weight: var(--font-normal);
+  color: var(--color-text-muted);
+  font-size: var(--font-xs);
+}
+
+/* ============================================ */
+/* PROGRESS BAR                                 */
+/* ============================================ */
+
+.progressTrack {
+  width: 100%;
+  height: 8px;
+  background: var(--color-surface-secondary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--color-border-muted);
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--theme-gradient);
+  border-radius: var(--radius-full);
+  position: relative;
+  transition: width var(--motion-duration-normal);
+  animation: progressGrow 1s var(--motion-easing-ease-out) forwards;
+  transform-origin: left;
+}
+
+@keyframes progressGrow {
+  from {
+    width: 0 !important;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Shimmer effect */
+.progressBar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+  animation-delay: inherit;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+}
+
+/* Hover effect */
+.progressItem:hover .progressBar {
+  filter: brightness(1.2);
+}
+
+/* ============================================ */
+/* RESPONSIVE                                   */
+/* ============================================ */
+
+@media (max-width: 640px) {
+  .card {
+    min-height: 200px;
+  }
+
+  .title {
+    font-size: var(--font-base);
+  }
+
+  .progressList {
+    gap: var(--spacing-3);
+  }
+
+  .progressTrack {
+    height: 6px;
+  }
+}
+
+/* ============================================ */
+/* REDUCED MOTION                               */
+/* ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .progressBar {
+    animation: none;
+  }
+
+  .progressBar::before {
+    animation: none;
+  }
+}

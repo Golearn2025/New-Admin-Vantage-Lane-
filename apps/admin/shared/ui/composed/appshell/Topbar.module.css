@@ -21,12 +21,17 @@
   left: 70px !important;
 }
 
-/* Charcoal Premium Topbar */
+/* Premium Topbar with theme tint */
 .topbar {
-  background: var(--color-surface-glass);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: linear-gradient(
+    to right,
+    var(--color-surface-glass),
+    var(--theme-primary-alpha-10)
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border-strong);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Skip link pentru A11y */
@@ -101,6 +106,7 @@
   left: var(--spacing-3);
   color: var(--color-text-muted);
   z-index: 1;
+  transition: color var(--motion-duration-fast);
 }
 
 .searchInput {
@@ -112,16 +118,27 @@
   border-radius: var(--radius-md);
   color: var(--color-text-primary);
   font-size: var(--font-base);
+  transition: var(--motion-hover);
 }
 
 .searchInput::placeholder {
   color: var(--color-text-muted);
 }
 
+/* Premium: Theme focus with icon color change */
 .searchInput:focus {
   outline: none;
-  border-color: var(--color-border-focus);
-  box-shadow: 0 0 0 2px rgba(241, 209, 106, 0.2);
+  border-color: var(--theme-primary);
+  box-shadow: var(--theme-shadow-focus);
+  background: var(--theme-primary-alpha-10);
+}
+
+.searchInput:focus + .searchIcon {
+  color: var(--theme-primary);
+}
+
+.searchContainer:focus-within .searchIcon {
+  color: var(--theme-primary);
 }
 
 /* Right Section - pushed to far right */
@@ -162,7 +179,7 @@
   position: absolute;
   top: 6px;
   right: 6px;
-  background: var(--color-danger-default);
+  background: var(--theme-gradient);
   color: white;
   font-size: var(--font-xs);
   font-weight: var(--font-semibold);
@@ -173,6 +190,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: var(--theme-glow);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: var(--theme-glow);
+  }
+  50% {
+    box-shadow: var(--theme-glow-strong);
+  }
 }
 
 /* User Menu */
@@ -205,16 +233,24 @@
 .userAvatar {
   width: 36px;
   height: 36px;
-  background: var(--color-accent-500);
+  background: var(--theme-gradient);
+  border: 2px solid var(--theme-primary);
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: var(--theme-shadow-button);
+  transition: all var(--motion-duration-normal);
+}
+
+.userButton:hover .userAvatar {
+  box-shadow: var(--theme-glow);
+  transform: scale(1.05);
 }
 
 .userInitials {
-  color: var(--color-bg-primary);
+  color: white;
   font-size: var(--font-sm);
   font-weight: var(--font-semibold);
 }
@@ -275,15 +311,31 @@
   cursor: pointer;
   width: 100%;
   text-align: left;
+  transition: var(--motion-hover);
+  position: relative;
 }
 
 .dropdownItem:hover {
-  background: var(--color-surface-secondary);
+  background: var(--theme-primary-alpha-10);
+  color: var(--theme-primary);
+  padding-left: calc(var(--spacing-4) + 4px);
+}
+
+.dropdownItem:hover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--theme-gradient);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
 .dropdownItem:focus-visible {
-  outline: 2px solid var(--color-border-focus);
+  outline: 2px solid var(--theme-primary);
   outline-offset: -2px;
+  box-shadow: var(--theme-shadow-focus);
 }
 
 /* Mobile Responsive */

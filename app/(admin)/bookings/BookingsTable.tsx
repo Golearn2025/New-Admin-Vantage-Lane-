@@ -9,8 +9,7 @@
  */
 
 import React, { useState, useCallback } from 'react';
-import { DataTable, StatusBadge } from '@vantage-lane/ui-core';
-import type { Column } from '@vantage-lane/ui-core';
+import { DataTable } from '@vantage-lane/ui-core';
 import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
 import { useBookingsList } from './hooks/useBookingsList';
 import { BookingExpandedRow } from './components/BookingExpandedRow';

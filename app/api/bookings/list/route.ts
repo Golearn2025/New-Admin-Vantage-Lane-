@@ -21,10 +21,16 @@ export async function GET(request: NextRequest) {
     const pageSize = Math.min(parseInt(searchParams.get('page_size') || '25', 10), 100);
     const statusParam = searchParams.get('status');
     
+    // Validate status parameter
+    const validStatuses = ['pending', 'active', 'completed', 'cancelled'] as const;
+    const status: QueryParams['status'] = statusParam && validStatuses.includes(statusParam as typeof validStatuses[number])
+      ? (statusParam as typeof validStatuses[number])
+      : null;
+    
     const params: QueryParams = {
       page,
       pageSize,
-      status: statusParam as any,
+      status,
     };
     
     const supabase = await createClient();

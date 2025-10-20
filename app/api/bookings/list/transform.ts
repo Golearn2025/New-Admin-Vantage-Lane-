@@ -5,7 +5,7 @@
  */
 
 import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
-import type { RawBooking, Customer, BookingSegment, BookingPricing, BookingService, QueryResult } from './types';
+import type { QueryResult, RawBooking } from './types';
 
 export function transformBookingsData(queryResult: QueryResult): BookingListItem[] {
   const { bookings, customers, segments, pricing, services } = queryResult;

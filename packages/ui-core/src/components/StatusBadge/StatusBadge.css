@@ -79,30 +79,74 @@
   border: 1px solid var(--color-status-cancelled);
 }
 
-/* NEW Badge Effect - Strong Pulsing Glow */
+/* NEW Badge Effect - Premium Pulsing Glow (SLOWER & MORE VISIBLE) */
 .status-badge--new {
   position: relative;
-  animation: pulseGlow 2s ease-in-out infinite;
+  animation: premiumPulseGlow 4s ease-in-out infinite;
   box-shadow:
-    0 0 12px var(--color-status-new-alpha-30),
-    0 0 20px var(--color-status-new-alpha-10),
-    inset 0 0 8px var(--color-status-new-alpha-10);
+    0 0 16px var(--color-status-new-alpha-30),
+    0 0 24px var(--color-status-new-alpha-10),
+    inset 0 0 10px var(--color-status-new-alpha-10);
 }
 
-@keyframes pulseGlow {
+@keyframes premiumPulseGlow {
   0%,
   100% {
     box-shadow:
-      0 0 12px var(--color-status-new-alpha-30),
-      0 0 20px var(--color-status-new-alpha-10),
-      inset 0 0 8px var(--color-status-new-alpha-10);
+      0 0 16px var(--color-status-new-alpha-30),
+      0 0 24px var(--color-status-new-alpha-10),
+      inset 0 0 10px var(--color-status-new-alpha-10);
+    transform: scale(1);
   }
   50% {
     box-shadow:
-      0 0 20px var(--color-status-new-alpha-30),
-      0 0 32px var(--color-status-new-alpha-30),
-      0 0 48px var(--color-status-new-alpha-10),
-      inset 0 0 12px var(--color-status-new-alpha-30);
+      0 0 28px var(--color-status-new-alpha-30),
+      0 0 40px var(--color-status-new-alpha-30),
+      0 0 56px var(--color-status-new-alpha-10),
+      inset 0 0 16px var(--color-status-new-alpha-30);
+    transform: scale(1.03);
+  }
+}
+
+/* Bell Icon Styles */
+.status-badge__bell-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: var(--spacing-2xs);
+  animation: bellShake 2.5s ease-in-out infinite;
+  transform-origin: top center;
+  color: currentColor;
+}
+
+/* Bell Shake Animation */
+@keyframes bellShake {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  5% {
+    transform: rotate(15deg);
+  }
+  10% {
+    transform: rotate(-15deg);
+  }
+  15% {
+    transform: rotate(12deg);
+  }
+  20% {
+    transform: rotate(-12deg);
+  }
+  25% {
+    transform: rotate(8deg);
+  }
+  30% {
+    transform: rotate(-8deg);
+  }
+  35% {
+    transform: rotate(4deg);
+  }
+  40% {
+    transform: rotate(0deg);
   }
 }
 
@@ -196,6 +240,10 @@
 @media (prefers-reduced-motion: reduce) {
   .status-badge--new,
   .status-badge--urgent {
+    animation: none;
+  }
+
+  .status-badge__bell-icon {
     animation: none;
   }
 

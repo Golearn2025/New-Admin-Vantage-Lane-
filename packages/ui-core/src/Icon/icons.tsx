@@ -23,21 +23,7 @@ export type IconName =
   | 'arrow-right'
   | 'check'
   | 'x'
-  | 'settings'
-  | 'home'
-  | 'chart'
-  | 'user'
-  | 'lock'
-  | 'bell'
-  | 'dollar-sign'
-  | 'eye'
-  | 'link'
-  | 'chevron-left'
-  | 'chevron-right'
-  | 'archive'
-  | 'trash'
-  | 'download'
-  | 'inbox';
+  | 'settings';
 
 export const ICON_PATHS: Record<IconName, JSX.Element> = {
   'dollar-circle': (

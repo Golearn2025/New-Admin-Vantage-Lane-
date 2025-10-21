@@ -1,116 +1,172 @@
 /**
- * Booking Expanded Row Component
+ * BookingExpandedRow Component - PREMIUM EDITION
  *
- * Shows complete booking details when row is expanded
- * Compliant: <200 lines (UI component)
- * Refactored: All inline styles moved to CSS module
+ * Complete booking details with all data fields
+ * Features:
+ * - Return journey details
+ * - FREE services list
+ * - Complete addresses
+ * - Customer notes
+ * - Operator info
+ * - Assignment status
+ * - 2-column premium layout
+ *
+ * Compliant: <200 lines, 100% design tokens, TypeScript strict
  */
 
 import React from 'react';
 import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
-import { StatusBadge } from '@vantage-lane/ui-core';
-import type { BookingStatus } from '@vantage-lane/ui-core';
-import { BookingInfoCard } from './BookingInfoCard';
-import { calculateFleetTotal } from '../utils/bookingHelpers';
 import styles from './BookingExpandedRow.module.css';
 
 interface BookingExpandedRowProps {
   booking: BookingListItem;
+  freeServices?: string[];  // e.g. ['wifi', 'water', 'meet_greet']
+  customerNotes?: string;
+  operatorName?: string;
+  returnDate?: string | null;
+  returnTime?: string | null;
+  returnFlight?: string | null;
 }
 
-export function BookingExpandedRow({ booking }: BookingExpandedRowProps) {
-  // NO BUSINESS LOGIC HERE - Pure UI component
-  const fleetTotal = calculateFleetTotal(booking);
+export function BookingExpandedRow({
+  booking,
+  freeServices = [],
+  customerNotes,
+  operatorName,
+  returnDate,
+  returnTime,
+  returnFlight,
+}: BookingExpandedRowProps) {
+  // Format FREE services display names
+  const serviceNames: Record<string, string> = {
+    wifi: 'WiFi',
+    water: 'Bottled Water',
+    meet_greet: 'Meet and Greet',
+    luggage_assist: 'Luggage Assistance',
+    phone_charger: 'Phone Chargers',
+    priority_support: 'Priority Support',
+    wait_time: 'Wait Time Included',
+    pet_friendly: 'Pet Friendly',
+    music_pref: 'Music Preference',
+    communication: 'Communication Style',
+  };
+
+  const hasReturnJourney = booking.trip_type === 'return' && (returnDate || returnTime);
 
   return (
-    <div className={styles.container}>
-      {/* Header */}
-      <div className={styles.header}>
-        <h3 className={styles.title}>Booking Details - {booking.reference}</h3>
-        <StatusBadge
-          status={booking.status as BookingStatus}
-          isUrgent={booking.is_urgent}
-          isNew={booking.is_new}
-          showIcon={true}
-          size="lg"
-        />
-      </div>
+    <div className={styles.expandedContainer}>
+      {/* 2-COLUMN LAYOUT */}
+      <div className={styles.twoColumnGrid}>
+        {/* LEFT COLUMN */}
+        <div className={styles.leftColumn}>
+          {/* RETURN JOURNEY (if applicable) */}
+          {hasReturnJourney && (
+            <section className={styles.section}>
+              <h4 className={styles.sectionTitle}>🔄 Return Journey</h4>
+              <div className={styles.sectionContent}>
+                {returnDate && (
+                  <div className={styles.dataRow}>
+                    <span className={styles.dataLabel}>Return Date:</span>
+                    <span className={styles.dataValue}>{returnDate}</span>
+                  </div>
+                )}
+                {returnTime && (
+                  <div className={styles.dataRow}>
+                    <span className={styles.dataLabel}>Return Time:</span>
+                    <span className={styles.dataValue}>{returnTime}</span>
+                  </div>
+                )}
+                {returnFlight && (
+                  <div className={styles.dataRow}>
+                    <span className={styles.dataLabel}>Return Flight:</span>
+                    <span className={styles.dataValue}>✈️ {returnFlight}</span>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
 
-      {/* Grid Layout - 3 columns */}
-      <div className={styles.grid}>
-        {/* Customer Info */}
-        <BookingInfoCard icon="👤" title="Customer">
-          <div className={styles.infoText}>{booking.customer_name}</div>
-          <div className={styles.secondaryText}>{booking.customer_phone}</div>
-          {booking.customer_total_bookings > 0 && (
-            <div className={styles.statsText}>
-              📊 {booking.customer_total_bookings} total bookings
-            </div>
+          {/* FREE SERVICES */}
+          {freeServices.length > 0 && (
+            <section className={styles.section}>
+              <h4 className={styles.sectionTitle}>✨ Included Services (Free)</h4>
+              <div className={styles.servicesList}>
+                {freeServices.map((service, idx) => (
+                  <div key={idx} className={styles.serviceItem}>
+                    <span className={styles.serviceCheck}>✅</span>
+                    <span className={styles.serviceName}>
+                      {serviceNames[service] || service}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </section>
           )}
-        </BookingInfoCard>
 
-        {/* Trip Details */}
-        <BookingInfoCard icon="🚗" title="Trip Info">
-          <div>
-            <strong>Type:</strong> {booking.trip_type}
-          </div>
-          <div>
-            <strong>Category:</strong> {booking.category}
-          </div>
-          {booking.distance_miles && (
-            <div>
-              <strong>Distance:</strong> {Math.round(booking.distance_miles)} miles
-            </div>
+          {/* CUSTOMER NOTES */}
+          {customerNotes && (
+            <section className={styles.section}>
+              <h4 className={styles.sectionTitle}>📝 Customer Notes</h4>
+              <div className={styles.notesContent}>
+                <p className={styles.notesText}>"{customerNotes}"</p>
+              </div>
+            </section>
           )}
-          {booking.duration_min && (
-            <div>
-              <strong>Duration:</strong> {Math.floor(booking.duration_min / 60)}h{' '}
-              {booking.duration_min % 60}m
-            </div>
-          )}
-          {booking.hours && (
-            <div>
-              <strong>Hours:</strong> {booking.hours}h rental
-            </div>
-          )}
-          {fleetTotal > 0 && (
-            <div>
-              <strong>Fleet:</strong> {fleetTotal} vehicles
-            </div>
-          )}
-        </BookingInfoCard>
-
-        {/* Pricing */}
-        <BookingInfoCard icon="💰" title="Pricing">
-          <div className={styles.priceAmount}>£{(booking.fare_amount / 100).toFixed(2)}</div>
-          <div className={styles.priceLabel}>Total fare (incl. extras)</div>
-        </BookingInfoCard>
-      </div>
-
-      {/* Route Section */}
-      <div className={styles.routeSection}>
-        <h4 className={styles.routeTitle}>📍 Route</h4>
-        <div className={styles.routeContent}>
-          <div className={styles.routeColumn}>
-            <div className={styles.pickupCard}>
-              <div className={styles.pickupLabel}>PICKUP</div>
-              <div className={styles.locationName}>{booking.pickup_location}</div>
-            </div>
-          </div>
-          <div className={styles.routeArrow}>→</div>
-          <div className={styles.routeColumn}>
-            <div className={styles.dropoffCard}>
-              <div className={styles.dropoffLabel}>DROPOFF</div>
-              <div className={styles.locationName}>{booking.destination}</div>
-            </div>
-          </div>
         </div>
-      </div>
 
-      {/* Actions */}
-      <div className={styles.actions}>
-        <button className={styles.buttonSecondary}>👁️ View Full Details</button>
-        {!booking.driver_id && <button className={styles.buttonPrimary}>🚗 Assign Driver</button>}
+        {/* RIGHT COLUMN */}
+        <div className={styles.rightColumn}>
+          {/* ASSIGNMENT STATUS */}
+          <section className={styles.section}>
+            <h4 className={styles.sectionTitle}>🚗 Assignment Status</h4>
+            <div className={styles.sectionContent}>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>Driver:</span>
+                <span className={booking.driver_name ? styles.dataValue : styles.dataValueEmpty}>
+                  {booking.driver_name || '❌ Not assigned'}
+                </span>
+              </div>
+              <div className={styles.dataRow}>
+                <span className={styles.dataLabel}>Vehicle:</span>
+                <span className={booking.vehicle_id ? styles.dataValue : styles.dataValueEmpty}>
+                  {booking.vehicle_id ? '✅ Assigned' : '❌ Not assigned'}
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* OPERATOR INFO */}
+          {operatorName && (
+            <section className={styles.section}>
+              <h4 className={styles.sectionTitle}>🏢 Operator</h4>
+              <div className={styles.sectionContent}>
+                <div className={styles.dataRow}>
+                  <span className={styles.dataLabel}>Company:</span>
+                  <span className={styles.dataValue}>{operatorName}</span>
+                </div>
+                <div className={styles.dataRow}>
+                  <span className={styles.dataLabel}>Source:</span>
+                  <span className={styles.dataValue}>{booking.source}</span>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* COMPLETE ADDRESSES */}
+          <section className={styles.section}>
+            <h4 className={styles.sectionTitle}>📍 Complete Addresses</h4>
+            <div className={styles.addressesContent}>
+              <div className={styles.addressBlock}>
+                <div className={styles.addressLabel}>🟢 Pickup:</div>
+                <div className={styles.addressText}>{booking.pickup_location}</div>
+              </div>
+              <div className={styles.addressBlock}>
+                <div className={styles.addressLabel}>🔴 Dropoff:</div>
+                <div className={styles.addressText}>{booking.destination}</div>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   );

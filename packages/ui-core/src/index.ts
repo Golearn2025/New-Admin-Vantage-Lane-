@@ -22,7 +22,6 @@ export * from './DonutCard';
 export * from './ProgressCard';
 export * from './ActivityCard';
 export * from './StatCard';
-export * from './ChartCard';
 export * from './TableCard';
 
 // Advanced Charts (Recharts)

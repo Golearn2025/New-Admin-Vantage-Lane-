@@ -131,7 +131,7 @@ export const getStatusColumn = (): BookingColumn => ({
     <StatusBadge
       status={row.status as BookingStatus}
       isUrgent={row.is_urgent}
-      isNew={row.is_new}
+      isNew={row.status === 'pending'}  // ✅ NEW = status pending (neasignat încă)
       showIcon={true}
       size="md"
     />

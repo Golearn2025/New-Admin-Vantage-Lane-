@@ -20,7 +20,7 @@ import {
   Copy,
   CreditCard,
 } from '@vantage-lane/ui-icons';
-import styles from '../columns.module.css';
+import styles from './columns.module.css';
 import type { BookingColumn } from './schema';
 
 const __DEV__ = process.env.NODE_ENV !== 'production';

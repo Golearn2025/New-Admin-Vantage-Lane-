@@ -8,7 +8,7 @@
 import React from 'react';
 import { Email, Phone } from '@vantage-lane/ui-icons';
 import { getTripIcon } from './helpers';
-import styles from '../columns.module.css';
+import styles from './columns.module.css';
 import type { BookingColumn, BookingsColumnsProps } from './schema';
 
 export const getSelectColumn = ({

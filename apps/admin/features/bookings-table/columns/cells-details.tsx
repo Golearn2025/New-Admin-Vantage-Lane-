@@ -17,7 +17,7 @@ import {
   formatServiceName,
   formatVehicleModel,
 } from './helpers';
-import styles from '../columns.module.css';
+import styles from './columns.module.css';
 import type { BookingColumn } from './schema';
 
 export const getRouteColumn = (): BookingColumn => ({

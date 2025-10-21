@@ -11,7 +11,7 @@ import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
 import { StatusBadge } from '@vantage-lane/ui-core';
 import type { BookingStatus } from '@vantage-lane/ui-core';
 import { BookingInfoCard } from './BookingInfoCard';
-import { calculateFleetTotal } from '../helpers';
+import { calculateFleetTotal } from '../utils/bookingHelpers';
 import styles from './BookingExpandedRow.module.css';
 
 interface BookingExpandedRowProps {

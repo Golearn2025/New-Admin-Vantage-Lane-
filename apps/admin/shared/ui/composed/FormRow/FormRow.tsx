@@ -5,7 +5,7 @@
  * Asigură consistency în forme și A11y compliance.
  */
 
-import { Input, InputProps } from '@admin-shared/ui/core/Input';
+import { Input, InputProps } from '@vantage-lane/ui-core';
 import styles from './FormRow.module.css';
 
 export interface FormRowProps extends Omit<InputProps, 'id'> {

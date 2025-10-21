@@ -9,6 +9,7 @@ Cu setup-ul nostru, AI-ul scrie codul pentru tine și te oprește INSTANT când 
 ## 🚀 Quick Start
 
 ### 1. Instalează TOATE extensiile:
+
 ```bash
 bash scripts/install-ai-extensions.sh
 ```
@@ -16,6 +17,7 @@ bash scripts/install-ai-extensions.sh
 ### 2. Restart VSCode
 
 ### 3. Sign in to GitHub Copilot
+
 - `Cmd + Shift + P`
 - Type: "Copilot: Sign In"
 - Follow instructions
@@ -27,11 +29,13 @@ bash scripts/install-ai-extensions.sh
 ### **Metoda 1: Copilot Chat** (Recomandat!)
 
 **Deschide Chat:**
+
 ```
 Cmd + Shift + I  (sau click pe chat icon)
 ```
 
 **Exemplu Real - Bookings Table:**
+
 ```
 Tu: Creează un React component pentru bookings table cu următoarele:
 - 9 coloane: checkbox, expand, reference, customer, route, vehicle, payment, status, actions
@@ -51,7 +55,7 @@ Scrii un comment și apeși TAB:
 
 ```typescript
 // Creează hook pentru bookings list cu pagination și filtering
-[TAB]
+[TAB];
 // ✨ Copilot scrie:
 export function useBookingsList(filters?: BookingsFilters) {
   const [data, setData] = useState<BookingListItem[]>([]);
@@ -67,6 +71,7 @@ export function useBookingsList(filters?: BookingsFilters) {
 ### **Exemplu 1: Creează Component cu Design Tokens**
 
 **Tu spui:**
+
 ```
 @workspace Create a StatusBadge component that:
 1. Uses ONLY design tokens (no hardcoded colors)
@@ -78,6 +83,7 @@ export function useBookingsList(filters?: BookingsFilters) {
 ```
 
 **Copilot:**
+
 - Creează `StatusBadge.tsx`
 - Creează `StatusBadge.module.css` (100% tokens!)
 - Creează `index.ts`
@@ -89,6 +95,7 @@ export function useBookingsList(filters?: BookingsFilters) {
 ### **Exemplu 2: API Route**
 
 **Tu spui:**
+
 ```typescript
 // Creează Next.js API route pentru bookings list:
 // - GET /api/bookings/list
@@ -97,7 +104,7 @@ export function useBookingsList(filters?: BookingsFilters) {
 // - Use Supabase client
 // - Fetch customers separately (no nested queries)
 // - Transform data cu transformBookingsData
-[TAB]
+[TAB];
 ```
 
 **Copilot scrie TOTUL!** ✨
@@ -107,24 +114,27 @@ export function useBookingsList(filters?: BookingsFilters) {
 ### **Exemplu 3: Refactoring Automat**
 
 **Selectează cod cu hardcoded colors:**
+
 ```css
 .button {
-  background: #F1D16A;  /* ❌ hardcoded */
-  color: #1A1A1A;       /* ❌ hardcoded */
+  background: #f1d16a; /* ❌ hardcoded */
+  color: #1a1a1a; /* ❌ hardcoded */
 }
 ```
 
 **În Copilot Chat:**
+
 ```
-Replace all hardcoded colors with design tokens from 
+Replace all hardcoded colors with design tokens from
 packages/ui-core/src/tokens/colors.css
 ```
 
 **Copilot:**
+
 ```css
 .button {
-  background: var(--color-primary);  /* ✅ token */
-  color: var(--color-text-primary);  /* ✅ token */
+  background: var(--color-primary); /* ✅ token */
+  color: var(--color-text-primary); /* ✅ token */
 }
 ```
 
@@ -133,6 +143,7 @@ packages/ui-core/src/tokens/colors.css
 ## ⚡ REAL-TIME VALIDATION (Niciodată nu scrii cod greșit!)
 
 ### **1. Error Lens**
+
 Vezi TOATE erorile INLINE:
 
 ```typescript
@@ -141,6 +152,7 @@ const age: number = '25';  ❌ Type 'string' is not assignable to 'number'
 ```
 
 ### **2. SonarLint**
+
 Oprește bad practices:
 
 ```typescript
@@ -148,6 +160,7 @@ if (user == null) { }  ⚠️ Use '===' instead of '=='
 ```
 
 ### **3. Import Cost**
+
 Vezi dacă pachetul e prea mare:
 
 ```typescript
@@ -156,6 +169,7 @@ import moment from 'moment';  📦 288KB ⚠️ TOO BIG!
 ```
 
 ### **4. TypeScript**
+
 Erori INSTANT când scrii:
 
 ```typescript
@@ -173,11 +187,13 @@ const user: User = {
 ## 🎯 WORKFLOW PERFECT (Zero Errors)
 
 ### **Pasul 1: Spune AI-ului ce vrei**
+
 ```
 Cmd + Shift + I (Copilot Chat)
 ```
 
 ### **Pasul 2: AI generează cod**
+
 - ✅ Cu design tokens
 - ✅ Cu TypeScript types
 - ✅ Cu proper imports
@@ -185,12 +201,14 @@ Cmd + Shift + I (Copilot Chat)
 - ✅ Formatted cu Prettier
 
 ### **Pasul 3: Auto-validation în timp real**
+
 - Error Lens arată erori INLINE
 - ESLint auto-fix on save
 - Prettier auto-format on save
 - TypeScript checking live
 
 ### **Pasul 4: Save (Cmd + S)**
+
 ```
 ✨ AUTOMAT:
 1. Prettier formatează
@@ -205,21 +223,25 @@ Cmd + Shift + I (Copilot Chat)
 ## 🔥 COMENZI MAGICE COPILOT
 
 ### **Fix Errors:**
+
 ```
 /fix [describe error]
 ```
 
 ### **Explain Code:**
+
 ```
 /explain [select code]
 ```
 
 ### **Generate Tests:**
+
 ```
 /tests [select function]
 ```
 
 ### **Refactor:**
+
 ```
 /refactor using design tokens
 /refactor to TypeScript
@@ -236,6 +258,7 @@ Copiază și personalizează:
 @workspace Create a new feature for [FEATURE_NAME]:
 
 **Structure:**
+
 - Component: app/(admin)/[feature]/[FeatureName].tsx
 - Styles: [FeatureName].module.css
 - Types: types.ts
@@ -243,6 +266,7 @@ Copiază și personalizează:
 - Hook: hooks/use[FeatureName].ts
 
 **Requirements:**
+
 1. Use ONLY design tokens (check packages/ui-core/src/tokens/)
 2. TypeScript with proper types
 3. CSS Modules (no hardcoded values)
@@ -253,6 +277,7 @@ Copiază și personalizează:
 8. Export everything from index.ts
 
 **API:**
+
 - Endpoint: /api/[feature]
 - Method: GET/POST
 - Use Supabase client from @/lib/supabase/server
@@ -270,6 +295,7 @@ Copiază și personalizează:
 ## 🎨 DESIGN TOKENS REMINDER
 
 **AI-ul știe să folosească:**
+
 ```css
 /* Colors */
 var(--color-primary)
@@ -315,18 +341,21 @@ Când Copilot generează cod, verifică automat:
 
 ---
 
-## 🚨 DACĂ AI-ul GREȘEȘTE
+## DACĂ AI-ul GREȘEȘTE
 
 ### **1. Corectează prin Chat:**
+
 ```
 The component uses hardcoded colors. Replace with design tokens.
 ```
 
 ### **2. Sau selectează codul greșit:**
+
 ```
 Cmd + Shift + I
 "Fix this to use design tokens"
 ```
 
 ### **3. AI-ul învață din greșeli!**
+
 Cu fiecare corec

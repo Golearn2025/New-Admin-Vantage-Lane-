@@ -7,7 +7,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Icon } from '@admin-shared/ui/icons';
+import { Icon } from '@vantage-lane/ui-icons';
 import { BrandName } from '@admin-shared/ui/composed/BrandName';
 import { NavItem } from './NavItem';
 import { SidebarNavProps } from './types';

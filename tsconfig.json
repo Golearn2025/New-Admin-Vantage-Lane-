@@ -22,6 +22,8 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
+      "@features/*": ["./apps/admin/features/*"],
+      "@entities/*": ["./apps/admin/entities/*"],
       "@admin/*": ["./app/(admin)/*"],
       "@admin-shared/*": ["./apps/admin/shared/*"],
       "@/app/*": ["./app/*"],

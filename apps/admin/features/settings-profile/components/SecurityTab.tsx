@@ -8,8 +8,8 @@
 'use client';
 
 import React from 'react';
-import { ProfileSection } from '@admin-shared/ui/core/ProfileSection';
-import { SaveButton } from '@admin-shared/ui/core/SaveButton';
+import { ProfileSection } from '@vantage-lane/ui-core';
+import { SaveButton } from '@vantage-lane/ui-core';
 import type { AdminProfile } from '../hooks/useProfileData';
 import styles from './SecurityTab.module.css';
 

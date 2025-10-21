@@ -9,7 +9,7 @@
  * - IN_PROGRESS: Trip in progress
  */
 
-import { BookingsTable } from '../BookingsTable';
+import { BookingsTable } from '@features/bookings-table';
 
 export default function ActiveBookingsPage() {
   return (

@@ -8,7 +8,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { Icon } from '@admin-shared/ui/icons';
+import { Icon } from '@vantage-lane/ui-icons';
 import { DrawerProps } from './types';
 import styles from './Drawer.module.css';
 

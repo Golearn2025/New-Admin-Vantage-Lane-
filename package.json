@@ -9,8 +9,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "check:ts": "tsc --noEmit",
     "check:lint": "eslint . --ext .ts,.tsx -f unix",
+    "quality:check": "npm run guard:app-logic && npm run format:check && npm run lint && npm run check:ts",
+    "quality:fix": "npm run format && npm run lint --fix",
     "check:next": "next build",
     "check:all": "mkdir -p reports && (tsc --noEmit 2>&1 | tee reports/tsc.log); (eslint . --ext .ts,.tsx -f unix 2>&1 | tee reports/eslint.log); (next build 2>&1 | tee reports/next-build.log)",
     "lh:login": "npx @lhci/cli autorun --collect.url=http://localhost:3000/login --collect.startServerCommand='npm run dev' --assert.assertions.categories:performance=0.9 --assert.assertions.categories:accessibility=0.95",
@@ -34,15 +38,16 @@
     "check:advanced": "npm run check:quality && npm run check:duplicates && npm run check:deadcode && npm run check:performance",
     "gen:component": "plop component",
     "guard:ui": "node scripts/guard-components.mjs",
-    "check:ci": "pnpm guard:ui && pnpm lint && pnpm build",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:e2e": "playwright test",
-    "typecheck": "tsc --noEmit",
-    "audit": "npm audit --audit-level moderate",
-    "prepare": "husky install"
+    "guard:app-logic": "bash scripts/guard-app-logic.sh"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --max-warnings 0",
+      "prettier --write"
+    ],
+    "*.{css,scss}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",

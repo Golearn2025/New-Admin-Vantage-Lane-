@@ -5,7 +5,7 @@
  * Use /bookings/active or /bookings/past for filtered views
  */
 
-import { BookingsTable } from './BookingsTable';
+import { BookingsTable } from '@features/bookings-table';
 
 export default function AllBookingsPage() {
   return (

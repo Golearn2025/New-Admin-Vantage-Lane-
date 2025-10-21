@@ -25,6 +25,13 @@ export * from './Tabs';
 // Display Components
 export * from './Badge';
 export * from './components/StatusBadge';
+export { BookingCard } from './BookingCard';
+export type {
+  BookingCardProps,
+  BookingCardData,
+  BookingCustomer,
+  BookingRoute,
+} from './BookingCard';
 
 // Data Display Components
 export * from './Pagination';

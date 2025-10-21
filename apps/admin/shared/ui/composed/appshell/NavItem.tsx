@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { Icon } from '@admin-shared/ui/icons';
+import { Icon } from '@vantage-lane/ui-icons';
 import { NavItemProps } from './types';
 import styles from './NavItem.module.css';
 

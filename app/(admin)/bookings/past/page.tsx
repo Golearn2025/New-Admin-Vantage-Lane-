@@ -6,7 +6,7 @@
  * - CANCELLED: Booking cancelled (by customer, driver, or admin)
  */
 
-import { BookingsTable } from '../BookingsTable';
+import { BookingsTable } from '@features/bookings-table';
 
 export default function PastBookingsPage() {
   return (

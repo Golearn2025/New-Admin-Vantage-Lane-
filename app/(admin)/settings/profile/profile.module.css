@@ -42,7 +42,7 @@
 .title {
   font-size: 36px; /* ✅ CA DASHBOARD */
   font-weight: 800; /* ✅ CA DASHBOARD */
-  color: #f1d16a;
+  color: var(--color-primary);
   margin: 0 0 8px 0; /* ✅ CA DASHBOARD */
   letter-spacing: -0.03em; /* ✅ CA DASHBOARD */
   line-height: 1.2; /* ✅ CA DASHBOARD */
@@ -84,7 +84,7 @@
   background: linear-gradient(135deg, rgba(250, 112, 154, 0.15), rgba(254, 225, 64, 0.1));
   border: 1px solid rgba(250, 112, 154, 0.5);
   border-radius: var(--vl-radius-xl);
-  color: #fee140;
+  color: var(--color-warning);
   text-align: center;
   font-size: var(--vl-font-size-lg);
   font-weight: 600;

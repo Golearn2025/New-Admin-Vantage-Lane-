@@ -11,9 +11,9 @@
 import React, { useState, useCallback } from 'react';
 import { DataTable } from '@vantage-lane/ui-core';
 import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
-import { useBookingsList } from './hooks/useBookingsList';
-import { BookingExpandedRow } from './components/BookingExpandedRow';
-import { getBookingsColumns } from './columns';
+import { useBookingsList } from '../hooks/useBookingsList';
+import { BookingExpandedRow } from './BookingExpandedRow';
+import { getBookingsColumns } from '../columns';
 import styles from './BookingsTable.module.css';
 
 interface BookingsTableProps {

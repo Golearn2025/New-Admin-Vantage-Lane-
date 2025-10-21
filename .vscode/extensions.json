@@ -1,5 +1,7 @@
 {
   "recommendations": [
+    // ⚠️ CRITICAL: These are REQUIRED for quality assurance
+    // Install ALL of these for enterprise-level code protection
     // 🤖 AI Coding Assistants (MUST HAVE!)
     "GitHub.copilot",
     "GitHub.copilot-chat",

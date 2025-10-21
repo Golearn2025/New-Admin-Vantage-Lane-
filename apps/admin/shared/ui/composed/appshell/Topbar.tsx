@@ -7,7 +7,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { Icon } from '@admin-shared/ui/icons';
+import { Icon } from '@vantage-lane/ui-icons';
 import { BrandName } from '@admin-shared/ui/composed/BrandName';
 import { signOutAction } from '@admin-shared/api/auth/actions';
 import { TopbarProps } from './types';

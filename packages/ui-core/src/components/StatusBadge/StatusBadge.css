@@ -38,15 +38,15 @@
 
 /* Status Colors */
 .status-badge--pending {
-  background-color: var(--color-info-light);
-  color: var(--color-info);
-  border: 1px solid var(--color-info);
+  background-color: var(--color-status-new-alpha-10);
+  color: var(--color-status-new);
+  border: 1px solid var(--color-status-new);
 }
 
 .status-badge--assigned {
-  background-color: var(--color-warning-light);
-  color: var(--color-warning-dark);
-  border: 1px solid var(--color-warning);
+  background-color: var(--color-status-assigned-alpha-10);
+  color: var(--color-status-assigned);
+  border: 1px solid var(--color-status-assigned);
 }
 
 .status-badge--en-route {
@@ -62,44 +62,47 @@
 }
 
 .status-badge--in-progress {
-  background-color: var(--color-success-light);
-  color: var(--color-success-dark);
-  border: 1px solid var(--color-success);
+  background-color: var(--color-status-in-progress-alpha-10);
+  color: var(--color-status-in-progress);
+  border: 1px solid var(--color-status-in-progress);
 }
 
 .status-badge--completed {
-  background-color: var(--color-neutral-100);
-  color: var(--color-text-secondary);
-  border: 1px solid var(--color-border);
+  background-color: var(--color-status-completed-alpha-10);
+  color: var(--color-status-completed);
+  border: 1px solid var(--color-status-completed);
 }
 
 .status-badge--cancelled {
-  background-color: var(--color-danger-light);
-  color: var(--color-danger);
-  border: 1px solid var(--color-danger);
+  background-color: var(--color-status-cancelled-alpha-10);
+  color: var(--color-status-cancelled);
+  border: 1px solid var(--color-status-cancelled);
 }
 
-/* NEW Badge Effect - Subtle Pulsing Glow */
+/* NEW Badge Effect - Strong Pulsing Glow */
 .status-badge--new {
   position: relative;
   animation: pulseGlow 2s ease-in-out infinite;
   box-shadow:
-    0 0 8px var(--color-status-assigned-alpha-30),
-    0 0 16px var(--color-status-assigned-alpha-10);
+    0 0 12px var(--color-status-new-alpha-30),
+    0 0 20px var(--color-status-new-alpha-10),
+    inset 0 0 8px var(--color-status-new-alpha-10);
 }
 
 @keyframes pulseGlow {
   0%,
   100% {
     box-shadow:
-      0 0 8px var(--color-status-assigned-alpha-30),
-      0 0 16px var(--color-status-assigned-alpha-10);
+      0 0 12px var(--color-status-new-alpha-30),
+      0 0 20px var(--color-status-new-alpha-10),
+      inset 0 0 8px var(--color-status-new-alpha-10);
   }
   50% {
     box-shadow:
-      0 0 12px var(--color-status-assigned-alpha-30),
-      0 0 24px var(--color-status-assigned-alpha-30),
-      0 0 32px var(--color-status-assigned-alpha-10);
+      0 0 20px var(--color-status-new-alpha-30),
+      0 0 32px var(--color-status-new-alpha-30),
+      0 0 48px var(--color-status-new-alpha-10),
+      inset 0 0 12px var(--color-status-new-alpha-30);
   }
 }
 

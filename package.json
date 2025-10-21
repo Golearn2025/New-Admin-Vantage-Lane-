@@ -38,7 +38,10 @@
     "check:advanced": "npm run check:quality && npm run check:duplicates && npm run check:deadcode && npm run check:performance",
     "gen:component": "plop component",
     "guard:ui": "node scripts/guard-components.mjs",
-    "guard:app-logic": "bash scripts/guard-app-logic.sh"
+    "guard:app-logic": "bash scripts/guard-app-logic.sh",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -58,10 +61,13 @@
     "react-dom": "^18.0.0",
     "recharts": "^2.15.4",
     "swr": "^2.3.6",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@axe-core/cli": "^4.10.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.19.22",
     "@types/react": "^18.0.0",
@@ -73,15 +79,21 @@
     "eslint-config-next": "^14.0.0",
     "eslint-plugin-import": "^2.29.0",
     "husky": "^8.0.0",
+    "jsdom": "^27.0.1",
     "madge": "^8.0.0",
     "plop": "^4.0.4",
     "prettier": "3.2.5",
     "size-limit": "^11.2.0",
-    "tsup": "^8.0.0"
+    "tsup": "^8.0.0",
+    "vitest": "^3.2.4"
   },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
+  },
+  "vitest": {
+    "environment": "jsdom",
+    "globals": true
   },
   "workspaces": [
     "apps/*",

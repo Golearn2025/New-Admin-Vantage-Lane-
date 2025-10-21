@@ -4,7 +4,7 @@
  * Tests for users listing endpoint contracts and RLS policies.
  */
 
-// Jest setup will be configured in M0.4
+import { describe, it, expect } from 'vitest';
 import type { UsersListRequest, UsersListResponse } from '../../shared/api/contracts/users';
 
 describe('Users List Contract', () => {

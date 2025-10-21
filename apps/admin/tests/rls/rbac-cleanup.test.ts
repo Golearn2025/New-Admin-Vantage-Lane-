@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 /**
  * R0 RBAC Cleanup Tests
  *

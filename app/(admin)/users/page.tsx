@@ -1,9 +1,6 @@
 // USERS page
-export default function uusersPage() {
-  return (
-    <div>
-      <h1>USERS</h1>
-      <p>users page - M0.1 placeholder</p>
-    </div>
-  );
+import { UsersTable } from '@features/users-table';
+
+export default function UsersPage() {
+  return <UsersTable />;
 }

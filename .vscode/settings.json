@@ -24,7 +24,7 @@
   "editor.suggestOnTriggerCharacters": true,
   "editor.acceptSuggestionOnCommitCharacter": true,
   "editor.snippetSuggestions": "top",
-  "editor.wordBasedSuggestions": false,
+  "editor.wordBasedSuggestions": "off",
   "editor.parameterHints.enabled": true,
   "editor.quickSuggestionsDelay": 0,
   // TypeScript aggressive checking
@@ -34,9 +34,9 @@
   "typescript.preferences.includePackageJsonAutoImports": "on",
   // ESLint auto-fix on save
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.organizeImports": true,
-    "source.fixAll.stylelint": true
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit",
+    "source.fixAll.stylelint": "explicit"
   },
   // Error Lens (show errors inline)
   "errorLens.enabled": true,

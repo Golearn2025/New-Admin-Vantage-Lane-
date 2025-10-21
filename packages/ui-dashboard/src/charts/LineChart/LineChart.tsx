@@ -5,7 +5,16 @@
  */
 
 import React from 'react';
-import { LineChart as RechartsLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
+import {
+  LineChart as RechartsLineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  TooltipProps,
+} from 'recharts';
 import styles from './LineChart.module.css';
 import { CHART_COLORS } from '../../theme/palettes';
 
@@ -33,7 +42,7 @@ function CustomTooltip({ active, payload, label }: TooltipProps<number, string>)
   if (!active || !payload || !payload.length) return null;
 
   const value = payload[0]?.value;
-  
+
   return (
     <div className={styles.tooltip}>
       <p className={styles.tooltipLabel}>{label}</p>
@@ -46,7 +55,8 @@ function CustomTooltip({ active, payload, label }: TooltipProps<number, string>)
 
 export function LineChart({
   data,
-  unit = 'count',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  unit: _unit = 'count',
   loading = false,
   height = 300,
   color = CHART_COLORS.primary,
@@ -85,19 +95,16 @@ export function LineChart({
       <ResponsiveContainer width="100%" height={height}>
         <RechartsLineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--vl-chart-grid, #e5e7eb)" />
-          <XAxis 
-            dataKey="name" 
+          <XAxis
+            dataKey="name"
             stroke="var(--vl-chart-axis, #6b7280)"
             style={{ fontSize: '12px' }}
           />
-          <YAxis 
-            stroke="var(--vl-chart-axis, #6b7280)"
-            style={{ fontSize: '12px' }}
-          />
+          <YAxis stroke="var(--vl-chart-axis, #6b7280)" style={{ fontSize: '12px' }} />
           <Tooltip content={<CustomTooltip />} />
-          <Line 
+          <Line
             type="monotone"
-            dataKey="value" 
+            dataKey="value"
             stroke={color}
             strokeWidth={strokeWidth}
             dot={showDots ? { fill: color, r: 4 } : false}

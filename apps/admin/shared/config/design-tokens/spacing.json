@@ -1,11 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Spacing Tokens - FROZEN", 
+  "title": "Spacing Tokens - FROZEN",
   "description": "Design tokens for spacing - cannot be modified without freeze-exception",
   "spacing": {
     "0": "0px",
     "1": "4px",
-    "2": "8px", 
+    "2": "8px",
     "3": "12px",
     "4": "16px",
     "6": "24px",
@@ -19,7 +19,7 @@
   "semanticSpacing": {
     "xxs": "4px",
     "xs": "8px",
-    "sm": "12px", 
+    "sm": "12px",
     "md": "16px",
     "lg": "24px",
     "xl": "32px",

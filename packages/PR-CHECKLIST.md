@@ -39,54 +39,70 @@ Run the verification script:
 **Manual checks if script unavailable:**
 
 ### 1. Clean Install
+
 ```bash
 npm ci
 ```
+
 ✅ Should complete without errors
 
 ### 2. Existing Build Still Works
+
 ```bash
 npm run build
 ```
+
 ✅ `apps/admin` build MUST succeed (no changes to it)
 
 ### 3. TypeScript Compilation
+
 ```bash
 npx tsc --noEmit
 ```
+
 ✅ Should pass (placeholders are valid TypeScript)
 
 ### 4. Lint Check
+
 ```bash
 npm run lint
 ```
+
 ✅ Should pass or have expected warnings (empty src/ folders)
 
 ### 5. Package Builds
+
 ```bash
 npm run build -w @vantage-lane/ui-core
 npm run build -w @vantage-lane/ui-icons
 npm run build -w @vantage-lane/formatters
 npm run build -w @vantage-lane/contracts
 ```
+
 ✅ All should build successfully (create `dist/` folders)
 
 ### 6. No Import Changes
+
 ```bash
 grep -R "@vantage-lane" apps/admin --include="*.ts" --include="*.tsx"
 ```
+
 ✅ Should return NO results (we haven't changed any imports yet)
 
 ### 7. Path Aliases Configured
+
 ```bash
 grep "@vantage-lane/ui-core" tsconfig.json
 ```
+
 ✅ Should find the path alias entry
 
 ### 8. Workspaces Configured
+
 ```bash
 grep "packages/\*" package.json
 ```
+
 ✅ Should find workspaces entry
 
 ---
@@ -103,16 +119,16 @@ grep "packages/\*" package.json
 
 ## ✅ Acceptance Criteria
 
-| Criteria | Status | Notes |
-|----------|--------|-------|
-| `npm run build` succeeds | ☐ | Existing app builds |
-| `npx tsc --noEmit` passes | ☐ | No TypeScript errors |
-| Package builds succeed | ☐ | All 5 packages build |
-| No `@vantage-lane` imports in apps/admin | ☐ | Zero breaking changes |
-| Path aliases in `tsconfig.json` | ☐ | New + old both present |
-| Workspaces in `package.json` | ☐ | Includes `packages/*` |
-| All READMEs present | ☐ | Documentation complete |
-| CHANGELOG created | ☐ | Version 0.1.0 documented |
+| Criteria                                 | Status | Notes                    |
+| ---------------------------------------- | ------ | ------------------------ |
+| `npm run build` succeeds                 | ☐      | Existing app builds      |
+| `npx tsc --noEmit` passes                | ☐      | No TypeScript errors     |
+| Package builds succeed                   | ☐      | All 5 packages build     |
+| No `@vantage-lane` imports in apps/admin | ☐      | Zero breaking changes    |
+| Path aliases in `tsconfig.json`          | ☐      | New + old both present   |
+| Workspaces in `package.json`             | ☐      | Includes `packages/*`    |
+| All READMEs present                      | ☐      | Documentation complete   |
+| CHANGELOG created                        | ☐      | Version 0.1.0 documented |
 
 ---
 
@@ -139,7 +155,7 @@ Related: PR #1 - Packages Structure Setup
 ## 🔍 Review Checklist (for Reviewer)
 
 - [ ] Verify no changes to `apps/admin/**/*.tsx` files
-- [ ] Verify no changes to `app/**/*.tsx` files  
+- [ ] Verify no changes to `app/**/*.tsx` files
 - [ ] Check `tsconfig.json` has both old and new aliases
 - [ ] Confirm `npm run build` succeeds
 - [ ] Check each package has complete structure

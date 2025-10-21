@@ -1,6 +1,6 @@
 /**
  * ProfileCard Component - PREMIUM REUTILIZABIL
- * 
+ *
  * Card premium pentru afișare date profil.
  * Poate fi folosit pentru: admin, operator, driver, customer
  * Limită: ≤200 linii
@@ -28,12 +28,7 @@ interface ProfileCardProps {
   variant?: 'default' | 'highlight' | 'muted';
 }
 
-export function ProfileCard({ 
-  title, 
-  icon, 
-  fields,
-  variant = 'default' 
-}: ProfileCardProps) {
+export function ProfileCard({ title, icon, fields, variant = 'default' }: ProfileCardProps) {
   return (
     <div className={`${styles.card} ${styles[variant]}`}>
       <div className={styles.header}>
@@ -48,7 +43,7 @@ export function ProfileCard({
               {field.icon && <span className={styles.fieldIcon}>{field.icon}</span>}
               <span>{field.label}</span>
             </div>
-            
+
             <div className={styles.fieldValue}>
               {field.editable ? (
                 field.type === 'textarea' ? (

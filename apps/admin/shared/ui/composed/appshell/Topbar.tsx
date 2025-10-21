@@ -1,15 +1,15 @@
 /**
  * Topbar Component - Application Header
- * 
+ *
  * Header cu logo, search, user menu și mobile burger.
  * A11y compliant cu skip link și keyboard navigation.
  */
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { Icon } from '@admin/shared/ui/icons';
-import { BrandName } from '@admin/shared/ui/composed/BrandName';
-import { signOutAction } from '@admin/shared/api/auth/actions';
+import { Icon } from '@vantage-lane/ui-icons';
+import { BrandName } from '@admin-shared/ui/composed/BrandName';
+import { signOutAction } from '@admin-shared/api/auth/actions';
 import { TopbarProps } from './types';
 import styles from './Topbar.module.css';
 
@@ -17,7 +17,10 @@ import styles from './Topbar.module.css';
  * Extract initials from user name
  */
 function getInitials(name: string): string {
-  const parts = name.trim().split(' ').filter(p => p.length > 0);
+  const parts = name
+    .trim()
+    .split(' ')
+    .filter((p) => p.length > 0);
   if (parts.length >= 2) {
     const first = parts[0]?.charAt(0) || '';
     const last = parts[parts.length - 1]?.charAt(0) || '';
@@ -31,9 +34,9 @@ function getInitials(name: string): string {
 export function Topbar({
   role,
   onMenuToggle,
-  searchPlaceholder = "Search...",
+  searchPlaceholder = 'Search...',
   sidebarCollapsed = false,
-  user
+  user,
 }: TopbarProps) {
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -62,9 +65,9 @@ export function Topbar({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isUserDropdownOpen]);
-  
+
   return (
-    <header 
+    <header
       className={`${styles.topbar} ${sidebarCollapsed ? styles.topbarCollapsed : ''}`}
       role="banner"
     >
@@ -72,7 +75,7 @@ export function Topbar({
       <a href="#main-content" className={styles.skipLink}>
         Skip to main content
       </a>
-      
+
       {/* Mobile menu button */}
       <button
         className={styles.menuButton}
@@ -83,10 +86,10 @@ export function Topbar({
       >
         <Icon name="menu" size={24} />
       </button>
-      
+
       {/* Logo - doar pe mobile când sidebar e hidden */}
       <div className={styles.mobileLogo}>
-        <Image 
+        <Image
           src="/brand/logo.png"
           alt="Vantage Lane"
           width={36}
@@ -96,16 +99,11 @@ export function Topbar({
         />
         <BrandName size="md" />
       </div>
-      
+
       {/* Search */}
       <div className={styles.searchSection}>
         <div className={styles.searchContainer}>
-          <Icon 
-            name="support" 
-            size={20} 
-            className={styles.searchIcon}
-            aria-hidden="true"
-          />
+          <Icon name="support" size={20} className={styles.searchIcon} aria-hidden="true" />
           <input
             type="search"
             placeholder={searchPlaceholder}
@@ -114,19 +112,15 @@ export function Topbar({
           />
         </div>
       </div>
-      
+
       {/* Right section */}
       <div className={styles.rightSection}>
         {/* Notifications */}
-        <button
-          className={styles.iconButton}
-          aria-label="Notifications"
-          type="button"
-        >
+        <button className={styles.iconButton} aria-label="Notifications" type="button">
           <Icon name="support" size={20} />
           <span className={styles.notificationBadge}>3</span>
         </button>
-        
+
         {/* User menu */}
         <div className={styles.userMenu} ref={dropdownRef}>
           <button
@@ -137,45 +131,37 @@ export function Topbar({
             type="button"
           >
             <div className={styles.userAvatar}>
-              <span className={styles.userInitials}>
-                {user ? getInitials(user.name) : 'U'}
-              </span>
+              <span className={styles.userInitials}>{user ? getInitials(user.name) : 'U'}</span>
             </div>
-            
+
             <div className={styles.userInfo}>
-              <span className={styles.userName}>
-                {user?.name || 'User'}
-              </span>
+              <span className={styles.userName}>{user?.name || 'User'}</span>
               <span className={styles.userRole}>
                 {role === 'admin' ? 'Administrator' : 'Operator'}
               </span>
             </div>
-            
-            <Icon 
-              name="chevronDown" 
-              size={16} 
+
+            <Icon
+              name="chevronDown"
+              size={16}
               className={`${styles.userChevron} ${isUserDropdownOpen ? styles.chevronOpen : ''}`}
               aria-hidden="true"
             />
           </button>
-          
+
           {/* User dropdown - REUTILIZABIL */}
           {isUserDropdownOpen && (
             <div className={styles.userDropdown} role="menu" aria-hidden="false">
-              <a 
-                href="/settings/profile" 
-                className={styles.dropdownItem} 
+              <a
+                href="/settings/profile"
+                className={styles.dropdownItem}
                 role="menuitem"
                 onClick={handleUserMenuClose}
               >
                 Profile Settings
               </a>
               <form action={signOutAction} style={{ margin: 0 }}>
-                <button 
-                  type="submit"
-                  className={styles.dropdownItem} 
-                  role="menuitem"
-                >
+                <button type="submit" className={styles.dropdownItem} role="menuitem">
                   Sign Out
                 </button>
               </form>

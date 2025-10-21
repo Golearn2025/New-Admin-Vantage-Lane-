@@ -23,7 +23,7 @@ npm install @vantage-lane/ui-core
 ```tsx
 import { Button, Input, Card } from '@vantage-lane/ui-core';
 
-<Button variant="primary">Click me</Button>
+<Button variant="primary">Click me</Button>;
 ```
 
 ## Components

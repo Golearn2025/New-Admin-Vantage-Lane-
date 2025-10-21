@@ -56,9 +56,9 @@ export * from '@vantage-lane/ui-core';
 
 ```typescript
 // Both work identically:
-import { Button } from '@admin/shared/ui/core';           // ✅
-import { Button } from '@admin/shared/ui/core/Button';    // ✅
-import { Button } from '@vantage-lane/ui-core';           // ✅ New way
+import { Button } from '@admin/shared/ui/core'; // ✅
+import { Button } from '@admin/shared/ui/core/Button'; // ✅
+import { Button } from '@vantage-lane/ui-core'; // ✅ New way
 ```
 
 ---
@@ -81,11 +81,13 @@ Required for TypeScript to recognize CSS module imports.
 ## ✅ Verification Results
 
 ### 1. Package Build Success
+
 ```bash
 npm run build -w @vantage-lane/ui-core
 ```
 
 **Output:**
+
 - ESM: `dist/index.mjs` (6.41 KB)
 - CJS: `dist/index.js` (6.70 KB)
 - CSS: `dist/index.css` (7.55 KB)
@@ -94,6 +96,7 @@ npm run build -w @vantage-lane/ui-core
 ---
 
 ### 2. Root Build Success
+
 ```bash
 npm run build
 ```
@@ -103,6 +106,7 @@ npm run build
 ---
 
 ### 3. TypeScript Check Passes
+
 ```bash
 npx tsc --noEmit
 ```
@@ -112,6 +116,7 @@ npx tsc --noEmit
 ---
 
 ### 4. Dev Server Runs
+
 ```bash
 npm run dev
 ```
@@ -129,10 +134,12 @@ npm run dev
 ## 📊 Bundle Impact
 
 **Before PR #2:**
+
 - Components in apps/admin only
 - No reusable package
 
 **After PR #2:**
+
 - `@vantage-lane/ui-core`: 6.41 KB (ESM) + 7.55 KB (CSS)
 - Tree-shakeable (only imported components bundled)
 - Reusable across projects
@@ -153,6 +160,7 @@ npm run dev
 ## 📝 Files Changed
 
 ### Created
+
 ```
 packages/ui-core/src/Button/           (moved from apps/admin)
 packages/ui-core/src/Input/            (moved from apps/admin)
@@ -167,6 +175,7 @@ apps/admin/shared/ui/core/Checkbox/index.ts   (shim)
 ```
 
 ### Modified
+
 ```
 packages/ui-core/src/index.ts          (barrel exports)
 apps/admin/shared/ui/core/index.ts     (compatibility shim)
@@ -191,6 +200,7 @@ apps/admin/shared/ui/core/index.ts     (compatibility shim)
 ### **PR #3: Move ui-icons**
 
 Same approach:
+
 - Move icons from `apps/admin/shared/ui/icons/` → `packages/ui-icons/src/`
 - Create barrel exports
 - Add compatibility shims
@@ -200,16 +210,16 @@ Same approach:
 
 ## ✅ Acceptance Criteria
 
-| Criteria | Status | Evidence |
-|----------|--------|----------|
-| Components moved | ✅ | 4 components in packages/ui-core/src/ |
-| Barrel exports created | ✅ | packages/ui-core/src/index.ts |
-| Shims in place | ✅ | 5 shim files created |
-| Package builds | ✅ | 6.41 KB ESM output |
-| Root build passes | ✅ | apps/admin builds |
-| TypeScript clean | ✅ | Zero errors |
-| UI unchanged | ✅ | /ui-kit verified |
-| No breaking changes | ✅ | All imports work |
+| Criteria               | Status | Evidence                              |
+| ---------------------- | ------ | ------------------------------------- |
+| Components moved       | ✅     | 4 components in packages/ui-core/src/ |
+| Barrel exports created | ✅     | packages/ui-core/src/index.ts         |
+| Shims in place         | ✅     | 5 shim files created                  |
+| Package builds         | ✅     | 6.41 KB ESM output                    |
+| Root build passes      | ✅     | apps/admin builds                     |
+| TypeScript clean       | ✅     | Zero errors                           |
+| UI unchanged           | ✅     | /ui-kit verified                      |
+| No breaking changes    | ✅     | All imports work                      |
 
 **Result:** 8/8 criteria met ✅
 

@@ -1,6 +1,6 @@
 /**
  * useProfileData Hook
- * 
+ *
  * Citește și actualizează datele profilului admin.
  * Limită: ≤80 linii (hook rule)
  */
@@ -48,14 +48,18 @@ export function useProfileData(userId: string | undefined) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!userId) { setLoading(false); return; }
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
 
     const fetchProfile = async () => {
       try {
         const supabase = createClient();
         const { data, error: fetchError } = await supabase
           .from('admin_users')
-          .select(`
+          .select(
+            `
             id, auth_user_id, email, name,
             first_name, last_name, phone, avatar_url,
             job_title, department, bio,
@@ -66,7 +70,8 @@ export function useProfileData(userId: string | undefined) {
             approved_by, approved_at,
             default_operator_id,
             organizations:default_operator_id(name)
-          `)
+          `
+          )
           .eq('auth_user_id', userId)
           .single();
 
@@ -76,35 +81,60 @@ export function useProfileData(userId: string | undefined) {
         setProfile({
           ...data,
           default_operator_name: orgName,
-          notification_settings: data.notification_settings || { email: true, sms: false, push: true },
+          notification_settings: data.notification_settings || {
+            email: true,
+            sms: false,
+            push: true,
+          },
         });
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load profile');
-      } finally { setLoading(false); }
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchProfile();
   }, [userId]);
 
-  const updateProfile = async (updates: Partial<Pick<AdminProfile, 
-    'name' | 'first_name' | 'last_name' | 'phone' | 'avatar_url' | 
-    'job_title' | 'department' | 'bio' | 'preferred_language' | 'timezone' |
-    'notification_settings' | 'default_operator_id'
-  >>) => {
+  const updateProfile = async (
+    updates: Partial<
+      Pick<
+        AdminProfile,
+        | 'name'
+        | 'first_name'
+        | 'last_name'
+        | 'phone'
+        | 'avatar_url'
+        | 'job_title'
+        | 'department'
+        | 'bio'
+        | 'preferred_language'
+        | 'timezone'
+        | 'notification_settings'
+        | 'default_operator_id'
+      >
+    >
+  ) => {
     if (!profile) return false;
     setSaving(true);
     setError(null);
 
     try {
       const supabase = createClient();
-      const { error: updateError } = await supabase.from('admin_users').update(updates).eq('id', profile.id);
+      const { error: updateError } = await supabase
+        .from('admin_users')
+        .update(updates)
+        .eq('id', profile.id);
       if (updateError) throw updateError;
       setProfile({ ...profile, ...updates });
       return true;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to update profile');
       return false;
-    } finally { setSaving(false); }
+    } finally {
+      setSaving(false);
+    }
   };
 
   return { profile, loading, saving, error, updateProfile };

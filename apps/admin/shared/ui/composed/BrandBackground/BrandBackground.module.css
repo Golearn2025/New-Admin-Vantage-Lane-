@@ -2,9 +2,16 @@
 
 .bg {
   /* CRISTI'S COLORS via tokens (acum corecte) */
-  background: linear-gradient(135deg, var(--color-bg-gradient-from) 0%, var(--color-bg-gradient-via) 50%, var(--color-bg-gradient-to) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-bg-gradient-from) 0%,
+    var(--color-bg-gradient-via) 50%,
+    var(--color-bg-gradient-to) 100%
+  );
   position: relative;
   min-height: 100vh;
+  width: 100%;
+  /* Asigură că background-ul ocupă tot spațiul, inclusiv scroll */
 }
 
 /* Variant: Login - puțin mai subtil */
@@ -30,9 +37,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    radial-gradient(ellipse at 30% 20%, rgba(203,178,106,0.04) 0%, transparent 70%),
-    radial-gradient(ellipse at 70% 80%, rgba(229,212,133,0.02) 0%, transparent 70%);
+  background: radial-gradient(ellipse at 30% 20%, rgba(203, 178, 106, 0.04) 0%, transparent 70%),
+    radial-gradient(ellipse at 70% 80%, rgba(229, 212, 133, 0.02) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
 }
@@ -44,7 +50,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(1200px 900px at 50% -10%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 80%);
+  background: radial-gradient(
+    1200px 900px at 50% -10%,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.35) 80%
+  );
   pointer-events: none;
   z-index: 2;
 }
@@ -56,7 +66,16 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: repeating-conic-gradient(from 30deg at 50% 50%, rgba(255,255,255,0.02) 0deg, rgba(203,178,106,0.08) 60deg, rgba(255,255,255,0.02) 120deg, rgba(229,212,133,0.06) 180deg, rgba(255,255,255,0.02) 240deg, rgba(203,178,106,0.04) 300deg, rgba(255,255,255,0.02) 360deg);
+  background-image: repeating-conic-gradient(
+    from 30deg at 50% 50%,
+    rgba(255, 255, 255, 0.02) 0deg,
+    rgba(203, 178, 106, 0.08) 60deg,
+    rgba(255, 255, 255, 0.02) 120deg,
+    rgba(229, 212, 133, 0.06) 180deg,
+    rgba(255, 255, 255, 0.02) 240deg,
+    rgba(203, 178, 106, 0.04) 300deg,
+    rgba(255, 255, 255, 0.02) 360deg
+  );
   background-size: 8px 8px;
   opacity: 0.12;
   pointer-events: none;
@@ -70,9 +89,20 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    repeating-linear-gradient(45deg, rgba(203,178,106,0.06) 0px, rgba(203,178,106,0.06) 1px, transparent 1px, transparent 4px), 
-    repeating-linear-gradient(-45deg, rgba(229,212,133,0.04) 0px, rgba(229,212,133,0.04) 1px, transparent 1px, transparent 4px);
+  background-image: repeating-linear-gradient(
+      45deg,
+      rgba(203, 178, 106, 0.06) 0px,
+      rgba(203, 178, 106, 0.06) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(229, 212, 133, 0.04) 0px,
+      rgba(229, 212, 133, 0.04) 1px,
+      transparent 1px,
+      transparent 4px
+    );
   opacity: 0.08;
   pointer-events: none;
   z-index: 4;
@@ -85,9 +115,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    linear-gradient(135deg, transparent 40%, rgba(203,178,106,0.15) 50%, transparent 60%), 
-    linear-gradient(45deg, transparent 40%, rgba(229,212,133,0.12) 50%, transparent 60%);
+  background-image: linear-gradient(
+      135deg,
+      transparent 40%,
+      rgba(203, 178, 106, 0.15) 50%,
+      transparent 60%
+    ),
+    linear-gradient(45deg, transparent 40%, rgba(229, 212, 133, 0.12) 50%, transparent 60%);
   background-size: 24px 24px;
   opacity: 0.05;
   pointer-events: none;

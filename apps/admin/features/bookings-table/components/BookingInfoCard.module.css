@@ -1,0 +1,23 @@
+/**
+ * BookingInfoCard Styles
+ * All values use design tokens
+ */
+
+.card {
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-primary);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text-primary);
+}
+
+.content {
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}

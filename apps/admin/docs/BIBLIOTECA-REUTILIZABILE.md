@@ -11,6 +11,7 @@
 Această bibliotecă conține **TOATE componentele 100% reutilizabile** care pot fi folosite în ORICE proiect, nu doar Vantage Lane Admin.
 
 **Separare clară:**
+
 - ✅ `packages/ui-dashboard/` → **REUTILIZABIL** (biblioteca)
 - ❌ `apps/admin/` → **SPECIFIC PROIECT** (nu merge în bibliotecă)
 
@@ -19,6 +20,7 @@ Această bibliotecă conține **TOATE componentele 100% reutilizabile** care pot
 ## 📦 CE AVEM ACUM - UNCOMMITTED (v1.3)
 
 ### **1. FILTERS (NOU ✨)**
+
 ```
 packages/ui-dashboard/src/filters/
 ├── DateFilterPreset/
@@ -33,6 +35,7 @@ packages/ui-dashboard/src/filters/
 ```
 
 **Features:**
+
 - ✅ 15+ preset options (today, yesterday, last_7_days, this_month, etc.)
 - ✅ Custom date range picker
 - ✅ Dark theme
@@ -43,6 +46,7 @@ packages/ui-dashboard/src/filters/
 ---
 
 ### **2. UTILS (NOU ✨)**
+
 ```
 packages/ui-dashboard/src/utils/
 ├── dateUtils.ts                      ✅ 20+ funcții pure pentru date
@@ -50,6 +54,7 @@ packages/ui-dashboard/src/utils/
 ```
 
 **Funcții disponibile:**
+
 - `getDateRangeForPreset(preset)` → Calculează start/end pentru preset
 - `formatDateForDisplay(date)` → Format pentru UI (DD MMM YYYY)
 - `formatDateForAPI(date)` → Format ISO 8601 pentru API
@@ -63,9 +68,10 @@ packages/ui-dashboard/src/utils/
 - `addDays(date, n)` → Add n days
 - `subDays(date, n)` → Subtract n days
 - `getPreviousPeriod(range)` → Calculate previous period pentru comparison
-- + 10 mai multe funcții
+- - 10 mai multe funcții
 
 **Features:**
+
 - ✅ Pure functions (no side effects)
 - ✅ Type-safe
 - ✅ Full test coverage potential
@@ -75,6 +81,7 @@ packages/ui-dashboard/src/utils/
 ---
 
 ### **3. CARDS (EXISTENT)**
+
 ```
 packages/ui-dashboard/src/cards/
 ├── MetricCard/
@@ -85,6 +92,7 @@ packages/ui-dashboard/src/cards/
 ```
 
 **Features:**
+
 - ✅ 4 variante vizuale
 - ✅ Gradient colors (purple, pink, blue, green, orange, gold)
 - ✅ Loading skeleton
@@ -95,6 +103,7 @@ packages/ui-dashboard/src/cards/
 ---
 
 ### **4. CHARTS (EXISTENT)**
+
 ```
 packages/ui-dashboard/src/charts/
 ├── BarBasic/
@@ -121,6 +130,7 @@ packages/ui-dashboard/src/charts/
 ```
 
 **Features:**
+
 - ✅ Responsive
 - ✅ Dark theme
 - ✅ Loading states
@@ -131,6 +141,7 @@ packages/ui-dashboard/src/charts/
 ---
 
 ### **5. THEME (EXISTENT)**
+
 ```
 packages/ui-dashboard/src/theme/
 ├── palettes.ts                       ✅ Color palettes
@@ -139,6 +150,7 @@ packages/ui-dashboard/src/theme/
 ```
 
 **Features:**
+
 - ✅ Chart colors
 - ✅ Gradient definitions
 - ✅ CSS variables
@@ -150,13 +162,13 @@ packages/ui-dashboard/src/theme/
 
 ### ✅ **CE AVEM (COMMITTED + UNCOMMITTED)**
 
-| Categorie | Componente | Status | Count |
-|-----------|------------|--------|-------|
-| **Cards** | MetricCard | ✅ Committed | 1 |
-| **Charts** | BarBasic, LineChart, StackedBarChart, DonutChart, WaterfallChart | ✅ Committed | 5 |
-| **Filters** | DateFilterPreset, DateRangePicker | ⚠️ UNCOMMITTED | 2 |
-| **Utils** | dateUtils (20+ funcții) | ⚠️ UNCOMMITTED | 1 |
-| **Theme** | palettes, helpers | ✅ Committed | 1 |
+| Categorie   | Componente                                                       | Status         | Count |
+| ----------- | ---------------------------------------------------------------- | -------------- | ----- |
+| **Cards**   | MetricCard                                                       | ✅ Committed   | 1     |
+| **Charts**  | BarBasic, LineChart, StackedBarChart, DonutChart, WaterfallChart | ✅ Committed   | 5     |
+| **Filters** | DateFilterPreset, DateRangePicker                                | ⚠️ UNCOMMITTED | 2     |
+| **Utils**   | dateUtils (20+ funcții)                                          | ⚠️ UNCOMMITTED | 1     |
+| **Theme**   | palettes, helpers                                                | ✅ Committed   | 1     |
 
 **TOTAL ACUM:** 10 componente reutilizabile
 
@@ -179,6 +191,7 @@ packages/ui-dashboard/src/tables/
 ```
 
 **Features necesare:**
+
 - [ ] Column sorting (asc/desc)
 - [ ] Column filtering
 - [ ] Pagination (10, 25, 50, 100 per page)
@@ -207,6 +220,7 @@ packages/ui-dashboard/src/badges/
 ```
 
 **Features necesare:**
+
 - [ ] Multiple variants (default, success, warning, error, info)
 - [ ] Sizes (sm, md, lg)
 - [ ] Icon support
@@ -522,6 +536,7 @@ Biblioteca-Datatrack-IQ/
 ## 📊 STATISTICI
 
 ### **v1.3 (CURRENT):**
+
 - **Committed:** 7 componente
 - **Uncommitted:** 3 componente NOI
 - **Total:** 10 componente reutilizabile
@@ -529,6 +544,7 @@ Biblioteca-Datatrack-IQ/
 - **Coverage:** Cards ✅, Charts ✅, Filters ✅, Utils ✅
 
 ### **v1.4 (TARGET):**
+
 - **Total target:** 25+ componente
 - **New components:** 15+ (tables, badges, modals, etc.)
 - **Lines of code:** ~8,000 lines
@@ -539,11 +555,13 @@ Biblioteca-Datatrack-IQ/
 ## ✨ CONCLUZIE
 
 **CE AVEM:**
+
 - ✅ 10 componente reutilizabile de calitate
 - ✅ 100% type-safe, dark theme, accessible
 - ✅ Gata pentru orice proiect
 
 **CE LIPSEȘTE:**
+
 - ❌ Tables (CRITICĂ pentru bookings!)
 - ❌ Forms & inputs
 - ❌ Modals & dialogs
@@ -551,6 +569,7 @@ Biblioteca-Datatrack-IQ/
 - ❌ Badges & chips
 
 **PLAN:**
+
 1. Commit tot ce e uncommitted ACUM
 2. Merge în main
 3. Start v1.4 cu focus pe DataTable + Badge + Modal

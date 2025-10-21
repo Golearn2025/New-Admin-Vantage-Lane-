@@ -1,6 +1,6 @@
 /**
  * Profile Settings Page
- * 
+ *
  * Permite adminului să își editeze profilul.
  * Limită: ≤150 linii (page logic rule)
  */
@@ -8,9 +8,8 @@
 'use client';
 
 import React from 'react';
-import { useCurrentUser } from '@admin/shared/hooks/useCurrentUser';
-import { ProfileForm } from '@admin/features/settings-profile';
-import { useProfileData, type AdminProfile } from '@admin/features/settings-profile';
+import { useCurrentUser } from '@admin-shared/hooks/useCurrentUser';
+import { ProfileForm, useProfileData, type AdminProfile } from '@admin/settings/profile/feature';
 import styles from './profile.module.css';
 
 export default function ProfilePage() {
@@ -40,12 +39,7 @@ export default function ProfilePage() {
 
       <div className={styles.content}>
         {profile ? (
-          <ProfileForm
-            profile={profile}
-            loading={loading}
-            error={error}
-            onSave={handleSave}
-          />
+          <ProfileForm profile={profile} loading={loading} error={error} onSave={handleSave} />
         ) : loading ? (
           <div className={styles.loading}>Loading your profile...</div>
         ) : (

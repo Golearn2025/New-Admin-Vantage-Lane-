@@ -17,20 +17,20 @@ module.exports = {
     // Elimină titluri și descrieri (A11y via aria-label)
     'removeTitle',
     'removeDesc',
-    
+
     // Elimină dimensiuni hardcodate
     'removeDimensions',
-    
+
     // Optimizează path data
     'convertPathData',
-    
+
     // Previne conflicte ID între iconițe
     'prefixIds',
-    
+
     // Curăță atribute nefolosite
     'removeUnusedNS',
     'removeEmptyContainers',
-    
+
     // Optimizează stroke și fill
     'convertColors',
   ],

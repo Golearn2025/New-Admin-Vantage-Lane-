@@ -4,13 +4,13 @@
 
 ## 📦 Packages
 
-| Package | Version | Description | Status |
-|---------|---------|-------------|--------|
-| [@vantage-lane/ui-core](./ui-core) | 0.1.0 | Core UI primitives | 🚧 PR #2 |
-| [@vantage-lane/ui-icons](./ui-icons) | 0.1.0 | SVG icon components | 🚧 PR #3 |
-| [@vantage-lane/styles](./styles) | 0.1.0 | Design tokens & themes | 🚧 PR #5 |
-| [@vantage-lane/formatters](./formatters) | 0.1.0 | Formatters + i18n | 🚧 PR #5 |
-| [@vantage-lane/contracts](./contracts) | 0.1.0 | TypeScript types | 🚧 PR #4 |
+| Package                                  | Version | Description            | Status   |
+| ---------------------------------------- | ------- | ---------------------- | -------- |
+| [@vantage-lane/ui-core](./ui-core)       | 0.1.0   | Core UI primitives     | 🚧 PR #2 |
+| [@vantage-lane/ui-icons](./ui-icons)     | 0.1.0   | SVG icon components    | 🚧 PR #3 |
+| [@vantage-lane/styles](./styles)         | 0.1.0   | Design tokens & themes | 🚧 PR #5 |
+| [@vantage-lane/formatters](./formatters) | 0.1.0   | Formatters + i18n      | 🚧 PR #5 |
+| [@vantage-lane/contracts](./contracts)   | 0.1.0   | TypeScript types       | 🚧 PR #4 |
 
 ## 🚀 Quick Start
 
@@ -132,6 +132,7 @@ styles
 ### Versioning
 
 We use **semantic versioning**:
+
 - **MAJOR**: Breaking changes
 - **MINOR**: New features (backward compatible)
 - **PATCH**: Bug fixes

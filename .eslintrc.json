@@ -6,40 +6,64 @@
     "max-lines": ["error", { "max": 200, "skipComments": true, "skipBlankLines": true }],
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "import/no-cycle": "error",
-    "no-restricted-imports": ["error", {
-      "patterns": [
-        {
-          "group": ["**/shared/api/clients/**"],
-          "message": "UI components can only use contracts, not API clients"
-        },
-        {
-          "group": ["**/entities/**"],
-          "message": "UI components cannot import business entities"
-        },
-        {
-          "group": ["**/features/**"],
-          "message": "Shared UI cannot import features"
-        }
-      ]
-    }]
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": [
+              "../../../!(apps)*",
+              "../../../apps/!(admin)*",
+              "../../../apps/admin/!(features)*",
+              "../../../apps/admin/features/!(dashboard-metrics|settings-profile)*",
+              "../../../../*",
+              "../../../../../*"
+            ],
+            "message": "Use path aliases (@admin, @admin-shared, etc.) instead of deep relative imports"
+          },
+          {
+            "group": [
+              "**/apps/admin/features/!(dashboard-metrics|settings-profile)/**",
+              "**/apps/admin/entities/**"
+            ],
+            "message": "Do not import from apps/admin/features (except dashboard-metrics and settings-profile) or entities - these folders are deprecated"
+          },
+          {
+            "group": ["**/shared/api/clients/**"],
+            "message": "UI components can only use contracts, not API clients"
+          },
+          {
+            "group": ["**/entities/**"],
+            "message": "UI components cannot import business entities"
+          },
+          {
+            "group": ["**/features/!(dashboard-metrics|settings-profile)/**"],
+            "message": "Shared UI cannot import features (except dashboard-metrics and settings-profile)"
+          }
+        ]
+      }
+    ]
   },
   "overrides": [
     {
       "files": ["apps/admin/shared/ui/**/*.tsx", "apps/admin/shared/ui/**/*.ts"],
       "rules": {
         "max-lines": ["error", { "max": 200, "skipComments": true, "skipBlankLines": true }],
-        "no-restricted-imports": ["error", {
-          "patterns": [
-            {
-              "group": ["../../api/clients/**", "../../../api/clients/**"],
-              "message": "UI components must not import API clients"
-            },
-            {
-              "group": ["../../entities/**", "../../../entities/**"],
-              "message": "UI components must not import business entities"
-            }
-          ]
-        }]
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["../../api/clients/**", "../../../api/clients/**"],
+                "message": "UI components must not import API clients"
+              },
+              {
+                "group": ["../../entities/**", "../../../entities/**"],
+                "message": "UI components must not import business entities"
+              }
+            ]
+          }
+        ]
       }
     },
     {

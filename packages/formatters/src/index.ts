@@ -1,7 +1,7 @@
 /**
  * @vantage-lane/formatters
  * Currency, number, date formatters + i18n helpers
- * 
+ *
  * Placeholder - formatters will be created in PR #5
  */
 

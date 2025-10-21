@@ -9,8 +9,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "check:ts": "tsc --noEmit",
     "check:lint": "eslint . --ext .ts,.tsx -f unix",
+    "quality:check": "npm run guard:app-logic && npm run format:check && npm run lint && npm run check:ts",
+    "quality:fix": "npm run format && npm run lint --fix",
     "check:next": "next build",
     "check:all": "mkdir -p reports && (tsc --noEmit 2>&1 | tee reports/tsc.log); (eslint . --ext .ts,.tsx -f unix 2>&1 | tee reports/eslint.log); (next build 2>&1 | tee reports/next-build.log)",
     "lh:login": "npx @lhci/cli autorun --collect.url=http://localhost:3000/login --collect.startServerCommand='npm run dev' --assert.assertions.categories:performance=0.9 --assert.assertions.categories:accessibility=0.95",
@@ -24,12 +28,29 @@
     "check:any": "grep -R '\\bany\\b' apps/admin/shared/ui app/login --include='*.ts' --include='*.tsx' -n || echo 'No any types found'",
     "check:budgets": "npx size-limit --why || true",
     "check:a11y": "npx @axe-core/cli http://localhost:3000/login -o reports/axe-login.json || true",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:e2e": "playwright test",
-    "typecheck": "tsc --noEmit",
-    "audit": "npm audit --audit-level moderate",
-    "prepare": "husky install"
+    "check:health": "bash scripts/check-health.sh",
+    "check:p0": "npm run check:health",
+    "check:everything": "bash scripts/check-everything.sh",
+    "check:quality": "bash scripts/check-quality.sh",
+    "check:duplicates": "bash scripts/check-duplicates.sh",
+    "check:deadcode": "bash scripts/check-deadcode.sh",
+    "check:performance": "bash scripts/check-performance.sh",
+    "check:advanced": "npm run check:quality && npm run check:duplicates && npm run check:deadcode && npm run check:performance",
+    "gen:component": "plop component",
+    "guard:ui": "node scripts/guard-components.mjs",
+    "guard:app-logic": "bash scripts/guard-app-logic.sh",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --max-warnings 0",
+      "prettier --write"
+    ],
+    "*.{css,scss}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
@@ -40,12 +61,15 @@
     "react-dom": "^18.0.0",
     "recharts": "^2.15.4",
     "swr": "^2.3.6",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@axe-core/cli": "^4.10.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
     "@types/jest": "^30.0.0",
-    "@types/node": "^20.0.0",
+    "@types/node": "^20.19.22",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
@@ -55,13 +79,21 @@
     "eslint-config-next": "^14.0.0",
     "eslint-plugin-import": "^2.29.0",
     "husky": "^8.0.0",
+    "jsdom": "^27.0.1",
     "madge": "^8.0.0",
+    "plop": "^4.0.4",
+    "prettier": "3.2.5",
     "size-limit": "^11.2.0",
-    "tsup": "^8.0.0"
+    "tsup": "^8.0.0",
+    "vitest": "^3.2.4"
   },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
+  },
+  "vitest": {
+    "environment": "jsdom",
+    "globals": true
   },
   "workspaces": [
     "apps/*",

@@ -7,26 +7,26 @@
 
 :root {
   /* Primary Colors - GOLD */
-  --color-primary: #F1D16A;
-  --color-primary-light: #E5D485;
-  --color-primary-dark: #E5C953;
-  --color-primary-darker: #D9BD47;
-  --color-primary-accent: #CBB26A;
+  --color-primary: #f1d16a;
+  --color-primary-light: #e5d485;
+  --color-primary-dark: #e5c953;
+  --color-primary-darker: #d9bd47;
+  --color-primary-accent: #cbb26a;
 
   /* Secondary Colors - PURPLE/VIOLET */
-  --color-secondary: #764BA2;
-  --color-secondary-light: #A78BFA;
-  --color-secondary-dark: #667EEA;
+  --color-secondary: #764ba2;
+  --color-secondary-light: #a78bfa;
+  --color-secondary-dark: #667eea;
   --color-secondary-accent: #9b59b6;
 
   /* Background Colors */
-  --color-bg-primary: #0A0A0A;
+  --color-bg-primary: #0a0a0a;
   --color-bg-secondary: #121416;
   --color-bg-tertiary: #1a1d21;
   --color-bg-elevated: #1e2124;
 
   /* Text Colors */
-  --color-text-primary: #FFFFFF;
+  --color-text-primary: #ffffff;
   --color-text-secondary: rgba(255, 255, 255, 0.8);
   --color-text-tertiary: rgba(255, 255, 255, 0.6);
   --color-text-disabled: rgba(255, 255, 255, 0.4);
@@ -37,7 +37,7 @@
   --color-error: #ff6b6b;
   --color-error-dark: #ff3b30;
   --color-warning: #ffa500;
-  --color-info: #3B82F6;
+  --color-info: #3b82f6;
 
   /* Border Colors */
   --color-border-primary: rgba(241, 209, 106, 0.25);
@@ -59,7 +59,121 @@
 
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-  --gradient-secondary: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-light));
+  --gradient-secondary: linear-gradient(
+    135deg,
+    var(--color-secondary),
+    var(--color-secondary-light)
+  );
   --gradient-surface: linear-gradient(135deg, rgba(0, 0, 0, 0.6), var(--color-primary-alpha-8));
   --gradient-hover: linear-gradient(135deg, rgba(0, 0, 0, 0.7), var(--color-primary-alpha-15));
+
+  /* ========================================
+     BADGE COLORS - Status, Trip Type, Category, Service
+     ======================================== */
+
+  /* Status Colors (Driver Workflow) */
+  --color-status-new: #f59e0b; /* Amber - NEW */
+  --color-status-new-alpha-10: rgba(245, 158, 11, 0.1);
+  --color-status-new-alpha-30: rgba(245, 158, 11, 0.3);
+
+  --color-status-assigned: #3b82f6; /* Blue - ASSIGNED */
+  --color-status-assigned-alpha-10: rgba(59, 130, 246, 0.1);
+  --color-status-assigned-alpha-30: rgba(59, 130, 246, 0.3);
+
+  --color-status-in-progress: #8b5cf6; /* Purple - IN_PROGRESS */
+  --color-status-in-progress-alpha-10: rgba(139, 92, 246, 0.1);
+  --color-status-in-progress-alpha-30: rgba(139, 92, 246, 0.3);
+
+  --color-status-completed: #10b981; /* Green - COMPLETED */
+  --color-status-completed-alpha-10: rgba(16, 185, 129, 0.1);
+  --color-status-completed-alpha-30: rgba(16, 185, 129, 0.3);
+
+  --color-status-cancelled: #ef4444; /* Red - CANCELLED */
+  --color-status-cancelled-alpha-10: rgba(239, 68, 68, 0.1);
+  --color-status-cancelled-alpha-30: rgba(239, 68, 68, 0.3);
+
+  /* Booking Status Colors (Lifecycle) */
+  --color-booking-draft: #6b7280; /* Gray - draft */
+  --color-booking-draft-alpha-10: rgba(107, 114, 128, 0.1);
+  --color-booking-draft-alpha-30: rgba(107, 114, 128, 0.3);
+
+  --color-booking-confirmed: #3b82f6; /* Blue - confirmed */
+  --color-booking-confirmed-alpha-10: rgba(59, 130, 246, 0.1);
+  --color-booking-confirmed-alpha-30: rgba(59, 130, 246, 0.3);
+
+  --color-booking-active: #10b981; /* Green - active */
+  --color-booking-active-alpha-10: rgba(16, 185, 129, 0.1);
+  --color-booking-active-alpha-30: rgba(16, 185, 129, 0.3);
+
+  /* Trip Type Colors */
+  --color-trip-oneway: var(--color-primary); /* Gold - ONE WAY */
+  --color-trip-oneway-alpha-10: rgba(241, 209, 106, 0.1);
+  --color-trip-oneway-alpha-30: rgba(241, 209, 106, 0.3);
+
+  --color-trip-return: #8b5cf6; /* Purple - RETURN */
+  --color-trip-return-alpha-10: rgba(139, 92, 246, 0.1);
+  --color-trip-return-alpha-30: rgba(139, 92, 246, 0.3);
+
+  --color-trip-hourly: #3b82f6; /* Blue - HOURLY */
+  --color-trip-hourly-alpha-10: rgba(59, 130, 246, 0.1);
+  --color-trip-hourly-alpha-30: rgba(59, 130, 246, 0.3);
+
+  --color-trip-fleet: #6366f1; /* Indigo - FLEET */
+  --color-trip-fleet-alpha-10: rgba(99, 102, 241, 0.1);
+  --color-trip-fleet-alpha-30: rgba(99, 102, 241, 0.3);
+
+  /* Category Colors (Service Type) */
+  --color-category-exec: var(--color-primary); /* Gold - EXECUTIVE */
+  --color-category-exec-alpha-10: rgba(241, 209, 106, 0.1);
+  --color-category-exec-alpha-30: rgba(241, 209, 106, 0.3);
+
+  --color-category-lux: #8b5cf6; /* Purple - LUXURY S-Class */
+  --color-category-lux-alpha-10: rgba(139, 92, 246, 0.1);
+  --color-category-lux-alpha-30: rgba(139, 92, 246, 0.3);
+
+  --color-category-suv: #3b82f6; /* Blue - SUV */
+  --color-category-suv-alpha-10: rgba(59, 130, 246, 0.1);
+  --color-category-suv-alpha-30: rgba(59, 130, 246, 0.3);
+
+  --color-category-van: #6366f1; /* Indigo - V-Class Van */
+  --color-category-van-alpha-10: rgba(99, 102, 241, 0.1);
+  --color-category-van-alpha-30: rgba(99, 102, 241, 0.3);
+
+  /* Service Colors (Extra Services) */
+  --color-service-paid: var(--color-primary); /* Gold - Paid services */
+  --color-service-paid-alpha-10: rgba(241, 209, 106, 0.1);
+  --color-service-paid-alpha-30: rgba(241, 209, 106, 0.3);
+
+  --color-service-free: #10b981; /* Green - Free services */
+  --color-service-free-alpha-10: rgba(16, 185, 129, 0.1);
+  --color-service-free-alpha-30: rgba(16, 185, 129, 0.3);
+
+  --color-service-security: #ef4444; /* Red - Security escort */
+  --color-service-security-alpha-10: rgba(239, 68, 68, 0.1);
+  --color-service-security-alpha-30: rgba(239, 68, 68, 0.3);
+
+  --color-service-luxury: #8b5cf6; /* Purple - Champagne/Flowers */
+  --color-service-luxury-alpha-10: rgba(139, 92, 246, 0.1);
+  --color-service-luxury-alpha-30: rgba(139, 92, 246, 0.3);
+
+  /* Payment Status Colors */
+  --color-payment-pending: #f59e0b; /* Amber - pending */
+  --color-payment-pending-alpha-10: rgba(245, 158, 11, 0.1);
+  --color-payment-pending-alpha-30: rgba(245, 158, 11, 0.3);
+
+  --color-payment-authorized: #3b82f6; /* Blue - authorized */
+  --color-payment-authorized-alpha-10: rgba(59, 130, 246, 0.1);
+  --color-payment-authorized-alpha-30: rgba(59, 130, 246, 0.3);
+
+  --color-payment-captured: #10b981; /* Green - captured */
+  --color-payment-captured-alpha-10: rgba(16, 185, 129, 0.1);
+  --color-payment-captured-alpha-30: rgba(16, 185, 129, 0.3);
+
+  --color-payment-refunded: #6b7280; /* Gray - refunded */
+  --color-payment-refunded-alpha-10: rgba(107, 114, 128, 0.1);
+  --color-payment-refunded-alpha-30: rgba(107, 114, 128, 0.3);
+
+  --color-payment-failed: #ef4444; /* Red - failed */
+  --color-payment-failed-alpha-10: rgba(239, 68, 68, 0.1);
+  --color-payment-failed-alpha-30: rgba(239, 68, 68, 0.3);
 }

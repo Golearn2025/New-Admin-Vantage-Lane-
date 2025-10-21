@@ -35,27 +35,27 @@
   font-size: var(--font-base);
   line-height: var(--line-height-normal);
   color: var(--color-text-primary);
-  
+
   background-color: var(--color-surface-glass);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-input);
-  
+
   transition: var(--motion-hover);
-  
+
   &:hover:not(:disabled) {
     border-color: var(--color-border-strong);
     background-color: var(--color-surface-elevated);
   }
-  
+
   &:focus {
     outline: none;
     border-color: var(--theme-primary);
     box-shadow: var(--theme-shadow-focus);
     background-color: rgba(255, 255, 255, 0.08);
   }
-  
+
   &:disabled {
     background-color: var(--color-bg-primary);
     border-color: var(--color-border-muted);
@@ -63,7 +63,7 @@
     cursor: not-allowed;
     backdrop-filter: none;
   }
-  
+
   &::placeholder {
     color: var(--color-text-muted);
   }
@@ -126,7 +126,7 @@
 /* Error state */
 .hasError .input {
   border-color: var(--color-danger-default);
-  
+
   &:focus {
     border-color: var(--color-danger-default);
     box-shadow: var(--shadow-danger);

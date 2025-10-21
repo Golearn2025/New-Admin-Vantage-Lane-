@@ -24,18 +24,22 @@ Aplicația Admin folosește **Feature-Sliced Design** cu granițe strict definit
 ## Principii arhitecturale
 
 ### 1. Dependency Rule
+
 - Straturile inferioare nu cunosc straturile superioare
 - `shared` ← `entities` ← `features` ← `app`
 
 ### 2. Frozen Boundaries
+
 - Anumite module sunt înghețate pentru stabilitate
 - Modificări doar cu proces special de aprobare
 
 ### 3. Contract-First API
+
 - Toate API-urile au contracte definite în `shared/api/contracts`
 - Validare strictă a request/response
 
 ### 4. Component Composition
+
 - UI compus din componente atomice (`shared/ui/core`)
 - Componente business în `shared/ui/composed`
 
@@ -50,6 +54,7 @@ Aplicația Admin folosește **Feature-Sliced Design** cu granițe strict definit
 ## Security Architecture (R0 UPDATE - Removed super_admin)
 
 ### Authentication & Authorization
+
 - **Authentication**: JWT + refresh tokens
 - **Authorization**: RBAC cu 5 roluri finale (admin, operator, driver, customer, auditor)
 - **Role consolidation**: super_admin eliminat → admin cu acces complet
@@ -57,6 +62,7 @@ Aplicația Admin folosește **Feature-Sliced Design** cu granițe strict definit
 - **Audit**: Toate acțiunile loggate cu role tracking
 
 ### Final Role Structure
+
 ```typescript
 type UserRole = 'admin' | 'operator' | 'driver' | 'customer' | 'auditor';
 
@@ -64,40 +70,42 @@ const rolePermissions = {
   admin: {
     scope: 'global',
     access: 'full_crud',
-    description: 'Complete system access (consolidated from super_admin)'
+    description: 'Complete system access (consolidated from super_admin)',
   },
   operator: {
     scope: 'regional_company',
-    access: 'scoped_crud', 
-    description: 'Operations management within assigned scope'
+    access: 'scoped_crud',
+    description: 'Operations management within assigned scope',
   },
   auditor: {
     scope: 'global',
     access: 'read_only',
-    description: 'Compliance and audit access to all data'
+    description: 'Compliance and audit access to all data',
   },
   driver: {
     scope: 'self',
     access: 'limited_crud',
-    description: 'Own profile and assigned bookings'
+    description: 'Own profile and assigned bookings',
   },
   customer: {
-    scope: 'self', 
+    scope: 'self',
     access: 'limited_crud',
-    description: 'Own profile and bookings'
-  }
+    description: 'Own profile and bookings',
+  },
 } as const;
 ```
 
 ## Performance optimizations
 
 ### Database
+
 - **Connection pooling**: pentru concurența mare
 - **Read replicas**: pentru queries heavy
 - **Indexuri selective**: pe filtrele frecvente
 - **Query caching**: pentru agregări costisitoare
 
 ### Frontend
+
 - **Code splitting**: la nivel de rută
 - **Image optimization**: lazy loading + WebP
 - **Bundle analysis**: pentru dead code elimination
@@ -123,9 +131,10 @@ const rolePermissions = {
 ### Cache Strategy
 
 #### Cache Keys Structure
+
 ```typescript
 // Pattern: entity:filters:sort:pagination
-const cacheKey = `${entity}:${hashFilters}:${sortField}:${sortDir}:${cursor|page}`;
+const cacheKey = `${entity}:${hashFilters}:${sortField}:${sortDir}:${cursor | page}`;
 
 // Examples:
 // "bookings:status=pending:created_at:desc:cursor_xyz"
@@ -134,8 +143,9 @@ const cacheKey = `${entity}:${hashFilters}:${sortField}:${sortDir}:${cursor|page
 ```
 
 #### Cache TTL Strategy
+
 - **Hot data** (bookings, tickets): 2 minutes TTL
-- **Warm data** (users, documents): 5 minutes TTL  
+- **Warm data** (users, documents): 5 minutes TTL
 - **Cold data** (payments history): 15 minutes TTL
 - **Aggregations** (summaries, counts): 10 minutes TTL
 
@@ -144,11 +154,11 @@ const cacheKey = `${entity}:${hashFilters}:${sortField}:${sortDir}:${cursor|page
 ```typescript
 // On entity mutation, invalidate related cache keys
 const invalidatePatterns = {
-  'booking_updated': ['bookings:*', 'users:driver:*'], // Driver stats change
-  'user_status_changed': ['users:*', 'bookings:*'],    // Affects filters
-  'payment_completed': ['payments:*', 'bookings:*'],   // Updates booking status
-  'document_approved': ['documents:*', 'users:*'],     // User verification status
-  'ticket_assigned': ['tickets:*']                     // Assignment changes
+  booking_updated: ['bookings:*', 'users:driver:*'], // Driver stats change
+  user_status_changed: ['users:*', 'bookings:*'], // Affects filters
+  payment_completed: ['payments:*', 'bookings:*'], // Updates booking status
+  document_approved: ['documents:*', 'users:*'], // User verification status
+  ticket_assigned: ['tickets:*'], // Assignment changes
 };
 ```
 
@@ -161,49 +171,48 @@ export async function handleListRequest<T, F>(
   entity: string,
   queryBuilder: (filters: F) => Query
 ): Promise<ListResponse<T>> {
-  
   // 1. Generate cache key
   const cacheKey = generateCacheKey(entity, request);
-  
+
   // 2. Try cache first
   const cached = await redis.get(cacheKey);
   if (cached) {
     return { ...JSON.parse(cached), performance: { cache_hit: true } };
   }
-  
+
   // 3. Build optimized query
   const query = queryBuilder(request.filters)
     .orderBy(request.sort?.field || 'created_at', request.sort?.direction || 'desc')
     .limit(request.page_size || 25);
-    
+
   // 4. Apply pagination (keyset preferred)
   if (request.cursor) {
     query.where(buildCursorWhere(request.cursor));
   } else if (request.page) {
     query.offset((request.page - 1) * (request.page_size || 25));
   }
-  
+
   // 5. Execute with performance tracking
   const startTime = performance.now();
   const result = await query.execute();
   const queryDuration = performance.now() - startTime;
-  
+
   // 6. Transform and paginate
   const response = transformListResponse(result, request, queryDuration);
-  
+
   // 7. Cache result
   await redis.setex(cacheKey, getTTL(entity), JSON.stringify(response));
-  
+
   return response;
 }
 ```
 
 ### Performance Targets per Endpoint
 
-| Endpoint | Cache Hit Rate | P95 Query Time | P95 Response Time |
-|----------|---------------|----------------|-------------------|
-| bookings.list | >80% | <50ms | <100ms |
-| users.list | >75% | <30ms | <80ms |
-| documents.list | >70% | <40ms | <90ms |
-| tickets.list | >85% | <60ms | <120ms |
-| payments.list | >70% | <45ms | <95ms |
+| Endpoint       | Cache Hit Rate | P95 Query Time | P95 Response Time |
+| -------------- | -------------- | -------------- | ----------------- |
+| bookings.list  | >80%           | <50ms          | <100ms            |
+| users.list     | >75%           | <30ms          | <80ms             |
+| documents.list | >70%           | <40ms          | <90ms             |
+| tickets.list   | >85%           | <60ms          | <120ms            |
+| payments.list  | >70%           | <45ms          | <95ms             |

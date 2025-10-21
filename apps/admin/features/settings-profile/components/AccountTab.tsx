@@ -1,6 +1,6 @@
 /**
  * AccountTab - TAB 2: Account Information
- * 
+ *
  * Tab pentru informații cont (role, member since, last login, statistics).
  * Limită: ≤150 linii
  */
@@ -8,7 +8,7 @@
 'use client';
 
 import React from 'react';
-import { ProfileSection } from '@admin/shared/ui/core/ProfileSection';
+import { ProfileSection } from '@vantage-lane/ui-core';
 import type { AdminProfile } from '../hooks/useProfileData';
 import styles from './AccountTab.module.css';
 
@@ -92,11 +92,7 @@ export function AccountTab({ profile }: AccountTabProps) {
         </div>
       </ProfileSection>
 
-      <ProfileSection
-        title="Organization"
-        icon="🏢"
-        description="Your assigned organization"
-      >
+      <ProfileSection title="Organization" icon="🏢" description="Your assigned organization">
         <div className={styles.orgCard}>
           <div className={styles.orgIcon}>🏬</div>
           <div className={styles.orgContent}>

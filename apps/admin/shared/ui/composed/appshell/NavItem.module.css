@@ -153,12 +153,12 @@
   min-height: 36px;
   display: flex;
   align-items: center;
-  
+
   &:hover {
     color: var(--color-text-secondary);
     background: var(--color-surface-elevated);
   }
-  
+
   &:focus-visible {
     outline: 2px solid var(--color-border-focus);
     outline-offset: 1px;
@@ -171,15 +171,15 @@
     padding: var(--spacing-4);
     min-height: 48px; /* Larger touch targets on mobile */
   }
-  
+
   .navLabel {
     font-size: var(--font-lg);
   }
-  
+
   .submenu {
     margin-left: var(--spacing-6);
   }
-  
+
   .submenuItem {
     padding: var(--spacing-3);
     min-height: 44px;

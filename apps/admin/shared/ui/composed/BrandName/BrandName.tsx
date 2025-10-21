@@ -1,8 +1,8 @@
 /**
  * BrandName Component - Reusable Brand Identity
- * 
+ *
  * Afișează "Vantage Lane" cu culorile brand:
- * - Vantage: auriu (ca logo-ul)  
+ * - Vantage: auriu (ca logo-ul)
  * - Lane: argintiu
  * Folosește doar design tokens pentru culori.
  */
@@ -16,7 +16,7 @@ export interface BrandNameProps {
 
 export function BrandName({ size = 'md', className = '' }: BrandNameProps) {
   const brandClasses = `${styles['brandName']} ${styles[`size-${size}`]} ${className}`;
-  
+
   return (
     <span className={brandClasses}>
       <span className={styles['vantage']}>Vantage</span>

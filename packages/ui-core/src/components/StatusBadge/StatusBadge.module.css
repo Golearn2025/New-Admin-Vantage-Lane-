@@ -1,0 +1,202 @@
+/**
+ * StatusBadge Styles
+ * 
+ * Premium badge design with glow effects
+ * 100% Design Tokens - Zero Hardcoding
+ * Note: Design tokens are loaded globally via app/globals.css
+ */
+
+/* Base Badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-xl);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: var(--transition-base);
+}
+
+/* Sizes */
+.status-badge--sm {
+  padding: var(--spacing-2xs) var(--spacing-xs);
+  font-size: var(--font-size-xs);
+}
+
+.status-badge--md {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+.status-badge--lg {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+}
+
+/* Status Colors */
+.status-badge--pending {
+  background-color: var(--color-info-light);
+  color: var(--color-info);
+  border: 1px solid var(--color-info);
+}
+
+.status-badge--assigned {
+  background-color: var(--color-warning-light);
+  color: var(--color-warning-dark);
+  border: 1px solid var(--color-warning);
+}
+
+.status-badge--en-route {
+  background-color: var(--color-status-new-alpha-10);
+  color: var(--color-status-new);
+  border: 1px solid var(--color-status-new);
+}
+
+.status-badge--arrived {
+  background-color: var(--color-status-in-progress-alpha-10);
+  color: var(--color-status-in-progress);
+  border: 1px solid var(--color-status-in-progress);
+}
+
+.status-badge--in-progress {
+  background-color: var(--color-success-light);
+  color: var(--color-success-dark);
+  border: 1px solid var(--color-success);
+}
+
+.status-badge--completed {
+  background-color: var(--color-neutral-100);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.status-badge--cancelled {
+  background-color: var(--color-danger-light);
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+}
+
+/* NEW Badge Effect - Subtle Pulsing Glow */
+.status-badge--new {
+  position: relative;
+  animation: pulseGlow 2s ease-in-out infinite;
+  box-shadow:
+    0 0 8px var(--color-status-assigned-alpha-30),
+    0 0 16px var(--color-status-assigned-alpha-10);
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 8px var(--color-status-assigned-alpha-30),
+      0 0 16px var(--color-status-assigned-alpha-10);
+  }
+  50% {
+    box-shadow:
+      0 0 12px var(--color-status-assigned-alpha-30),
+      0 0 24px var(--color-status-assigned-alpha-30),
+      0 0 32px var(--color-status-assigned-alpha-10);
+  }
+}
+
+/* URGENT Badge Effect - Strong Red Pulsing */
+.status-badge--urgent {
+  background-color: var(--color-status-cancelled-alpha-10) !important;
+  color: var(--color-status-cancelled) !important;
+  border: 2px solid var(--color-status-cancelled) !important;
+  font-weight: var(--font-weight-bold);
+  animation: urgentPulse 1.5s ease-in-out infinite;
+  box-shadow:
+    0 0 12px var(--color-status-cancelled-alpha-30),
+    0 0 24px var(--color-status-cancelled-alpha-10);
+}
+
+@keyframes urgentPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 12px var(--color-status-cancelled-alpha-30),
+      0 0 24px var(--color-status-cancelled-alpha-10);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 0 20px var(--color-status-cancelled-alpha-30),
+      0 0 40px var(--color-status-cancelled-alpha-30),
+      0 0 60px var(--color-status-cancelled-alpha-10);
+    transform: scale(1.02);
+  }
+}
+
+/* Urgent Indicator */
+.status-badge__urgent-indicator {
+  display: inline-block;
+  margin-left: var(--spacing-xs);
+  padding: 1px var(--spacing-xs);
+  background-color: var(--color-status-cancelled);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* New Indicator */
+.status-badge__new-indicator {
+  display: inline-block;
+  margin-left: var(--spacing-xs);
+  padding: 1px var(--spacing-xs);
+  background-color: var(--color-status-assigned);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Icon */
+.status-badge__icon {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1em;
+}
+
+/* Label */
+.status-badge__label {
+  display: inline-block;
+}
+
+/* Hover Effect */
+.status-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .status-badge--new,
+  .status-badge--urgent {
+    animation: none;
+  }
+
+  .status-badge__urgent-indicator {
+    animation: none;
+  }
+}

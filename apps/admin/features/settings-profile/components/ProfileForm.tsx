@@ -1,6 +1,6 @@
 /**
  * ProfileForm - FORM PRINCIPAL PROFIL
- * 
+ *
  * Form complet cu 3 tabs: Personal Info, Account, Security.
  * Include logica de auto-save în baza de date.
  * Limită: ≤200 linii
@@ -9,8 +9,8 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { Tabs, type Tab } from '@admin/shared/ui/core/Tabs';
-import { SaveButton } from '@admin/shared/ui/core/SaveButton';
+import { Tabs, type Tab } from '@vantage-lane/ui-core';
+import { SaveButton } from '@vantage-lane/ui-core';
 import { PersonalInfoTab } from './PersonalInfoTab';
 import { AccountTab } from './AccountTab';
 import { SecurityTab } from './SecurityTab';
@@ -31,7 +31,7 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
   const [activeTab, setActiveTab] = useState('personal');
 
   const handleChange = useCallback((updates: Partial<AdminProfile>) => {
-    setPendingChanges(prev => ({ ...prev, ...updates }));
+    setPendingChanges((prev) => ({ ...prev, ...updates }));
   }, []);
 
   const handleSave = async () => {
@@ -49,11 +49,6 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
     }
 
     setSaving(false);
-  };
-
-  const handleDiscard = () => {
-    setPendingChanges(null);
-    setSaveSuccess(false);
   };
 
   if (loading) {
@@ -102,16 +97,16 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
         </div>
       )}
 
-      <Tabs 
-        tabs={tabs} 
-        defaultTab="personal" 
+      <Tabs
+        tabs={tabs}
+        defaultTab="personal"
         variant="premium"
         onChange={(tabId) => setActiveTab(tabId)}
       />
 
       {/* ✅ Save button DOAR pe Personal Info tab */}
       {activeTab === 'personal' && (
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '32px' }}>
+        <div className={styles.saveButtonContainer}>
           <SaveButton onClick={handleSave} variant="primary" loading={saving}>
             Save Changes
           </SaveButton>

@@ -1,11 +1,11 @@
 /**
  * AppShell Types - Dark Premium Navigation
- * 
+ *
  * Type definitions pentru sistem de navigație cu RBAC.
  * Clean separation între UI și business logic.
  */
 
-import { IconName } from '@admin/shared/ui/icons';
+import { IconName } from '@vantage-lane/ui-icons';
 
 export type UserRole = 'admin' | 'operator';
 

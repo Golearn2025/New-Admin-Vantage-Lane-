@@ -1,0 +1,116 @@
+/**
+ * BookingsTable Styles
+ * All values use design tokens
+ */
+
+.container {
+  width: 100%;
+  max-width: 100%; /* ✅ NU depășește lățimea disponibilă */
+  min-height: calc(100vh - 60px);
+  padding: var(--spacing-4); /* ✅ Reduced: 16px în loc de 24px */
+  overflow-x: auto; /* ✅ Scroll orizontal DOAR pe tabel, nu pe pagină */
+  box-sizing: border-box; /* ✅ Include padding în width */
+}
+
+.header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-text-primary);
+}
+
+.description {
+  color: var(--color-text-secondary);
+}
+
+.filtersContainer {
+  margin-bottom: var(--spacing-xl);
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.filterLabel {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.select {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.select:hover {
+  border-color: var(--color-primary);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.actionsContainer {
+  margin-left: auto;
+}
+
+.refreshButton {
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.refreshButton:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.refreshButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.errorState {
+  padding: var(--spacing-md);
+  background-color: var(--color-danger-light);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-xl);
+  color: var(--color-danger);
+}
+
+.expandButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  padding: var(--spacing-1);
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.expandButton:hover {
+  color: var(--color-text-primary);
+}

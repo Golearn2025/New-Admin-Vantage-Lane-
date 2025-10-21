@@ -1,6 +1,6 @@
 /**
  * Drawer Component - Mobile Navigation Drawer
- * 
+ *
  * Slide-in drawer pentru mobile cu focus trap și ESC handling.
  * A11y compliant cu proper ARIA attributes.
  */
@@ -8,16 +8,11 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { Icon } from '@admin/shared/ui/icons';
+import { Icon } from '@vantage-lane/ui-icons';
 import { DrawerProps } from './types';
 import styles from './Drawer.module.css';
 
-export function Drawer({
-  isOpen,
-  onClose,
-  children
-}: DrawerProps) {
-  
+export function Drawer({ isOpen, onClose, children }: DrawerProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -47,7 +42,7 @@ export function Drawer({
       const focusableElements = drawer.querySelectorAll(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );
-      
+
       const firstElement = focusableElements[0] as HTMLElement;
       const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
 
@@ -105,9 +100,7 @@ export function Drawer({
       </div>
 
       {/* Drawer content */}
-      <div className={styles.drawerContent}>
-        {children}
-      </div>
+      <div className={styles.drawerContent}>{children}</div>
     </div>
   );
 }

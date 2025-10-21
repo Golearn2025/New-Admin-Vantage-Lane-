@@ -1,6 +1,6 @@
 /**
  * Icons - Design System Icon Set
- * 
+ *
  * Tree-shakable SVG icons pentru Vantage Lane Admin.
  * Consistent style: 24x24, stroke 1.5, currentColor.
  */
@@ -20,6 +20,24 @@ import { Menu } from './Menu';
 import { ChevronDown } from './ChevronDown';
 import { Monitoring } from './Monitoring';
 import { Refunds } from './Refunds';
+import { Edit } from './Edit';
+import { Assign } from './Assign';
+import { View } from './View';
+import { Email } from './Email';
+import { Phone } from './Phone';
+import { More } from './More';
+import { Cancel } from './Cancel';
+import { Clock } from './Clock';
+import { Plane } from './Plane';
+import { Route } from './Route';
+import { User } from './User';
+import { Luggage } from './Luggage';
+import { CreditCard } from './CreditCard';
+import { Currency } from './Currency';
+import { UserPlus } from './UserPlus';
+import { Eye } from './Eye';
+import { Download } from './Download';
+import { Copy } from './Copy';
 
 // Icon map pentru dynamic loading
 const iconMap = {
@@ -34,13 +52,23 @@ const iconMap = {
   chevronDown: ChevronDown,
   monitoring: Monitoring,
   refunds: Refunds,
+  clock: Clock,
+  plane: Plane,
+  route: Route,
+  user: User,
+  luggage: Luggage,
+  creditCard: CreditCard,
+  currency: Currency,
+  userPlus: UserPlus,
+  eye: Eye,
+  download: Download,
+  copy: Copy,
   // TODO: Adăugă restul iconițelor când sunt create
   disputes: Dashboard, // Placeholder
   payouts: Dashboard,
   projectHealth: Dashboard,
   auditHistory: Dashboard,
   prices: Dashboard,
-  creditCard: Payments,
   banknote: Dashboard,
 } as const;
 
@@ -49,23 +77,26 @@ const iconMap = {
  */
 export function Icon({ name, size = 24, className, 'aria-label': ariaLabel }: IconProps) {
   const IconComponent = iconMap[name];
-  
+
   if (!IconComponent) {
-    console.warn(`Icon "${name}" not found`);
+    // eslint-disable-next-line no-console -- Library code: warn about missing icons in development
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(`Icon "${name}" not found in icon registry`);
+    }
     return null;
   }
-  
+
   const props: BaseIconProps = {
     size,
     ...(className && { className }),
-    ...( ariaLabel && { 'aria-label': ariaLabel }),
+    ...(ariaLabel && { 'aria-label': ariaLabel }),
   };
 
   return React.createElement(IconComponent, props);
 }
 
 // Export types
-export type { IconName, IconProps } from './types';
+export type { IconName, IconProps, BaseIconProps } from './types';
 
 // Export individual components pentru tree-shaking
 export {
@@ -80,4 +111,22 @@ export {
   ChevronDown,
   Monitoring,
   Refunds,
+  Edit,
+  Assign,
+  View,
+  Email,
+  Phone,
+  More,
+  Cancel,
+  Clock,
+  Plane,
+  Route,
+  User,
+  Luggage,
+  CreditCard,
+  Currency,
+  UserPlus,
+  Eye,
+  Download,
+  Copy,
 };

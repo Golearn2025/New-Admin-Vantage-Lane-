@@ -19,11 +19,12 @@ export const DASHBOARD_CONFIG = {
   currency: 'GBP',
   timezone: 'Europe/London', // sau browser default
   date_format: 'DD/MM/YYYY',
-  time_format: '24h'
+  time_format: '24h',
 };
 ```
 
 **Fallback Strategy:**
+
 - Dacă locale unavailable → fallback la `en-GB`
 - Dacă currency unavailable → fallback la `GBP`
 - NICIODATĂ throw pentru missing locale
@@ -34,13 +35,14 @@ export const DASHBOARD_CONFIG = {
 
 **1:1 Mapping between API units and formatters:**
 
-| API Unit | Formatter Function | Input Type | Output Example | Locale-Aware |
-|----------|-------------------|------------|----------------|---------------|
-| `count` | `formatNumber()` | `number` | "1,234" | Yes (separators) |
-| `GBP_pence` | `formatCurrency()` | `number` (pence) | "£1,234.56" | Yes (locale + currency) |
-| `percentage` | `formatPercent()` | `number` (0-100) | "12.50%" | No (universal) |
+| API Unit     | Formatter Function | Input Type       | Output Example | Locale-Aware            |
+| ------------ | ------------------ | ---------------- | -------------- | ----------------------- |
+| `count`      | `formatNumber()`   | `number`         | "1,234"        | Yes (separators)        |
+| `GBP_pence`  | `formatCurrency()` | `number` (pence) | "£1,234.56"    | Yes (locale + currency) |
+| `percentage` | `formatPercent()`  | `number` (0-100) | "12.50%"       | No (universal)          |
 
 **Rules:**
+
 - NICIODĂT apela formatter greșit pentru unit (ex: `formatCurrency(count)` → ERROR)
 - Adapter validatează unit match înainte de a pasa la UI
 - UI alege formatter based pe `props.unit`:
@@ -48,9 +50,12 @@ export const DASHBOARD_CONFIG = {
 ```typescript
 function renderValue(value: number, unit: Unit): string {
   switch (unit) {
-    case 'count': return formatNumber(value);
-    case 'GBP_pence': return formatCurrency(value);
-    case 'percentage': return formatPercent(value);
+    case 'count':
+      return formatNumber(value);
+    case 'GBP_pence':
+      return formatCurrency(value);
+    case 'percentage':
+      return formatPercent(value);
     default: {
       const _exhaustive: never = unit;
       throw new Error(`Unknown unit: ${_exhaustive}`);
@@ -76,18 +81,15 @@ function renderValue(value: number, unit: Unit): string {
  * @param locale - BCP 47 locale (default: en-GB)
  * @returns Formatted string (ex: "£123.45")
  */
-function formatCurrency(
-  pence: number | null,
-  locale: string = DASHBOARD_CONFIG.locale
-): string {
+function formatCurrency(pence: number | null, locale: string = DASHBOARD_CONFIG.locale): string {
   if (pence === null) return 'N/A';
-  
+
   const pounds = pence / 100;
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: 'GBP',
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    maximumFractionDigits: 2,
   }).format(pounds);
 }
 
@@ -106,16 +108,13 @@ function formatCurrency(
  * @param value - Integer count (ex: 1234)
  * @returns Formatted string (ex: "1,234")
  */
-function formatNumber(
-  value: number | null,
-  locale: string = DASHBOARD_CONFIG.locale
-): string {
+function formatNumber(value: number | null, locale: string = DASHBOARD_CONFIG.locale): string {
   if (value === null) return 'N/A';
-  
+
   return new Intl.NumberFormat(locale, {
     style: 'decimal',
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0
+    maximumFractionDigits: 0,
   }).format(value);
 }
 
@@ -133,12 +132,9 @@ function formatNumber(
  * @param value - Percentage as float (ex: 12.5 = 12.5%)
  * @returns Formatted string (ex: "12.50%")
  */
-function formatPercent(
-  value: number | null,
-  decimals: number = 2
-): string {
+function formatPercent(value: number | null, decimals: number = 2): string {
   if (value === null) return 'N/A';
-  
+
   return `${value.toFixed(decimals)}%`;
 }
 
@@ -163,13 +159,13 @@ function formatDate(
   locale: string = DASHBOARD_CONFIG.locale
 ): string {
   const date = new Date(isoDate);
-  
+
   const options: Intl.DateTimeFormatOptions = {
     short: { day: '2-digit', month: '2-digit', year: 'numeric' },
     medium: { day: '2-digit', month: 'short', year: 'numeric' },
-    long: { day: '2-digit', month: 'long', year: 'numeric' }
+    long: { day: '2-digit', month: 'long', year: 'numeric' },
   }[format];
-  
+
   return new Intl.DateTimeFormat(locale, options).format(date);
 }
 
@@ -191,12 +187,12 @@ function formatRelativeTime(isoDate: string): string {
   const now = Date.now();
   const then = new Date(isoDate).getTime();
   const diffMs = now - then;
-  
+
   const seconds = Math.floor(diffMs / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
-  
+
   if (seconds < 60) return 'Just now';
   if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
   if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
@@ -217,6 +213,7 @@ function formatRelativeTime(isoDate: string): string {
 **Keys by Domain:**
 
 ### Card Labels
+
 ```
 dashboard.card.bookings_completed.label = "Bookings Completed"
 dashboard.card.bookings_completed.sublabel = "This month"
@@ -225,6 +222,7 @@ dashboard.card.platform_commission.label = "Platform Commission"
 ```
 
 ### Chart Titles
+
 ```
 dashboard.chart.bar_daily_completed.title = "Daily Completed Bookings"
 dashboard.chart.bar_daily_completed.x_axis = "Date"
@@ -233,6 +231,7 @@ dashboard.chart.line_cumulative.title = "Cumulative Revenue"
 ```
 
 ### States
+
 ```
 dashboard.state.loading = "Loading data..."
 dashboard.state.empty = "No data for selected period"
@@ -242,6 +241,7 @@ dashboard.state.retry = "Retry"
 ```
 
 ### Tooltips
+
 ```
 dashboard.tooltip.cached_at = "Updated {time}"
 dashboard.tooltip.threshold = "Alert threshold: {value}"
@@ -249,6 +249,7 @@ dashboard.tooltip.target = "{current} of {target} ({percent}%)"
 ```
 
 ### Units
+
 ```
 dashboard.unit.count = "items"
 dashboard.unit.GBP_pence = "£"
@@ -256,6 +257,7 @@ dashboard.unit.percentage = "%"
 ```
 
 ### Window Presets
+
 ```
 dashboard.window.today = "Today"
 dashboard.window.yesterday = "Yesterday"
@@ -289,6 +291,7 @@ const localString = formatDate(utcDate.toISOString(), 'medium');
 ```
 
 **Timezone Display:**
+
 - Cards: No timezone shown (implicit local)
 - Charts: X-axis labels în local time
 - Tooltips: Show "Updated 2 minutes ago" (relative), NU absolute time
@@ -298,6 +301,7 @@ const localString = formatDate(utcDate.toISOString(), 'medium');
 ## 5. Fallback Strategy
 
 **Missing Translation:**
+
 ```typescript
 function t(key: string, fallback?: string): string {
   const translation = i18n[key];
@@ -305,15 +309,17 @@ function t(key: string, fallback?: string): string {
 }
 
 // Example
-t('dashboard.card.bookings_completed.label', 'Bookings')
+t('dashboard.card.bookings_completed.label', 'Bookings');
 // → Returns "Bookings Completed" if exists, else "Bookings"
 ```
 
 **Invalid Locale:**
+
 - Dacă `navigator.language` unavailable → use `en-GB`
 - Log warning în dev mode, silent în production
 
 **Currency Unavailable:**
+
 - Fallback la GBP pentru toate conversii
 - Notify dev team (Sentry/logging)
 
@@ -322,6 +328,7 @@ t('dashboard.card.bookings_completed.label', 'Bookings')
 ## 6. Number Formatting Edge Cases
 
 ### Large Numbers
+
 ```typescript
 // ✅ CORRECT: Use compact notation for >1M
 formatNumber(1234567) → "1,234,567"  // Keep full for <10M
@@ -340,6 +347,7 @@ function formatNumberCompact(value: number): string {
 ```
 
 ### Negative Values
+
 ```typescript
 // Currency
 formatCurrency(-12345) → "-£123.45"  // NOT "(£123.45)"
@@ -352,6 +360,7 @@ formatPercent(-5.5) → "-5.50%"
 ```
 
 ### Zero Values
+
 ```typescript
 // Distinguish între 0 (valid) și null (missing)
 formatCurrency(0) → "£0.00"      // Valid value
@@ -363,6 +372,7 @@ formatCurrency(null) → "N/A"     // Missing data
 ## 7. Accessibility Considerations
 
 **Screen Reader Labels:**
+
 ```typescript
 // ✅ CORRECT
 aria-label="GMV Completed: £1,234.56"
@@ -372,6 +382,7 @@ aria-label="GMV Completed: 123456"  // Raw pence confusing
 ```
 
 **Unit Announcements:**
+
 ```typescript
 // Include units in aria-label
 <div aria-label={`${label}: ${formatCurrency(value)}`}>
@@ -389,11 +400,12 @@ aria-label="GMV Completed: 123456"  // Raw pence confusing
 ## 8. Performance Considerations
 
 **Memoization:**
+
 ```typescript
 // Cache Intl formatters (expensive to create)
 const currencyFormatter = new Intl.NumberFormat('en-GB', {
   style: 'currency',
-  currency: 'GBP'
+  currency: 'GBP',
 });
 
 // Reuse
@@ -403,6 +415,7 @@ function formatCurrency(pence: number): string {
 ```
 
 **Avoid Re-creating:**
+
 - Create formatters once at module level
 - NOT inside render loops
 

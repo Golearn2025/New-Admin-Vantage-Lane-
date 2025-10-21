@@ -32,7 +32,7 @@ function CustomTooltip({ active, payload }: TooltipProps<number, string>) {
   const data = payload[0];
   const value = data?.value;
   const name = data?.name;
-  
+
   return (
     <div className={styles.tooltip}>
       <p className={styles.tooltipLabel}>{name}</p>
@@ -94,9 +94,9 @@ export function DonutChart({
             label={(entry) => `${entry.name}: ${entry.value}`}
           >
             {data.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
-                fill={entry.color || defaultColors[index % defaultColors.length]} 
+              <Cell
+                key={`cell-${index}`}
+                fill={entry.color || defaultColors[index % defaultColors.length]}
               />
             ))}
           </Pie>

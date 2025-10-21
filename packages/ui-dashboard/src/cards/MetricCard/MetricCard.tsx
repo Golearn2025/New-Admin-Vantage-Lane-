@@ -42,7 +42,7 @@ export function MetricCard({
   // Format value based on spec
   const formattedValue = React.useMemo(() => {
     if (value === null) return 'N/A';
-    
+
     // TODO: Use @vantage-lane/formatters when ready
     // For now, simple formatting
     switch (spec.format) {
@@ -59,11 +59,11 @@ export function MetricCard({
   // Format delta
   const formattedDelta = React.useMemo(() => {
     if (delta === null || delta === undefined) return null;
-    
+
     const direction = getTrendDirection(delta);
     const icon = getTrendIcon(direction);
     const absValue = Math.abs(delta);
-    
+
     return {
       text: `${icon} ${absValue.toFixed(1)}%`,
       direction,
@@ -92,14 +92,11 @@ export function MetricCard({
         <h3 className={styles.title}>{spec.title}</h3>
         {spec.subtitle && <p className={styles.subtitle}>{spec.subtitle}</p>}
       </div>
-      
+
       <div className={styles.value}>{formattedValue}</div>
-      
+
       {formattedDelta && (
-        <div 
-          className={styles.delta}
-          style={{ color: formattedDelta.color }}
-        >
+        <div className={styles.delta} style={{ color: formattedDelta.color }}>
           {formattedDelta.text}
           {spec.subtitle && spec.subtitle.includes('last') && (
             <span className={styles.deltaLabel}> vs last period</span>

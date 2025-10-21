@@ -33,6 +33,7 @@ ROW 2 - Operations & Future:
 #### **Componente Create:**
 
 **DateFilterPreset** - Preset buttons
+
 ```typescript
 import { DateFilterPreset } from '@vantage-lane/ui-dashboard';
 
@@ -45,6 +46,7 @@ import { DateFilterPreset } from '@vantage-lane/ui-dashboard';
 ```
 
 **DateRangePicker** - Calendar dark theme
+
 ```typescript
 import { DateRangePicker } from '@vantage-lane/ui-dashboard';
 
@@ -55,6 +57,7 @@ import { DateRangePicker } from '@vantage-lane/ui-dashboard';
 ```
 
 **Locație:**
+
 - 📁 `/packages/ui-dashboard/src/filters/` - 100% REUTILIZABIL
 
 ---
@@ -73,6 +76,7 @@ import {
 ```
 
 **Locație:**
+
 - 📁 `/packages/ui-dashboard/src/utils/dateUtils.ts` - 100% REUTILIZABIL
 
 ---
@@ -87,6 +91,7 @@ const grouping = determineChartGrouping(dateRange);
 ```
 
 **Logic:**
+
 - 1 zi → Hourly (24 puncte)
 - 7 zile → Daily (7 puncte)
 - 30 zile → Daily (30 puncte)
@@ -96,6 +101,7 @@ const grouping = determineChartGrouping(dateRange);
 - 5+ ani → Quarterly
 
 **Locație:**
+
 - 📁 `/apps/admin/shared/utils/chartGrouping.ts`
 
 ---
@@ -105,17 +111,12 @@ const grouping = determineChartGrouping(dateRange);
 ```typescript
 import { useDateFilter } from '@admin/shared/hooks/useDateFilter';
 
-const {
-  dateRange,
-  preset,
-  setPreset,
-  setCustomRange,
-  getAPIParams,
-  reset,
-} = useDateFilter('last_30_days');
+const { dateRange, preset, setPreset, setCustomRange, getAPIParams, reset } =
+  useDateFilter('last_30_days');
 ```
 
 **Locație:**
+
 - 📁 `/apps/admin/shared/hooks/useDateFilter.ts`
 
 ---
@@ -123,6 +124,7 @@ const {
 ### **6. DATABASE FUNCTIONS**
 
 #### **get_dashboard_metrics(start_date, end_date)**
+
 ```sql
 SELECT get_dashboard_metrics(
   '2024-01-01'::timestamptz,
@@ -131,6 +133,7 @@ SELECT get_dashboard_metrics(
 ```
 
 Returns:
+
 - `total_revenue_pence`
 - `total_bookings`
 - `avg_booking_pence`
@@ -141,6 +144,7 @@ Returns:
 - `scheduled_count`
 
 #### **get_dashboard_charts(start_date, end_date, grouping)**
+
 ```sql
 SELECT get_dashboard_charts(
   '2024-01-01'::timestamptz,
@@ -150,6 +154,7 @@ SELECT get_dashboard_charts(
 ```
 
 Returns:
+
 - `weekly_activity` (array)
 - `revenue_trend` (array)
 - `operator_performance` (array)
@@ -160,6 +165,7 @@ Returns:
 ### **7. API ROUTES**
 
 #### **GET /api/dashboard/metrics**
+
 ```
 Query params:
   - start_date: ISO 8601 timestamp
@@ -170,6 +176,7 @@ Example:
 ```
 
 #### **GET /api/dashboard/charts**
+
 ```
 Query params:
   - start_date: ISO 8601 timestamp
@@ -181,6 +188,7 @@ Example:
 ```
 
 **Features:**
+
 - ✅ RBAC protection (admin/super_admin only)
 - ✅ Cache per date range (5 min TTL)
 - ✅ RLS enforced
@@ -192,6 +200,7 @@ Example:
 #### **Issues Fixed:**
 
 **❌ Magic Colors** → ✅ CSS Variables
+
 ```css
 /* Before */
 background: rgba(255, 255, 255, 0.02);
@@ -201,6 +210,7 @@ background: var(--color-bg-secondary, rgba(255, 255, 255, 0.02));
 ```
 
 **❌ RBAC Duplication** → ✅ Middleware Reutilizabil
+
 ```typescript
 import { checkAdminAccess } from '@/lib/middleware/rbac';
 
@@ -210,6 +220,7 @@ const { authorized, error } = await checkAdminAccess({
 ```
 
 **❌ Magic Numbers** → ✅ Config Centralizat
+
 ```typescript
 import { CACHE_CONFIG } from '@/lib/config/api';
 
@@ -277,17 +288,18 @@ apps/admin/docs/dashboard/
 ## 🎯 IMPORT PATHS (100% CLEAN)
 
 ### **Din packages (GLOBAL):**
+
 ```typescript
 import {
   // Components
   DateFilterPreset,
   DateRangePicker,
-  
+
   // Utils
   getDateRangeForPreset,
   formatDateForDisplay,
   differenceInDays,
-  
+
   // Types
   type DateRange,
   type DatePreset,
@@ -295,6 +307,7 @@ import {
 ```
 
 ### **Din admin/shared (Business Logic):**
+
 ```typescript
 import { useDateFilter } from '@admin/shared/hooks/useDateFilter';
 import { determineChartGrouping } from '@admin/shared/utils/chartGrouping';
@@ -302,6 +315,7 @@ import { DASHBOARD_CARDS } from '@admin/shared/config/dashboard.spec';
 ```
 
 ### **Din lib (Infrastructure):**
+
 ```typescript
 import { checkAdminAccess } from '@/lib/middleware/rbac';
 import { CACHE_CONFIG } from '@/lib/config/api';
@@ -312,38 +326,42 @@ import { createClient } from '@/lib/supabase/server';
 
 ## ✅ VERIFICĂRI COMPLETATE
 
-| Verificare | Status | Detalii |
-|------------|--------|---------|
-| Magic Colors | ✅ CLEAN | Toate folosesc CSS variables |
-| Magic Numbers | ✅ CLEAN | Config centralizat |
-| Magic Strings | ✅ CLEAN | Type-safe enums |
-| Import Paths | ✅ CLEAN | Modulare și clare |
-| Duplicări Cod | ✅ CLEAN | RBAC middleware |
-| Cod Mort | ✅ CLEAN | 0 unused exports |
-| CSS Variables | ✅ CLEAN | Toate fallback la rgba |
-| Reutilizabilitate | ✅ 100% | packages/ui-dashboard |
+| Verificare        | Status   | Detalii                      |
+| ----------------- | -------- | ---------------------------- |
+| Magic Colors      | ✅ CLEAN | Toate folosesc CSS variables |
+| Magic Numbers     | ✅ CLEAN | Config centralizat           |
+| Magic Strings     | ✅ CLEAN | Type-safe enums              |
+| Import Paths      | ✅ CLEAN | Modulare și clare            |
+| Duplicări Cod     | ✅ CLEAN | RBAC middleware              |
+| Cod Mort          | ✅ CLEAN | 0 unused exports             |
+| CSS Variables     | ✅ CLEAN | Toate fallback la rgba       |
+| Reutilizabilitate | ✅ 100%  | packages/ui-dashboard        |
 
 ---
 
 ## 🚀 CUM SE TESTEAZĂ
 
 ### **1. Start Server:**
+
 ```bash
 npm run dev
 ```
 
 ### **2. Open Dashboard:**
+
 ```
 http://localhost:3000/dashboard
 ```
 
 ### **3. Test Filtre:**
+
 - ✅ Click "Today" → Vezi date din azi
 - ✅ Click "Last 30 Days" → Vezi ultimele 30 zile
 - ✅ Click "This Year" → Vezi anul curent
 - ✅ Click "Custom Range" → Selectează din calendar
 
 ### **4. Verifică:**
+
 - ✅ Cardurile afișează valori corecte în £
 - ✅ Graficele se ajustează automat (grouping)
 - ✅ "Grouping: Per Month (12 points)" se actualizează
@@ -354,12 +372,14 @@ http://localhost:3000/dashboard
 ## 📊 FEATURES IMPLEMENTED
 
 ### **✅ PHASE 1 - MVP:**
+
 - [x] 8 carduri cu date reale
 - [x] Format £ corect
 - [x] Grafice cu date reale
 - [x] Conversie pence → pounds
 
 ### **✅ PHASE 2 - FILTRE:**
+
 - [x] DateFilterPreset (azi, ieri, etc.)
 - [x] DateRangePicker (calendar dark)
 - [x] Auto-grouping (daily → monthly)
@@ -368,6 +388,7 @@ http://localhost:3000/dashboard
 - [x] DB functions cu parametri
 
 ### **✅ PHASE 3 - CLEANUP:**
+
 - [x] Audit complet
 - [x] Fix magic colors
 - [x] Fix duplicări
@@ -380,6 +401,7 @@ http://localhost:3000/dashboard
 ## 🎉 REZULTAT FINAL
 
 **✅ Dashboard complet funcțional cu:**
+
 - 8 carduri metrics (£ format corect)
 - Filtre de date (preset + custom)
 - Auto-grouping inteligent
@@ -390,6 +412,7 @@ http://localhost:3000/dashboard
 - Clean architecture
 
 **📦 Componente reutilizabile create:**
+
 - DateFilterPreset
 - DateRangePicker
 - dateUtils (20+ funcții)
@@ -404,6 +427,7 @@ http://localhost:3000/dashboard
 ## 📝 NEXT STEPS (VIITOR)
 
 ### **Optional Enhancements:**
+
 - [ ] Compare to previous period (vs last month)
 - [ ] Export to CSV/PDF
 - [ ] Zoom & Pan în grafice

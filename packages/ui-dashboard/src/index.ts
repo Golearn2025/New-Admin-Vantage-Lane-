@@ -1,7 +1,7 @@
 /**
  * @vantage-lane/ui-dashboard
  * Premium dashboard components - MetricCard, Charts
- * 
+ *
  * Spec-driven, fully typed, tree-shakeable
  */
 

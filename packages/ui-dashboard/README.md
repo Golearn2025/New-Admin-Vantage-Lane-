@@ -13,9 +13,11 @@ npm install @vantage-lane/ui-dashboard recharts
 The library supports **TWO** color palettes:
 
 ### **NORMAL** (Professional)
+
 Professional colors for traditional dashboards.
 
 ### **NEON** (Modern/Vibrant)
+
 Vibrant neon colors for modern dark mode dashboards.
 
 ---
@@ -25,8 +27,8 @@ Vibrant neon colors for modern dark mode dashboards.
 ### **Using Charts with Different Palettes**
 
 ```typescript
-import { 
-  BarBasic, 
+import {
+  BarBasic,
   LineChart,
   CHART_COLORS,           // Auto (from CSS vars)
   CHART_COLORS_NORMAL,    // Professional colors
@@ -34,20 +36,20 @@ import {
 } from '@vantage-lane/ui-dashboard';
 
 // Default (uses CSS vars - respects globals.css)
-<BarBasic 
-  data={data} 
-  color={CHART_COLORS.success} 
+<BarBasic
+  data={data}
+  color={CHART_COLORS.success}
 />
 
 // Force NORMAL palette
-<BarBasic 
-  data={data} 
+<BarBasic
+  data={data}
   color={CHART_COLORS_NORMAL.success}  // #10b981
 />
 
 // Force NEON palette
-<BarBasic 
-  data={data} 
+<BarBasic
+  data={data}
   color={CHART_COLORS_NEON.success}    // #10f77e
 />
 ```
@@ -60,13 +62,13 @@ import {
 import { getTrendColor, type ColorPalette } from '@vantage-lane/ui-dashboard';
 
 // Default (NEON)
-const color = getTrendColor('up');           // #00ff88
+const color = getTrendColor('up'); // #00ff88
 
 // Explicit NEON
-const colorNeon = getTrendColor('up', 'neon');      // #00ff88
+const colorNeon = getTrendColor('up', 'neon'); // #00ff88
 
 // NORMAL palette
-const colorNormal = getTrendColor('up', 'normal');  // #10b981
+const colorNormal = getTrendColor('up', 'normal'); // #10b981
 ```
 
 ---
@@ -94,6 +96,7 @@ Available gradients: `purple`, `pink`, `blue`, `green`, `orange`, `gold`
 ### **Chart Colors**
 
 #### NORMAL (Professional)
+
 - `primary`: #667eea (Purple)
 - `success`: #10b981 (Green)
 - `warning`: #f59e0b (Orange)
@@ -102,6 +105,7 @@ Available gradients: `purple`, `pink`, `blue`, `green`, `orange`, `gold`
 - `gold`: #f1d16a (Gold)
 
 #### NEON (Vibrant)
+
 - `primary`: #a78bfa (Purple Neon)
 - `success`: #10f77e (Green Neon)
 - `warning`: #fbbf24 (Yellow Neon)
@@ -114,11 +118,13 @@ Available gradients: `purple`, `pink`, `blue`, `green`, `orange`, `gold`
 ### **Trend Colors**
 
 #### NORMAL
+
 - `up`: #10b981 (Green)
 - `down`: #ef4444 (Red)
 - `neutral`: #94a3b8 (Gray)
 
 #### NEON
+
 - `up`: #00ff88 (Neon Green)
 - `down`: #ff2d55 (Neon Pink-Red)
 - `neutral`: rgba(255, 255, 255, 0.7) (White)
@@ -139,6 +145,7 @@ Available gradients: `purple`, `pink`, `blue`, `green`, `orange`, `gold`
 ## 🌗 Dark Mode
 
 All components are **dark mode optimized** by default with:
+
 - Glassmorphism backgrounds
 - Colored shadows and glow effects
 - High contrast text

@@ -1,6 +1,6 @@
 /**
  * SecurityTab - TAB 3: Security Settings
- * 
+ *
  * Tab pentru security settings (password, 2FA, sessions).
  * Limită: ≤150 linii
  */
@@ -8,8 +8,8 @@
 'use client';
 
 import React from 'react';
-import { ProfileSection } from '@admin/shared/ui/core/ProfileSection';
-import { SaveButton } from '@admin/shared/ui/core/SaveButton';
+import { ProfileSection } from '@vantage-lane/ui-core';
+import { SaveButton } from '@vantage-lane/ui-core';
 import type { AdminProfile } from '../hooks/useProfileData';
 import styles from './SecurityTab.module.css';
 
@@ -20,12 +20,10 @@ interface SecurityTabProps {
 export function SecurityTab({ profile }: SecurityTabProps) {
   const handleChangePassword = () => {
     // TODO: Implement password change
-    console.log('Change password clicked');
   };
 
   const handleEnable2FA = () => {
     // TODO: Implement 2FA enable
-    console.log('Enable 2FA clicked');
   };
 
   return (
@@ -103,11 +101,7 @@ export function SecurityTab({ profile }: SecurityTabProps) {
         </div>
       </ProfileSection>
 
-      <ProfileSection
-        title="Danger Zone"
-        icon="⚠️"
-        description="Irreversible actions"
-      >
+      <ProfileSection title="Danger Zone" icon="⚠️" description="Irreversible actions">
         <div className={styles.dangerZone}>
           <div className={styles.securityContent}>
             <h4 className={styles.dangerTitle}>Delete Account</h4>
@@ -115,7 +109,12 @@ export function SecurityTab({ profile }: SecurityTabProps) {
               Permanently delete your account and all associated data. This action cannot be undone.
             </p>
           </div>
-          <SaveButton onClick={() => console.log('Delete account')} variant="secondary">
+          <SaveButton
+            onClick={() => {
+              /* TODO: Implement delete account */
+            }}
+            variant="secondary"
+          >
             Delete Account
           </SaveButton>
         </div>

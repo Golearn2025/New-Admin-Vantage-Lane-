@@ -1,6 +1,6 @@
 /**
  * PersonalInfoTab - TAB 1: Personal Information
- * 
+ *
  * Tab pentru informații personale (nume, email, telefon, bio).
  * Folosește noile componente reutilizabile.
  * Limită: ≤150 linii
@@ -9,8 +9,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ProfileSection } from '@admin/shared/ui/core/ProfileSection';
-import { FormField } from '@admin/shared/ui/core/FormField';
+import { ProfileSection } from '@vantage-lane/ui-core';
+import { FormField } from '@vantage-lane/ui-core';
 import type { AdminProfile } from '../hooks/useProfileData';
 
 interface PersonalInfoTabProps {
@@ -93,11 +93,7 @@ export function PersonalInfoTab({ profile, onChange }: PersonalInfoTabProps) {
         />
       </ProfileSection>
 
-      <ProfileSection
-        title="About"
-        icon="📝"
-        description="Tell us more about yourself"
-      >
+      <ProfileSection title="About" icon="📝" description="Tell us more about yourself">
         <FormField
           label="Bio"
           value={bio}

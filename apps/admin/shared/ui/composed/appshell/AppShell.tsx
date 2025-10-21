@@ -1,6 +1,6 @@
 /**
  * AppShell Component - Main Application Layout
- * 
+ *
  * Layout principal cu RBAC navigation. Fără business logic.
  * Responsive cu desktop sidebar și mobile drawer.
  */
@@ -11,17 +11,11 @@ import React, { useState, useEffect } from 'react';
 import { SidebarNav } from './SidebarNav';
 import { Topbar } from './Topbar';
 import { Drawer } from './Drawer';
-import { BrandBackground } from '@admin/shared/ui/composed/BrandBackground';
+import { BrandBackground } from '@admin-shared/ui/composed/BrandBackground';
 import { AppShellProps } from './types';
 import styles from './AppShell.module.css';
 
-export function AppShell({
-  role,
-  currentPath,
-  children,
-  user
-}: AppShellProps) {
-
+export function AppShell({ role, currentPath, children, user }: AppShellProps) {
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -80,15 +74,8 @@ export function AppShell({
 
       {/* Mobile Drawer - overlay */}
       {isMobile && (
-        <Drawer
-          isOpen={isMobileDrawerOpen}
-          onClose={handleDrawerClose}
-        >
-          <SidebarNav
-            role={role}
-            currentPath={currentPath}
-            onNavigate={handleNavigate}
-          />
+        <Drawer isOpen={isMobileDrawerOpen} onClose={handleDrawerClose}>
+          <SidebarNav role={role} currentPath={currentPath} onNavigate={handleNavigate} />
         </Drawer>
       )}
 
@@ -103,22 +90,14 @@ export function AppShell({
         />
 
         {/* Page Content */}
-        <main
-          id="main-content"
-          className={styles.pageContent}
-          role="main"
-        >
+        <main id="main-content" className={styles.pageContent} role="main">
           {children}
         </main>
       </div>
 
       {/* Mobile drawer overlay */}
       {isMobile && isMobileDrawerOpen && (
-        <div
-          className={styles.drawerOverlay}
-          onClick={handleDrawerClose}
-          aria-hidden="true"
-        />
+        <div className={styles.drawerOverlay} onClick={handleDrawerClose} aria-hidden="true" />
       )}
     </BrandBackground>
   );

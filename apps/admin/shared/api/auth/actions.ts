@@ -1,6 +1,6 @@
 /**
  * Auth Server Actions
- * 
+ *
  * Server-side authentication actions using Supabase.
  * Handles login, logout, and role-based redirects.
  */
@@ -18,9 +18,8 @@ import { supaServer } from '../clients/supabase';
  * @returns Auth result with success/error and redirect
  */
 export async function signInWithPassword(email: string, password: string, rememberMe?: boolean) {
-
   const supabase = supaServer(cookies());
-  
+
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -33,31 +32,35 @@ export async function signInWithPassword(email: string, password: string, rememb
       maxAge: 30 * 24 * 60 * 60, // 30 days
       httpOnly: true,
       secure: true,
-      sameSite: 'lax'
+      sameSite: 'lax',
     });
-    
+
     cookies().set('sb-refresh-token', data.session.refresh_token, {
-      maxAge: 30 * 24 * 60 * 60, // 30 days  
+      maxAge: 30 * 24 * 60 * 60, // 30 days
       httpOnly: true,
       secure: true,
-      sameSite: 'lax'
+      sameSite: 'lax',
     });
   }
 
   if (error) {
-    return { 
-      ok: false, 
-      error: error.message 
+    return {
+      ok: false,
+      error: error.message,
     };
   }
 
   // Extract role from user metadata (default to 'operator')
-  const role = (data.user?.user_metadata?.role ?? 'operator') as 
-    'admin' | 'operator' | 'driver' | 'customer' | 'auditor';
+  const role = (data.user?.user_metadata?.role ?? 'operator') as
+    | 'admin'
+    | 'operator'
+    | 'driver'
+    | 'customer'
+    | 'auditor';
 
   // Role-based redirects
   let redirectTo: string;
-  
+
   switch (role) {
     case 'admin':
       redirectTo = '/dashboard';
@@ -87,13 +90,13 @@ export async function signInWithPassword(email: string, password: string, rememb
  */
 export async function signOut() {
   const supabase = supaServer(cookies());
-  
+
   const { error } = await supabase.auth.signOut();
-  
+
   if (error) {
-    return { 
-      ok: false, 
-      error: error.message 
+    return {
+      ok: false,
+      error: error.message,
     };
   }
 
@@ -107,7 +110,7 @@ export async function signOut() {
 export async function signOutAction() {
   const supabase = supaServer(cookies());
   await supabase.auth.signOut();
-  
+
   // Force redirect to login and replace history
   redirect('/login');
 }
@@ -117,9 +120,12 @@ export async function signOutAction() {
  */
 export async function getCurrentUser() {
   const supabase = supaServer(cookies());
-  
-  const { data: { session }, error } = await supabase.auth.getSession();
-  
+
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
+
   if (error || !session) {
     return null;
   }

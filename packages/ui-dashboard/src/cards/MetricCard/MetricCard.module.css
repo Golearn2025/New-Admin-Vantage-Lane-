@@ -26,9 +26,13 @@
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
 }
@@ -40,7 +44,8 @@
 /* Gradient Variant - DARK PREMIUM with COLORED SHADOWS */
 .card--gradient {
   position: relative;
-  background: linear-gradient(135deg, 
+  background: linear-gradient(
+    135deg,
     color-mix(in srgb, var(--gradient-from) 70%, black),
     color-mix(in srgb, var(--gradient-to) 60%, black)
   );
@@ -57,10 +62,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, 
-    rgba(0, 0, 0, 0.3) 0%, 
-    rgba(0, 0, 0, 0.1) 100%
-  );
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 100%);
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
@@ -81,7 +83,7 @@
 .card--gradient .title {
   color: var(--vl-color-white, #ffffff);
   font-weight: 700;
-  text-shadow: 
+  text-shadow:
     0 0 10px rgba(255, 255, 255, 0.2),
     0 2px 6px rgba(0, 0, 0, 0.6),
     0 0 1px rgba(255, 255, 255, 0.5);
@@ -90,7 +92,7 @@
 
 .card--gradient .subtitle {
   color: rgba(255, 255, 255, 0.95);
-  text-shadow: 
+  text-shadow:
     0 0 8px rgba(255, 255, 255, 0.15),
     0 1px 4px rgba(0, 0, 0, 0.5);
 }
@@ -100,7 +102,7 @@
   color: var(--vl-color-white, #ffffff);
   font-weight: 900;
   letter-spacing: -0.03em;
-  text-shadow: 
+  text-shadow:
     0 0 20px var(--value-glow, rgba(255, 255, 255, 0.3)),
     0 0 10px var(--value-glow, rgba(255, 255, 255, 0.2)),
     0 2px 10px rgba(0, 0, 0, 0.8),
@@ -112,7 +114,7 @@
 .card--gradient .delta {
   font-weight: 800;
   font-size: 15px;
-  text-shadow: 
+  text-shadow:
     0 2px 6px rgba(0, 0, 0, 0.8),
     0 0 1px rgba(255, 255, 255, 0.3);
   opacity: 1 !important;
@@ -262,7 +264,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -289,7 +292,7 @@
     padding: 20px;
     min-height: 140px;
   }
-  
+
   .value {
     font-size: 28px;
   }

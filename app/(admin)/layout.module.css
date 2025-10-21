@@ -1,0 +1,12 @@
+/**
+ * Admin Layout Styles
+ * All values use design tokens
+ */
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--vl-color-background);
+}

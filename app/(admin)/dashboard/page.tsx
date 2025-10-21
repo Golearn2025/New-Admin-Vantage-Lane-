@@ -1,10 +1,17 @@
 'use client';
 
-import { BarBasic, LineChart, StackedBarChart, DonutChart, DateFilterPreset, DateRangePicker } from '@vantage-lane/ui-dashboard';
-import { DASHBOARD_CARDS } from '@admin/shared/config/dashboard.spec';
-import { DashboardMetrics } from '@admin/features/dashboard-metrics/DashboardMetrics';
-import { useDateFilter } from '@admin/shared/hooks/useDateFilter';
-import { determineChartGrouping } from '@admin/shared/utils/chartGrouping';
+import {
+  BarBasic,
+  LineChart,
+  StackedBarChart,
+  DonutChart,
+  DateFilterPreset,
+  DateRangePicker,
+} from '@vantage-lane/ui-dashboard';
+import { DASHBOARD_CARDS } from '@admin-shared/config/dashboard.cards';
+import { DashboardMetrics } from '@admin/dashboard/feature';
+import { useDateFilter } from '@admin-shared/hooks/useDateFilter';
+import { determineChartGrouping } from '@admin-shared/utils/chartGrouping';
 import useSWR from 'swr';
 import styles from './dashboard.module.css';
 
@@ -16,17 +23,18 @@ const fetcher = async (url: string) => {
 
 export default function DashboardPage() {
   // Date filter state management
-  const { dateRange, preset, setPreset, setCustomRange, getAPIParams } = useDateFilter('last_30_days');
-  
+  const { dateRange, preset, setPreset, setCustomRange, getAPIParams } =
+    useDateFilter('last_30_days');
+
   // Determine optimal chart grouping based on date range
   const grouping = determineChartGrouping(dateRange);
-  
+
   // Build API URL with date params
   const apiParams = new URLSearchParams({
     ...getAPIParams(),
     grouping: grouping.sqlGroup,
   });
-  
+
   const { data: charts, isLoading } = useSWR(`/api/dashboard/charts?${apiParams}`, fetcher, {
     refreshInterval: 5 * 60 * 1000,
     dedupingInterval: 60 * 1000,
@@ -34,19 +42,23 @@ export default function DashboardPage() {
   });
 
   // Convert pence to pounds for display
-  const convertedCharts = charts ? {
-    ...charts,
-    revenue_trend: (charts.revenue_trend || []).map((item: { x: string; y: number }) => ({
-      x: item.x,
-      y: item.y / 100, // Convert pence to pounds
-    })),
-    operator_performance: (charts.operator_performance || []).map((item: { x: string; bookings: number; revenue: number; commission: number }) => ({
-      x: item.x,
-      bookings: item.bookings,
-      revenue: item.revenue / 100, // Convert pence to pounds
-      commission: item.commission / 100, // Convert pence to pounds
-    })),
-  } : null;
+  const convertedCharts = charts
+    ? {
+        ...charts,
+        revenue_trend: (charts.revenue_trend || []).map((item: { x: string; y: number }) => ({
+          x: item.x,
+          y: item.y / 100, // Convert pence to pounds
+        })),
+        operator_performance: (charts.operator_performance || []).map(
+          (item: { x: string; bookings: number; revenue: number; commission: number }) => ({
+            x: item.x,
+            bookings: item.bookings,
+            revenue: item.revenue / 100, // Convert pence to pounds
+            commission: item.commission / 100, // Convert pence to pounds
+          })
+        ),
+      }
+    : null;
 
   return (
     <div className={styles.dashboard}>
@@ -63,21 +75,27 @@ export default function DashboardPage() {
         <DateFilterPreset
           value={preset}
           onChange={(newPreset) => setPreset(newPreset)}
-          presets={['today', 'yesterday', 'last_7_days', 'last_30_days', 'this_month', 'last_month', 'this_year', 'all_time']}
+          presets={[
+            'today',
+            'yesterday',
+            'last_7_days',
+            'last_30_days',
+            'this_month',
+            'last_month',
+            'this_year',
+            'all_time',
+          ]}
           variant="default"
           showCustom={true}
         />
-        <DateRangePicker
-          value={dateRange}
-          onChange={(range) => setCustomRange(range)}
-        />
+        <DateRangePicker value={dateRange} onChange={(range) => setCustomRange(range)} />
         <div className={styles.groupingInfo}>
           Grouping: <strong>{grouping.label}</strong> ({grouping.expectedPoints} points)
         </div>
       </div>
 
       {/* Metric Cards - Real Data from Supabase */}
-      <DashboardMetrics 
+      <DashboardMetrics
         specs={DASHBOARD_CARDS}
         startDate={getAPIParams().start_date}
         endDate={getAPIParams().end_date}
@@ -90,8 +108,8 @@ export default function DashboardPage() {
             {/* Weekly Activity */}
             <div className={styles.chartCard}>
               <h3 className={styles.chartTitle}>Weekly Activity</h3>
-              <BarBasic 
-                data={convertedCharts.weekly_activity || []} 
+              <BarBasic
+                data={convertedCharts.weekly_activity || []}
                 height={280}
                 color="var(--vl-chart-primary)"
               />
@@ -100,8 +118,8 @@ export default function DashboardPage() {
             {/* Revenue Trend */}
             <div className={styles.chartCard}>
               <h3 className={styles.chartTitle}>Revenue Trend (£)</h3>
-              <LineChart 
-                data={convertedCharts.revenue_trend || []} 
+              <LineChart
+                data={convertedCharts.revenue_trend || []}
                 height={280}
                 color="var(--vl-chart-success)"
               />
@@ -113,7 +131,7 @@ export default function DashboardPage() {
             {/* Operator Performance */}
             <div className={styles.chartCard}>
               <h3 className={styles.chartTitle}>Operator Performance</h3>
-              <StackedBarChart 
+              <StackedBarChart
                 data={convertedCharts.operator_performance || []}
                 series={[
                   { key: 'bookings', label: 'Bookings', color: 'var(--vl-chart-primary)' },
@@ -127,12 +145,17 @@ export default function DashboardPage() {
             {/* Booking Status */}
             <div className={styles.chartCard}>
               <h3 className={styles.chartTitle}>Booking Status</h3>
-              <DonutChart 
-                data={(convertedCharts.status_distribution || []).map((item: { name: string; value: number }) => ({
-                  name: item.name,
-                  value: item.value,
-                  color: item.name === 'COMPLETED' ? 'var(--vl-chart-success)' : 'var(--vl-chart-warning)',
-                }))}
+              <DonutChart
+                data={(convertedCharts.status_distribution || []).map(
+                  (item: { name: string; value: number }) => ({
+                    name: item.name,
+                    value: item.value,
+                    color:
+                      item.name === 'COMPLETED'
+                        ? 'var(--vl-chart-success)'
+                        : 'var(--vl-chart-warning)',
+                  })
+                )}
                 height={280}
               />
             </div>

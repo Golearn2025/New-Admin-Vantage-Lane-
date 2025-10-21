@@ -7,6 +7,7 @@ Schema pentru aplicația Vantage Lane Admin cu focus pe performance și securita
 ## Core Tables
 
 ### Users
+
 ```sql
 CREATE TABLE users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -18,11 +19,13 @@ CREATE TABLE users (
 ```
 
 **Indexuri necesare:**
+
 - `idx_users_email` - pentru login
 - `idx_users_role_created_at` - pentru listare cu filtrare
 - `idx_users_created_at_id` - pentru paginare keyset
 
 ### Bookings
+
 ```sql
 CREATE TABLE bookings (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -35,14 +38,16 @@ CREATE TABLE bookings (
 ```
 
 **Indexuri necesare:**
+
 - `idx_bookings_customer_id` - pentru rezervările clientului
-- `idx_bookings_driver_id` - pentru rezervările șoferului  
+- `idx_bookings_driver_id` - pentru rezervările șoferului
 - `idx_bookings_status_created_at` - pentru filtrare după status
 - `idx_bookings_created_at_id` - pentru paginare keyset
 
 ## Enums
 
 ### user_role (R0 UPDATE - Removed super_admin)
+
 ```sql
 CREATE TYPE user_role AS ENUM (
   'admin',     -- Consolidated from super_admin, full system access
@@ -54,6 +59,7 @@ CREATE TYPE user_role AS ENUM (
 ```
 
 ### booking_status
+
 ```sql
 CREATE TYPE booking_status AS ENUM (
   'pending',
@@ -67,6 +73,7 @@ CREATE TYPE booking_status AS ENUM (
 ## RLS Policies
 
 ### Users Table
+
 ```sql
 -- R0 UPDATE: Removed super_admin references
 -- Admins have full access (consolidated from super_admin)
@@ -81,7 +88,7 @@ CREATE POLICY "Operators can view scoped users" ON users
 
 -- Auditors have read-only access to all users
 CREATE POLICY "Auditors can view all users" ON users
-  FOR SELECT TO authenticated  
+  FOR SELECT TO authenticated
   USING (auth.jwt() ->> 'role' = 'auditor');
 
 -- Users can view their own profile
@@ -91,6 +98,7 @@ CREATE POLICY "Users can view own profile" ON users
 ```
 
 ### Bookings Table
+
 ```sql
 -- R0 UPDATE: Removed super_admin references
 -- Admins have full access to all bookings
@@ -136,6 +144,7 @@ CREATE POLICY "Drivers can view assigned bookings" ON bookings
 ## M0.3 - Complete Index Specifications
 
 ### Bookings Table Indexes (Updated)
+
 ```sql
 -- Primary keyset pagination index
 CREATE INDEX idx_bookings_created_at_id ON bookings (created_at DESC, id DESC);
@@ -146,7 +155,7 @@ CREATE INDEX idx_bookings_status_created_at ON bookings (status, created_at DESC
 -- Operator filtering with date sort
 CREATE INDEX idx_bookings_operator_created_at ON bookings (operator_id, created_at DESC);
 
--- Driver filtering with date sort  
+-- Driver filtering with date sort
 CREATE INDEX idx_bookings_driver_created_at ON bookings (driver_id, created_at DESC);
 
 -- Source filtering with date sort
@@ -157,6 +166,7 @@ CREATE INDEX idx_bookings_scheduled_at ON bookings (scheduled_at) WHERE schedule
 ```
 
 ### Users Table Indexes (Updated)
+
 ```sql
 -- Primary keyset pagination index (role, status, last_login, id)
 CREATE INDEX idx_users_role_status_last_login_id ON users (role, status, last_login DESC, id DESC);
@@ -178,6 +188,7 @@ CREATE INDEX idx_users_search_text ON users USING GIN (to_tsvector('english', na
 ```
 
 ### Documents Table Indexes (New)
+
 ```sql
 -- Primary keyset pagination (expiry date first for renewal alerts)
 CREATE INDEX idx_documents_expiry_created_id ON documents (expiry_date ASC, created_at DESC, id DESC);
@@ -195,11 +206,12 @@ CREATE INDEX idx_documents_owner_type_id ON documents (owner_type, owner_id);
 CREATE INDEX idx_documents_created_at_id ON documents (created_at DESC, id DESC);
 
 -- Renewal alerts (documents expiring within 30 days)
-CREATE INDEX idx_documents_expiry_renewal ON documents (expiry_date) 
+CREATE INDEX idx_documents_expiry_renewal ON documents (expiry_date)
 WHERE expiry_date BETWEEN NOW() AND NOW() + INTERVAL '30 days';
 ```
 
 ### Support Tickets Table Indexes (New)
+
 ```sql
 -- Primary keyset pagination (SLA priority)
 CREATE INDEX idx_tickets_sla_priority_created_id ON tickets (sla_due_at ASC, priority DESC, created_at DESC, id DESC);
@@ -224,6 +236,7 @@ CREATE INDEX idx_tickets_sla_overdue ON tickets (sla_due_at) WHERE sla_due_at < 
 ```
 
 ### Payments Table Indexes (New)
+
 ```sql
 -- Primary keyset pagination
 CREATE INDEX idx_payments_created_at_id ON payments (created_at DESC, id DESC);

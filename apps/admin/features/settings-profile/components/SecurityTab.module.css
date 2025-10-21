@@ -24,7 +24,7 @@
 .securityTitle {
   font-size: 18px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--color-text-inverse);
   margin: 0 0 8px 0;
 }
 
@@ -36,13 +36,13 @@
 }
 
 .enabled {
-  color: #43e97b;
+  color: var(--color-success);
   font-weight: 700;
   text-shadow: 0 0 10px rgba(67, 233, 123, 0.4);
 }
 
 .disabled {
-  color: #ff6b6b;
+  color: var(--color-error);
   font-weight: 700;
   text-shadow: 0 0 10px rgba(255, 107, 107, 0.4);
 }
@@ -53,9 +53,7 @@
   align-items: center;
   gap: 20px;
   padding: 24px;
-  background: linear-gradient(135deg,
-      rgba(0, 0, 0, 0.5),
-      rgba(241, 209, 106, 0.08));
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(241, 209, 106, 0.08));
   border: 2px solid rgba(241, 209, 106, 0.25);
   border-radius: 16px;
   position: relative;
@@ -73,7 +71,7 @@
 .sessionTitle {
   font-size: 18px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--color-text-inverse);
   margin: 0 0 12px 0;
 }
 
@@ -85,7 +83,7 @@
 }
 
 .activeNow {
-  color: #43e97b;
+  color: var(--color-success);
   font-weight: 700;
   text-shadow: 0 0 10px rgba(67, 233, 123, 0.4);
 }
@@ -93,7 +91,7 @@
 .currentBadge {
   padding: 8px 16px;
   background: linear-gradient(135deg, #43e97b, #38f9d7);
-  color: #000000;
+  color: var(--color-text-primary);
   border-radius: 8px;
   font-size: 12px;
   font-weight: 800;
@@ -108,9 +106,7 @@
   align-items: center;
   gap: 24px;
   padding: 24px;
-  background: linear-gradient(135deg,
-      rgba(255, 107, 107, 0.1),
-      rgba(255, 59, 48, 0.05));
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 59, 48, 0.05));
   border-radius: 12px;
   border: 2px solid rgba(255, 107, 107, 0.3);
 }
@@ -118,14 +114,13 @@
 .dangerTitle {
   font-size: 18px;
   font-weight: 700;
-  color: #ff6b6b;
+  color: var(--color-error);
   margin: 0 0 8px 0;
   text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-
   .securityItem,
   .dangerZone {
     flex-direction: column;

@@ -17,7 +17,7 @@ export function Card({
   shadow = 'sm',
   border = true,
   children,
-  className = ''
+  className = '',
 }: CardProps) {
   const cardClasses = [
     styles.card,
@@ -25,12 +25,10 @@ export function Card({
     styles[`padding-${padding}`],
     styles[`shadow-${shadow}`],
     border && styles.border,
-    className
-  ].filter(Boolean).join(' ');
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-  return (
-    <div className={cardClasses}>
-      {children}
-    </div>
-  );
+  return <div className={cardClasses}>{children}</div>;
 }

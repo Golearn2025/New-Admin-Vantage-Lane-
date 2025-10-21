@@ -1,7 +1,7 @@
 /**
  * @vantage-lane/contracts
  * TypeScript types and API contracts
- * 
+ *
  * Placeholder - types will be created in PR #4-5
  */
 

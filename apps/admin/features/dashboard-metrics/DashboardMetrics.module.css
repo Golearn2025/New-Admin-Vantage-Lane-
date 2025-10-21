@@ -50,7 +50,9 @@
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .retryButton:hover {

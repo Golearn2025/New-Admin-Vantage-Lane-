@@ -8,7 +8,7 @@ import {
   DateFilterPreset,
   DateRangePicker,
 } from '@vantage-lane/ui-dashboard';
-import { DASHBOARD_CARDS } from '@admin-shared/config/dashboard.spec';
+import { DASHBOARD_CARDS } from '@admin-shared/config/dashboard.cards';
 import { DashboardMetrics } from '@admin/dashboard/feature';
 import { useDateFilter } from '@admin-shared/hooks/useDateFilter';
 import { determineChartGrouping } from '@admin-shared/utils/chartGrouping';

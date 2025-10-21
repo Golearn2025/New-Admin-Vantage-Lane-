@@ -1,3 +1,5 @@
+'use client';
+
 /** useBookingsList Hook - Compliant: <80 lines */
 
 import { useState, useEffect, useCallback } from 'react';

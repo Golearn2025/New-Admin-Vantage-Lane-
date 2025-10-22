@@ -1,11 +1,14 @@
 /**
- * BookingExpandedRow Styles - PREMIUM EDITION
+ * BookingExpandedRow Styles - PREMIUM EDITION v2
  * 100% Design Tokens - Zero Hardcoding
- * 2-Column Layout with Sections
+ * 3-Column Grid + Full-Width Assignment Section
  */
 
 /* Main Container */
 .expandedContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
   padding: var(--spacing-lg);
   background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-bg-tertiary));
   border-top: 2px solid var(--color-border-primary);
@@ -13,139 +16,99 @@
   margin-top: var(--spacing-xs);
 }
 
-/* 2-Column Grid */
-.twoColumnGrid {
+/* 3-Column Grid */
+.threeColumnGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-lg);
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
 }
 
-.leftColumn,
-.rightColumn {
+.column {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
 }
 
-/* Section Styles */
-.section {
-  padding: var(--spacing-md);
-  background-color: var(--color-bg-elevated);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border-secondary);
-  transition: var(--transition-base);
-}
-
-.section:hover {
-  border-color: var(--color-border-hover);
-  box-shadow: var(--shadow-sm);
-}
-
-.sectionTitle {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-sm);
-  padding-bottom: var(--spacing-xs);
-  border-bottom: 1px solid var(--color-border-secondary);
-}
-
-.sectionContent {
+/* Data List */
+.dataList {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
 }
 
-/* Data Rows */
 .dataRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-2xs) 0;
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1px solid var(--color-border-secondary);
 }
 
-.dataLabel {
+.dataRow:last-child {
+  border-bottom: none;
+}
+
+.label {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   font-weight: var(--font-weight-medium);
 }
 
-.dataValue {
+.value {
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
   font-weight: var(--font-weight-semibold);
+  text-align: right;
 }
 
-.dataValueEmpty {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-tertiary);
-  font-style: italic;
-}
-
-/* FREE Services List */
+/* Services List */
 .servicesList {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-2xs);
-  margin-top: var(--spacing-xs);
 }
 
 .serviceItem {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-2xs);
   padding: var(--spacing-2xs) var(--spacing-xs);
   background-color: var(--color-bg-secondary);
   border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
   transition: var(--transition-base);
 }
 
 .serviceItem:hover {
   background-color: var(--color-bg-tertiary);
+  transform: translateX(2px);
 }
 
-.serviceCheck {
+.check {
   font-size: var(--font-size-sm);
   flex-shrink: 0;
 }
 
 .serviceName {
-  font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
   font-weight: var(--font-weight-medium);
 }
 
-/* Customer Notes */
-.notesContent {
-  padding: var(--spacing-sm);
-  background-color: var(--color-bg-secondary);
-  border-left: 3px solid var(--color-primary);
-  border-radius: var(--radius-sm);
-}
-
-.notesText {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  font-style: italic;
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* Complete Addresses */
-.addressesContent {
+/* Route Block */
+.routeBlock {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
 }
 
-.addressBlock {
+.locationCard {
   padding: var(--spacing-sm);
   background-color: var(--color-bg-secondary);
   border-radius: var(--radius-md);
-  border-left: 3px solid var(--color-border-primary);
+  border-left: 3px solid var(--color-primary);
 }
 
-.addressLabel {
+.locationLabel {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
@@ -154,19 +117,54 @@
   letter-spacing: 0.5px;
 }
 
-.addressText {
+.locationText {
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
   line-height: 1.4;
 }
 
-/* Responsive: Stack columns on smaller screens */
-@media (max-width: 1024px) {
-  .twoColumnGrid {
+.routeArrow {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  padding: var(--spacing-2xs) 0;
+}
+
+/* Notes */
+.notes {
+  margin: 0;
+  padding: var(--spacing-sm);
+  background-color: var(--color-bg-secondary);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Assignment Wrapper */
+.assignmentWrapper {
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .threeColumnGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .threeColumnGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .servicesList {
     grid-template-columns: 1fr;
+  }
+
+  .expandedContainer {
+    padding: var(--spacing-md);
   }
 }

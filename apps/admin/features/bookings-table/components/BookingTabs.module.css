@@ -56,11 +56,11 @@
 .tab:hover:not(:disabled) {
   background: var(--color-bg-hover);
   border-color: var(--color-border-default);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Shadow instead of transform */
+  box-shadow: var(--shadow-md); /* Shadow instead of transform */
 }
 
 .tab:active:not(:disabled) {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* Pressed state */
+  box-shadow: var(--shadow-sm); /* Pressed state */
 }
 
 .tab:disabled {
@@ -78,7 +78,7 @@
 .tabActive:hover {
   background: var(--color-primary-dark);
   border-color: var(--color-primary-dark);
-  box-shadow: 0 2px 8px rgba(211, 170, 49, 0.3); /* Gold shadow for active tab */
+  box-shadow: var(--shadow-gold-md); /* Gold shadow for active tab */
 }
 
 .tabLabel {

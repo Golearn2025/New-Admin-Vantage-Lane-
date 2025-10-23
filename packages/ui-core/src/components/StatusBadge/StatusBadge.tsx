@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Icon } from '../../Icon/Icon';
-import './StatusBadge.css';
+import './StatusBadge.module.css';
 
 export type BookingStatus =
   | 'pending'

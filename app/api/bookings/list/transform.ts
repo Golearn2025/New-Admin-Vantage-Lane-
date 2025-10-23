@@ -52,7 +52,7 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
       customer_loyalty_tier:
         (customer?.loyalty_tier as 'bronze' | 'silver' | 'gold' | 'platinum' | null) || null,
       customer_status: (customer?.status as 'active' | 'inactive' | 'suspended' | null) || null,
-      customer_total_spent: customer?.total_spent || 0,
+      customer_total_spent: customer?.total_spent ? parseFloat(String(customer.total_spent)) : 0, // Keep as pounds (decimal)
 
       pickup_location: pickup?.place_text || pickup?.place_label || 'N/A',
       destination: dropoff?.place_text || dropoff?.place_label || 'N/A',

@@ -111,7 +111,7 @@ export interface BookingListItem {
   customer_total_bookings: number;
   customer_loyalty_tier: 'bronze' | 'silver' | 'gold' | 'platinum' | null;
   customer_status: 'active' | 'inactive' | 'suspended' | null;
-  customer_total_spent: number; // In cents
+  customer_total_spent: number; // In pounds (decimal)
 
   // Locations
   pickup_location: string;

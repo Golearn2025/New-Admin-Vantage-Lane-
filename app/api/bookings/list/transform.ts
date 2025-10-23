@@ -8,7 +8,17 @@ import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
 import type { QueryResult, RawBooking } from './types';
 
 export function transformBookingsData(queryResult: QueryResult): BookingListItem[] {
-  const { bookings, customers, segments, pricing, services } = queryResult;
+  const {
+    bookings,
+    customers,
+    segments,
+    pricing,
+    services,
+    organizations,
+    assignments,
+    drivers,
+    vehicles,
+  } = queryResult;
 
   return bookings.map((booking) => {
     const customer = customers.find((c) => c.id === booking.customer_id);
@@ -17,6 +27,10 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
     const dropoff = bookingSegments.find((s) => s.role === 'dropoff');
     const bookingPricing = pricing.find((p) => p.booking_id === booking.id);
     const bookingServices = services.filter((s) => s.booking_id === booking.id);
+    const organization = organizations.find((o) => o.id === booking.organization_id);
+    const assignment = assignments.find((a) => a.booking_id === booking.id);
+    const driver = drivers.find((d) => d.id === booking.assigned_driver_id);
+    const vehicle = vehicles.find((v) => v.id === booking.assigned_vehicle_id);
 
     const { isUrgent, isNew } = calculateFlags(booking);
 
@@ -38,7 +52,7 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
       customer_loyalty_tier:
         (customer?.loyalty_tier as 'bronze' | 'silver' | 'gold' | 'platinum' | null) || null,
       customer_status: (customer?.status as 'active' | 'inactive' | 'suspended' | null) || null,
-      customer_total_spent: customer?.total_spent || 0,
+      customer_total_spent: customer?.total_spent ? parseFloat(String(customer.total_spent)) : 0, // Keep as pounds (decimal)
 
       pickup_location: pickup?.place_text || pickup?.place_label || 'N/A',
       destination: dropoff?.place_text || dropoff?.place_label || 'N/A',
@@ -52,9 +66,11 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
       passenger_count: booking.passenger_count,
       bag_count: booking.bag_count,
       flight_number: booking.flight_number,
+      notes: booking.notes,
 
       return_date: booking.return_date,
       return_time: booking.return_time,
+      return_flight_number: booking.return_flight_number,
 
       fleet_executive: booking.fleet_executive,
       fleet_s_class: booking.fleet_s_class,
@@ -63,11 +79,19 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
 
       // Calculate pricing
       base_price: bookingPricing?.price ? Math.round(parseFloat(bookingPricing.price) * 100) : 0,
-      paid_services: bookingServices.map((s) => ({
-        service_code: s.service_code,
-        unit_price: Math.round(parseFloat(s.unit_price) * 100),
-        quantity: s.quantity,
-      })),
+      paid_services: bookingServices
+        .filter((s) => parseFloat(s.unit_price) > 0)
+        .map((s) => ({
+          service_code: s.service_code,
+          unit_price: Math.round(parseFloat(s.unit_price) * 100),
+          quantity: s.quantity,
+        })),
+      free_services: bookingServices
+        .filter((s) => parseFloat(s.unit_price) === 0)
+        .map((s) => ({
+          service_code: s.service_code,
+          notes: s.notes || null,
+        })),
       // fare_amount = base_price + sum(paid_services)
       fare_amount: (() => {
         const basePrice = bookingPricing?.price
@@ -82,12 +106,24 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
       payment_status: bookingPricing?.payment_status || 'pending',
       currency: bookingPricing?.currency || 'GBP',
 
-      driver_name: null,
+      driver_name: driver ? `${driver.first_name} ${driver.last_name}` : null,
       driver_id: booking.assigned_driver_id,
+      driver_phone: driver?.phone || null,
+      driver_email: driver?.email || null,
+      driver_rating: driver?.rating_average || null,
       vehicle_id: booking.assigned_vehicle_id,
+      vehicle_make: vehicle?.make || null,
+      vehicle_model_name: vehicle?.model || null,
+      vehicle_year: vehicle?.year || null,
+      vehicle_color: vehicle?.color || null,
+      vehicle_plate: vehicle?.license_plate || null,
+      assigned_at: assignment?.assigned_at || null,
+      assigned_by_name: assignment?.assigned_by || null, // TODO: Fetch admin name
 
-      operator_name: 'Vantage Lane',
-      source: 'web' as const,
+      operator_name: organization?.name || null,
+      operator_rating: organization?.rating_average || null,
+      operator_reviews: organization?.review_count || null,
+      source: booking.source || 'web', // Read from DB, fallback to 'web' if null
     };
   });
 }

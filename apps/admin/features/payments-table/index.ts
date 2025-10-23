@@ -1,6 +1,6 @@
 /**
  * Payments Table Feature - Public API
- * TODO: Implement payments table feature
  */
 
-export {};
+export { PaymentsTable } from './components/PaymentsTable';
+export * from './types';

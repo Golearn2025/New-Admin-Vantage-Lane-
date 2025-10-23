@@ -1,6 +1,6 @@
 /**
  * Users Table Feature - Public API
- * TODO: Implement users table feature
  */
 
-export {};
+export { UsersTable } from './components/UsersTable';
+export * from './types';

@@ -51,6 +51,7 @@ export const getReferenceColumn = (): BookingColumn => ({
   header: 'Reference',
   accessor: (row) => row.reference,
   width: '120px',
+  align: 'left',
   cell: (row) => (
     <div className={styles.referenceCell}>
       <div className={styles.referenceId}>{row.reference}</div>
@@ -66,6 +67,7 @@ export const getCustomerColumn = (): BookingColumn => ({
   header: 'Customer',
   accessor: (row) => row.customer_name,
   width: '150px',
+  align: 'left',
   cell: (row) => (
     <div className={styles.customerCell}>
       <div className={styles.customerName}>{row.customer_name}</div>
@@ -100,7 +102,7 @@ export const getCustomerColumn = (): BookingColumn => ({
         </div>
         <div className={styles.customerStat}>
           <span className={styles.statLabel}>Spent:</span>
-          <span className={styles.statValue}>£{(row.customer_total_spent / 100).toFixed(2)}</span>
+          <span className={styles.statValue}>£{Number(row.customer_total_spent).toFixed(2)}</span>
         </div>
         <div className={styles.customerStat}>
           <span className={styles.statLabel}>Rides:</span>

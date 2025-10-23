@@ -291,7 +291,7 @@ export function TableCard({
         {/* Empty state */}
         {processedRows.length === 0 && (
           <div className={styles.emptyState}>
-            <Icon name="inbox" size="xl" color="muted" />
+            <Icon name="clock" size="xl" color="muted" />
             <p>No data available</p>
           </div>
         )}
@@ -313,7 +313,7 @@ export function TableCard({
                 type="button"
                 aria-label="Previous page"
               >
-                <Icon name="chevron-left" size="sm" />
+                <Icon name="arrow-up" size="sm" />
               </button>
               <button
                 className={styles.paginationButton}
@@ -322,7 +322,7 @@ export function TableCard({
                 type="button"
                 aria-label="Next page"
               >
-                <Icon name="chevron-right" size="sm" />
+                <Icon name="arrow-right" size="sm" />
               </button>
             </div>
           </div>

@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import './StatusBadge.module.css';
+import { Icon } from '../../Icon/Icon';
+import './StatusBadge.css';
 
 export type BookingStatus =
   | 'pending'
@@ -80,6 +81,11 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
 
   return (
     <span className={classes}>
+      {isNew && (
+        <span className="status-badge__bell-icon">
+          <Icon name="bell" size="xs" />
+        </span>
+      )}
       <span className="status-badge__label">{config.label}</span>
       {isUrgent && <span className="status-badge__urgent-indicator">URGENT</span>}
     </span>

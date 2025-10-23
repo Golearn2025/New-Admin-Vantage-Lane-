@@ -40,6 +40,10 @@ export async function fetchBookingsData(
       segments: [],
       pricing: [],
       services: [],
+      organizations: [],
+      assignments: [],
+      drivers: [],
+      vehicles: [],
     };
   }
 
@@ -47,13 +51,35 @@ export async function fetchBookingsData(
   const customerIds = Array.from(
     new Set(bookings.map((b) => b.customer_id).filter(Boolean))
   ) as string[];
+  const organizationIds = Array.from(
+    new Set(bookings.map((b) => b.organization_id).filter(Boolean))
+  ) as string[];
+  const driverIds = Array.from(
+    new Set(bookings.map((b) => b.assigned_driver_id).filter(Boolean))
+  ) as string[];
+  const vehicleIds = Array.from(
+    new Set(bookings.map((b) => b.assigned_vehicle_id).filter(Boolean))
+  ) as string[];
 
   // Fetch related data IN PARALLEL
-  const [customersResult, segmentsResult, pricingResult, servicesResult] = await Promise.all([
+  const [
+    customersResult,
+    segmentsResult,
+    pricingResult,
+    servicesResult,
+    organizationsResult,
+    assignmentsResult,
+    driversResult,
+    vehiclesResult,
+  ] = await Promise.all([
     fetchCustomers(supabase, customerIds as string[]),
     fetchSegments(supabase, bookingIds),
     fetchPricing(supabase, bookingIds),
     fetchServices(supabase, bookingIds),
+    fetchOrganizations(supabase, organizationIds),
+    fetchAssignments(supabase, bookingIds),
+    fetchDrivers(supabase, driverIds),
+    fetchVehicles(supabase, vehicleIds),
   ]);
 
   return {
@@ -63,6 +89,10 @@ export async function fetchBookingsData(
     segments: segmentsResult,
     pricing: pricingResult,
     services: servicesResult,
+    organizations: organizationsResult,
+    assignments: assignmentsResult,
+    drivers: driversResult,
+    vehicles: vehiclesResult,
   };
 }
 
@@ -113,12 +143,70 @@ async function fetchPricing(supabase: SupabaseClient, bookingIds: string[]) {
 async function fetchServices(supabase: SupabaseClient, bookingIds: string[]) {
   const { data, error } = await supabase
     .from('booking_services')
-    .select('booking_id, service_code, unit_price, quantity')
-    .in('booking_id', bookingIds)
-    .gt('unit_price', 0); // Only paid services
+    .select('booking_id, service_code, unit_price, quantity, notes')
+    .in('booking_id', bookingIds);
+  // ✅ FIXED: Include ALL services (free + paid)
 
   if (error) {
     throw new Error(`Failed to fetch services: ${error.message}`);
+  }
+
+  return data || [];
+}
+
+async function fetchOrganizations(supabase: SupabaseClient, orgIds: string[]) {
+  if (orgIds.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from('organizations')
+    .select('id, name, rating_average, review_count')
+    .in('id', orgIds);
+
+  if (error) {
+    throw new Error(`Failed to fetch organizations: ${error.message}`);
+  }
+
+  return data || [];
+}
+
+async function fetchAssignments(supabase: SupabaseClient, bookingIds: string[]) {
+  const { data, error } = await supabase
+    .from('booking_assignment')
+    .select('booking_id, assigned_at, assigned_by')
+    .in('booking_id', bookingIds);
+
+  if (error) {
+    throw new Error(`Failed to fetch assignments: ${error.message}`);
+  }
+
+  return data || [];
+}
+
+async function fetchDrivers(supabase: SupabaseClient, driverIds: string[]) {
+  if (driverIds.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from('drivers')
+    .select('id, first_name, last_name, phone, email, rating_average')
+    .in('id', driverIds);
+
+  if (error) {
+    throw new Error(`Failed to fetch drivers: ${error.message}`);
+  }
+
+  return data || [];
+}
+
+async function fetchVehicles(supabase: SupabaseClient, vehicleIds: string[]) {
+  if (vehicleIds.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from('vehicles')
+    .select('id, make, model, year, color, license_plate')
+    .in('id', vehicleIds);
+
+  if (error) {
+    throw new Error(`Failed to fetch vehicles: ${error.message}`);
   }
 
   return data || [];

@@ -14,6 +14,13 @@ export * from './LoginForm';
 export * from './Icon';
 export * from './Badge';
 export * from './Avatar';
+export * from './ActionButton';
+export * from './ActionMenu';
+export * from './components/StatusBadge';
+export * from './DataTable';
+export * from './ProfileSection';
+export * from './FormField';
+export * from './SaveButton';
 
 // Dashboard Cards
 export * from './MetricBarsCard';
@@ -22,7 +29,9 @@ export * from './DonutCard';
 export * from './ProgressCard';
 export * from './ActivityCard';
 export * from './StatCard';
-export * from './TableCard';
+export { TableCard } from './TableCard';
+export type { TableCardProps, TableColumn } from './TableCard';
+// Note: TableRow from TableCard excluded to avoid conflict with DataTable's TableRow component
 
 // Advanced Charts (Recharts)
 export * from './charts';

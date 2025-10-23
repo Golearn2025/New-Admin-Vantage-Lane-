@@ -64,19 +64,16 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
     {
       id: 'personal',
       label: 'Personal Info',
-      icon: '👤',
       content: <PersonalInfoTab profile={profile} onChange={handleChange} />,
     },
     {
       id: 'account',
       label: 'Account',
-      icon: '📊',
       content: <AccountTab profile={profile} />,
     },
     {
       id: 'security',
       label: 'Security',
-      icon: '🔒',
       content: <SecurityTab profile={profile} />,
     },
   ];
@@ -99,8 +96,8 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
 
       <Tabs
         tabs={tabs}
-        defaultTab="personal"
-        variant="premium"
+        defaultActiveTab="personal"
+        variant="underline"
         onChange={(tabId) => setActiveTab(tabId)}
       />
 

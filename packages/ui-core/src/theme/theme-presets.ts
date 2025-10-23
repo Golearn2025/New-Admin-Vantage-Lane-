@@ -274,7 +274,7 @@ export function getThemePreset(themeId: string): ThemePreset {
   
   // Fallback to vantageGold if not found
   console.warn(`Theme "${themeId}" not found, falling back to vantageGold`);
-  return THEME_PRESETS.vantageGold;
+  return THEME_PRESETS.vantageGold!;
 }
 
 /**

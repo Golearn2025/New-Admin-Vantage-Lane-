@@ -1,6 +1,6 @@
 /**
  * Payouts Table Feature - Public API
- * TODO: Implement payouts table feature
  */
 
-export {};
+export { PayoutsTable } from './components/PayoutsTable';
+export * from './types';

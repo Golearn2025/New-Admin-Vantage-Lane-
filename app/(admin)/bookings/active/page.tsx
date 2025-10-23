@@ -9,11 +9,11 @@
  * - IN_PROGRESS: Trip in progress
  */
 
-import { BookingsTable } from '@features/bookings-table';
+import { BookingsWithTabs } from '@features/bookings-table';
 
 export default function ActiveBookingsPage() {
   return (
-    <BookingsTable
+    <BookingsWithTabs
       statusFilter={['pending', 'assigned', 'en_route', 'arrived', 'in_progress']}
       title="Active Bookings"
       description="Current bookings in progress"

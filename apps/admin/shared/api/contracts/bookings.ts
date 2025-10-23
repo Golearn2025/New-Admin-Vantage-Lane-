@@ -128,10 +128,12 @@ export interface BookingListItem {
   passenger_count: number | null;
   bag_count: number | null;
   flight_number: string | null;
+  notes: string | null; // Customer notes/special requests
 
   // Return trip (if applicable)
   return_date: string | null;
   return_time: string | null;
+  return_flight_number: string | null; // Return flight (if applicable)
 
   // Fleet (if applicable)
   fleet_executive: number | null;
@@ -147,6 +149,10 @@ export interface BookingListItem {
     unit_price: number; // In cents
     quantity: number;
   }>;
+  free_services: Array<{
+    service_code: string;
+    notes?: string | null; // Client preferences (e.g., 'classical', 'warm', 'chatty')
+  }>; // Free services with optional preference notes
   payment_method: string; // CARD, CASH, etc
   payment_status: string; // pending, authorized, captured
   currency: string; // GBP, EUR, USD
@@ -154,10 +160,22 @@ export interface BookingListItem {
   // Assignment
   driver_name: string | null;
   driver_id: string | null;
+  driver_phone: string | null;
+  driver_email: string | null;
+  driver_rating: number | null; // 0-5 stars
   vehicle_id: string | null;
+  vehicle_make: string | null;
+  vehicle_model_name: string | null;
+  vehicle_year: number | null; // Vehicle year (e.g., 2024)
+  vehicle_color: string | null;
+  vehicle_plate: string | null;
+  assigned_at: string | null; // ISO 8601, when job was assigned
+  assigned_by_name: string | null; // Admin who assigned
 
   // Meta
-  operator_name: string;
+  operator_name: string | null;
+  operator_rating: number | null; // Organization rating (0-5)
+  operator_reviews: number | null; // Total reviews count
   source: 'app' | 'web' | 'call_center' | 'partner_api';
 }
 

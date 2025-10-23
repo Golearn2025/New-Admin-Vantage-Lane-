@@ -27,8 +27,12 @@ export interface RawBooking {
   hours: number | null;
   passenger_count: number | null;
   bag_count: number | null;
+  notes: string | null;
   return_date: string | null;
   return_time: string | null;
+  return_flight_number: string | null;
+  organization_id: string | null;
+  source: 'app' | 'web' | 'call_center' | 'partner_api' | null; // Booking origin
   fleet_executive: number | null;
   fleet_s_class: number | null;
   fleet_v_class: number | null;
@@ -68,6 +72,38 @@ export interface BookingService {
   service_code: string;
   unit_price: string;
   quantity: number;
+  notes?: string | null; // Client preferences (e.g., 'classical', 'warm', 'chatty')
+}
+
+export interface Organization {
+  id: string;
+  name: string;
+  rating_average: number | null;
+  review_count: number | null;
+}
+
+export interface BookingAssignment {
+  booking_id: string;
+  assigned_at: string | null;
+  assigned_by: string | null;
+}
+
+export interface Driver {
+  id: string;
+  first_name: string;
+  last_name: string;
+  phone: string;
+  email: string;
+  rating_average: number | null;
+}
+
+export interface Vehicle {
+  id: string;
+  make: string;
+  model: string;
+  year: number | null;
+  color: string | null;
+  license_plate: string;
 }
 
 export interface QueryResult {
@@ -77,4 +113,8 @@ export interface QueryResult {
   segments: BookingSegment[];
   pricing: BookingPricing[];
   services: BookingService[];
+  organizations: Organization[];
+  assignments: BookingAssignment[];
+  drivers: Driver[];
+  vehicles: Vehicle[];
 }

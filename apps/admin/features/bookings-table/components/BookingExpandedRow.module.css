@@ -63,8 +63,8 @@
 
 /* Services List */
 .servicesList {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-2xs);
 }
 
@@ -92,6 +92,13 @@
 .serviceName {
   color: var(--color-text-secondary);
   font-weight: var(--font-weight-medium);
+}
+
+.serviceNotes {
+  color: var(--color-text-tertiary);
+  font-weight: var(--font-weight-regular);
+  font-style: italic;
+  font-size: var(--font-size-sm);
 }
 
 /* Route Block */

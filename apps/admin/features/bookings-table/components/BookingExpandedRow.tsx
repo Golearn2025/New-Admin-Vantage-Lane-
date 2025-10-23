@@ -19,23 +19,23 @@
 
 import React from 'react';
 import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
-import { InfoSection, AssignmentSection, type DriverDetails, type VehicleDetails } from './expanded';
+import { InfoSection, AssignmentSection, TripTypeSection, type DriverDetails, type VehicleDetails } from './expanded';
 import styles from './BookingExpandedRow.module.css';
 
 interface BookingExpandedRowProps {
   booking: BookingListItem;
-  freeServices?: string[];
-  customerNotes?: string;
-  operatorName?: string;
-  operatorRating?: number;
-  operatorReviews?: number;
-  returnDate?: string | null;
-  returnTime?: string | null;
-  returnFlight?: string | null;
-  driverDetails?: DriverDetails;
-  vehicleDetails?: VehicleDetails;
-  assignedAt?: string;
-  assignedBy?: string;
+  freeServices?: Array<{ service_code: string; notes?: string | null }>;
+  customerNotes?: string | null | undefined;
+  operatorName?: string | null | undefined;
+  operatorRating?: number | null | undefined;
+  operatorReviews?: number | null | undefined;
+  returnDate?: string | null | undefined;
+  returnTime?: string | null | undefined;
+  returnFlight?: string | null | undefined;
+  driverDetails?: DriverDetails | undefined;
+  vehicleDetails?: VehicleDetails | undefined;
+  assignedAt?: string | null | undefined;
+  assignedBy?: string | null | undefined;
 }
 
 export function BookingExpandedRow({
@@ -63,8 +63,19 @@ export function BookingExpandedRow({
     wait_time_included: 'Wait Time',
     pet_friendly: 'Pet Friendly',
     music_preference: 'Music Preference',
+    temperature_preference: 'Temperature Preference',
     communication_style: 'Communication',
   };
+
+  // DEBUG: Check what data we're receiving
+  if (freeServices.length > 0) {
+    console.log('🔍 FREE SERVICES DEBUG:', {
+      length: freeServices.length,
+      type: typeof freeServices[0],
+      first: freeServices[0],
+      hasNotes: freeServices[0] && typeof freeServices[0] === 'object' && 'notes' in freeServices[0]
+    });
+  }
 
   const hasReturnJourney = booking.trip_type === 'return' && (returnDate || returnTime);
 
@@ -72,8 +83,10 @@ export function BookingExpandedRow({
     <div className={styles.expandedContainer}>
       {/* 3-COLUMN GRID */}
       <div className={styles.threeColumnGrid}>
-        {/* LEFT: Return Journey + Free Services */}
+        {/* LEFT: Trip Type + Return Journey + Free Services */}
         <div className={styles.column}>
+          <TripTypeSection booking={booking} />
+
           {hasReturnJourney && (
             <InfoSection title="Return Journey" icon="🔄" variant="default">
               <div className={styles.dataList}>
@@ -102,14 +115,23 @@ export function BookingExpandedRow({
           {freeServices.length > 0 && (
             <InfoSection title="Included Services" icon="✨" variant="highlight">
               <div className={styles.servicesList}>
-                {freeServices.map((service, idx) => (
-                  <div key={idx} className={styles.serviceItem}>
-                    <span className={styles.check}>✅</span>
-                    <span className={styles.serviceName}>
-                      {serviceNames[service] || service}
-                    </span>
-                  </div>
-                ))}
+                {freeServices.map((service, idx) => {
+                  const serviceCode = service.service_code;
+                  const serviceNotes = service.notes;
+                  const serviceName = serviceNames[serviceCode] || serviceCode;
+                  
+                  return (
+                    <div key={idx} className={styles.serviceItem}>
+                      <span className={styles.check}>✅</span>
+                      <span className={styles.serviceName}>
+                        {serviceName}
+                        {serviceNotes && (
+                          <span className={styles.serviceNotes}> ({serviceNotes})</span>
+                        )}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </InfoSection>
           )}
@@ -195,8 +217,8 @@ export function BookingExpandedRow({
           vehicleId={booking.vehicle_id}
           driverDetails={driverDetails}
           vehicleDetails={vehicleDetails}
-          assignedAt={assignedAt}
-          assignedBy={assignedBy}
+          assignedAt={assignedAt ?? undefined}
+          assignedBy={assignedBy ?? undefined}
         />
       </div>
     </div>

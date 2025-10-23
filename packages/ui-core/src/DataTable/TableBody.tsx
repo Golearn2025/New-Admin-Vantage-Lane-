@@ -8,6 +8,7 @@
 
 import React, { ReactNode } from 'react';
 import styles from './DataTable.module.css';
+import variantStyles from './DataTable.variants.module.css';
 import { TableRow } from './TableRow';
 import { Column } from './types/index';
 

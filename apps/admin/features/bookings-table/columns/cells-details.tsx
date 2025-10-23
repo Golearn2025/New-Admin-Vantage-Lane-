@@ -25,6 +25,7 @@ export const getRouteColumn = (): BookingColumn => ({
   header: 'Route',
   accessor: (row) => `${row.pickup_location} → ${row.destination}`,
   width: '240px',
+  align: 'left',
   cell: (row) => (
     <div className={styles.routeCell}>
       <div>🟢 {formatLocation(row.pickup_location)}</div>
@@ -66,6 +67,7 @@ export const getVehicleColumn = (): BookingColumn => ({
   header: 'Vehicle',
   accessor: (row) => row.category,
   width: '120px',
+  align: 'left',
   cell: (row) => {
     const vehicleModel = formatVehicleModel(row.vehicle_model);
 
@@ -91,6 +93,7 @@ export const getPaymentColumn = (): BookingColumn => ({
   header: 'Payment',
   accessor: (row) => row.fare_amount,
   width: '200px',
+  align: 'left',
   cell: (row) => (
     <div className={styles.paymentCell}>
       <div className={styles.paymentLine}>
@@ -127,6 +130,7 @@ export const getStatusColumn = (): BookingColumn => ({
   header: 'Status',
   accessor: (row) => row.status,
   width: '110px',
+  align: 'left',
   cell: (row) => (
     <StatusBadge
       status={row.status as BookingStatus}

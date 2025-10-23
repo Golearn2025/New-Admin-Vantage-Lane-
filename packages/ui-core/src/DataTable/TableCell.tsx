@@ -7,6 +7,7 @@
 
 import React from 'react';
 import styles from './DataTable.module.css';
+import variantStyles from './DataTable.variants.module.css';
 import { TableCellProps } from './types/index';
 
 export function TableCell<TData = unknown>({
@@ -22,7 +23,7 @@ export function TableCell<TData = unknown>({
   // Build CSS classes
   const classes = [
     styles.cell,
-    column.align && styles[`align-${column.align}`],
+    column.align && variantStyles[`align-${column.align}`],
     column.className,
     isSelected && styles.cellSelected,
     className,

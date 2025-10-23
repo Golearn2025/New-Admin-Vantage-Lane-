@@ -8,6 +8,7 @@
 
 import React from 'react';
 import styles from './DataTable.module.css';
+import variantStyles from './DataTable.variants.module.css';
 import { TableHeaderProps } from './types/index';
 
 export function TableHeader<TData = unknown>({
@@ -77,7 +78,7 @@ export function TableHeader<TData = unknown>({
             column.headerClassName,
             isSortable && styles.headerCellSortable,
             isSorted && styles.headerCellSorted,
-            column.align && styles[`align-${column.align}`],
+            // NOTE: Headers are always centered (per brief), alignment only applies to cells
           ]
             .filter(Boolean)
             .join(' ');
@@ -98,10 +99,14 @@ export function TableHeader<TData = unknown>({
               data-sortable={isSortable}
               data-sorted={isSorted}
             >
-              <div className={styles.headerContent}>
-                <span>{column.header}</span>
-                {isSortable && <span className={styles.sortIcon}>{getSortIcon(column.id)}</span>}
-              </div>
+              {isSortable ? (
+                <div className={styles.headerContent}>
+                  <span>{column.header}</span>
+                  <span className={styles.sortIcon}>{getSortIcon(column.id)}</span>
+                </div>
+              ) : (
+                <>{column.header}</>
+              )}
             </th>
           );
         })}

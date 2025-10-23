@@ -2,13 +2,14 @@
 
 /** useBookingsList Hook - Compliant: <80 lines */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { BookingListItem, BookingsListResponse } from '@admin-shared/api/contracts/bookings';
 import { logger } from '@/lib/utils/logger';
 
 interface Props {
   statusFilter?: string[];
   selectedStatus?: string;
+  tripTypeFilter?: string | null;
   currentPage: number;
   pageSize: number;
 }
@@ -24,6 +25,7 @@ interface Return {
 export function useBookingsList({
   statusFilter = [],
   selectedStatus = 'all',
+  tripTypeFilter = null,
   currentPage,
   pageSize,
 }: Props): Return {
@@ -32,8 +34,12 @@ export function useBookingsList({
   const [error, setError] = useState<string | null>(null);
   const [totalCount, setTotalCount] = useState(0);
 
-  // Convert statusFilter to string for stable dependency
-  const statusFilterKey = statusFilter.sort().join(',');
+  // Convert statusFilter to string for stable dependency (memoized)
+  // IMPORTANT: Create new array to avoid mutating prop!
+  const statusFilterKey = useMemo(
+    () => [...statusFilter].sort().join(','),
+    [statusFilter]
+  );
 
   const fetchBookings = useCallback(async () => {
     setLoading(true);
@@ -56,6 +62,9 @@ export function useBookingsList({
       if (statusFilter.length > 0) {
         filteredData = data.data.filter((b) => statusFilter.includes(b.status));
       }
+      if (tripTypeFilter && tripTypeFilter !== 'all') {
+        filteredData = filteredData.filter((b) => b.trip_type === tripTypeFilter);
+      }
 
       setBookings(filteredData);
       setTotalCount(statusFilter.length > 0 ? filteredData.length : data.pagination.total_count);
@@ -68,7 +77,7 @@ export function useBookingsList({
       setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, pageSize, selectedStatus, statusFilterKey]);
+  }, [currentPage, pageSize, selectedStatus, statusFilterKey, tripTypeFilter]);
 
   useEffect(() => {
     fetchBookings();

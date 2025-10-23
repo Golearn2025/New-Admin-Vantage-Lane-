@@ -28,13 +28,15 @@ const __DEV__ = process.env.NODE_ENV !== 'production';
 export const getActionsColumn = (): BookingColumn => ({
   id: 'actions',
   header: 'Actions',
-  width: '120px',
+  width: '180px',
+  align: 'center',
   cell: (row) => (
     <div className={styles.actionsCell}>
-      {/* Icon-only buttons */}
+      {/* Action buttons with labels */}
       <ActionButton
         variant="primary"
         icon={<UserPlus size={16} />}
+        label="Assign"
         onClick={() => {
           if (__DEV__) {
             // eslint-disable-next-line no-console
@@ -46,6 +48,7 @@ export const getActionsColumn = (): BookingColumn => ({
       <ActionButton
         variant="secondary"
         icon={<Edit size={16} />}
+        label="Edit"
         onClick={() => {
           if (__DEV__) {
             // eslint-disable-next-line no-console
@@ -55,8 +58,9 @@ export const getActionsColumn = (): BookingColumn => ({
         aria-label="Edit Booking"
       />
       <ActionMenu
+        position="bottom-right"
         trigger={
-          <ActionButton variant="secondary" icon={<More size={16} />} aria-label="More Options" />
+          <ActionButton variant="secondary" icon={<More size={16} />} label="More" aria-label="More Options" />
         }
         items={[
           // VIEWING & INFO

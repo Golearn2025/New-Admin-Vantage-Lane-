@@ -68,12 +68,12 @@
 
 .headerCell {
   padding: var(--spacing-3) var(--spacing-2); /* ✅ ULTRA COMPACT: 12px 8px */
-  text-align: left; /* ✅ DEFAULT - override cu .align-* dacă e nevoie */
+  text-align: center; /* ✅ CENTERED - per brief requirement */
   font-weight: var(--font-semibold);
   font-size: var(--font-sm);
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-primary); /* ✅ Same as cells */
+  /* Removed: text-transform: uppercase */
+  /* Removed: letter-spacing */
   white-space: nowrap;
   border-bottom: var(--border-width-1) solid var(--color-border-secondary);
   transition: var(--transition-base);

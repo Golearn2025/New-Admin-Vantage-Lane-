@@ -67,12 +67,14 @@ export const formatVehicleModel = (model: string | null): string => {
   if (model.toLowerCase().includes('selected')) return 'Any Vehicle';
   if (model.toLowerCase().includes('tbd')) return 'Any Vehicle';
 
-  // Format specific models: van_v_class → V-Class
+  // Format specific models with FULL brand + model name
   const modelMap: Record<string, string> = {
-    van_v_class: 'V-Class',
-    suv_range_rover: 'Range Rover',
-    exec_5_series: '5 Series',
-    lux_s_class: 'S-Class',
+    exec_5_series: 'BMW 5 Series',           // Executive
+    exec_e_class: 'Mercedes E-Class',        // Executive
+    lux_s_class: 'Mercedes S-Class',         // Luxury
+    lux_7_series: 'BMW 7 Series',            // Luxury
+    suv_range_rover: 'Range Rover',          // SUV
+    van_v_class: 'Mercedes V-Class',         // Van
   };
 
   return modelMap[model.toLowerCase()] || model;

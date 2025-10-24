@@ -46,7 +46,14 @@
     "check:deps": "pnpm audit --audit-level=moderate || true",
     "check:secrets": "git secrets --scan 2>/dev/null || echo '⚠️ git-secrets not installed (brew install git-secrets)'",
     "check:bundle": "node scripts/check-bundle.js || echo '⚠️ check-bundle.js not implemented yet'",
-    "precommit": "npm run test:run && npm run check:ts && npm run lint && npm run guard:app-logic"
+    "precommit": "npm run test:run && npm run check:ts && npm run lint && npm run guard:app-logic",
+    "aico:create": "node scripts/aico/aico-cli.cjs",
+    "aico:component": "node scripts/aico/generators/create-ui.cjs",
+    "aico:feature": "node scripts/aico/aico-generator.js feature",
+    "aico:page": "node scripts/aico/generators/create-page.cjs",
+    "aico:entity": "node scripts/aico/aico-generator.js entity",
+    "aico:guardian": "node scripts/aico/guardian/ai-guardian-ultimate.cjs",
+    "aico:validate": "node scripts/aico/structure-validator.js"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

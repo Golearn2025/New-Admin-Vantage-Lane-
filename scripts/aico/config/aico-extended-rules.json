@@ -1,0 +1,132 @@
+{
+  "version": "2.0",
+  "extends": "./aico-creation-rules.json",
+  "rules": {
+    "orchestration": {
+      "layers": {
+        "1": {
+          "name": "Global App",
+          "pattern": "AppOrchestrator.tsx",
+          "requiredHooks": ["useAppState", "useAppTheme", "useAppRouter", "useAppConfig"],
+          "enforceSingleInstance": true,
+          "errorBoundary": true,
+          "loadingState": true
+        },
+        "2": {
+          "name": "Page Orchestrators",
+          "pattern": "{Page}Orchestrator.tsx",
+          "requiredHooks": ["use{Page}Logic", "use{Page}UI", "use{Page}Events"],
+          "path": "src/app/{page}/"
+        },
+        "3": {
+          "name": "Feature Orchestrators",
+          "pattern": "{Feature}Orchestrator.ts",
+          "requiredHooks": ["use{Feature}State", "use{Feature}Actions", "use{Feature}Validation"],
+          "path": "src/features/{feature}/"
+        },
+        "4": {
+          "name": "Component Orchestrators",
+          "pattern": "{Component}Orchestrator.tsx",
+          "requiredHooks": ["use{Component}Manager", "use{Component}Events", "use{Component}Animations"],
+          "rule": "if component > 100 lines → must have orchestrator"
+        },
+        "5": {
+          "name": "Integration Orchestrators",
+          "pattern": "{Service}Orchestrator.ts",
+          "requiredHooks": ["use{Service}Client", "use{Service}Handler"],
+          "apiValidation": true
+        }
+      },
+      "rules": {
+        "allOrchestrators": {
+          "mustReportToAppOrchestrator": true,
+          "mustRegisterInAppRegistry": true,
+          "mustHaveErrorBoundary": true
+        }
+      }
+    },
+
+    "zustand": {
+      "pattern": "use{Name}Store.ts",
+      "naming": "camelCase + prefix 'use'",
+      "fields": ["currentStep", "formData", "isLoading"],
+      "avoid": ["useState", "useReducer"],
+      "autoSplit": true
+    },
+
+    "forms": {
+      "multiStepForm": true,
+      "libraries": ["react-hook-form", "zod"],
+      "validation": {
+        "schemaNaming": "{FormName}Schema",
+        "errorHandling": "centralized via Zustand"
+      },
+      "ui": {
+        "progressIndicator": true,
+        "stepNavigation": true,
+        "keyboardNavigation": true
+      }
+    },
+
+    "naming": {
+      "orchestrators": ["AppOrchestrator", "PageOrchestrator", "FeatureOrchestrator"],
+      "hooks": ["useApp*", "use{Feature}*", "use{Component}*"],
+      "zustandStores": ["use{Domain}Store"],
+      "enforceSuffix": {
+        "components": ".tsx",
+        "stores": ".ts",
+        "hooks": ".ts",
+        "orchestrators": ".tsx"
+      }
+    },
+
+    "modularization": {
+      "maxFileLines": 250,
+      "splitLargeComponents": true,
+      "splitLogic": ["state", "ui", "events", "validation"],
+      "autoFolderStructure": true
+    },
+
+    "designSystem": {
+      "enforceTokens": true,
+      "allow": ["var(--color-*)", "token('color.*)"],
+      "forbid": ["#[0-9A-Fa-f]{3,6}"],
+      "typography": "use font tokens from design-system/tokens/typography",
+      "spacing": "use spacing tokens, not raw px"
+    },
+
+    "errorHandling": {
+      "defaultBoundary": "ErrorBoundary.tsx",
+      "required": true,
+      "autoWrap": true,
+      "logging": "console disabled, must use app logger"
+    },
+
+    "registry": {
+      "path": "src/app/AppRegistry.json",
+      "autoUpdate": true,
+      "requiredFields": ["id", "name", "layer", "path", "createdAt"],
+      "syncCommand": "npm run ai:registry"
+    },
+
+    "quality": {
+      "scoring": {
+        "structureWeight": 0.3,
+        "namingWeight": 0.2,
+        "lintWeight": 0.2,
+        "designTokenWeight": 0.2,
+        "performanceWeight": 0.1
+      },
+      "threshold": 90
+    }
+  },
+
+  "scaffolds": {
+    "component": "src/components/ui/{Name}/",
+    "orchestrator": "src/app/{name}/",
+    "store": "src/features/{name}/store/",
+    "form": "src/features/{name}/forms/",
+    "feature": "src/features/{name}/",
+    "api": "src/app/api/{name}/"
+  }
+}

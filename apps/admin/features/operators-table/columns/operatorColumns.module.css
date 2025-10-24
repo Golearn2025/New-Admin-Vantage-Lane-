@@ -14,10 +14,15 @@
   font-size: var(--font-size-sm);
 }
 
-.phone {
-  color: var(--color-text-tertiary);
+.city {
+  color: var(--color-text-secondary);
   font-size: var(--font-size-sm);
-  font-family: var(--font-family-mono);
+}
+
+.rating {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
 }
 
 .statusActive {

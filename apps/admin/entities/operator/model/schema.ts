@@ -1,19 +1,21 @@
 /**
- * Operator Entity - Zod Schemas
+ * Operator Entity - Zod Schema
  * 
- * Type-safe validation schemas
+ * Operators are organizations with org_type = 'operator'
  */
 
 import { z } from 'zod';
 
 export const OperatorSchema = z.object({
   id: z.string().uuid(),
-  email: z.string().email(),
-  firstName: z.string().nullable(),
-  lastName: z.string().nullable(),
-  phone: z.string().nullable(),
+  code: z.string(),
+  name: z.string(),
+  contactEmail: z.string().email().nullable(),
+  contactPhone: z.string().nullable(),
+  city: z.string().nullable(),
   isActive: z.boolean(),
-  createdAt: z.string().datetime(),
+  ratingAverage: z.number().nullable(),
+  createdAt: z.string(),
 });
 
 export type Operator = z.infer<typeof OperatorSchema>;

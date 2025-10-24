@@ -13,11 +13,13 @@ import type { OperatorData, OperatorRow, CreateOperatorPayload, UpdateOperatorPa
 function mapOperatorRow(row: OperatorRow): OperatorData {
   return {
     id: row.id,
-    email: row.email,
-    firstName: row.first_name,
-    lastName: row.last_name,
-    phone: row.phone,
+    code: row.code,
+    name: row.name,
+    contactEmail: row.contact_email,
+    contactPhone: row.contact_phone,
+    city: row.city,
     isActive: row.is_active,
+    ratingAverage: row.rating_average ? parseFloat(row.rating_average) : null,
     createdAt: row.created_at,
   };
 }
@@ -29,9 +31,9 @@ export async function listOperators(): Promise<OperatorData[]> {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from('admin_users')
+    .from('organizations')
     .select('*')
-    .eq('role', 'support')
+    .eq('org_type', 'operator')
     .order('created_at', { ascending: false })
     .limit(1000);
 
@@ -47,10 +49,10 @@ export async function getOperatorById(id: string): Promise<OperatorData | null> 
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from('admin_users')
+    .from('organizations')
     .select('*')
     .eq('id', id)
-    .eq('role', 'support')
+    .eq('org_type', 'operator')
     .single();
 
   if (error) throw error;
@@ -67,7 +69,7 @@ export async function createOperator(
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from('admin_users')
+    .from('organizations')
     .insert(payload)
     .select()
     .single();
@@ -87,7 +89,7 @@ export async function updateOperator(
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from('admin_users')
+    .from('organizations')
     .update(payload)
     .eq('id', id)
     .select()
@@ -105,7 +107,7 @@ export async function deleteOperator(id: string): Promise<void> {
   const supabase = createClient();
 
   const { error } = await supabase
-    .from('admin_users')
+    .from('organizations')
     .delete()
     .eq('id', id);
 

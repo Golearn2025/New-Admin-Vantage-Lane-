@@ -23,11 +23,10 @@ export function OperatorsTable({ className }: OperatorsTableProps) {
   // Filter operators based on search query
   const filteredData = data.filter((operator) => {
     const searchLower = searchQuery.toLowerCase();
-    const fullName = `${operator.firstName || ''} ${operator.lastName || ''}`.toLowerCase();
     return (
-      fullName.includes(searchLower) ||
-      operator.email.toLowerCase().includes(searchLower) ||
-      (operator.phone && operator.phone.toLowerCase().includes(searchLower))
+      operator.name.toLowerCase().includes(searchLower) ||
+      (operator.contactEmail && operator.contactEmail.toLowerCase().includes(searchLower)) ||
+      (operator.city && operator.city.toLowerCase().includes(searchLower))
     );
   });
 

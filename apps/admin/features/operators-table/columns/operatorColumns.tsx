@@ -11,48 +11,62 @@ import type { Column } from '@vantage-lane/ui-core';
 import styles from './operatorColumns.module.css';
 
 /**
- * Get name column
+ * Get name column (organization name)
  */
 export function getNameColumn(): Column<OperatorData> {
   return {
     id: 'name',
-    header: 'Name',
-    accessor: (row) => `${row.firstName || ''} ${row.lastName || ''}`.trim() || 'No Name',
-    cell: (row) => (
-      <span className={styles.name}>
-        {`${row.firstName || ''} ${row.lastName || ''}`.trim() || 'No Name'}
-      </span>
-    ),
-    sortable: true,
-    width: '200px',
-  };
-}
-
-/**
- * Get email column
- */
-export function getEmailColumn(): Column<OperatorData> {
-  return {
-    id: 'email',
-    header: 'Email',
-    accessor: (row) => row.email,
-    cell: (row) => <span className={styles.email}>{row.email}</span>,
+    header: 'Organization',
+    accessor: (row) => row.name,
+    cell: (row) => <span className={styles.name}>{row.name}</span>,
     sortable: true,
     width: '250px',
   };
 }
 
 /**
- * Get phone column
+ * Get email column (contact email)
  */
-export function getPhoneColumn(): Column<OperatorData> {
+export function getEmailColumn(): Column<OperatorData> {
   return {
-    id: 'phone',
-    header: 'Phone',
-    accessor: (row) => row.phone || '—',
-    cell: (row) => <span className={styles.phone}>{row.phone || '—'}</span>,
-    sortable: false,
+    id: 'email',
+    header: 'Contact Email',
+    accessor: (row) => row.contactEmail || '—',
+    cell: (row) => <span className={styles.email}>{row.contactEmail || '—'}</span>,
+    sortable: true,
+    width: '220px',
+  };
+}
+
+/**
+ * Get city column
+ */
+export function getCityColumn(): Column<OperatorData> {
+  return {
+    id: 'city',
+    header: 'City',
+    accessor: (row) => row.city || '—',
+    cell: (row) => <span className={styles.city}>{row.city || '—'}</span>,
+    sortable: true,
     width: '150px',
+  };
+}
+
+/**
+ * Get rating column
+ */
+export function getRatingColumn(): Column<OperatorData> {
+  return {
+    id: 'rating',
+    header: 'Rating',
+    accessor: (row) => row.ratingAverage?.toFixed(2) || '—',
+    cell: (row) => (
+      <span className={styles.rating}>
+        {row.ratingAverage ? `⭐ ${row.ratingAverage.toFixed(2)}` : '—'}
+      </span>
+    ),
+    sortable: true,
+    width: '100px',
   };
 }
 
@@ -112,7 +126,8 @@ export function getOperatorColumns(): Column<OperatorData>[] {
   return [
     getNameColumn(),
     getEmailColumn(),
-    getPhoneColumn(),
+    getCityColumn(),
+    getRatingColumn(),
     getStatusColumn(),
     getCreatedColumn(),
   ];

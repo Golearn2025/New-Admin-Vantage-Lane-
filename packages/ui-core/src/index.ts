@@ -17,6 +17,7 @@ export * from './Avatar';
 export * from './ActionButton';
 export * from './ActionMenu';
 export * from './components/StatusBadge';
+export * from './UserBadge';
 export * from './DataTable';
 export * from './ProfileSection';
 export * from './FormField';

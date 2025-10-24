@@ -1,0 +1,136 @@
+/**
+ * UserBadge Styles - PREMIUM
+ * 
+ * Beautiful gradients and colors for user type badges
+ * 100% design tokens
+ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--border-radius-full);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  cursor: default;
+  border: 1.5px solid transparent;
+}
+
+.badge:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Sizes */
+.size-sm {
+  padding: var(--spacing-05) var(--spacing-2);
+  font-size: var(--font-size-2xs);
+  gap: var(--spacing-05);
+}
+
+.size-md {
+  padding: var(--spacing-1) var(--spacing-3);
+  font-size: var(--font-size-xs);
+}
+
+.size-lg {
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--font-size-sm);
+  gap: var(--spacing-2);
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.label {
+  font-weight: inherit;
+}
+
+/* Customer - Blue/Cyan gradient */
+.type-customer {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  color: #0c4a6e;
+  border-color: #7dd3fc;
+}
+
+.type-customer:hover {
+  background: linear-gradient(135deg, #bae6fd 0%, #7dd3fc 100%);
+}
+
+/* Driver - Amber/Yellow gradient */
+.type-driver {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #78350f;
+  border-color: #fbbf24;
+}
+
+.type-driver:hover {
+  background: linear-gradient(135deg, #fde68a 0%, #fbbf24 100%);
+}
+
+/* Admin - Red/Rose gradient */
+.type-admin {
+  background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+  color: #881337;
+  border-color: #fb7185;
+}
+
+.type-admin:hover {
+  background: linear-gradient(135deg, #fecdd3 0%, #fb7185 100%);
+}
+
+/* Operator - Emerald/Green gradient */
+.type-operator {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  color: #064e3b;
+  border-color: #34d399;
+}
+
+.type-operator:hover {
+  background: linear-gradient(135deg, #a7f3d0 0%, #34d399 100%);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .type-customer {
+    background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%);
+    color: #bae6fd;
+    border-color: #0284c7;
+  }
+
+  .type-customer:hover {
+    background: linear-gradient(135deg, #075985 0%, #0284c7 100%);
+  }
+
+  .type-driver {
+    background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+    color: #fde68a;
+    border-color: #d97706;
+  }
+
+  .type-driver:hover {
+    background: linear-gradient(135deg, #92400e 0%, #d97706 100%);
+  }
+
+  .type-admin {
+    background: linear-gradient(135deg, #881337 0%, #9f1239 100%);
+    color: #fecdd3;
+    border-color: #e11d48;
+  }
+
+  .type-admin:hover {
+    background: linear-gradient(135deg, #9f1239 0%, #e11d48 100%);
+  }
+
+  .type-operator {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+    color: #a7f3d0;
+    border-color: #10b981;
+  }
+
+  .type-operator:hover {
+    background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
+  }
+}

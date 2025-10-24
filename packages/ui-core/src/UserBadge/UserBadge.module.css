@@ -10,7 +10,7 @@
   align-items: center;
   gap: var(--spacing-1);
   font-weight: var(--font-weight-semibold);
-  border-radius: var(--border-radius-full);
+  border-radius: 999px; /* Full pill shape - ultra rounded */
   transition: all var(--transition-fast);
   white-space: nowrap;
   cursor: default;

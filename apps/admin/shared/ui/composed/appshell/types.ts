@@ -62,7 +62,6 @@ export interface NavItemProps {
 export interface TopbarProps {
   role: UserRole;
   onMenuToggle: () => void;
-  searchPlaceholder?: string;
   sidebarCollapsed?: boolean;
   user?: UserInfo;
 }

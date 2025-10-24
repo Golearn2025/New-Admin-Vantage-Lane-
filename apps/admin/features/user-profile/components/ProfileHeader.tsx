@@ -82,6 +82,21 @@ export function ProfileHeader({
             </span>
           </div>
           
+          {/* Vehicle info */}
+          {profile.type === 'driver' && profile.vehicle && (
+            <div className={styles.vehicleInfo}>
+              <span className={styles.vehicleIcon}>🚗</span>
+              <div className={styles.vehicleDetails}>
+                <span className={styles.vehicleName}>
+                  {profile.vehicle.make} {profile.vehicle.model}
+                </span>
+                <span className={styles.vehiclePlate}>
+                  {profile.vehicle.licensePlate}
+                </span>
+              </div>
+            </div>
+          )}
+          
           {/* Driver stats quick view */}
           {profile.type === 'driver' && (
             <div className={styles.quickStats}>

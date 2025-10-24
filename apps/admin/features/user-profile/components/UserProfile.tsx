@@ -8,9 +8,11 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ProfileHeader } from './ProfileHeader';
 import { ProfileDocumentsTab } from './ProfileDocumentsTab';
+import { ProfileActivityTab } from './ProfileActivityTab';
+import { ProfileStatsTab } from './ProfileStatsTab';
 import { useUserProfile } from '../hooks/useUserProfile';
 import type { UserType } from '../types';
 import styles from './UserProfile.module.css';
@@ -23,6 +25,7 @@ export interface UserProfileProps {
 
 export function UserProfile({ userId, userType, className }: UserProfileProps) {
   const { profile, loading, error, refetch } = useUserProfile(userId, userType);
+  const [activeTab, setActiveTab] = useState<'activity' | 'stats' | 'documents'>('activity');
   
   if (loading) {
     return (
@@ -59,16 +62,46 @@ export function UserProfile({ userId, userType, className }: UserProfileProps) {
         onDelete={() => console.log('Delete profile')}
       />
       
-      {/* Documents Tab - Only for drivers */}
-      {profile.type === 'driver' && profile.documents && (
-        <div className={styles.tabContent}>
-          <h2 className={styles.tabTitle}>Documents</h2>
-          <ProfileDocumentsTab
-            documents={profile.documents}
-            onViewDocument={(doc) => console.log('View doc:', doc)}
-            onApprove={(doc) => console.log('Approve:', doc)}
-            onReject={(doc) => console.log('Reject:', doc)}
-          />
+      {/* Tabs for Drivers, Customers, and Operators */}
+      {(profile.type === 'driver' || profile.type === 'customer' || profile.type === 'operator') && (
+        <div className={styles.tabs}>
+          <div className={styles.tabButtons}>
+            <button
+              className={`${styles.tabButton} ${activeTab === 'activity' ? styles.tabButtonActive : ''}`}
+              onClick={() => setActiveTab('activity')}
+            >
+              Activity
+            </button>
+            <button
+              className={`${styles.tabButton} ${activeTab === 'stats' ? styles.tabButtonActive : ''}`}
+              onClick={() => setActiveTab('stats')}
+            >
+              Stats
+            </button>
+            <button
+              className={`${styles.tabButton} ${activeTab === 'documents' ? styles.tabButtonActive : ''}`}
+              onClick={() => setActiveTab('documents')}
+            >
+              Documents
+            </button>
+          </div>
+
+          <div className={styles.tabContent}>
+            {activeTab === 'activity' && (
+              <ProfileActivityTab userId={userId} userType={userType} />
+            )}
+            {activeTab === 'stats' && (
+              <ProfileStatsTab userId={userId} userType={userType} />
+            )}
+            {activeTab === 'documents' && profile.documents && (
+              <ProfileDocumentsTab
+                documents={profile.documents}
+                onViewDocument={(doc) => console.log('View doc:', doc)}
+                onApprove={(doc) => console.log('Approve:', doc)}
+                onReject={(doc) => console.log('Reject:', doc)}
+              />
+            )}
+          </div>
         </div>
       )}
       

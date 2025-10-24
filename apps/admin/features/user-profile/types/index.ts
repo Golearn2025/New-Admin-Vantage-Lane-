@@ -23,14 +23,24 @@ export interface UserProfileData {
   createdAt: string;
   
   // Driver-specific
+  licenseNumber?: string;
   rating?: number;
   totalReviews?: number;
   emailVerified?: boolean;
   phoneVerified?: boolean;
   status?: 'online' | 'offline';
+  vehicle?: {
+    id: string;
+    make: string;
+    model: string;
+    year: number;
+    licensePlate: string;
+    category: string;
+  };
   
   // Stats
   totalJobs?: number;
+  completedJobs?: number;
   totalRides?: number;
   totalEarnings?: number;
   totalSpent?: number;

@@ -109,3 +109,51 @@ export async function deleteCustomer(id: string): Promise<void> {
 
   if (error) throw error;
 }
+
+/**
+ * Get customer bookings (booking history) with pricing, locations, and services
+ */
+export async function getCustomerBookings(customerId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('bookings')
+    .select(`
+      *,
+      pricing:booking_pricing(*),
+      segments:booking_segments(*),
+      services:booking_services(*)
+    `)
+    .eq('customer_id', customerId)
+    .order('start_at', { ascending: false })
+    .limit(100);
+
+  if (error) throw error;
+
+  return data || [];
+}
+
+/**
+ * Get customer stats (total bookings, spent, etc.)
+ */
+export async function getCustomerStats(customerId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('bookings')
+    .select('*')
+    .eq('customer_id', customerId);
+
+  if (error) throw error;
+
+  const bookings = data || [];
+  const completedBookings = bookings.filter(b => b.status === 'COMPLETED');
+
+  return {
+    totalBookings: bookings.length,
+    completedBookings: completedBookings.length,
+    pendingBookings: bookings.filter(b => b.status === 'PENDING').length,
+    cancelledBookings: bookings.filter(b => b.status === 'CANCELLED').length,
+    totalSpent: 0, // TODO: Calculate from payment data
+  };
+}

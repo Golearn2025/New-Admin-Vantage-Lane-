@@ -1,0 +1,277 @@
+/**
+ * Profile Activity Tab - Styles
+ * PREMIUM design with glass morphism
+ */
+
+.container {
+  padding: var(--spacing-6);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-6) 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-12);
+  color: var(--color-text-secondary);
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(211, 170, 49, 0.2);
+  border-top-color: var(--theme-primary);
+  border-radius: var(--border-radius-full);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Empty State */
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-12);
+  color: var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--border-radius-lg);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 24px;
+  bottom: 24px;
+  width: 2px;
+  background: linear-gradient(180deg, 
+    rgba(211, 170, 49, 0.3) 0%, 
+    rgba(211, 170, 49, 0.1) 50%,
+    rgba(211, 170, 49, 0.3) 100%
+  );
+}
+
+.timelineItem {
+  position: relative;
+  display: flex;
+  gap: var(--spacing-4);
+  padding-left: var(--spacing-8);
+}
+
+.timelineDot {
+  position: absolute;
+  left: 0;
+  top: 16px;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--border-radius-full);
+  background: linear-gradient(135deg, 
+    rgba(211, 170, 49, 0.8) 0%, 
+    rgba(211, 170, 49, 0.4) 100%
+  );
+  border: 3px solid var(--color-bg-primary);
+  box-shadow: 0 0 20px rgba(211, 170, 49, 0.4);
+  z-index: 2;
+}
+
+/* Booking Card */
+.bookingCard {
+  flex: 1;
+  background: linear-gradient(135deg, 
+    rgba(18, 20, 22, 0.8) 0%, 
+    rgba(26, 29, 33, 0.8) 100%
+  );
+  border: 1px solid rgba(211, 170, 49, 0.2);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-4);
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-fast);
+}
+
+.bookingCard:hover {
+  border-color: rgba(211, 170, 49, 0.4);
+  box-shadow: 0 4px 20px rgba(211, 170, 49, 0.15);
+  transform: translateX(4px);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.reference {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--theme-primary);
+  text-shadow: 0 2px 8px rgba(211, 170, 49, 0.3);
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: capitalize;
+  border: 1px solid;
+}
+
+.statusCompleted {
+  background: rgba(22, 163, 74, 0.2);
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.3);
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+}
+
+.statusCancelled {
+  background: rgba(220, 38, 38, 0.2);
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.3);
+}
+
+.statusPending,
+.statusScheduled {
+  background: rgba(234, 179, 8, 0.2);
+  color: #facc15;
+  border-color: rgba(250, 204, 21, 0.3);
+}
+
+.statusActive,
+.statusConfirmed {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+.cardBody {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-3);
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.05em;
+}
+
+.value {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.priceHighlight {
+  color: rgba(211, 170, 49, 1);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  text-shadow: 0 0 10px rgba(211, 170, 49, 0.3);
+}
+
+/* Services Section */
+.servicesSection {
+  margin-top: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid rgba(211, 170, 49, 0.2);
+}
+
+.servicesTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: rgba(211, 170, 49, 0.9);
+  margin: 0 0 var(--spacing-3) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.servicesBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.serviceBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  text-transform: capitalize;
+  transition: all var(--transition-fast);
+  border: 1px solid;
+}
+
+.serviceFree {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+.serviceFree:hover {
+  background: rgba(34, 197, 94, 0.25);
+  box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+  transform: translateY(-2px);
+}
+
+.servicePaid {
+  background: rgba(211, 170, 49, 0.15);
+  color: rgba(211, 170, 49, 1);
+  border-color: rgba(211, 170, 49, 0.4);
+}
+
+.servicePaid:hover {
+  background: rgba(211, 170, 49, 0.25);
+  box-shadow: 0 0 15px rgba(211, 170, 49, 0.4);
+  transform: translateY(-2px);
+}
+
+.freeTag {
+  margin-left: var(--spacing-1);
+  font-size: var(--font-size-2xs);
+  padding: 2px 6px;
+  background: rgba(74, 222, 128, 0.3);
+  border-radius: var(--border-radius-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+.servicePrice {
+  margin-left: var(--spacing-1);
+  font-weight: var(--font-weight-bold);
+  color: rgba(211, 170, 49, 1);
+}

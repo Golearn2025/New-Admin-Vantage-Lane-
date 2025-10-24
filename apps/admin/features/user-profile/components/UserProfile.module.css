@@ -6,10 +6,54 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-6);
+  gap: var(--spacing-8);
   padding: var(--spacing-6);
   background: var(--color-bg-primary);
   min-height: 600px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.tabButtons {
+  display: flex;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tabButton {
+  flex: 1;
+  padding: var(--spacing-3) var(--spacing-6);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tabButton:hover {
+  background: rgba(211, 170, 49, 0.05);
+  color: var(--color-text-primary);
+}
+
+.tabButtonActive {
+  background: linear-gradient(135deg, 
+    rgba(211, 170, 49, 0.15) 0%, 
+    rgba(211, 170, 49, 0.08) 100%
+  );
+  border-color: rgba(211, 170, 49, 0.3);
+  color: var(--theme-primary);
+  box-shadow: 0 0 20px rgba(211, 170, 49, 0.2);
 }
 
 /* Loading & Error */
@@ -65,17 +109,23 @@
 
 /* Tab Content */
 .tabContent {
-  background: var(--color-bg-secondary);
-  border-radius: var(--border-radius-lg);
   padding: var(--spacing-6);
-  border: 1px solid var(--color-border-default);
+  background: linear-gradient(135deg, 
+    rgba(18, 20, 22, 0.6) 0%, 
+    rgba(26, 29, 33, 0.6) 100%
+  );
+  border-radius: var(--border-radius-lg);
+  border: 1px solid rgba(211, 170, 49, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .tabTitle {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   margin: 0 0 var(--spacing-6) 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Placeholder */

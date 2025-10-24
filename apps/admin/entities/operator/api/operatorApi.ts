@@ -109,7 +109,63 @@ export async function deleteOperator(id: string): Promise<void> {
   const { error } = await supabase
     .from('organizations')
     .delete()
-    .eq('id', id);
+    .eq('id', id)
+    .eq('org_type', 'operator');
 
   if (error) throw error;
+}
+
+/**
+ * Get all drivers for an operator
+ */
+export async function getOperatorDrivers(operatorId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('drivers')
+    .select('*')
+    .eq('organization_id', operatorId)
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+
+  return data || [];
+}
+
+/**
+ * Get operator stats (drivers, vehicles, bookings)
+ */
+export async function getOperatorStats(operatorId: string) {
+  const supabase = createClient();
+
+  // Get drivers count
+  const { data: drivers, error: driversError } = await supabase
+    .from('drivers')
+    .select('id')
+    .eq('organization_id', operatorId);
+
+  if (driversError) throw driversError;
+
+  // Get vehicles count
+  const { data: vehicles, error: vehiclesError } = await supabase
+    .from('vehicles')
+    .select('id')
+    .eq('organization_id', operatorId);
+
+  if (vehiclesError) throw vehiclesError;
+
+  // Get bookings count
+  const { data: bookings, error: bookingsError } = await supabase
+    .from('bookings')
+    .select('id')
+    .eq('organization_id', operatorId);
+
+  if (bookingsError) throw bookingsError;
+
+  return {
+    totalDrivers: (drivers || []).length,
+    totalVehicles: (vehicles || []).length,
+    totalBookings: (bookings || []).length,
+    activeDrivers: 0, // TODO: Calculate from driver status
+  };
 }

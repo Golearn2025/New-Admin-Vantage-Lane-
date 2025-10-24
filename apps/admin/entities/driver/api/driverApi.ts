@@ -109,3 +109,68 @@ export async function deleteDriver(id: string): Promise<void> {
 
   if (error) throw error;
 }
+
+/**
+ * Get driver bookings (job history) with pricing, locations, and services
+ */
+export async function getDriverBookings(driverId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('bookings')
+    .select(`
+      *,
+      pricing:booking_pricing(*),
+      segments:booking_segments(*),
+      services:booking_services(*)
+    `)
+    .eq('assigned_driver_id', driverId)
+    .order('start_at', { ascending: false })
+    .limit(50);
+
+  if (error) throw error;
+
+  return data || [];
+}
+
+/**
+ * Get driver assigned vehicle
+ */
+export async function getDriverVehicle(driverId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('vehicles')
+    .select('*')
+    .eq('driver_id', driverId)
+    .single();
+
+  if (error && error.code !== 'PGRST116') throw error;
+
+  return data;
+}
+
+/**
+ * Get driver stats (calculated from bookings)
+ */
+export async function getDriverStats(driverId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('bookings')
+    .select('*')
+    .eq('assigned_driver_id', driverId);
+
+  if (error) throw error;
+
+  const bookings = data || [];
+  const completedBookings = bookings.filter(b => b.status === 'completed');
+  
+  return {
+    totalJobs: bookings.length,
+    completedJobs: completedBookings.length,
+    pendingJobs: bookings.filter(b => b.status === 'pending').length,
+    totalEarnings: 0, // TODO: Calculate from payment data
+    rating: 4.8, // TODO: Calculate from ratings
+  };
+}

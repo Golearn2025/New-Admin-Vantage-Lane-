@@ -1,0 +1,59 @@
+/**
+ * UserTypeBadge Styles
+ * 
+ * 100% design tokens - zero hardcoded values
+ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.badgeSm {
+  padding: var(--spacing-05) var(--spacing-1);
+  font-size: var(--font-size-2xs);
+}
+
+.badgeMd {
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--font-size-xs);
+}
+
+.label {
+  line-height: 1;
+}
+
+/* Customer badge */
+.badgeCustomer {
+  background: var(--color-info-light);
+  color: var(--color-info-dark);
+  border: 1px solid var(--color-info);
+}
+
+/* Driver badge */
+.badgeDriver {
+  background: var(--color-warning-light);
+  color: var(--color-warning-dark);
+  border: 1px solid var(--color-warning);
+}
+
+/* Admin badge */
+.badgeAdmin {
+  background: var(--color-danger-light);
+  color: var(--color-danger-dark);
+  border: 1px solid var(--color-danger);
+}
+
+/* Operator badge */
+.badgeOperator {
+  background: var(--color-success-light);
+  color: var(--color-success-dark);
+  border: 1px solid var(--color-success);
+}

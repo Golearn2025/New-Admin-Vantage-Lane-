@@ -5,6 +5,8 @@
  * Premium UI cu hover effects și icons
  */
 
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Icon } from '../Icon';
 import styles from './RowActions.module.css';

@@ -14,6 +14,7 @@ export interface UseCustomersTableReturn {
   data: CustomerData[];
   loading: boolean;
   error: string | null;
+  refetch: () => void;
 }
 
 export function useCustomersTable(): UseCustomersTableReturn {
@@ -21,22 +22,22 @@ export function useCustomersTable(): UseCustomersTableReturn {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchCustomers() {
-      try {
-        setLoading(true);
-        setError(null);
-        const customers = await listCustomers();
-        setData(customers);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load customers');
-      } finally {
-        setLoading(false);
-      }
+  const fetchCustomers = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const customers = await listCustomers();
+      setData(customers);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load customers');
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchCustomers();
   }, []);
 
-  return { data, loading, error };
+  return { data, loading, error, refetch: fetchCustomers };
 }

@@ -7,8 +7,15 @@
 
 import React from 'react';
 import type { AdminData } from '@entities/admin';
-import type { Column } from '@vantage-lane/ui-core';
+import type { Column, RowAction } from '@vantage-lane/ui-core';
+import { RowActions } from '@vantage-lane/ui-core';
 import styles from './adminColumns.module.css';
+
+export interface AdminColumnsCallbacks {
+  onView?: (admin: AdminData) => void;
+  onEdit?: (admin: AdminData) => void;
+  onDelete?: (admin: AdminData) => void;
+}
 
 /**
  * Get name column
@@ -106,14 +113,62 @@ export function getCreatedColumn(): Column<AdminData> {
 }
 
 /**
+ * Get actions column
+ */
+export function getActionsColumn(
+  callbacks: AdminColumnsCallbacks = {}
+): Column<AdminData> {
+  return {
+    id: 'actions',
+    header: 'Actions',
+    accessor: () => '',
+    cell: (row) => {
+      const actions: RowAction[] = [];
+      
+      if (callbacks.onView) {
+        actions.push({
+          label: 'View Details',
+          icon: 'eye',
+          onClick: () => callbacks.onView?.(row),
+        });
+      }
+      
+      if (callbacks.onEdit) {
+        actions.push({
+          label: 'Edit',
+          icon: 'edit',
+          onClick: () => callbacks.onEdit?.(row),
+        });
+      }
+      
+      if (callbacks.onDelete) {
+        actions.push({
+          label: 'Delete',
+          icon: 'trash',
+          onClick: () => callbacks.onDelete?.(row),
+          variant: 'danger',
+        });
+      }
+      
+      return <RowActions actions={actions} />;
+    },
+    sortable: false,
+    width: '80px',
+  };
+}
+
+/**
  * Get all admin columns
  */
-export function getAdminColumns(): Column<AdminData>[] {
+export function getAdminColumns(
+  callbacks: AdminColumnsCallbacks = {}
+): Column<AdminData>[] {
   return [
     getNameColumn(),
     getEmailColumn(),
     getPhoneColumn(),
     getStatusColumn(),
     getCreatedColumn(),
+    getActionsColumn(callbacks),
   ];
 }

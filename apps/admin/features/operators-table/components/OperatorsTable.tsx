@@ -6,8 +6,14 @@
 
 'use client';
 
-import React, { useState } from 'react';
-import { DataTable, Button, Input } from '@vantage-lane/ui-core';
+import React, { useState, useMemo } from 'react';
+import {
+  DataTable,
+  Input,
+  TableActions,
+  Pagination,
+  ConfirmDialog,
+} from '@vantage-lane/ui-core';
 import { useOperatorsTable } from '../hooks/useOperatorsTable';
 import { getOperatorColumns } from '../columns/operatorColumns';
 import styles from './OperatorsTable.module.css';
@@ -17,20 +23,37 @@ export interface OperatorsTableProps {
 }
 
 export function OperatorsTable({ className }: OperatorsTableProps) {
-  const { data, loading, error } = useOperatorsTable();
+  const { data, loading, error, refetch } = useOperatorsTable();
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [deleteOperator, setDeleteOperator] = useState<any>(null);
 
   // Filter operators based on search query
-  const filteredData = data.filter((operator) => {
-    const searchLower = searchQuery.toLowerCase();
-    return (
-      operator.name.toLowerCase().includes(searchLower) ||
-      (operator.contactEmail && operator.contactEmail.toLowerCase().includes(searchLower)) ||
-      (operator.city && operator.city.toLowerCase().includes(searchLower))
-    );
-  });
+  const filteredData = useMemo(() => {
+    return data.filter((operator) => {
+      const query = searchQuery.toLowerCase();
+      return (
+        operator.name.toLowerCase().includes(query) ||
+        (operator.contactEmail && operator.contactEmail.toLowerCase().includes(query)) ||
+        (operator.city && operator.city.toLowerCase().includes(query))
+      );
+    });
+  }, [data, searchQuery]);
 
-  const columns = getOperatorColumns();
+  // Paginate data
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage, pageSize]);
+
+  const totalPages = Math.ceil(filteredData.length / pageSize);
+
+  const columns = getOperatorColumns({
+    onView: (operator: any) => console.log('View:', operator),
+    onEdit: (operator: any) => console.log('Edit:', operator),
+    onDelete: (operator: any) => setDeleteOperator(operator),
+  });
 
   return (
     <div className={styles.container}>
@@ -43,7 +66,6 @@ export function OperatorsTable({ className }: OperatorsTableProps) {
         </div>
 
         <div className={styles.headerRight}>
-          {/* Search input */}
           <Input
             type="search"
             placeholder="Search operators..."
@@ -52,10 +74,13 @@ export function OperatorsTable({ className }: OperatorsTableProps) {
             size="md"
           />
 
-          {/* Create operator button - placeholder for future */}
-          <Button variant="primary" size="md" disabled>
-            + Add Operator
-          </Button>
+          <TableActions
+            onAdd={() => console.log('Add operator')}
+            onExport={() => console.log('Export')}
+            onRefresh={refetch}
+            loading={loading}
+            addLabel="Create Operator"
+          />
         </div>
       </div>
 
@@ -70,27 +95,49 @@ export function OperatorsTable({ className }: OperatorsTableProps) {
       {/* Error state */}
       {error && (
         <div className={styles.errorContainer}>
-          <p className={styles.errorMessage}>{error}</p>
-          <Button 
-            variant="primary" 
-            size="md"
-            onClick={() => window.location.reload()}
-            className={styles.retryButton}
-          >
+          <p className={styles.errorMessage}>Error loading operators: {error}</p>
+          <button className={styles.retryButton} onClick={() => window.location.reload()}>
             Retry
-          </Button>
+          </button>
         </div>
       )}
 
       {/* Table */}
       {!loading && !error && (
-        <div className={styles.tableContainer}>
-          <DataTable
-            data={filteredData}
-            columns={columns}
-          />
-        </div>
+        <>
+          <div className={styles.tableContainer}>
+            <DataTable data={paginatedData} columns={columns} />
+          </div>
+
+          {filteredData.length > 0 && (
+            <div className={styles.paginationWrapper}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalItems={filteredData.length}
+                pageSize={pageSize}
+                onPageChange={setCurrentPage}
+                onPageSizeChange={(size) => {
+                  setPageSize(size);
+                  setCurrentPage(1);
+                }}
+              />
+            </div>
+          )}
+        </>
       )}
+
+      <ConfirmDialog
+        isOpen={!!deleteOperator}
+        onClose={() => setDeleteOperator(null)}
+        onConfirm={async () => {
+          console.log('Delete:', deleteOperator);
+          setDeleteOperator(null);
+        }}
+        title="Delete Operator"
+        message={`Delete ${deleteOperator?.name}?`}
+        variant="danger"
+      />
     </div>
   );
 }

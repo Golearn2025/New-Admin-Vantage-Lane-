@@ -14,6 +14,7 @@ export interface UseDriversTableReturn {
   data: DriverData[];
   loading: boolean;
   error: string | null;
+  refetch: () => void;
 }
 
 export function useDriversTable(): UseDriversTableReturn {
@@ -21,22 +22,22 @@ export function useDriversTable(): UseDriversTableReturn {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchDrivers() {
-      try {
-        setLoading(true);
-        setError(null);
-        const drivers = await listDrivers();
-        setData(drivers);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load drivers');
-      } finally {
-        setLoading(false);
-      }
+  const fetchDrivers = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const drivers = await listDrivers();
+      setData(drivers);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load drivers');
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchDrivers();
   }, []);
 
-  return { data, loading, error };
+  return { data, loading, error, refetch: fetchDrivers };
 }

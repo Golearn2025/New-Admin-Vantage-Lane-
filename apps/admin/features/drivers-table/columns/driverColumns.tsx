@@ -7,8 +7,15 @@
 
 import React from 'react';
 import type { DriverData } from '@entities/driver';
-import type { Column } from '@vantage-lane/ui-core';
+import type { Column, RowAction } from '@vantage-lane/ui-core';
+import { RowActions } from '@vantage-lane/ui-core';
 import styles from './driverColumns.module.css';
+
+export interface DriverColumnsCallbacks {
+  onView?: (driver: DriverData) => void;
+  onEdit?: (driver: DriverData) => void;
+  onDelete?: (driver: DriverData) => void;
+}
 
 /**
  * Get name column
@@ -106,14 +113,62 @@ export function getCreatedColumn(): Column<DriverData> {
 }
 
 /**
+ * Get actions column
+ */
+export function getActionsColumn(
+  callbacks: DriverColumnsCallbacks = {}
+): Column<DriverData> {
+  return {
+    id: 'actions',
+    header: 'Actions',
+    accessor: () => '',
+    cell: (row) => {
+      const actions: RowAction[] = [];
+      
+      if (callbacks.onView) {
+        actions.push({
+          label: 'View Details',
+          icon: 'eye',
+          onClick: () => callbacks.onView?.(row),
+        });
+      }
+      
+      if (callbacks.onEdit) {
+        actions.push({
+          label: 'Edit',
+          icon: 'edit',
+          onClick: () => callbacks.onEdit?.(row),
+        });
+      }
+      
+      if (callbacks.onDelete) {
+        actions.push({
+          label: 'Delete',
+          icon: 'trash',
+          onClick: () => callbacks.onDelete?.(row),
+          variant: 'danger',
+        });
+      }
+      
+      return <RowActions actions={actions} />;
+    },
+    sortable: false,
+    width: '80px',
+  };
+}
+
+/**
  * Get all driver columns
  */
-export function getDriverColumns(): Column<DriverData>[] {
+export function getDriverColumns(
+  callbacks: DriverColumnsCallbacks = {}
+): Column<DriverData>[] {
   return [
     getNameColumn(),
     getEmailColumn(),
     getPhoneColumn(),
     getStatusColumn(),
     getCreatedColumn(),
+    getActionsColumn(callbacks),
   ];
 }

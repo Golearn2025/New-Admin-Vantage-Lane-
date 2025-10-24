@@ -7,8 +7,15 @@
 
 import React from 'react';
 import type { CustomerData } from '@entities/customer';
-import type { Column } from '@vantage-lane/ui-core';
+import type { Column, RowAction } from '@vantage-lane/ui-core';
+import { RowActions } from '@vantage-lane/ui-core';
 import styles from './customerColumns.module.css';
+
+export interface CustomerColumnsCallbacks {
+  onView?: (customer: CustomerData) => void;
+  onEdit?: (customer: CustomerData) => void;
+  onDelete?: (customer: CustomerData) => void;
+}
 
 /**
  * Get name column
@@ -106,14 +113,62 @@ export function getCreatedColumn(): Column<CustomerData> {
 }
 
 /**
+ * Get actions column
+ */
+export function getActionsColumn(
+  callbacks: CustomerColumnsCallbacks = {}
+): Column<CustomerData> {
+  return {
+    id: 'actions',
+    header: 'Actions',
+    accessor: () => '',
+    cell: (row) => {
+      const actions: RowAction[] = [];
+      
+      if (callbacks.onView) {
+        actions.push({
+          label: 'View Details',
+          icon: 'eye',
+          onClick: () => callbacks.onView?.(row),
+        });
+      }
+      
+      if (callbacks.onEdit) {
+        actions.push({
+          label: 'Edit',
+          icon: 'edit',
+          onClick: () => callbacks.onEdit?.(row),
+        });
+      }
+      
+      if (callbacks.onDelete) {
+        actions.push({
+          label: 'Delete',
+          icon: 'trash',
+          onClick: () => callbacks.onDelete?.(row),
+          variant: 'danger',
+        });
+      }
+      
+      return <RowActions actions={actions} />;
+    },
+    sortable: false,
+    width: '80px',
+  };
+}
+
+/**
  * Get all customer columns
  */
-export function getCustomerColumns(): Column<CustomerData>[] {
+export function getCustomerColumns(
+  callbacks: CustomerColumnsCallbacks = {}
+): Column<CustomerData>[] {
   return [
     getNameColumn(),
     getEmailColumn(),
     getPhoneColumn(),
     getStatusColumn(),
     getCreatedColumn(),
+    getActionsColumn(callbacks),
   ];
 }

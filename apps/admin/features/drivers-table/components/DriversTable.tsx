@@ -6,8 +6,16 @@
 
 'use client';
 
-import React, { useState } from 'react';
-import { DataTable, Button, Input } from '@vantage-lane/ui-core';
+import React, { useState, useMemo } from 'react';
+import {
+  DataTable,
+  Input,
+  TableActions,
+  Pagination,
+  RowActions,
+  ConfirmDialog,
+  type RowAction,
+} from '@vantage-lane/ui-core';
 import { useDriversTable } from '../hooks/useDriversTable';
 import { getDriverColumns } from '../columns/driverColumns';
 import styles from './DriversTable.module.css';
@@ -17,21 +25,38 @@ export interface DriversTableProps {
 }
 
 export function DriversTable({ className }: DriversTableProps) {
-  const { data, loading, error } = useDriversTable();
+  const { data, loading, error, refetch } = useDriversTable();
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [deleteDriver, setDeleteDriver] = useState<any>(null);
 
   // Filter drivers based on search query
-  const filteredData = data.filter((driver) => {
-    const searchLower = searchQuery.toLowerCase();
-    const fullName = `${driver.firstName || ''} ${driver.lastName || ''}`.toLowerCase();
-    return (
-      fullName.includes(searchLower) ||
-      driver.email.toLowerCase().includes(searchLower) ||
-      (driver.phone && driver.phone.toLowerCase().includes(searchLower))
-    );
-  });
+  const filteredData = useMemo(() => {
+    return data.filter((driver) => {
+      const query = searchQuery.toLowerCase();
+      const fullName = `${driver.firstName || ''} ${driver.lastName || ''}`.toLowerCase();
+      return (
+        fullName.includes(query) ||
+        driver.email.toLowerCase().includes(query) ||
+        (driver.phone && driver.phone.toLowerCase().includes(query))
+      );
+    });
+  }, [data, searchQuery]);
 
-  const columns = getDriverColumns();
+  // Paginate data
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage, pageSize]);
+
+  const totalPages = Math.ceil(filteredData.length / pageSize);
+
+  const columns = getDriverColumns({
+    onView: (driver: any) => console.log('View:', driver),
+    onEdit: (driver: any) => console.log('Edit:', driver),
+    onDelete: (driver: any) => setDeleteDriver(driver),
+  });
 
   return (
     <div className={styles.container}>
@@ -44,7 +69,6 @@ export function DriversTable({ className }: DriversTableProps) {
         </div>
 
         <div className={styles.headerRight}>
-          {/* Search input */}
           <Input
             type="search"
             placeholder="Search drivers..."
@@ -53,10 +77,13 @@ export function DriversTable({ className }: DriversTableProps) {
             size="md"
           />
 
-          {/* Create driver button - placeholder for future */}
-          <Button variant="primary" size="md" disabled>
-            + Add Driver
-          </Button>
+          <TableActions
+            onAdd={() => console.log('Add driver')}
+            onExport={() => console.log('Export')}
+            onRefresh={refetch}
+            loading={loading}
+            addLabel="Create Driver"
+          />
         </div>
       </div>
 
@@ -71,27 +98,49 @@ export function DriversTable({ className }: DriversTableProps) {
       {/* Error state */}
       {error && (
         <div className={styles.errorContainer}>
-          <p className={styles.errorMessage}>{error}</p>
-          <Button 
-            variant="primary" 
-            size="md"
-            onClick={() => window.location.reload()}
-            className={styles.retryButton}
-          >
+          <p className={styles.errorMessage}>Error loading drivers: {error}</p>
+          <button className={styles.retryButton} onClick={() => window.location.reload()}>
             Retry
-          </Button>
+          </button>
         </div>
       )}
 
       {/* Table */}
       {!loading && !error && (
-        <div className={styles.tableContainer}>
-          <DataTable
-            data={filteredData}
-            columns={columns}
-          />
-        </div>
+        <>
+          <div className={styles.tableContainer}>
+            <DataTable data={paginatedData} columns={columns} />
+          </div>
+
+          {filteredData.length > 0 && (
+            <div className={styles.paginationWrapper}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalItems={filteredData.length}
+                pageSize={pageSize}
+                onPageChange={setCurrentPage}
+                onPageSizeChange={(size) => {
+                  setPageSize(size);
+                  setCurrentPage(1);
+                }}
+              />
+            </div>
+          )}
+        </>
       )}
+
+      <ConfirmDialog
+        isOpen={!!deleteDriver}
+        onClose={() => setDeleteDriver(null)}
+        onConfirm={async () => {
+          console.log('Delete:', deleteDriver);
+          setDeleteDriver(null);
+        }}
+        title="Delete Driver"
+        message={`Delete ${deleteDriver?.firstName} ${deleteDriver?.lastName}?`}
+        variant="danger"
+      />
     </div>
   );
 }

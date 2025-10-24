@@ -6,8 +6,14 @@
 
 'use client';
 
-import React, { useState } from 'react';
-import { DataTable, Button, Input } from '@vantage-lane/ui-core';
+import React, { useState, useMemo } from 'react';
+import {
+  DataTable,
+  Input,
+  TableActions,
+  Pagination,
+  ConfirmDialog,
+} from '@vantage-lane/ui-core';
 import { useAdminsTable } from '../hooks/useAdminsTable';
 import { getAdminColumns } from '../columns/adminColumns';
 import styles from './AdminsTable.module.css';
@@ -17,21 +23,38 @@ export interface AdminsTableProps {
 }
 
 export function AdminsTable({ className }: AdminsTableProps) {
-  const { data, loading, error } = useAdminsTable();
+  const { data, loading, error, refetch } = useAdminsTable();
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [deleteAdmin, setDeleteAdmin] = useState<any>(null);
 
   // Filter admins based on search query
-  const filteredData = data.filter((admin) => {
-    const searchLower = searchQuery.toLowerCase();
-    const fullName = `${admin.firstName || ''} ${admin.lastName || ''}`.toLowerCase();
-    return (
-      fullName.includes(searchLower) ||
-      admin.email.toLowerCase().includes(searchLower) ||
-      (admin.phone && admin.phone.toLowerCase().includes(searchLower))
-    );
-  });
+  const filteredData = useMemo(() => {
+    return data.filter((admin) => {
+      const query = searchQuery.toLowerCase();
+      const fullName = `${admin.firstName || ''} ${admin.lastName || ''}`.toLowerCase();
+      return (
+        fullName.includes(query) ||
+        admin.email.toLowerCase().includes(query) ||
+        (admin.phone && admin.phone.toLowerCase().includes(query))
+      );
+    });
+  }, [data, searchQuery]);
 
-  const columns = getAdminColumns();
+  // Paginate data
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage, pageSize]);
+
+  const totalPages = Math.ceil(filteredData.length / pageSize);
+
+  const columns = getAdminColumns({
+    onView: (admin: any) => console.log('View:', admin),
+    onEdit: (admin: any) => console.log('Edit:', admin),
+    onDelete: (admin: any) => setDeleteAdmin(admin),
+  });
 
   return (
     <div className={styles.container}>
@@ -44,7 +67,6 @@ export function AdminsTable({ className }: AdminsTableProps) {
         </div>
 
         <div className={styles.headerRight}>
-          {/* Search input */}
           <Input
             type="search"
             placeholder="Search admins..."
@@ -53,10 +75,13 @@ export function AdminsTable({ className }: AdminsTableProps) {
             size="md"
           />
 
-          {/* Create admin button - placeholder for future */}
-          <Button variant="primary" size="md" disabled>
-            + Add Admin
-          </Button>
+          <TableActions
+            onAdd={() => console.log('Add admin')}
+            onExport={() => console.log('Export')}
+            onRefresh={refetch}
+            loading={loading}
+            addLabel="Create Admin"
+          />
         </div>
       </div>
 
@@ -71,27 +96,49 @@ export function AdminsTable({ className }: AdminsTableProps) {
       {/* Error state */}
       {error && (
         <div className={styles.errorContainer}>
-          <p className={styles.errorMessage}>{error}</p>
-          <Button 
-            variant="primary" 
-            size="md"
-            onClick={() => window.location.reload()}
-            className={styles.retryButton}
-          >
+          <p className={styles.errorMessage}>Error loading admins: {error}</p>
+          <button className={styles.retryButton} onClick={() => window.location.reload()}>
             Retry
-          </Button>
+          </button>
         </div>
       )}
 
       {/* Table */}
       {!loading && !error && (
-        <div className={styles.tableContainer}>
-          <DataTable
-            data={filteredData}
-            columns={columns}
-          />
-        </div>
+        <>
+          <div className={styles.tableContainer}>
+            <DataTable data={paginatedData} columns={columns} />
+          </div>
+
+          {filteredData.length > 0 && (
+            <div className={styles.paginationWrapper}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalItems={filteredData.length}
+                pageSize={pageSize}
+                onPageChange={setCurrentPage}
+                onPageSizeChange={(size) => {
+                  setPageSize(size);
+                  setCurrentPage(1);
+                }}
+              />
+            </div>
+          )}
+        </>
       )}
+
+      <ConfirmDialog
+        isOpen={!!deleteAdmin}
+        onClose={() => setDeleteAdmin(null)}
+        onConfirm={async () => {
+          console.log('Delete:', deleteAdmin);
+          setDeleteAdmin(null);
+        }}
+        title="Delete Admin"
+        message={`Delete ${deleteAdmin?.firstName} ${deleteAdmin?.lastName}?`}
+        variant="danger"
+      />
     </div>
   );
 }

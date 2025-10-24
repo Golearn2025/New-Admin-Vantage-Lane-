@@ -14,6 +14,8 @@
  * />
  */
 
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
 import { ActionMenuProps } from './ActionMenu.types';
 import styles from './ActionMenu.module.css';

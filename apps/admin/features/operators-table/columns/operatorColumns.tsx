@@ -7,8 +7,15 @@
 
 import React from 'react';
 import type { OperatorData } from '@entities/operator';
-import type { Column } from '@vantage-lane/ui-core';
+import type { Column, RowAction } from '@vantage-lane/ui-core';
+import { RowActions } from '@vantage-lane/ui-core';
 import styles from './operatorColumns.module.css';
+
+export interface OperatorColumnsCallbacks {
+  onView?: (operator: OperatorData) => void;
+  onEdit?: (operator: OperatorData) => void;
+  onDelete?: (operator: OperatorData) => void;
+}
 
 /**
  * Get name column (organization name)
@@ -120,9 +127,56 @@ export function getCreatedColumn(): Column<OperatorData> {
 }
 
 /**
+ * Get actions column
+ */
+export function getActionsColumn(
+  callbacks: OperatorColumnsCallbacks = {}
+): Column<OperatorData> {
+  return {
+    id: 'actions',
+    header: 'Actions',
+    accessor: () => '',
+    cell: (row) => {
+      const actions: RowAction[] = [];
+      
+      if (callbacks.onView) {
+        actions.push({
+          label: 'View Details',
+          icon: 'eye',
+          onClick: () => callbacks.onView?.(row),
+        });
+      }
+      
+      if (callbacks.onEdit) {
+        actions.push({
+          label: 'Edit',
+          icon: 'edit',
+          onClick: () => callbacks.onEdit?.(row),
+        });
+      }
+      
+      if (callbacks.onDelete) {
+        actions.push({
+          label: 'Delete',
+          icon: 'trash',
+          onClick: () => callbacks.onDelete?.(row),
+          variant: 'danger',
+        });
+      }
+      
+      return <RowActions actions={actions} />;
+    },
+    sortable: false,
+    width: '80px',
+  };
+}
+
+/**
  * Get all operator columns
  */
-export function getOperatorColumns(): Column<OperatorData>[] {
+export function getOperatorColumns(
+  callbacks: OperatorColumnsCallbacks = {}
+): Column<OperatorData>[] {
   return [
     getNameColumn(),
     getEmailColumn(),
@@ -130,5 +184,6 @@ export function getOperatorColumns(): Column<OperatorData>[] {
     getRatingColumn(),
     getStatusColumn(),
     getCreatedColumn(),
+    getActionsColumn(callbacks),
   ];
 }

@@ -18,23 +18,27 @@
   width: 40px;
   height: 40px;
   padding: var(--spacing-2);
-  background: transparent;
+  background: var(--color-bg-secondary);
   border: 1px solid var(--color-border-default);
   border-radius: var(--border-radius-md);
   color: var(--color-text-secondary);
   cursor: pointer;
   transition: all var(--transition-fast);
+  box-shadow: var(--shadow-md);
 }
 
 .refreshButton:hover {
   background: var(--color-surface-elevated);
   border-color: var(--color-primary);
   color: var(--color-primary);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
 }
 
 .refreshButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  box-shadow: var(--shadow-sm);
 }
 
 .refreshButton.loading {

@@ -59,7 +59,7 @@
   background: var(--theme-gradient);
   color: white;
   border-color: var(--theme-primary);
-  box-shadow: var(--theme-shadow-button);
+  box-shadow: var(--shadow-xl), var(--theme-shadow-button);
   position: relative;
   overflow: hidden;
 }
@@ -77,8 +77,8 @@
 }
 
 .primary:hover:not(.disabled):not(.loading) {
-  box-shadow: var(--theme-shadow-button-hover), var(--theme-glow);
-  transform: translateY(-1px);
+  box-shadow: var(--shadow-2xl), var(--theme-shadow-button-hover), var(--theme-glow);
+  transform: translateY(-2px);
 }
 
 .primary:hover:not(.disabled):not(.loading)::before {
@@ -104,12 +104,20 @@
 }
 
 .secondary {
-  background-color: var(--color-surface-secondary);
+  background: var(--color-bg-secondary);
   color: var(--color-text-primary);
   border-color: var(--color-border-default);
+  box-shadow: var(--shadow-lg);
   
   &:hover:not(.disabled):not(.loading) {
-    background-color: var(--color-bg-tertiary);
+    background: var(--color-surface-elevated);
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-1px);
+  }
+  
+  &:active:not(.disabled):not(.loading) {
+    transform: translateY(0);
+    box-shadow: var(--shadow-lg);
   }
 }
 

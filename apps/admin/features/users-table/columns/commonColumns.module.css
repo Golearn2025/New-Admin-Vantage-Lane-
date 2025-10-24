@@ -1,0 +1,48 @@
+/**
+ * Users Table Common Columns Styles
+ * 
+ * 100% design tokens - zero hardcoded values
+ */
+
+.name {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.email {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.phone {
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-family-mono);
+}
+
+.statusActive {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-2);
+  background: var(--color-success-light);
+  color: var(--color-success-dark);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.statusInactive {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-2);
+  background: var(--color-neutral-light);
+  color: var(--color-text-tertiary);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.date {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}

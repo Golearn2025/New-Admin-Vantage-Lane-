@@ -13,8 +13,8 @@ export const UserSchema = z.object({
   lastName: z.string().min(1),
   role: UserRoleSchema,
   isActive: z.boolean(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
 
 export type UserRole = z.infer<typeof UserRoleSchema>;

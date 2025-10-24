@@ -1,9 +1,11 @@
-// ALL page
-export default function uallPage() {
-  return (
-    <div>
-      <h1>ALL</h1>
-      <p>all page - M0.1 placeholder</p>
-    </div>
-  );
+/**
+ * All Users Page
+ * 
+ * Routing only - zero logic
+ */
+
+import { AllUsersTable } from '@features/users-table';
+
+export default function AllUsersPage() {
+  return <AllUsersTable />;
 }

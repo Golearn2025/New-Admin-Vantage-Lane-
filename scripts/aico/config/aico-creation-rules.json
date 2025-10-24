@@ -1,0 +1,255 @@
+{
+  "version": "3.0",
+  "project": "Vantage Lane Admin",
+  "generatedBy": "AICO System",
+  "lastUpdated": "2025-10-23",
+  
+  "stack": {
+    "framework": "Next.js 15.0.2",
+    "language": "TypeScript 5.6+",
+    "runtime": "React 19.0.0",
+    "ui": [
+      "CSS Modules with Design Tokens", 
+      "@vantage-lane/ui-core",
+      "@vantage-lane/ui-icons",
+      "@vantage-lane/ui-dashboard"
+    ],
+    "stateManagement": "Zustand 4.5.5",
+    "database": "Supabase 2.45.2",
+    "payments": "Stripe 16.12.0",
+    "forms": "React Hook Form 7.52.2 + Zod 3.23.8",
+    "themes": "next-themes 0.4.6",
+    "networking": "ky 1.7.2"
+  },
+
+  "orchestration": {
+    "globalOrchestrator": "app/layout.tsx",
+    "registry": "apps/admin/registry.json",
+    "hooks": "apps/admin/shared/hooks/",
+    "autoRegister": false,
+    "guardian": "scripts/aico/guardian/"
+  },
+
+  "rules": {
+    "typescript": {
+      "strict": true,
+      "noAny": true,
+      "noImplicitAny": true,
+      "exactOptionalPropertyTypes": true,
+      "maxFileLines": 200,
+      "maxComplexity": 15,
+      "namingConvention": {
+        "components": "PascalCase",
+        "functions": "camelCase", 
+        "hooks": "use{Name}",
+        "stores": "use{Name}Store",
+        "types": "PascalCase",
+        "constants": "SCREAMING_SNAKE_CASE"
+      },
+      "forbidden": [
+        "console.log",
+        "any",
+        "unknown",
+        "as any",
+        "// @ts-ignore",
+        "eval(",
+        "setTimeout(", 
+        "setInterval("
+      ],
+      "required": [
+        "use client directive for client components",
+        "proper return types",
+        "interface definitions",
+        "JSDoc comments for public APIs"
+      ]
+    },
+
+    "ui": {
+      "designTokens": {
+        "mandatory": true,
+        "source": "packages/ui-core/src/tokens/",
+        "noHardcodedValues": ["colors", "spacing", "typography", "shadows", "borders"]
+      },
+      "themeSystem": {
+        "provider": "next-themes",
+        "hook": "useAppTheme",
+        "ssrSafe": true
+      },
+      "componentStructure": {
+        "maxDepth": 5,
+        "splitThreshold": 200,
+        "orchestratorRequired": true,
+        "hookPattern": "use{Component}Manager",
+        "animationLibrary": "framer-motion",
+        "statePattern": "zustand"
+      },
+      "accessibility": {
+        "mandatory": ["aria-labels", "keyboard navigation", "focus management"],
+        "testing": "jest-axe",
+        "wcag": "AA"
+      }
+    },
+
+    "state": {
+      "management": "zustand",
+      "patterns": {
+        "storeLocation": "src/features/{domain}/stores/",
+        "storePattern": "use{Name}Store.ts",
+        "mandatoryFields": ["isLoading", "error"],
+        "optionalFields": ["currentStep", "formData", "cache"]
+      },
+      "forbidden": {
+        "hooks": ["useState for complex state", "useReducer", "useContext for global state"],
+        "patterns": ["prop drilling", "untyped stores", "mutable mutations"]
+      },
+      "validation": {
+        "forms": "react-hook-form + zod",
+        "api": "zod schemas",
+        "env": "envsafe"
+      }
+    },
+
+    "api": {
+      "client": "ky",
+      "patterns": {
+        "location": "src/lib/api/",
+        "naming": "{domain}Api.ts",
+        "errorHandling": "centralized",
+        "types": "generated from schemas"
+      },
+      "forbidden": [
+        "fetch() direct usage",
+        "axios",
+        "process.env in frontend", 
+        "hardcoded URLs",
+        "untyped responses"
+      ],
+      "required": [
+        "proper error boundaries",
+        "loading states",
+        "optimistic updates",
+        "retry logic"
+      ],
+      "integrations": {
+        "supabase": {
+          "client": "src/lib/supabase/client.ts",
+          "types": "generated",
+          "auth": "session-based"
+        },
+        "stripe": {
+          "client": "@stripe/stripe-js",
+          "server": "stripe sdk",
+          "security": "no secrets in frontend"
+        }
+      }
+    },
+
+    "structure": {
+      "architecture": "Feature-Sliced Design",
+      "folders": {
+        "app/": "Next.js App Router - ROUTING ONLY (zero logic)",
+        "apps/admin/entities/": "Business logic, API, schemas, types",
+        "apps/admin/features/": "UI components, hooks, columns, tables",
+        "apps/admin/shared/": "Shared utilities, hooks, UI",
+        "lib/": "Global utilities, Supabase client",
+        "packages/ui-core/": "Reusable UI components library",
+        "packages/ui-icons/": "Icon system",
+        "packages/ui-dashboard/": "Dashboard-specific components"
+      },
+      "orchestrators": {
+        "global": "AppOrchestrator.tsx",
+        "feature": "{Feature}Orchestrator.tsx",
+        "component": "{Component}Orchestrator.tsx for complex UI"
+      }
+    },
+
+    "performance": {
+      "bundleSize": {
+        "maxComponentSize": "25KB",
+        "treeshaking": true,
+        "dynamicImports": "for heavy components"
+      },
+      "rendering": {
+        "ssr": "default for pages",
+        "streaming": "for data-heavy components", 
+        "memoization": "React.memo for expensive renders"
+      }
+    },
+
+    "testing": {
+      "framework": "Vitest + Testing Library",
+      "coverage": {
+        "threshold": 85,
+        "components": "mandatory",
+        "hooks": "mandatory",
+        "utils": "mandatory"
+      },
+      "types": ["unit", "integration", "e2e"],
+      "accessibility": "jest-axe integration"
+    },
+
+    "security": {
+      "env": "envsafe validation",
+      "secrets": "server-only",
+      "xss": "automatic escaping",
+      "csp": "strict",
+      "auth": "supabase session-based"
+    },
+
+    "documentation": {
+      "storybook": "for components",
+      "jsdoc": "for public APIs", 
+      "readme": "per feature module",
+      "changelog": "automatic generation"
+    }
+  },
+
+  "creation": {
+    "workflows": {
+      "component": [
+        "generate base structure",
+        "create orchestrator if complex",
+        "add to design system if reusable",
+        "register in AppRegistry",
+        "create tests",
+        "update documentation"
+      ],
+      "feature": [
+        "create feature folder structure",
+        "generate stores with zustand",
+        "create API layer",
+        "build components with orchestrators",
+        "add to routing",
+        "register in AppRegistry"
+      ],
+      "page": [
+        "create app router structure",
+        "generate metadata",
+        "create sections/components",
+        "add orchestration layer",
+        "integrate with global state",
+        "register routes"
+      ]
+    },
+    "templates": {
+      "component": "src/design-system/templates/component.tsx",
+      "orchestrator": "src/design-system/templates/orchestrator.tsx",
+      "store": "src/design-system/templates/store.ts",
+      "api": "src/design-system/templates/api.ts"
+    }
+  },
+
+  "guardian": {
+    "integration": true,
+    "checks": [
+      "typescript compliance",
+      "orchestration patterns",
+      "design token usage",
+      "performance metrics",
+      "accessibility standards",
+      "security vulnerabilities"
+    ],
+    "autofix": true,
+    "reporting": "docs/aico-compliance.json"
+  }
+}

@@ -34,7 +34,6 @@ function getInitials(name: string): string {
 export function Topbar({
   role,
   onMenuToggle,
-  searchPlaceholder = 'Search...',
   sidebarCollapsed = false,
   user,
 }: TopbarProps) {
@@ -98,19 +97,6 @@ export function Topbar({
           priority
         />
         <BrandName size="md" />
-      </div>
-
-      {/* Search */}
-      <div className={styles.searchSection}>
-        <div className={styles.searchContainer}>
-          <Icon name="support" size={20} className={styles.searchIcon} aria-hidden="true" />
-          <input
-            type="search"
-            placeholder={searchPlaceholder}
-            className={styles.searchInput}
-            aria-label="Search application"
-          />
-        </div>
       </div>
 
       {/* Right section */}

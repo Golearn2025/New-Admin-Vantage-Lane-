@@ -1,9 +1,12 @@
-// ADMINS page
-export default function uadminsPage() {
-  return (
-    <div>
-      <h1>ADMINS</h1>
-      <p>admins page - M0.1 placeholder</p>
-    </div>
-  );
+/**
+ * Admins Page
+ * 
+ * Routing only - zero logic
+ * Import feature component from @features/
+ */
+
+import { AdminsTable } from '@features/admins-table';
+
+export default function AdminsPage() {
+  return <AdminsTable />;
 }

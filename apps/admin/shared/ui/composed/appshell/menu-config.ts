@@ -20,7 +20,7 @@ const adminMenu: NavMenuItem[] = [
     icon: 'users',
     label: 'Users',
     href: '/users',
-    children: ['/users/drivers', '/users/customers', '/users/operators', '/users/admins'],
+    children: ['/users/all', '/users/drivers', '/users/customers', '/users/operators', '/users/admins'],
   },
   { icon: 'documents', label: 'Documents', href: '/documents' },
   { icon: 'support', label: 'Support', href: '/support-tickets' },

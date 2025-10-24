@@ -50,8 +50,9 @@ describe('createBookingTabs', () => {
     const tabs = createBookingTabs(counts);
     const firstTab = tabs[0];
     
-    expect(firstTab.value).toBe('all');
-    expect(firstTab.label).toBe('All Bookings');
-    expect(firstTab.count).toBe(100);
+    expect(firstTab).toBeDefined();
+    expect(firstTab?.value).toBe('all');
+    expect(firstTab?.label).toBe('All Bookings');
+    expect(firstTab?.count).toBe(100);
   });
 });

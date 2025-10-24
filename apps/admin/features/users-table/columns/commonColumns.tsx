@@ -7,27 +7,19 @@
 
 import React from 'react';
 import type { UnifiedUser } from '@entities/user';
+import type { Column } from '@vantage-lane/ui-core';
 import { UserTypeBadge } from '../components/UserTypeBadge';
 import styles from './commonColumns.module.css';
-
-export interface UsersColumn {
-  id: string;
-  header: string;
-  accessor: (row: UnifiedUser) => React.ReactNode | string;
-  sortable?: boolean;
-  width?: string;
-}
 
 /**
  * Get user type column with badge
  */
-export function getTypeColumn(): UsersColumn {
+export function getTypeColumn(): Column<UnifiedUser> {
   return {
     id: 'type',
     header: 'Type',
-    accessor: (row: UnifiedUser) => (
-      <UserTypeBadge type={row.userType} size="sm" />
-    ),
+    accessor: (row) => row.userType,
+    cell: (row) => <UserTypeBadge type={row.userType} size="sm" />,
     sortable: true,
     width: '120px',
   };
@@ -36,13 +28,12 @@ export function getTypeColumn(): UsersColumn {
 /**
  * Get name column
  */
-export function getNameColumn(): UsersColumn {
+export function getNameColumn(): Column<UnifiedUser> {
   return {
     id: 'name',
     header: 'Name',
-    accessor: (row: UnifiedUser) => (
-      <span className={styles.name}>{row.name}</span>
-    ),
+    accessor: (row) => row.name,
+    cell: (row) => <span className={styles.name}>{row.name}</span>,
     sortable: true,
     width: '200px',
   };
@@ -51,13 +42,12 @@ export function getNameColumn(): UsersColumn {
 /**
  * Get email column
  */
-export function getEmailColumn(): UsersColumn {
+export function getEmailColumn(): Column<UnifiedUser> {
   return {
     id: 'email',
     header: 'Email',
-    accessor: (row: UnifiedUser) => (
-      <span className={styles.email}>{row.email}</span>
-    ),
+    accessor: (row) => row.email,
+    cell: (row) => <span className={styles.email}>{row.email}</span>,
     sortable: true,
     width: '250px',
   };
@@ -66,13 +56,12 @@ export function getEmailColumn(): UsersColumn {
 /**
  * Get phone column
  */
-export function getPhoneColumn(): UsersColumn {
+export function getPhoneColumn(): Column<UnifiedUser> {
   return {
     id: 'phone',
     header: 'Phone',
-    accessor: (row: UnifiedUser) => (
-      <span className={styles.phone}>{row.phone || '—'}</span>
-    ),
+    accessor: (row) => row.phone || '—',
+    cell: (row) => <span className={styles.phone}>{row.phone || '—'}</span>,
     sortable: false,
     width: '150px',
   };
@@ -81,11 +70,12 @@ export function getPhoneColumn(): UsersColumn {
 /**
  * Get status column
  */
-export function getStatusColumn(): UsersColumn {
+export function getStatusColumn(): Column<UnifiedUser> {
   return {
     id: 'status',
     header: 'Status',
-    accessor: (row: UnifiedUser) => (
+    accessor: (row) => row.status,
+    cell: (row) => (
       <span 
         className={
           row.status === 'active' 
@@ -104,11 +94,12 @@ export function getStatusColumn(): UsersColumn {
 /**
  * Get created date column
  */
-export function getCreatedColumn(): UsersColumn {
+export function getCreatedColumn(): Column<UnifiedUser> {
   return {
     id: 'created',
     header: 'Created',
-    accessor: (row: UnifiedUser) => {
+    accessor: (row) => row.createdAt,
+    cell: (row) => {
       const date = new Date(row.createdAt);
       return (
         <span className={styles.date}>
@@ -128,7 +119,7 @@ export function getCreatedColumn(): UsersColumn {
 /**
  * Get all common columns for All Users table
  */
-export function getAllUsersColumns(): UsersColumn[] {
+export function getAllUsersColumns(): Column<UnifiedUser>[] {
   return [
     getTypeColumn(),
     getNameColumn(),

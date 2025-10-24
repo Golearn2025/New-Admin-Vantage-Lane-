@@ -2,8 +2,8 @@
  * Operator Entity - Validation
  */
 
-import { OperatorSchema } from './schema';
-import type { Operator } from './schema';
+import { OperatorSchema } from '../model/schema';
+import type { Operator } from '../model/schema';
 
 export function validateOperator(data: unknown): Operator {
   return OperatorSchema.parse(data);

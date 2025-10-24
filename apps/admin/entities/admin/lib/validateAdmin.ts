@@ -2,8 +2,8 @@
  * Admin Entity - Validation
  */
 
-import { AdminSchema } from './schema';
-import type { Admin } from './schema';
+import { AdminSchema } from '../model/schema';
+import type { Admin } from '../model/schema';
 
 export function validateAdmin(data: unknown): Admin {
   return AdminSchema.parse(data);

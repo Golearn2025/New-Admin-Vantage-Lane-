@@ -5,7 +5,7 @@
  * Import feature component from @features/
  */
 
-import { OperatorsTable } from '@features/users-table';
+import { OperatorsTable } from '@features/operators-table';
 
 export default function OperatorsPage() {
   return <OperatorsTable />;

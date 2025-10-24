@@ -5,7 +5,22 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
-import type { OperatorData, CreateOperatorPayload, UpdateOperatorPayload } from '../model/types';
+import type { OperatorData, OperatorRow, CreateOperatorPayload, UpdateOperatorPayload } from '../model/types';
+
+/**
+ * Map database row (snake_case) to app data (camelCase)
+ */
+function mapOperatorRow(row: OperatorRow): OperatorData {
+  return {
+    id: row.id,
+    email: row.email,
+    firstName: row.first_name,
+    lastName: row.last_name,
+    phone: row.phone,
+    isActive: row.is_active,
+    createdAt: row.created_at,
+  };
+}
 
 /**
  * List all operators
@@ -21,7 +36,7 @@ export async function listOperators(): Promise<OperatorData[]> {
 
   if (error) throw error;
 
-  return data || [];
+  return (data || []).map(mapOperatorRow);
 }
 
 /**
@@ -38,7 +53,7 @@ export async function getOperatorById(id: string): Promise<OperatorData | null> 
 
   if (error) throw error;
 
-  return data;
+  return data ? mapOperatorRow(data) : null;
 }
 
 /**
@@ -57,7 +72,7 @@ export async function createOperator(
 
   if (error) throw error;
 
-  return data;
+  return mapOperatorRow(data);
 }
 
 /**
@@ -78,7 +93,7 @@ export async function updateOperator(
 
   if (error) throw error;
 
-  return data;
+  return mapOperatorRow(data);
 }
 
 /**

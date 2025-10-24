@@ -5,7 +5,22 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
-import type { CustomerData, CreateCustomerPayload, UpdateCustomerPayload } from '../model/types';
+import type { CustomerData, CustomerRow, CreateCustomerPayload, UpdateCustomerPayload } from '../model/types';
+
+/**
+ * Map database row (snake_case) to app data (camelCase)
+ */
+function mapCustomerRow(row: CustomerRow): CustomerData {
+  return {
+    id: row.id,
+    email: row.email,
+    firstName: row.first_name,
+    lastName: row.last_name,
+    phone: row.phone,
+    isActive: row.is_active,
+    createdAt: row.created_at,
+  };
+}
 
 /**
  * List all customers
@@ -21,7 +36,7 @@ export async function listCustomers(): Promise<CustomerData[]> {
 
   if (error) throw error;
 
-  return data || [];
+  return (data || []).map(mapCustomerRow);
 }
 
 /**
@@ -38,7 +53,7 @@ export async function getCustomerById(id: string): Promise<CustomerData | null> 
 
   if (error) throw error;
 
-  return data;
+  return data ? mapCustomerRow(data) : null;
 }
 
 /**
@@ -57,7 +72,7 @@ export async function createCustomer(
 
   if (error) throw error;
 
-  return data;
+  return mapCustomerRow(data);
 }
 
 /**
@@ -78,7 +93,7 @@ export async function updateCustomer(
 
   if (error) throw error;
 
-  return data;
+  return mapCustomerRow(data);
 }
 
 /**

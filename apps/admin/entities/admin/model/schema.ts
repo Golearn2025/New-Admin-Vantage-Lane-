@@ -8,9 +8,12 @@ import { z } from 'zod';
 
 export const AdminSchema = z.object({
   id: z.string().uuid(),
+  email: z.string().email(),
+  firstName: z.string().nullable(),
+  lastName: z.string().nullable(),
+  phone: z.string().nullable(),
+  isActive: z.boolean(),
   createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
-  // Add your fields here
 });
 
 export type Admin = z.infer<typeof AdminSchema>;

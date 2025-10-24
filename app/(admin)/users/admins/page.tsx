@@ -5,7 +5,7 @@
  * Import feature component from @features/
  */
 
-import { AdminsTable } from '@features/users-table';
+import { AdminsTable } from '@features/admins-table';
 
 export default function AdminsPage() {
   return <AdminsTable />;

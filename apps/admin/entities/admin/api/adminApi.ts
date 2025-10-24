@@ -5,7 +5,22 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
-import type { AdminData, CreateAdminPayload, UpdateAdminPayload } from '../model/types';
+import type { AdminData, AdminRow, CreateAdminPayload, UpdateAdminPayload } from '../model/types';
+
+/**
+ * Map database row (snake_case) to app data (camelCase)
+ */
+function mapAdminRow(row: AdminRow): AdminData {
+  return {
+    id: row.id,
+    email: row.email,
+    firstName: row.first_name,
+    lastName: row.last_name,
+    phone: row.phone,
+    isActive: row.is_active,
+    createdAt: row.created_at,
+  };
+}
 
 /**
  * List all admins
@@ -21,7 +36,7 @@ export async function listAdmins(): Promise<AdminData[]> {
 
   if (error) throw error;
 
-  return data || [];
+  return (data || []).map(mapAdminRow);
 }
 
 /**
@@ -38,7 +53,7 @@ export async function getAdminById(id: string): Promise<AdminData | null> {
 
   if (error) throw error;
 
-  return data;
+  return data ? mapAdminRow(data) : null;
 }
 
 /**
@@ -57,7 +72,7 @@ export async function createAdmin(
 
   if (error) throw error;
 
-  return data;
+  return mapAdminRow(data);
 }
 
 /**
@@ -78,7 +93,7 @@ export async function updateAdmin(
 
   if (error) throw error;
 
-  return data;
+  return mapAdminRow(data);
 }
 
 /**

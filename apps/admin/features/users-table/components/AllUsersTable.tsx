@@ -8,7 +8,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { DataTable } from '@vantage-lane/ui-core';
+import { DataTable, Button, Input } from '@vantage-lane/ui-core';
 import { useAllUsers } from '../hooks/useAllUsers';
 import { getAllUsersColumns } from '../columns/commonColumns';
 import styles from './AllUsersTable.module.css';
@@ -53,18 +53,18 @@ export function AllUsersTable() {
 
         <div className={styles.headerRight}>
           {/* Search input */}
-          <input
+          <Input
             type="search"
             placeholder="Search users..."
-            className={styles.searchInput}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            size="md"
           />
 
           {/* Create user button - placeholder for future */}
-          <button className={styles.createButton} disabled>
+          <Button variant="primary" size="md" disabled>
             + Create User
-          </button>
+          </Button>
         </div>
       </div>
 

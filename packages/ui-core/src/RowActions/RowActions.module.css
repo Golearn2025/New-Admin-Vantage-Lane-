@@ -15,22 +15,27 @@
   width: 32px;
   height: 32px;
   padding: var(--spacing-1);
-  background: transparent;
-  border: none;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--border-radius-md);
   color: var(--color-text-secondary);
   cursor: pointer;
   transition: all var(--transition-fast);
+  box-shadow: var(--shadow-md);
 }
 
 .trigger:hover {
   background: var(--color-surface-elevated);
   color: var(--color-text-primary);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+  border-color: var(--color-primary);
 }
 
 .trigger:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  box-shadow: var(--shadow-sm);
 }
 
 /* Dropdown */

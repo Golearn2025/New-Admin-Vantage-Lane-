@@ -1,0 +1,122 @@
+/**
+ * RowActions Styles
+ * Premium dropdown menu pentru row actions
+ */
+
+.container {
+  position: relative;
+  display: inline-flex;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: var(--spacing-1);
+  background: transparent;
+  border: none;
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.trigger:hover {
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+}
+
+.trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--spacing-1);
+  min-width: 160px;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Action Button */
+.action {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-3);
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.action:hover {
+  background: var(--color-surface-hover);
+  padding-left: calc(var(--spacing-3) + 4px);
+}
+
+.action:hover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--color-primary);
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+}
+
+/* Danger variant */
+.actionDanger {
+  color: var(--color-error);
+}
+
+.actionDanger:hover {
+  background: var(--color-error-light);
+}
+
+.actionDanger:hover::before {
+  background: var(--color-error);
+}
+
+/* Disabled */
+.actionDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.actionDisabled:hover {
+  background: transparent;
+  padding-left: var(--spacing-3);
+}
+
+.actionDisabled:hover::before {
+  display: none;
+}

@@ -1,0 +1,64 @@
+/**
+ * TableActions Styles
+ * Premium action buttons pentru table headers
+ */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
+/* Refresh button */
+.refreshButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: var(--spacing-2);
+  background: transparent;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.refreshButton:hover {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.refreshButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.refreshButton.loading {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive - stack pe mobile */
+@media (max-width: 640px) {
+  .actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .refreshButton {
+    width: 100%;
+  }
+}

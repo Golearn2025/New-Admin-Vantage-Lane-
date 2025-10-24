@@ -1,9 +1,12 @@
-// DOCUMENTS page
-export default function udocumentsPage() {
-  return (
-    <div>
-      <h1>DOCUMENTS</h1>
-      <p>documents page - M0.1 placeholder</p>
-    </div>
-  );
+/**
+ * Documents Approval Page
+ * Admin reviews and approves driver/operator documents
+ * 
+ * MODERN & PREMIUM - ZERO logic in app/ (RULES.md compliant)
+ */
+
+import { DocumentsApprovalTable } from '@features/documents-approval';
+
+export default function DocumentsPage() {
+  return <DocumentsApprovalTable />;
 }

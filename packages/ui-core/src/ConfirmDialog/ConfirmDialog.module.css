@@ -1,0 +1,78 @@
+/**
+ * ConfirmDialog Styles
+ * Premium confirmation dialog with variant styling
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-4);
+}
+
+/* Icon Wrapper */
+.iconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--border-radius-full);
+  margin-bottom: var(--spacing-2);
+}
+
+.iconWrapper.danger {
+  background: var(--color-error-light);
+  color: var(--color-error);
+}
+
+.iconWrapper.warning {
+  background: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
+.iconWrapper.info {
+  background: var(--color-info-light);
+  color: var(--color-info);
+}
+
+/* Title */
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* Message */
+.message {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: var(--spacing-3);
+  width: 100%;
+  margin-top: var(--spacing-2);
+}
+
+.actions button {
+  flex: 1;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}

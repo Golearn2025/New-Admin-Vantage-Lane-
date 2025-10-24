@@ -22,6 +22,8 @@ export * from './DataTable';
 export * from './Pagination';
 export * from './TableActions';
 export * from './RowActions';
+export * from './Modal';
+export * from './ConfirmDialog';
 export * from './ProfileSection';
 export * from './FormField';
 export * from './SaveButton';

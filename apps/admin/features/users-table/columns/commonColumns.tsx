@@ -7,8 +7,8 @@
 
 import React from 'react';
 import type { UnifiedUser } from '@entities/user';
-import type { Column } from '@vantage-lane/ui-core';
-import { UserBadge } from '@vantage-lane/ui-core';
+import type { Column, RowAction } from '@vantage-lane/ui-core';
+import { UserBadge, RowActions } from '@vantage-lane/ui-core';
 import styles from './commonColumns.module.css';
 
 /**
@@ -117,9 +117,50 @@ export function getCreatedColumn(): Column<UnifiedUser> {
 }
 
 /**
+ * Get actions column
+ */
+function getActionsColumn(options: {
+  onView?: (user: UnifiedUser) => void;
+  onEdit?: (user: UnifiedUser) => void;
+  onDelete?: (user: UnifiedUser) => void;
+}): Column<UnifiedUser> {
+  return {
+    id: 'actions',
+    header: '',
+    accessor: () => '',
+    cell: (row) => {
+      const actions: RowAction[] = [
+        ...(options.onView ? [{
+          label: 'View Details',
+          icon: 'eye' as const,
+          onClick: () => options.onView!(row),
+        }] : []),
+        ...(options.onEdit ? [{
+          label: 'Edit',
+          icon: 'edit' as const,
+          onClick: () => options.onEdit!(row),
+        }] : []),
+        ...(options.onDelete ? [{
+          label: 'Delete',
+          icon: 'trash' as const,
+          onClick: () => options.onDelete!(row),
+          variant: 'danger' as const,
+        }] : []),
+      ];
+      return <RowActions actions={actions} />;
+    },
+    width: '60px',
+  };
+}
+
+/**
  * Get all common columns for All Users table
  */
-export function getAllUsersColumns(): Column<UnifiedUser>[] {
+export function getAllUsersColumns(options?: {
+  onView?: (user: UnifiedUser) => void;
+  onEdit?: (user: UnifiedUser) => void;
+  onDelete?: (user: UnifiedUser) => void;
+}): Column<UnifiedUser>[] {
   return [
     getTypeColumn(),
     getNameColumn(),
@@ -127,5 +168,6 @@ export function getAllUsersColumns(): Column<UnifiedUser>[] {
     getPhoneColumn(),
     getStatusColumn(),
     getCreatedColumn(),
+    ...(options ? [getActionsColumn(options)] : []),
   ];
 }

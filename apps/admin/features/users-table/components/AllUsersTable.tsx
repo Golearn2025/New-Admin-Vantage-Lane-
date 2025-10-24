@@ -7,27 +7,52 @@
 
 'use client';
 
-import React, { useState } from 'react';
-import { DataTable, Button, Input } from '@vantage-lane/ui-core';
+import React, { useState, useMemo } from 'react';
+import {
+  DataTable,
+  Input,
+  TableActions,
+  Pagination,
+  RowActions,
+  ConfirmDialog,
+  type RowAction,
+} from '@vantage-lane/ui-core';
 import { useAllUsers } from '../hooks/useAllUsers';
 import { getAllUsersColumns } from '../columns/commonColumns';
 import styles from './AllUsersTable.module.css';
 
 export function AllUsersTable() {
-  const { data, loading, error } = useAllUsers();
+  const { data, loading, error, refetch } = useAllUsers();
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [deleteUser, setDeleteUser] = useState<any>(null);
 
   // Filter users based on search query
-  const filteredData = data.filter((user) => {
-    const query = searchQuery.toLowerCase();
-    return (
-      user.name.toLowerCase().includes(query) ||
-      user.email.toLowerCase().includes(query) ||
-      (user.phone && user.phone.toLowerCase().includes(query))
-    );
-  });
+  const filteredData = useMemo(() => {
+    return data.filter((user) => {
+      const query = searchQuery.toLowerCase();
+      return (
+        user.name.toLowerCase().includes(query) ||
+        user.email.toLowerCase().includes(query) ||
+        (user.phone && user.phone.toLowerCase().includes(query))
+      );
+    });
+  }, [data, searchQuery]);
 
-  const columns = getAllUsersColumns();
+  // Paginate data
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage, pageSize]);
+
+  const totalPages = Math.ceil(filteredData.length / pageSize);
+
+  const columns = getAllUsersColumns({
+    onView: (user: any) => console.log('View:', user),
+    onEdit: (user: any) => console.log('Edit:', user),
+    onDelete: (user: any) => setDeleteUser(user),
+  });
 
   if (error) {
     return (
@@ -52,7 +77,6 @@ export function AllUsersTable() {
         </div>
 
         <div className={styles.headerRight}>
-          {/* Search input */}
           <Input
             type="search"
             placeholder="Search users..."
@@ -61,10 +85,13 @@ export function AllUsersTable() {
             size="md"
           />
 
-          {/* Create user button - placeholder for future */}
-          <Button variant="primary" size="md" disabled>
-            + Create User
-          </Button>
+          <TableActions
+            onAdd={() => console.log('Add user')}
+            onExport={() => console.log('Export')}
+            onRefresh={refetch}
+            loading={loading}
+            addLabel="Create User"
+          />
         </div>
       </div>
 
@@ -78,13 +105,40 @@ export function AllUsersTable() {
 
       {/* Table */}
       {!loading && (
-        <div className={styles.tableContainer}>
-          <DataTable
-            data={filteredData}
-            columns={columns}
-          />
-        </div>
+        <>
+          <div className={styles.tableContainer}>
+            <DataTable data={paginatedData} columns={columns} />
+          </div>
+
+          {filteredData.length > 0 && (
+            <div className={styles.paginationWrapper}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalItems={filteredData.length}
+                pageSize={pageSize}
+                onPageChange={setCurrentPage}
+                onPageSizeChange={(size) => {
+                  setPageSize(size);
+                  setCurrentPage(1);
+                }}
+              />
+            </div>
+          )}
+        </>
       )}
+
+      <ConfirmDialog
+        isOpen={!!deleteUser}
+        onClose={() => setDeleteUser(null)}
+        onConfirm={async () => {
+          console.log('Delete:', deleteUser);
+          setDeleteUser(null);
+        }}
+        title="Delete User"
+        message={`Delete ${deleteUser?.name}?`}
+        variant="danger"
+      />
     </div>
   );
 }

@@ -4,8 +4,8 @@
  * Routing only - zero logic
  */
 
-import { UsersTable } from '@features/users-table';
+import { AllUsersTable } from '@features/users-table';
 
 export default function AllUsersPage() {
-  return <UsersTable />;
+  return <AllUsersTable />;
 }

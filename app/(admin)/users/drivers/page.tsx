@@ -1,9 +1,12 @@
-// DRIVERS page
-export default function udriversPage() {
-  return (
-    <div>
-      <h1>DRIVERS</h1>
-      <p>drivers page - M0.1 placeholder</p>
-    </div>
-  );
+/**
+ * Drivers Page
+ * 
+ * Routing only - zero logic
+ * Import feature component from @features/
+ */
+
+import { DriversTable } from '@features/drivers-table';
+
+export default function DriversPage() {
+  return <DriversTable />;
 }

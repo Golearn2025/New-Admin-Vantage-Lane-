@@ -29,8 +29,9 @@ export async function listAdmins(): Promise<AdminData[]> {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from('admins')
+    .from('admin_users')
     .select('*')
+    .in('role', ['admin', 'super_admin'])
     .order('created_at', { ascending: false })
     .limit(1000);
 
@@ -46,9 +47,10 @@ export async function getAdminById(id: string): Promise<AdminData | null> {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from('admins')
+    .from('admin_users')
     .select('*')
     .eq('id', id)
+    .in('role', ['admin', 'super_admin'])
     .single();
 
   if (error) throw error;
@@ -65,7 +67,7 @@ export async function createAdmin(
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from('admins')
+    .from('admin_users')
     .insert(payload)
     .select()
     .single();
@@ -85,7 +87,7 @@ export async function updateAdmin(
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from('admins')
+    .from('admin_users')
     .update(payload)
     .eq('id', id)
     .select()
@@ -103,7 +105,7 @@ export async function deleteAdmin(id: string): Promise<void> {
   const supabase = createClient();
 
   const { error } = await supabase
-    .from('admins')
+    .from('admin_users')
     .delete()
     .eq('id', id);
 

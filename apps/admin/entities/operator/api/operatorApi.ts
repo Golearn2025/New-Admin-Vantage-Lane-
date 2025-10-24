@@ -29,8 +29,9 @@ export async function listOperators(): Promise<OperatorData[]> {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from('operators')
+    .from('admin_users')
     .select('*')
+    .eq('role', 'support')
     .order('created_at', { ascending: false })
     .limit(1000);
 
@@ -46,9 +47,10 @@ export async function getOperatorById(id: string): Promise<OperatorData | null> 
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from('operators')
+    .from('admin_users')
     .select('*')
     .eq('id', id)
+    .eq('role', 'support')
     .single();
 
   if (error) throw error;
@@ -65,7 +67,7 @@ export async function createOperator(
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from('operators')
+    .from('admin_users')
     .insert(payload)
     .select()
     .single();
@@ -85,7 +87,7 @@ export async function updateOperator(
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from('operators')
+    .from('admin_users')
     .update(payload)
     .eq('id', id)
     .select()
@@ -103,7 +105,7 @@ export async function deleteOperator(id: string): Promise<void> {
   const supabase = createClient();
 
   const { error } = await supabase
-    .from('operators')
+    .from('admin_users')
     .delete()
     .eq('id', id);
 

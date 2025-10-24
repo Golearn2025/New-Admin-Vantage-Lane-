@@ -1,85 +1,66 @@
 #!/usr/bin/env node
 /**
- * 📄 Page Generator - Vantage Lane 2.0
- * AI-optimized for Next.js 15 App Router
+ * 📄 Page Generator - Vantage Lane Admin
+ * Creates Next.js page with routing only (zero logic)
  */
 
 const fs = require('fs');
 const path = require('path');
-const chalk = require('chalk');
 
-const pageName = process.argv[2];
-const layout = process.argv.find(arg => arg.startsWith('--layout='))?.split('=')[1] || 'marketing';
+const pagePath = process.argv[2];
 
-if (!pageName) {
-  console.log(chalk.red('❌ Please provide page name: npm run create:page about'));
+if (!pagePath) {
+  console.log('❌ Please provide page path: npm run aico:page users/all');
   process.exit(1);
 }
 
-const basePath = path.join(__dirname, '../../src/app', pageName);
+// Parse path
+const pathParts = pagePath.split('/');
 
-// Create page directory
+// Create directory structure
+const basePath = path.join(__dirname, '../../../app/(admin)', pagePath);
+
 if (!fs.existsSync(basePath)) {
   fs.mkdirSync(basePath, { recursive: true });
 }
 
-// Page template
-const pageTemplate = `import type { Metadata } from 'next';
-import { ${pascalCase(pageName)}Config } from './${pascalCase(pageName)}.config';
+// Convert path to feature name
+const featureName = pathParts[pathParts.length - 1];
+const pascalName = featureName
+  .split('-')
+  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+  .join('');
 
-export const metadata: Metadata = ${pascalCase(pageName)}Config.metadata;
+const parentFeature = pathParts.length > 1 ? pathParts[0] : featureName;
 
-export default function ${pascalCase(pageName)}Page() {
-  return (
-    <main className="min-h-screen">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">
-          ${pageName.charAt(0).toUpperCase() + pageName.slice(1)}
-        </h1>
-        <p className="text-lg text-muted-foreground">
-          Welcome to the ${pageName} page.
-        </p>
-      </div>
-    </main>
-  );
+// Page template - ROUTING ONLY!
+const pageTemplate = `/**
+ * ${pascalName} Page
+ * 
+ * Routing only - zero logic
+ * Import feature component from @features/
+ */
+
+import { ${pascalName}Table } from '@features/${parentFeature}-table';
+
+export default function ${pascalName}Page() {
+  return <${pascalName}Table />;
 }
 `;
 
-// Config template
-const configTemplate = `import type { Metadata } from 'next';
+// Write page.tsx
+fs.writeFileSync(
+  path.join(basePath, 'page.tsx'),
+  pageTemplate
+);
 
-export const ${pascalCase(pageName)}Config = {
-  metadata: {
-    title: '${pageName.charAt(0).toUpperCase() + pageName.slice(1)} - Vantage Lane',
-    description: '${pageName.charAt(0).toUpperCase() + pageName.slice(1)} page for Vantage Lane platform.',
-  } as Metadata,
-  
-  layout: '${layout}',
-  
-  seo: {
-    keywords: ['${pageName}', 'vantage-lane', 'platform'],
-    openGraph: {
-      title: '${pageName.charAt(0).toUpperCase() + pageName.slice(1)} - Vantage Lane',
-      description: '${pageName.charAt(0).toUpperCase() + pageName.slice(1)} page for Vantage Lane platform.',
-    },
-  },
-};
-`;
+console.log(`✅ Created page at app/(admin)/${pagePath}/page.tsx`);
+console.log(`📝 Routing only - zero logic!
 
-function pascalCase(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+📋 Next steps:
+  1. Create feature component: npm run aico:feature ${parentFeature}-table
+  2. Implement ${pascalName}Table in features
+  3. Test at http://localhost:3000/${pagePath}
 
-// Write files
-fs.writeFileSync(path.join(basePath, 'page.tsx'), pageTemplate);
-fs.writeFileSync(path.join(basePath, `${pascalCase(pageName)}.config.ts`), configTemplate);
-
-console.log(chalk.green(`✅ Created ${pageName} page in src/app/${pageName}/`));
-console.log(chalk.cyan(`📝 Files created:
-  - page.tsx
-  - ${pascalCase(pageName)}.config.ts`));
-console.log(chalk.yellow(`💡 Consider adding:
-  - ${pascalCase(pageName)}.meta.ts
-  - ${pascalCase(pageName)}.test.tsx
-  - HeroSection.tsx
-  - BaseSection.tsx`));
+✨ This page only imports and renders - all logic in features!
+`);

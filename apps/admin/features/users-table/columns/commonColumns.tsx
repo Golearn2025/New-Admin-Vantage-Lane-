@@ -8,7 +8,7 @@
 import React from 'react';
 import type { UnifiedUser } from '@entities/user';
 import type { Column } from '@vantage-lane/ui-core';
-import { UserTypeBadge } from '../components/UserTypeBadge';
+import { UserBadge } from '@vantage-lane/ui-core';
 import styles from './commonColumns.module.css';
 
 /**
@@ -19,7 +19,7 @@ export function getTypeColumn(): Column<UnifiedUser> {
     id: 'type',
     header: 'Type',
     accessor: (row) => row.userType,
-    cell: (row) => <UserTypeBadge type={row.userType} size="sm" />,
+    cell: (row) => <UserBadge type={row.userType} size="sm" />,
     sortable: true,
     width: '120px',
   };

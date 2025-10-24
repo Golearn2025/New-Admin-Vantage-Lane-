@@ -1,9 +1,12 @@
-// CUSTOMERS page
-export default function ucustomersPage() {
-  return (
-    <div>
-      <h1>CUSTOMERS</h1>
-      <p>customers page - M0.1 placeholder</p>
-    </div>
-  );
+/**
+ * Customers Page
+ * 
+ * Routing only - zero logic
+ * Import feature component from @features/
+ */
+
+import { CustomersTable } from '@features/users-table';
+
+export default function CustomersPage() {
+  return <CustomersTable />;
 }

@@ -7,6 +7,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   DataTable,
   Input,
@@ -23,6 +24,7 @@ export interface OperatorsTableProps {
 }
 
 export function OperatorsTable({ className }: OperatorsTableProps) {
+  const router = useRouter();
   const { data, loading, error, refetch } = useOperatorsTable();
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,7 +52,7 @@ export function OperatorsTable({ className }: OperatorsTableProps) {
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
   const columns = getOperatorColumns({
-    onView: (operator: any) => console.log('View:', operator),
+    onView: (operator: any) => router.push(`/users/${operator.id}?type=operator`),
     onEdit: (operator: any) => console.log('Edit:', operator),
     onDelete: (operator: any) => setDeleteOperator(operator),
   });

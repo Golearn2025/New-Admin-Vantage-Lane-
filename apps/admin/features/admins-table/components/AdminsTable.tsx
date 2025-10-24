@@ -7,6 +7,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   DataTable,
   Input,
@@ -23,6 +24,7 @@ export interface AdminsTableProps {
 }
 
 export function AdminsTable({ className }: AdminsTableProps) {
+  const router = useRouter();
   const { data, loading, error, refetch } = useAdminsTable();
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,7 +53,7 @@ export function AdminsTable({ className }: AdminsTableProps) {
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
   const columns = getAdminColumns({
-    onView: (admin: any) => console.log('View:', admin),
+    onView: (admin: any) => router.push(`/users/${admin.id}?type=admin`),
     onEdit: (admin: any) => console.log('Edit:', admin),
     onDelete: (admin: any) => setDeleteAdmin(admin),
   });

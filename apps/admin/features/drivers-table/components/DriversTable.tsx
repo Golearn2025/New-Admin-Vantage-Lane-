@@ -7,6 +7,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   DataTable,
   Input,
@@ -25,6 +26,7 @@ export interface DriversTableProps {
 }
 
 export function DriversTable({ className }: DriversTableProps) {
+  const router = useRouter();
   const { data, loading, error, refetch } = useDriversTable();
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -53,7 +55,7 @@ export function DriversTable({ className }: DriversTableProps) {
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
   const columns = getDriverColumns({
-    onView: (driver: any) => console.log('View:', driver),
+    onView: (driver: any) => router.push(`/users/${driver.id}?type=driver`),
     onEdit: (driver: any) => console.log('Edit:', driver),
     onDelete: (driver: any) => setDeleteDriver(driver),
   });

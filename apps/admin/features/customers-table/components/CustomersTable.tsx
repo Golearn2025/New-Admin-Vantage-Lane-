@@ -7,6 +7,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   DataTable,
   Input,
@@ -23,6 +24,7 @@ export interface CustomersTableProps {
 }
 
 export function CustomersTable({ className }: CustomersTableProps) {
+  const router = useRouter();
   const { data, loading, error, refetch } = useCustomersTable();
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,7 +53,7 @@ export function CustomersTable({ className }: CustomersTableProps) {
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
   const columns = getCustomerColumns({
-    onView: (customer: any) => console.log('View:', customer),
+    onView: (customer: any) => router.push(`/users/${customer.id}?type=customer`),
     onEdit: (customer: any) => console.log('Edit:', customer),
     onDelete: (customer: any) => setDeleteCustomer(customer),
   });

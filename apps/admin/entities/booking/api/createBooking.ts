@@ -3,7 +3,7 @@
  * Handles booking creation with segments, pricing, and services
  */
 
-import { createClient } from '@/lib/supabase/server';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import type {
   CreateBookingPayload,
   BookingSegment,
@@ -21,7 +21,10 @@ interface CreateBookingResult {
  * Generate booking reference (CB-XXXXX format)
  */
 async function generateReference(): Promise<string> {
-  const supabase = await createClient();
+  const supabase = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
   
   // Get latest booking reference
   const { data } = await supabase
@@ -51,7 +54,10 @@ export async function createBooking(
   services: BookingService[],
   basePrice: number
 ): Promise<CreateBookingResult> {
-  const supabase = await createClient();
+  const supabase = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 
   try {
     // 1. Generate reference

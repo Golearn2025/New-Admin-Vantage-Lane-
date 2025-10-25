@@ -1,9 +1,6 @@
 /**
- * AdminsTable Feature - Public API
+ * admins-table Feature
+ * Export all public APIs
  */
 
 export { AdminsTable } from './components/AdminsTable';
-export type { AdminsTableProps } from './components/AdminsTable';
-export { useAdminsTable } from './hooks/useAdminsTable';
-export type { UseAdminsTableReturn } from './hooks/useAdminsTable';
-export { getAdminColumns } from './columns/adminColumns';

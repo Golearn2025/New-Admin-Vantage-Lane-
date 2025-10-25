@@ -1,6 +1,7 @@
 /**
  * Create Booking API
  * Handles booking creation with segments, pricing, and services
+ * Uses service role key to bypass RLS (admin operations)
  */
 
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
@@ -21,9 +22,10 @@ interface CreateBookingResult {
  * Generate booking reference (CB-XXXXX format)
  */
 async function generateReference(): Promise<string> {
+  // Use service role key to bypass RLS for admin operations
   const supabase = createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
   
   // Get latest booking reference
@@ -54,9 +56,10 @@ export async function createBooking(
   services: BookingService[],
   basePrice: number
 ): Promise<CreateBookingResult> {
+  // Use service role key to bypass RLS for admin operations
   const supabase = createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
   try {

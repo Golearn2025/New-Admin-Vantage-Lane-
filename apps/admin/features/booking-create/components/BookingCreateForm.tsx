@@ -11,6 +11,7 @@ import { BookingTypeSelector } from './BookingTypeSelector';
 import { BookingCustomerSelect } from './BookingCustomerSelect';
 import { BookingVehicleSelector } from './BookingVehicleSelector';
 import { BookingFleetSelector } from './BookingFleetSelector';
+import { GooglePlacesInput } from './GooglePlacesInput';
 import { BookingServicesPanel } from './BookingServicesPanel';
 import { BookingPriceSummary } from './BookingPriceSummary';
 import { useBookingCreate } from '../hooks/useBookingCreate';
@@ -118,28 +119,22 @@ export function BookingCreateForm() {
             }}
           />
 
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>📍 Pickup Location</label>
-            <input
-              type="text"
-              className={styles.input}
-              value={formData.pickupText}
-              onChange={(e) => updateField('pickupText', e.target.value)}
-              placeholder="Enter pickup location"
-            />
-          </div>
+          <GooglePlacesInput
+            value={formData.pickupText}
+            onChange={(value) => updateField('pickupText', value)}
+            label="Pickup Location"
+            icon="📍"
+            placeholder="Search for pickup location..."
+          />
 
           {formData.tripType !== 'hourly' && (
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>🎯 Dropoff Location</label>
-              <input
-                type="text"
-                className={styles.input}
-                value={formData.dropoffText}
-                onChange={(e) => updateField('dropoffText', e.target.value)}
-                placeholder="Enter dropoff location"
-              />
-            </div>
+            <GooglePlacesInput
+              value={formData.dropoffText}
+              onChange={(value) => updateField('dropoffText', value)}
+              label="Dropoff Location"
+              icon="🎯"
+              placeholder="Search for dropoff location..."
+            />
           )}
 
           <div className={styles.row}>

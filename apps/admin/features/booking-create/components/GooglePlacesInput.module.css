@@ -1,0 +1,78 @@
+/* GooglePlacesInput Styles */
+
+.container {
+  margin-bottom: var(--spacing-4);
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-2);
+}
+
+.icon {
+  font-size: var(--font-size-lg);
+}
+
+.input {
+  width: 100%;
+  padding: var(--spacing-3);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  transition: all var(--transition-fast);
+}
+
+.input:focus {
+  outline: none;
+  border-color: rgba(211, 170, 49, 0.5);
+  box-shadow: 0 0 20px rgba(211, 170, 49, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.input::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.5;
+}
+
+/* Google autocomplete dropdown styling */
+:global(.pac-container) {
+  background: rgba(17, 24, 39, 0.95);
+  border: 1px solid rgba(211, 170, 49, 0.3);
+  border-radius: var(--border-radius-lg);
+  margin-top: var(--spacing-1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+:global(.pac-item) {
+  padding: var(--spacing-3);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+:global(.pac-item:hover) {
+  background: rgba(211, 170, 49, 0.1);
+}
+
+:global(.pac-item-query) {
+  color: rgba(211, 170, 49, 1);
+  font-weight: var(--font-weight-semibold);
+}
+
+:global(.pac-icon) {
+  display: none;
+}
+
+:global(.pac-matched) {
+  font-weight: var(--font-weight-bold);
+  color: rgba(211, 170, 49, 1);
+}

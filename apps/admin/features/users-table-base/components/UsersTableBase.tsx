@@ -19,10 +19,13 @@ import {
   Button,
 } from '@vantage-lane/ui-core';
 import { UserCreateModal } from '@features/user-create-modal';
+import { UserViewModal } from '@features/user-view-modal';
+import { UserEditModal } from '@features/user-edit-modal';
 import { useAllUsers } from '@features/users-table/hooks/useAllUsers';
 import { getAllUsersColumns } from '@features/users-table/columns/commonColumns';
 import { bulkUpdateUsers, bulkDeleteUsers } from '@entities/user';
 import type { UsersTableBaseProps } from '../types';
+import type { UnifiedUser } from '@entities/user';
 import styles from './UsersTableBase.module.css';
 
 export function UsersTableBase({
@@ -36,7 +39,9 @@ export function UsersTableBase({
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
-  const [deleteUser, setDeleteUser] = useState<any>(null);
+  const [deleteUser, setDeleteUser] = useState<UnifiedUser | null>(null);
+  const [viewUser, setViewUser] = useState<UnifiedUser | null>(null);
+  const [editUser, setEditUser] = useState<UnifiedUser | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
   const [bulkAction, setBulkAction] = useState<'activate' | 'deactivate' | 'delete' | null>(null);
@@ -162,9 +167,9 @@ export function UsersTableBase({
   };
 
   const userColumns = getAllUsersColumns({
-    onView: (user: any) => console.log('View:', user),
-    onEdit: (user: any) => console.log('Edit:', user),
-    onDelete: (user: any) => setDeleteUser(user),
+    onView: (user: UnifiedUser) => setViewUser(user),
+    onEdit: (user: UnifiedUser) => setEditUser(user),
+    onDelete: (user: UnifiedUser) => setDeleteUser(user),
   });
 
   const columns = [checkboxColumn, ...userColumns];
@@ -272,15 +277,28 @@ export function UsersTableBase({
         </>
       )}
 
+      {/* Individual Delete Confirmation */}
       <ConfirmDialog
         isOpen={!!deleteUser}
         onClose={() => setDeleteUser(null)}
         onConfirm={async () => {
-          console.log('Delete:', deleteUser);
-          setDeleteUser(null);
+          if (!deleteUser) return;
+          try {
+            if (userType !== 'all') {
+              await bulkDeleteUsers({ userIds: [deleteUser.id], userType });
+              alert(`✅ User deleted successfully!`);
+              await refetch();
+            } else {
+              alert('⚠️ Cannot delete from "All Users" view. Use specific user type pages.');
+            }
+          } catch (error) {
+            alert(`❌ Error: ${error instanceof Error ? error.message : 'Failed to delete user'}`);
+          } finally {
+            setDeleteUser(null);
+          }
         }}
         title="Delete User"
-        message={`Delete ${deleteUser?.name}?`}
+        message={`⚠️ Soft delete ${deleteUser?.name}? User data will be preserved for audit.`}
         variant="danger"
       />
 
@@ -316,6 +334,24 @@ export function UsersTableBase({
           }}
         />
       )}
+
+      {/* View User Modal */}
+      <UserViewModal
+        isOpen={!!viewUser}
+        onClose={() => setViewUser(null)}
+        user={viewUser}
+      />
+
+      {/* Edit User Modal */}
+      <UserEditModal
+        isOpen={!!editUser}
+        onClose={() => setEditUser(null)}
+        onSuccess={() => {
+          setEditUser(null);
+          refetch();
+        }}
+        user={editUser}
+      />
     </div>
   );
 }

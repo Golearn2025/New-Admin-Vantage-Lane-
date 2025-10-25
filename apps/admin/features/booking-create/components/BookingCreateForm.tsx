@@ -48,6 +48,7 @@ export function BookingCreateForm() {
         operator_id: 'premium-exec',
         trip_type: formData.tripType,
         category: formData.category,
+        vehicle_model: formData.vehicleModel,
         start_at: `${formData.date}T${formData.time}:00`,
         passenger_count: formData.passengers,
         bag_count: formData.bags,
@@ -175,7 +176,12 @@ export function BookingCreateForm() {
             </div>
           )}
 
-          <BookingVehicleSelector value={formData.category} onChange={updateCategory} />
+          <BookingVehicleSelector
+            value={formData.category}
+            vehicleModel={formData.vehicleModel}
+            onChange={updateCategory}
+            onModelChange={(model) => updateField('vehicleModel', model)}
+          />
 
           <div className={styles.row}>
             <div className={styles.fieldGroup}>

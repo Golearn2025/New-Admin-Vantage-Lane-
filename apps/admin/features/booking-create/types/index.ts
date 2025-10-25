@@ -37,6 +37,7 @@ export interface BookingFormData {
   
   // Vehicle
   category: VehicleCategory;
+  vehicleModel?: string;
   
   // Passengers
   passengers: number;

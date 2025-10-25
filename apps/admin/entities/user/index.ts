@@ -7,4 +7,6 @@ export * from './model/schema';
 export type { UnifiedUser } from './model/types';  // Export only UnifiedUser to avoid conflict
 export * from './api/userApi';
 export * from './api/listAllUsers';
+export * from './api/bulkUpdateUsers';
+export * from './api/bulkDeleteUsers';
 export * from './lib/validateUser';

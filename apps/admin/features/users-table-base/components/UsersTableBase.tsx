@@ -21,6 +21,7 @@ import {
 import { UserCreateModal } from '@features/user-create-modal';
 import { useAllUsers } from '@features/users-table/hooks/useAllUsers';
 import { getAllUsersColumns } from '@features/users-table/columns/commonColumns';
+import { bulkUpdateUsers, bulkDeleteUsers } from '@entities/user';
 import type { UsersTableBaseProps } from '../types';
 import styles from './UsersTableBase.module.css';
 
@@ -38,6 +39,8 @@ export function UsersTableBase({
   const [deleteUser, setDeleteUser] = useState<any>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
+  const [bulkAction, setBulkAction] = useState<'activate' | 'deactivate' | 'delete' | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   // Filter by user type
   const data = useMemo(() => {
@@ -85,18 +88,53 @@ export function UsersTableBase({
   };
 
   const handleBulkDelete = () => {
-    console.log('Bulk delete:', Array.from(selectedUsers));
-    setSelectedUsers(new Set());
+    setBulkAction('delete');
   };
 
   const handleBulkActivate = () => {
-    console.log('Bulk activate:', Array.from(selectedUsers));
-    setSelectedUsers(new Set());
+    setBulkAction('activate');
   };
 
   const handleBulkDeactivate = () => {
-    console.log('Bulk deactivate:', Array.from(selectedUsers));
-    setSelectedUsers(new Set());
+    setBulkAction('deactivate');
+  };
+
+  const confirmBulkAction = async () => {
+    if (!bulkAction) return;
+
+    setIsProcessing(true);
+    const userIds = Array.from(selectedUsers);
+
+    try {
+      if (bulkAction === 'delete') {
+        // Soft delete
+        if (userType !== 'all') {
+          await bulkDeleteUsers({ userIds, userType });
+          alert(`✅ Successfully deleted ${userIds.length} user(s)`);
+        } else {
+          alert('⚠️ Cannot bulk delete from "All Users" view. Use specific user type pages.');
+        }
+      } else {
+        // Activate or Deactivate
+        const isActive = bulkAction === 'activate';
+        if (userType !== 'all') {
+          await bulkUpdateUsers({ userIds, isActive, userType });
+          alert(`✅ Successfully ${isActive ? 'activated' : 'deactivated'} ${userIds.length} user(s)`);
+        } else {
+          alert('⚠️ Cannot bulk update from "All Users" view. Use specific user type pages.');
+        }
+      }
+
+      // Refresh table and clear selection
+      await refetch();
+      setSelectedUsers(new Set());
+    } catch (error) {
+      console.error('Bulk action error:', error);
+      alert(`❌ Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsProcessing(false);
+      setBulkAction(null);
+    }
   };
 
   const allSelected =
@@ -244,6 +282,28 @@ export function UsersTableBase({
         title="Delete User"
         message={`Delete ${deleteUser?.name}?`}
         variant="danger"
+      />
+
+      {/* Bulk Action Confirmation */}
+      <ConfirmDialog
+        isOpen={!!bulkAction}
+        onClose={() => setBulkAction(null)}
+        onConfirm={confirmBulkAction}
+        title={
+          bulkAction === 'delete'
+            ? 'Delete Selected Users'
+            : bulkAction === 'activate'
+            ? 'Activate Selected Users'
+            : 'Deactivate Selected Users'
+        }
+        message={
+          bulkAction === 'delete'
+            ? `⚠️ Soft delete ${selectedUsers.size} user(s)? They will be marked as deleted but data will be preserved for audit.`
+            : bulkAction === 'activate'
+            ? `Activate ${selectedUsers.size} user(s)? They will be able to login and use the system.`
+            : `Deactivate ${selectedUsers.size} user(s)? They won't be able to login until reactivated.`
+        }
+        variant={bulkAction === 'delete' ? 'danger' : 'warning'}
       />
 
       {showCreateButton && (

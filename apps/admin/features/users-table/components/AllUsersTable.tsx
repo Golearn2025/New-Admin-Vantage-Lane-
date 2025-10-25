@@ -15,6 +15,8 @@ import {
   Pagination,
   RowActions,
   ConfirmDialog,
+  Checkbox,
+  Button,
   type RowAction,
 } from '@vantage-lane/ui-core';
 import { UserCreateModal } from '@features/user-create-modal';
@@ -29,6 +31,7 @@ export function AllUsersTable() {
   const [pageSize, setPageSize] = useState(25);
   const [deleteUser, setDeleteUser] = useState<any>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
 
   // Filter users based on search query
   const filteredData = useMemo(() => {
@@ -50,11 +53,71 @@ export function AllUsersTable() {
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
-  const columns = getAllUsersColumns({
+  // Bulk selection handlers
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedUsers(new Set(paginatedData.map((u) => u.id)));
+    } else {
+      setSelectedUsers(new Set());
+    }
+  };
+
+  const handleSelectUser = (userId: string, checked: boolean) => {
+    const newSelected = new Set(selectedUsers);
+    if (checked) {
+      newSelected.add(userId);
+    } else {
+      newSelected.delete(userId);
+    }
+    setSelectedUsers(newSelected);
+  };
+
+  const handleBulkDelete = () => {
+    console.log('Bulk delete:', Array.from(selectedUsers));
+    setSelectedUsers(new Set());
+  };
+
+  const handleBulkActivate = () => {
+    console.log('Bulk activate:', Array.from(selectedUsers));
+    setSelectedUsers(new Set());
+  };
+
+  const handleBulkDeactivate = () => {
+    console.log('Bulk deactivate:', Array.from(selectedUsers));
+    setSelectedUsers(new Set());
+  };
+
+  const allSelected =
+    paginatedData.length > 0 &&
+    paginatedData.every((u) => selectedUsers.has(u.id));
+  const someSelected = selectedUsers.size > 0 && !allSelected;
+
+  // Add checkbox column at the beginning
+  const checkboxColumn = {
+    id: 'select',
+    header: (
+      <Checkbox
+        checked={allSelected}
+        indeterminate={someSelected}
+        onChange={(e) => handleSelectAll(e.target.checked)}
+      />
+    ),
+    cell: (user: any) => (
+      <Checkbox
+        checked={selectedUsers.has(user.id)}
+        onChange={(e) => handleSelectUser(user.id, e.target.checked)}
+      />
+    ),
+    width: '50px',
+  };
+
+  const userColumns = getAllUsersColumns({
     onView: (user: any) => console.log('View:', user),
     onEdit: (user: any) => console.log('Edit:', user),
     onDelete: (user: any) => setDeleteUser(user),
   });
+
+  const columns = [checkboxColumn, ...userColumns];
 
   if (error) {
     return (
@@ -96,6 +159,38 @@ export function AllUsersTable() {
           />
         </div>
       </div>
+
+      {/* Bulk Actions Bar */}
+      {selectedUsers.size > 0 && (
+        <div className={styles.bulkActions}>
+          <span className={styles.selectedCount}>
+            {selectedUsers.size} user{selectedUsers.size > 1 ? 's' : ''} selected
+          </span>
+          <div className={styles.bulkButtons}>
+            <Button
+              onClick={handleBulkActivate}
+              variant="secondary"
+              size="sm"
+            >
+              Activate
+            </Button>
+            <Button
+              onClick={handleBulkDeactivate}
+              variant="secondary"
+              size="sm"
+            >
+              Deactivate
+            </Button>
+            <Button
+              onClick={handleBulkDelete}
+              variant="danger"
+              size="sm"
+            >
+              Delete Selected
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Loading state */}
       {loading && (

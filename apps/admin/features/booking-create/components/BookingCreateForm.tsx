@@ -13,8 +13,7 @@ import { BookingServicesPanel } from './BookingServicesPanel';
 import { BookingPriceSummary } from './BookingPriceSummary';
 import { useBookingCreate } from '../hooks/useBookingCreate';
 import { usePriceCalculation } from '../hooks/usePriceCalculation';
-import { createBooking } from '@entities/booking/api/createBooking';
-import type { Customer, TripType } from '../types';
+import type { Customer } from '../types';
 import styles from './BookingCreateForm.module.css';
 
 export function BookingCreateForm() {
@@ -72,7 +71,13 @@ export function BookingCreateForm() {
         ...(formData.tripType !== 'hourly' ? [{ seq_no: 2, role: 'dropoff' as const, place_text: formData.dropoffText }] : []),
       ];
 
-      const result = await createBooking(payload, segments, formData.services, basePrice);
+      const response = await fetch('/api/bookings/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ payload, segments, services: formData.services, basePrice }),
+      });
+
+      const result = await response.json();
 
       if (result.success) {
         router.push(`/bookings?success=true&reference=${result.reference}`);

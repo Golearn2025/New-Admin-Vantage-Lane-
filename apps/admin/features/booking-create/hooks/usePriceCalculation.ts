@@ -13,6 +13,13 @@ const BASE_PRICES = {
   VAN: 140,
 };
 
+const PRICE_PER_MILE = {
+  EXEC: 2.5,   // £2.50 per mile
+  LUX: 4.0,    // £4.00 per mile
+  SUV: 3.5,    // £3.50 per mile
+  VAN: 3.0,    // £3.00 per mile
+};
+
 const HOURLY_RATES = {
   EXEC: 45,
   LUX: 75,
@@ -28,7 +35,13 @@ export function usePriceCalculation(formData: BookingFormData) {
     }
 
     if (formData.tripType === 'return') {
-      return BASE_PRICES[formData.category] * 2;
+      // Return: Base price + distance-based price (round trip)
+      const base = BASE_PRICES[formData.category];
+      if (formData.distanceMiles) {
+        const distancePrice = PRICE_PER_MILE[formData.category] * formData.distanceMiles * 2; // x2 for return
+        return base + distancePrice;
+      }
+      return base * 2;
     }
 
     if (formData.tripType === 'fleet') {
@@ -40,8 +53,14 @@ export function usePriceCalculation(formData: BookingFormData) {
       return total;
     }
 
-    return BASE_PRICES[formData.category];
-  }, [formData.tripType, formData.category, formData.hours, formData.fleetExecutive, formData.fleetSClass, formData.fleetVClass, formData.fleetSUV]);
+    // Oneway: Base price + distance-based price
+    const base = BASE_PRICES[formData.category];
+    if (formData.distanceMiles) {
+      const distancePrice = PRICE_PER_MILE[formData.category] * formData.distanceMiles;
+      return base + distancePrice;
+    }
+    return base;
+  }, [formData.tripType, formData.category, formData.hours, formData.distanceMiles, formData.fleetExecutive, formData.fleetSClass, formData.fleetVClass, formData.fleetSUV]);
 
   const servicesTotal = useMemo(() => {
     return formData.services

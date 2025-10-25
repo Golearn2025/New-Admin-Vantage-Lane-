@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { BookingTypeSelector } from './BookingTypeSelector';
 import { BookingCustomerSelect } from './BookingCustomerSelect';
@@ -45,6 +45,14 @@ export function BookingCreateForm() {
     formData.dropoffLng
   );
 
+  // Update formData with calculated distance and duration
+  useEffect(() => {
+    if (distanceMiles !== null && durationMinutes !== null) {
+      updateField('distanceMiles', distanceMiles);
+      updateField('durationMinutes', durationMinutes);
+    }
+  }, [distanceMiles, durationMinutes, updateField]);
+
   const handleSubmit = async () => {
     if (!validate()) return;
 
@@ -64,6 +72,8 @@ export function BookingCreateForm() {
         child_seats: formData.childSeats,
         flight_number: formData.flightNumber,
         notes: formData.notes,
+        distance_miles: formData.distanceMiles,
+        duration_min: formData.durationMinutes,
         status: 'NEW',
         payment_status: 'pending',
         currency: 'GBP',

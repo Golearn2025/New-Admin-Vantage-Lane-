@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { BookingTypeSelector } from './BookingTypeSelector';
 import { BookingCustomerSelect } from './BookingCustomerSelect';
 import { BookingVehicleSelector } from './BookingVehicleSelector';
+import { BookingFleetSelector } from './BookingFleetSelector';
 import { BookingServicesPanel } from './BookingServicesPanel';
 import { BookingPriceSummary } from './BookingPriceSummary';
 import { useBookingCreate } from '../hooks/useBookingCreate';
@@ -176,12 +177,23 @@ export function BookingCreateForm() {
             </div>
           )}
 
-          <BookingVehicleSelector
-            value={formData.category}
-            vehicleModel={formData.vehicleModel}
-            onChange={updateCategory}
-            onModelChange={(model) => updateField('vehicleModel', model)}
-          />
+          {/* Fleet Selector - Only for fleet bookings */}
+          {formData.tripType === 'fleet' ? (
+            <BookingFleetSelector
+              fleetExecutive={formData.fleetExecutive || 0}
+              fleetSClass={formData.fleetSClass || 0}
+              fleetVClass={formData.fleetVClass || 0}
+              fleetSUV={formData.fleetSUV || 0}
+              onChange={(field, value) => updateField(field as any, value)}
+            />
+          ) : (
+            <BookingVehicleSelector
+              value={formData.category}
+              vehicleModel={formData.vehicleModel}
+              onChange={updateCategory}
+              onModelChange={(model) => updateField('vehicleModel', model)}
+            />
+          )}
 
           <div className={styles.row}>
             <div className={styles.fieldGroup}>

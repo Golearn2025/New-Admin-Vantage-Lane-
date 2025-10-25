@@ -17,6 +17,7 @@ import {
   ConfirmDialog,
   type RowAction,
 } from '@vantage-lane/ui-core';
+import { UserCreateModal } from '@features/user-create-modal';
 import { useAllUsers } from '../hooks/useAllUsers';
 import { getAllUsersColumns } from '../columns/commonColumns';
 import styles from './AllUsersTable.module.css';
@@ -27,6 +28,7 @@ export function AllUsersTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
   const [deleteUser, setDeleteUser] = useState<any>(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   // Filter users based on search query
   const filteredData = useMemo(() => {
@@ -86,7 +88,7 @@ export function AllUsersTable() {
           />
 
           <TableActions
-            onAdd={() => console.log('Add user')}
+            onAdd={() => setIsCreateModalOpen(true)}
             onExport={() => console.log('Export')}
             onRefresh={refetch}
             loading={loading}
@@ -138,6 +140,15 @@ export function AllUsersTable() {
         title="Delete User"
         message={`Delete ${deleteUser?.name}?`}
         variant="danger"
+      />
+
+      <UserCreateModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSuccess={() => {
+          setIsCreateModalOpen(false);
+          refetch();
+        }}
       />
     </div>
   );

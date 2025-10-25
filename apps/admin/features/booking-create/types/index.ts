@@ -28,8 +28,16 @@ export interface BookingFormData {
   // Locations
   pickupText: string;
   pickupLabel?: string;
+  pickupLat?: number;
+  pickupLng?: number;
   dropoffText: string;
   dropoffLabel?: string;
+  dropoffLat?: number;
+  dropoffLng?: number;
+  
+  // Distance & Duration (calculated)
+  distanceMiles?: number;
+  durationMinutes?: number;
   
   // Date & Time
   date: string;

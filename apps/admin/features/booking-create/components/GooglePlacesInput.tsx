@@ -10,7 +10,7 @@ import styles from './GooglePlacesInput.module.css';
 
 export interface GooglePlacesInputProps {
   value: string;
-  onChange: (value: string, placeData?: google.maps.places.PlaceResult) => void;
+  onChange: (value: string, placeData?: { lat: number; lng: number; formattedAddress: string }) => void;
   placeholder?: string;
   label?: string;
   icon?: string;
@@ -49,8 +49,14 @@ export function GooglePlacesInput({
 
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
-      if (place.formatted_address) {
-        onChange(place.formatted_address, place);
+      if (place.formatted_address && place.geometry?.location) {
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+        onChange(place.formatted_address, {
+          lat,
+          lng,
+          formattedAddress: place.formatted_address,
+        });
       }
     });
 

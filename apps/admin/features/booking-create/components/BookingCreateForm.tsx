@@ -16,6 +16,7 @@ import { BookingServicesPanel } from './BookingServicesPanel';
 import { BookingPriceSummary } from './BookingPriceSummary';
 import { useBookingCreate } from '../hooks/useBookingCreate';
 import { usePriceCalculation } from '../hooks/usePriceCalculation';
+import { useDistanceCalculation } from '../hooks/useDistanceCalculation';
 import type { Customer } from '../types';
 import styles from './BookingCreateForm.module.css';
 
@@ -37,6 +38,12 @@ export function BookingCreateForm() {
   } = useBookingCreate();
 
   const { basePrice, servicesTotal, total } = usePriceCalculation(formData);
+  const { distanceMiles, durationMinutes, isCalculating } = useDistanceCalculation(
+    formData.pickupLat,
+    formData.pickupLng,
+    formData.dropoffLat,
+    formData.dropoffLng
+  );
 
   const handleSubmit = async () => {
     if (!validate()) return;
@@ -121,7 +128,13 @@ export function BookingCreateForm() {
 
           <GooglePlacesInput
             value={formData.pickupText}
-            onChange={(value) => updateField('pickupText', value)}
+            onChange={(value, placeData) => {
+              updateField('pickupText', value);
+              if (placeData) {
+                updateField('pickupLat', placeData.lat);
+                updateField('pickupLng', placeData.lng);
+              }
+            }}
             label="Pickup Location"
             icon="📍"
             placeholder="Search for pickup location..."
@@ -130,11 +143,40 @@ export function BookingCreateForm() {
           {formData.tripType !== 'hourly' && (
             <GooglePlacesInput
               value={formData.dropoffText}
-              onChange={(value) => updateField('dropoffText', value)}
+              onChange={(value, placeData) => {
+                updateField('dropoffText', value);
+                if (placeData) {
+                  updateField('dropoffLat', placeData.lat);
+                  updateField('dropoffLng', placeData.lng);
+                }
+              }}
               label="Dropoff Location"
               icon="🎯"
               placeholder="Search for dropoff location..."
             />
+          )}
+
+          {formData.tripType !== 'hourly' && (distanceMiles || isCalculating) && (
+            <div className={styles.distanceInfo}>
+              <div className={styles.distanceCard}>
+                <span className={styles.distanceIcon}>📏</span>
+                <div className={styles.distanceContent}>
+                  <span className={styles.distanceLabel}>Distance</span>
+                  <span className={styles.distanceValue}>
+                    {isCalculating ? 'Calculating...' : `${distanceMiles?.toFixed(2)} miles`}
+                  </span>
+                </div>
+              </div>
+              <div className={styles.distanceCard}>
+                <span className={styles.distanceIcon}>⏱️</span>
+                <div className={styles.distanceContent}>
+                  <span className={styles.distanceLabel}>Duration</span>
+                  <span className={styles.distanceValue}>
+                    {isCalculating ? 'Calculating...' : `${durationMinutes} min`}
+                  </span>
+                </div>
+              </div>
+            </div>
           )}
 
           <div className={styles.row}>

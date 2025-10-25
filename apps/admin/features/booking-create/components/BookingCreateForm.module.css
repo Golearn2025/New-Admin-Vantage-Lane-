@@ -120,6 +120,54 @@
   gap: var(--spacing-4);
 }
 
+/* Distance & Duration Display */
+.distanceInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+}
+
+.distanceCard {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  background: rgba(211, 170, 49, 0.1);
+  border: 1px solid rgba(211, 170, 49, 0.3);
+  border-radius: var(--border-radius-lg);
+  transition: all var(--transition-fast);
+}
+
+.distanceCard:hover {
+  background: rgba(211, 170, 49, 0.15);
+  box-shadow: 0 0 20px rgba(211, 170, 49, 0.2);
+}
+
+.distanceIcon {
+  font-size: var(--font-size-2xl);
+}
+
+.distanceContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.distanceLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.distanceValue {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: rgba(211, 170, 49, 1);
+}
+
 @media (max-width: 1024px) {
   .layout {
     grid-template-columns: 1fr;

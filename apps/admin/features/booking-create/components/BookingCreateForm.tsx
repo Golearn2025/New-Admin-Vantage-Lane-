@@ -213,6 +213,41 @@ export function BookingCreateForm() {
             </div>
           </div>
 
+          <div className={styles.row}>
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>👶 Child Seats</label>
+              <input
+                type="number"
+                className={styles.input}
+                min="0"
+                max="4"
+                value={formData.childSeats}
+                onChange={(e) => updateField('childSeats', parseInt(e.target.value))}
+              />
+            </div>
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>✈️ Flight Number</label>
+              <input
+                type="text"
+                className={styles.input}
+                placeholder="e.g. BA123"
+                value={formData.flightNumber || ''}
+                onChange={(e) => updateField('flightNumber', e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>📝 Notes</label>
+            <textarea
+              className={styles.textarea}
+              rows={4}
+              placeholder="Additional notes or special requests..."
+              value={formData.notes || ''}
+              onChange={(e) => updateField('notes', e.target.value)}
+            />
+          </div>
+
           <BookingServicesPanel services={formData.services} onToggleService={toggleService} />
         </div>
 

@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BookingTypeSelector } from './BookingTypeSelector';
 import { BookingCustomerSelect } from './BookingCustomerSelect';
+import { BookingVehicleSelector } from './BookingVehicleSelector';
 import { BookingServicesPanel } from './BookingServicesPanel';
 import { BookingPriceSummary } from './BookingPriceSummary';
 import { useBookingCreate } from '../hooks/useBookingCreate';
@@ -28,6 +29,7 @@ export function BookingCreateForm() {
     setError,
     updateField,
     updateTripType,
+    updateCategory,
     toggleService,
     validate,
   } = useBookingCreate();
@@ -172,6 +174,8 @@ export function BookingCreateForm() {
               />
             </div>
           )}
+
+          <BookingVehicleSelector value={formData.category} onChange={updateCategory} />
 
           <div className={styles.row}>
             <div className={styles.fieldGroup}>

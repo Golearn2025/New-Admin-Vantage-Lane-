@@ -1,0 +1,109 @@
+/* BookingPriceSummary Styles - Sticky Premium Card */
+
+.container {
+  position: sticky;
+  top: var(--spacing-6);
+  padding: var(--spacing-6);
+  background: rgba(17, 24, 39, 0.8);
+  border: 1px solid rgba(211, 170, 49, 0.3);
+  border-radius: var(--border-radius-xl);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: rgba(211, 170, 49, 1);
+  margin: 0 0 var(--spacing-4) 0;
+  text-align: center;
+}
+
+.breakdown {
+  margin-bottom: var(--spacing-4);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-2) 0;
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.value {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.divider {
+  height: 1px;
+  background: rgba(211, 170, 49, 0.2);
+  margin: var(--spacing-3) 0;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-3) 0;
+}
+
+.totalLabel {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.totalValue {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: rgba(211, 170, 49, 1);
+  text-shadow: 0 0 20px rgba(211, 170, 49, 0.5);
+}
+
+.submitButton {
+  width: 100%;
+  padding: var(--spacing-4);
+  background: linear-gradient(135deg, rgba(211, 170, 49, 0.8), rgba(211, 170, 49, 0.6));
+  border: 1px solid rgba(211, 170, 49, 0.5);
+  border-radius: var(--border-radius-lg);
+  color: #111827;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(211, 170, 49, 1), rgba(211, 170, 49, 0.8));
+  box-shadow: 0 0 30px rgba(211, 170, 49, 0.6);
+  transform: translateY(-2px);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.icon {
+  font-size: var(--font-size-xl);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,57 @@
+/* BookingTypeSelector Styles - Premium Design */
+
+.container {
+  margin-bottom: var(--spacing-6);
+}
+
+.title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: rgba(211, 170, 49, 0.9);
+  margin: 0 0 var(--spacing-3) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-2);
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-3);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(10px);
+}
+
+.tab:hover {
+  background: rgba(211, 170, 49, 0.1);
+  border-color: rgba(211, 170, 49, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(211, 170, 49, 0.2);
+}
+
+.tab.active {
+  background: rgba(211, 170, 49, 0.2);
+  border-color: rgba(211, 170, 49, 0.5);
+  box-shadow: 0 0 20px rgba(211, 170, 49, 0.3);
+}
+
+.icon {
+  font-size: var(--font-size-2xl);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}

@@ -1,0 +1,134 @@
+/* BookingCustomerSelect Styles */
+
+.container {
+  margin-bottom: var(--spacing-6);
+}
+
+.title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: rgba(211, 170, 49, 0.9);
+  margin: 0 0 var(--spacing-3) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.searchContainer {
+  position: relative;
+}
+
+.searchInput {
+  width: 100%;
+  padding: var(--spacing-3);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  transition: all var(--transition-fast);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: rgba(211, 170, 49, 0.5);
+  box-shadow: 0 0 20px rgba(211, 170, 49, 0.2);
+}
+
+.loading {
+  padding: var(--spacing-2);
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: var(--spacing-2);
+  background: rgba(17, 24, 39, 0.95);
+  border: 1px solid rgba(211, 170, 49, 0.3);
+  border-radius: var(--border-radius-lg);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.resultItem {
+  width: 100%;
+  padding: var(--spacing-3);
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.resultItem:hover {
+  background: rgba(211, 170, 49, 0.1);
+}
+
+.resultName {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.resultEmail {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-1);
+}
+
+.selectedCustomer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-4);
+  background: rgba(211, 170, 49, 0.1);
+  border: 1px solid rgba(211, 170, 49, 0.3);
+  border-radius: var(--border-radius-lg);
+  backdrop-filter: blur(10px);
+}
+
+.customerInfo {
+  flex: 1;
+}
+
+.customerName {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-1);
+}
+
+.customerEmail {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.customerPhone {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-1);
+}
+
+.changeButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.changeButton:hover {
+  background: rgba(211, 170, 49, 0.2);
+  border-color: rgba(211, 170, 49, 0.5);
+}

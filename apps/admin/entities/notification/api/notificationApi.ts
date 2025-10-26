@@ -1,0 +1,142 @@
+/**
+ * Notification API
+ * CRUD operations for notifications
+ */
+
+import { createClient } from '@/lib/supabase/client';
+import type { NotificationData, CreateNotificationPayload } from '../model/types';
+
+/**
+ * List all notifications for current user
+ */
+export async function listNotifications(userId: string): Promise<NotificationData[]> {
+  const supabase = createClient();
+  
+  const { data, error } = await supabase
+    .from('notifications')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(50);
+
+  if (error) {
+    console.error('List notifications error:', error);
+    throw new Error(`Failed to fetch notifications: ${error.message}`);
+  }
+
+  return (data || []).map((n) => ({
+    id: n.id,
+    userId: n.user_id,
+    type: n.type,
+    title: n.title,
+    message: n.message,
+    link: n.link,
+    read: n.read,
+    createdAt: n.created_at,
+  }));
+}
+
+/**
+ * Get unread notification count
+ */
+export async function getUnreadCount(userId: string): Promise<number> {
+  const supabase = createClient();
+  
+  const { count, error } = await supabase
+    .from('notifications')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', userId)
+    .eq('read', false);
+
+  if (error) {
+    console.error('Get unread count error:', error);
+    return 0;
+  }
+
+  return count || 0;
+}
+
+/**
+ * Mark notification as read
+ */
+export async function markAsRead(notificationId: string): Promise<void> {
+  const supabase = createClient();
+  
+  const { error } = await supabase
+    .from('notifications')
+    .update({ read: true })
+    .eq('id', notificationId);
+
+  if (error) {
+    console.error('Mark as read error:', error);
+    throw new Error(`Failed to mark notification as read: ${error.message}`);
+  }
+}
+
+/**
+ * Mark all notifications as read
+ */
+export async function markAllAsRead(userId: string): Promise<void> {
+  const supabase = createClient();
+  
+  const { error } = await supabase
+    .from('notifications')
+    .update({ read: true })
+    .eq('user_id', userId)
+    .eq('read', false);
+
+  if (error) {
+    console.error('Mark all as read error:', error);
+    throw new Error(`Failed to mark all as read: ${error.message}`);
+  }
+}
+
+/**
+ * Create notification (for testing/admin)
+ */
+export async function createNotification(
+  payload: CreateNotificationPayload
+): Promise<{ success: boolean; id: string }> {
+  const supabase = createClient();
+  
+  const { data, error } = await supabase
+    .from('notifications')
+    .insert([{
+      user_id: payload.userId,
+      type: payload.type,
+      title: payload.title,
+      message: payload.message,
+      link: payload.link || null,
+      read: false,
+      created_at: new Date().toISOString(),
+    }])
+    .select('id')
+    .single();
+
+  if (error) {
+    console.error('Create notification error:', error);
+    throw new Error(`Failed to create notification: ${error.message}`);
+  }
+
+  return {
+    success: true,
+    id: data.id,
+  };
+}
+
+/**
+ * Delete notification
+ */
+export async function deleteNotification(notificationId: string): Promise<void> {
+  const supabase = createClient();
+  
+  const { error } = await supabase
+    .from('notifications')
+    .delete()
+    .eq('id', notificationId);
+
+  if (error) {
+    console.error('Delete notification error:', error);
+    throw new Error(`Failed to delete notification: ${error.message}`);
+  }
+}

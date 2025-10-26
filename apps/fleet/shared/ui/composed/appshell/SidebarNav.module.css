@@ -1,0 +1,246 @@
+/* SidebarNav Styles - Dark Premium Sidebar */
+
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border-default);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  overflow: hidden;
+}
+
+/* Charcoal Premium Sidebar */
+.sidebar {
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-right: 1px solid var(--color-border-strong);
+}
+
+/* Brand Header */
+.brandHeader {
+  padding: var(--spacing-6) var(--spacing-4) var(--spacing-4);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  border-bottom: 1px solid var(--color-border-muted);
+  background: var(--color-surface-primary);
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  transition: all var(--motion-duration-normal);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+/* Premium: Logo gets theme glow on sidebar hover */
+.sidebar:hover .logo {
+  box-shadow: var(--theme-glow);
+  transform: scale(1.05);
+}
+
+.brandInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  flex: 1;
+  min-width: 0;
+}
+
+.brandSubtitle {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--font-normal);
+}
+
+/* Role Indicator */
+.roleIndicator {
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--color-surface-elevated);
+  border-bottom: 1px solid var(--color-border-muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+}
+
+.roleLabel {
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  color: var(--theme-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: var(--theme-glow);
+}
+
+/* Collapse Toggle - Săgeată mică fină albă */
+.collapseToggle {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--motion-hover);
+}
+
+.collapseToggle:hover {
+  color: rgba(255, 255, 255, 0.9);
+  transform: scale(1.1);
+}
+
+.collapseToggle:focus-visible {
+  outline: 1px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Rotează săgeata când e collapsed - pointer stânga */
+.sidebar.collapsed .collapseToggle {
+  transform: rotate(-90deg);
+}
+
+.sidebar.collapsed .collapseToggle:hover {
+  transform: rotate(-90deg) scale(1.1);
+}
+
+/* Collapsed State - Shrink sidebar */
+.sidebar.collapsed {
+  width: 70px;
+  transition: width var(--motion-base);
+}
+
+/* Hide text elements when collapsed */
+.sidebar.collapsed .brandInfo,
+.sidebar.collapsed .brandSubtitle,
+.sidebar.collapsed .roleLabel,
+.sidebar.collapsed .navLabel,
+.sidebar.collapsed .badge,
+.sidebar.collapsed .submenu {
+  display: none;
+}
+
+/* Center icons when collapsed */
+.sidebar.collapsed .navLink {
+  justify-content: center;
+  padding: var(--spacing-3);
+}
+
+/* Menu Section */
+.menuSection {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-4) var(--spacing-2);
+}
+
+.menuList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+/* Sidebar Footer */
+.sidebarFooter {
+  padding: var(--spacing-4);
+  border-top: 1px solid var(--color-border-muted);
+  background: var(--color-surface-primary);
+}
+
+.footerInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.appVersion {
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+  font-weight: var(--font-medium);
+}
+
+.buildInfo {
+  font-size: var(--font-xs);
+  color: var(--color-success-500);
+  font-weight: var(--font-semibold);
+  background: var(--color-success-50);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+}
+
+/* Scrollbar styling pentru dark theme */
+.menuSection::-webkit-scrollbar {
+  width: 4px;
+}
+
+.menuSection::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.menuSection::-webkit-scrollbar-thumb {
+  background: var(--color-border-muted);
+  border-radius: var(--radius-full);
+}
+
+.menuSection::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-strong);
+}
+
+/* Sidebar Footer - Sign Out */
+.sidebarFooter {
+  padding: var(--spacing-4);
+  border-top: 1px solid var(--color-border-muted);
+}
+
+.signOutLink {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  transition: all var(--motion-hover);
+  /* Button specific styles */
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.signOutLink:hover {
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+}
+
+.signOutLink:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Mobile Hidden - doar desktop persistent */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+    /* Hidden pe mobile, doar prin Drawer */
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar.luxe {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

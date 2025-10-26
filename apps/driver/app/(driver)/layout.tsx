@@ -1,65 +1,32 @@
 /**
- * Driver Layout - Driver Portal
- * Main layout with navigation
+ * Driver Layout - AppShell Integration
+ *
+ * Layout global pentru toate paginile driver.
+ * Wraps children în AppShell cu navigation.
  */
 
-import { redirect } from 'next/navigation';
-import { getCurrentDriver } from '../../shared/lib/supabase/server';
-import styles from './layout.module.css';
+'use client';
 
-const navigationItems = [
-  { label: 'My Profile', href: '/profile', icon: '👤', active: true },
-  { label: 'My Earnings', href: '/earnings', icon: '💰', active: true },
-  { label: 'My Bookings', href: '/bookings', icon: '📅', badge: 'Soon' },
-  { label: 'Documents', href: '/documents', icon: '📄', badge: 'Soon' },
-  { label: 'Support', href: '/support', icon: '💬', badge: 'Soon' },
-];
+import { usePathname } from 'next/navigation';
+import { AppShell } from '../../shared/ui/composed/appshell';
 
-export default async function DriverLayout({
-  children,
-}: {
+interface DriverLayoutProps {
   children: React.ReactNode;
-}) {
-  const driver = await getCurrentDriver();
+}
 
-  if (!driver) {
-    redirect('/login');
-  }
+export default function DriverLayout({ children }: DriverLayoutProps) {
+  const pathname = usePathname();
+
+  // Mock user data - in production would come from auth context
+  const user = {
+    id: '1',
+    name: 'Test Driver',
+    email: 'driver@vantage-lane.com',
+  };
 
   return (
-    <div className={styles.layout}>
-      <aside className={styles.sidebar}>
-        <div className={styles.header}>
-          <h2 className={styles.logo}>Driver Portal</h2>
-        </div>
-
-        <nav className={styles.nav}>
-          {navigationItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className={`${styles.navItem} ${!item.active ? styles.navItemDisabled : ''}`}
-            >
-              <span className={styles.navIcon}>{item.icon}</span>
-              <span className={styles.navLabel}>{item.label}</span>
-              {item.badge && <span className={styles.badge}>{item.badge}</span>}
-            </a>
-          ))}
-        </nav>
-
-        <div className={styles.footer}>
-          <div className={styles.user}>
-            <div className={styles.userInfo}>
-              <p className={styles.userName}>
-                {driver.first_name} {driver.last_name}
-              </p>
-              <p className={styles.userRole}>Driver</p>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      <main className={styles.main}>{children}</main>
-    </div>
+    <AppShell role="driver" currentPath={pathname} user={user}>
+      {children}
+    </AppShell>
   );
 }

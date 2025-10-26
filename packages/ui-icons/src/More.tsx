@@ -1,3 +1,4 @@
+import React from 'react';
 import { BaseIconProps } from './types';
 
 export function More({ size = 24, className, 'aria-label': ariaLabel }: BaseIconProps) {

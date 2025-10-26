@@ -35,11 +35,15 @@ export async function getCurrentUser() {
 }
 
 /**
- * Get current operator ID from admin_users
+ * Get current operator ID from user_organization_roles or admin_users
  */
 interface AdminUser {
   default_operator_id: string | null;
   role: string;
+}
+
+interface UserOrganizationRole {
+  organization_id: string;
 }
 
 export async function getCurrentOperatorId(): Promise<string | null> {
@@ -48,14 +52,27 @@ export async function getCurrentOperatorId(): Promise<string | null> {
 
   if (!user) return null;
 
-  const { data } = await supabase
+  // First try user_organization_roles (for operators)
+  const { data: orgRole } = await supabase
+    .from('user_organization_roles')
+    .select('organization_id')
+    .eq('user_id', user.id)
+    .eq('is_active', true)
+    .single();
+
+  const userOrgRole = orgRole as UserOrganizationRole | null;
+  if (userOrgRole?.organization_id) {
+    return userOrgRole.organization_id;
+  }
+
+  // Fallback to admin_users for backwards compatibility
+  const { data: adminUser } = await supabase
     .from('admin_users')
     .select('default_operator_id')
     .eq('auth_user_id', user.id)
     .single();
 
-  const adminUser = data as AdminUser | null;
-  return adminUser?.default_operator_id || null;
+  return (adminUser as AdminUser | null)?.default_operator_id || null;
 }
 
 /**

@@ -12,11 +12,14 @@
 'use client';
 
 import { useState } from 'react';
-import { BrandBackground } from '@admin-shared/ui/composed/BrandBackground';
-import { AuthCard } from '@admin-shared/ui/composed/AuthCard';
-import { FormRow } from '@admin-shared/ui/composed/FormRow';
-import { ErrorBanner } from '@admin-shared/ui/composed/ErrorBanner';
-import { Button, Checkbox } from '@vantage-lane/ui-core';
+import { 
+  BrandBackground,
+  AuthCard,
+  FormRow,
+  ErrorBanner,
+  Button,
+  Checkbox
+} from '@vantage-lane/ui-core';
 import { signInWithPassword } from '@admin-shared/api/auth/actions';
 import styles from './login.module.css';
 

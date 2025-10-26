@@ -28,6 +28,13 @@ export * from './ProfileSection';
 export * from './FormField';
 export * from './SaveButton';
 
+// Auth Components
+export * from './AuthCard';
+export * from './BrandBackground';
+export * from './BrandName';
+export * from './ErrorBanner';
+export * from './FormRow';
+
 // Dashboard Cards
 export * from './MetricBarsCard';
 export * from './MiniMetricCard';

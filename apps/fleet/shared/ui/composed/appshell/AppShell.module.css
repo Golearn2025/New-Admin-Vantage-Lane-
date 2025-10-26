@@ -1,0 +1,93 @@
+/* AppShell Layout - folosește BrandBackground reutilizabil */
+.appShell {
+  min-height: 100vh;
+  display: flex;
+  position: relative;
+}
+
+/* Main Area - content space */
+.mainArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 240px;
+  /* Desktop: space pentru sidebar */
+  width: calc(100% - 240px); /* ✅ Lățime exactă: ecran minus sidebar */
+  max-width: calc(100% - 240px); /* ✅ NU depășește niciodată */
+  position: relative;
+  z-index: 10;
+  /* Above all background layers */
+  transition:
+    margin-left var(--motion-base),
+    width var(--motion-base);
+  box-sizing: border-box;
+}
+
+/* Main Area când sidebar e collapsed */
+.mainAreaCollapsed {
+  margin-left: 70px !important;
+  width: calc(100% - 70px) !important; /* ✅ Mai mult spațiu când sidebar e collapsed */
+  max-width: calc(100% - 70px) !important;
+}
+
+/* Page Content */
+.pageContent {
+  flex: 1;
+  padding: 0; /* ✅ FĂRĂ padding - fiecare pagină își controlează propriul padding! */
+  margin-top: 60px;
+  /* Space pentru topbar */
+  min-height: calc(100vh - 60px);
+  overflow-x: hidden; /* ✅ NU permite scroll orizontal care iese din zona de content */
+  overflow-y: auto; /* ✅ Doar scroll vertical dacă e nevoie */
+}
+
+/* Mobile Drawer Overlay */
+.drawerOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 200;
+  opacity: 1;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .mainArea {
+    margin-left: 0;
+    /* Full width pe mobile */
+  }
+  /* ✅ pageContent padding removed - fiecare pagină își controlează propriul padding! */
+}
+
+/* ✅ Tablet și Large screen adjustments removed - fiecare pagină își controlează propriul padding și max-width! */
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .drawerOverlay {
+    animation: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .appShell {
+    background: var(--color-bg-primary) !important;
+    /* Fallback la solid color */
+  }
+}

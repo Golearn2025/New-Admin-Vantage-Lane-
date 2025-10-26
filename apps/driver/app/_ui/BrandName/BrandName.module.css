@@ -1,0 +1,33 @@
+/* BrandName Styles - Uses only design tokens */
+
+.brandName {
+  display: inline-block;
+  font-weight: var(--font-semibold);
+  line-height: var(--line-height-tight);
+}
+
+.vantage {
+  color: var(--color-accent-400); /* Brand gold/auriu ca logo-ul */
+}
+
+.lane {
+  color: var(--color-text-secondary); /* Argintiu/silver */
+  margin-left: var(--spacing-1); /* Spațiu mic între cuvinte */
+}
+
+/* Size variants */
+.size-sm {
+  font-size: var(--font-base);
+}
+
+.size-md {
+  font-size: var(--font-lg);
+}
+
+.size-lg {
+  font-size: var(--font-xl);
+}
+
+.size-xl {
+  font-size: var(--font-2xl);
+}

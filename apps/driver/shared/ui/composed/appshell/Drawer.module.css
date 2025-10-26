@@ -1,0 +1,139 @@
+/* Drawer Styles - Mobile Navigation Drawer */
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border-default);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-out;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-xl);
+}
+
+/* Charcoal Premium Drawer */
+.drawer {
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-right: 1px solid var(--color-border-strong);
+}
+
+/* Open state */
+.drawer.open {
+  transform: translateX(0);
+}
+
+/* Drawer Header */
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--color-border-muted);
+  background: var(--color-surface-primary);
+}
+
+.closeButton {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: var(--spacing-2);
+  border-radius: var(--radius-md);
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: var(--color-surface-elevated);
+    color: var(--color-text-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+}
+
+.closeIcon {
+  transform: rotate(-90deg); /* Transform chevron în X-like */
+  transition: transform var(--motion-hover);
+}
+
+.closeButton:hover .closeIcon {
+  transform: rotate(-90deg) scale(1.1);
+}
+
+/* Drawer Content */
+.drawerContent {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollbar pentru drawer */
+.drawerContent::-webkit-scrollbar {
+  width: 4px;
+}
+
+.drawerContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.drawerContent::-webkit-scrollbar-thumb {
+  background: var(--color-border-muted);
+  border-radius: var(--radius-full);
+}
+
+.drawerContent::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-strong);
+}
+
+/* Responsive - drawer width pe ecrane mici */
+@media (max-width: 320px) {
+  .drawer {
+    width: 90vw; /* Mai mic pe ecrane foarte mici */
+  }
+}
+
+/* Landscape mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  .drawerHeader {
+    padding: var(--spacing-2) var(--spacing-4);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .drawer {
+    transition: none;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .closeIcon {
+    transition: none;
+  }
+
+  .closeButton:hover .closeIcon {
+    transform: rotate(-90deg); /* Fără scale animation */
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .drawer {
+    background: var(--color-bg-secondary) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}

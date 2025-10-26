@@ -2,6 +2,8 @@
  * useSettingsPermissions Hook
  */
 
+'use client';
+
 import { useState, useEffect } from 'react';
 import {
   getRolePermissions,

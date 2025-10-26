@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@driver/*": ["./app/*"],
+      "@driver-shared/*": ["./shared/*"],
+      "@vantage-lane/ui-core": ["../../packages/ui-core/src"],
+      "@vantage-lane/formatters": ["../../packages/formatters/src"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

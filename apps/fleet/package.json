@@ -1,0 +1,31 @@
+{
+  "name": "@vantage-lane/fleet",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fleet Management Portal for Operators",
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "@vantage-lane/formatters": "*",
+    "@vantage-lane/ui-core": "*",
+    "@vantage-lane/ui-dashboard": "*",
+    "next": "14.2.33",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.2.33",
+    "typescript": "^5.3.3"
+  }
+}

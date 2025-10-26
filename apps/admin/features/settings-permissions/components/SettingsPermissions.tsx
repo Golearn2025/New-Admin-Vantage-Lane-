@@ -32,15 +32,35 @@ export function SettingsPermissions({ className }: SettingsPermissionsProps) {
   const rootPages = pages.filter((p) => !p.parentKey);
   const getChildPages = (parentKey: string) => pages.filter((p) => p.parentKey === parentKey);
 
+  // Stats
+  const enabledCount = pages.filter((p) => p.enabled).length;
+  const totalCount = pages.length;
+
   return (
     <div className={`${styles.container} ${className || ''}`}>
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>Permissions Management</h1>
+          <h1 className={styles.title}>🔐 Permissions Management</h1>
           <p className={styles.subtitle}>
-            Control what each role or user can access in the admin panel
+            Control exactly which pages each role can access in the admin panel
           </p>
         </div>
+        {!loading && (
+          <div className={styles.stats}>
+            <div className={styles.statCard}>
+              <div className={styles.statValue}>{enabledCount}</div>
+              <div className={styles.statLabel}>Enabled</div>
+            </div>
+            <div className={styles.statCard}>
+              <div className={styles.statValue}>{totalCount - enabledCount}</div>
+              <div className={styles.statLabel}>Disabled</div>
+            </div>
+            <div className={styles.statCard}>
+              <div className={styles.statValue}>{totalCount}</div>
+              <div className={styles.statLabel}>Total Pages</div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* View Toggle */}
@@ -49,30 +69,35 @@ export function SettingsPermissions({ className }: SettingsPermissionsProps) {
           className={`${styles.viewButton} ${view === 'role' ? styles.active : ''}`}
           onClick={() => handleViewChange('role')}
         >
-          Role Permissions
+          👥 Role Permissions
         </button>
         <button
           className={`${styles.viewButton} ${view === 'user' ? styles.active : ''}`}
           onClick={() => handleViewChange('user')}
         >
-          User Overrides
+          👤 User Overrides
         </button>
       </div>
 
       {/* Role Selector */}
       {view === 'role' && (
         <div className={styles.selector}>
-          <label className={styles.label}>Select Role:</label>
+          <div className={styles.selectorHeader}>
+            <label className={styles.label}>Select Role to Configure:</label>
+            <p className={styles.selectorHelp}>
+              Choose a role to see all available pages and control which ones they can access
+            </p>
+          </div>
           <select
             className={styles.select}
             value={selectedRole}
             onChange={(e) => handleRoleChange(e.target.value as UserRole)}
           >
-            <option value="operator">Operator</option>
-            <option value="admin">Admin</option>
-            <option value="driver">Driver</option>
-            <option value="customer">Customer</option>
-            <option value="auditor">Auditor</option>
+            <option value="operator">🏢 Operator - Fleet Management</option>
+            <option value="admin">👑 Admin - Full Access</option>
+            <option value="driver">🚗 Driver - Driver Portal</option>
+            <option value="customer">👤 Customer - Customer Portal</option>
+            <option value="auditor">📊 Auditor - Read-Only Access</option>
           </select>
         </div>
       )}
@@ -112,8 +137,14 @@ export function SettingsPermissions({ className }: SettingsPermissionsProps) {
       ) : (
         <div className={styles.permissionsList}>
           <div className={styles.listHeader}>
-            <span className={styles.headerLabel}>Page</span>
-            <span className={styles.headerEnabled}>Enabled</span>
+            <div className={styles.headerSection}>
+              <span className={styles.headerLabel}>📄 Page Name & Description</span>
+              <span className={styles.headerSubLabel}>All available pages in the system</span>
+            </div>
+            <div className={styles.headerSection}>
+              <span className={styles.headerLabel}>👁️ Can View?</span>
+              <span className={styles.headerSubLabel}>Toggle access</span>
+            </div>
           </div>
 
           {rootPages.map((page) => {

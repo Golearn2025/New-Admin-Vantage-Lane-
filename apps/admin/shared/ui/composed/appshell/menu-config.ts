@@ -36,7 +36,7 @@ const adminMenu: NavMenuItem[] = [
     icon: 'settings',
     label: 'Settings',
     href: '/settings',
-    children: ['/settings/vehicle-categories', '/settings/commissions'],
+    children: ['/settings/vehicle-categories', '/settings/commissions', '/settings/permissions'],
   },
 ];
 

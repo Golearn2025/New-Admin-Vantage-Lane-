@@ -20,7 +20,7 @@ const adminMenu: NavMenuItem[] = [
     icon: 'users',
     label: 'Users',
     href: '/users',
-    children: ['/users/all', '/users/drivers', '/users/customers', '/users/operators', '/users/admins'],
+    children: ['/users/all', '/users/drivers', '/users/drivers/pending', '/users/customers', '/users/operators', '/users/admins'],
   },
   { icon: 'documents', label: 'Documents', href: '/documents' },
   { icon: 'support', label: 'Support', href: '/support-tickets' },
@@ -32,13 +32,24 @@ const adminMenu: NavMenuItem[] = [
   { icon: 'monitoring', label: 'Monitoring', href: '/monitoring' },
   { icon: 'projectHealth', label: 'Project Health', href: '/project-health' },
   { icon: 'auditHistory', label: 'Audit History', href: '/audit-history' },
-  { icon: 'settings', label: 'Settings', href: '/settings' },
+  {
+    icon: 'settings',
+    label: 'Settings',
+    href: '/settings',
+    children: ['/settings/vehicle-categories', '/settings/commissions'],
+  },
 ];
 
 // Operator - Acces limitat
 const operatorMenu: NavMenuItem[] = [
+  { icon: 'dashboard', label: 'Dashboard', href: '/operator/dashboard' },
+  {
+    icon: 'users',
+    label: 'My Drivers',
+    href: '/operator/drivers',
+    children: ['/operator/drivers'],
+  },
   { icon: 'calendar', label: 'Bookings', href: '/bookings' },
-  { icon: 'users', label: 'Drivers', href: '/users/drivers' }, // Doar drivers
   { icon: 'documents', label: 'Documents', href: '/documents' },
   { icon: 'support', label: 'Support', href: '/support-tickets' },
   { icon: 'settings', label: 'Settings', href: '/settings/profile' }, // Settings limitat

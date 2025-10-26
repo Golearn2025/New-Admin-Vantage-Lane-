@@ -7,6 +7,7 @@
 'use client';
 
 import { useState } from 'react';
+import { createUser } from '@entities/user';
 import type { UserCreateFormData, UserType } from '../types';
 
 export interface UseUserCreateModalReturn {
@@ -50,9 +51,19 @@ export function useUserCreateModal(
     setIsSubmitting(true);
 
     try {
-      // TODO: Implement API call
-      console.log('Creating user:', formData);
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Mock delay
+      const result = await createUser({
+        userType: formData.userType,
+        data: {
+          email: formData.email,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone,
+          password: formData.password,
+        },
+      });
+
+      console.log('User created:', result.userId);
+      resetForm();
       onSuccess();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create user');

@@ -9,6 +9,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Input } from '@vantage-lane/ui-core';
+import { updateUser } from '@entities/user';
 import type { UserEditModalProps } from '../types';
 import styles from './UserEditModal.module.css';
 
@@ -41,10 +42,21 @@ export function UserEditModal({ isOpen, onClose, onSuccess, user }: UserEditModa
     setError(null);
     setIsSubmitting(true);
 
+    if (!user) return;
+
     try {
-      // TODO: Implement API call
-      console.log('Update user:', user?.id, formData);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await updateUser({
+        userId: user.id,
+        userType: user.userType,
+        data: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          status: formData.status,
+        },
+      });
+      
       alert(`✅ User updated successfully!`);
       onSuccess();
     } catch (err) {

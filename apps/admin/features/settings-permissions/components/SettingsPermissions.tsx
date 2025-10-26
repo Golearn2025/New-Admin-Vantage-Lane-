@@ -29,12 +29,12 @@ export function SettingsPermissions({ className }: SettingsPermissionsProps) {
 
   const [searchUserId, setSearchUserId] = useState('');
 
-  const rootPages = pages.filter((p) => !p.parentKey);
-  const getChildPages = (parentKey: string) => pages.filter((p) => p.parentKey === parentKey);
-
   // Stats
   const enabledCount = pages.filter((p) => p.enabled).length;
   const totalCount = pages.length;
+
+  // Sort pages alphabetically
+  const sortedPages = [...pages].sort((a, b) => a.label.localeCompare(b.label));
 
   return (
     <div className={`${styles.container} ${className || ''}`}>
@@ -137,79 +137,52 @@ export function SettingsPermissions({ className }: SettingsPermissionsProps) {
       ) : (
         <div className={styles.permissionsList}>
           <div className={styles.listHeader}>
-            <div className={styles.headerSection}>
-              <span className={styles.headerLabel}>📄 Page Name & Description</span>
-              <span className={styles.headerSubLabel}>All available pages in the system</span>
-            </div>
-            <div className={styles.headerSection}>
-              <span className={styles.headerLabel}>👁️ Can View?</span>
-              <span className={styles.headerSubLabel}>Toggle access</span>
-            </div>
+            <div className={styles.col1}>Page Name</div>
+            <div className={styles.col2}>Path</div>
+            <div className={styles.col3}>Category</div>
+            <div className={styles.col4}>Access</div>
           </div>
 
-          {rootPages.map((page) => {
-            const children = getChildPages(page.pageKey);
-            const hasChildren = children.length > 0;
-
-            return (
-              <div key={page.pageKey} className={styles.permissionGroup}>
-                {/* Parent Page */}
-                <div className={styles.permissionItem}>
-                  <div className={styles.pageInfo}>
-                    <span className={styles.pageIcon}>{page.icon}</span>
-                    <div>
-                      <div className={styles.pageLabel}>{page.label}</div>
-                      {page.description && (
-                        <div className={styles.pageDescription}>{page.description}</div>
-                      )}
-                      {page.hasOverride && (
-                        <span className={styles.overrideBadge}>Custom Override</span>
-                      )}
-                    </div>
-                  </div>
-                  <label className={styles.checkbox}>
-                    <input
-                      type="checkbox"
-                      checked={page.enabled}
-                      onChange={(e) => handleTogglePermission(page.pageKey, e.target.checked)}
-                      disabled={saving}
-                    />
-                    <span className={styles.checkmark}></span>
-                  </label>
-                </div>
-
-                {/* Child Pages */}
-                {hasChildren && (
-                  <div className={styles.childPages}>
-                    {children.map((child) => (
-                      <div key={child.pageKey} className={styles.permissionItem}>
-                        <div className={styles.pageInfo}>
-                          <span className={styles.childIndicator}>└─</span>
-                          <div>
-                            <div className={styles.pageLabel}>{child.label}</div>
-                            {child.hasOverride && (
-                              <span className={styles.overrideBadge}>Custom Override</span>
-                            )}
-                          </div>
-                        </div>
-                        <label className={styles.checkbox}>
-                          <input
-                            type="checkbox"
-                            checked={child.enabled}
-                            onChange={(e) =>
-                              handleTogglePermission(child.pageKey, e.target.checked)
-                            }
-                            disabled={saving}
-                          />
-                          <span className={styles.checkmark}></span>
-                        </label>
-                      </div>
-                    ))}
-                  </div>
+          {sortedPages.map((page) => (
+            <div key={page.pageKey} className={styles.tableRow}>
+              <div className={styles.col1}>
+                <div className={styles.pageName}>{page.label}</div>
+                {page.description && (
+                  <div className={styles.pageDesc}>{page.description}</div>
                 )}
               </div>
-            );
-          })}
+              <div className={styles.col2}>
+                <code className={styles.pagePath}>{page.href}</code>
+              </div>
+              <div className={styles.col3}>
+                <span className={styles.categoryBadge}>
+                  {page.pageKey.startsWith('operator-')
+                    ? 'Operator'
+                    : page.pageKey.startsWith('settings-')
+                      ? 'Settings'
+                      : page.pageKey.startsWith('users-')
+                        ? 'Users'
+                        : page.pageKey.startsWith('bookings-')
+                          ? 'Bookings'
+                          : 'General'}
+                </span>
+              </div>
+              <div className={styles.col4}>
+                <label className={styles.toggleSwitch}>
+                  <input
+                    type="checkbox"
+                    checked={page.enabled}
+                    onChange={(e) => handleTogglePermission(page.pageKey, e.target.checked)}
+                    disabled={saving}
+                  />
+                  <span className={styles.toggleSlider}></span>
+                  <span className={styles.toggleLabel}>
+                    {page.enabled ? 'Enabled' : 'Disabled'}
+                  </span>
+                </label>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 

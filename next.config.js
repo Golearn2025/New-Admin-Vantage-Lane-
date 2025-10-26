@@ -31,7 +31,19 @@ const nextConfig = {
     ignoreDuringBuilds: false,
   },
 
-  webpack: (config) => {
+  webpack: (config, { dev, isServer }) => {
+    // Disable webpack cache in development for Server Actions
+    if (dev) {
+      config.cache = false;
+    }
+
+    // Improve module resolution for faster rebuilds
+    config.snapshot = {
+      ...config.snapshot,
+      managedPaths: [],
+    };
+
+    // Alias configuration
     config.resolve.alias['@admin'] = resolve(__dirname, 'app/(admin)');
     config.resolve.alias['@admin-shared'] = resolve(__dirname, 'apps/admin/shared');
     config.resolve.alias['@contracts'] = resolve(__dirname, 'packages/contracts/src');
@@ -39,6 +51,7 @@ const nextConfig = {
     config.resolve.alias['@ui-dashboard'] = resolve(__dirname, 'packages/ui-dashboard/src');
     config.resolve.alias['@formatters'] = resolve(__dirname, 'packages/formatters/src');
     config.resolve.alias['@styles'] = resolve(__dirname, 'packages/styles');
+    
     return config;
   },
 

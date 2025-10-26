@@ -3,11 +3,21 @@
  * Overview of fleet statistics and performance
  */
 
-import { getCurrentOperatorId } from '@fleet-shared/lib/supabase/server';
-import { createClient } from '@fleet-shared/lib/supabase/server';
+import { getCurrentOperatorId } from '../../../shared/lib/supabase/server';
+import { createClient } from '../../../shared/lib/supabase/server';
 import styles from './page.module.css';
 
-async function getOperatorStats(operatorId: string) {
+interface OperatorStats {
+  operator_name: string;
+  total_bookings: number;
+  active_drivers: number;
+  total_earnings: number;
+  total_driver_payouts: number;
+  total_revenue: number;
+  avg_booking_value: number;
+}
+
+async function getOperatorStats(operatorId: string): Promise<OperatorStats | null> {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -21,7 +31,7 @@ async function getOperatorStats(operatorId: string) {
     return null;
   }
 
-  return data;
+  return data as OperatorStats;
 }
 
 export default async function FleetDashboardPage() {

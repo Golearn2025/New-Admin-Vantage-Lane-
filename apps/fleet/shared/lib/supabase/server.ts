@@ -37,18 +37,25 @@ export async function getCurrentUser() {
 /**
  * Get current operator ID from admin_users
  */
+interface AdminUser {
+  default_operator_id: string | null;
+  role: string;
+}
+
 export async function getCurrentOperatorId(): Promise<string | null> {
+  const supabase = createClient();
   const user = await getCurrentUser();
+
   if (!user) return null;
 
-  const supabase = createClient();
   const { data } = await supabase
     .from('admin_users')
     .select('default_operator_id')
     .eq('auth_user_id', user.id)
     .single();
 
-  return data?.default_operator_id || null;
+  const adminUser = data as AdminUser | null;
+  return adminUser?.default_operator_id || null;
 }
 
 /**
@@ -65,5 +72,6 @@ export async function isOperator(): Promise<boolean> {
     .eq('auth_user_id', user.id)
     .single();
 
-  return data?.role === 'operator' && !!data?.default_operator_id;
+  const adminUser = data as AdminUser | null;
+  return adminUser?.role === 'operator' && !!adminUser?.default_operator_id;
 }

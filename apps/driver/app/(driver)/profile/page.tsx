@@ -3,8 +3,8 @@
  * FUNCTIONAL - Driver profile information
  */
 
-import { getCurrentDriver } from '@driver-shared/lib/supabase/server';
-import { createClient } from '@driver-shared/lib/supabase/server';
+import { getCurrentDriver } from '../../../shared/lib/supabase/server';
+import { createClient } from '../../../shared/lib/supabase/server';
 import styles from './page.module.css';
 
 async function getDriverVehicle(driverId: string) {

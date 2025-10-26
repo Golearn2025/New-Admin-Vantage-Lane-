@@ -3,11 +3,22 @@
  * List and manage fleet drivers
  */
 
-import { createClient } from '@fleet-shared/lib/supabase/server';
-import { getCurrentOperatorId } from '@fleet-shared/lib/supabase/server';
+import { createClient } from '../../../shared/lib/supabase/server';
+import { getCurrentOperatorId } from '../../../shared/lib/supabase/server';
 import styles from './page.module.css';
 
-async function getOperatorDrivers(operatorId: string) {
+interface Driver {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string | null;
+  license_number: string | null;
+  is_active: boolean;
+  created_at: string;
+}
+
+async function getOperatorDrivers(operatorId: string): Promise<Driver[]> {
   const supabase = createClient();
 
   // RLS will automatically filter by organization_id
@@ -22,7 +33,7 @@ async function getOperatorDrivers(operatorId: string) {
     return [];
   }
 
-  return data || [];
+  return (data as Driver[]) || [];
 }
 
 export default async function FleetDriversPage() {

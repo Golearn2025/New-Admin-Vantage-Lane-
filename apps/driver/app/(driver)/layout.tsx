@@ -4,12 +4,12 @@
  */
 
 import { redirect } from 'next/navigation';
-import { getCurrentDriver } from '@driver-shared/lib/supabase/server';
+import { getCurrentDriver } from '../../shared/lib/supabase/server';
 import styles from './layout.module.css';
 
 const navigationItems = [
   { label: 'My Profile', href: '/profile', icon: '👤', active: true },
-  { label: 'My Earnings', href: '/earnings', icon: '💰', badge: 'Soon' },
+  { label: 'My Earnings', href: '/earnings', icon: '💰', active: true },
   { label: 'My Bookings', href: '/bookings', icon: '📅', badge: 'Soon' },
   { label: 'Documents', href: '/documents', icon: '📄', badge: 'Soon' },
   { label: 'Support', href: '/support', icon: '💬', badge: 'Soon' },

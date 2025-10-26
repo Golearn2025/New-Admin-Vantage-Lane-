@@ -4,7 +4,7 @@
  */
 
 import { redirect } from 'next/navigation';
-import { getCurrentUser, getCurrentOperatorId } from '@fleet-shared/lib/supabase/server';
+import { getCurrentUser, getCurrentOperatorId } from '../../shared/lib/supabase/server';
 import styles from './layout.module.css';
 
 const navigationItems = [

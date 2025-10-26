@@ -4,7 +4,7 @@
  */
 
 import { redirect } from 'next/navigation';
-import { getCurrentDriver } from '@driver-shared/lib/supabase/server';
+import { getCurrentDriver } from '../shared/lib/supabase/server';
 
 export default async function DriverRootPage() {
   const driver = await getCurrentDriver();

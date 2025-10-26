@@ -66,7 +66,7 @@ export async function signInWithPassword(email: string, password: string, rememb
       redirectTo = '/dashboard';
       break;
     case 'operator':
-      redirectTo = '/bookings/active';
+      redirectTo = '/operator/dashboard';
       break;
     case 'driver':
       redirectTo = '/bookings';

@@ -8,6 +8,7 @@ export type NotificationType =
   | 'driver_verified'
   | 'driver_activated'
   | 'driver_rejected'
+  | 'driver_assigned'
   | 'booking_created'
   | 'booking_updated'
   | 'payment_received';

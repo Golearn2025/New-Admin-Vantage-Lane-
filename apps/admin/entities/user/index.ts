@@ -12,4 +12,7 @@ export * from './api/bulkDeleteUsers';
 export * from './api/createUser';
 export * from './api/updateUser';
 export * from './api/listOperators';
+export * from './api/verifyDriver';
+export * from './api/assignDriverToOperator';
+export * from './api/getOperatorDrivers';
 export * from './lib/validateUser';

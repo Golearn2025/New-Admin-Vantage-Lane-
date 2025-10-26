@@ -5,7 +5,7 @@
  */
 
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { QueryParams, QueryResult, RawBooking } from './types';
+import type { QueryParams, QueryResult, RawBooking } from './listBookings.types';
 
 export async function fetchBookingsData(
   supabase: SupabaseClient,

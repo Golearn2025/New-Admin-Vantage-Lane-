@@ -151,10 +151,10 @@
 }
 
 .statusActive {
-  background: rgba(22, 163, 74, 0.2);
-  color: #4ade80;
-  border-color: rgba(74, 222, 128, 0.3);
-  box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+  background: var(--color-status-completed-alpha-10);
+  color: var(--color-success);
+  border-color: var(--color-status-completed-alpha-30);
+  box-shadow: 0 0 20px var(--color-status-completed-alpha-10);
 }
 
 .statusInactive {
@@ -164,10 +164,10 @@
 }
 
 .online {
-  background: rgba(22, 163, 74, 0.2);
-  color: #4ade80;
-  border-color: rgba(74, 222, 128, 0.3);
-  box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+  background: var(--color-status-completed-alpha-10);
+  color: var(--color-success);
+  border-color: var(--color-status-completed-alpha-30);
+  box-shadow: 0 0 20px var(--color-status-completed-alpha-10);
 }
 
 .offline {

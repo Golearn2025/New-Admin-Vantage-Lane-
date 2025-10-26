@@ -73,7 +73,7 @@
   background: linear-gradient(135deg, rgba(211, 170, 49, 0.8), rgba(211, 170, 49, 0.6));
   border: 1px solid rgba(211, 170, 49, 0.5);
   border-radius: var(--border-radius-lg);
-  color: #111827;
+  color: var(--color-bg-primary);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
   cursor: pointer;

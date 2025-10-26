@@ -144,30 +144,30 @@
 }
 
 .statusCompleted {
-  background: rgba(22, 163, 74, 0.2);
-  color: #4ade80;
-  border-color: rgba(74, 222, 128, 0.3);
-  box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+  background: var(--color-status-completed-alpha-10);
+  color: var(--color-success);
+  border-color: var(--color-status-completed-alpha-30);
+  box-shadow: 0 0 20px var(--color-status-completed-alpha-10);
 }
 
 .statusCancelled {
-  background: rgba(220, 38, 38, 0.2);
-  color: #f87171;
-  border-color: rgba(248, 113, 113, 0.3);
+  background: var(--color-status-cancelled-alpha-10);
+  color: var(--color-error);
+  border-color: var(--color-status-cancelled-alpha-30);
 }
 
 .statusPending,
 .statusScheduled {
-  background: rgba(234, 179, 8, 0.2);
-  color: #facc15;
-  border-color: rgba(250, 204, 21, 0.3);
+  background: var(--color-status-new-alpha-10);
+  color: var(--color-status-new);
+  border-color: var(--color-status-new-alpha-30);
 }
 
 .statusActive,
 .statusConfirmed {
-  background: rgba(59, 130, 246, 0.2);
-  color: #60a5fa;
-  border-color: rgba(96, 165, 250, 0.3);
+  background: var(--color-status-assigned-alpha-10);
+  color: var(--color-info);
+  border-color: var(--color-status-assigned-alpha-30);
 }
 
 .cardBody {
@@ -238,9 +238,9 @@
 }
 
 .serviceFree {
-  background: rgba(34, 197, 94, 0.15);
-  color: #4ade80;
-  border-color: rgba(74, 222, 128, 0.3);
+  background: var(--color-service-free-alpha-10);
+  color: var(--color-success);
+  border-color: var(--color-service-free-alpha-30);
 }
 
 .serviceFree:hover {

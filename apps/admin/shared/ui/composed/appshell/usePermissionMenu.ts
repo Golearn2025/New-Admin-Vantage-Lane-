@@ -10,6 +10,12 @@ import { createClient } from '@/lib/supabase/client';
 import type { NavMenuItem, UserRole } from './types';
 import { getMenuForRole } from './menu-config';
 
+interface Permission {
+  page_key: string;
+  page_title: string;
+  is_enabled: boolean;
+}
+
 interface PermissionMenuResult {
   menu: NavMenuItem[];
   loading: boolean;
@@ -54,7 +60,8 @@ export function usePermissionMenu(
         }
 
         // Build menu from permissions
-        const enabledPages = new Set(data?.map((p: any) => p.page_key) || []);
+        const permissions = (data as Permission[]) || [];
+        const enabledPages = new Set(permissions.map((p) => p.page_key));
         const roleMenu = getMenuForRole(userRole);
 
         // Filter menu based on permissions

@@ -71,7 +71,7 @@
   width: 24px;
   height: 24px;
   background: rgba(211, 170, 49, 1);
-  color: #111827;
+  color: var(--color-bg-primary);
   border-radius: 50%;
   display: flex;
   align-items: center;

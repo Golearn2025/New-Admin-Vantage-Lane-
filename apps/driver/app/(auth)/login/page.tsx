@@ -1,5 +1,6 @@
 /**
  * Login Page - Driver Portal
+ * Authentication for drivers
  */
 
 import styles from './page.module.css';
@@ -10,7 +11,7 @@ export default function DriverLoginPage() {
       <div className={styles.card}>
         <div className={styles.header}>
           <h1 className={styles.title}>Driver Portal</h1>
-          <p className={styles.subtitle}>Access your bookings and earnings</p>
+          <p className={styles.subtitle}>Platform Management Dashboard</p>
         </div>
 
         <form className={styles.form}>
@@ -22,7 +23,7 @@ export default function DriverLoginPage() {
               id="email"
               type="email"
               className={styles.input}
-              placeholder="driver@example.com"
+              placeholder="driver@vantage-lane.com"
               required
             />
           </div>
@@ -41,7 +42,7 @@ export default function DriverLoginPage() {
           </div>
 
           <button type="submit" className={styles.button}>
-            Sign In
+            Sign In to Driver Portal
           </button>
         </form>
 

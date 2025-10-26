@@ -1,6 +1,6 @@
 /**
  * Login Page - Fleet Portal
- * Authentication for fleet managers/operators
+ * Authentication for fleet operators
  */
 
 import styles from './page.module.css';
@@ -10,8 +10,8 @@ export default function FleetLoginPage() {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.header}>
-          <h1 className={styles.title}>Fleet Management</h1>
-          <p className={styles.subtitle}>Manage your drivers and bookings</p>
+          <h1 className={styles.title}>Fleet Portal</h1>
+          <p className={styles.subtitle}>Platform Management Dashboard</p>
         </div>
 
         <form className={styles.form}>
@@ -23,7 +23,7 @@ export default function FleetLoginPage() {
               id="email"
               type="email"
               className={styles.input}
-              placeholder="operator@example.com"
+              placeholder="operator@vantage-lane.com"
               required
             />
           </div>

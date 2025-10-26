@@ -3,6 +3,14 @@
  * Base styles using design tokens
  */
 
+/* Import Design Tokens */
+@import '../../../packages/ui-core/src/tokens/colors.css';
+@import '../../../packages/ui-core/src/tokens/typography.css';
+@import '../../../packages/ui-core/src/tokens/spacing.css';
+@import '../../../packages/ui-core/src/tokens/borders.css';
+@import '../../../packages/ui-core/src/tokens/shadows.css';
+@import '../../../packages/ui-core/src/tokens/animations.css';
+
 * {
   box-sizing: border-box;
   padding: 0;

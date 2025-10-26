@@ -4,7 +4,6 @@
  */
 
 import type { Metadata } from 'next';
-import '@vantage-lane/ui-core/tokens/index.css';
 import './globals.css';
 
 export const metadata: Metadata = {

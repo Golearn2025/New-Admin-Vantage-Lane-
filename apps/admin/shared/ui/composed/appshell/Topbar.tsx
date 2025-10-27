@@ -5,11 +5,16 @@
  * A11y compliant cu skip link și keyboard navigation.
  */
 
+'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Icon } from '@vantage-lane/ui-icons';
+import { NotificationBell } from '@vantage-lane/ui-core';
 import { BrandName } from '@admin-shared/ui/composed/BrandName';
 import { signOutAction } from '@admin-shared/api/auth/actions';
+import { useNotifications } from '@admin-shared/hooks/useNotifications';
 import { TopbarProps } from './types';
 import styles from './Topbar.module.css';
 
@@ -37,8 +42,12 @@ export function Topbar({
   sidebarCollapsed = false,
   user,
 }: TopbarProps) {
+  const router = useRouter();
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
+
+  console.log('🎯 Topbar render - notifications:', notifications.length, 'unread:', unreadCount);
 
   const handleUserMenuToggle = () => {
     setIsUserDropdownOpen(!isUserDropdownOpen);
@@ -102,10 +111,19 @@ export function Topbar({
       {/* Right section */}
       <div className={styles.rightSection}>
         {/* Notifications */}
-        <button className={styles.iconButton} aria-label="Notifications" type="button">
-          <Icon name="support" size={20} />
-          <span className={styles.notificationBadge}>3</span>
-        </button>
+        <NotificationBell
+          notifications={notifications.map((n) => ({
+            id: n.id,
+            title: n.title,
+            message: n.message,
+            createdAt: n.createdAt,
+            read: n.read,
+          }))}
+          unreadCount={unreadCount}
+          onNotificationClick={markAsRead}
+          onViewAll={() => router.push('/admin/notifications')}
+          onMarkAllRead={markAllAsRead}
+        />
 
         {/* User menu */}
         <div className={styles.userMenu} ref={dropdownRef}>

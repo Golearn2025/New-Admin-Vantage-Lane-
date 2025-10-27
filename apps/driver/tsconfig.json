@@ -10,6 +10,7 @@
       "@driver/*": ["./app/*"],
       "@driver-shared/*": ["./shared/*"],
       "@vantage-lane/ui-core": ["../../packages/ui-core/src"],
+      "@vantage-lane/ui-icons": ["../../packages/ui-icons/src"],
       "@vantage-lane/formatters": ["../../packages/formatters/src"]
     }
   },

@@ -23,6 +23,7 @@ const adminMenu: NavMenuItem[] = [
     children: ['/users/all', '/users/drivers', '/users/drivers/pending', '/users/customers', '/users/operators', '/users/admins'],
   },
   { icon: 'documents', label: 'Documents', href: '/documents' },
+  { icon: 'bell', label: 'Notifications', href: '/notifications' },
   { icon: 'support', label: 'Support', href: '/support-tickets' },
   { icon: 'prices', label: 'Prices', href: '/prices' },
   { icon: 'creditCard', label: 'Payments', href: '/payments' },

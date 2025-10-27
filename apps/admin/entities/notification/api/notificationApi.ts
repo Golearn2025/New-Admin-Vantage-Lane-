@@ -12,6 +12,8 @@ import type { NotificationData, CreateNotificationPayload } from '../model/types
 export async function listNotifications(userId: string): Promise<NotificationData[]> {
   const supabase = createClient();
   
+  console.log('📡 listNotifications - userId:', userId);
+  
   const { data, error } = await supabase
     .from('notifications')
     .select('*')
@@ -19,21 +21,27 @@ export async function listNotifications(userId: string): Promise<NotificationDat
     .order('created_at', { ascending: false })
     .limit(50);
 
+  console.log('📡 listNotifications - data:', data, 'error:', error);
+
   if (error) {
     console.error('List notifications error:', error);
     throw new Error(`Failed to fetch notifications: ${error.message}`);
   }
 
-  return (data || []).map((n) => ({
+  const mapped = (data || []).map((n) => ({
     id: n.id,
     userId: n.user_id,
     type: n.type,
     title: n.title,
     message: n.message,
     link: n.link,
-    read: n.read,
+    read: n.read_at !== null,
     createdAt: n.created_at,
   }));
+  
+  console.log('📡 listNotifications - mapped:', mapped.length, 'notifications');
+  
+  return mapped;
 }
 
 /**
@@ -46,7 +54,7 @@ export async function getUnreadCount(userId: string): Promise<number> {
     .from('notifications')
     .select('*', { count: 'exact', head: true })
     .eq('user_id', userId)
-    .eq('read', false);
+    .is('read_at', null);
 
   if (error) {
     console.error('Get unread count error:', error);
@@ -64,7 +72,7 @@ export async function markAsRead(notificationId: string): Promise<void> {
   
   const { error } = await supabase
     .from('notifications')
-    .update({ read: true })
+    .update({ read_at: new Date().toISOString() })
     .eq('id', notificationId);
 
   if (error) {
@@ -81,9 +89,9 @@ export async function markAllAsRead(userId: string): Promise<void> {
   
   const { error } = await supabase
     .from('notifications')
-    .update({ read: true })
+    .update({ read_at: new Date().toISOString() })
     .eq('user_id', userId)
-    .eq('read', false);
+    .is('read_at', null);
 
   if (error) {
     console.error('Mark all as read error:', error);

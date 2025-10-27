@@ -27,6 +27,7 @@ export * from './ConfirmDialog';
 export * from './ProfileSection';
 export * from './FormField';
 export * from './SaveButton';
+export * from './components/NotificationBell';
 
 // Auth Components
 export * from './AuthCard';

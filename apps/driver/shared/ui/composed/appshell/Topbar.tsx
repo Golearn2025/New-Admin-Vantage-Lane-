@@ -4,9 +4,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Icon } from '@vantage-lane/ui-icons';
+import { NotificationBell } from '../../NotificationBell/NotificationBell';
 import { BrandName } from '../BrandName';
 import { signOutAction } from '../../../api/auth/actions';
+import { useNotifications } from '../../../hooks/useNotifications';
 import { TopbarProps } from './types';
 import styles from './Topbar.module.css';
 
@@ -23,8 +26,10 @@ function getInitials(name: string): string {
 }
 
 export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: TopbarProps) {
+  const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -52,9 +57,20 @@ export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: T
       </div>
 
       <div className={styles.rightSection}>
-        <button className={styles.iconButton} type="button">
-          <Icon name="support" size={20} />
-        </button>
+        {/* Notifications */}
+        <NotificationBell
+          notifications={notifications.map((n) => ({
+            id: n.id,
+            title: n.title,
+            message: n.message,
+            createdAt: n.createdAt,
+            read: n.read,
+          }))}
+          unreadCount={unreadCount}
+          onNotificationClick={markAsRead}
+          onViewAll={() => router.push('/notifications')}
+          onMarkAllRead={markAllAsRead}
+        />
 
         <div className={styles.userMenu} ref={dropdownRef}>
           <button

@@ -2,6 +2,7 @@
 const nextConfig = {
   transpilePackages: [
     '@vantage-lane/ui-core',
+    '@vantage-lane/ui-icons',
     '@vantage-lane/ui-dashboard',
     '@vantage-lane/formatters',
   ],
@@ -9,9 +10,8 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
-  },
-  images: {
-    domains: ['fmeonuvmlopkutbjejlo.supabase.co'],
+    // Allow importing files from outside the app directory (monorepo packages)
+    externalDir: true,
   },
 };
 

@@ -2,10 +2,20 @@
 const nextConfig = {
   transpilePackages: [
     '@vantage-lane/ui-core',
+    '@vantage-lane/ui-icons',
     '@vantage-lane/formatters',
   ],
+  experimental: {
+    // Allow importing files from outside the app directory (monorepo packages)
+    externalDir: true,
+  },
   images: {
-    domains: ['fmeonuvmlopkutbjejlo.supabase.co'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'fmeonuvmlopkutbjejlo.supabase.co',
+      },
+    ],
   },
 };
 

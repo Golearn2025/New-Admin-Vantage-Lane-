@@ -9,4 +9,12 @@ export default defineConfig({
   clean: true,
   treeshake: true,
   external: ['react', 'react-dom', 'recharts'],
+  // Don't bundle CSS - let Next.js handle CSS modules
+  injectStyle: false,
+  esbuildOptions(options) {
+    options.loader = {
+      ...options.loader,
+      '.css': 'empty',
+    };
+  },
 });

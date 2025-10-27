@@ -21,6 +21,7 @@ export type IconName =
   | 'settings'
   | 'prices'
   | 'banknote'
+  | 'bell'
   | 'chevronDown'
   | 'menu'
   | 'clock'

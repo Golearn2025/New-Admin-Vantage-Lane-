@@ -1,0 +1,196 @@
+/**
+ * SettingsVehicleCategories Styles
+ * 100% design tokens
+ */
+
+.container {
+  padding: var(--spacing-6);
+  max-width: 1200px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-8);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.loading {
+  text-align: center;
+  padding: var(--spacing-12);
+  color: var(--color-text-secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-6);
+  margin-bottom: var(--spacing-8);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-5);
+  transition: var(--transition-fast);
+}
+
+.card:hover {
+  border-color: rgba(211, 170, 49, 0.3);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+
+.icon {
+  font-size: 32px;
+}
+
+.cardTitle {
+  flex: 1;
+}
+
+.cardTitle h3 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.active {
+  display: inline-block;
+  padding: var(--spacing-1) var(--spacing-2);
+  background: var(--color-status-completed-alpha-10);
+  border: 1px solid var(--color-status-completed-alpha-30);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-success);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  margin-top: var(--spacing-1);
+}
+
+.inactive {
+  display: inline-block;
+  padding: var(--spacing-1) var(--spacing-2);
+  background: var(--color-status-cancelled-alpha-10);
+  border: 1px solid var(--color-status-cancelled-alpha-30);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-error-dark);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  margin-top: var(--spacing-1);
+}
+
+.cardBody {
+  margin-bottom: var(--spacing-4);
+}
+
+.name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-3) 0;
+}
+
+.meta {
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+.multiplier {
+  font-size: var(--font-size-sm);
+  color: rgba(211, 170, 49, 1);
+  font-weight: var(--font-weight-medium);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.formGroup label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.cardFooter {
+  display: flex;
+  gap: var(--spacing-2);
+  justify-content: flex-end;
+  padding-top: var(--spacing-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-6);
+}
+
+.info h3 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.info li {
+  padding: var(--spacing-2) 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.info li strong {
+  color: rgba(211, 170, 49, 1);
+  font-weight: var(--font-weight-semibold);
+}
+
+.note {
+  padding: var(--spacing-3);
+  background: rgba(211, 170, 49, 0.1);
+  border-left: 3px solid rgba(211, 170, 49, 1);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  margin: 0;
+}

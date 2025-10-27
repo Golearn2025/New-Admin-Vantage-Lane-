@@ -1,0 +1,18 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  transpilePackages: [
+    '@vantage-lane/ui-core',
+    '@vantage-lane/ui-icons',
+    '@vantage-lane/formatters',
+  ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'fmeonuvmlopkutbjejlo.supabase.co',
+      },
+    ],
+  },
+};
+
+module.exports = nextConfig;

@@ -1,0 +1,85 @@
+/* AuthCard Styles - Uses only design tokens */
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--spacing-4);
+  /* Background moved to BrandBackground wrapper */
+  position: relative;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px; /* Reduced from 520px */
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border-muted);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6); /* Reduced from spacing-8 */
+  box-shadow: var(--shadow-xl);
+  position: relative;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-4); /* Reduced from spacing-6 */
+}
+
+.logo {
+  max-width: 140px;
+  height: auto;
+  margin-bottom: var(--spacing-4);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.brandSubtitle {
+  margin-top: var(--spacing-1);
+  font-size: var(--font-base);
+  font-weight: var(--font-normal);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-6) 0;
+  line-height: var(--line-height-normal);
+}
+
+.title {
+  font-size: var(--font-lg);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-6) 0;
+  line-height: var(--line-height-tight);
+}
+
+/* Content area intentionally minimal for flexibility */
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .card {
+    width: 90%;
+    padding: var(--spacing-6);
+  }
+
+  .container {
+    padding: var(--spacing-3);
+  }
+}
+
+@media (min-width: 768px) {
+  .logo {
+    max-width: 160px;
+  }
+
+  .container {
+    padding: var(--spacing-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .logo {
+    max-width: 180px;
+  }
+}

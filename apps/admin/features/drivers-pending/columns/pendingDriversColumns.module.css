@@ -1,0 +1,102 @@
+/**
+ * Pending Drivers Columns Styles
+ * 100% design tokens
+ */
+
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(211, 170, 49, 0.3);
+}
+
+.avatarPlaceholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(211, 170, 49, 0.2);
+  border: 2px solid rgba(211, 170, 49, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: rgba(211, 170, 49, 1);
+}
+
+.name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.email {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.docsCell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.docsComplete {
+  color: var(--color-success);
+  font-weight: var(--font-weight-semibold);
+}
+
+.docsIncomplete {
+  color: var(--color-warning);
+  font-weight: var(--font-weight-semibold);
+}
+
+.checkmark {
+  color: var(--color-success);
+  font-size: var(--font-size-lg);
+}
+
+.statusPending {
+  display: inline-block;
+  padding: var(--spacing-1) var(--spacing-3);
+  background: var(--color-status-new-alpha-10);
+  border: 1px solid var(--color-status-new-alpha-30);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-warning);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.statusUploaded {
+  display: inline-block;
+  padding: var(--spacing-1) var(--spacing-3);
+  background: var(--color-status-assigned-alpha-10);
+  border: 1px solid var(--color-status-assigned-alpha-30);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-info);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.statusReview {
+  display: inline-block;
+  padding: var(--spacing-1) var(--spacing-3);
+  background: rgba(211, 170, 49, 0.2);
+  border: 1px solid rgba(211, 170, 49, 0.5);
+  border-radius: var(--border-radius-sm);
+  color: rgba(211, 170, 49, 1);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.actions {
+  display: flex;
+  gap: var(--spacing-2);
+}

@@ -1,0 +1,115 @@
+/* BookingServicesPanel Styles */
+
+.container {
+  margin-bottom: var(--spacing-6);
+}
+
+.title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: rgba(211, 170, 49, 0.9);
+  margin: 0 0 var(--spacing-4) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.section {
+  margin-bottom: var(--spacing-4);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: 1px solid;
+  position: relative;
+}
+
+.badgeFree {
+  background: var(--color-service-free-alpha-10);
+  color: var(--color-success);
+  border-color: var(--color-service-free-alpha-30);
+}
+
+.badgeFree:hover {
+  background: rgba(34, 197, 94, 0.2);
+  box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+  transform: translateY(-2px);
+}
+
+.badgeFree.selected {
+  background: rgba(34, 197, 94, 0.3);
+  border-color: rgba(74, 222, 128, 0.5);
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+}
+
+.badgePaid {
+  background: rgba(211, 170, 49, 0.1);
+  color: rgba(211, 170, 49, 1);
+  border-color: rgba(211, 170, 49, 0.3);
+}
+
+.badgePaid:hover {
+  background: rgba(211, 170, 49, 0.2);
+  box-shadow: 0 0 15px rgba(211, 170, 49, 0.3);
+  transform: translateY(-2px);
+}
+
+.badgePaid.selected {
+  background: rgba(211, 170, 49, 0.3);
+  border-color: rgba(211, 170, 49, 0.6);
+  box-shadow: 0 0 20px rgba(211, 170, 49, 0.5);
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+}
+
+.selected .check {
+  background: currentColor;
+  color: var(--color-bg-primary);
+}
+
+.label {
+  text-transform: capitalize;
+}
+
+.freeTag {
+  font-size: var(--font-size-2xs);
+  padding: 2px 6px;
+  background: rgba(74, 222, 128, 0.3);
+  border-radius: var(--border-radius-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+.price {
+  font-weight: var(--font-weight-bold);
+  color: rgba(211, 170, 49, 1);
+}

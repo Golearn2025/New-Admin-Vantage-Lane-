@@ -8,9 +8,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/utils/logger';
 import type { BookingsListResponse } from '@admin-shared/api/contracts/bookings';
-import { fetchBookingsData } from './query-builder';
+import { fetchBookingsData, type QueryParams } from '@entities/booking/api';
 import { transformBookingsData } from './transform';
-import type { QueryParams } from './types';
 
 export async function GET(request: NextRequest) {
   const startTime = Date.now();

@@ -27,6 +27,14 @@ export * from './ConfirmDialog';
 export * from './ProfileSection';
 export * from './FormField';
 export * from './SaveButton';
+export * from './components/NotificationBell';
+
+// Auth Components
+export * from './AuthCard';
+export * from './BrandBackground';
+export * from './BrandName';
+export * from './ErrorBanner';
+export * from './FormRow';
 
 // Dashboard Cards
 export * from './MetricBarsCard';

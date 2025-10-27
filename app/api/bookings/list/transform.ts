@@ -5,7 +5,7 @@
  */
 
 import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
-import type { QueryResult, RawBooking } from './types';
+import type { QueryResult, RawBooking } from '@entities/booking/api';
 
 export function transformBookingsData(queryResult: QueryResult): BookingListItem[] {
   const {
@@ -80,15 +80,15 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
       // Calculate pricing
       base_price: bookingPricing?.price ? Math.round(parseFloat(bookingPricing.price) * 100) : 0,
       paid_services: bookingServices
-        .filter((s) => parseFloat(s.unit_price) > 0)
-        .map((s) => ({
+        .filter((s: { unit_price: string }) => parseFloat(s.unit_price) > 0)
+        .map((s: { service_code: string; unit_price: string; quantity: number }) => ({
           service_code: s.service_code,
           unit_price: Math.round(parseFloat(s.unit_price) * 100),
           quantity: s.quantity,
         })),
       free_services: bookingServices
-        .filter((s) => parseFloat(s.unit_price) === 0)
-        .map((s) => ({
+        .filter((s: { unit_price: string }) => parseFloat(s.unit_price) === 0)
+        .map((s: { service_code: string; notes?: string | null }) => ({
           service_code: s.service_code,
           notes: s.notes || null,
         })),
@@ -97,7 +97,7 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
         const basePrice = bookingPricing?.price
           ? Math.round(parseFloat(bookingPricing.price) * 100)
           : 0;
-        const servicesTotal = bookingServices.reduce((sum, s) => {
+        const servicesTotal = bookingServices.reduce((sum: number, s: { unit_price: string; quantity: number }) => {
           return sum + Math.round(parseFloat(s.unit_price) * 100) * s.quantity;
         }, 0);
         return basePrice + servicesTotal;

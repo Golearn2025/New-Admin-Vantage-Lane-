@@ -6,6 +6,22 @@ const __dirname = dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Enable React Strict Mode for better development experience
+  reactStrictMode: true,
+
+  // Optimize package imports for faster Fast Refresh
+  experimental: {
+    optimizePackageImports: ['@features', '@entities', '@vantage-lane'],
+  },
+
+  // Configure on-demand entries for better HMR
+  onDemandEntries: {
+    // Period (in ms) where the server will keep pages in the buffer
+    maxInactiveAge: 25 * 1000,
+    // Number of pages that should be kept simultaneously without being disposed
+    pagesBufferLength: 2,
+  },
+
   typescript: {
     // During build, we want strict TypeScript checking
     ignoreBuildErrors: false,
@@ -15,7 +31,19 @@ const nextConfig = {
     ignoreDuringBuilds: false,
   },
 
-  webpack: (config) => {
+  webpack: (config, { dev, isServer }) => {
+    // Disable webpack cache in development for Server Actions
+    if (dev) {
+      config.cache = false;
+    }
+
+    // Improve module resolution for faster rebuilds
+    config.snapshot = {
+      ...config.snapshot,
+      managedPaths: [],
+    };
+
+    // Alias configuration
     config.resolve.alias['@admin'] = resolve(__dirname, 'app/(admin)');
     config.resolve.alias['@admin-shared'] = resolve(__dirname, 'apps/admin/shared');
     config.resolve.alias['@contracts'] = resolve(__dirname, 'packages/contracts/src');
@@ -23,6 +51,7 @@ const nextConfig = {
     config.resolve.alias['@ui-dashboard'] = resolve(__dirname, 'packages/ui-dashboard/src');
     config.resolve.alias['@formatters'] = resolve(__dirname, 'packages/formatters/src');
     config.resolve.alias['@styles'] = resolve(__dirname, 'packages/styles');
+    
     return config;
   },
 

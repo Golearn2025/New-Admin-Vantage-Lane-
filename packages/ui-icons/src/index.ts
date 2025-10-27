@@ -38,6 +38,7 @@ import { UserPlus } from './UserPlus';
 import { Eye } from './Eye';
 import { Download } from './Download';
 import { Copy } from './Copy';
+import { Bell } from './Bell';
 
 // Icon map pentru dynamic loading
 const iconMap = {
@@ -63,6 +64,7 @@ const iconMap = {
   eye: Eye,
   download: Download,
   copy: Copy,
+  bell: Bell,
   // TODO: Adăugă restul iconițelor când sunt create
   disputes: Dashboard, // Placeholder
   payouts: Dashboard,
@@ -129,4 +131,5 @@ export {
   Eye,
   Download,
   Copy,
+  Bell,
 };

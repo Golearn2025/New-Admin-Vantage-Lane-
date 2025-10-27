@@ -1,0 +1,179 @@
+/* BookingCreateForm Styles - Premium 2-Column Layout */
+
+.container {
+  padding: var(--spacing-6);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-6);
+}
+
+.title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: rgba(211, 170, 49, 1);
+  margin: 0;
+  text-shadow: 0 0 30px rgba(211, 170, 49, 0.3);
+}
+
+.cancelButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cancelButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.error {
+  padding: var(--spacing-4);
+  background: var(--color-status-cancelled-alpha-10);
+  border: 1px solid var(--color-status-cancelled-alpha-30);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-error);
+  margin-bottom: var(--spacing-4);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: var(--spacing-6);
+}
+
+.formColumn {
+  background: rgba(17, 24, 39, 0.5);
+  padding: var(--spacing-6);
+  border-radius: var(--border-radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+/* Summary column - sticky positioning handled in BookingPriceSummary component */
+
+.fieldGroup {
+  margin-bottom: var(--spacing-4);
+}
+
+.label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-2);
+}
+
+.input {
+  width: 100%;
+  padding: var(--spacing-3);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  transition: all var(--transition-fast);
+}
+
+.input:focus {
+  outline: none;
+  border-color: rgba(211, 170, 49, 0.5);
+  box-shadow: 0 0 20px rgba(211, 170, 49, 0.2);
+}
+
+.textarea {
+  width: 100%;
+  padding: var(--spacing-3);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  font-family: inherit;
+  resize: vertical;
+  transition: all var(--transition-fast);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: rgba(211, 170, 49, 0.5);
+  box-shadow: 0 0 20px rgba(211, 170, 49, 0.2);
+}
+
+.textarea::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.5;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4);
+}
+
+/* Distance & Duration Display */
+.distanceInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+}
+
+.distanceCard {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  background: rgba(211, 170, 49, 0.1);
+  border: 1px solid rgba(211, 170, 49, 0.3);
+  border-radius: var(--border-radius-lg);
+  transition: all var(--transition-fast);
+}
+
+.distanceCard:hover {
+  background: rgba(211, 170, 49, 0.15);
+  box-shadow: 0 0 20px rgba(211, 170, 49, 0.2);
+}
+
+.distanceIcon {
+  font-size: var(--font-size-2xl);
+}
+
+.distanceContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.distanceLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.distanceValue {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: rgba(211, 170, 49, 1);
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .summaryColumn {
+    order: -1;
+  }
+}

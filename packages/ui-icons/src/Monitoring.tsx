@@ -1,3 +1,4 @@
+import React from 'react';
 import { BaseIconProps } from './types';
 
 export function Monitoring({ size = 24, className, 'aria-label': ariaLabel }: BaseIconProps) {

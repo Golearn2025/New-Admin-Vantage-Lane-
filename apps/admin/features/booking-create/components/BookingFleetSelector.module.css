@@ -1,0 +1,149 @@
+/* BookingFleetSelector Styles - Premium Fleet Selection */
+
+.container {
+  margin-bottom: var(--spacing-6);
+}
+
+.title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: rgba(211, 170, 49, 0.9);
+  margin: 0 0 var(--spacing-1) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+
+.card {
+  padding: var(--spacing-4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(10px);
+}
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(211, 170, 49, 0.3);
+}
+
+.card.active {
+  background: rgba(211, 170, 49, 0.15);
+  border-color: rgba(211, 170, 49, 0.5);
+  box-shadow: 0 0 20px rgba(211, 170, 49, 0.3);
+}
+
+.header {
+  display: flex;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+}
+
+.icon {
+  font-size: var(--font-size-2xl);
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+}
+
+.label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-1);
+}
+
+.desc {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-2) 0;
+}
+
+.counterBtn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(211, 170, 49, 0.2);
+  border: 1px solid rgba(211, 170, 49, 0.3);
+  border-radius: var(--border-radius-md);
+  color: rgba(211, 170, 49, 1);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.counterBtn:hover:not(:disabled) {
+  background: rgba(211, 170, 49, 0.3);
+  border-color: rgba(211, 170, 49, 0.5);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(211, 170, 49, 0.4);
+}
+
+.counterBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.count {
+  min-width: 40px;
+  text-align: center;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: rgba(211, 170, 49, 1);
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-4);
+  background: rgba(211, 170, 49, 0.1);
+  border: 2px solid rgba(211, 170, 49, 0.3);
+  border-radius: var(--border-radius-lg);
+  backdrop-filter: blur(10px);
+}
+
+.totalLabel {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.totalValue {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: rgba(211, 170, 49, 1);
+  text-shadow: 0 0 20px rgba(211, 170, 49, 0.5);
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

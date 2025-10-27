@@ -1,0 +1,179 @@
+/**
+ * NotificationCenter Styles
+ * 100% design tokens
+ */
+
+.container {
+  position: relative;
+}
+
+.bellButton {
+  position: relative;
+  padding: var(--spacing-2);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  transition: var(--transition-fast);
+}
+
+.bellButton:hover {
+  color: rgba(211, 170, 49, 1);
+}
+
+.bellIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 var(--spacing-1);
+  background: #FF3B30;
+  color: white;
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + var(--spacing-2));
+  right: 0;
+  width: 380px;
+  max-height: 500px;
+  background: rgba(20, 20, 20, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.markAllButton {
+  padding: var(--spacing-2) var(--spacing-3);
+  background: transparent;
+  border: 1px solid rgba(211, 170, 49, 0.3);
+  border-radius: var(--border-radius-md);
+  color: rgba(211, 170, 49, 1);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.markAllButton:hover {
+  background: rgba(211, 170, 49, 0.1);
+  border-color: rgba(211, 170, 49, 0.5);
+}
+
+.list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.loading,
+.empty {
+  padding: var(--spacing-8) var(--spacing-4);
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.item.unread {
+  background: rgba(211, 170, 49, 0.05);
+}
+
+.item.unread:hover {
+  background: rgba(211, 170, 49, 0.08);
+}
+
+.itemContent {
+  flex: 1;
+}
+
+.itemTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-1) 0;
+}
+
+.itemMessage {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-2) 0;
+  line-height: 1.4;
+}
+
+.itemTime {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+.unreadDot {
+  width: 8px;
+  height: 8px;
+  background: rgba(211, 170, 49, 1);
+  border-radius: 50%;
+  margin-top: var(--spacing-1);
+}
+
+.footer {
+  padding: var(--spacing-3);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.viewAllButton {
+  width: 100%;
+  padding: var(--spacing-2);
+  background: transparent;
+  border: none;
+  color: rgba(211, 170, 49, 1);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.viewAllButton:hover {
+  color: rgba(211, 170, 49, 0.8);
+}

@@ -43,26 +43,20 @@ export function useCurrentUser() {
           return;
         }
 
-        // Get admin user details
-        const { data: adminUser, error: userError } = await supabase
-          .from('admin_users')
-          .select('id, email, name, role, auth_user_id')
-          .eq('auth_user_id', session.user.id)
-          .single<AdminUser>();
+        // Get role from user metadata (stored in Supabase auth)
+        const userRole = session.user.user_metadata?.role || 'operator';
+        const userName = session.user.user_metadata?.name || session.user.email?.split('@')[0];
 
-        if (userError) throw userError;
+        // Map role to AppShell role type
+        const appShellRole: 'admin' | 'operator' = 
+          userRole === 'admin' || userRole === 'super_admin' ? 'admin' : 'operator';
 
-        if (adminUser) {
-          setUser({
-            name: adminUser.name || adminUser.email,
-            email: adminUser.email,
-            role:
-              adminUser.role === 'super_admin' || adminUser.role === 'admin' ? 'admin' : 'operator',
-            auth_user_id: adminUser.auth_user_id,
-          });
-        } else {
-          setUser(null);
-        }
+        setUser({
+          name: userName || session.user.email || 'User',
+          email: session.user.email || '',
+          role: appShellRole,
+          auth_user_id: session.user.id,
+        });
       } catch (err) {
         logger.error('Error fetching current user in useCurrentUser', {
           error: err instanceof Error ? err.message : String(err),

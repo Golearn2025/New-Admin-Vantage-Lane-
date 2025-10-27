@@ -1,9 +1,6 @@
 /**
- * DriversTable Feature - Public API
+ * drivers-table Feature
+ * Export all public APIs
  */
 
 export { DriversTable } from './components/DriversTable';
-export type { DriversTableProps } from './components/DriversTable';
-export { useDriversTable } from './hooks/useDriversTable';
-export type { UseDriversTableReturn } from './hooks/useDriversTable';
-export { getDriverColumns } from './columns/driverColumns';

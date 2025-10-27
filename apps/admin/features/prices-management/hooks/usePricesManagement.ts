@@ -35,16 +35,32 @@ export function usePricesManagement() {
    * Update vehicle type rates
    */
   const handleUpdateVehicleType = async (payload: UpdateVehicleTypePayload) => {
-    if (!config) return;
+    console.log('🟢 usePricesManagement: handleUpdateVehicleType called');
+    console.log('🟢 config:', config);
+    console.log('🟢 payload:', payload);
+    
+    if (!config) {
+      console.error('❌ No config available!');
+      return;
+    }
 
     setIsSaving(true);
     setSaveError(null);
 
     try {
+      console.log('🟢 Calling updateVehicleType API...');
       await updateVehicleType(config.id, payload);
+      console.log('🟢 updateVehicleType API success!');
+      
+      console.log('🟢 Invalidating cache...');
       await invalidatePricingCache();
+      console.log('🟢 Cache invalidated!');
+      
+      console.log('🟢 Mutating SWR...');
       await mutate();
+      console.log('🟢 SWR mutated!');
     } catch (err) {
+      console.error('❌ Error in handleUpdateVehicleType:', err);
       setSaveError(err instanceof Error ? err.message : 'Failed to update');
       throw err;
     } finally {

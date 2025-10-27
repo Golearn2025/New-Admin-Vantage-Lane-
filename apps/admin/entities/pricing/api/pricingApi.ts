@@ -37,18 +37,31 @@ export async function updateVehicleType(
   configId: string,
   payload: UpdateVehicleTypePayload
 ): Promise<void> {
+  console.log('🟡 pricingApi: updateVehicleType called');
+  console.log('🟡 configId:', configId);
+  console.log('🟡 payload:', payload);
+  
   const { vehicleType, rates } = payload;
 
   // Fetch current config
-  const { data: currentConfig } = await supabase
+  console.log('🟡 Fetching current config...');
+  const { data: currentConfig, error: fetchError } = await supabase
     .from('pricing_config')
     .select('vehicle_types')
     .eq('id', configId)
     .single();
 
+  if (fetchError) {
+    console.error('❌ Fetch error:', fetchError);
+    throw new Error(`Failed to fetch config: ${fetchError.message}`);
+  }
+
   if (!currentConfig) {
+    console.error('❌ Pricing config not found');
     throw new Error('Pricing config not found');
   }
+
+  console.log('🟡 Current config:', currentConfig);
 
   // Merge rates
   const updatedVehicleTypes = {
@@ -59,7 +72,10 @@ export async function updateVehicleType(
     },
   };
 
+  console.log('🟡 Updated vehicle types:', updatedVehicleTypes);
+
   // Update
+  console.log('🟡 Updating Supabase...');
   const { error } = await supabase
     .from('pricing_config')
     .update({
@@ -69,8 +85,11 @@ export async function updateVehicleType(
     .eq('id', configId);
 
   if (error) {
+    console.error('❌ Update error:', error);
     throw new Error(`Failed to update vehicle type: ${error.message}`);
   }
+
+  console.log('✅ Supabase update successful!');
 }
 
 /**

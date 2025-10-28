@@ -210,28 +210,60 @@ export function VehicleTypesTab({ config }: Props) {
         </tbody>
       </table>
 
-      {/* Example Calculation */}
+      {/* Example Calculation with Commissions */}
       <div className={styles.exampleBox}>
-        <h3 className={styles.exampleTitle}>Example Calculation (Executive)</h3>
+        <h3 className={styles.exampleTitle}>Example Calculation (Executive) - 15.5 miles, 45 min</h3>
         {config.vehicle_types.executive && (() => {
           const example = calculateExample(config.vehicle_types.executive!);
+          const platformCommission = 0.10; // 10%
+          const operatorCommission = 0.20; // 20%
+          
+          const customerPrice = example.total;
+          const platformFee = customerPrice * platformCommission;
+          const operatorNet = customerPrice - platformFee;
+          const operatorCommissionAmount = operatorNet * operatorCommission;
+          const driverPayout = operatorNet - operatorCommissionAmount;
+          
           return (
             <>
-              <div className={styles.exampleRow}>
-                <span className={styles.exampleLabel}>Base Fare:</span>
-                <span className={styles.exampleValue}>£{example.baseFare.toFixed(2)}</span>
+              <div className={styles.exampleSection}>
+                <h4 className={styles.exampleSubtitle}>💰 Customer Pays:</h4>
+                <div className={styles.exampleRow}>
+                  <span className={styles.exampleLabel}>Base Fare:</span>
+                  <span className={styles.exampleValue}>£{example.baseFare.toFixed(2)}</span>
+                </div>
+                <div className={styles.exampleRow}>
+                  <span className={styles.exampleLabel}>Distance Fee:</span>
+                  <span className={styles.exampleValue}>£{example.distanceFee.toFixed(2)}</span>
+                </div>
+                <div className={styles.exampleRow}>
+                  <span className={styles.exampleLabel}>Time Fee:</span>
+                  <span className={styles.exampleValue}>£{example.timeFee.toFixed(2)}</span>
+                </div>
+                <div className={`${styles.exampleRow} ${styles.exampleTotal}`}>
+                  <span className={styles.exampleLabel}>Customer Total:</span>
+                  <span className={styles.exampleValue}>£{customerPrice.toFixed(2)}</span>
+                </div>
               </div>
-              <div className={styles.exampleRow}>
-                <span className={styles.exampleLabel}>Distance Fee (15.5 miles):</span>
-                <span className={styles.exampleValue}>£{example.distanceFee.toFixed(2)}</span>
-              </div>
-              <div className={styles.exampleRow}>
-                <span className={styles.exampleLabel}>Time Fee (45 min):</span>
-                <span className={styles.exampleValue}>£{example.timeFee.toFixed(2)}</span>
-              </div>
-              <div className={`${styles.exampleRow} ${styles.exampleTotal}`}>
-                <span className={styles.exampleLabel}>Total:</span>
-                <span className={styles.exampleValue}>£{example.total.toFixed(2)}</span>
+
+              <div className={styles.exampleSection}>
+                <h4 className={styles.exampleSubtitle}>📊 Commission Breakdown:</h4>
+                <div className={styles.exampleRow}>
+                  <span className={styles.exampleLabel}>Platform Fee (10%):</span>
+                  <span className={styles.exampleValue} style={{color: 'var(--color-primary)'}}>£{platformFee.toFixed(2)}</span>
+                </div>
+                <div className={styles.exampleRow}>
+                  <span className={styles.exampleLabel}>Operator Net:</span>
+                  <span className={styles.exampleValue}>£{operatorNet.toFixed(2)}</span>
+                </div>
+                <div className={styles.exampleRow}>
+                  <span className={styles.exampleLabel}>Operator Commission (20%):</span>
+                  <span className={styles.exampleValue} style={{color: 'var(--color-success)'}}>£{operatorCommissionAmount.toFixed(2)}</span>
+                </div>
+                <div className={`${styles.exampleRow} ${styles.exampleTotal}`}>
+                  <span className={styles.exampleLabel}>Driver Payout (80%):</span>
+                  <span className={styles.exampleValue} style={{color: 'var(--color-info)'}}>£{driverPayout.toFixed(2)}</span>
+                </div>
               </div>
             </>
           );

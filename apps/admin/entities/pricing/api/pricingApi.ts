@@ -41,6 +41,10 @@ export async function updateVehicleType(
   console.log('🟡 configId:', configId);
   console.log('🟡 payload:', payload);
   
+  // Check current user
+  const { data: { user } } = await supabase.auth.getUser();
+  console.log('🟡 Current user:', user?.id, user?.email);
+  
   const { vehicleType, rates } = payload;
 
   // Fetch current config
@@ -132,6 +136,146 @@ export async function updateAirportFee(
 
   if (error) {
     throw new Error(`Failed to update airport fee: ${error.message}`);
+  }
+}
+
+/**
+ * Update zone fee
+ */
+export async function updateZoneFee(
+  configId: string,
+  payload: { zoneCode: string; fee: any }
+): Promise<void> {
+  const { zoneCode, fee } = payload;
+
+  const { data: currentConfig } = await supabase
+    .from('pricing_config')
+    .select('zone_fees')
+    .eq('id', configId)
+    .single();
+
+  if (!currentConfig) {
+    throw new Error('Pricing config not found');
+  }
+
+  const updatedZoneFees = {
+    ...currentConfig.zone_fees,
+    [zoneCode]: {
+      ...currentConfig.zone_fees[zoneCode],
+      ...fee,
+    },
+  };
+
+  const { error } = await supabase
+    .from('pricing_config')
+    .update({
+      zone_fees: updatedZoneFees,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', configId);
+
+  if (error) {
+    throw new Error(`Failed to update zone fee: ${error.message}`);
+  }
+}
+
+/**
+ * Update service policies
+ */
+export async function updateServicePolicies(
+  configId: string,
+  policies: any
+): Promise<void> {
+  const { error } = await supabase
+    .from('pricing_config')
+    .update({
+      service_policies: policies,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', configId);
+
+  if (error) {
+    throw new Error(`Failed to update service policies: ${error.message}`);
+  }
+}
+
+/**
+ * Update general policies
+ */
+export async function updateGeneralPolicies(
+  configId: string,
+  policies: any
+): Promise<void> {
+  const { error } = await supabase
+    .from('pricing_config')
+    .update({
+      general_policies: policies,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', configId);
+
+  if (error) {
+    throw new Error(`Failed to update general policies: ${error.message}`);
+  }
+}
+
+/**
+ * Update return settings
+ */
+export async function updateReturnSettings(
+  configId: string,
+  settings: any
+): Promise<void> {
+  const { error } = await supabase
+    .from('pricing_config')
+    .update({
+      return_settings: settings,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', configId);
+
+  if (error) {
+    throw new Error(`Failed to update return settings: ${error.message}`);
+  }
+}
+
+/**
+ * Update hourly settings
+ */
+export async function updateHourlySettings(
+  configId: string,
+  settings: any
+): Promise<void> {
+  const { error } = await supabase
+    .from('pricing_config')
+    .update({
+      hourly_settings: settings,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', configId);
+
+  if (error) {
+    throw new Error(`Failed to update hourly settings: ${error.message}`);
+  }
+}
+
+/**
+ * Update fleet settings
+ */
+export async function updateFleetSettings(
+  configId: string,
+  settings: any
+): Promise<void> {
+  const { error } = await supabase
+    .from('pricing_config')
+    .update({
+      fleet_settings: settings,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', configId);
+
+  if (error) {
+    throw new Error(`Failed to update fleet settings: ${error.message}`);
   }
 }
 

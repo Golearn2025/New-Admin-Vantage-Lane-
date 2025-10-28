@@ -14,9 +14,15 @@ import { VehicleTypesTab } from './VehicleTypesTab';
 import { AirportFeesTab } from './AirportFeesTab';
 import { SurgeMultipliersTab } from './SurgeMultipliersTab';
 import { PremiumServicesTab } from './PremiumServicesTab';
+import { ZoneFeesTab } from './ZoneFeesTab';
+import { ServicePoliciesTab } from './ServicePoliciesTab';
+import { GeneralPoliciesTab } from './GeneralPoliciesTab';
+import { ReturnSettingsTab } from './ReturnSettingsTab';
+import { HourlyHireTab } from './HourlyHireTab';
+import { FleetSettingsTab } from './FleetSettingsTab';
 import styles from './PricesManagementPage.module.css';
 
-type TabType = 'vehicles' | 'airports' | 'surge' | 'premium';
+type TabType = 'vehicles' | 'airports' | 'surge' | 'premium' | 'zones' | 'services' | 'policies' | 'return' | 'hourly' | 'fleet';
 
 export function PricesManagementPage() {
   const [activeTab, setActiveTab] = useState<TabType>('vehicles');
@@ -95,6 +101,42 @@ export function PricesManagementPage() {
         >
           ⭐ Premium Services
         </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'zones' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('zones')}
+        >
+          🗺️ Zone Fees
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'services' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('services')}
+        >
+          ⚙️ Service Policies
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'policies' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('policies')}
+        >
+          📋 General Policies
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'return' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('return')}
+        >
+          🔄 Return Settings
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'hourly' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('hourly')}
+        >
+          ⏱️ Hourly Hire
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'fleet' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('fleet')}
+        >
+          🚗🚗 Fleet Settings
+        </button>
       </div>
 
       {/* Content */}
@@ -103,6 +145,12 @@ export function PricesManagementPage() {
         {activeTab === 'airports' && <AirportFeesTab config={config} />}
         {activeTab === 'surge' && <SurgeMultipliersTab config={config} />}
         {activeTab === 'premium' && <PremiumServicesTab config={config} />}
+        {activeTab === 'zones' && <ZoneFeesTab config={config} />}
+        {activeTab === 'services' && <ServicePoliciesTab config={config} />}
+        {activeTab === 'policies' && <GeneralPoliciesTab config={config} />}
+        {activeTab === 'return' && <ReturnSettingsTab config={config} />}
+        {activeTab === 'hourly' && <HourlyHireTab config={config} />}
+        {activeTab === 'fleet' && <FleetSettingsTab config={config} />}
       </div>
     </div>
   );

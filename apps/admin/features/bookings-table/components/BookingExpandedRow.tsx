@@ -19,7 +19,14 @@
 
 import React from 'react';
 import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
-import { InfoSection, AssignmentSection, TripTypeSection, type DriverDetails, type VehicleDetails } from './expanded';
+import { 
+  InfoSection, 
+  AssignmentSection, 
+  TripTypeSection, 
+  ReturnBookingLayout,
+  type DriverDetails, 
+  type VehicleDetails 
+} from './expanded';
 import styles from './BookingExpandedRow.module.css';
 
 interface BookingExpandedRowProps {
@@ -78,6 +85,11 @@ export function BookingExpandedRow({
   }
 
   const hasReturnJourney = booking.trip_type === 'return' && (returnDate || returnTime);
+
+  // RETURN bookings: Use special layout with legs
+  if (booking.trip_type === 'return') {
+    return <ReturnBookingLayout booking={booking} freeServices={freeServices} />;
+  }
 
   return (
     <div className={styles.expandedContainer}>

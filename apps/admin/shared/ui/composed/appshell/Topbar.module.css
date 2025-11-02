@@ -1,11 +1,5 @@
 /* Topbar Styles - Application Header */
-
-/* Sidebar width variables */
-:root {
-  --sidebar-width: 240px;
-  --sidebar-collapsed-width: 70px;
-  --topbar-height: 60px;
-}
+/* Variables defined in app/globals.css */
 
 .topbar {
   height: var(--topbar-height);
@@ -38,7 +32,7 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border-strong);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Skip link pentru A11y */
@@ -132,16 +126,16 @@
 
 .notificationBadge {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: var(--badge-offset);
+  right: var(--badge-offset);
   background: var(--theme-gradient);
   color: white;
   font-size: var(--font-xs);
   font-weight: var(--font-semibold);
-  padding: 2px 6px;
+  padding: var(--badge-padding-y) var(--badge-padding-x);
   border-radius: var(--radius-full);
-  min-width: 18px;
-  height: 18px;
+  min-width: var(--badge-size);
+  height: var(--badge-size);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -222,12 +216,18 @@
   font-weight: var(--font-medium);
   color: var(--color-text-primary);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 
 .userRole {
   font-size: var(--font-xs);
   color: var(--color-text-muted);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 
 .userChevron {
@@ -298,6 +298,22 @@
 }
 
 /* Mobile Responsive */
+/* iPhone SE / Small mobile (320px-374px) */
+@media (max-width: 374px) {
+  .userName,
+  .userRole {
+    max-width: 80px;
+  }
+}
+
+/* iPhone Standard / Medium mobile (375px-480px) */
+@media (min-width: 375px) and (max-width: 480px) {
+  .userName,
+  .userRole {
+    max-width: 100px;
+  }
+}
+
 @media (max-width: 768px) {
   .topbar,
   .topbar.topbarCollapsed {

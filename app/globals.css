@@ -124,6 +124,20 @@
   --spacing-24: 96px;
   --spacing-32: 128px;
 
+  /* Layout Variables */
+  --sidebar-width: 240px;
+  --sidebar-collapsed-width: 70px;
+  --topbar-height: 60px;
+  --badge-offset: 6px;
+  --badge-padding-y: 2px;
+  --badge-padding-x: 6px;
+  --badge-size: 18px;
+
+  /* Accessibility Touch Targets (WCAG 2.1 Level AAA) */
+  --touch-target-min: 44px;
+  --touch-target-comfortable: 48px;
+  --tap-area-small: 36px;
+
   /* Border Radius */
   --radius-sm: 4px;
   --radius-md: 8px;

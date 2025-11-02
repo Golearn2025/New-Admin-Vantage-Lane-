@@ -1,4 +1,5 @@
-import { CheckCircle, Clock } from 'lucide-react';
+'use client';
+
 /**
  * AccountTab - TAB 2: Account Information
  *
@@ -6,9 +7,8 @@ import { CheckCircle, Clock } from 'lucide-react';
  * Limită: ≤150 linii
  */
 
-'use client';
-
 import React from 'react';
+import { CheckCircle, Clock } from 'lucide-react';
 import { ProfileSection } from '@vantage-lane/ui-core';
 import type { AdminProfile } from '../hooks/useProfileData';
 import styles from './AccountTab.module.css';

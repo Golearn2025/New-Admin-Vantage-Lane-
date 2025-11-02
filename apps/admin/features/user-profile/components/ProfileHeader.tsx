@@ -1,4 +1,5 @@
-import { Car } from 'lucide-react';
+'use client';
+
 /**
  * Profile Header Component
  * Avatar, name, status, quick actions
@@ -7,10 +8,8 @@ import { Car } from 'lucide-react';
  * File: < 200 lines (RULES.md compliant)
  */
 
-'use client';
-
-import { CheckCircle, Circle } from 'lucide-react';
 import React from 'react';
+import { CheckCircle, Circle, Car } from 'lucide-react';
 import { Button } from '@vantage-lane/ui-core';
 import type { UserProfileData } from '../types';
 import styles from './ProfileHeader.module.css';

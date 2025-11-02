@@ -1,4 +1,5 @@
-import { Car, CheckCircle, Hourglass } from 'lucide-react';
+'use client';
+
 /**
  * Profile Stats Tab - Charts & Analytics
  * Shows earnings, jobs, and performance stats
@@ -6,9 +7,8 @@ import { Car, CheckCircle, Hourglass } from 'lucide-react';
  * MODERN & PREMIUM Design with glass morphism
  */
 
-'use client';
-
 import React, { useState, useEffect } from 'react';
+import { Car, CheckCircle, Hourglass } from 'lucide-react';
 import { getDriverStats } from '@entities/driver/api/driverApi';
 import { getCustomerStats } from '@entities/customer/api/customerApi';
 import { getOperatorStats } from '@entities/operator/api/operatorApi';

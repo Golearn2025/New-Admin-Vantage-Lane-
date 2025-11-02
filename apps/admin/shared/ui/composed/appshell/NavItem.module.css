@@ -167,13 +167,14 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .navItem {
+  .navLink {
     padding: var(--spacing-4);
     min-height: 48px; /* Larger touch targets on mobile */
   }
 
   .navLabel {
-    font-size: var(--font-lg);
+    font-size: var(--font-base);
+    /* Keep same size for readability */
   }
 
   .submenu {
@@ -183,13 +184,13 @@
   .submenuItem {
     padding: var(--spacing-3);
     min-height: 44px;
-    font-size: var(--font-base);
+    font-size: var(--font-sm);
   }
 }
 
 /* Dark theme focus adjustments */
 @media (prefers-reduced-motion: reduce) {
-  .navItem,
+  .navLink,
   .chevron,
   .submenuItem {
     transition: none;

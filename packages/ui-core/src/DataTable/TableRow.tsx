@@ -11,6 +11,19 @@ import styles from './DataTable.module.css';
 import { TableRowProps } from './types/index';
 import { TableCell } from './TableCell';
 
+/**
+ * Simple hash function for generating consistent colors from strings
+ */
+function hashCode(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
+}
+
 export function TableRow<TData = unknown>({
   row,
   rowId,
@@ -55,6 +68,18 @@ export function TableRow<TData = unknown>({
     .filter(Boolean)
     .join(' ');
 
+  // Detect group type and parent ID from row data
+  const rowData = row as { trip_type?: string; id?: string };
+  const groupType = rowData.trip_type;
+  
+  // Extract parent ID from segment ID (e.g., "uuid-01" → "uuid")
+  const parentId = rowData.id?.includes('-') 
+    ? rowData.id.substring(0, rowData.id.lastIndexOf('-'))
+    : rowData.id;
+  
+  // Generate unique color from parent ID hash
+  const groupColor = parentId ? `hsl(${hashCode(parentId) % 360}, 70%, 50%)` : undefined;
+  
   return (
     <tr
       className={classes}
@@ -64,6 +89,9 @@ export function TableRow<TData = unknown>({
       data-row-id={rowId}
       data-selected={isSelected}
       data-expanded={isExpanded}
+      data-group-type={groupType === 'return' || groupType === 'fleet' ? groupType : undefined}
+      data-group-id={parentId}
+      style={groupColor ? { '--group-color': groupColor } as React.CSSProperties : undefined}
     >
       {columns.map((column) => {
         // Get cell value using accessor or id

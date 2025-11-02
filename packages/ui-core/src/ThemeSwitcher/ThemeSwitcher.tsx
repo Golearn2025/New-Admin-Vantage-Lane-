@@ -8,6 +8,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { ChevronDown, CheckCircle2 } from 'lucide-react';
 import { useTheme } from '../theme/ThemeProvider';
 import styles from './ThemeSwitcher.module.css';
 
@@ -94,22 +95,12 @@ export function ThemeSwitcher({
         )}
 
         {/* Chevron Icon */}
-        <svg
+        <ChevronDown
           className={`${styles.chevron} ${isOpen ? styles.chevronOpen : ''}`}
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
+          size={16}
+          strokeWidth={2}
           aria-hidden="true"
-        >
-          <path
-            d="M4 6L8 10L12 6"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        />
       </button>
 
       {/* Dropdown */}
@@ -151,28 +142,11 @@ export function ThemeSwitcher({
 
                 {/* Active Indicator */}
                 {currentTheme === theme.id && (
-                  <svg
+                  <CheckCircle2
                     className={styles.checkIcon}
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                  >
-                    <path
-                      d="M7 10L9 12L13 8"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <circle
-                      cx="10"
-                      cy="10"
-                      r="9"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                  </svg>
+                    size={20}
+                    strokeWidth={2}
+                  />
                 )}
               </button>
             ))}

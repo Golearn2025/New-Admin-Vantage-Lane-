@@ -49,6 +49,7 @@
 
 .icon {
   font-size: var(--font-size-3xl);
+  color: rgba(211, 170, 49, 0.9);
 }
 
 .label {

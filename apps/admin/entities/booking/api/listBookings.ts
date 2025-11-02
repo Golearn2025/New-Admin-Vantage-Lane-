@@ -38,6 +38,7 @@ export async function fetchBookingsData(
       totalCount: count || 0,
       customers: [],
       segments: [],
+      legs: [],
       pricing: [],
       services: [],
       organizations: [],
@@ -65,6 +66,7 @@ export async function fetchBookingsData(
   const [
     customersResult,
     segmentsResult,
+    legsResult,
     pricingResult,
     servicesResult,
     organizationsResult,
@@ -74,6 +76,7 @@ export async function fetchBookingsData(
   ] = await Promise.all([
     fetchCustomers(supabase, customerIds as string[]),
     fetchSegments(supabase, bookingIds),
+    fetchLegs(supabase, bookingIds),
     fetchPricing(supabase, bookingIds),
     fetchServices(supabase, bookingIds),
     fetchOrganizations(supabase, organizationIds),
@@ -87,6 +90,7 @@ export async function fetchBookingsData(
     totalCount: count || 0,
     customers: customersResult,
     segments: segmentsResult,
+    legs: legsResult,
     pricing: pricingResult,
     services: servicesResult,
     organizations: organizationsResult,
@@ -127,10 +131,26 @@ async function fetchSegments(supabase: SupabaseClient, bookingIds: string[]) {
   return data || [];
 }
 
+async function fetchLegs(supabase: SupabaseClient, bookingIds: string[]) {
+  const { data, error } = await supabase
+    .from('booking_legs')
+    .select(
+      'id, parent_booking_id, leg_number, leg_type, vehicle_category, pickup_location, destination, scheduled_at, distance_miles, duration_min, assigned_driver_id, assigned_vehicle_id, status, leg_price, driver_payout'
+    )
+    .in('parent_booking_id', bookingIds)
+    .order('leg_number', { ascending: true });
+
+  if (error) {
+    throw new Error(`Failed to fetch legs: ${error.message}`);
+  }
+
+  return data || [];
+}
+
 async function fetchPricing(supabase: SupabaseClient, bookingIds: string[]) {
   const { data, error } = await supabase
     .from('booking_pricing')
-    .select('booking_id, price, currency, payment_method, payment_status')
+    .select('booking_id, price, currency, payment_method, payment_status, platform_fee, operator_net, driver_payout, platform_commission_pct, driver_commission_pct')
     .in('booking_id', bookingIds);
 
   if (error) {

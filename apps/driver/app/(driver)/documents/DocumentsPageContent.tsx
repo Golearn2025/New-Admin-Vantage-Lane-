@@ -1,3 +1,4 @@
+import { CheckCircle, Hourglass } from 'lucide-react';
 /**
  * Documents Page Content Component
  * 
@@ -75,12 +76,12 @@ export function DocumentsPageContent({ driverId }: DocumentsPageContentProps) {
           <div className={styles.statValue}>{totalDocs}</div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>✅</div>
+          <div className={styles.statIcon}><CheckCircle size={18} strokeWidth={2} /></div>
           <div className={styles.statLabel}>Approved</div>
           <div className={styles.statValue}>{approvedDocs}</div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>⏳</div>
+          <div className={styles.statIcon}><Hourglass size={18} strokeWidth={2} /></div>
           <div className={styles.statLabel}>Pending Review</div>
           <div className={styles.statValue}>{pendingDocs}</div>
         </div>

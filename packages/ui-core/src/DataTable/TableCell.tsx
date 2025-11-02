@@ -19,6 +19,9 @@ export function TableCell<TData = unknown>({
 }: TableCellProps<TData>): JSX.Element {
   // Render custom cell if provided
   const cellContent = column.cell ? column.cell(row, value) : String(value ?? '');
+  
+  // Get tooltip text (raw value for tooltip)
+  const tooltipText = column.cell ? String(value ?? '') : String(value ?? '');
 
   // Build CSS classes
   const classes = [
@@ -39,8 +42,15 @@ export function TableCell<TData = unknown>({
   };
 
   return (
-    <td className={classes} style={cellStyles} data-column-id={column.id}>
-      {cellContent}
+    <td 
+      className={classes} 
+      style={cellStyles} 
+      data-column-id={column.id}
+      title={tooltipText}
+    >
+      <div className={styles.cellContent}>
+        {cellContent}
+      </div>
     </td>
   );
 }

@@ -64,6 +64,12 @@ export interface Column<TData = unknown> {
   sortFn?: (a: TData, b: TData, direction: SortDirection) => number;
 
   /**
+   * Is column resizable with mouse?
+   * @default false
+   */
+  resizable?: boolean;
+
+  /**
    * Alignment of cell content
    * @default 'left'
    */

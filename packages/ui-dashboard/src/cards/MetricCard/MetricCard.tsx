@@ -9,6 +9,7 @@ import React from 'react';
 import styles from './MetricCard.module.css';
 import { GradientPreset } from '../../theme/palettes';
 import { getTrendDirection, getTrendIcon, getTrendColor } from '../../theme/helpers';
+import { useCounterAnimation } from '../../utils/useCounterAnimation';
 
 export type CardUnit = 'GBP_pence' | 'count' | 'percentage';
 
@@ -39,22 +40,31 @@ export function MetricCard({
   gradient = 'purple',
   className = '',
 }: MetricCardProps) {
+  // Animate value from 0 to target (ALL formats: currency, number, percent)
+  const shouldAnimate = !loading && value !== null;
+  const animatedValue = useCounterAnimation(
+    shouldAnimate ? value : 0,
+    { duration: 700, easing: 'outCubic', enabled: shouldAnimate }
+  );
+
   // Format value based on spec
   const formattedValue = React.useMemo(() => {
     if (value === null) return 'N/A';
+
+    const displayValue = shouldAnimate ? animatedValue : value;
 
     // TODO: Use @vantage-lane/formatters when ready
     // For now, simple formatting
     switch (spec.format) {
       case 'currency':
-        return `£${(value / 100).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        return `£${(displayValue / 100).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
       case 'percent':
-        return `${value.toFixed(1)}%`;
+        return `${displayValue.toFixed(1)}%`;
       case 'number':
       default:
-        return value.toLocaleString('en-GB');
+        return displayValue.toLocaleString('en-GB');
     }
-  }, [value, spec.format]);
+  }, [value, spec.format, shouldAnimate, animatedValue]);
 
   // Format delta
   const formattedDelta = React.useMemo(() => {

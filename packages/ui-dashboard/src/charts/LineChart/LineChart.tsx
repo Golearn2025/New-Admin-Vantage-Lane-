@@ -17,6 +17,14 @@ import {
 } from 'recharts';
 import styles from './LineChart.module.css';
 import { CHART_COLORS } from '../../theme/palettes';
+import {
+  CHART_MARGIN,
+  CHART_ANIMATION_DURATION,
+  CHART_STROKE_DASH,
+  CHART_DOT_RADIUS,
+  CHART_ACTIVE_DOT_RADIUS,
+  CHART_DEFAULT_HEIGHT,
+} from '../constants';
 
 export type ChartUnit = 'GBP_pence' | 'count' | 'percentage';
 
@@ -58,7 +66,7 @@ export function LineChart({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   unit: _unit = 'count',
   loading = false,
-  height = 300,
+  height,
   color = CHART_COLORS.primary,
   strokeWidth = 3,
   showDots = true,
@@ -92,24 +100,24 @@ export function LineChart({
 
   return (
     <div className={`${styles.container} ${className}`}>
-      <ResponsiveContainer width="100%" height={height}>
-        <RechartsLineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--vl-chart-grid, #e5e7eb)" />
+      <ResponsiveContainer width="100%" height={height ?? CHART_DEFAULT_HEIGHT}>
+        <RechartsLineChart data={chartData} margin={CHART_MARGIN}>
+          <CartesianGrid strokeDasharray={CHART_STROKE_DASH} stroke="var(--vl-chart-grid)" />
           <XAxis
             dataKey="name"
-            stroke="var(--vl-chart-axis, #6b7280)"
-            style={{ fontSize: '12px' }}
+            stroke="var(--vl-chart-axis)"
+            style={{ fontSize: 'var(--font-xs)' }}
           />
-          <YAxis stroke="var(--vl-chart-axis, #6b7280)" style={{ fontSize: '12px' }} />
+          <YAxis stroke="var(--vl-chart-axis)" style={{ fontSize: 'var(--font-xs)' }} />
           <Tooltip content={<CustomTooltip />} />
           <Line
             type="monotone"
             dataKey="value"
             stroke={color}
             strokeWidth={strokeWidth}
-            dot={showDots ? { fill: color, r: 4 } : false}
-            activeDot={{ r: 6 }}
-            animationDuration={800}
+            dot={showDots ? { fill: color, r: CHART_DOT_RADIUS } : false}
+            activeDot={{ r: CHART_ACTIVE_DOT_RADIUS }}
+            animationDuration={CHART_ANIMATION_DURATION}
           />
         </RechartsLineChart>
       </ResponsiveContainer>

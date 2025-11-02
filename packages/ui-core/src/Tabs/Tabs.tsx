@@ -158,9 +158,9 @@ export function Tabs({
               {/* Badge */}
               {tab.badge !== undefined && (
                 <Badge 
-                  color={tab.badgeColor || 'theme'} 
+                  color={isActive ? 'neutral' : (tab.badgeColor || 'theme')} 
                   size="sm"
-                  variant="soft"
+                  variant={isActive ? 'solid' : 'soft'}
                 >
                   {tab.badge}
                 </Badge>

@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import { Icon } from '../../Icon/Icon';
-import './StatusBadge.module.css';
+import { Bell, UserCheck, Navigation, MapPinCheck, Users, CircleCheck, CircleX } from 'lucide-react';
+import styles from './StatusBadge.module.css';
 
 export type BookingStatus =
   | 'pending'
@@ -30,31 +30,38 @@ export interface StatusBadgeProps {
 const STATUS_CONFIG = {
   pending: {
     label: 'New Booking',
-    className: 'status-badge--pending',
+    className: styles.statusBadgePending,
+    icon: <Bell size={14} strokeWidth={2} />,
   },
   assigned: {
     label: 'Assigned',
-    className: 'status-badge--assigned',
+    className: styles.statusBadgeAssigned,
+    icon: <UserCheck size={14} strokeWidth={2} />,
   },
   en_route: {
     label: 'En Route',
-    className: 'status-badge--en-route',
+    className: styles.statusBadgeEnRoute,
+    icon: <Navigation size={14} strokeWidth={2} />,
   },
   arrived: {
     label: 'Arrived',
-    className: 'status-badge--arrived',
+    className: styles.statusBadgeArrived,
+    icon: <MapPinCheck size={14} strokeWidth={2} />,
   },
   in_progress: {
     label: 'In Progress',
-    className: 'status-badge--in-progress',
+    className: styles.statusBadgeInProgress,
+    icon: <Users size={14} strokeWidth={2} />,
   },
   completed: {
     label: 'Completed',
-    className: 'status-badge--completed',
+    className: styles.statusBadgeCompleted,
+    icon: <CircleCheck size={14} strokeWidth={2} />,
   },
   cancelled: {
     label: 'Cancelled',
-    className: 'status-badge--cancelled',
+    className: styles.statusBadgeCancelled,
+    icon: <CircleX size={14} strokeWidth={2} />,
   },
 } as const;
 
@@ -69,11 +76,13 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   const config = STATUS_CONFIG[status];
 
   const classes = [
-    'status-badge',
+    styles.statusBadge,
     config.className,
-    `status-badge--${size}`,
-    isUrgent && 'status-badge--urgent',
-    isNew && 'status-badge--new',
+    size === 'sm' && styles.statusBadgeSm,
+    size === 'md' && styles.statusBadgeMd,
+    size === 'lg' && styles.statusBadgeLg,
+    isUrgent && styles.statusBadgeUrgent,
+    isNew && styles.statusBadgeNew,
     className,
   ]
     .filter(Boolean)
@@ -82,12 +91,15 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   return (
     <span className={classes}>
       {isNew && (
-        <span className="status-badge__bell-icon">
-          <Icon name="bell" size="xs" />
+        <span className={styles.statusBadgeBellIcon}>
+          <Bell size={12} strokeWidth={2} />
         </span>
       )}
-      <span className="status-badge__label">{config.label}</span>
-      {isUrgent && <span className="status-badge__urgent-indicator">URGENT</span>}
+      {showIcon && config.icon && !isNew && (
+        <span className={styles.statusBadgeIcon}>{config.icon}</span>
+      )}
+      <span className={styles.statusBadgeLabel}>{config.label}</span>
+      {isUrgent && <span className={styles.statusBadgeUrgentIndicator}>URGENT</span>}
     </span>
   );
 };

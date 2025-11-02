@@ -5,7 +5,8 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Clock, MapPin, Plane, Timer } from 'lucide-react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { BookingTypeSelector } from './BookingTypeSelector';
 import { BookingCustomerSelect } from './BookingCustomerSelect';
@@ -37,7 +38,7 @@ export function BookingCreateForm() {
     validate,
   } = useBookingCreate();
 
-  const { basePrice, servicesTotal, total } = usePriceCalculation(formData);
+  const { basePrice, servicesTotal, total, breakdown, details, isLoading: isPriceLoading, error: priceError } = usePriceCalculation(formData);
   const { distanceMiles, durationMinutes, isCalculating } = useDistanceCalculation(
     formData.pickupLat,
     formData.pickupLng,
@@ -48,13 +49,39 @@ export function BookingCreateForm() {
   // Update formData with calculated distance and duration
   useEffect(() => {
     if (distanceMiles !== null && durationMinutes !== null) {
+      console.log('📍 BookingCreateForm - Updating distance/duration:', { distanceMiles, durationMinutes });
       updateField('distanceMiles', distanceMiles);
       updateField('durationMinutes', durationMinutes);
     }
   }, [distanceMiles, durationMinutes, updateField]);
 
+  // Stable callbacks for GooglePlacesInput
+  const handlePickupChange = useCallback((value: string, placeData?: { lat: number; lng: number; formattedAddress: string }) => {
+    updateField('pickupText', value);
+    if (placeData) {
+      updateField('pickupLat', placeData.lat);
+      updateField('pickupLng', placeData.lng);
+    }
+  }, [updateField]);
+
+  const handleDropoffChange = useCallback((value: string, placeData?: { lat: number; lng: number; formattedAddress: string }) => {
+    updateField('dropoffText', value);
+    if (placeData) {
+      updateField('dropoffLat', placeData.lat);
+      updateField('dropoffLng', placeData.lng);
+    }
+  }, [updateField]);
+
   const handleSubmit = async () => {
-    if (!validate()) return;
+    console.log('\ud83d\ude80 BookingCreateForm - SUBMIT START');
+    console.log('\ud83d\udccb FormData:', formData);
+    console.log('\ud83d\udccd Distance/Duration:', { distanceMiles, durationMinutes });
+    console.log('\ud83d\udcb0 Pricing:', { basePrice, servicesTotal, total });
+    
+    if (!validate()) {
+      console.error('\u274c Validation failed!');
+      return;
+    }
 
     setIsSubmitting(true);
     setError(null);
@@ -89,8 +116,20 @@ export function BookingCreateForm() {
       };
 
       const segments = [
-        { seq_no: 1, role: 'pickup' as const, place_text: formData.pickupText },
-        ...(formData.tripType !== 'hourly' ? [{ seq_no: 2, role: 'dropoff' as const, place_text: formData.dropoffText }] : []),
+        { 
+          seq_no: 1, 
+          role: 'pickup' as const, 
+          place_text: formData.pickupText,
+          lat: formData.pickupLat || null,
+          lng: formData.pickupLng || null,
+        },
+        ...(formData.tripType !== 'hourly' ? [{ 
+          seq_no: 2, 
+          role: 'dropoff' as const, 
+          place_text: formData.dropoffText,
+          lat: formData.dropoffLat || null,
+          lng: formData.dropoffLng || null,
+        }] : []),
       ];
 
       const response = await fetch('/api/bookings/create', {
@@ -123,6 +162,9 @@ export function BookingCreateForm() {
       </div>
 
       {error && <div className={styles.error}>{error}</div>}
+      {priceError && <div className={styles.error}>Price calculation error: {priceError}</div>}
+      {isPriceLoading && <div className={styles.info}>⏳ Calculating price from backend...</div>}
+      {isCalculating && <div className={styles.info}>📏 Calculating distance...</div>}
 
       <div className={styles.layout}>
         <div className={styles.formColumn}>
@@ -138,28 +180,16 @@ export function BookingCreateForm() {
 
           <GooglePlacesInput
             value={formData.pickupText}
-            onChange={(value, placeData) => {
-              updateField('pickupText', value);
-              if (placeData) {
-                updateField('pickupLat', placeData.lat);
-                updateField('pickupLng', placeData.lng);
-              }
-            }}
+            onChange={handlePickupChange}
             label="Pickup Location"
-            icon="📍"
+            icon={<MapPin size={18} strokeWidth={2} />}
             placeholder="Search for pickup location..."
           />
 
           {formData.tripType !== 'hourly' && (
             <GooglePlacesInput
               value={formData.dropoffText}
-              onChange={(value, placeData) => {
-                updateField('dropoffText', value);
-                if (placeData) {
-                  updateField('dropoffLat', placeData.lat);
-                  updateField('dropoffLng', placeData.lng);
-                }
-              }}
+              onChange={handleDropoffChange}
               label="Dropoff Location"
               icon="🎯"
               placeholder="Search for dropoff location..."
@@ -178,7 +208,7 @@ export function BookingCreateForm() {
                 </div>
               </div>
               <div className={styles.distanceCard}>
-                <span className={styles.distanceIcon}>⏱️</span>
+                <span className={styles.distanceIcon}><Timer size={18} strokeWidth={2} /></span>
                 <div className={styles.distanceContent}>
                   <span className={styles.distanceLabel}>Duration</span>
                   <span className={styles.distanceValue}>
@@ -309,6 +339,9 @@ export function BookingCreateForm() {
             servicesTotal={servicesTotal}
             total={total}
             isSubmitting={isSubmitting}
+            isPriceLoading={isPriceLoading}
+            breakdown={breakdown}
+            details={details}
             onSubmit={handleSubmit}
           />
         </div>

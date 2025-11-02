@@ -11,6 +11,7 @@
 'use client';
 
 import React from 'react';
+import { Hourglass, User, Car, MapPin, RefreshCw, CheckCircle, XCircle, Circle } from 'lucide-react';
 import type { BookingLegWithDetails } from '@entities/booking-leg';
 import { InfoSection } from './InfoSection';
 import styles from './BookingLegCard.module.css';
@@ -30,19 +31,28 @@ export function BookingLegCard({
   onNotifyDriver,
   onCancelLeg,
 }: BookingLegCardProps) {
-  const getStatusIcon = (status: string): string => {
-    const icons: Record<string, string> = {
-      pending: '⏳', assigned: '👤', en_route: '🚗',
-      arrived: '📍', in_progress: '🔄', completed: '✅', cancelled: '❌',
+  const getStatusIcon = (status: string): React.ReactNode => {
+    const size = 14;
+    const icons: Record<string, React.ReactNode> = {
+      pending: <Hourglass size={size} strokeWidth={2} />,
+      assigned: <User size={size} strokeWidth={2} />,
+      en_route: <Car size={size} strokeWidth={2} />,
+      arrived: <MapPin size={size} strokeWidth={2} />,
+      in_progress: <RefreshCw size={size} strokeWidth={2} />,
+      completed: <CheckCircle size={size} strokeWidth={2} />,
+      cancelled: <XCircle size={size} strokeWidth={2} />,
     };
-    return icons[status] || '⏳';
+    return icons[status] || <Hourglass size={size} strokeWidth={2} />;
   };
 
-  const getLegIcon = (type: string): string => {
-    const icons: Record<string, string> = {
-      outbound: '🟢', return: '🔴', fleet_vehicle: '🚗',
+  const getLegIcon = (type: string): React.ReactNode => {
+    const size = 12;
+    const icons: Record<string, React.ReactNode> = {
+      outbound: <Circle size={size} fill="#10b981" stroke="#10b981" />,
+      return: <Circle size={size} fill="#ef4444" stroke="#ef4444" />,
+      fleet_vehicle: <Car size={size} strokeWidth={2} />,
     };
-    return icons[type] || '🟢';
+    return icons[type] || <Circle size={size} fill="#10b981" stroke="#10b981" />;
   };
 
   const legIcon = getLegIcon(leg.leg_type);

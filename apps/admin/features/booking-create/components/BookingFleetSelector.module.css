@@ -54,7 +54,8 @@
 
 .icon {
   font-size: var(--font-size-2xl);
-  flex-shrink: 0;
+  margin-bottom: var(--spacing-1);
+  color: rgba(211, 170, 49, 0.9);
 }
 
 .info {

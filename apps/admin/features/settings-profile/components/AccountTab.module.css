@@ -2,56 +2,56 @@
  * AccountTab Styles - PREMIUM GOLD
  * 
  * Styles pentru info cards, badges, și organization display.
- * Color: #F1D16A (gold primary)
+ * Color: var(--color-primary) (gold primary)
  */
 
 /* Info Grid */
 .infoGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(var(--card-min-width, 280px), 1fr));
+  gap: var(--spacing-5);
 }
 
 .infoCard {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 24px;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(241, 209, 106, 0.08));
-  border: 2px solid rgba(241, 209, 106, 0.25);
-  border-radius: 16px;
+  gap: var(--spacing-4);
+  padding: var(--spacing-6);
+  background: linear-gradient(135deg, var(--color-bg-overlay-50), var(--color-primary-alpha-8));
+  border: var(--border-width-md) solid var(--color-primary-alpha-25);
+  border-radius: var(--radius-xl);
   transition: all 0.3s ease;
 }
 
 .infoCard:hover {
-  border-color: rgba(241, 209, 106, 0.4);
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(241, 209, 106, 0.12));
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(241, 209, 106, 0.15);
+  border-color: var(--color-primary-alpha-40);
+  background: linear-gradient(135deg, var(--color-bg-overlay-60), var(--color-primary-alpha-12));
+  transform: translateY(var(--spacing-1-negative));
+  box-shadow: 0 8px 24px var(--color-primary-alpha-15);
 }
 
 .infoIcon {
-  font-size: 36px;
-  filter: drop-shadow(0 0 12px rgba(241, 209, 106, 0.4));
+  font-size: var(--font-3xl);
+  filter: drop-shadow(0 0 12px var(--color-primary-alpha-40));
 }
 
 .infoContent {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--spacing-2);
   flex: 1;
 }
 
 .infoLabel {
-  font-size: 12px;
+  font-size: var(--font-xs);
   font-weight: 700;
-  color: rgba(241, 209, 106, 0.8);
+  color: var(--color-primary-alpha-80);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
 .infoValue {
-  font-size: 18px;
+  font-size: var(--font-lg);
   font-weight: 700;
   color: var(--color-text-inverse);
 }
@@ -61,10 +61,10 @@
 .badgeSupport {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-size: 15px;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-5);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-base);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -73,74 +73,74 @@
 .badgeAdmin {
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   color: var(--color-text-primary);
-  box-shadow: 0 4px 12px rgba(241, 209, 106, 0.4);
+  box-shadow: 0 4px 12px var(--color-primary-alpha-40);
 }
 
 .badgeSupport {
-  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  background: linear-gradient(135deg, var(--color-purple-500), var(--color-purple-600));
   color: var(--color-text-inverse);
-  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.4);
+  box-shadow: 0 4px 12px var(--color-purple-alpha-40);
 }
 
 .statusActive {
-  font-size: 18px;
+  font-size: var(--font-lg);
   font-weight: 700;
   color: var(--color-success);
-  text-shadow: 0 0 12px rgba(67, 233, 123, 0.5);
+  text-shadow: 0 0 12px var(--color-success-alpha-50);
 }
 
 /* Organization Card */
 .orgCard {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 28px;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(241, 209, 106, 0.08));
-  border: 2px solid rgba(241, 209, 106, 0.25);
-  border-radius: 16px;
+  gap: var(--spacing-5);
+  padding: var(--spacing-7);
+  background: linear-gradient(135deg, var(--color-bg-overlay-50), var(--color-primary-alpha-8));
+  border: var(--border-width-md) solid var(--color-primary-alpha-25);
+  border-radius: var(--radius-xl);
 }
 
 .orgIcon {
-  font-size: 48px;
-  filter: drop-shadow(0 0 16px rgba(241, 209, 106, 0.4));
+  font-size: var(--font-5xl);
+  filter: drop-shadow(0 0 16px var(--color-primary-alpha-40));
 }
 
 .orgContent {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--spacing-2);
   flex: 1;
 }
 
 .orgLabel {
-  font-size: 13px;
+  font-size: var(--font-sm);
   font-weight: 700;
-  color: rgba(241, 209, 106, 0.8);
+  color: var(--color-primary-alpha-80);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
 .orgValue {
-  font-size: 22px;
+  font-size: var(--font-xl);
   font-weight: 800;
   color: var(--color-primary);
-  text-shadow: 0 0 20px rgba(241, 209, 106, 0.4);
+  text-shadow: 0 0 20px var(--color-primary-alpha-40);
 }
 
 .orgHint {
-  font-size: 13px;
-  color: rgba(241, 209, 106, 0.6);
+  font-size: var(--font-sm);
+  color: var(--color-primary-alpha-60);
   font-style: italic;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md, 768px)) {
   .infoGrid {
     grid-template-columns: 1fr;
   }
 
   .infoCard {
-    padding: 20px;
+    padding: var(--spacing-5);
   }
 
   .orgCard {

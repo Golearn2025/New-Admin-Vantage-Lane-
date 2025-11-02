@@ -8,6 +8,11 @@ import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, TooltipProps, Legend } from 'recharts';
 import styles from './DonutChart.module.css';
 import { CHART_COLORS } from '../../theme/palettes';
+import {
+  CHART_ANIMATION_DURATION,
+  CHART_PADDING_ANGLE,
+  CHART_DEFAULT_HEIGHT,
+} from '../constants';
 
 export interface DonutChartDataPoint {
   name: string;
@@ -46,12 +51,13 @@ function CustomTooltip({ active, payload }: TooltipProps<number, string>) {
 export function DonutChart({
   data,
   loading = false,
-  height = 300,
+  height,
   innerRadius = 60,
   outerRadius = 100,
   showLegend = true,
   className = '',
 }: DonutChartProps) {
+  const chartHeight = height ?? CHART_DEFAULT_HEIGHT;
   const defaultColors = [
     CHART_COLORS.primary,
     CHART_COLORS.success,
@@ -62,7 +68,7 @@ export function DonutChart({
 
   if (loading) {
     return (
-      <div className={`${styles.container} ${className}`} style={{ height }}>
+      <div className={`${styles.container} ${className}`} style={{ height: chartHeight }}>
         <div className={styles.skeleton}>
           <div className={styles.skeletonDonut} />
         </div>
@@ -72,7 +78,7 @@ export function DonutChart({
 
   if (!data || data.length === 0) {
     return (
-      <div className={`${styles.container} ${styles.empty} ${className}`} style={{ height }}>
+      <div className={`${styles.container} ${styles.empty} ${className}`} style={{ height: chartHeight }}>
         <p className={styles.emptyText}>No data available</p>
       </div>
     );
@@ -80,7 +86,7 @@ export function DonutChart({
 
   return (
     <div className={`${styles.container} ${className}`}>
-      <ResponsiveContainer width="100%" height={height}>
+      <ResponsiveContainer width="100%" height={chartHeight}>
         <PieChart>
           <Pie
             data={data}
@@ -88,9 +94,9 @@ export function DonutChart({
             cy="50%"
             innerRadius={innerRadius}
             outerRadius={outerRadius}
-            paddingAngle={2}
+            paddingAngle={CHART_PADDING_ANGLE}
             dataKey="value"
-            animationDuration={800}
+            animationDuration={CHART_ANIMATION_DURATION}
             label={(entry) => `${entry.name}: ${entry.value}`}
           >
             {data.map((entry, index) => (

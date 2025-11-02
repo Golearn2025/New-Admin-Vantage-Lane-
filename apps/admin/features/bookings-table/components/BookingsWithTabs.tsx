@@ -1,24 +1,30 @@
 /**
  * BookingsWithTabs Component
  * 
- * Wrapper that combines BookingTabs + BookingsTable
+ * Wrapper that combines Tabs (from ui-core) + BookingsTable
  * 
  * Compliant:
  * - <200 lines
  * - TypeScript strict
  * - Client component
+ * - Uses reusable Tabs from ui-core
+ * - Generic types (no casts)
+ * - Error/loading handling
  */
 
 'use client';
 
-import React, { useState } from 'react';
-import { BookingTabs, createBookingTabs } from './BookingTabs';
+import React, { useMemo, useState, useCallback } from 'react';
+import { Tabs } from '@vantage-lane/ui-core';
 import { BookingsTable } from './BookingsTable';
 import { useBookingCounts } from '../hooks/useBookingCounts';
-import type { BookingTabValue } from '../types/tabs';
+import styles from './BookingsWithTabs.module.css';
+import { createBookingTabs, ZERO_COUNTS, type TabId } from '../utils/createBookingTabs';
+
+type BookingStatus = 'pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress';
 
 interface BookingsWithTabsProps {
-  statusFilter?: string[];
+  statusFilter?: BookingStatus[];
   title: string;
   description?: string;
   showStatusFilter?: boolean;
@@ -28,42 +34,48 @@ export function BookingsWithTabs({
   statusFilter = [],
   title,
   description,
-  showStatusFilter,
+  showStatusFilter = true,
 }: BookingsWithTabsProps) {
-  const [activeTab, setActiveTab] = useState<BookingTabValue>('all');
-  const { counts, isLoading: countsLoading, error } = useBookingCounts();
+  const [activeTab, setActiveTab] = useState<TabId>('all');
+  const { counts, isLoading, error } = useBookingCounts();
 
-  // Always show tabs, even if counts is null (with 0s as fallback)
-  const defaultCounts = {
-    all: 0,
-    oneway: 0,
-    return: 0,
-    hourly: 0,
-    fleet: 0,
-    by_request: 0,
-    events: 0,
-    corporate: 0,
-  };
+  // Use zero counts as fallback
+  const safeCounts = counts ?? ZERO_COUNTS;
+  
+  // Memoize tabs to prevent unnecessary re-renders
+  const tabs = useMemo(() => createBookingTabs(safeCounts), [safeCounts]);
 
-  const tabs = createBookingTabs((counts || defaultCounts) as unknown as { [key: string]: number });
+  // Stable callback to prevent re-renders
+  const handleTabChange = useCallback((tabId: string) => {
+    setActiveTab(tabId as TabId);
+  }, []);
 
   // Convert tab value to trip_type filter
   const tripTypeFilter = activeTab === 'all' ? null : activeTab;
 
   return (
     <div>
-      <BookingTabs
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
+      {/* Error banner */}
+      {error && (
+        <div className={styles.errorBanner}>
+          ⚠️ Unable to load booking counts. Showing zero values.
+        </div>
+      )}
+
+      <Tabs
         tabs={tabs}
-        isLoading={countsLoading}
+        activeTab={activeTab}
+        onChange={handleTabChange}
+        variant="pills"
+        fullWidth={false}
       />
+      
       <BookingsTable
         statusFilter={statusFilter}
         tripTypeFilter={tripTypeFilter}
         title={title}
         {...(description && { description })}
-        {...(showStatusFilter !== undefined && { showStatusFilter })}
+        showStatusFilter={showStatusFilter}
       />
     </div>
   );

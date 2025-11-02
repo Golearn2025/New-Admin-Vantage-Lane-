@@ -3,7 +3,7 @@
 /** useBookingsList Hook - Compliant: <80 lines */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import type { BookingListItem, BookingsListResponse } from '@admin-shared/api/contracts/bookings';
+import type { BookingListItem, BookingsListResponse } from '@vantage-lane/contracts';
 import { logger } from '@/lib/utils/logger';
 
 interface Props {

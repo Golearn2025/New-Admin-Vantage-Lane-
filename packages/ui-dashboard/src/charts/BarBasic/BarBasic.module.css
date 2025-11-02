@@ -8,21 +8,17 @@
   position: relative;
   background: var(--vl-glass-bg, rgba(26, 29, 33, 0.4));
   backdrop-filter: var(--vl-blur-amount, blur(24px));
-  border-radius: 16px;
-  padding: 20px;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-5);
   border: 1px solid var(--vl-glass-border, rgba(255, 255, 255, 0.08));
   box-shadow: var(--vl-shadow-card, 0 4px 24px rgba(0, 0, 0, 0.4));
-  transition:
-    transform 0.12s ease-out,
-    border-color 0.12s ease-out,
-    box-shadow 0.12s ease-out;
-  will-change: transform;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  contain: paint;
 }
 
 .container:hover {
   border-color: var(--vl-border-strong, rgba(255, 255, 255, 0.12));
   box-shadow: var(--vl-glass-shadow, 0 8px 32px rgba(0, 0, 0, 0.5));
-  transform: translateY(-2px);
 }
 
 /* Empty State */
@@ -34,27 +30,27 @@
 
 .emptyText {
   color: var(--vl-text-muted, #6b7280);
-  font-size: 14px;
+  font-size: var(--font-sm);
 }
 
 /* Tooltip */
 .tooltip {
   background: rgba(0, 0, 0, 0.9);
-  border-radius: 8px;
-  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3) var(--spacing-4);
   border: none;
 }
 
 .tooltipLabel {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 12px;
-  margin: 0 0 4px;
+  font-size: var(--font-xs);
+  margin: 0 0 var(--spacing-1);
 }
 
 .tooltipValue {
   color: white;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--font-base);
+  font-weight: var(--font-semibold);
   margin: 0;
 }
 
@@ -64,14 +60,14 @@
   align-items: flex-end;
   justify-content: space-around;
   height: 100%;
-  padding: 40px 20px 20px;
-  gap: 16px;
+  padding: var(--spacing-10) var(--spacing-5) var(--spacing-5);
+  gap: var(--spacing-4);
 }
 
 .skeletonBar {
   flex: 1;
-  background: var(--vl-skeleton, #e5e7eb);
-  border-radius: 8px 8px 0 0;
+  background: var(--skeleton-bar, #1f2530);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
   height: 100%;
   animation: pulse 1.5s ease-in-out infinite;
 }
@@ -87,8 +83,19 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md, 768px)) {
   .container {
-    padding: 12px;
+    padding: var(--spacing-3);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .container {
+    transition: none;
+  }
+
+  .skeletonBar {
+    animation: none;
   }
 }

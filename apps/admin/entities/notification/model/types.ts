@@ -22,6 +22,7 @@ export interface NotificationData {
   link?: string | null;
   read: boolean;
   createdAt: string;
+  targetType?: string;
 }
 
 export interface CreateNotificationPayload {

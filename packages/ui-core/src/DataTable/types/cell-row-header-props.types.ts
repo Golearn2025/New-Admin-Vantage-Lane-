@@ -133,6 +133,11 @@ export interface TableHeaderProps<TData = unknown> {
   onSort?: (columnId: string) => void;
 
   /**
+   * Column resize handler
+   */
+  onColumnResize?: (e: React.MouseEvent, columnId: string, currentWidth: number) => void;
+
+  /**
    * Additional CSS class
    */
   className?: string;

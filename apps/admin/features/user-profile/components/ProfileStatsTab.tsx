@@ -1,3 +1,4 @@
+import { Car, CheckCircle, Hourglass } from 'lucide-react';
 /**
  * Profile Stats Tab - Charts & Analytics
  * Shows earnings, jobs, and performance stats
@@ -106,7 +107,7 @@ export function ProfileStatsTab({ userId, userType, className }: ProfileStatsTab
         </div>
 
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>✅</div>
+          <div className={styles.statIcon}><CheckCircle size={18} strokeWidth={2} /></div>
           <div className={styles.statInfo}>
             <span className={styles.statLabel}>Completed</span>
             <span className={styles.statValue}>{completedJobs}</span>
@@ -115,7 +116,7 @@ export function ProfileStatsTab({ userId, userType, className }: ProfileStatsTab
 
         {userType !== 'operator' && (
           <div className={styles.statCard}>
-            <div className={styles.statIcon}>⏳</div>
+            <div className={styles.statIcon}><Hourglass size={18} strokeWidth={2} /></div>
             <div className={styles.statInfo}>
               <span className={styles.statLabel}>Pending</span>
               <span className={styles.statValue}>{stats.pendingJobs || stats.pendingBookings || 0}</span>
@@ -125,7 +126,7 @@ export function ProfileStatsTab({ userId, userType, className }: ProfileStatsTab
 
         {userType === 'operator' && (
           <div className={styles.statCard}>
-            <div className={styles.statIcon}>🚗</div>
+            <div className={styles.statIcon}><Car size={18} strokeWidth={2} /></div>
             <div className={styles.statInfo}>
               <span className={styles.statLabel}>Total Vehicles</span>
               <span className={styles.statValue}>{stats.totalVehicles || 0}</span>

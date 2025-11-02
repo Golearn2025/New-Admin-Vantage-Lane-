@@ -3,7 +3,7 @@
  */
 
 import type { Column } from '@vantage-lane/ui-core';
-import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
+import type { BookingListItem } from '@vantage-lane/contracts';
 
 export interface BookingsColumnsProps {
   onSelectAll?: (checked: boolean) => void;

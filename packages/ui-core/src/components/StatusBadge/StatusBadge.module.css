@@ -7,115 +7,121 @@
  */
 
 /* Base Badge */
-.status-badge {
+.statusBadge {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--spacing-xs);
+  justify-content: center;
+  gap: var(--spacing-2xs);
   padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-xl);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.2;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
   white-space: nowrap;
   transition: var(--transition-base);
+  max-width: 100%;
+  min-width: fit-content;
 }
 
 /* Sizes */
-.status-badge--sm {
+.statusBadgeSm {
   padding: var(--spacing-2xs) var(--spacing-xs);
+  font-size: 10px;
+}
+
+.statusBadgeMd {
+  padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--font-size-xs);
 }
 
-.status-badge--md {
-  padding: var(--spacing-xs) var(--spacing-sm);
+.statusBadgeLg {
+  padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-sm);
 }
 
-.status-badge--lg {
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: var(--font-size-base);
+/* Status Colors - VIBRANT pentru NEW! */
+.statusBadgePending {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #92400e;
+  border: 2px solid #f59e0b;
+  font-weight: var(--font-weight-bold);
 }
 
-/* Status Colors */
-.status-badge--pending {
-  background-color: var(--color-status-new-alpha-10);
-  color: var(--color-status-new);
-  border: 1px solid var(--color-status-new);
-}
-
-.status-badge--assigned {
+.statusBadgeAssigned {
   background-color: var(--color-status-assigned-alpha-10);
   color: var(--color-status-assigned);
   border: 1px solid var(--color-status-assigned);
 }
 
-.status-badge--en-route {
-  background-color: var(--color-status-new-alpha-10);
-  color: var(--color-status-new);
-  border: 1px solid var(--color-status-new);
+.statusBadgeEnRoute {
+  background-color: rgba(251, 146, 60, 0.1);
+  color: #ea580c;
+  border: 1px solid #fb923c;
 }
 
-.status-badge--arrived {
+.statusBadgeArrived {
+  background-color: rgba(168, 85, 247, 0.1);
+  color: #9333ea;
+  border: 1px solid #a855f7;
+}
+
+.statusBadgeInProgress {
   background-color: var(--color-status-in-progress-alpha-10);
   color: var(--color-status-in-progress);
   border: 1px solid var(--color-status-in-progress);
 }
 
-.status-badge--in-progress {
-  background-color: var(--color-status-in-progress-alpha-10);
-  color: var(--color-status-in-progress);
-  border: 1px solid var(--color-status-in-progress);
-}
-
-.status-badge--completed {
+.statusBadgeCompleted {
   background-color: var(--color-status-completed-alpha-10);
   color: var(--color-status-completed);
   border: 1px solid var(--color-status-completed);
 }
 
-.status-badge--cancelled {
+.statusBadgeCancelled {
   background-color: var(--color-status-cancelled-alpha-10);
   color: var(--color-status-cancelled);
   border: 1px solid var(--color-status-cancelled);
 }
 
-/* NEW Badge Effect - Premium Pulsing Glow (SLOWER & MORE VISIBLE) */
-.status-badge--new {
+/* NEW Badge Effect - Subtle Glow */
+.statusBadgeNew {
   position: relative;
-  animation: premiumPulseGlow 4s ease-in-out infinite;
+  animation: subtleGlow 3s ease-in-out infinite;
   box-shadow:
-    0 0 16px var(--color-status-new-alpha-30),
-    0 0 24px var(--color-status-new-alpha-10),
-    inset 0 0 10px var(--color-status-new-alpha-10);
+    0 0 8px rgba(245, 158, 11, 0.3),
+    0 0 16px rgba(245, 158, 11, 0.2),
+    inset 0 0 8px rgba(245, 158, 11, 0.15);
 }
 
-@keyframes premiumPulseGlow {
+@keyframes subtleGlow {
   0%,
   100% {
     box-shadow:
-      0 0 16px var(--color-status-new-alpha-30),
-      0 0 24px var(--color-status-new-alpha-10),
-      inset 0 0 10px var(--color-status-new-alpha-10);
+      0 0 8px rgba(245, 158, 11, 0.3),
+      0 0 16px rgba(245, 158, 11, 0.2),
+      inset 0 0 8px rgba(245, 158, 11, 0.15);
     transform: scale(1);
   }
   50% {
     box-shadow:
-      0 0 28px var(--color-status-new-alpha-30),
-      0 0 40px var(--color-status-new-alpha-30),
-      0 0 56px var(--color-status-new-alpha-10),
-      inset 0 0 16px var(--color-status-new-alpha-30);
-    transform: scale(1.03);
+      0 0 12px rgba(245, 158, 11, 0.4),
+      0 0 24px rgba(245, 158, 11, 0.3),
+      0 0 32px rgba(245, 158, 11, 0.2),
+      inset 0 0 12px rgba(245, 158, 11, 0.25);
+    transform: scale(1.02);
   }
 }
 
 /* Bell Icon Styles */
-.status-badge__bell-icon {
+.statusBadgeBellIcon {
   display: inline-flex;
   align-items: center;
-  margin-right: var(--spacing-2xs);
-  animation: bellShake 2.5s ease-in-out infinite;
+  animation: bellShake 1.5s ease-in-out infinite;
   transform-origin: top center;
   color: currentColor;
+  font-size: 1em;
+  margin-bottom: 2px;
 }
 
 /* Bell Shake Animation */
@@ -151,7 +157,7 @@
 }
 
 /* URGENT Badge Effect - Strong Red Pulsing */
-.status-badge--urgent {
+.statusBadgeUrgent {
   background-color: var(--color-status-cancelled-alpha-10) !important;
   color: var(--color-status-cancelled) !important;
   border: 2px solid var(--color-status-cancelled) !important;
@@ -180,17 +186,17 @@
 }
 
 /* Urgent Indicator */
-.status-badge__urgent-indicator {
-  display: inline-block;
-  margin-left: var(--spacing-xs);
-  padding: 1px var(--spacing-xs);
+.statusBadgeUrgentIndicator {
+  display: block;
+  margin-top: 2px;
+  padding: 2px 6px;
   background-color: var(--color-status-cancelled);
-  color: var(--color-text-primary);
-  border-radius: var(--radius-lg);
-  font-size: var(--font-size-xs);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-size: 9px;
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   animation: blink 1s ease-in-out infinite;
 }
 
@@ -205,7 +211,7 @@
 }
 
 /* New Indicator */
-.status-badge__new-indicator {
+.statusBadgeNewIndicator {
   display: inline-block;
   margin-left: var(--spacing-xs);
   padding: 1px var(--spacing-xs);
@@ -219,35 +225,36 @@
 }
 
 /* Icon */
-.status-badge__icon {
+.statusBadgeIcon {
   display: inline-flex;
   align-items: center;
   font-size: 1em;
 }
 
 /* Label */
-.status-badge__label {
-  display: inline-block;
+.statusBadgeLabel {
+  display: block;
+  text-align: center;
 }
 
 /* Hover Effect */
-.status-badge:hover {
+.statusBadge:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
-  .status-badge--new,
-  .status-badge--urgent {
+  .statusBadgeNew,
+  .statusBadgeUrgent {
     animation: none;
   }
 
-  .status-badge__bell-icon {
+  .statusBadgeBellIcon {
     animation: none;
   }
 
-  .status-badge__urgent-indicator {
+  .statusBadgeUrgentIndicator {
     animation: none;
   }
 }

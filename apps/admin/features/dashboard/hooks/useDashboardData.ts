@@ -24,6 +24,7 @@ interface OperatorPerformancePoint {
   bookings: number;
   revenue: number;
   commission: number;
+  [key: string]: string | number; // Index signature for StackedBarChart compatibility
 }
 
 interface StatusDistributionPoint {

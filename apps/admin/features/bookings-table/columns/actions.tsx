@@ -4,22 +4,8 @@
 
 'use client';
 
-import React from 'react';
-import { ActionButton, ActionMenu } from '@vantage-lane/ui-core';
-import {
-  Edit,
-  More,
-  Email,
-  Phone,
-  Cancel,
-  Calendar,
-  Clock,
-  UserPlus,
-  Eye,
-  Download,
-  Copy,
-  CreditCard,
-} from '@vantage-lane/ui-icons';
+import { ActionMenu } from '@vantage-lane/ui-core';
+import { UserPlus, Pencil, MoreHorizontal, Eye, Calendar, Clock, Mail, Phone, Download, Copy, CreditCard, X } from 'lucide-react';
 import styles from './columns.module.css';
 import type { BookingColumn } from './schema';
 
@@ -28,15 +14,14 @@ const __DEV__ = process.env.NODE_ENV !== 'production';
 export const getActionsColumn = (): BookingColumn => ({
   id: 'actions',
   header: 'Actions',
-  width: '180px',
+  width: '120px',
   align: 'center',
   cell: (row) => (
     <div className={styles.actionsCell}>
-      {/* Action buttons with labels */}
-      <ActionButton
-        variant="primary"
-        icon={<UserPlus size={16} />}
-        label="Assign"
+      {/* Fixed-size buttons with lucide-react icons */}
+      <button
+        type="button"
+        className={`${styles.btnFixed} ${styles.btn88x28} ${styles.btnPrimary}`}
         onClick={() => {
           if (__DEV__) {
             // eslint-disable-next-line no-console
@@ -44,11 +29,16 @@ export const getActionsColumn = (): BookingColumn => ({
           }
         }}
         aria-label="Assign Driver"
-      />
-      <ActionButton
-        variant="secondary"
-        icon={<Edit size={16} />}
-        label="Edit"
+      >
+        <span className={styles.icon}>
+          <UserPlus size={12} strokeWidth={2} />
+        </span>
+        <span className={styles.label}>Assign</span>
+      </button>
+
+      <button
+        type="button"
+        className={`${styles.btnFixed} ${styles.btn88x28} ${styles.btnSecondary}`}
         onClick={() => {
           if (__DEV__) {
             // eslint-disable-next-line no-console
@@ -56,16 +46,31 @@ export const getActionsColumn = (): BookingColumn => ({
           }
         }}
         aria-label="Edit Booking"
-      />
+      >
+        <span className={styles.icon}>
+          <Pencil size={12} strokeWidth={2} />
+        </span>
+        <span className={styles.label}>Edit</span>
+      </button>
+
       <ActionMenu
         position="bottom-right"
         trigger={
-          <ActionButton variant="secondary" icon={<More size={16} />} label="More" aria-label="More Options" />
+          <button
+            type="button"
+            className={`${styles.btnFixed} ${styles.btn88x28} ${styles.btnSecondary}`}
+            aria-label="More Options"
+          >
+            <span className={styles.icon}>
+              <MoreHorizontal size={12} strokeWidth={2} />
+            </span>
+            <span className={styles.label}>More</span>
+          </button>
         }
         items={[
           // VIEWING & INFO
           {
-            icon: <Eye size={14} />,
+            icon: <Eye size={14} strokeWidth={2} />,
             label: 'View Details',
             onClick: () => {
               if (__DEV__) {
@@ -75,7 +80,7 @@ export const getActionsColumn = (): BookingColumn => ({
             },
           },
           {
-            icon: <Calendar size={14} />,
+            icon: <Calendar size={14} strokeWidth={2} />,
             label: 'View Timeline',
             onClick: () => {
               if (__DEV__) {
@@ -88,7 +93,7 @@ export const getActionsColumn = (): BookingColumn => ({
 
           // COMMUNICATION
           {
-            icon: <Email size={14} />,
+            icon: <Mail size={14} strokeWidth={2} />,
             label: 'Send Email',
             onClick: () => {
               if (__DEV__) {
@@ -98,7 +103,7 @@ export const getActionsColumn = (): BookingColumn => ({
             },
           },
           {
-            icon: <Phone size={14} />,
+            icon: <Phone size={14} strokeWidth={2} />,
             label: 'Call Customer',
             onClick: () => {
               if (__DEV__) {
@@ -111,7 +116,7 @@ export const getActionsColumn = (): BookingColumn => ({
 
           // DOCUMENT ACTIONS
           {
-            icon: <Download size={14} />,
+            icon: <Download size={14} strokeWidth={2} />,
             label: 'Download Invoice',
             onClick: () => {
               if (__DEV__) {
@@ -121,7 +126,7 @@ export const getActionsColumn = (): BookingColumn => ({
             },
           },
           {
-            icon: <Download size={14} />,
+            icon: <Download size={14} strokeWidth={2} />,
             label: 'Export PDF',
             onClick: () => {
               if (__DEV__) {
@@ -134,7 +139,7 @@ export const getActionsColumn = (): BookingColumn => ({
 
           // BOOKING MANAGEMENT
           {
-            icon: <Copy size={14} />,
+            icon: <Copy size={14} strokeWidth={2} />,
             label: 'Duplicate Booking',
             onClick: () => {
               if (__DEV__) {
@@ -144,7 +149,7 @@ export const getActionsColumn = (): BookingColumn => ({
             },
           },
           {
-            icon: <Edit size={14} />,
+            icon: <Pencil size={14} strokeWidth={2} />,
             label: 'Edit Booking',
             onClick: () => {
               if (__DEV__) {
@@ -154,7 +159,7 @@ export const getActionsColumn = (): BookingColumn => ({
             },
           },
           {
-            icon: <UserPlus size={14} />,
+            icon: <UserPlus size={14} strokeWidth={2} />,
             label: 'Reassign Driver',
             onClick: () => {
               if (__DEV__) {
@@ -164,7 +169,7 @@ export const getActionsColumn = (): BookingColumn => ({
             },
           },
           {
-            icon: <Clock size={14} />,
+            icon: <Clock size={14} strokeWidth={2} />,
             label: 'Reschedule',
             onClick: () => {
               if (__DEV__) {
@@ -174,7 +179,7 @@ export const getActionsColumn = (): BookingColumn => ({
             },
           },
           {
-            icon: <CreditCard size={14} />,
+            icon: <CreditCard size={14} strokeWidth={2} />,
             label: 'Update Payment',
             onClick: () => {
               if (__DEV__) {
@@ -187,7 +192,7 @@ export const getActionsColumn = (): BookingColumn => ({
 
           // CRITICAL ACTIONS
           {
-            icon: <Cancel size={14} />,
+            icon: <X size={14} strokeWidth={2} />,
             label: 'Cancel Booking',
             onClick: () => {
               if (__DEV__) {

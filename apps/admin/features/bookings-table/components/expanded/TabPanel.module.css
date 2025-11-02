@@ -13,7 +13,7 @@
 .tabList {
   display: flex;
   gap: var(--spacing-xs);
-  border-bottom: 2px solid var(--color-border-secondary);
+  border-bottom: var(--border-width-md) solid var(--color-border-secondary);
 }
 
 /* Tab Button */
@@ -40,8 +40,8 @@
 }
 
 .tab:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: -2px;
+  outline: var(--border-width-md) solid var(--color-primary);
+  outline-offset: calc(-1 * var(--border-width-md));
 }
 
 .tab.active {
@@ -53,10 +53,10 @@
 .tab.active::after {
   content: '';
   position: absolute;
-  bottom: -2px;
+  bottom: calc(-1 * var(--border-width-md));
   left: 0;
   right: 0;
-  height: 2px;
+  height: var(--border-width-md);
   background-color: var(--color-primary);
 }
 
@@ -81,8 +81,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 20px;
-  height: 20px;
+  min-width: var(--size-5);
+  height: var(--size-5);
   padding: 0 var(--spacing-2xs);
   background-color: var(--color-primary);
   color: var(--color-text-inverse);
@@ -96,13 +96,13 @@
   padding: var(--spacing-md);
   background-color: var(--color-bg-elevated);
   border-radius: var(--radius-md);
-  min-height: 200px;
+  min-height: var(--size-50);
 }
 
 /* Variants */
 .variant-pills .tab {
   border-radius: var(--radius-full);
-  border: 1px solid var(--color-border-secondary);
+  border: var(--border-width-sm) solid var(--color-border-secondary);
 }
 
 .variant-pills .tab.active {
@@ -116,7 +116,7 @@
 }
 
 .variant-underline .tabList {
-  border-bottom: 1px solid var(--color-border-secondary);
+  border-bottom: var(--border-width-sm) solid var(--color-border-secondary);
 }
 
 .variant-underline .tab {
@@ -136,7 +136,7 @@
 
 .size-sm .panel {
   padding: var(--spacing-sm);
-  min-height: 150px;
+  min-height: var(--size-37);
 }
 
 .size-lg .tab {
@@ -146,11 +146,11 @@
 
 .size-lg .panel {
   padding: var(--spacing-lg);
-  min-height: 300px;
+  min-height: var(--size-75);
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md, 768px)) {
   .tabList {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;

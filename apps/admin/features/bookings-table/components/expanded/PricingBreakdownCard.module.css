@@ -43,13 +43,13 @@
 }
 
 .divider {
-  height: 1px;
+  height: var(--border-width-sm);
   background-color: var(--color-border-tertiary);
   margin: var(--spacing-xs) 0;
 }
 
 .dividerBold {
-  height: 2px;
+  height: var(--border-width-md);
   background-color: var(--color-border-secondary);
   margin: var(--spacing-sm) 0;
 }

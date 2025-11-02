@@ -19,6 +19,7 @@ export * from './ActionMenu';
 export * from './components/StatusBadge';
 export * from './UserBadge';
 export * from './DataTable';
+export * from './TableFilters';
 export * from './Pagination';
 export * from './TableActions';
 export * from './RowActions';

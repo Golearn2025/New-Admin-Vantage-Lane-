@@ -15,7 +15,7 @@
 'use client';
 
 import React from 'react';
-import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
+import type { BookingListItem } from '@vantage-lane/contracts';
 import { InfoSection } from './InfoSection';
 import styles from './TripTypeSection.module.css';
 

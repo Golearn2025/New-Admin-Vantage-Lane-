@@ -7,6 +7,15 @@
 
 export const CONTRACTS_VERSION = '0.1.0';
 
+// Bookings API Contracts
+export type {
+  BookingsListRequest,
+  BookingsListResponse,
+  BookingListItem,
+  BookingLeg,
+} from './bookings';
+export { BOOKINGS_REQUIRED_INDEXES } from './bookings';
+
 // TODO PR #4: Define types
 // export type { CardSpec, CardProps } from './dashboard/CardSpec';
 // export type { ChartSpec, ChartProps } from './dashboard/ChartSpec';

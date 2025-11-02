@@ -1,10 +1,10 @@
+import { User, CheckCircle, XCircle, Car } from 'lucide-react';
 /**
  * Send Notifications Tab
  * Send notifications to users or groups
  */
 
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import { Button, Input } from '@vantage-lane/ui-core';
 import {
@@ -162,7 +162,7 @@ export function SendNotificationsTab() {
               className={`${styles.targetCard} ${target === 'all-drivers' ? styles.active : ''}`}
               onClick={() => setTarget('all-drivers')}
             >
-              <div className={styles.targetIcon}>🚗</div>
+              <div className={styles.targetIcon}><Car size={18} strokeWidth={2} /></div>
               <div className={styles.targetLabel}>All Drivers</div>
             </button>
             <button
@@ -176,7 +176,7 @@ export function SendNotificationsTab() {
               className={`${styles.targetCard} ${target === 'individual-driver' ? styles.active : ''}`}
               onClick={() => setTarget('individual-driver')}
             >
-              <div className={styles.targetIcon}>👤</div>
+              <div className={styles.targetIcon}><User size={18} strokeWidth={2} /></div>
               <div className={styles.targetLabel}>Specific Driver</div>
             </button>
             <button

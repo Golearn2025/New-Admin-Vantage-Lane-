@@ -6,9 +6,9 @@
 .container {
   width: 100%;
   max-width: 100%; /* ✅ NU depășește lățimea disponibilă */
-  min-height: calc(100vh - 60px);
+  min-height: calc(100vh - var(--size-15));
   padding: var(--spacing-4); /* ✅ Reduced: 16px în loc de 24px */
-  overflow-x: auto; /* ✅ Scroll orizontal DOAR pe tabel, nu pe pagină */
+  overflow-x: hidden; /* ✅ ZERO scroll orizontal pe container */
   box-sizing: border-box; /* ✅ Include padding în width */
 }
 
@@ -48,7 +48,7 @@
 
 .select {
   padding: var(--spacing-xs) var(--spacing-sm);
-  border: 1px solid var(--color-border);
+  border: var(--border-width-sm) solid var(--color-border);
   border-radius: var(--border-radius-md);
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
@@ -64,7 +64,7 @@
 .select:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-light);
+  box-shadow: 0 0 0 var(--spacing-1) var(--color-primary-light);
 }
 
 .actionsContainer {
@@ -95,7 +95,7 @@
 .errorState {
   padding: var(--spacing-md);
   background-color: var(--color-danger-light);
-  border: 1px solid var(--color-danger);
+  border: var(--border-width-sm) solid var(--color-danger);
   border-radius: var(--border-radius-md);
   margin-bottom: var(--spacing-xl);
   color: var(--color-danger);

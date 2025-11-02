@@ -41,7 +41,7 @@
 }
 
 .divider {
-  height: 1px;
+  height: var(--border-width-sm);
   background-color: var(--color-border-tertiary);
   margin: var(--spacing-xs) 0;
 }
@@ -77,6 +77,7 @@
 .operatorBar,
 .driverBar {
   height: 100%;
+  width: var(--bar-width, 0%);
   transition: var(--transition-base);
   cursor: pointer;
 }

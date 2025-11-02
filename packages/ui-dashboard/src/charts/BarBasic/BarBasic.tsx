@@ -17,6 +17,13 @@ import {
 } from 'recharts';
 import styles from './BarBasic.module.css';
 import { CHART_COLORS } from '../../theme/palettes';
+import {
+  CHART_MARGIN,
+  CHART_ANIMATION_DURATION,
+  CHART_STROKE_DASH,
+  CHART_BAR_RADIUS,
+  CHART_DEFAULT_HEIGHT,
+} from '../constants';
 
 export type ChartUnit = 'GBP_pence' | 'count' | 'percentage';
 
@@ -56,10 +63,11 @@ export function BarBasic({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   unit: _unit = 'count',
   loading = false,
-  height = 300,
+  height,
   color = CHART_COLORS.primary,
   className = '',
 }: BarBasicProps) {
+  const chartHeight = height ?? CHART_DEFAULT_HEIGHT;
   // Transform data for Recharts
   const chartData = React.useMemo(() => {
     return data.map((point) => ({
@@ -70,7 +78,7 @@ export function BarBasic({
 
   if (loading) {
     return (
-      <div className={`${styles.container} ${className}`} style={{ height }}>
+      <div className={`${styles.container} ${className}`} style={{ height: chartHeight }}>
         <div className={styles.skeleton}>
           <div className={styles.skeletonBar} />
           <div className={styles.skeletonBar} style={{ height: '70%' }} />
@@ -84,7 +92,7 @@ export function BarBasic({
 
   if (!data || data.length === 0) {
     return (
-      <div className={`${styles.container} ${styles.empty} ${className}`} style={{ height }}>
+      <div className={`${styles.container} ${styles.empty} ${className}`} style={{ height: chartHeight }}>
         <p className={styles.emptyText}>No data available</p>
       </div>
     );
@@ -92,17 +100,17 @@ export function BarBasic({
 
   return (
     <div className={`${styles.container} ${className}`}>
-      <ResponsiveContainer width="100%" height={height}>
-        <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--vl-chart-grid, #e5e7eb)" />
+      <ResponsiveContainer width="100%" height={chartHeight}>
+        <BarChart data={chartData} margin={CHART_MARGIN}>
+          <CartesianGrid strokeDasharray={CHART_STROKE_DASH} stroke="var(--vl-chart-grid)" />
           <XAxis
             dataKey="name"
-            stroke="var(--vl-chart-axis, #6b7280)"
-            style={{ fontSize: '12px' }}
+            stroke="var(--vl-chart-axis)"
+            style={{ fontSize: 'var(--font-xs)' }}
           />
-          <YAxis stroke="var(--vl-chart-axis, #6b7280)" style={{ fontSize: '12px' }} />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }} />
-          <Bar dataKey="value" fill={color} radius={[8, 8, 0, 0]} animationDuration={800} />
+          <YAxis stroke="var(--vl-chart-axis)" style={{ fontSize: 'var(--font-xs)' }} />
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--vl-chart-cursor)' }} />
+          <Bar dataKey="value" fill={color} radius={CHART_BAR_RADIUS} animationDuration={CHART_ANIMATION_DURATION} />
         </BarChart>
       </ResponsiveContainer>
     </div>

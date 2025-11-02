@@ -15,7 +15,7 @@
 }
 
 .expandedCell {
-  padding: var(--spacing-6);
+  padding: 0;
   background: var(--color-bg-secondary);
   border-top: var(--border-width-1) solid var(--color-border-primary);
 }

@@ -157,9 +157,15 @@ export function DateRangePicker({
               <button
                 key={date.toISOString()}
                 type="button"
-                className={`${styles.day} ${isStart ? styles.dayStart : ''} ${isEnd ? styles.dayEnd : ''} ${isInRange ? styles.dayInRange : ''} ${isToday ? styles.dayToday : ''}`}
+                className={`${styles.day} ${isToday ? styles.dayToday : ''}`}
                 onClick={() => !isDisabled && handleDateClick(date)}
                 disabled={isDisabled}
+                aria-disabled={isDisabled}
+                aria-selected={!!(isStart || isEnd)}
+                data-in-range={isInRange || undefined}
+                data-start={isStart || undefined}
+                data-end={isEnd || undefined}
+                role="gridcell"
               >
                 {date.getDate()}
               </button>

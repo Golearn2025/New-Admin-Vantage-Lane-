@@ -4,6 +4,7 @@
 
 'use client';
 
+import { CheckCircle } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import type { VehicleCategory } from '../types';
 
@@ -34,7 +35,7 @@ const mockCategories: VehicleCategory[] = [
     name: 'SUV',
     description: 'SUV vehicles (Range Rover, Audi Q7)',
     priceMultiplier: 1.5,
-    icon: '🚙',
+    icon: '<Truck size={18} strokeWidth={2} />',
     isActive: true,
     order: 3,
   },
@@ -44,7 +45,7 @@ const mockCategories: VehicleCategory[] = [
     name: 'Van',
     description: 'Large group transport (Mercedes Sprinter, Transit)',
     priceMultiplier: 1.8,
-    icon: '🚐',
+    icon: '<Bus size={18} strokeWidth={2} />',
     isActive: true,
     order: 4,
   },

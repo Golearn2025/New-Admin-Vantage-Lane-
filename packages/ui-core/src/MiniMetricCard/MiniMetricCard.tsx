@@ -8,6 +8,7 @@
 'use client';
 
 import React from 'react';
+import { Plus, TrendingUp, TrendingDown } from 'lucide-react';
 import { Card } from '../Card';
 import { Icon, type IconName } from '../Icon';
 import styles from './MiniMetricCard.module.css';
@@ -62,7 +63,7 @@ export function MiniMetricCard({
         <div className={styles.labelRow}>
           {icon && (
             <div className={`${styles.iconWrapper} ${iconColorClass}`}>
-              <Icon name={icon} size="lg" color={iconColor} />
+              <Icon name={icon} size="md" color={iconColor} />
             </div>
           )}
           <span className={styles.label}>{label}</span>
@@ -75,14 +76,7 @@ export function MiniMetricCard({
             type="button"
             title={actionLabel}
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M12 8H4M8 4V12"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
+            <Plus size={16} strokeWidth={2} />
           </button>
         )}
       </div>
@@ -93,31 +87,11 @@ export function MiniMetricCard({
         
         {trend !== undefined && (
           <div className={`${styles.trend} ${trendClass}`}>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              className={styles.trendIcon}
-            >
-              {isPositiveTrend ? (
-                <path
-                  d="M4 10L8 6L12 10"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              ) : (
-                <path
-                  d="M4 6L8 10L12 6"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              )}
-            </svg>
+            {isPositiveTrend ? (
+              <TrendingUp size={16} strokeWidth={2} className={styles.trendIcon} />
+            ) : (
+              <TrendingDown size={16} strokeWidth={2} className={styles.trendIcon} />
+            )}
             <span>
               {isPositiveTrend ? '+' : ''}{trend}%
             </span>

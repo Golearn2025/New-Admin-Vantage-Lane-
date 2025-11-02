@@ -22,12 +22,14 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./apps/admin/*"],
       "@features/*": ["./apps/admin/features/*"],
       "@entities/*": ["./apps/admin/entities/*"],
       "@admin/*": ["./app/(admin)/*"],
       "@admin-shared/*": ["./apps/admin/shared/*"],
       "@/app/*": ["./app/*"],
-      "@/lib/*": ["./lib/*"],
+      "@/lib/*": ["./apps/admin/lib/*"],
+      "@/shared/*": ["./apps/admin/shared/*"],
       "@contracts/*": ["./packages/contracts/src/*"],
       "@ui-core/*": ["./packages/ui-core/src/*"],
       "@ui-dashboard/*": ["./packages/ui-dashboard/src/*"],
@@ -36,6 +38,7 @@
       "@vantage-lane/ui-core": ["./packages/ui-core/src"],
       "@vantage-lane/ui-icons": ["./packages/ui-icons/src"],
       "@vantage-lane/ui-dashboard": ["./packages/ui-dashboard/src"],
+      "@vantage-lane/ui-table": ["./packages/ui-table/src"],
       "@vantage-lane/styles": ["./packages/styles"],
       "@vantage-lane/formatters": ["./packages/formatters/src"],
       "@vantage-lane/contracts": ["./packages/contracts/src"]

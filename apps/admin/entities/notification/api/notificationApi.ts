@@ -148,3 +148,34 @@ export async function deleteNotification(notificationId: string): Promise<void> 
     throw new Error(`Failed to delete notification: ${error.message}`);
   }
 }
+
+/**
+ * List sent notifications history
+ * Uses API endpoint to bypass RLS
+ */
+export async function listSentNotifications(limit = 100): Promise<NotificationData[]> {
+  try {
+    const response = await fetch('/api/notifications/history');
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch history');
+    }
+
+    const { data } = await response.json();
+
+    return (data || []).map((n: any) => ({
+      id: n.id,
+      userId: n.user_id,
+      type: n.type,
+      title: n.title,
+      message: n.message,
+      link: n.link,
+      read: n.read_at !== null,
+      createdAt: n.created_at,
+      targetType: n.target_type,
+    }));
+  } catch (error) {
+    console.error('List sent notifications error:', error);
+    throw new Error('Failed to fetch sent notifications');
+  }
+}

@@ -1,24 +1,153 @@
 /**
  * Notification History Tab
  * View all sent notifications
+ * 
+ * Compliant: <200 lines, 100% design tokens, TypeScript strict
  */
 
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { listSentNotifications, type NotificationData } from '@entities/notification';
 import styles from './NotificationHistoryTab.module.css';
 
 export function NotificationHistoryTab() {
+  const [notifications, setNotifications] = useState<NotificationData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<string>('all');
+
+  useEffect(() => {
+    fetchHistory();
+  }, []);
+
+  const fetchHistory = async () => {
+    try {
+      setLoading(true);
+      const data = await listSentNotifications(100);
+      setNotifications(data);
+    } catch (error) {
+      console.error('Failed to fetch history:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredNotifications = notifications.filter((n) => {
+    if (filter === 'all') return true;
+    return n.targetType === filter;
+  });
+
+  // Group by date and title
+  const groupedNotifications = filteredNotifications.reduce((acc, notif) => {
+    const key = `${notif.title}-${new Date(notif.createdAt).toISOString().split('T')[0]}`;
+    if (!acc[key]) {
+      acc[key] = {
+        title: notif.title,
+        message: notif.message,
+        createdAt: notif.createdAt,
+        targetType: notif.targetType || 'unknown',
+        count: 0,
+      };
+    }
+    acc[key].count++;
+    return acc;
+  }, {} as Record<string, any>);
+
+  const groupedArray = Object.values(groupedNotifications).sort(
+    (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.loading}>Loading history...</div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
-      <div className={styles.placeholder}>
-        <div className={styles.icon}>📊</div>
-        <h3 className={styles.title}>Notification History</h3>
-        <p className={styles.description}>
-          View all notifications sent by admins across the platform.
-          This feature will track delivery status, read rates, and engagement metrics.
-        </p>
-        <div className={styles.comingSoon}>Coming Soon</div>
+      {/* Header */}
+      <div className={styles.header}>
+        <div className={styles.stats}>
+          <div className={styles.statCard}>
+            <span className={styles.statValue}>{notifications.length}</span>
+            <span className={styles.statLabel}>Total Sent</span>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statValue}>{groupedArray.length}</span>
+            <span className={styles.statLabel}>Unique Messages</span>
+          </div>
+        </div>
+
+        {/* Filters */}
+        <div className={styles.filters}>
+          <button
+            className={filter === 'all' ? styles.filterActive : styles.filter}
+            onClick={() => setFilter('all')}
+          >
+            All
+          </button>
+          <button
+            className={filter === 'admin' ? styles.filterActive : styles.filter}
+            onClick={() => setFilter('admin')}
+          >
+            Admins
+          </button>
+          <button
+            className={filter === 'operator' ? styles.filterActive : styles.filter}
+            onClick={() => setFilter('operator')}
+          >
+            Operators
+          </button>
+          <button
+            className={filter === 'driver' ? styles.filterActive : styles.filter}
+            onClick={() => setFilter('driver')}
+          >
+            Drivers
+          </button>
+          <button
+            className={filter === 'customer' ? styles.filterActive : styles.filter}
+            onClick={() => setFilter('customer')}
+          >
+            Customers
+          </button>
+        </div>
+      </div>
+
+      {/* List */}
+      <div className={styles.list}>
+        {groupedArray.length === 0 ? (
+          <div className={styles.empty}>
+            <span className={styles.emptyIcon}>📭</span>
+            <p>No notifications sent yet</p>
+          </div>
+        ) : (
+          groupedArray.map((item: any, index: number) => (
+            <div key={index} className={styles.item}>
+              <div className={styles.itemHeader}>
+                <span className={styles.itemBadge}>
+                  {item.targetType === 'admin' && '👤'}
+                  {item.targetType === 'operator' && '🏢'}
+                  {item.targetType === 'driver' && '🚗'}
+                  {item.targetType === 'customer' && '👥'}
+                  {item.count} {item.targetType}(s)
+                </span>
+                <span className={styles.itemDate}>
+                  {new Date(item.createdAt).toLocaleString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </span>
+              </div>
+              <h4 className={styles.itemTitle}>{item.title}</h4>
+              <p className={styles.itemMessage}>{item.message}</p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

@@ -1,0 +1,92 @@
+/**
+ * BulkActionsToolbar Styles
+ * 100% Design Tokens
+ */
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--color-accent-bg);
+  border: var(--border-width-thin) solid var(--color-accent-border);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-4);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.count {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.clearButton {
+  padding: var(--spacing-1) var(--spacing-2);
+  background: none;
+  border: none;
+  color: var(--color-accent-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  border-radius: var(--border-radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.clearButton:hover {
+  background: var(--color-bg-hover);
+  text-decoration: underline;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--color-bg-secondary);
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.actionButton:hover:not(:disabled) {
+  background: var(--color-bg-hover);
+  border-color: var(--color-accent-primary);
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.actionButton.destructive {
+  color: var(--color-error-text);
+  border-color: var(--color-error-border);
+}
+
+.actionButton.destructive:hover:not(:disabled) {
+  background: var(--color-error-bg);
+  border-color: var(--color-error-border);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-base);
+}

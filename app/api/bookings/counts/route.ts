@@ -12,7 +12,7 @@
 
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import type { BookingCounts } from '@features/bookings-table/types/tabs';
+import type { CountsByTripType } from '@features/bookings-table/utils/createBookingTabs';
 
 export async function GET() {
   try {
@@ -37,7 +37,7 @@ export async function GET() {
     type BookingRow = { trip_type: string | null };
 
     // Calculate counts
-    const counts: BookingCounts = {
+    const counts: CountsByTripType = {
       all: bookings?.length || 0,
       oneway: bookings?.filter((b: BookingRow) => b.trip_type === 'oneway').length || 0,
       return: bookings?.filter((b: BookingRow) => b.trip_type === 'return').length || 0,

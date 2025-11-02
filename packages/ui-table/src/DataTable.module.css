@@ -1,0 +1,217 @@
+/**
+ * DataTable Styles
+ * 100% Design Tokens - Fixed Layout + Ellipsis + Resizing
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  background: var(--color-bg-primary);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+/* Fixed Layout - Headers ALWAYS align with body */
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+/* Sticky Header */
+.stickyHeader .table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Header Styles */
+.table thead th {
+  background: var(--color-bg-secondary);
+  border-bottom: var(--border-width-medium) solid var(--color-border-primary);
+  padding: 0;
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  position: relative;
+}
+
+.headerCell {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 100%;
+}
+
+.headerButton {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-4);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+}
+
+.headerButton:disabled {
+  cursor: default;
+}
+
+.headerButton:not(:disabled):hover {
+  background: var(--color-bg-hover);
+}
+
+.headerText {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sortIcon {
+  flex-shrink: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+/* Resize Handle */
+.resizeHandle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  cursor: col-resize;
+  background: transparent;
+  z-index: 1;
+}
+
+.resizeHandle:hover {
+  background: var(--color-accent-primary);
+  opacity: 0.3;
+}
+
+.resizeHandle:active {
+  background: var(--color-accent-primary);
+  opacity: 0.5;
+}
+
+/* Body Styles */
+.table tbody tr {
+  border-bottom: var(--border-width-thin) solid var(--color-border-secondary);
+  transition: background-color var(--transition-fast);
+}
+
+.table tbody tr:hover {
+  background: var(--color-bg-hover);
+}
+
+.clickableRow {
+  cursor: pointer;
+}
+
+.table tbody td {
+  padding: var(--spacing-3) var(--spacing-4);
+  color: var(--color-text-primary);
+  overflow: hidden;
+}
+
+/* Cell Content - Ellipsis + Tooltip */
+.cellContent {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+/* Striped Rows */
+.striped tbody tr:nth-child(even) {
+  background: var(--color-bg-secondary);
+}
+
+.striped tbody tr:nth-child(even):hover {
+  background: var(--color-bg-hover);
+}
+
+/* Bordered Table */
+.bordered {
+  border: var(--border-width-thin) solid var(--color-border-primary);
+}
+
+.bordered thead th,
+.bordered tbody td {
+  border-right: var(--border-width-thin) solid var(--color-border-secondary);
+}
+
+.bordered thead th:last-child,
+.bordered tbody td:last-child {
+  border-right: none;
+}
+
+/* Loading & Empty States */
+.loading,
+.empty {
+  padding: var(--spacing-8);
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+}
+
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  border-top: var(--border-width-thin) solid var(--color-border-primary);
+}
+
+.paginationButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--color-bg-secondary);
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.paginationButton:hover:not(:disabled) {
+  background: var(--color-bg-hover);
+  border-color: var(--color-accent-primary);
+}
+
+.paginationButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.paginationInfo {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}

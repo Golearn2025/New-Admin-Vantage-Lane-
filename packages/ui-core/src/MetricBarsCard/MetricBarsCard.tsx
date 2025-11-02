@@ -14,6 +14,7 @@
 'use client';
 
 import React from 'react';
+import { ArrowRight } from 'lucide-react';
 import { Card } from '../Card';
 import styles from './MetricBarsCard.module.css';
 
@@ -133,21 +134,7 @@ export function MetricBarsCard({
               type="button"
             >
               {actionLabel}
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                className={styles.actionIcon}
-              >
-                <path
-                  d="M6 12L10 8L6 4"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <ArrowRight size={16} strokeWidth={2} className={styles.actionIcon} />
             </button>
           )}
         </div>

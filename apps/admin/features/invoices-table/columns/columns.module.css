@@ -1,0 +1,64 @@
+/**
+ * Invoices Table Columns Styles
+ * 100% Design Tokens - CENTRAT PERFECT
+ */
+
+.invoiceNumber {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent-primary);
+}
+
+.bookingRef {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.amount {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.date {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Status Badge */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.statusSuccess {
+  background-color: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.statusWarning {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.statusError {
+  background-color: var(--color-error-bg);
+  color: var(--color-error-text);
+}
+
+.statusNeutral {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+}

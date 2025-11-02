@@ -1,3 +1,4 @@
+import { CheckCircle, Clock } from 'lucide-react';
 /**
  * AccountTab - TAB 2: Account Information
  *
@@ -65,7 +66,7 @@ export function AccountTab({ profile }: AccountTabProps) {
           </div>
 
           <div className={styles.infoCard}>
-            <div className={styles.infoIcon}>✅</div>
+            <div className={styles.infoIcon}><CheckCircle size={18} strokeWidth={2} /></div>
             <div className={styles.infoContent}>
               <span className={styles.infoLabel}>Status</span>
               <span className={styles.statusActive}>
@@ -83,7 +84,7 @@ export function AccountTab({ profile }: AccountTabProps) {
           </div>
 
           <div className={styles.infoCard}>
-            <div className={styles.infoIcon}>🕐</div>
+            <div className={styles.infoIcon}><Clock size={18} strokeWidth={2} /></div>
             <div className={styles.infoContent}>
               <span className={styles.infoLabel}>Last Login</span>
               <span className={styles.infoValue}>{formatDateTime(profile.last_login)}</span>

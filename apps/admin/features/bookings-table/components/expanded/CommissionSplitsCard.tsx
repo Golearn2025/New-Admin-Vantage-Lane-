@@ -1,27 +1,26 @@
 /**
  * CommissionSplitsCard Component
- * 
+ *
  * Displays commission splits breakdown for a booking.
  * Shows platform fee, operator commission, and driver earnings.
- * 
+ *
  * Architecture: features/bookings-table/components/expanded/CommissionSplitsCard.tsx
  * Compliant: <200 lines, 100% design tokens, TypeScript strict, REUTILIZABIL
  */
 
 'use client';
 
-import React from 'react';
-import { InfoSection } from './InfoSection';
 import styles from './CommissionSplitsCard.module.css';
+import { InfoSection } from './InfoSection';
 
 interface CommissionSplitsProps {
   totalPaid: number;
   platformFee: number;
-  platformRate?: number;
+  platformRate?: number | undefined;
   operatorNet: number;
-  operatorRate?: number;
+  operatorRate?: number | undefined;
   driverEarnings: number;
-  currency?: string;
+  currency?: string | undefined;
 }
 
 export function CommissionSplitsCard({
@@ -58,9 +57,7 @@ export function CommissionSplitsCard({
           <span className={styles.label}>
             Platform Fee {platformRate && `(${formatRate(platformRate)})`}:
           </span>
-          <span className={`${styles.value} ${styles.platform}`}>
-            {formatPrice(platformFee)}
-          </span>
+          <span className={`${styles.value} ${styles.platform}`}>{formatPrice(platformFee)}</span>
         </div>
 
         {/* Operator Commission */}
@@ -83,17 +80,17 @@ export function CommissionSplitsCard({
         <div className={styles.visualBreakdown}>
           <div
             className={styles.platformBar}
-            style={{ width: `${(platformFee / totalPaid) * 100}%` }}
+            style={{ '--bar-width': `${(platformFee / totalPaid) * 100}%` } as React.CSSProperties}
             title={`Platform: ${formatPrice(platformFee)}`}
           />
           <div
             className={styles.operatorBar}
-            style={{ width: `${((operatorNet - driverEarnings) / totalPaid) * 100}%` }}
+            style={{ '--bar-width': `${((operatorNet - driverEarnings) / totalPaid) * 100}%` } as React.CSSProperties}
             title={`Operator: ${formatPrice(operatorNet - driverEarnings)}`}
           />
           <div
             className={styles.driverBar}
-            style={{ width: `${(driverEarnings / totalPaid) * 100}%` }}
+            style={{ '--bar-width': `${(driverEarnings / totalPaid) * 100}%` } as React.CSSProperties}
             title={`Driver: ${formatPrice(driverEarnings)}`}
           />
         </div>

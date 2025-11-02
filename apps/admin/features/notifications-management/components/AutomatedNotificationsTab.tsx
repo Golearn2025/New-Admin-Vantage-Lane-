@@ -1,3 +1,4 @@
+import { Hourglass, Car } from 'lucide-react';
 /**
  * Automated Notifications Tab
  * Configure automated notification rules
@@ -28,7 +29,7 @@ export function AutomatedNotificationsTab() {
             <span>Inactive Account Reminders</span>
           </div>
           <div className={styles.feature}>
-            <span className={styles.featureIcon}>⏳</span>
+            <span className={styles.featureIcon}><Hourglass size={18} strokeWidth={2} /></span>
             <span>Pending Verification Alerts</span>
           </div>
         </div>

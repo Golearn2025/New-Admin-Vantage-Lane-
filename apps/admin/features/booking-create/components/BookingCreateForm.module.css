@@ -45,6 +45,16 @@
   margin-bottom: var(--spacing-4);
 }
 
+.info {
+  padding: var(--spacing-4);
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: var(--border-radius-lg);
+  color: rgba(147, 197, 253, 1);
+  margin-bottom: var(--spacing-4);
+  font-size: var(--font-size-sm);
+}
+
 .layout {
   display: grid;
   grid-template-columns: 1fr 400px;

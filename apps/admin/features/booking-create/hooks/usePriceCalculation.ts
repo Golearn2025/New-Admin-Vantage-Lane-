@@ -1,78 +1,140 @@
 /**
  * usePriceCalculation Hook
- * Calculates booking price in real-time
+ * Calculates booking price using Backend Pricing API
  */
 
-import { useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import type { BookingFormData } from '../types';
 
-const BASE_PRICES = {
-  EXEC: 85,
-  LUX: 150,
-  SUV: 120,
-  VAN: 140,
-};
+/**
+ * Map UI category to backend vehicleType
+ */
+function mapCategoryToVehicleType(category: string): string {
+  const mapping: Record<string, string> = {
+    'EXEC': 'executive',
+    'LUX': 'luxury',
+    'SUV': 'suv',
+    'VAN': 'van',
+  };
+  return mapping[category] || 'executive';
+}
 
-const PRICE_PER_MILE = {
-  EXEC: 2.5,   // £2.50 per mile
-  LUX: 4.0,    // £4.00 per mile
-  SUV: 3.5,    // £3.50 per mile
-  VAN: 3.0,    // £3.00 per mile
-};
+/**
+ * Map UI tripType to backend bookingType
+ */
+function mapTripTypeToBookingType(tripType: string): string {
+  const mapping: Record<string, string> = {
+    'oneway': 'one_way',
+    'return': 'return',
+    'hourly': 'hourly',
+    'fleet': 'fleet',
+  };
+  return mapping[tripType] || 'one_way';
+}
 
-const HOURLY_RATES = {
-  EXEC: 45,
-  LUX: 75,
-  SUV: 60,
-  VAN: 65,
-};
+interface PriceDetail {
+  component: string;
+  amount: number;
+  description: string;
+}
 
-export function usePriceCalculation(formData: BookingFormData) {
-  const basePrice = useMemo(() => {
-    if (formData.tripType === 'hourly') {
-      const rate = HOURLY_RATES[formData.category];
-      return rate * (formData.hours || 1);
+interface PriceBreakdown {
+  baseFare: number;
+  distanceFee: number;
+  timeFee: number;
+  additionalFees: number;
+  services: number;
+  subtotal: number;
+  multipliers: Record<string, number>;
+  discounts: number;
+  finalPrice: number;
+}
+
+interface PricingResult {
+  basePrice: number;
+  servicesTotal: number;
+  total: number;
+  breakdown?: PriceBreakdown | undefined;
+  details?: PriceDetail[] | undefined;
+  isLoading: boolean;
+  error: string | null;
+}
+
+export function usePriceCalculation(formData: BookingFormData): PricingResult {
+  const [pricing, setPricing] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Only calculate if we have required data
+    if (!formData.distanceMiles || !formData.category || !formData.date || !formData.time) {
+      return;
     }
 
-    if (formData.tripType === 'return') {
-      // Return: Base price + distance-based price (round trip)
-      const base = BASE_PRICES[formData.category];
-      if (formData.distanceMiles) {
-        const distancePrice = PRICE_PER_MILE[formData.category] * formData.distanceMiles * 2; // x2 for return
-        return base + distancePrice;
+    const calculatePrice = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_PRICING_URL || 'http://localhost:3001';
+        
+        const response = await fetch(`${backendUrl}/api/pricing/calculate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            pickup: formData.pickupText || 'Unknown',
+            dropoff: formData.dropoffText || 'Unknown',
+            vehicleType: mapCategoryToVehicleType(formData.category),
+            bookingType: mapTripTypeToBookingType(formData.tripType),
+            dateTime: `${formData.date}T${formData.time}:00Z`,
+            distance: (formData.distanceMiles || 0) * 1.60934, // miles → km
+            duration: formData.durationMinutes || 0,
+            extras: formData.services
+              .filter(s => s.selected)
+              .map(s => s.code),
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Backend error: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+          setPricing(result);
+        } else {
+          throw new Error(result.error || 'Price calculation failed');
+        }
+      } catch (err) {
+        console.error('Price calculation error:', err);
+        setError(err instanceof Error ? err.message : 'Unknown error');
+      } finally {
+        setIsLoading(false);
       }
-      return base * 2;
-    }
+    };
 
-    if (formData.tripType === 'fleet') {
-      let total = 0;
-      if (formData.fleetExecutive) total += BASE_PRICES.EXEC * formData.fleetExecutive;
-      if (formData.fleetSClass) total += BASE_PRICES.LUX * formData.fleetSClass;
-      if (formData.fleetVClass) total += BASE_PRICES.VAN * formData.fleetVClass;
-      if (formData.fleetSUV) total += BASE_PRICES.SUV * formData.fleetSUV;
-      return total;
-    }
-
-    // Oneway: Base price + distance-based price
-    const base = BASE_PRICES[formData.category];
-    if (formData.distanceMiles) {
-      const distancePrice = PRICE_PER_MILE[formData.category] * formData.distanceMiles;
-      return base + distancePrice;
-    }
-    return base;
-  }, [formData.tripType, formData.category, formData.hours, formData.distanceMiles, formData.fleetExecutive, formData.fleetSClass, formData.fleetVClass, formData.fleetSUV]);
-
-  const servicesTotal = useMemo(() => {
-    return formData.services
-      .filter(s => s.selected)
-      .reduce((sum, s) => sum + (s.price || 0), 0);
-  }, [formData.services]);
-
-  const total = basePrice + servicesTotal;
+    calculatePrice();
+  }, [
+    formData.tripType,
+    formData.category,
+    formData.distanceMiles,
+    formData.durationMinutes,
+    formData.date,
+    formData.time,
+    formData.pickupText,
+    formData.dropoffText,
+    formData.services,
+  ]);
 
   return {
-    basePrice,
-    servicesTotal,
-    total,
+    // Use subtotal (all fees WITHOUT services) instead of just baseFare
+    basePrice: pricing?.breakdown?.subtotal || 0,
+    servicesTotal: pricing?.breakdown?.services || 0,
+    total: pricing?.finalPrice || 0,
+    breakdown: pricing?.breakdown,
+    details: pricing?.details,
+    isLoading,
+    error,
   };
 }

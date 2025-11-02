@@ -15,6 +15,7 @@
 
 'use client';
 
+import { Car, CheckCircle, Hash, MapPin, Timer, User, XCircle } from 'lucide-react';
 import React from 'react';
 import { TabPanel, type Tab } from './TabPanel';
 import styles from './AssignmentSection.module.css';
@@ -79,7 +80,7 @@ export function AssignmentSection({
     {
       id: 'overview',
       label: 'Overview',
-      icon: '📋',
+      icon: '<ClipboardList size={18} strokeWidth={2} />',
       content: isAssigned ? (
         <OverviewTab
           driver={driverDetails}
@@ -95,14 +96,14 @@ export function AssignmentSection({
     {
       id: 'driver',
       label: 'Driver Details',
-      icon: '👤',
+      icon: '<User size={18} strokeWidth={2} />',
       disabled: !isAssigned,
       content: driverDetails && <DriverTab driver={driverDetails} />,
     },
     {
       id: 'vehicle',
       label: 'Vehicle Details',
-      icon: '🚗',
+      icon: '<Car size={18} strokeWidth={2} />',
       disabled: !isAssigned,
       content: vehicleDetails && <VehicleTab vehicle={vehicleDetails} />,
     },

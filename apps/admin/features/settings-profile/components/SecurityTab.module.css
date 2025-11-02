@@ -2,7 +2,7 @@
  * SecurityTab Styles - PREMIUM GOLD
  * 
  * Styles pentru security items, sessions, danger zone.
- * Color: #F1D16A (gold primary)
+ * Color: var(--color-primary) (gold primary)
  */
 
 /* Security Items */
@@ -10,11 +10,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 24px;
-  padding: 24px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
-  border: 1px solid rgba(241, 209, 106, 0.15);
+  gap: var(--spacing-6);
+  padding: var(--spacing-6);
+  background: var(--color-bg-overlay-30);
+  border-radius: var(--radius-lg);
+  border: var(--border-width-sm) solid var(--color-primary-alpha-15);
 }
 
 .securityContent {
@@ -22,15 +22,15 @@
 }
 
 .securityTitle {
-  font-size: 18px;
+  font-size: var(--font-lg);
   font-weight: 700;
   color: var(--color-text-inverse);
-  margin: 0 0 8px 0;
+  margin: 0 0 var(--spacing-2) 0;
 }
 
 .securityDesc {
-  font-size: 14px;
-  color: rgba(241, 209, 106, 0.7);
+  font-size: var(--font-sm);
+  color: var(--color-primary-alpha-70);
   margin: 0;
   line-height: 1.6;
 }
@@ -38,30 +38,30 @@
 .enabled {
   color: var(--color-success);
   font-weight: 700;
-  text-shadow: 0 0 10px rgba(67, 233, 123, 0.4);
+  text-shadow: 0 0 10px var(--color-success-alpha-40);
 }
 
 .disabled {
   color: var(--color-error);
   font-weight: 700;
-  text-shadow: 0 0 10px rgba(255, 107, 107, 0.4);
+  text-shadow: var(--glow-error-sm);
 }
 
 /* Session Card */
 .sessionCard {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 24px;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(241, 209, 106, 0.08));
-  border: 2px solid rgba(241, 209, 106, 0.25);
-  border-radius: 16px;
+  gap: var(--spacing-5);
+  padding: var(--spacing-6);
+  background: linear-gradient(135deg, var(--color-bg-overlay-50), var(--color-primary-alpha-8));
+  border: var(--border-width-md) solid var(--color-primary-alpha-25);
+  border-radius: var(--radius-xl);
   position: relative;
 }
 
 .sessionIcon {
-  font-size: 40px;
-  filter: drop-shadow(0 0 12px rgba(241, 209, 106, 0.4));
+  font-size: var(--font-4xl);
+  filter: drop-shadow(0 0 12px var(--color-primary-alpha-40));
 }
 
 .sessionContent {
@@ -69,15 +69,15 @@
 }
 
 .sessionTitle {
-  font-size: 18px;
+  font-size: var(--font-lg);
   font-weight: 700;
   color: var(--color-text-inverse);
-  margin: 0 0 12px 0;
+  margin: 0 0 var(--spacing-3) 0;
 }
 
 .sessionInfo {
-  font-size: 14px;
-  color: rgba(241, 209, 106, 0.8);
+  font-size: var(--font-sm);
+  color: var(--color-primary-alpha-80);
   margin: 0;
   line-height: 1.8;
 }
@@ -85,15 +85,15 @@
 .activeNow {
   color: var(--color-success);
   font-weight: 700;
-  text-shadow: 0 0 10px rgba(67, 233, 123, 0.4);
+  text-shadow: 0 0 10px var(--color-success-alpha-40);
 }
 
 .currentBadge {
-  padding: 8px 16px;
-  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  padding: var(--spacing-2) var(--spacing-4);
+  background: linear-gradient(135deg, var(--color-success), var(--color-success-light));
   color: var(--color-text-primary);
-  border-radius: 8px;
-  font-size: 12px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-xs);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -104,23 +104,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 24px;
-  padding: 24px;
-  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 59, 48, 0.05));
-  border-radius: 12px;
-  border: 2px solid rgba(255, 107, 107, 0.3);
+  gap: var(--spacing-6);
+  padding: var(--spacing-6);
+  background: linear-gradient(135deg, var(--color-error-alpha-10), var(--color-error-alpha-5));
+  border-radius: var(--radius-lg);
+  border: var(--border-width-md) solid var(--color-error-alpha-30);
 }
 
 .dangerTitle {
-  font-size: 18px;
+  font-size: var(--font-lg);
   font-weight: 700;
   color: var(--color-error);
-  margin: 0 0 8px 0;
-  text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+  margin: 0 0 var(--spacing-2) 0;
+  text-shadow: 0 0 10px var(--color-error-alpha-30);
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md, 768px)) {
   .securityItem,
   .dangerZone {
     flex-direction: column;

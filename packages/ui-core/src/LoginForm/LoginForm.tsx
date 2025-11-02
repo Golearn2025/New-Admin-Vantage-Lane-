@@ -12,6 +12,7 @@
 'use client';
 
 import React, { useState, FormEvent } from 'react';
+import { AlertCircle } from 'lucide-react';
 import { Input } from '../Input';
 import { Button } from '../Button';
 import { Checkbox } from '../Checkbox';
@@ -139,16 +140,7 @@ export function LoginForm({
         {/* Error Alert */}
         {error && (
           <div className={styles.errorAlert}>
-            <svg
-              className={styles.errorIcon}
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-            >
-              <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="2" />
-              <path d="M10 6v4M10 14h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
+            <AlertCircle className={styles.errorIcon} size={20} strokeWidth={2} />
             <span>{error}</span>
           </div>
         )}

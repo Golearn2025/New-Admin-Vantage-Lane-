@@ -8,6 +8,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { SidebarNav } from './SidebarNav';
 import { Topbar } from './Topbar';
 import { Drawer } from './Drawer';
@@ -37,13 +38,11 @@ export function AppShell({ role, currentPath, children, user }: AppShellProps) {
     setIsMobileDrawerOpen(false);
   }, [currentPath]);
 
-  // Handle navigation
+  const router = useRouter();
+
+  // Handle navigation - CLIENT-SIDE (no full reload!)
   const handleNavigate = (href: string) => {
-    // Această funcție va fi implementată de parent component
-    // Pentru demo folosim window.location
-    if (typeof window !== 'undefined') {
-      window.location.href = href;
-    }
+    router.push(href);
   };
 
   const handleMenuToggle = () => {

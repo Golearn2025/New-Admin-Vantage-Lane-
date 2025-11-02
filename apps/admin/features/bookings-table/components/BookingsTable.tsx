@@ -10,7 +10,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { DataTable } from '@vantage-lane/ui-core';
-import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
+import type { BookingListItem } from '@vantage-lane/contracts';
 import { useBookingsList } from '../hooks/useBookingsList';
 import { BookingExpandedRow } from './BookingExpandedRow';
 import { getBookingsColumns } from '../columns';
@@ -182,45 +182,7 @@ export function BookingsTable({
         expandable={true}
         expandedIds={expandedIds}
         renderExpandedRow={(booking) => (
-          <BookingExpandedRow
-            booking={booking}
-            freeServices={booking.free_services}
-            customerNotes={booking.notes || undefined}
-            operatorName={booking.operator_name || undefined}
-            operatorRating={booking.operator_rating || undefined}
-            operatorReviews={booking.operator_reviews || undefined}
-            returnDate={booking.return_date || undefined}
-            returnTime={booking.return_time || undefined}
-            returnFlight={booking.return_flight_number || undefined}
-            driverDetails={
-              booking.driver_id && booking.driver_name
-                ? {
-                    id: booking.driver_id,
-                    name: booking.driver_name,
-                    phone: booking.driver_phone || 'N/A',
-                    email: booking.driver_email || 'N/A',
-                    rating: booking.driver_rating || 0,
-                    totalTrips: 0, // TODO: Fetch from driver stats
-                  }
-                : undefined
-            }
-            vehicleDetails={
-              booking.vehicle_id && booking.vehicle_make
-                ? {
-                    id: booking.vehicle_id,
-                    make: booking.vehicle_make,
-                    model: booking.vehicle_model_name || 'Unknown',
-                    year: 2024, // TODO: Fetch actual year
-                    color: booking.vehicle_color || 'Unknown',
-                    licensePlate: booking.vehicle_plate || 'N/A',
-                    seats: 4, // TODO: Fetch from vehicle specs
-                    luggageCapacity: 2, // TODO: Fetch from vehicle specs
-                  }
-                : undefined
-            }
-            assignedAt={booking.assigned_at || undefined}
-            assignedBy={booking.assigned_by_name || undefined}
-          />
+          <BookingExpandedRow booking={booking} />
         )}
         striped={true}
         bordered={true}

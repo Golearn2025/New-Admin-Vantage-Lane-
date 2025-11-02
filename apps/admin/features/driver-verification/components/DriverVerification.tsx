@@ -5,6 +5,7 @@
 
 'use client';
 
+import { Bus, Hourglass, Truck, XCircle } from 'lucide-react';
 import React, { useState } from 'react';
 import { Button } from '@vantage-lane/ui-core';
 import { DocumentViewer } from '@features/document-viewer';
@@ -82,7 +83,7 @@ export function DriverVerification({ driverId }: DriverVerificationProps) {
                 {doc.verified ? (
                   <span className={styles.docVerified}>✓</span>
                 ) : (
-                  <span className={styles.docPending}>⏳</span>
+                  <span className={styles.docPending}><Hourglass size={18} strokeWidth={2} /></span>
                 )}
               </div>
               <div className={styles.docPreview}>

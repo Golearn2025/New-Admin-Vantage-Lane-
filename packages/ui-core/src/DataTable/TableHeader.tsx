@@ -20,6 +20,7 @@ export function TableHeader<TData = unknown>({
   onSelectAll,
   sortState,
   onSort,
+  onColumnResize,
   className,
 }: TableHeaderProps<TData>): JSX.Element {
   // Handle column header click (for sorting)
@@ -89,6 +90,8 @@ export function TableHeader<TData = unknown>({
             maxWidth: column.maxWidth,
           };
 
+          const isResizable = column.resizable ?? false;
+
           return (
             <th
               key={column.id}
@@ -99,14 +102,28 @@ export function TableHeader<TData = unknown>({
               data-sortable={isSortable}
               data-sorted={isSorted}
             >
-              {isSortable ? (
-                <div className={styles.headerContent}>
-                  <span>{column.header}</span>
-                  <span className={styles.sortIcon}>{getSortIcon(column.id)}</span>
-                </div>
-              ) : (
-                <>{column.header}</>
-              )}
+              <div className={styles.headerWrapper}>
+                {isSortable ? (
+                  <div className={styles.headerContent}>
+                    <span>{column.header}</span>
+                    <span className={styles.sortIcon}>{getSortIcon(column.id)}</span>
+                  </div>
+                ) : (
+                  <>{column.header}</>
+                )}
+                
+                {isResizable && onColumnResize && (
+                  <div
+                    className={styles.resizeHandle}
+                    onMouseDown={(e) => {
+                      e.stopPropagation();
+                      const currentWidth = (e.currentTarget.parentElement?.parentElement as HTMLElement)?.offsetWidth || 150;
+                      onColumnResize(e, column.id, currentWidth);
+                    }}
+                    aria-label={`Resize ${column.header} column`}
+                  />
+                )}
+              </div>
             </th>
           );
         })}

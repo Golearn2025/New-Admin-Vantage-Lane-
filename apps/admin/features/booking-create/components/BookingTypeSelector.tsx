@@ -3,6 +3,7 @@
  * Tab selector for trip types: oneway, return, hourly, fleet
  */
 
+import { ArrowRight, RefreshCw, Clock, Car } from 'lucide-react';
 import type { TripType } from '../types';
 import styles from './BookingTypeSelector.module.css';
 
@@ -11,11 +12,11 @@ export interface BookingTypeSelectorProps {
   onChange: (type: TripType) => void;
 }
 
-const TRIP_TYPES: { value: TripType; label: string; icon: string }[] = [
-  { value: 'oneway', label: 'One Way', icon: '➡️' },
-  { value: 'return', label: 'Return', icon: '🔄' },
-  { value: 'hourly', label: 'Hourly', icon: '⏰' },
-  { value: 'fleet', label: 'Fleet', icon: '🚗' },
+const TRIP_TYPES: { value: TripType; label: string; icon: React.ReactNode }[] = [
+  { value: 'oneway', label: 'One Way', icon: <ArrowRight size={18} strokeWidth={2} /> },
+  { value: 'return', label: 'Return', icon: <RefreshCw size={18} strokeWidth={2} /> },
+  { value: 'hourly', label: 'Hourly', icon: <Clock size={18} strokeWidth={2} /> },
+  { value: 'fleet', label: 'Fleet', icon: <Car size={18} strokeWidth={2} /> },
 ];
 
 export function BookingTypeSelector({ value, onChange }: BookingTypeSelectorProps) {

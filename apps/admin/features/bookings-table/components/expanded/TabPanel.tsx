@@ -19,7 +19,7 @@ import styles from './TabPanel.module.css';
 export interface Tab {
   id: string;
   label: string;
-  icon?: string;
+  icon?: React.ReactNode;
   badge?: string | number;
   content: React.ReactNode;
   disabled?: boolean;

@@ -3,6 +3,7 @@
  * Track earnings and performance
  */
 
+import { DollarSign, CheckCircle } from 'lucide-react';
 import { getCurrentDriver } from '../../../shared/lib/supabase/server';
 import { createClient } from '../../../shared/lib/supabase/server';
 import styles from './page.module.css';
@@ -73,7 +74,7 @@ export default async function DriverEarningsPage() {
 
       <div className={styles.grid}>
         <div className={styles.card}>
-          <div className={styles.cardIcon}>💰</div>
+          <div className={styles.cardIcon}><DollarSign size={18} strokeWidth={2} /></div>
           <div className={styles.cardContent}>
             <p className={styles.cardLabel}>Total Earnings</p>
             <p className={styles.cardValue}>£{stats.total.toFixed(2)}</p>
@@ -89,7 +90,7 @@ export default async function DriverEarningsPage() {
         </div>
 
         <div className={styles.card}>
-          <div className={styles.cardIcon}>✅</div>
+          <div className={styles.cardIcon}><CheckCircle size={18} strokeWidth={2} /></div>
           <div className={styles.cardContent}>
             <p className={styles.cardLabel}>Completed Rides</p>
             <p className={styles.cardValue}>{stats.completed}</p>

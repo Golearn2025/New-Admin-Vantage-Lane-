@@ -3,6 +3,8 @@
  * Select vehicle category: Executive, Luxury, SUV, Van
  */
 
+import React from 'react';
+import { Car, Sparkles, Truck, Bus } from 'lucide-react';
 import { BookingVehicleModelSelector } from './BookingVehicleModelSelector';
 import type { VehicleCategory } from '../types';
 import styles from './BookingVehicleSelector.module.css';
@@ -14,11 +16,11 @@ export interface BookingVehicleSelectorProps {
   onModelChange: (model: string) => void;
 }
 
-const VEHICLE_CATEGORIES = [
-  { value: 'EXEC' as const, label: 'Executive', icon: '🚗', desc: 'Mercedes E-Class, BMW 5 Series' },
-  { value: 'LUX' as const, label: 'Luxury', icon: '✨', desc: 'Mercedes S-Class, BMW 7 Series' },
-  { value: 'SUV' as const, label: 'SUV', icon: '🚙', desc: 'Range Rover, BMW X5' },
-  { value: 'VAN' as const, label: 'Van', icon: '🚐', desc: 'Mercedes V-Class, up to 7 passengers' },
+const VEHICLE_CATEGORIES: { value: VehicleCategory; label: string; icon: React.ReactNode; desc: string }[] = [
+  { value: 'EXEC' as const, label: 'Executive', icon: <Car size={20} strokeWidth={2} />, desc: 'Mercedes E-Class, BMW 5 Series' },
+  { value: 'LUX' as const, label: 'Luxury', icon: <Sparkles size={20} strokeWidth={2} />, desc: 'Mercedes S-Class, BMW 7 Series' },
+  { value: 'SUV' as const, label: 'SUV', icon: <Truck size={20} strokeWidth={2} />, desc: 'Range Rover, BMW X5' },
+  { value: 'VAN' as const, label: 'Van', icon: <Bus size={20} strokeWidth={2} />, desc: 'Mercedes V-Class, up to 7 passengers' },
 ];
 
 export function BookingVehicleSelector({ value, vehicleModel, onChange, onModelChange }: BookingVehicleSelectorProps) {

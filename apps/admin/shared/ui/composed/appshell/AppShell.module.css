@@ -37,8 +37,7 @@
   margin-top: 60px;
   /* Space pentru topbar */
   min-height: calc(100vh - 60px);
-  overflow-x: hidden; /* ✅ NU permite scroll orizontal care iese din zona de content */
-  overflow-y: auto; /* ✅ Doar scroll vertical dacă e nevoie */
+  overflow-x: hidden; /* ✅ NU permite scroll orizontal */
 }
 
 /* Mobile Drawer Overlay */

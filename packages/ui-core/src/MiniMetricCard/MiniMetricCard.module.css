@@ -5,8 +5,8 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-4);
-  min-height: 140px;
+  gap: var(--spacing-2);
+  min-height: 90px;
   position: relative;
   overflow: hidden;
 }
@@ -51,15 +51,15 @@
 }
 
 .label {
-  font-size: var(--font-sm);
+  font-size: var(--font-xs);
   color: var(--color-text-secondary);
   font-weight: var(--font-medium);
 }
 
 /* Icon Wrapper */
 .iconWrapper {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
@@ -130,7 +130,7 @@
 }
 
 .value {
-  font-size: var(--font-3xl);
+  font-size: var(--font-2xl);
   font-weight: var(--font-bold);
   color: var(--color-text-primary);
   line-height: 1;

@@ -6,7 +6,7 @@
 .container {
   background-color: var(--color-bg-elevated);
   border-radius: var(--radius-lg);
-  border: 2px solid var(--color-border-primary);
+  border: var(--border-width-md) solid var(--color-border-primary);
   overflow: hidden;
 }
 
@@ -15,16 +15,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: var(--spacing-1);
   background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-bg-tertiary));
-  border-bottom: 2px solid var(--color-border-primary);
+  border-bottom: var(--border-width-sm) solid var(--color-border-primary);
 }
 
 .title {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  font-size: var(--font-size-lg);
+  gap: var(--spacing-1);
+  font-size: var(--font-2xs);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   margin: 0;
@@ -58,14 +58,14 @@
 
 .actionButton:hover {
   opacity: 0.9;
-  transform: translateY(-1px);
+  transform: translateY(calc(-1 * var(--spacing-0-25)));
 }
 
 .actionButtonSecondary {
   padding: var(--spacing-xs) var(--spacing-sm);
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
-  border: 1px solid var(--color-border-primary);
+  border: var(--border-width-sm) solid var(--color-border-primary);
   border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
@@ -81,7 +81,7 @@
 .footer {
   padding: var(--spacing-sm) var(--spacing-lg);
   background-color: var(--color-bg-secondary);
-  border-top: 1px solid var(--color-border-secondary);
+  border-top: var(--border-width-sm) solid var(--color-border-secondary);
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   text-align: center;
@@ -91,13 +91,14 @@
 .pending {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-md);
+  gap: var(--spacing-0-5);
+  padding: var(--spacing-1);
 }
 
 .pendingCard {
   padding: var(--spacing-lg);
   background-color: var(--color-bg-secondary);
-  border: 2px dashed var(--color-border-secondary);
+  border: var(--border-width-md) dashed var(--color-border-secondary);
   border-radius: var(--radius-md);
   text-align: center;
 }
@@ -136,14 +137,15 @@
 .overview {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-md);
+  gap: var(--spacing-0-5);
+  padding: var(--spacing-1);
 }
 
 .overviewCard {
   padding: var(--spacing-md);
   background-color: var(--color-bg-secondary);
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-secondary);
+  border: var(--border-width-sm) solid var(--color-border-secondary);
 }
 
 .overviewCard h4 {
@@ -152,7 +154,7 @@
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--letter-spacing-wide);
 }
 
 .overviewCard p {
@@ -202,7 +204,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md, 768px)) {
   .pending,
   .overview {
     grid-template-columns: 1fr;

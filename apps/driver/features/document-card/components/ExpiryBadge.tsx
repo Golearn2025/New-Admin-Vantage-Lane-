@@ -14,13 +14,13 @@ interface ExpiryBadgeProps {
 
 const STATUS_CONFIG: Record<
   DocumentStatus,
-  { icon: string; label: string }
+  { icon: React.ReactNode; label: string }
 > = {
-  pending: { icon: '⏳', label: 'Pending Review' },
+  pending: { icon: '<Hourglass size={18} strokeWidth={2} />', label: 'Pending Review' },
   approved: { icon: '✓', label: 'Approved' },
   rejected: { icon: '✕', label: 'Rejected' },
   expired: { icon: '⚠️', label: 'Expired' },
-  expiring_soon: { icon: '⏰', label: 'Expiring Soon' },
+  expiring_soon: { icon: '<Clock size={18} strokeWidth={2} />', label: 'Expiring Soon' },
 };
 
 export function ExpiryBadge({ document }: ExpiryBadgeProps) {

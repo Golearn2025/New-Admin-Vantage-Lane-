@@ -13,17 +13,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { BookingCounts } from '../types/tabs';
+import type { CountsByTripType } from '../utils/createBookingTabs';
 
 interface UseBookingCountsResult {
-  counts: BookingCounts | null;
+  counts: CountsByTripType | null;
   isLoading: boolean;
   error: Error | null;
   refetch: () => Promise<void>;
 }
 
 export function useBookingCounts(): UseBookingCountsResult {
-  const [counts, setCounts] = useState<BookingCounts | null>(null);
+  const [counts, setCounts] = useState<CountsByTripType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 

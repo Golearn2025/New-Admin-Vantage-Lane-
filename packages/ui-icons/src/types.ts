@@ -34,7 +34,11 @@ export type IconName =
   | 'userPlus'
   | 'eye'
   | 'download'
-  | 'copy';
+  | 'copy'
+  | 'wallet'
+  | 'scale'
+  | 'fileText'
+  | 'receipt';
 
 export interface BaseIconProps {
   size?: number;

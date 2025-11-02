@@ -1,3 +1,4 @@
+import { CheckCircle } from 'lucide-react';
 /**
  * OperatorDashboard Component
  * Dashboard for operators - shows ONLY their data
@@ -5,6 +6,7 @@
 
 'use client';
 
+import { ClipboardList, Hourglass, User } from 'lucide-react';
 import React from 'react';
 import { useOperatorDashboard } from '../hooks/useOperatorDashboard';
 import styles from './OperatorDashboard.module.css';
@@ -33,21 +35,21 @@ export function OperatorDashboard() {
           </div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>⏳</div>
+          <div className={styles.statIcon}><Hourglass size={18} strokeWidth={2} /></div>
           <div className={styles.statContent}>
             <span className={styles.statLabel}>Pending Verification</span>
             <span className={styles.statValue}>{stats.pendingDrivers}</span>
           </div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>✅</div>
+          <div className={styles.statIcon}><CheckCircle size={18} strokeWidth={2} /></div>
           <div className={styles.statContent}>
             <span className={styles.statLabel}>Active Drivers</span>
             <span className={styles.statValue}>{stats.activeDrivers}</span>
           </div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>📋</div>
+          <div className={styles.statIcon}><ClipboardList size={18} strokeWidth={2} /></div>
           <div className={styles.statContent}>
             <span className={styles.statLabel}>Total Bookings</span>
             <span className={styles.statValue}>{stats.totalBookings}</span>

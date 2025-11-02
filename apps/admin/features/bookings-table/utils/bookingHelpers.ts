@@ -4,7 +4,7 @@
  * Compliant: <150 lines
  */
 
-import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
+import type { BookingListItem } from '@vantage-lane/contracts';
 
 /**
  * Calculate fleet total vehicles

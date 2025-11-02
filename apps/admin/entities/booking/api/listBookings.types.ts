@@ -59,12 +59,35 @@ export interface BookingSegment {
   place_label: string;
 }
 
+export interface BookingLeg {
+  id: string;
+  parent_booking_id: string;
+  leg_number: number;
+  leg_type: string; // 'outbound' | 'return' | 'vehicle'
+  vehicle_category?: string | null; // For FLEET: 'EXEC', 'LUX', 'SUV', 'VAN'
+  pickup_location: string;
+  destination: string;
+  scheduled_at: string;
+  distance_miles?: number | null;
+  duration_min?: number | null;
+  assigned_driver_id: string | null;
+  assigned_vehicle_id: string | null;
+  status: string;
+  leg_price: string;
+  driver_payout: string | null;
+}
+
 export interface BookingPricing {
   booking_id: string;
   price: string;
   currency: string;
   payment_method: string;
   payment_status: string;
+  platform_fee?: string | null;
+  operator_net?: string | null;
+  driver_payout?: string | null;
+  platform_commission_pct?: string | null;
+  driver_commission_pct?: string | null;
 }
 
 export interface BookingService {
@@ -111,6 +134,7 @@ export interface QueryResult {
   totalCount: number;
   customers: Customer[];
   segments: BookingSegment[];
+  legs: BookingLeg[];
   pricing: BookingPricing[];
   services: BookingService[];
   organizations: Organization[];

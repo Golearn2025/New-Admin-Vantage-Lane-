@@ -7,37 +7,65 @@
 
 'use client';
 
+import { useMemo, useCallback } from 'react';
+import { Tabs } from '@vantage-lane/ui-core';
 import {
   BarBasic,
   LineChart,
   StackedBarChart,
   DonutChart,
-  DateFilterPreset,
   DateRangePicker,
+  useDateRangeOrchestrator,
 } from '@vantage-lane/ui-dashboard';
 import { DASHBOARD_CARDS } from '@admin-shared/config/dashboard.cards';
 import { DashboardMetrics } from '@admin/dashboard/feature';
-import { useDateFilter } from '@admin-shared/hooks/useDateFilter';
 import { determineChartGrouping } from '@admin-shared/utils/chartGrouping';
 import { useDashboardData } from '../hooks/useDashboardData';
+import type { DatePreset } from '@vantage-lane/ui-dashboard';
 import styles from './DashboardPage.module.css';
 
+const DATE_PRESET_TABS = [
+  { id: 'today', label: 'Today' },
+  { id: 'yesterday', label: 'Yesterday' },
+  { id: 'last_7_days', label: 'Last 7 Days' },
+  { id: 'last_30_days', label: 'Last 30 Days' },
+  { id: 'this_month', label: 'This Month' },
+  { id: 'last_month', label: 'Last Month' },
+  { id: 'this_year', label: 'This Year' },
+  { id: 'all_time', label: 'All Time' },
+  { id: 'custom', label: 'Custom Range' },
+] as const;
+
 export default function DashboardPage() {
-  // Date filter state management
-  const { dateRange, preset, setPreset, setCustomRange, getAPIParams } =
-    useDateFilter('last_30_days');
+  // ORCHESTRATOR - MASTER date filter management
+  const { preset, effectiveRange, setPreset, setCustomRange, apiParams } =
+    useDateRangeOrchestrator('last_30_days');
 
   // Determine optimal chart grouping based on date range
-  const grouping = determineChartGrouping(dateRange);
+  const grouping = determineChartGrouping(effectiveRange);
+
+  // Create tabs for date presets
+  const dateFilterTabs = useMemo(() => 
+    DATE_PRESET_TABS.map(tab => ({
+      id: tab.id,
+      label: tab.label,
+    })),
+    []
+  );
+
+  // Handle tab change
+  const handlePresetChange = useCallback((tabId: string) => {
+    setPreset(tabId as DatePreset);
+  }, [setPreset]);
 
   // Build API URL with date params
-  const apiParams = new URLSearchParams({
-    ...getAPIParams(),
+  const apiSearchParams = new URLSearchParams({
+    ...apiParams,
     grouping: grouping.sqlGroup,
   });
 
   // Fetch and transform dashboard data
-  const { data: convertedCharts, isLoading } = useDashboardData(apiParams);
+  const { data: convertedCharts, isLoading } = useDashboardData(apiSearchParams);
 
   return (
     <div className={styles.dashboard}>
@@ -49,25 +77,23 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Date Filters */}
+      {/* Date Filters - Using Tabs (same as Bookings) */}
       <div className={styles.filtersContainer}>
-        <DateFilterPreset
-          value={preset}
-          onChange={(newPreset) => setPreset(newPreset)}
-          presets={[
-            'today',
-            'yesterday',
-            'last_7_days',
-            'last_30_days',
-            'this_month',
-            'last_month',
-            'this_year',
-            'all_time',
-          ]}
-          variant="default"
-          showCustom={true}
+        <Tabs
+          tabs={dateFilterTabs}
+          activeTab={preset}
+          onChange={handlePresetChange}
+          variant="pills"
+          fullWidth={false}
         />
-        <DateRangePicker value={dateRange} onChange={(range) => setCustomRange(range)} />
+        
+        {preset === 'custom' && (
+          <DateRangePicker 
+            value={effectiveRange} 
+            onChange={(range) => setCustomRange(range)} 
+          />
+        )}
+        
         <div className={styles.groupingInfo}>
           Grouping: <strong>{grouping.label}</strong> ({grouping.expectedPoints} points)
         </div>
@@ -76,8 +102,8 @@ export default function DashboardPage() {
       {/* Metric Cards - Real Data from Supabase */}
       <DashboardMetrics
         specs={DASHBOARD_CARDS}
-        startDate={getAPIParams().start_date}
-        endDate={getAPIParams().end_date}
+        startDate={apiParams.start_date}
+        endDate={apiParams.end_date}
       />
 
       {/* Charts Grid */}
@@ -89,7 +115,6 @@ export default function DashboardPage() {
               <h3 className={styles.chartTitle}>Weekly Activity</h3>
               <BarBasic
                 data={convertedCharts.weekly_activity || []}
-                height={280}
                 color="var(--vl-chart-primary)"
               />
             </div>
@@ -99,7 +124,6 @@ export default function DashboardPage() {
               <h3 className={styles.chartTitle}>Revenue Trend (£)</h3>
               <LineChart
                 data={convertedCharts.revenue_trend || []}
-                height={280}
                 color="var(--vl-chart-success)"
               />
             </div>
@@ -111,13 +135,12 @@ export default function DashboardPage() {
             <div className={styles.chartCard}>
               <h3 className={styles.chartTitle}>Operator Performance</h3>
               <StackedBarChart
-                data={convertedCharts.operator_performance as any || []}
+                data={convertedCharts.operator_performance || []}
                 series={[
                   { key: 'bookings', label: 'Bookings', color: 'var(--vl-chart-primary)' },
                   { key: 'revenue', label: 'Revenue (£)', color: 'var(--vl-chart-success)' },
                   { key: 'commission', label: 'Commission (£)', color: 'var(--vl-chart-warning)' },
                 ]}
-                height={280}
               />
             </div>
 
@@ -135,7 +158,6 @@ export default function DashboardPage() {
                         : 'var(--vl-chart-warning)',
                   })
                 )}
-                height={280}
               />
             </div>
           </div>

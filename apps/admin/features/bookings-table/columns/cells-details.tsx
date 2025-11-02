@@ -8,7 +8,8 @@
 import React from 'react';
 import { StatusBadge } from '@vantage-lane/ui-core';
 import type { BookingStatus } from '@vantage-lane/ui-core';
-import { Route, Clock, Calendar, Plane, User, Luggage, CreditCard } from '@vantage-lane/ui-icons';
+import { Route, Clock, Calendar, Plane, User, Luggage, CreditCard, Circle } from 'lucide-react';
+import { VehicleChip } from './VehicleChip';
 import {
   formatDate,
   formatTime,
@@ -24,22 +25,28 @@ export const getRouteColumn = (): BookingColumn => ({
   id: 'route',
   header: 'Route',
   accessor: (row) => `${row.pickup_location} → ${row.destination}`,
-  width: '240px',
+  width: '180px',
   align: 'left',
   cell: (row) => (
     <div className={styles.routeCell}>
-      <div>🟢 {formatLocation(row.pickup_location)}</div>
-      <div>🔴 {formatLocation(row.destination)}</div>
+      <div className={styles.routeLocation}>
+        <Circle size={10} fill="#10b981" stroke="#10b981" />
+        <span>{formatLocation(row.pickup_location)}</span>
+      </div>
+      <div className={styles.routeLocation}>
+        <Circle size={10} fill="#ef4444" stroke="#ef4444" />
+        <span>{formatLocation(row.destination)}</span>
+      </div>
       <div className={styles.routeDetail}>
-        <Route size={12} />
+        <Route size={13} />
         <span>{row.distance_miles?.toFixed(2)} mi</span>
         <span>•</span>
-        <Clock size={12} />
+        <Clock size={13} />
         <span>{row.duration_min} min</span>
       </div>
       {row.scheduled_at && (
         <div className={styles.routeDetailPrimary}>
-          <Calendar size={14} />
+          <Calendar size={13} />
           <span className={styles.routeLabelPrimary}>PICKUP:</span>
           <span className={styles.routeDatePrimary}>
             {formatDate(row.scheduled_at)} {formatTime(row.scheduled_at)}
@@ -54,7 +61,7 @@ export const getRouteColumn = (): BookingColumn => ({
       </div>
       {row.flight_number && (
         <div className={styles.routeDetail}>
-          <Plane size={12} />
+          <Plane size={13} />
           <span>{row.flight_number}</span>
         </div>
       )}
@@ -66,21 +73,21 @@ export const getVehicleColumn = (): BookingColumn => ({
   id: 'vehicle',
   header: 'Vehicle',
   accessor: (row) => row.category,
-  width: '120px',
+  width: '100px',
   align: 'left',
   cell: (row) => {
     const vehicleModel = formatVehicleModel(row.vehicle_model);
 
     return (
       <div className={styles.vehicleCell}>
-        <div className={styles.vehicleCategoryBadge}>{row.category}</div>
+        <VehicleChip category={row.category as any} size="sm" />
         <div className={styles.vehicleModel}>{vehicleModel}</div>
         <div className={styles.vehicleCapacityRow}>
-          <User size={14} />
+          <User size={13} />
           <span>{row.passenger_count} Pass</span>
         </div>
         <div className={styles.vehicleCapacityRow}>
-          <Luggage size={14} />
+          <Luggage size={13} />
           <span>{row.bag_count} Bags</span>
         </div>
       </div>
@@ -92,7 +99,7 @@ export const getPaymentColumn = (): BookingColumn => ({
   id: 'payment',
   header: 'Payment',
   accessor: (row) => row.fare_amount,
-  width: '200px',
+  width: '160px',
   align: 'left',
   cell: (row) => (
     <div className={styles.paymentCell}>
@@ -114,7 +121,7 @@ export const getPaymentColumn = (): BookingColumn => ({
       )}
       <div className={styles.paymentMeta}>
         <div className={styles.paymentMetaRow}>
-          <CreditCard size={12} />
+          <CreditCard size={13} />
           <span>{row.payment_method}</span>
         </div>
         <div className={styles.paymentMetaRow}>
@@ -130,7 +137,7 @@ export const getStatusColumn = (): BookingColumn => ({
   header: 'Status',
   accessor: (row) => row.status,
   width: '110px',
-  align: 'left',
+  align: 'center',
   cell: (row) => (
     <StatusBadge
       status={row.status as BookingStatus}

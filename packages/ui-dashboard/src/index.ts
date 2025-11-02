@@ -17,5 +17,8 @@ export * from './theme';
 // Filters (100% REUSABLE)
 export * from './filters';
 
+// Hooks (100% REUSABLE)
+export * from './hooks/useDateRangeOrchestrator';
+
 // Utils (100% REUSABLE)
 export * from './utils';

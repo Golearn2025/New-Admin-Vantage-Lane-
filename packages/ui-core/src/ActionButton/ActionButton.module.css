@@ -13,14 +13,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  gap: var(--spacing-2);
+  gap: var(--spacing-1);
 
   font-family: var(--font-sans);
   font-weight: var(--font-medium);
-  font-size: var(--font-sm);
+  font-size: var(--font-xs);
   line-height: var(--line-height-normal);
 
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   border: 1px solid transparent;
 
   transition: all var(--motion-duration-fast) var(--motion-easing-standard);
@@ -56,13 +56,15 @@
    ======================================== */
 
 .sm {
-  padding: var(--spacing-1) var(--spacing-3);
-  min-height: 28px;
+  padding: var(--spacing-1) var(--spacing-2);
+  min-height: 24px;
+  font-size: var(--font-2xs);
 }
 
 .md {
-  padding: var(--spacing-2) var(--spacing-3);
-  min-height: 32px;
+  padding: var(--spacing-1) var(--spacing-2);
+  min-height: 28px;
+  font-size: var(--font-xs);
 }
 
 /* ========================================
@@ -150,14 +152,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
 }
 
 .label {
   flex: 1;
-  text-align: left;
+  text-align: center;
+  font-size: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ========================================

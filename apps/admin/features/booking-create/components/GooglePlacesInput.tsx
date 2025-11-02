@@ -13,7 +13,7 @@ export interface GooglePlacesInputProps {
   onChange: (value: string, placeData?: { lat: number; lng: number; formattedAddress: string }) => void;
   placeholder?: string;
   label?: string;
-  icon?: string;
+  icon?: React.ReactNode;
 }
 
 export function GooglePlacesInput({
@@ -49,21 +49,28 @@ export function GooglePlacesInput({
 
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
+      console.log('🗺️ GooglePlacesInput - place selected:', place);
+      
       if (place.formatted_address && place.geometry?.location) {
         const lat = place.geometry.location.lat();
         const lng = place.geometry.location.lng();
+        console.log('✅ GooglePlacesInput - sending placeData:', { lat, lng, formattedAddress: place.formatted_address });
         onChange(place.formatted_address, {
           lat,
           lng,
           formattedAddress: place.formatted_address,
         });
+      } else {
+        console.warn('⚠️ GooglePlacesInput - No geometry data in place:', place);
+        onChange(place.name || place.formatted_address || '');
       }
     });
 
     return () => {
       google.maps.event.clearInstanceListeners(autocomplete);
     };
-  }, [isLoaded, onChange]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoaded]);
 
   return (
     <div className={styles.container}>

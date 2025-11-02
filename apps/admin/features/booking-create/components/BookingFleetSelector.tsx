@@ -3,6 +3,8 @@
  * Select number of vehicles for fleet booking
  */
 
+import React from 'react';
+import { Car, Sparkles, Bus, Truck } from 'lucide-react';
 import styles from './BookingFleetSelector.module.css';
 
 export interface BookingFleetSelectorProps {
@@ -13,11 +15,11 @@ export interface BookingFleetSelectorProps {
   onChange: (field: string, value: number) => void;
 }
 
-const FLEET_VEHICLES = [
-  { key: 'fleetExecutive', label: 'Executive', icon: '🚗', desc: 'Mercedes E-Class, BMW 5 Series' },
-  { key: 'fleetSClass', label: 'S-Class', icon: '✨', desc: 'Mercedes S-Class, BMW 7 Series' },
-  { key: 'fleetVClass', label: 'V-Class', icon: '🚐', desc: 'Mercedes V-Class, up to 7 passengers' },
-  { key: 'fleetSUV', label: 'SUV', icon: '🚙', desc: 'Range Rover, BMW X5' },
+const FLEET_VEHICLES: { key: string; label: string; icon: React.ReactNode; desc: string }[] = [
+  { key: 'fleetExecutive', label: 'Executive', icon: <Car size={20} strokeWidth={2} />, desc: 'Mercedes E-Class, BMW 5 Series' },
+  { key: 'fleetSClass', label: 'S-Class', icon: <Sparkles size={20} strokeWidth={2} />, desc: 'Mercedes S-Class, BMW 7 Series' },
+  { key: 'fleetVClass', label: 'V-Class', icon: <Bus size={20} strokeWidth={2} />, desc: 'Mercedes V-Class, up to 7 passengers' },
+  { key: 'fleetSUV', label: 'SUV', icon: <Truck size={20} strokeWidth={2} />, desc: 'Range Rover, BMW X5' },
 ];
 
 export function BookingFleetSelector({

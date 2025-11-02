@@ -3,6 +3,7 @@
  * Manage fleet vehicles
  */
 
+import { Car } from 'lucide-react';
 import styles from '../bookings/page.module.css';
 
 export default function FleetVehiclesPage() {
@@ -10,7 +11,7 @@ export default function FleetVehiclesPage() {
     <div className={styles.container}>
       <h1 className={styles.title}>My Vehicles</h1>
       <div className={styles.placeholder}>
-        <p>🚗</p>
+        <p><Car size={18} strokeWidth={2} /></p>
         <p>Vehicles management coming soon...</p>
         <p className={styles.note}>
           View and manage your fleet vehicles here.

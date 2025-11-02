@@ -7,7 +7,7 @@
 
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, NextRequest } from 'next/server';
-import '@/lib/config/env'; // Validate environment variables at startup
+import './lib/config/env'; // Validate environment variables at startup
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -67,6 +67,18 @@ export async function middleware(request: NextRequest) {
     (request.nextUrl.pathname.startsWith('/dashboard') ||
       request.nextUrl.pathname.startsWith('/bookings') ||
       request.nextUrl.pathname.startsWith('/users') ||
+      request.nextUrl.pathname.startsWith('/payments') ||
+      request.nextUrl.pathname.startsWith('/invoices') ||
+      request.nextUrl.pathname.startsWith('/refunds') ||
+      request.nextUrl.pathname.startsWith('/disputes') ||
+      request.nextUrl.pathname.startsWith('/payouts') ||
+      request.nextUrl.pathname.startsWith('/documents') ||
+      request.nextUrl.pathname.startsWith('/notifications') ||
+      request.nextUrl.pathname.startsWith('/support-tickets') ||
+      request.nextUrl.pathname.startsWith('/prices') ||
+      request.nextUrl.pathname.startsWith('/monitoring') ||
+      request.nextUrl.pathname.startsWith('/project-health') ||
+      request.nextUrl.pathname.startsWith('/audit-history') ||
       request.nextUrl.pathname.startsWith('/settings')) &&
     !request.nextUrl.pathname.startsWith('/ui-dashboard-demo');
 

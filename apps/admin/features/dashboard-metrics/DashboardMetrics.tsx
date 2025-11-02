@@ -45,43 +45,23 @@ export function DashboardMetrics({ specs, startDate, endDate }: DashboardMetrics
     );
   }
 
-  // Loading state - show skeleton cards
-  if (isLoading || !metrics) {
-    return (
-      <div className={styles.cardGrid}>
-        {specs.map((spec, index) => {
-          const value = (metrics && getCardValues(metrics)[spec.field]) ?? null;
-          return (
-            <MetricCard
-              key={spec.key}
-              spec={spec}
-              value={value}
-              loading={isLoading}
-              variant="gradient"
-              gradient={getGradientForIndex(index)}
-            />
-          );
-        })}
-      </div>
-    );
-  }
-
-  // Map metrics to card values
-  const cardValues = getCardValues(metrics);
+  // Map metrics to card values (or null if loading)
+  const cardValues = metrics ? getCardValues(metrics) : {};
 
   return (
     <div className={styles.metricsGrid}>
       {specs.map((spec, index) => {
         // Use spec.field to lookup value (not spec.key!)
-        const value = cardValues[spec.field];
+        const value = cardValues[spec.field] ?? null;
         const delta = getDeltaForMetric(spec.key); // TODO: Calculate from historical data
 
         return (
           <MetricCard
             key={spec.key}
             spec={spec}
-            value={value ?? null}
+            value={value}
             delta={delta}
+            loading={isLoading}
             variant="gradient"
             gradient={getGradientForIndex(index)}
           />

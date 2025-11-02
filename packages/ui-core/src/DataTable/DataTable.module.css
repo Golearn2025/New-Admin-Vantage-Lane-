@@ -28,12 +28,10 @@
 
 .table {
   width: 100%;
-  table-layout: fixed; /* ✅ FORȚEAZĂ width-urile exacte - ZERO spațiu extra! */
+  table-layout: fixed;
   border-collapse: collapse;
-  border-spacing: 0; /* ✅ ZERO spațiu între coloane */
+  border-spacing: 0;
   background: var(--color-bg-elevated);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
   font-family: var(--font-family-base);
   font-size: var(--font-sm);
   color: var(--color-text-primary);
@@ -41,9 +39,12 @@
 
 .tableWrapper {
   width: 100%;
+  max-width: 100%;
+  overflow-y: auto;
   overflow-x: auto;
   border-radius: var(--radius-lg);
   border: var(--border-width-1) solid var(--color-border-secondary);
+  box-sizing: border-box;
 }
 
 .tableScrollable {
@@ -56,19 +57,30 @@
    ======================================== */
 
 .header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   background: var(--color-bg-secondary);
   border-bottom: var(--border-width-2) solid var(--color-border-primary);
 }
 
-.headerStickey {
-  position: sticky;
-  top: 0;
-  z-index: var(--z-sticky);
+/* Sticky header container */
+.stickyHeader {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.stickyHeader .tableWrapper {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 .headerCell {
   padding: var(--spacing-3) var(--spacing-2); /* ✅ ULTRA COMPACT: 12px 8px */
-  text-align: center; /* ✅ CENTERED - per brief requirement */
+  text-align: left; /* ✅ CONSISTENT cu cells - stânga by default */
   font-weight: var(--font-semibold);
   font-size: var(--font-sm);
   color: var(--color-text-primary); /* ✅ Same as cells */
@@ -76,7 +88,7 @@
   /* Removed: letter-spacing */
   white-space: nowrap;
   border-bottom: var(--border-width-1) solid var(--color-border-secondary);
-  transition: var(--transition-base);
+  /* ❌ NO TRANSITION - causes resize lag! */
   vertical-align: middle; /* ✅ Aliniere verticală perfectă */
 }
 
@@ -101,10 +113,20 @@
   background: var(--color-primary-alpha-10);
 }
 
+.headerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  padding-right: var(--spacing-3); /* Spațiu pentru resize handle */
+}
+
 .headerContent {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
+  flex: 1;
 }
 
 .sortIcon {
@@ -116,6 +138,45 @@
 .headerCellSorted .sortIcon {
   opacity: 1;
   color: var(--color-primary);
+}
+
+/* Resize Handle - VIZIBIL și STABIL! */
+.resizeHandle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 12px; /* Mai larg pentru area mai mare */
+  cursor: col-resize;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none; /* Previne selecția text */
+}
+
+.resizeHandle::before {
+  content: '';
+  width: 2px;
+  height: 60%;
+  background: var(--color-border-primary);
+  border-radius: var(--border-radius-full);
+  transition: all var(--transition-fast);
+  pointer-events: none; /* Linia nu interferează cu mouse */
+}
+
+.resizeHandle:hover::before {
+  background: var(--color-primary);
+  height: 80%;
+  width: 3px;
+  box-shadow: 0 0 4px var(--color-primary);
+}
+
+.resizeHandle:active::before {
+  background: var(--color-primary);
+  height: 100%;
+  width: 4px;
+  box-shadow: 0 0 8px var(--color-primary);
 }
 
 /* ========================================
@@ -133,6 +194,18 @@
 .row {
   border-bottom: var(--border-width-1) solid var(--color-border-secondary);
   transition: var(--transition-base);
+  position: relative;
+}
+
+/* Grouped rows (RETURN/FLEET) - Border stânga colorat UNIC per grup */
+.row[data-group-type="return"],
+.row[data-group-type="fleet"] {
+  border-left: 4px solid var(--group-color, var(--color-primary));
+  background: linear-gradient(
+    90deg, 
+    color-mix(in srgb, var(--group-color, var(--color-primary)) 5%, transparent), 
+    transparent 50%
+  );
 }
 
 .row:last-child {
@@ -174,8 +247,16 @@
   text-align: left; /* ✅ DEFAULT - same ca header */
   color: var(--color-text-primary);
   border-bottom: var(--border-width-1) solid var(--color-border-secondary);
-  transition: var(--transition-base);
   vertical-align: middle; /* ✅ Aliniere verticală perfectă */
+  overflow: hidden; /* ✅ ELLIPSIS: ascunde overflow */
+  /* ❌ NO TRANSITION on width - causes lag! */
+}
+
+.cellContent {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
 }
 
 .cellSelected {

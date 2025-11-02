@@ -29,6 +29,8 @@
 .tabList {
   display: flex;
   position: relative;
+  gap: var(--spacing-3);
+  padding-block: var(--spacing-3);
 }
 
 .orientation-horizontal .tabList {
@@ -44,6 +46,7 @@
 
 .fullWidth .tab {
   flex: 1;
+  margin: 0;
 }
 
 /* ============================================ */
@@ -53,22 +56,25 @@
 .tab {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--spacing-2);
   padding: var(--spacing-3) var(--spacing-4);
+  min-height: calc(var(--spacing-10) + var(--spacing-2));
   font-size: var(--font-base);
   font-weight: var(--font-medium);
   color: var(--color-text-secondary);
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: all var(--motion-duration-fast);
+  transition: all 0.2s ease;
   white-space: nowrap;
   position: relative;
 }
 
-.tab:hover:not(.tabDisabled) {
+.tab:hover:not(.tabDisabled):not(.tabActive) {
   color: var(--color-text-primary);
   background: var(--color-surface-hover);
+  box-shadow: var(--shadow-xs);
 }
 
 .tab:focus-visible {
@@ -101,7 +107,7 @@
 
 .variant-default .tab {
   border-radius: var(--radius-md);
-  margin: 0 var(--spacing-1);
+  margin: 0;
 }
 
 .variant-default .tabActive {
@@ -114,17 +120,25 @@
 
 .variant-pills .tab {
   border-radius: var(--radius-full);
-  margin: 0 var(--spacing-1);
+  margin: 0;
+  border: 1px solid transparent;
+}
+
+.variant-pills .tab:hover:not(.tabDisabled):not(.tabActive) {
+  background: var(--theme-primary-alpha-10);
+  border-color: var(--theme-primary-alpha-20);
+  box-shadow: var(--shadow-sm);
 }
 
 .variant-pills .tabActive {
   background: var(--theme-primary);
   color: var(--color-bg-primary);
+  border-color: var(--theme-primary);
+  box-shadow: var(--shadow-sm);
 }
 
 .variant-pills .tabActive:hover {
-  background: var(--theme-primary);
-  color: var(--color-bg-primary);
+  box-shadow: var(--shadow-md);
 }
 
 /* ============================================ */
@@ -219,7 +233,8 @@
   }
 
   .tabList {
-    gap: var(--spacing-1);
+    gap: var(--spacing-2);
+    padding-block: var(--spacing-2);
   }
 }
 
@@ -233,5 +248,29 @@
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
+  }
+}
+
+/* ============================================ */
+/* ACCESSIBILITY                                */
+/* ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .tab,
+  .tabLabel,
+  .tabPanel {
+    transition: none;
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .tab:focus-visible {
+    outline: 2px solid currentColor;
+  }
+  
+  .tabActive {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
   }
 }

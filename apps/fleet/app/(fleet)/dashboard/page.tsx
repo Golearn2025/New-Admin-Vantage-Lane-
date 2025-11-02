@@ -3,6 +3,7 @@
  * Overview of fleet statistics and performance
  */
 
+import { DollarSign } from 'lucide-react';
 import { getCurrentOperatorId } from '../../../shared/lib/supabase/server';
 import { createClient } from '../../../shared/lib/supabase/server';
 import styles from './page.module.css';
@@ -85,7 +86,7 @@ export default async function FleetDashboardPage() {
         </div>
 
         <div className={styles.card}>
-          <div className={styles.cardIcon}>💰</div>
+          <div className={styles.cardIcon}><DollarSign size={18} strokeWidth={2} /></div>
           <div className={styles.cardContent}>
             <p className={styles.cardLabel}>My Earnings</p>
             <p className={styles.cardValue}>

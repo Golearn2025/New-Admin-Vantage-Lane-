@@ -7,4 +7,4 @@ export type {
   BookingListItem,
   BookingsListRequest,
   BookingsListResponse,
-} from '@admin-shared/api/contracts';
+} from '@vantage-lane/contracts';

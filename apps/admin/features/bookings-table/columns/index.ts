@@ -19,6 +19,7 @@ export * from './helpers';
 export * from './cells';
 export * from './cells-details';
 export * from './actions';
+export * from './VehicleChip';
 
 /**
  * Get all bookings table columns

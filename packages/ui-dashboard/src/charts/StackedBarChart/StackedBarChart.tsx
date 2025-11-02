@@ -18,6 +18,13 @@ import {
 } from 'recharts';
 import styles from './StackedBarChart.module.css';
 import { CHART_COLORS } from '../../theme/palettes';
+import {
+  CHART_MARGIN,
+  CHART_ANIMATION_DURATION,
+  CHART_STROKE_DASH,
+  CHART_BAR_RADIUS,
+  CHART_DEFAULT_HEIGHT,
+} from '../constants';
 
 export type ChartUnit = 'GBP_pence' | 'count' | 'percentage';
 
@@ -69,9 +76,10 @@ export function StackedBarChart({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   unit: _unit = 'count',
   loading = false,
-  height = 300,
+  height,
   className = '',
 }: StackedBarChartProps) {
+  const chartHeight = height ?? CHART_DEFAULT_HEIGHT;
   const defaultColors = [
     CHART_COLORS.primary,
     CHART_COLORS.success,
@@ -82,7 +90,7 @@ export function StackedBarChart({
 
   if (loading) {
     return (
-      <div className={`${styles.container} ${className}`} style={{ height }}>
+      <div className={`${styles.container} ${className}`} style={{ height: chartHeight }}>
         <div className={styles.skeleton}>
           <div className={styles.skeletonBar} />
           <div className={styles.skeletonBar} style={{ height: '70%' }} />
@@ -95,7 +103,7 @@ export function StackedBarChart({
 
   if (!data || data.length === 0) {
     return (
-      <div className={`${styles.container} ${styles.empty} ${className}`} style={{ height }}>
+      <div className={`${styles.container} ${styles.empty} ${className}`} style={{ height: chartHeight }}>
         <p className={styles.emptyText}>No data available</p>
       </div>
     );
@@ -103,12 +111,12 @@ export function StackedBarChart({
 
   return (
     <div className={`${styles.container} ${className}`}>
-      <ResponsiveContainer width="100%" height={height}>
-        <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--vl-chart-grid, #e5e7eb)" />
-          <XAxis dataKey="x" stroke="var(--vl-chart-axis, #6b7280)" style={{ fontSize: '12px' }} />
-          <YAxis stroke="var(--vl-chart-axis, #6b7280)" style={{ fontSize: '12px' }} />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }} />
+      <ResponsiveContainer width="100%" height={chartHeight}>
+        <BarChart data={data} margin={CHART_MARGIN}>
+          <CartesianGrid strokeDasharray={CHART_STROKE_DASH} stroke="var(--vl-chart-grid)" />
+          <XAxis dataKey="x" stroke="var(--vl-chart-axis)" style={{ fontSize: 'var(--font-xs)' }} />
+          <YAxis stroke="var(--vl-chart-axis)" style={{ fontSize: 'var(--font-xs)' }} />
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--vl-chart-cursor)' }} />
           <Legend />
           {series.map((s, index) => {
             const isLast = index === series.length - 1;
@@ -118,9 +126,9 @@ export function StackedBarChart({
               name: s.label,
               stackId: 'stack',
               fill: s.color ?? defaultColors[index % defaultColors.length],
-              animationDuration: 800,
+              animationDuration: CHART_ANIMATION_DURATION,
             };
-            return isLast ? <Bar {...baseProps} radius={[8, 8, 0, 0]} /> : <Bar {...baseProps} />;
+            return isLast ? <Bar {...baseProps} radius={CHART_BAR_RADIUS} /> : <Bar {...baseProps} />;
           })}
         </BarChart>
       </ResponsiveContainer>

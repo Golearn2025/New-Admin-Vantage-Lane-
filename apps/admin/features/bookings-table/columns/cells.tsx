@@ -27,7 +27,7 @@ export const getSelectColumn = ({
       aria-label="Select all bookings"
     />
   ),
-  width: '40px',
+  width: '32px',
   cell: (row) => (
     <input
       type="checkbox"
@@ -42,7 +42,7 @@ export const getSelectColumn = ({
 export const getExpandColumn = (): BookingColumn => ({
   id: 'expand',
   header: '',
-  width: '40px',
+  width: '32px',
   cell: () => <button className={styles.expandButton}>▶️</button>,
 });
 
@@ -50,13 +50,13 @@ export const getReferenceColumn = (): BookingColumn => ({
   id: 'reference',
   header: 'Reference',
   accessor: (row) => row.reference,
-  width: '120px',
+  width: '100px',
   align: 'left',
   cell: (row) => (
     <div className={styles.referenceCell}>
       <div className={styles.referenceId}>{row.reference}</div>
       <div className={styles.referenceType}>
-        {getTripIcon(row.trip_type)} {row.trip_type.toUpperCase()}
+        <span className={styles.tripIcon}>{getTripIcon(row.trip_type)}</span> {row.trip_type.toUpperCase()}
       </div>
     </div>
   ),
@@ -66,7 +66,7 @@ export const getCustomerColumn = (): BookingColumn => ({
   id: 'customer',
   header: 'Customer',
   accessor: (row) => row.customer_name,
-  width: '150px',
+  width: '120px',
   align: 'left',
   cell: (row) => (
     <div className={styles.customerCell}>

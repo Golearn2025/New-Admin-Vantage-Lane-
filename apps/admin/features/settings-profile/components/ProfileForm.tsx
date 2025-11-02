@@ -8,6 +8,7 @@
 
 'use client';
 
+import { CheckCircle } from 'lucide-react';
 import React, { useState, useCallback } from 'react';
 import { Tabs, type Tab } from '@vantage-lane/ui-core';
 import { SaveButton } from '@vantage-lane/ui-core';
@@ -89,7 +90,7 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
 
       {saveSuccess && (
         <div className={styles.successBanner} role="status">
-          <span className={styles.successIcon}>✅</span>
+          <span className={styles.successIcon}><CheckCircle size={18} strokeWidth={2} /></span>
           <span>Profile updated successfully!</span>
         </div>
       )}

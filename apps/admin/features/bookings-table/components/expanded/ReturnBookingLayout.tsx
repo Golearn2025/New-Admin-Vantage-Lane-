@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * ReturnBookingLayout Component
  * 
@@ -7,10 +9,10 @@
  * Compliant: <200 lines, 100% design tokens, TypeScript strict, REUTILIZABIL
  */
 
-'use client';
+import { XCircle, CheckCircle, RefreshCw, Sparkles, Hourglass } from 'lucide-react';
 
 import React from 'react';
-import type { BookingListItem } from '@admin-shared/api/contracts/bookings';
+import type { BookingListItem } from '@vantage-lane/contracts';
 import { useBookingLegs } from '../../hooks/useBookingLegs';
 import { BookingLegCard, PricingBreakdownCard, CommissionSplitsCard, InfoSection } from './index';
 import styles from './ReturnBookingLayout.module.css';
@@ -31,7 +33,7 @@ export function ReturnBookingLayout({
   if (loading) {
     return (
       <div className={styles.loading}>
-        <span className={styles.loadingIcon}>⏳</span>
+        <span className={styles.loadingIcon}><Hourglass size={18} strokeWidth={2} /></span>
         <span className={styles.loadingText}>Loading legs...</span>
       </div>
     );
@@ -40,15 +42,15 @@ export function ReturnBookingLayout({
   if (error) {
     return (
       <div className={styles.error}>
-        <span className={styles.errorIcon}>❌</span>
+        <span className={styles.errorIcon}><XCircle size={18} strokeWidth={2} /></span>
         <span className={styles.errorText}>Failed to load legs: {error.message}</span>
       </div>
     );
   }
 
   // Calculate pricing (from booking.fare_amount and booking.base_price)
-  const totalPrice = booking.fare_amount / 100; // Convert from cents
-  const basePrice = booking.base_price / 100;
+  const totalPrice = booking.fare_amount; // Already in pounds
+  const basePrice = booking.base_price; // Already in pounds
   const servicesTotal = premiumServices.reduce((sum, s) => sum + s.price * (s.quantity || 1), 0);
   
   // For RETURN: 10% discount

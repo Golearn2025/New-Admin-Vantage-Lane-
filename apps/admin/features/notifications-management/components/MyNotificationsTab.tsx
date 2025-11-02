@@ -1,3 +1,4 @@
+import { CheckCircle } from 'lucide-react';
 /**
  * My Notifications Tab
  * View and manage personal notifications
@@ -59,7 +60,7 @@ export function MyNotificationsTab() {
           </div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>✅</div>
+          <div className={styles.statIcon}><CheckCircle size={18} strokeWidth={2} /></div>
           <div className={styles.statContent}>
             <p className={styles.statLabel}>Read</p>
             <p className={styles.statValue}>{notifications.length - unreadCount}</p>

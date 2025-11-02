@@ -21,10 +21,16 @@ export async function sendNotificationToAllAdmins(
   const supabase = createClient();
 
   // Get all active admin users
-  const { data: admins } = await supabase
+  const { data: admins, error: adminsError } = await supabase
     .from('admin_users')
     .select('auth_user_id')
-    .eq('is_active', true);
+    .eq('is_active', true)
+    .not('auth_user_id', 'is', null);
+
+  if (adminsError) {
+    console.error('Get admins error:', adminsError);
+    throw new Error(`Failed to get admins: ${adminsError.message}`);
+  }
 
   if (!admins || admins.length === 0) {
     return { success: true, count: 0 };
@@ -37,7 +43,7 @@ export async function sendNotificationToAllAdmins(
     title: payload.title,
     message: payload.message,
     link: payload.link || null,
-    target_type: 'admin',
+    target_type: 'admin' as const,
     is_system: true,
     read_at: null,
     created_at: new Date().toISOString(),

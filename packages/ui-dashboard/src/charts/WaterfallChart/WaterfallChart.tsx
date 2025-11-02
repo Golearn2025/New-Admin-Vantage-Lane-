@@ -18,6 +18,13 @@ import {
 } from 'recharts';
 import styles from './WaterfallChart.module.css';
 import { CHART_COLORS } from '../../theme/palettes';
+import {
+  CHART_MARGIN,
+  CHART_ANIMATION_DURATION,
+  CHART_STROKE_DASH,
+  CHART_BAR_RADIUS,
+  CHART_DEFAULT_HEIGHT,
+} from '../constants';
 
 export interface WaterfallDataPoint {
   name: string;
@@ -54,12 +61,13 @@ function CustomTooltip({ active, payload, label }: TooltipProps<number, string>)
 export function WaterfallChart({
   data,
   loading = false,
-  height = 300,
+  height,
   positiveColor = CHART_COLORS.success,
   negativeColor = CHART_COLORS.danger,
   totalColor = CHART_COLORS.primary,
   className = '',
 }: WaterfallChartProps) {
+  const chartHeight = height ?? CHART_DEFAULT_HEIGHT;
   // Transform data for waterfall effect
   const chartData = React.useMemo(() => {
     let cumulative = 0;
@@ -82,7 +90,7 @@ export function WaterfallChart({
 
   if (loading) {
     return (
-      <div className={`${styles.container} ${className}`} style={{ height }}>
+      <div className={`${styles.container} ${className}`} style={{ height: chartHeight }}>
         <div className={styles.skeleton}>
           <div className={styles.skeletonBar} />
           <div className={styles.skeletonBar} style={{ height: '60%' }} />
@@ -95,7 +103,7 @@ export function WaterfallChart({
 
   if (!data || data.length === 0) {
     return (
-      <div className={`${styles.container} ${styles.empty} ${className}`} style={{ height }}>
+      <div className={`${styles.container} ${styles.empty} ${className}`} style={{ height: chartHeight }}>
         <p className={styles.emptyText}>No data available</p>
       </div>
     );
@@ -103,17 +111,17 @@ export function WaterfallChart({
 
   return (
     <div className={`${styles.container} ${className}`}>
-      <ResponsiveContainer width="100%" height={height}>
-        <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--vl-chart-grid, #e5e7eb)" />
+      <ResponsiveContainer width="100%" height={chartHeight}>
+        <BarChart data={chartData} margin={CHART_MARGIN}>
+          <CartesianGrid strokeDasharray={CHART_STROKE_DASH} stroke="var(--vl-chart-grid)" />
           <XAxis
             dataKey="name"
-            stroke="var(--vl-chart-axis, #6b7280)"
-            style={{ fontSize: '12px' }}
+            stroke="var(--vl-chart-axis)"
+            style={{ fontSize: 'var(--font-xs)' }}
           />
-          <YAxis stroke="var(--vl-chart-axis, #6b7280)" style={{ fontSize: '12px' }} />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }} />
-          <Bar dataKey="value" radius={[8, 8, 0, 0]} animationDuration={800}>
+          <YAxis stroke="var(--vl-chart-axis)" style={{ fontSize: 'var(--font-xs)' }} />
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--vl-chart-cursor)' }} />
+          <Bar dataKey="value" radius={CHART_BAR_RADIUS} animationDuration={CHART_ANIMATION_DURATION}>
             {chartData.map((entry, index) => {
               let fillColor = totalColor;
               if (!entry.isTotal) {

@@ -1,3 +1,4 @@
+import { Car } from 'lucide-react';
 /**
  * Profile Header Component
  * Avatar, name, status, quick actions
@@ -8,6 +9,7 @@
 
 'use client';
 
+import { CheckCircle, Circle } from 'lucide-react';
 import React from 'react';
 import { Button } from '@vantage-lane/ui-core';
 import type { UserProfileData } from '../types';
@@ -85,7 +87,7 @@ export function ProfileHeader({
           {/* Vehicle info */}
           {profile.type === 'driver' && profile.vehicle && (
             <div className={styles.vehicleInfo}>
-              <span className={styles.vehicleIcon}>🚗</span>
+              <span className={styles.vehicleIcon}><Car size={18} strokeWidth={2} /></span>
               <div className={styles.vehicleDetails}>
                 <span className={styles.vehicleName}>
                   {profile.vehicle.make} {profile.vehicle.model}

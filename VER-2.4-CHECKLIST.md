@@ -7,10 +7,11 @@
 ## 📊 PROGRESS TRACKER
 
 ```yaml
-Overall Progress: 1/13 PASuri (8%)
-Last Updated: 2 November 2025, 12:54
+Overall Progress: 1/18 PASuri (5.5%)
+Last Updated: 2 November 2025, 15:11
 Current PAS: PAS 0 (SCAN AUTOMAT) ✅ 100% COMPLET
 Next PAS: PAS 1 (AUTH)
+Total Pages: 44 pages across all modules
 
 Status:
   ✅ PAS 0 - SCAN AUTOMAT (100% - COMPLET)
@@ -18,11 +19,16 @@ Status:
   ⏸️ PAS 2 - SIDEBAR + HEADER (0%)
   ⏸️ PAS 3 - DASHBOARD (0%)
   ⏸️ PAS 4 - ENTERPRISEDATATABLE (0%)
-  ⏸️ PAS 5 - BOOKINGS (0%)
-  ⏸️ PAS 6 - PAYMENTS (0%)
-  ⏸️ PAS 7 - USERS (0%)
-  ⏸️ PAS 8 - SETTINGS (0%)
-  ⏸️ PAS 9 - MONITORING (0%)
+  ⏸️ PAS 5 - BOOKINGS + Subpages (0%) [5 pages]
+  ⏸️ PAS 5.1 - DOCUMENTS (0%) [1 page]
+  ⏸️ PAS 5.2 - NOTIFICATIONS (0%) [1 page]
+  ⏸️ PAS 5.3 - SUPPORT TICKETS (0%) [2 pages]
+  ⏸️ PAS 6 - PAYMENTS + All Subpages (0%) [8 pages]
+  ⏸️ PAS 7 - USERS + All Types (0%) [10 pages]
+  ⏸️ PAS 8 - SETTINGS + All Subpages (0%) [10 pages]
+  ⏸️ PAS 8.1 - PRICES + History (0%) [2 pages]
+  ⏸️ PAS 8.2 - OPERATOR Pages (0%) [2 pages]
+  ⏸️ PAS 9 - MONITORING / HEALTH / AUDIT (0%) [3 pages]
   ⏸️ PAS 10 - SECURITY & ACCESSIBILITY (0%)
   ⏸️ PAS 11 - COST CONTROL (0%)
   ⏸️ PAS 12 - CLEANUP FINAL (0%)
@@ -178,7 +184,10 @@ Status:
 
 ---
 
-## ✅ PAS 5 — BOOKINGS
+## ✅ PAS 5 — BOOKINGS (Main + Subpages)
+
+**Pages:** /bookings, /bookings/active, /bookings/past, /bookings/new, /bookings/[id]
+
 - [ ] EnterpriseDataTable
 - [ ] useBookingsList hook
 - [ ] pagination cu limit/offset
@@ -188,16 +197,83 @@ Status:
 - [ ] responsive
 - [ ] skeleton + errors
 - [ ] ARIA
+- [ ] Subpages: Active, Past, New tabs
+- [ ] Booking details page ([id])
 
 **Testing:**
 - [ ] unit: formatters bookings
 - [ ] integration: useBookingsList returnează date corecte + pagination
 - [ ] E2E: flow select booking + open detalii
+- [ ] E2E: navigate between Active/Past/New tabs
 
 ---
 
-## ✅ PAS 6 — PAYMENTS
-- [ ] tabel unic
+## ✅ PAS 5.1 — DOCUMENTS PAGE
+
+**Page:** /documents
+
+- [ ] Document upload component
+- [ ] Document approval workflow
+- [ ] useDocuments hook
+- [ ] File preview (PDF, images)
+- [ ] Status badges (pending, approved, rejected)
+- [ ] zero duplicate
+- [ ] responsive
+- [ ] skeleton + errors
+
+**Testing:**
+- [ ] unit: document validation
+- [ ] integration: useDocuments returns correct data
+- [ ] E2E: upload document + approval flow
+
+---
+
+## ✅ PAS 5.2 — NOTIFICATIONS PAGE
+
+**Page:** /notifications
+
+- [ ] Notifications list component
+- [ ] Mark as read/unread
+- [ ] Filter by type (info, warning, error)
+- [ ] useNotifications hook
+- [ ] Real-time updates (if applicable)
+- [ ] zero duplicate
+- [ ] responsive
+- [ ] skeleton + errors
+
+**Testing:**
+- [ ] unit: notification formatters
+- [ ] integration: useNotifications hook
+- [ ] E2E: mark notification as read
+
+---
+
+## ✅ PAS 5.3 — SUPPORT TICKETS
+
+**Pages:** /support-tickets, /support-tickets/[id]
+
+- [ ] Tickets list (EnterpriseDataTable)
+- [ ] Ticket details page
+- [ ] Status workflow (open, in_progress, resolved, closed)
+- [ ] useTickets hook
+- [ ] Priority badges
+- [ ] Comments/replies component
+- [ ] zero duplicate
+- [ ] responsive
+- [ ] skeleton + errors
+
+**Testing:**
+- [ ] unit: ticket validation
+- [ ] integration: useTickets hook
+- [ ] E2E: create ticket + add comment + resolve
+
+---
+
+## ✅ PAS 6 — PAYMENTS (Main + All Subpages)
+
+**Pages:** /payments, /payments/transactions, /payments/refunds, /payments/disputes, /refunds, /disputes, /invoices, /payouts
+
+- [ ] tabel unic pentru toate payment types
 - [ ] AmountRangeFilter + DateRangeFilter
 - [ ] formatters currency
 - [ ] zero duplicate celule
@@ -205,16 +281,27 @@ Status:
 - [ ] no re-fetch la re-render
 - [ ] responsive
 - [ ] skeleton + error state
+- [ ] Transactions subpage
+- [ ] Refunds subpage (+ standalone /refunds)
+- [ ] Disputes subpage (+ standalone /disputes)
+- [ ] Invoices page
+- [ ] Payouts page
 
 **Testing:**
 - [ ] unit: formatCurrency
 - [ ] integration: usePaymentsList (pagination, status, filtering)
+- [ ] integration: useRefunds, useDisputes, useInvoices, usePayouts
 - [ ] visual regression tabel
 - [ ] E2E: export payments → file generat
+- [ ] E2E: process refund flow
+- [ ] E2E: dispute resolution flow
 
 ---
 
-## ✅ PAS 7 — USERS
+## ✅ PAS 7 — USERS (All Types + Subpages)
+
+**Pages:** /users, /users/all, /users/admins, /users/drivers, /users/drivers/pending, /users/drivers/[id]/verify, /users/customers, /users/operators, /users/corporate, /users/[id]
+
 - [ ] useUsersList hook unic
 - [ ] Card user reutilizabil
 - [ ] Badge rol unic
@@ -223,25 +310,93 @@ Status:
 - [ ] responsive
 - [ ] fără any
 - [ ] loading + error states
+- [ ] All users page (/users, /users/all)
+- [ ] Admins page (/users/admins)
+- [ ] Drivers page (/users/drivers)
+- [ ] Drivers Pending page (/users/drivers/pending)
+- [ ] Driver Verification page (/users/drivers/[id]/verify)
+- [ ] Customers page (/users/customers)
+- [ ] Operators page (/users/operators)
+- [ ] Corporate users page (/users/corporate)
+- [ ] User Profile page (/users/[id])
 
 **Testing:**
 - [ ] unit: Badge rol
-- [ ] integration: useUsersList
+- [ ] integration: useUsersList (all types)
+- [ ] integration: driver verification workflow
 - [ ] E2E: search users + open profile
+- [ ] E2E: verify driver (approve/reject)
+- [ ] E2E: filter by user type
 
 ---
 
-## ✅ PAS 8 — SETTINGS
+## ✅ PAS 8 — SETTINGS (All Subpages)
+
+**Pages:** /settings, /settings/profile, /settings/vehicle-categories, /settings/commissions, /settings/permissions, /settings/roles, /settings/notifications, /settings/security, /settings/legal, /settings/webhooks
+
 - [ ] formulare folosesc ui-core
 - [ ] validare Zod
 - [ ] tokens 100%
 - [ ] fără logică în UI
 - [ ] responsive
+- [ ] Profile settings page
+- [ ] Vehicle Categories page
+- [ ] Commissions page
+- [ ] Permissions page
+- [ ] Roles page
+- [ ] Notifications settings page
+- [ ] Security settings page
+- [ ] Legal settings page
+- [ ] Webhooks page
 
 **Testing:**
-- [ ] unit: Zod schemas
+- [ ] unit: Zod schemas (all settings)
 - [ ] integration: submit formular actualizează corespunzător
 - [ ] E2E: admin schimbă preț, se vede în tabel
+- [ ] E2E: update permissions + verify access
+- [ ] E2E: configure webhook + test
+
+---
+
+## ✅ PAS 8.1 — PRICES (Main + History)
+
+**Pages:** /prices, /prices/history
+
+- [ ] Prices management page
+- [ ] Price history page
+- [ ] Price configuration forms
+- [ ] usePrices hook
+- [ ] formatters pentru prețuri
+- [ ] validare Zod
+- [ ] tokens 100%
+- [ ] responsive
+- [ ] skeleton + errors
+
+**Testing:**
+- [ ] unit: price validation schemas
+- [ ] integration: usePrices hook
+- [ ] E2E: update price + view in history
+
+---
+
+## ✅ PAS 8.2 — OPERATOR PAGES
+
+**Pages:** /operator/dashboard, /operator/drivers
+
+- [ ] Operator Dashboard page
+- [ ] Operator Drivers list page
+- [ ] useOperatorDashboard hook
+- [ ] useOperatorDrivers hook
+- [ ] Operator-specific metrics
+- [ ] Driver assignment workflows
+- [ ] tokens 100%
+- [ ] responsive
+- [ ] skeleton + errors
+
+**Testing:**
+- [ ] unit: operator metrics formatters
+- [ ] integration: useOperatorDashboard hook
+- [ ] E2E: operator assigns driver to booking
 
 ---
 

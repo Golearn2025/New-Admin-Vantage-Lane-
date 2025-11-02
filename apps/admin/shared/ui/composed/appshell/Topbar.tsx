@@ -12,10 +12,10 @@ import Image from 'next/image';
 import { Icon } from '@vantage-lane/ui-icons';
 import { NotificationBell } from '@vantage-lane/ui-core';
 import { BrandName } from '@admin-shared/ui/composed/BrandName';
-import { signOutAction } from '@admin-shared/api/auth/actions';
 import { useNotifications } from '@admin-shared/hooks/useNotifications';
 import { TopbarProps } from './types';
 import { useTopbarActions, useUserInitials } from './hooks';
+import { UserDropdown } from './UserDropdown';
 import styles from './Topbar.module.css';
 
 export function Topbar({
@@ -119,24 +119,11 @@ export function Topbar({
             />
           </button>
 
-          {/* User dropdown - REUTILIZABIL */}
-          {isUserDropdownOpen && (
-            <div className={styles.userDropdown} role="menu" aria-hidden="false">
-              <a
-                href="/settings/profile"
-                className={styles.dropdownItem}
-                role="menuitem"
-                onClick={handleUserMenuClose}
-              >
-                Profile Settings
-              </a>
-              <form action={signOutAction} className={styles.logoutForm}>
-                <button type="submit" className={styles.dropdownItem} role="menuitem">
-                  Sign Out
-                </button>
-              </form>
-            </div>
-          )}
+          {/* User dropdown component */}
+          <UserDropdown 
+            isOpen={isUserDropdownOpen} 
+            onClose={handleUserMenuClose}
+          />
         </div>
       </div>
     </header>

@@ -1,0 +1,74 @@
+/**
+ * UserDropdown Component
+ * 
+ * Reusable dropdown menu for user actions (Profile, Settings, Logout).
+ * Presentational component - ZERO business logic.
+ * All logic in useUserDropdown hook.
+ */
+
+'use client';
+
+import React from 'react';
+import { Settings, User, LogOut } from 'lucide-react';
+import { signOutAction } from '@admin-shared/api/auth/actions';
+import { useUserDropdown } from './hooks/useUserDropdown';
+import styles from './UserDropdown.module.css';
+
+export interface UserDropdownProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onNavigate?: (path: string) => void;
+}
+
+export function UserDropdown({ isOpen, onClose, onNavigate }: UserDropdownProps) {
+  const { menuItems, handleItemClick } = useUserDropdown({ 
+    onClose, 
+    ...(onNavigate && { onNavigate }) 
+  });
+
+  if (!isOpen) return null;
+
+  return (
+    <div 
+      className={styles.dropdown} 
+      role="menu" 
+      aria-label="User menu"
+    >
+      {menuItems.map((item) => {
+        if (item.type === 'link') {
+          return (
+            <a
+              key={item.id}
+              href={item.href}
+              className={styles.dropdownItem}
+              role="menuitem"
+              onClick={(e) => handleItemClick(e, item.id)}
+              aria-label={item.label}
+            >
+              {item.icon}
+              <span>{item.label}</span>
+            </a>
+          );
+        }
+
+        if (item.type === 'action') {
+          return (
+            <form key={item.id} action={signOutAction} className={styles.actionForm}>
+              <button 
+                type="submit" 
+                className={styles.dropdownItem} 
+                role="menuitem"
+                aria-label={item.label}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </button>
+            </form>
+          );
+        }
+
+        return null;
+      })}
+    </div>
+  );
+}

@@ -239,63 +239,7 @@
   transform: rotate(180deg);
 }
 
-/* User Dropdown - REUTILIZABIL */
-.userDropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: var(--spacing-2);
-  background: var(--color-surface-elevated);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
-  min-width: 200px;
-  z-index: 1000;
-  /* display controlled by React state - REUTILIZABIL */
-}
-
-.logoutForm {
-  margin: 0;
-}
-
-.dropdownItem {
-  display: block;
-  padding: var(--spacing-3) var(--spacing-4);
-  color: var(--color-text-primary);
-  text-decoration: none;
-  font-size: var(--font-sm);
-  /* Button specific styles */
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  transition: var(--motion-hover);
-  position: relative;
-}
-
-.dropdownItem:hover {
-  background: var(--theme-primary-alpha-10);
-  color: var(--theme-primary);
-  padding-left: calc(var(--spacing-4) + 4px);
-}
-
-.dropdownItem:hover::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--theme-gradient);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-
-.dropdownItem:focus-visible {
-  outline: 2px solid var(--theme-primary);
-  outline-offset: -2px;
-  box-shadow: var(--theme-shadow-focus);
-}
+/* User dropdown styles moved to UserDropdown.module.css */
 
 /* Mobile Responsive */
 /* iPhone SE / Small mobile (320px-374px) */

@@ -1,0 +1,86 @@
+/**
+ * UserDropdown Styles
+ * 
+ * 100% design tokens - ZERO hardcoded values
+ * ZERO media queries - responsive via utilities.css
+ */
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--spacing-2);
+  background: var(--color-bg-surface-highest);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  min-width: var(--dropdown-min-width);
+  z-index: var(--z-dropdown);
+  overflow: hidden;
+}
+
+.actionForm {
+  margin: 0;
+  padding: 0;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3) var(--spacing-4);
+  color: var(--color-fg-default);
+  text-decoration: none;
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  background: var(--color-bg-surface-highest);
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  min-height: var(--touch-target-min);
+  transition: all var(--motion-hover);
+  position: relative;
+}
+
+.dropdownItem svg {
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
+  flex-shrink: 0;
+}
+
+.dropdownItem:hover {
+  background: var(--color-bg-surface-hover);
+  color: var(--color-text-primary);
+  outline: var(--border-width-default) solid var(--color-border-focus);
+  outline-offset: calc(-1 * var(--border-width-default));
+}
+
+.dropdownItem:focus-visible {
+  outline: var(--border-width-default) solid var(--color-border-focus);
+  outline-offset: calc(-1 * var(--border-width-default));
+  background: var(--color-bg-surface-hover);
+}
+
+/* Ensure proper stacking */
+.dropdown {
+  animation: slideDown var(--motion-duration-normal) ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--spacing-2)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .dropdown {
+    animation: none;
+  }
+}

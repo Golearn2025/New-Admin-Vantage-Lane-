@@ -1,12 +1,12 @@
+'use client';
+
 import { Hourglass, Car } from 'lucide-react';
+import React from 'react';
+
 /**
  * Automated Notifications Tab
  * Configure automated notification rules
  */
-
-'use client';
-
-import React from 'react';
 import styles from './AutomatedNotificationsTab.module.css';
 
 export function AutomatedNotificationsTab() {

@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * useColumnResize Hook
  * Modular column resizing with mouse

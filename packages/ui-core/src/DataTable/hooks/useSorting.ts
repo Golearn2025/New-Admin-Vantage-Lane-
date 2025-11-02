@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * useSorting Hook
  * Modular sorting state management

@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * usePagination Hook
  * Modular pagination state management

@@ -1,11 +1,12 @@
+'use client';
+
 import { User, CheckCircle, XCircle, Car } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+
 /**
  * Send Notifications Tab
  * Send notifications to users or groups
  */
-
-'use client';
-import React, { useState, useEffect } from 'react';
 import { Button, Input } from '@vantage-lane/ui-core';
 import {
   sendNotificationToAllAdmins,

@@ -50,3 +50,18 @@ pids
 *.seed
 *.pid.lock
 *.bak*
+
+# Scan and test result files (PAS 0)
+*-tests-*.txt
+*-test-*.txt
+all-tests-*.txt
+bookings-test-*.txt
+dead.txt
+circular*.txt
+lint.txt
+deps.txt
+typescript.txt
+files-with-hooks.txt
+missing-use-client.txt
+test-results.txt
+tests.txt

@@ -24,6 +24,32 @@
   margin-bottom: var(--spacing-4); /* Reduced from spacing-6 */
 }
 
+.passwordFieldWrapper {
+  position: relative;
+}
+
+.passwordToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-1);
+  display: flex;
+  align-items: center;
+  color: var(--color-text-secondary);
+  transition: var(--motion-hover);
+  border-radius: var(--radius-sm);
+}
+
+.passwordToggle:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-hover);
+}
+
+.passwordToggle:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
 .submitButton {
   width: 100%;
   margin-bottom: var(--spacing-4);

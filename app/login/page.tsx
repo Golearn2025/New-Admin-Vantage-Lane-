@@ -127,7 +127,7 @@ export default function LoginPage() {
                 disabled={isFormDisabled}
               />
 
-              <div style={{ position: 'relative' }}>
+              <div className={styles['passwordFieldWrapper']}>
                 <FormRow
                   id="password"
                   name="password"
@@ -143,15 +143,7 @@ export default function LoginPage() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        padding: '4px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        color: 'var(--color-text-secondary)',
-                      }}
+                      className={styles['passwordToggle']}
                       aria-label={showPassword ? 'Hide password' : 'Show password'}
                     >
                       {showPassword ? '🙈' : '👁️'}

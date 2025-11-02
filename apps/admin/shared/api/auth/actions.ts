@@ -137,3 +137,27 @@ export async function getCurrentUser() {
     name: session.user.user_metadata?.name,
   };
 }
+
+/**
+ * Send password reset email
+ * @param email - User email address
+ * @returns Success/error result
+ */
+export async function resetPasswordForEmail(email: string) {
+  const supabase = supaServer(cookies());
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/reset-password`,
+  });
+
+  if (error) {
+    return {
+      ok: false,
+      error: error.message,
+    };
+  }
+
+  return {
+    ok: true,
+  };
+}

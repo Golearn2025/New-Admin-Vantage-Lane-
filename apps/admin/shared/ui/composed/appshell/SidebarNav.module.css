@@ -1,7 +1,7 @@
 /* SidebarNav Styles - Dark Premium Sidebar */
 
 .sidebar {
-  width: 240px;
+  width: var(--sidebar-width);
   height: 100vh;
   background: var(--color-bg-secondary);
   border-right: 1px solid var(--color-border-default);
@@ -115,7 +115,7 @@
 
 /* Collapsed State - Shrink sidebar */
 .sidebar.collapsed {
-  width: 70px;
+  width: var(--sidebar-collapsed-width);
   transition: width var(--motion-base);
 }
 

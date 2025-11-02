@@ -1,7 +1,14 @@
 /* Topbar Styles - Application Header */
 
+/* Sidebar width variables */
+:root {
+  --sidebar-width: 240px;
+  --sidebar-collapsed-width: 70px;
+  --topbar-height: 60px;
+}
+
 .topbar {
-  height: 60px;
+  height: var(--topbar-height);
   background: var(--color-bg-secondary);
   border-bottom: 1px solid var(--color-border-default);
   display: flex;
@@ -10,7 +17,7 @@
   gap: var(--spacing-4);
   position: fixed;
   top: 0;
-  left: 240px; /* Desktop: după sidebar */
+  left: var(--sidebar-width); /* Desktop: după sidebar */
   right: 0;
   z-index: 50;
   transition: left var(--motion-base);
@@ -18,7 +25,7 @@
 
 /* Topbar când sidebar e collapsed */
 .topbarCollapsed {
-  left: 70px !important;
+  left: var(--sidebar-collapsed-width) !important;
 }
 
 /* Premium Topbar with theme tint */
@@ -245,6 +252,10 @@
   min-width: 200px;
   z-index: 1000;
   /* display controlled by React state - REUTILIZABIL */
+}
+
+.logoutForm {
+  margin: 0;
 }
 
 .dropdownItem {

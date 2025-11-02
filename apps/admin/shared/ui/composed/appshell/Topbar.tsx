@@ -164,7 +164,7 @@ export function Topbar({
               >
                 Profile Settings
               </a>
-              <form action={signOutAction} style={{ margin: 0 }}>
+              <form action={signOutAction} className={styles.logoutForm}>
                 <button type="submit" className={styles.dropdownItem} role="menuitem">
                   Sign Out
                 </button>

@@ -10,10 +10,10 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 240px;
+  margin-left: var(--sidebar-width);
   /* Desktop: space pentru sidebar */
-  width: calc(100% - 240px); /* ✅ Lățime exactă: ecran minus sidebar */
-  max-width: calc(100% - 240px); /* ✅ NU depășește niciodată */
+  width: calc(100% - var(--sidebar-width)); /* ✅ Lățime exactă: ecran minus sidebar */
+  max-width: calc(100% - var(--sidebar-width)); /* ✅ NU depășește niciodată */
   position: relative;
   z-index: 10;
   /* Above all background layers */
@@ -25,18 +25,18 @@
 
 /* Main Area când sidebar e collapsed */
 .mainAreaCollapsed {
-  margin-left: 70px !important;
-  width: calc(100% - 70px) !important; /* ✅ Mai mult spațiu când sidebar e collapsed */
-  max-width: calc(100% - 70px) !important;
+  margin-left: var(--sidebar-collapsed-width) !important;
+  width: calc(100% - var(--sidebar-collapsed-width)) !important; /* ✅ Mai mult spațiu când sidebar e collapsed */
+  max-width: calc(100% - var(--sidebar-collapsed-width)) !important;
 }
 
 /* Page Content */
 .pageContent {
   flex: 1;
   padding: 0; /* ✅ FĂRĂ padding - fiecare pagină își controlează propriul padding! */
-  margin-top: 60px;
+  margin-top: var(--topbar-height);
   /* Space pentru topbar */
-  min-height: calc(100vh - 60px);
+  min-height: calc(100vh - var(--topbar-height));
   overflow-x: hidden; /* ✅ NU permite scroll orizontal */
 }
 

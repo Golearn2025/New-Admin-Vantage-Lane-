@@ -5,6 +5,8 @@
  * Folosește menu-config pentru definițiile de navigație.
  */
 
+'use client';
+
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Icon } from '@vantage-lane/ui-icons';

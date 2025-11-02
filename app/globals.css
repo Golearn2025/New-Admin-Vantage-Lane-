@@ -138,6 +138,27 @@
   --touch-target-comfortable: 48px;
   --tap-area-small: 36px;
 
+  /* Component Sizes */
+  --size-logo: 48px;
+  --size-logo-mobile: 36px;
+  --size-avatar-sm: 32px;
+  --size-avatar-md: 36px;
+  --size-avatar-lg: 48px;
+  --size-icon-sm: 14px;
+  --size-icon-md: 20px;
+  --size-icon-lg: 24px;
+
+  /* Border Widths */
+  --border-width-thin: 1px;
+  --border-width-default: 2px;
+  --border-width-thick: 4px;
+
+  /* Spacing & Offsets */
+  --outline-offset-default: 2px;
+  --skip-link-offset: -40px;
+  --text-max-width-sm: 150px;
+  --letter-spacing-wide: 0.5px;
+
   /* Border Radius */
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -285,8 +306,8 @@ body {
 
 /* Focus styles for accessibility */
 *:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
+  outline: var(--border-width-default) solid var(--color-border-focus);
+  outline-offset: var(--outline-offset-default);
 }
 
 /* Remove default button styles */

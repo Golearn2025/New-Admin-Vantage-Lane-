@@ -188,3 +188,73 @@
 .flex-shrink-1 {
   flex-shrink: 1;
 }
+
+/* ============================================ */
+/* APPSHELL RESPONSIVE UTILITIES                */
+/* ============================================ */
+
+/* Desktop Sidebar - hidden on mobile */
+.sidebar-desktop-only {
+  display: block;
+}
+
+/* Mobile menu button - hidden on desktop */
+.menu-button-mobile {
+  display: none;
+}
+
+.mobile-logo {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar-desktop-only {
+    display: none;
+  }
+  
+  .menu-button-mobile {
+    display: flex;
+  }
+  
+  .mobile-logo {
+    display: flex;
+  }
+}
+
+/* Topbar responsive adjustments */
+@media (max-width: 374px) {
+  .user-info-mobile-hidden {
+    display: none;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 480px) {
+  .user-info-compact {
+    max-width: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .topbar-mobile-compact {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .no-backdrop-filter-motion {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  .no-transition {
+    transition: none !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .high-contrast-border {
+    border-width: 2px !important;
+  }
+}

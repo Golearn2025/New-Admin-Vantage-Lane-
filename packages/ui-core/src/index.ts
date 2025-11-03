@@ -9,6 +9,7 @@ export * from './Button';
 export * from './Input';
 export * from './Card';
 export * from './Checkbox';
+export * from './Select';
 export * from './ThemeSwitcher';
 export * from './LoginForm';
 export * from './Icon';

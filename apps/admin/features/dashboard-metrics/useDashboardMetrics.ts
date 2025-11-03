@@ -96,9 +96,6 @@ export function useDashboardMetrics(
     // Don't refetch on window focus (prevents excessive calls)
     revalidateOnFocus: false,
 
-    // Don't refetch if stale
-    revalidateIfStale: false,
-
     // Don't refetch on reconnect
     revalidateOnReconnect: false,
 

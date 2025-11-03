@@ -1,9 +1,9 @@
 /**
  * Dashboard Charts Hook
- * 
+ *
  * Handles chart data fetching with caching and spam protection.
  * SWR-based with 60s cache, deduping, and memoized transformations.
- * 
+ *
  * Ver 2.4 - PAS 3
  */
 
@@ -58,7 +58,7 @@ export interface UseDashboardChartsReturn {
 
 /**
  * Hook for fetching and transforming dashboard charts data
- * 
+ *
  * Features:
  * - 60s cache with SWR
  * - Automatic deduplication (60s window)
@@ -66,17 +66,16 @@ export interface UseDashboardChartsReturn {
  * - Memoized transformations
  */
 export function useDashboardCharts(apiParams: URLSearchParams): UseDashboardChartsReturn {
-  const { data: charts, isLoading, error } = useSWR<RawChartsData>(
-    `/api/dashboard/charts?${apiParams}`,
-    fetcher,
-    {
-      refreshInterval: 5 * 60 * 1000, // 5 min auto-refresh
-      dedupingInterval: 60 * 1000, // 60s deduplication
-      revalidateOnFocus: false,
-      revalidateIfStale: false,
-      revalidateOnReconnect: false,
-    }
-  );
+  const {
+    data: charts,
+    isLoading,
+    error,
+  } = useSWR<RawChartsData>(`/api/dashboard/charts?${apiParams}`, fetcher, {
+    refreshInterval: 5 * 60 * 1000, // 5 min auto-refresh
+    dedupingInterval: 60 * 1000, // 60s deduplication
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
 
   // Convert pence to pounds for display - memoized
   const convertedCharts = useMemo<ConvertedChartsData | null>(() => {

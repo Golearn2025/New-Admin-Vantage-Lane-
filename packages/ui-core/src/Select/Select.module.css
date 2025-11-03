@@ -1,0 +1,161 @@
+/**
+ * Select Component Styles
+ * 100% design tokens, no hardcoded values
+ */
+
+/* Container */
+.container {
+  position: relative;
+  display: inline-block;
+  min-width: var(--spacing-32);
+}
+
+.container.fullWidth {
+  width: 100%;
+}
+
+.container.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Trigger Button */
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.trigger:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-default);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--theme-primary);
+  outline-offset: var(--spacing-1);
+}
+
+.trigger:disabled {
+  cursor: not-allowed;
+}
+
+.triggerOpen {
+  border-color: var(--theme-primary);
+  box-shadow: 0 0 0 3px var(--theme-primary-alpha-10);
+}
+
+/* Value Text */
+.value {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Arrow Icon */
+.arrow {
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.triggerOpen .arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown List */
+.dropdown {
+  position: absolute;
+  top: calc(100% + var(--spacing-1));
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  max-height: var(--spacing-64);
+  overflow-y: auto;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-1);
+  list-style: none;
+  margin: 0;
+}
+
+/* Option Item */
+.option {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+  background: transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option:hover:not(.optionDisabled) {
+  background: var(--color-surface-hover);
+}
+
+.optionFocused:not(.optionDisabled) {
+  background: var(--color-surface-hover);
+}
+
+.optionSelected {
+  background: var(--theme-primary-alpha-10);
+  color: var(--theme-primary);
+  font-weight: var(--font-semibold);
+}
+
+.optionDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: var(--breakpoint-sm, 640px)) {
+  .dropdown {
+    max-height: var(--spacing-48);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .trigger,
+  .arrow,
+  .option {
+    transition: none;
+  }
+}
+
+/* Forced Colors Mode */
+@media (forced-colors: active) {
+  .trigger,
+  .dropdown,
+  .option {
+    border: 1px solid CanvasText;
+  }
+
+  .optionSelected {
+    background: Highlight;
+    color: HighlightText;
+  }
+}

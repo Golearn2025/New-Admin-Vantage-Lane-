@@ -37,20 +37,18 @@
   margin: var(--spacing-1) 0 0 0;
 }
 
-/* Filters - Horizontal Scroll */
+/* Filters - No overflow to allow dropdown/calendar to escape */
 .filtersContainer {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: var(--spacing-3);
-  overflow-x: auto;
-  overflow-y: visible;
+  overflow: visible;
+  position: relative;
   padding: var(--spacing-4);
   background: var(--color-bg-secondary);
   border-radius: var(--radius-lg);
   margin-bottom: var(--spacing-6);
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
   align-items: center;
 }
 

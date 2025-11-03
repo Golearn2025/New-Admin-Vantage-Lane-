@@ -8,6 +8,7 @@
 'use client';
 
 import React from 'react';
+import { Lock, Shield, Monitor, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 import { ProfileSection } from '@vantage-lane/ui-core';
 import { SaveButton } from '@vantage-lane/ui-core';
 import type { AdminProfile } from '../hooks/useProfileData';
@@ -15,16 +16,17 @@ import styles from './SecurityTab.module.css';
 
 interface SecurityTabProps {
   profile: AdminProfile;
+  onChangePassword: () => void;
+  onEnable2FA: () => void;
+  onDeleteAccount: () => void;
 }
 
-export function SecurityTab({ profile }: SecurityTabProps) {
-  const handleChangePassword = () => {
-    // TODO: Implement password change
-  };
-
-  const handleEnable2FA = () => {
-    // TODO: Implement 2FA enable
-  };
+export function SecurityTab({ 
+  profile, 
+  onChangePassword, 
+  onEnable2FA, 
+  onDeleteAccount 
+}: SecurityTabProps) {
 
   return (
     <>
@@ -42,7 +44,7 @@ export function SecurityTab({ profile }: SecurityTabProps) {
               with at least 12 characters.
             </p>
           </div>
-          <SaveButton onClick={handleChangePassword} variant="secondary">
+          <SaveButton onClick={onChangePassword} variant="secondary">
             Change Password
           </SaveButton>
         </div>
@@ -59,13 +61,17 @@ export function SecurityTab({ profile }: SecurityTabProps) {
             <p className={styles.securityDesc}>
               {profile.two_factor_enabled ? (
                 <>
-                  <span className={styles.enabled}>✅ Enabled</span>
+                  <span className={styles.enabled}>
+                    <CheckCircle size={16} /> Enabled
+                  </span>
                   <br />
                   Two-factor authentication is active on your account.
                 </>
               ) : (
                 <>
-                  <span className={styles.disabled}>❌ Disabled</span>
+                  <span className={styles.disabled}>
+                    <XCircle size={16} /> Disabled
+                  </span>
                   <br />
                   Enable 2FA to protect your account with an additional verification step.
                 </>
@@ -73,7 +79,7 @@ export function SecurityTab({ profile }: SecurityTabProps) {
             </p>
           </div>
           {!profile.two_factor_enabled && (
-            <SaveButton onClick={handleEnable2FA} variant="primary">
+            <SaveButton onClick={onEnable2FA} variant="primary">
               Enable 2FA
             </SaveButton>
           )}
@@ -86,7 +92,9 @@ export function SecurityTab({ profile }: SecurityTabProps) {
         description="Manage your active login sessions"
       >
         <div className={styles.sessionCard}>
-          <div className={styles.sessionIcon}>🖥️</div>
+          <div className={styles.sessionIcon}>
+            <Monitor size={24} strokeWidth={2} />
+          </div>
           <div className={styles.sessionContent}>
             <h4 className={styles.sessionTitle}>Current Session</h4>
             <p className={styles.sessionInfo}>
@@ -110,9 +118,7 @@ export function SecurityTab({ profile }: SecurityTabProps) {
             </p>
           </div>
           <SaveButton
-            onClick={() => {
-              /* TODO: Implement delete account */
-            }}
+            onClick={onDeleteAccount}
             variant="secondary"
           >
             Delete Account

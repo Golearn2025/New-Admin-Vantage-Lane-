@@ -8,9 +8,10 @@
  */
 
 import React from 'react';
-import { CheckCircle, Clock } from 'lucide-react';
+import { CheckCircle, Clock, Shield, Building2 } from 'lucide-react';
 import { ProfileSection } from '@vantage-lane/ui-core';
 import type { AdminProfile } from '../hooks/useProfileData';
+import { formatDate, formatDateTime, getRoleLabel } from '../utils/formatters';
 import styles from './AccountTab.module.css';
 
 interface AccountTabProps {
@@ -18,35 +19,8 @@ interface AccountTabProps {
 }
 
 export function AccountTab({ profile }: AccountTabProps) {
-  const getRoleBadge = () => {
-    switch (profile.role) {
-      case 'admin':
-        return <span className={styles.badgeAdmin}>⭐ Administrator</span>;
-      case 'support':
-        return <span className={styles.badgeSupport}>🎧 Support</span>;
-      default:
-        return <span>{profile.role}</span>;
-    }
-  };
-
-  const formatDate = (date: string | null) => {
-    if (!date) return 'Never';
-    return new Date(date).toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    });
-  };
-
-  const formatDateTime = (date: string | null) => {
-    if (!date) return 'Never';
-    return new Date(date).toLocaleString('en-GB', {
-      day: 'numeric',
-      month: 'short',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
+  const roleBadgeClass = profile.role === 'admin' ? styles.badgeAdmin : styles.badgeSupport;
+  const roleLabel = getRoleLabel(profile.role);
 
   return (
     <>
@@ -58,10 +32,12 @@ export function AccountTab({ profile }: AccountTabProps) {
       >
         <div className={styles.infoGrid}>
           <div className={styles.infoCard}>
-            <div className={styles.infoIcon}>🎭</div>
+            <div className={styles.infoIcon}>
+              <Shield size={18} strokeWidth={2} />
+            </div>
             <div className={styles.infoContent}>
               <span className={styles.infoLabel}>Role</span>
-              {getRoleBadge()}
+              <span className={roleBadgeClass}>{roleLabel}</span>
             </div>
           </div>
 
@@ -76,7 +52,9 @@ export function AccountTab({ profile }: AccountTabProps) {
           </div>
 
           <div className={styles.infoCard}>
-            <div className={styles.infoIcon}>📅</div>
+            <div className={styles.infoIcon}>
+              <Clock size={18} strokeWidth={2} />
+            </div>
             <div className={styles.infoContent}>
               <span className={styles.infoLabel}>Member Since</span>
               <span className={styles.infoValue}>{formatDate(profile.created_at)}</span>
@@ -95,7 +73,9 @@ export function AccountTab({ profile }: AccountTabProps) {
 
       <ProfileSection title="Organization" icon="🏢" description="Your assigned organization">
         <div className={styles.orgCard}>
-          <div className={styles.orgIcon}>🏬</div>
+          <div className={styles.orgIcon}>
+            <Building2 size={24} strokeWidth={2} />
+          </div>
           <div className={styles.orgContent}>
             <span className={styles.orgLabel}>Default Operator</span>
             <span className={styles.orgValue}>

@@ -80,6 +80,15 @@
   flex-direction: column;
 }
 
+/* Fix SidebarNav inside Drawer - reset position */
+.drawerContent nav {
+  position: static !important;
+  display: flex !important;
+  width: 100%;
+  height: 100%;
+  border-right: none;
+}
+
 /* Scrollbar pentru drawer */
 .drawerContent::-webkit-scrollbar {
   width: 4px;

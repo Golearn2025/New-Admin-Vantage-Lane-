@@ -10,7 +10,6 @@
 
 import React from 'react';
 import { Settings, User, LogOut } from 'lucide-react';
-import { signOutAction } from '@admin-shared/api/auth/actions';
 import { useUserDropdown } from './hooks/useUserDropdown';
 import styles from './UserDropdown.module.css';
 
@@ -21,7 +20,7 @@ export interface UserDropdownProps {
 }
 
 export function UserDropdown({ isOpen, onClose, onNavigate }: UserDropdownProps) {
-  const { menuItems, handleItemClick } = useUserDropdown({ 
+  const { menuItems, handleLinkClick, handleLogout, isLoggingOut } = useUserDropdown({ 
     onClose, 
     ...(onNavigate && { onNavigate }) 
   });
@@ -40,9 +39,10 @@ export function UserDropdown({ isOpen, onClose, onNavigate }: UserDropdownProps)
             <a
               key={item.id}
               href={item.href}
+              data-id={item.id}
               className={styles.dropdownItem}
               role="menuitem"
-              onClick={(e) => handleItemClick(e, item.id)}
+              onClick={handleLinkClick}
               aria-label={item.label}
             >
               {item.icon}
@@ -53,17 +53,18 @@ export function UserDropdown({ isOpen, onClose, onNavigate }: UserDropdownProps)
 
         if (item.type === 'action') {
           return (
-            <form key={item.id} action={signOutAction} className={styles.actionForm}>
-              <button 
-                type="submit" 
-                className={styles.dropdownItem} 
-                role="menuitem"
-                aria-label={item.label}
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </button>
-            </form>
+            <button
+              key={item.id}
+              type="button"
+              className={styles.dropdownItem}
+              role="menuitem"
+              aria-label={item.label}
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+            >
+              {item.icon}
+              <span>{isLoggingOut ? 'Logging out...' : item.label}</span>
+            </button>
           );
         }
 

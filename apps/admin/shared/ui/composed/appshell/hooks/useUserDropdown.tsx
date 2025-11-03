@@ -9,6 +9,7 @@
 
 import { useMemo, useCallback } from 'react';
 import { Settings, User, LogOut } from 'lucide-react';
+import { useLogout } from '@admin-shared/hooks';
 
 export interface UseUserDropdownProps {
   onClose: () => void;
@@ -25,13 +26,17 @@ export interface DropdownMenuItem {
 
 export interface UseUserDropdownReturn {
   menuItems: DropdownMenuItem[];
-  handleItemClick: (e: React.MouseEvent, itemId: string) => void;
+  handleLinkClick: (e: React.MouseEvent) => void;
+  handleLogout: () => Promise<void>;
+  isLoggingOut: boolean;
 }
 
 export function useUserDropdown({
   onClose,
   onNavigate,
 }: UseUserDropdownProps): UseUserDropdownReturn {
+  const { isLoggingOut, handleLogout } = useLogout();
+
   // Memoize menu items structure
   const menuItems = useMemo<DropdownMenuItem[]>(
     () => [
@@ -59,20 +64,22 @@ export function useUserDropdown({
     []
   );
 
-  // Handle item click with callback
-  const handleItemClick = useCallback(
-    (e: React.MouseEvent, itemId: string) => {
-      const item = menuItems.find((i) => i.id === itemId);
-      
-      if (item && item.type === 'link' && item.href) {
-        // Close dropdown
-        onClose();
-        
-        // Optional custom navigation handler
-        if (onNavigate) {
-          e.preventDefault();
-          onNavigate(item.href);
-        }
+  // Handle link click without dynamic parameters
+  const handleLinkClick = useCallback(
+    (e: React.MouseEvent) => {
+      const id = (e.currentTarget as HTMLElement).dataset.id;
+      if (!id) return;
+
+      const item = menuItems.find((i) => i.id === id);
+      if (!item || item.type !== 'link' || !item.href) return;
+
+      // Close dropdown
+      onClose();
+
+      // Optional custom navigation handler
+      if (onNavigate) {
+        e.preventDefault();
+        onNavigate(item.href);
       }
     },
     [menuItems, onClose, onNavigate]
@@ -80,6 +87,8 @@ export function useUserDropdown({
 
   return {
     menuItems,
-    handleItemClick,
+    handleLinkClick,
+    handleLogout,
+    isLoggingOut,
   };
 }

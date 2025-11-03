@@ -46,7 +46,7 @@ export function AppShell({ role, currentPath, children, user }: AppShellProps) {
   };
 
   const handleMenuToggle = () => {
-    setIsMobileDrawerOpen(!isMobileDrawerOpen);
+    setIsMobileDrawerOpen(true);
   };
 
   const handleDrawerClose = () => {

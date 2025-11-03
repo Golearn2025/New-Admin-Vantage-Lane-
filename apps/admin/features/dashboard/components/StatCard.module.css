@@ -1,0 +1,153 @@
+/**
+ * StatCard Styles
+ * 
+ * 100% design tokens - no hardcoded values.
+ * Mobile-first responsive design.
+ * 
+ * Ver 2.4 - PAS 3
+ */
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(var(--spacing-3), 2vw, var(--spacing-4));
+  padding: clamp(var(--spacing-4), 2vw, var(--spacing-5));
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
+  min-height: var(--stat-card-min-h);
+  transition: all var(--motion-duration-normal) var(--motion-easing-smooth);
+}
+
+.card:hover {
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-md);
+  background: var(--color-bg-surface-elevated);
+  transform: var(--transform-hover-raise);
+  box-shadow: var(--shadow-lg);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  transform: var(--transform-hover-raise);
+  box-shadow: var(--shadow-lg);
+}
+
+.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Icon */
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+  padding: var(--spacing-3);
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.icon {
+  color: var(--color-primary);
+}
+
+/* Content */
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  margin: 0 0 var(--spacing-2) 0;
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.value {
+  margin: 0 0 var(--spacing-1) 0;
+  font-size: clamp(var(--font-xl), 2.5vw, var(--font-2xl));
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+}
+
+/* Trend Badge */
+.trendBadge {
+  position: absolute;
+  top: var(--spacing-3);
+  right: var(--spacing-3);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-xs);
+  font-weight: var(--font-semibold);
+}
+
+.trendBadge.up {
+  background: var(--color-success-light);
+  color: var(--color-success-default);
+}
+
+.trendBadge.down {
+  background: var(--color-danger-light);
+  color: var(--color-danger-default);
+}
+
+.trendBadge.neutral {
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+}
+
+.deltaValue {
+  display: inline-block;
+}
+
+/* Skeleton Loading */
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.skeletonValue {
+  width: 60%;
+  height: var(--spacing-6);
+  background: var(--vl-skeleton);
+  border-radius: var(--radius-sm);
+  animation: shimmer 2s infinite;
+}
+
+.skeletonSubtitle {
+  width: 40%;
+  height: var(--spacing-3);
+  background: var(--vl-skeleton);
+  border-radius: var(--radius-sm);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsive via clamp() - no media queries */

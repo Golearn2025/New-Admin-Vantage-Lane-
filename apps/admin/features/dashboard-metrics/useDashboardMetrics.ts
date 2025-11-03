@@ -1,12 +1,13 @@
 /**
  * useDashboardMetrics Hook
  *
- * Fetches dashboard metrics from API with SWR caching
+ * Fetches dashboard metrics from API with SWR caching.
+ * Features:
  * - Auto-refresh: 5 minutes
  * - Dedupe: 60 seconds
- * - No refetch on focus/reconnect (prevents unnecessary loads)
+ * - No refetch on focus/reconnect
  *
- * MAX 80 LINES (current: 65)
+ * Ver 2.4 - PAS 3
  */
 
 import useSWR from 'swr';
@@ -70,6 +71,7 @@ export function useDashboardMetrics(
     options?.startDate && options?.endDate
       ? `/api/dashboard/metrics?start_date=${options.startDate}&end_date=${options.endDate}`
       : '/api/dashboard/metrics';
+
   const { data, error, isLoading, mutate } = useSWR<DashboardMetrics>(apiUrl, fetcher, {
     // Show 0 values instantly instead of loading skeleton
     fallbackData: {
@@ -93,6 +95,9 @@ export function useDashboardMetrics(
 
     // Don't refetch on window focus (prevents excessive calls)
     revalidateOnFocus: false,
+
+    // Don't refetch if stale
+    revalidateIfStale: false,
 
     // Don't refetch on reconnect
     revalidateOnReconnect: false,

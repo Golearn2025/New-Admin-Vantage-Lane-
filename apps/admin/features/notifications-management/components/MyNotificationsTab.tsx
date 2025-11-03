@@ -1,12 +1,12 @@
+'use client';
+
 import { CheckCircle } from 'lucide-react';
+import React, { useState } from 'react';
+
 /**
  * My Notifications Tab
  * View and manage personal notifications
  */
-
-'use client';
-
-import React, { useState } from 'react';
 import { useNotifications } from '@admin-shared/hooks/useNotifications';
 import { Button, Input } from '@vantage-lane/ui-core';
 import styles from './MyNotificationsTab.module.css';

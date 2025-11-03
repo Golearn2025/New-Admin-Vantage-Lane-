@@ -42,9 +42,9 @@
 
 /* Status Colors - VIBRANT pentru NEW! */
 .statusBadgePending {
-  background: linear-gradient(135deg, #fef3c7, #fde68a);
-  color: #92400e;
-  border: 2px solid #f59e0b;
+  background: linear-gradient(135deg, var(--color-warning-alpha-20), var(--color-warning-alpha-30));
+  color: var(--color-warning-dark);
+  border: 2px solid var(--color-warning);
   font-weight: var(--font-weight-bold);
 }
 
@@ -55,15 +55,15 @@
 }
 
 .statusBadgeEnRoute {
-  background-color: rgba(251, 146, 60, 0.1);
-  color: #ea580c;
-  border: 1px solid #fb923c;
+  background-color: var(--color-info-alpha-10);
+  color: var(--color-info-dark);
+  border: 1px solid var(--color-info);
 }
 
 .statusBadgeArrived {
-  background-color: rgba(168, 85, 247, 0.1);
-  color: #9333ea;
-  border: 1px solid #a855f7;
+  background-color: var(--color-accent-alpha-10);
+  color: var(--color-accent-dark);
+  border: 1px solid var(--color-accent);
 }
 
 .statusBadgeInProgress {
@@ -89,26 +89,26 @@
   position: relative;
   animation: subtleGlow 3s ease-in-out infinite;
   box-shadow:
-    0 0 8px rgba(245, 158, 11, 0.3),
-    0 0 16px rgba(245, 158, 11, 0.2),
-    inset 0 0 8px rgba(245, 158, 11, 0.15);
+    0 0 8px var(--color-warning-alpha-30),
+    0 0 16px var(--color-warning-alpha-20),
+    inset 0 0 8px var(--color-warning-alpha-10);
 }
 
 @keyframes subtleGlow {
   0%,
   100% {
     box-shadow:
-      0 0 8px rgba(245, 158, 11, 0.3),
-      0 0 16px rgba(245, 158, 11, 0.2),
-      inset 0 0 8px rgba(245, 158, 11, 0.15);
+      0 0 8px var(--color-warning-alpha-30),
+      0 0 16px var(--color-warning-alpha-20),
+      inset 0 0 8px var(--color-warning-alpha-10);
     transform: scale(1);
   }
   50% {
     box-shadow:
-      0 0 12px rgba(245, 158, 11, 0.4),
-      0 0 24px rgba(245, 158, 11, 0.3),
-      0 0 32px rgba(245, 158, 11, 0.2),
-      inset 0 0 12px rgba(245, 158, 11, 0.25);
+      0 0 12px var(--color-warning-alpha-40),
+      0 0 24px var(--color-warning-alpha-30),
+      0 0 32px var(--color-warning-alpha-20),
+      inset 0 0 12px var(--color-warning-alpha-20);
     transform: scale(1.02);
   }
 }

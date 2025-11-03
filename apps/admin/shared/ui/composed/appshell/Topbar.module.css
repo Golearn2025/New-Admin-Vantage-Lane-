@@ -1,7 +1,8 @@
 /* Topbar Styles - Application Header */
+/* Variables defined in app/globals.css */
 
 .topbar {
-  height: 60px;
+  height: var(--topbar-height);
   background: var(--color-bg-secondary);
   border-bottom: 1px solid var(--color-border-default);
   display: flex;
@@ -10,7 +11,7 @@
   gap: var(--spacing-4);
   position: fixed;
   top: 0;
-  left: 240px; /* Desktop: după sidebar */
+  left: var(--sidebar-width); /* Desktop: după sidebar */
   right: 0;
   z-index: 50;
   transition: left var(--motion-base);
@@ -18,7 +19,7 @@
 
 /* Topbar când sidebar e collapsed */
 .topbarCollapsed {
-  left: 70px !important;
+  left: var(--sidebar-collapsed-width) !important;
 }
 
 /* Premium Topbar with theme tint */
@@ -31,13 +32,13 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border-strong);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Skip link pentru A11y */
 .skipLink {
   position: absolute;
-  top: -40px;
+  top: var(--skip-link-offset);
   left: var(--spacing-4);
   background: var(--color-accent-500);
   color: var(--color-bg-primary);
@@ -62,8 +63,8 @@
   cursor: pointer;
   padding: var(--spacing-2);
   border-radius: var(--radius-md);
-  min-height: 44px;
-  min-width: 44px;
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
 }
 
 .menuButton:hover {
@@ -72,8 +73,8 @@
 }
 
 .menuButton:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
+  outline: var(--border-width-default) solid var(--color-border-focus);
+  outline-offset: var(--outline-offset-default);
 }
 
 /* Mobile logo */
@@ -84,8 +85,8 @@
 }
 
 .logoImage {
-  width: 32px;
-  height: 32px;
+  width: var(--size-avatar-sm);
+  height: var(--size-avatar-sm);
   border-radius: var(--radius-md);
 }
 
@@ -106,8 +107,8 @@
   cursor: pointer;
   padding: var(--spacing-2);
   border-radius: var(--radius-md);
-  min-height: 44px;
-  min-width: 44px;
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,22 +120,22 @@
 }
 
 .iconButton:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
+  outline: var(--border-width-default) solid var(--color-border-focus);
+  outline-offset: var(--outline-offset-default);
 }
 
 .notificationBadge {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: var(--badge-offset);
+  right: var(--badge-offset);
   background: var(--theme-gradient);
   color: white;
   font-size: var(--font-xs);
   font-weight: var(--font-semibold);
-  padding: 2px 6px;
+  padding: var(--badge-padding-y) var(--badge-padding-x);
   border-radius: var(--radius-full);
-  min-width: 18px;
-  height: 18px;
+  min-width: var(--badge-size);
+  height: var(--badge-size);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -166,7 +167,7 @@
   cursor: pointer;
   padding: var(--spacing-2);
   border-radius: var(--radius-md);
-  min-height: 44px;
+  min-height: var(--touch-target-min);
 }
 
 .userButton:hover {
@@ -174,15 +175,15 @@
 }
 
 .userButton:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
+  outline: var(--border-width-default) solid var(--color-border-focus);
+  outline-offset: var(--outline-offset-default);
 }
 
 .userAvatar {
-  width: 36px;
-  height: 36px;
+  width: var(--size-avatar-md);
+  height: var(--size-avatar-md);
   background: var(--theme-gradient);
-  border: 2px solid var(--theme-primary);
+  border: var(--border-width-default) solid var(--theme-primary);
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
@@ -215,12 +216,18 @@
   font-weight: var(--font-medium);
   color: var(--color-text-primary);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: var(--text-max-width-sm);
 }
 
 .userRole {
   font-size: var(--font-xs);
   color: var(--color-text-muted);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: var(--text-max-width-sm);
 }
 
 .userChevron {
@@ -232,61 +239,25 @@
   transform: rotate(180deg);
 }
 
-/* User Dropdown - REUTILIZABIL */
-.userDropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: var(--spacing-2);
-  background: var(--color-surface-elevated);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
-  min-width: 200px;
-  z-index: 1000;
-  /* display controlled by React state - REUTILIZABIL */
-}
-
-.dropdownItem {
-  display: block;
-  padding: var(--spacing-3) var(--spacing-4);
-  color: var(--color-text-primary);
-  text-decoration: none;
-  font-size: var(--font-sm);
-  /* Button specific styles */
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  transition: var(--motion-hover);
-  position: relative;
-}
-
-.dropdownItem:hover {
-  background: var(--theme-primary-alpha-10);
-  color: var(--theme-primary);
-  padding-left: calc(var(--spacing-4) + 4px);
-}
-
-.dropdownItem:hover::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--theme-gradient);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-
-.dropdownItem:focus-visible {
-  outline: 2px solid var(--theme-primary);
-  outline-offset: -2px;
-  box-shadow: var(--theme-shadow-focus);
-}
+/* User dropdown styles moved to UserDropdown.module.css */
 
 /* Mobile Responsive */
+/* iPhone SE / Small mobile (320px-374px) */
+@media (max-width: 374px) {
+  .userName,
+  .userRole {
+    max-width: 80px;
+  }
+}
+
+/* iPhone Standard / Medium mobile (375px-480px) */
+@media (min-width: 375px) and (max-width: 480px) {
+  .userName,
+  .userRole {
+    max-width: 100px;
+  }
+}
+
 @media (max-width: 768px) {
   .topbar,
   .topbar.topbarCollapsed {

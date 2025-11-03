@@ -6,7 +6,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@vantage-lane/ui-icons';
-import { NotificationBell } from '../../NotificationBell/NotificationBell';
+import { NotificationBell } from '@vantage-lane/ui-core';
 import { BrandName } from '../BrandName';
 import { signOutAction } from '../../../api/auth/actions';
 import { useNotifications } from '../../../hooks/useNotifications';

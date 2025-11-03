@@ -1,7 +1,7 @@
 /* SidebarNav Styles - Dark Premium Sidebar */
 
 .sidebar {
-  width: 240px;
+  width: var(--sidebar-width);
   height: 100vh;
   background: var(--color-bg-secondary);
   border-right: 1px solid var(--color-border-default);
@@ -33,12 +33,12 @@
 }
 
 .logo {
-  width: 40px;
-  height: 40px;
+  width: var(--size-logo);
+  height: var(--size-logo);
   flex-shrink: 0;
   border-radius: var(--radius-md);
   transition: all var(--motion-duration-normal);
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  box-shadow: none;
 }
 
 /* Premium: Logo gets theme glow on sidebar hover */
@@ -59,6 +59,9 @@
   font-size: var(--font-sm);
   color: var(--color-text-muted);
   font-weight: var(--font-normal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Role Indicator */
@@ -77,15 +80,20 @@
   font-weight: var(--font-medium);
   color: var(--theme-primary);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--letter-spacing-wide);
   text-shadow: var(--theme-glow);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
 }
 
 /* Collapse Toggle - Săgeată mică fină albă */
 .collapseToggle {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-muted);
   cursor: pointer;
   padding: 0;
   display: flex;
@@ -95,13 +103,13 @@
 }
 
 .collapseToggle:hover {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--color-text-secondary);
   transform: scale(1.1);
 }
 
 .collapseToggle:focus-visible {
-  outline: 1px solid var(--color-border-focus);
-  outline-offset: 2px;
+  outline: var(--border-width-thin) solid var(--color-border-focus);
+  outline-offset: var(--outline-offset-default);
 }
 
 /* Rotează săgeata când e collapsed - pointer stânga */
@@ -115,7 +123,7 @@
 
 /* Collapsed State - Shrink sidebar */
 .sidebar.collapsed {
-  width: 70px;
+  width: var(--sidebar-collapsed-width);
   transition: width var(--motion-base);
 }
 
@@ -178,7 +186,7 @@
 
 /* Scrollbar styling pentru dark theme */
 .menuSection::-webkit-scrollbar {
-  width: 4px;
+  width: var(--border-width-thick);
 }
 
 .menuSection::-webkit-scrollbar-track {
@@ -225,8 +233,8 @@
 }
 
 .signOutLink:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
+  outline: var(--border-width-default) solid var(--color-border-focus);
+  outline-offset: var(--outline-offset-default);
 }
 
 /* Mobile Hidden - doar desktop persistent */

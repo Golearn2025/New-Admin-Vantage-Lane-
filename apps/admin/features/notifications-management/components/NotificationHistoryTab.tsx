@@ -1,13 +1,13 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+
 /**
  * Notification History Tab
  * View all sent notifications
  * 
  * Compliant: <200 lines, 100% design tokens, TypeScript strict
  */
-
-'use client';
-
-import React, { useState, useEffect } from 'react';
 import { listSentNotifications, type NotificationData } from '@entities/notification';
 import styles from './NotificationHistoryTab.module.css';
 

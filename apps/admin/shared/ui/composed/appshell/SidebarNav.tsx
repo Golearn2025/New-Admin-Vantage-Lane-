@@ -1,18 +1,20 @@
 /**
  * SidebarNav Component - Role-Based Navigation
  *
- * Sidebar cu meniu RBAC. Fără business logic, doar UI.
- * Folosește menu-config pentru definițiile de navigație.
+ * Presentational component - ZERO business logic.
+ * All logic in useSidebarNavigation hook.
  */
 
-import React, { useState } from 'react';
+'use client';
+
+import React from 'react';
 import Image from 'next/image';
 import { Icon } from '@vantage-lane/ui-icons';
 import { BrandName } from '@admin-shared/ui/composed/BrandName';
 import { NavItem } from './NavItem';
 import { SidebarNavProps } from './types';
-import { getMenuForRole, isMenuItemActive, isMenuItemExpanded } from './menu-config';
 import { signOutAction } from '@admin-shared/api/auth/actions';
+import { useSidebarNavigation } from './hooks';
 import styles from './SidebarNav.module.css';
 
 export function SidebarNav({
@@ -25,24 +27,29 @@ export function SidebarNav({
   onToggleCollapse,
   onToggleExpand,
 }: SidebarNavProps) {
-  const [expandedItems, setExpandedItems] = useState<string[]>([]);
-  const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+  const {
+    menuItems,
+    expandedItems,
+    isCollapsed,
+    handleToggleExpand,
+    handleToggleCollapse,
+    isMenuItemActive,
+    isMenuItemExpanded,
+  } = useSidebarNavigation({
+    role,
+    currentPath,
+    defaultCollapsed,
+    expandable,
+  });
 
-  const menuItems = getMenuForRole(role);
-
-  const handleToggleExpand = (href: string) => {
-    setExpandedItems((prev) =>
-      prev.includes(href) ? prev.filter((item) => item !== href) : [...prev, href]
-    );
-
-    // Callback pentru parent control
+  const onToggleExpandHandler = (href: string) => {
+    handleToggleExpand(href);
     onToggleExpand?.(href, !expandedItems.includes(href));
   };
 
-  const handleToggleCollapse = () => {
-    const newCollapsedState = !isCollapsed;
-    setIsCollapsed(newCollapsedState);
-    onToggleCollapse?.(newCollapsedState);
+  const onToggleCollapseHandler = () => {
+    handleToggleCollapse();
+    onToggleCollapse?.(!isCollapsed);
   };
 
   return (
@@ -76,7 +83,7 @@ export function SidebarNav({
 
         {collapsible && (
           <button
-            onClick={handleToggleCollapse}
+            onClick={onToggleCollapseHandler}
             className={styles.collapseToggle}
             aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             type="button"
@@ -91,7 +98,6 @@ export function SidebarNav({
         <div className={styles.menuList} role="menu">
           {menuItems.map((item) => {
             const isActive = isMenuItemActive(item, currentPath);
-            // Use manual expanded state if expandable, otherwise auto-expand based on path
             const isExpanded = expandable
               ? expandedItems.includes(item.href)
               : isMenuItemExpanded(item, currentPath);
@@ -108,7 +114,7 @@ export function SidebarNav({
                 isExpanded={isExpanded}
                 subpages={item.children}
                 onNavigate={onNavigate}
-                {...(expandable && { onToggleExpand: handleToggleExpand })}
+                {...(expandable && { onToggleExpand: onToggleExpandHandler })}
               />
             );
           })}

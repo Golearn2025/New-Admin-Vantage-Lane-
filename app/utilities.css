@@ -1,0 +1,260 @@
+/**
+ * Utility Classes - 100% Reusable
+ * Centralized responsive breakpoints and common patterns
+ * USE THESE instead of duplicating media queries
+ */
+
+/* ============================================ */
+/* TEXT UTILITIES                               */
+/* ============================================ */
+
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-break {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ============================================ */
+/* ACCESSIBILITY UTILITIES                      */
+/* ============================================ */
+
+.touch-target {
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
+}
+
+.touch-target-comfortable {
+  min-height: var(--touch-target-comfortable);
+  min-width: var(--touch-target-comfortable);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================ */
+/* RESPONSIVE UTILITIES                         */
+/* THESE ARE THE ONLY PLACE FOR BREAKPOINTS    */
+/* ============================================ */
+
+/* iPhone SE / Small mobile (320px-374px) */
+@media (max-width: 374px) {
+  .responsive-sm-hide {
+    display: none !important;
+  }
+
+  .responsive-sm-stack {
+    flex-direction: column !important;
+  }
+
+  .responsive-sm-full {
+    width: 100% !important;
+  }
+
+  .responsive-sm-padding-sm {
+    padding: var(--spacing-3) !important;
+  }
+
+  .responsive-sm-text-sm {
+    font-size: var(--font-sm) !important;
+  }
+
+  .responsive-sm-gap-sm {
+    gap: var(--spacing-2) !important;
+  }
+}
+
+/* iPhone Standard / Medium mobile (375px-480px) */
+@media (min-width: 375px) and (max-width: 480px) {
+  .responsive-md-padding {
+    padding: var(--spacing-4) !important;
+  }
+
+  .responsive-md-gap {
+    gap: var(--spacing-3) !important;
+  }
+}
+
+/* Mobile general (up to 480px) */
+@media (max-width: 480px) {
+  .responsive-mobile-hide {
+    display: none !important;
+  }
+
+  .responsive-mobile-stack {
+    flex-direction: column !important;
+  }
+
+  .responsive-mobile-full {
+    width: 100% !important;
+  }
+
+  .responsive-mobile-center {
+    text-align: center !important;
+  }
+}
+
+/* Tablet (768px-1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .responsive-tablet-hide {
+    display: none !important;
+  }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1024px) {
+  .responsive-desktop-only {
+    display: block !important;
+  }
+}
+
+/* ============================================ */
+/* LAYOUT UTILITIES                             */
+/* ============================================ */
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-1 {
+  gap: var(--spacing-1);
+}
+
+.gap-2 {
+  gap: var(--spacing-2);
+}
+
+.gap-3 {
+  gap: var(--spacing-3);
+}
+
+.gap-4 {
+  gap: var(--spacing-4);
+}
+
+/* ============================================ */
+/* OVERFLOW PREVENTION                          */
+/* ============================================ */
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.min-w-0 {
+  min-width: 0;
+}
+
+.flex-shrink-1 {
+  flex-shrink: 1;
+}
+
+/* ============================================ */
+/* APPSHELL RESPONSIVE UTILITIES                */
+/* ============================================ */
+
+/* Desktop Sidebar - hidden on mobile */
+.sidebar-desktop-only {
+  display: block;
+}
+
+/* Mobile menu button - hidden on desktop */
+.menu-button-mobile {
+  display: none;
+}
+
+.mobile-logo {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar-desktop-only {
+    display: none;
+  }
+  
+  .menu-button-mobile {
+    display: flex;
+  }
+  
+  .mobile-logo {
+    display: flex;
+  }
+}
+
+/* Topbar responsive adjustments */
+@media (max-width: 374px) {
+  .user-info-mobile-hidden {
+    display: none;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 480px) {
+  .user-info-compact {
+    max-width: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .topbar-mobile-compact {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .no-backdrop-filter-motion {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  .no-transition {
+    transition: none !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .high-contrast-border {
+    border-width: 2px !important;
+  }
+}

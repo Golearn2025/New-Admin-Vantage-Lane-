@@ -28,7 +28,6 @@ export function useNotifications() {
       }
 
       const data = await listNotifications(user.id);
-      console.log('🔔 Driver Notifications:', data);
       setNotifications(data);
       setUnreadCount(data.filter((n) => !n.read).length);
     } catch (error) {

@@ -1,13 +1,12 @@
-import { CheckCircle } from 'lucide-react';
+'use client';
+
 /**
  * OperatorDashboard Component
  * Dashboard for operators - shows ONLY their data
  */
 
-'use client';
-
-import { ClipboardList, Hourglass, User } from 'lucide-react';
 import React from 'react';
+import { CheckCircle, ClipboardList, Hourglass, User } from 'lucide-react';
 import { useOperatorDashboard } from '../hooks/useOperatorDashboard';
 import styles from './OperatorDashboard.module.css';
 

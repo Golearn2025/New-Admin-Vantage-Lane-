@@ -67,6 +67,35 @@
 }
 
 /* Responsive */
+/* iPhone SE / Small mobile (320px-374px) */
+@media (max-width: 374px) {
+  .container {
+    padding: var(--vl-spacing-xs, 4px);
+    gap: var(--vl-spacing-xs, 4px);
+  }
+
+  .button {
+    font-size: 12px;
+    padding: var(--vl-spacing-xs, 6px) var(--vl-spacing-sm, 10px);
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+}
+
+/* iPhone Standard / Medium mobile (375px-480px) */
+@media (min-width: 375px) and (max-width: 480px) {
+  .container {
+    gap: var(--vl-spacing-xs, 6px);
+  }
+
+  .button {
+    font-size: 13px;
+    padding: var(--vl-spacing-xs, 6px) var(--vl-spacing-sm, 12px);
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+}
+
 @media (max-width: var(--breakpoint-md, 768px)) {
   .container {
     flex-direction: column;

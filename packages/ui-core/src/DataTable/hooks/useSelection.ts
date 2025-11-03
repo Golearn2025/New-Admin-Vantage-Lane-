@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * useSelection Hook
  * Modular row selection with checkboxes

@@ -9,13 +9,14 @@
 'use client';
 
 import { CheckCircle } from 'lucide-react';
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Tabs, type Tab } from '@vantage-lane/ui-core';
 import { SaveButton } from '@vantage-lane/ui-core';
 import { PersonalInfoTab } from './PersonalInfoTab';
 import { AccountTab } from './AccountTab';
 import { SecurityTab } from './SecurityTab';
 import type { AdminProfile } from '../hooks/useProfileData';
+import { useProfileForm } from '../hooks/useProfileForm';
 import styles from './ProfileForm.module.css';
 
 interface ProfileFormProps {
@@ -26,31 +27,25 @@ interface ProfileFormProps {
 }
 
 export function ProfileForm({ profile, loading = false, error, onSave }: ProfileFormProps) {
-  const [pendingChanges, setPendingChanges] = useState<Partial<AdminProfile> | null>(null);
-  const [saving, setSaving] = useState(false);
-  const [saveSuccess, setSaveSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState('personal');
-
-  const handleChange = useCallback((updates: Partial<AdminProfile>) => {
-    setPendingChanges((prev) => ({ ...prev, ...updates }));
-  }, []);
-
-  const handleSave = async () => {
-    if (!pendingChanges || saving) return;
-
-    setSaving(true);
-    setSaveSuccess(false);
-
-    const success = await onSave(pendingChanges);
-
-    if (success) {
-      setSaveSuccess(true);
-      setPendingChanges(null);
-      setTimeout(() => setSaveSuccess(false), 3000);
-    }
-
-    setSaving(false);
-  };
+  
+  const {
+    firstName,
+    lastName,
+    phone,
+    bio,
+    handleFirstNameChange,
+    handleLastNameChange,
+    handlePhoneChange,
+    handleBioChange,
+    handleChangePassword,
+    handleEnable2FA,
+    handleDeleteAccount,
+    handleSave,
+    hasPendingChanges,
+    saving,
+    saveSuccess,
+  } = useProfileForm({ profile, onSave });
 
   if (loading) {
     return (
@@ -65,7 +60,19 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
     {
       id: 'personal',
       label: 'Personal Info',
-      content: <PersonalInfoTab profile={profile} onChange={handleChange} />,
+      content: (
+        <PersonalInfoTab
+          profile={profile}
+          firstName={firstName}
+          lastName={lastName}
+          phone={phone}
+          bio={bio}
+          onFirstNameChange={handleFirstNameChange}
+          onLastNameChange={handleLastNameChange}
+          onPhoneChange={handlePhoneChange}
+          onBioChange={handleBioChange}
+        />
+      ),
     },
     {
       id: 'account',
@@ -75,7 +82,14 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
     {
       id: 'security',
       label: 'Security',
-      content: <SecurityTab profile={profile} />,
+      content: (
+        <SecurityTab
+          profile={profile}
+          onChangePassword={handleChangePassword}
+          onEnable2FA={handleEnable2FA}
+          onDeleteAccount={handleDeleteAccount}
+        />
+      ),
     },
   ];
 
@@ -103,9 +117,14 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
       />
 
       {/* ✅ Save button DOAR pe Personal Info tab */}
-      {activeTab === 'personal' && (
+      {activeTab === 'personal' && hasPendingChanges && (
         <div className={styles.saveButtonContainer}>
-          <SaveButton onClick={handleSave} variant="primary" loading={saving}>
+          <SaveButton 
+            onClick={handleSave} 
+            variant="primary" 
+            loading={saving}
+            disabled={saving}
+          >
             Save Changes
           </SaveButton>
         </div>

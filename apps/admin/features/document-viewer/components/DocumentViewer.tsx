@@ -8,6 +8,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Minus, Plus, RotateCcw } from 'lucide-react';
 import { Modal, Button } from '@vantage-lane/ui-core';
 import type { DocumentViewerProps } from '../types';
 import styles from './DocumentViewer.module.css';
@@ -47,9 +48,7 @@ export function DocumentViewer({
               disabled={zoom <= 50}
               aria-label="Zoom out"
             >
-              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-              </svg>
+              <Minus size={20} strokeWidth={2} />
             </button>
             <span className={styles.zoomLevel}>{zoom}%</span>
             <button
@@ -58,19 +57,10 @@ export function DocumentViewer({
               disabled={zoom >= 200}
               aria-label="Zoom in"
             >
-              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
+              <Plus size={20} strokeWidth={2} />
             </button>
             <button className={styles.toolButton} onClick={handleZoomReset} aria-label="Reset zoom">
-              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                />
-              </svg>
+              <RotateCcw size={20} strokeWidth={2} />
             </button>
           </div>
 

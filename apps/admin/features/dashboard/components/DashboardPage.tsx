@@ -1,28 +1,43 @@
 /**
  * Dashboard Page Component
- * 
- * Main dashboard with metrics, filters, and charts
- * Business logic moved from app/ to feature
+ *
+ * Orchestration only - delegates to hooks and presentational components.
+ * 100% mobile-responsive, lazy-loaded charts, no inline logic.
+ *
+ * Ver 2.4 - PAS 3
  */
 
 'use client';
 
-import { useMemo, useCallback } from 'react';
-import { Tabs } from '@vantage-lane/ui-core';
-import {
-  BarBasic,
-  LineChart,
-  StackedBarChart,
-  DonutChart,
-  DateRangePicker,
-  useDateRangeOrchestrator,
-} from '@vantage-lane/ui-dashboard';
 import { DASHBOARD_CARDS } from '@admin-shared/config/dashboard.cards';
-import { DashboardMetrics } from '@admin/dashboard/feature';
 import { determineChartGrouping } from '@admin-shared/utils/chartGrouping';
-import { useDashboardData } from '../hooks/useDashboardData';
+import { DashboardMetrics } from '@admin/dashboard/feature';
+import { Select } from '@vantage-lane/ui-core';
 import type { DatePreset } from '@vantage-lane/ui-dashboard';
+import { DateRangePicker, useDateRangeOrchestrator } from '@vantage-lane/ui-dashboard';
+import dynamic from 'next/dynamic';
+import { useCallback, useMemo } from 'react';
+import { useDashboardCharts } from '../hooks/useDashboardCharts';
+import { ChartCard } from './ChartCard';
 import styles from './DashboardPage.module.css';
+
+// Lazy load chart components (reduce initial bundle)
+const BarBasic = dynamic(
+  () => import('@vantage-lane/ui-dashboard').then((m) => ({ default: m.BarBasic })),
+  { ssr: false }
+);
+const LineChart = dynamic(
+  () => import('@vantage-lane/ui-dashboard').then((m) => ({ default: m.LineChart })),
+  { ssr: false }
+);
+const StackedBarChart = dynamic(
+  () => import('@vantage-lane/ui-dashboard').then((m) => ({ default: m.StackedBarChart })),
+  { ssr: false }
+);
+const DonutChart = dynamic(
+  () => import('@vantage-lane/ui-dashboard').then((m) => ({ default: m.DonutChart })),
+  { ssr: false }
+);
 
 const DATE_PRESET_TABS = [
   { id: 'today', label: 'Today' },
@@ -44,19 +59,23 @@ export default function DashboardPage() {
   // Determine optimal chart grouping based on date range
   const grouping = determineChartGrouping(effectiveRange);
 
-  // Create tabs for date presets
-  const dateFilterTabs = useMemo(() => 
-    DATE_PRESET_TABS.map(tab => ({
-      id: tab.id,
-      label: tab.label,
-    })),
+  // Create select options for date presets
+  const dateFilterOptions = useMemo(
+    () =>
+      DATE_PRESET_TABS.map((tab) => ({
+        label: tab.label,
+        value: tab.id,
+      })),
     []
   );
 
-  // Handle tab change
-  const handlePresetChange = useCallback((tabId: string) => {
-    setPreset(tabId as DatePreset);
-  }, [setPreset]);
+  // Handle preset change
+  const handlePresetChange = useCallback(
+    (value: string | number) => {
+      setPreset(value as DatePreset);
+    },
+    [setPreset]
+  );
 
   // Build API URL with date params
   const apiSearchParams = new URLSearchParams({
@@ -65,7 +84,17 @@ export default function DashboardPage() {
   });
 
   // Fetch and transform dashboard data
-  const { data: convertedCharts, isLoading } = useDashboardData(apiSearchParams);
+  const { data: convertedCharts, isLoading } = useDashboardCharts(apiSearchParams);
+
+  // Memoize status distribution data transformation
+  const statusDistributionData = useMemo(() => {
+    if (!convertedCharts) return [];
+    return convertedCharts.status_distribution.map((item) => ({
+      name: item.name,
+      value: item.value,
+      color: item.name === 'COMPLETED' ? 'var(--chart-series-positive)' : 'var(--chart-series-3)',
+    }));
+  }, [convertedCharts]);
 
   return (
     <div className={styles.dashboard}>
@@ -77,23 +106,19 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Date Filters - Using Tabs (same as Bookings) */}
+      {/* Date Filters - Using Select Dropdown */}
       <div className={styles.filtersContainer}>
-        <Tabs
-          tabs={dateFilterTabs}
-          activeTab={preset}
+        <Select
+          value={preset}
+          options={dateFilterOptions}
           onChange={handlePresetChange}
-          variant="pills"
-          fullWidth={false}
+          placeholder="Select period"
         />
-        
+
         {preset === 'custom' && (
-          <DateRangePicker 
-            value={effectiveRange} 
-            onChange={(range) => setCustomRange(range)} 
-          />
+          <DateRangePicker value={effectiveRange} onChange={(range) => setCustomRange(range)} />
         )}
-        
+
         <div className={styles.groupingInfo}>
           Grouping: <strong>{grouping.label}</strong> ({grouping.expectedPoints} points)
         </div>
@@ -107,62 +132,38 @@ export default function DashboardPage() {
       />
 
       {/* Charts Grid */}
-      {!isLoading && convertedCharts && (
-        <>
-          <div className={styles.chartsGrid}>
-            {/* Weekly Activity */}
-            <div className={styles.chartCard}>
-              <h3 className={styles.chartTitle}>Weekly Activity</h3>
-              <BarBasic
-                data={convertedCharts.weekly_activity || []}
-                color="var(--vl-chart-primary)"
-              />
-            </div>
+      <div className={styles.chartsGrid}>
+        <ChartCard title="Weekly Activity" loading={isLoading}>
+          {convertedCharts && (
+            <BarBasic data={convertedCharts.weekly_activity} color="var(--chart-series-1)" />
+          )}
+        </ChartCard>
 
-            {/* Revenue Trend */}
-            <div className={styles.chartCard}>
-              <h3 className={styles.chartTitle}>Revenue Trend (£)</h3>
-              <LineChart
-                data={convertedCharts.revenue_trend || []}
-                color="var(--vl-chart-success)"
-              />
-            </div>
-          </div>
+        <ChartCard title="Revenue Trend (£)" loading={isLoading}>
+          {convertedCharts && (
+            <LineChart data={convertedCharts.revenue_trend} color="var(--chart-series-2)" />
+          )}
+        </ChartCard>
+      </div>
 
-          {/* Secondary Charts Grid */}
-          <div className={styles.chartsGrid}>
-            {/* Operator Performance */}
-            <div className={styles.chartCard}>
-              <h3 className={styles.chartTitle}>Operator Performance</h3>
-              <StackedBarChart
-                data={convertedCharts.operator_performance || []}
-                series={[
-                  { key: 'bookings', label: 'Bookings', color: 'var(--vl-chart-primary)' },
-                  { key: 'revenue', label: 'Revenue (£)', color: 'var(--vl-chart-success)' },
-                  { key: 'commission', label: 'Commission (£)', color: 'var(--vl-chart-warning)' },
-                ]}
-              />
-            </div>
+      <div className={styles.chartsGrid}>
+        <ChartCard title="Operator Performance" loading={isLoading}>
+          {convertedCharts && (
+            <StackedBarChart
+              data={convertedCharts.operator_performance}
+              series={[
+                { key: 'bookings', label: 'Bookings', color: 'var(--chart-series-1)' },
+                { key: 'revenue', label: 'Revenue (£)', color: 'var(--chart-series-2)' },
+                { key: 'commission', label: 'Commission (£)', color: 'var(--chart-series-3)' },
+              ]}
+            />
+          )}
+        </ChartCard>
 
-            {/* Booking Status */}
-            <div className={styles.chartCard}>
-              <h3 className={styles.chartTitle}>Booking Status</h3>
-              <DonutChart
-                data={(convertedCharts.status_distribution || []).map(
-                  (item: { name: string; value: number }) => ({
-                    name: item.name,
-                    value: item.value,
-                    color:
-                      item.name === 'COMPLETED'
-                        ? 'var(--vl-chart-success)'
-                        : 'var(--vl-chart-warning)',
-                  })
-                )}
-              />
-            </div>
-          </div>
-        </>
-      )}
+        <ChartCard title="Booking Status" loading={isLoading}>
+          {convertedCharts && <DonutChart data={statusDistributionData} />}
+        </ChartCard>
+      </div>
     </div>
   );
 }

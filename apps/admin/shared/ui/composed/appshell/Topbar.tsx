@@ -1,40 +1,22 @@
 /**
  * Topbar Component - Application Header
  *
- * Header cu logo, search, user menu și mobile burger.
- * A11y compliant cu skip link și keyboard navigation.
+ * Presentational component - ZERO business logic.
+ * All logic in useTopbarActions and useUserInitials hooks.
  */
 
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useMemo } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { Icon } from '@vantage-lane/ui-icons';
 import { NotificationBell } from '@vantage-lane/ui-core';
 import { BrandName } from '@admin-shared/ui/composed/BrandName';
-import { signOutAction } from '@admin-shared/api/auth/actions';
 import { useNotifications } from '@admin-shared/hooks/useNotifications';
 import { TopbarProps } from './types';
+import { useTopbarActions, useUserInitials } from './hooks';
+import { UserDropdown } from './UserDropdown';
 import styles from './Topbar.module.css';
-
-/**
- * Extract initials from user name
- */
-function getInitials(name: string): string {
-  const parts = name
-    .trim()
-    .split(' ')
-    .filter((p) => p.length > 0);
-  if (parts.length >= 2) {
-    const first = parts[0]?.charAt(0) || '';
-    const last = parts[parts.length - 1]?.charAt(0) || '';
-    if (first && last) {
-      return (first + last).toUpperCase();
-    }
-  }
-  return name.substring(0, Math.min(2, name.length)).toUpperCase() || 'U';
-}
 
 export function Topbar({
   role,
@@ -42,37 +24,27 @@ export function Topbar({
   sidebarCollapsed = false,
   user,
 }: TopbarProps) {
-  const router = useRouter();
-  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
+  const {
+    isUserDropdownOpen,
+    dropdownRef,
+    handleUserMenuToggle,
+    handleUserMenuClose,
+    handleNavigateToNotifications,
+  } = useTopbarActions();
+  const userInitials = useUserInitials(user?.name);
 
-  console.log('🎯 Topbar render - notifications:', notifications.length, 'unread:', unreadCount);
-
-  const handleUserMenuToggle = () => {
-    setIsUserDropdownOpen(!isUserDropdownOpen);
-  };
-
-  const handleUserMenuClose = () => {
-    setIsUserDropdownOpen(false);
-  };
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsUserDropdownOpen(false);
-      }
-    };
-
-    if (isUserDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isUserDropdownOpen]);
+  const notificationsMapped = useMemo(
+    () =>
+      notifications.map((n) => ({
+        id: n.id,
+        title: n.title,
+        message: n.message,
+        createdAt: n.createdAt,
+        read: n.read,
+      })),
+    [notifications]
+  );
 
   return (
     <header
@@ -112,16 +84,10 @@ export function Topbar({
       <div className={styles.rightSection}>
         {/* Notifications */}
         <NotificationBell
-          notifications={notifications.map((n) => ({
-            id: n.id,
-            title: n.title,
-            message: n.message,
-            createdAt: n.createdAt,
-            read: n.read,
-          }))}
+          notifications={notificationsMapped}
           unreadCount={unreadCount}
           onNotificationClick={markAsRead}
-          onViewAll={() => router.push('/admin/notifications')}
+          onViewAll={handleNavigateToNotifications}
           onMarkAllRead={markAllAsRead}
         />
 
@@ -135,7 +101,7 @@ export function Topbar({
             type="button"
           >
             <div className={styles.userAvatar}>
-              <span className={styles.userInitials}>{user ? getInitials(user.name) : 'U'}</span>
+              <span className={styles.userInitials}>{userInitials}</span>
             </div>
 
             <div className={styles.userInfo}>
@@ -153,24 +119,11 @@ export function Topbar({
             />
           </button>
 
-          {/* User dropdown - REUTILIZABIL */}
-          {isUserDropdownOpen && (
-            <div className={styles.userDropdown} role="menu" aria-hidden="false">
-              <a
-                href="/settings/profile"
-                className={styles.dropdownItem}
-                role="menuitem"
-                onClick={handleUserMenuClose}
-              >
-                Profile Settings
-              </a>
-              <form action={signOutAction} style={{ margin: 0 }}>
-                <button type="submit" className={styles.dropdownItem} role="menuitem">
-                  Sign Out
-                </button>
-              </form>
-            </div>
-          )}
+          {/* User dropdown component */}
+          <UserDropdown 
+            isOpen={isUserDropdownOpen} 
+            onClose={handleUserMenuClose}
+          />
         </div>
       </div>
     </header>

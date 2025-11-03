@@ -1,0 +1,94 @@
+/**
+ * ChartCard Styles
+ * 
+ * 100% design tokens - no hardcoded values.
+ * Fixed dimensions for CLS prevention.
+ * 
+ * Ver 2.4 - PAS 3
+ */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
+  min-height: var(--chart-card-min-h);
+  padding: clamp(var(--spacing-4), 2vw, var(--spacing-5));
+  transition: border-color var(--motion-duration-normal) var(--motion-easing-smooth);
+}
+
+.card:hover {
+  border-color: var(--color-border-hover);
+}
+
+.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-5);
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+
+.periodSelector {
+  flex-shrink: 0;
+}
+
+/* Chart Wrapper */
+.chartWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--chart-min-h);
+  position: relative;
+}
+
+/* Skeleton Loading */
+.skeleton {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skeletonChart {
+  width: 100%;
+  height: var(--chart-min-h);
+  background: var(--vl-skeleton);
+  border-radius: var(--radius-md);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Footer */
+.footer {
+  margin-top: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+/* Responsive via clamp() - no media queries */

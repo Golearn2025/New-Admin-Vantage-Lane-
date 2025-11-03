@@ -7,7 +7,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
 export interface AdminProfile {
@@ -76,8 +76,11 @@ export function useProfileData(userId: string | undefined) {
           .single();
 
         if (fetchError) throw fetchError;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const orgName = (data.organizations as any)?.name || null;
+        
+        // Type-safe organization name extraction
+        const orgData = data.organizations as { name?: string } | null;
+        const orgName = orgData?.name || null;
+        
         setProfile({
           ...data,
           default_operator_name: orgName,
@@ -97,45 +100,52 @@ export function useProfileData(userId: string | undefined) {
     fetchProfile();
   }, [userId]);
 
-  const updateProfile = async (
-    updates: Partial<
-      Pick<
-        AdminProfile,
-        | 'name'
-        | 'first_name'
-        | 'last_name'
-        | 'phone'
-        | 'avatar_url'
-        | 'job_title'
-        | 'department'
-        | 'bio'
-        | 'preferred_language'
-        | 'timezone'
-        | 'notification_settings'
-        | 'default_operator_id'
+  const updateProfile = useCallback(
+    async (
+      updates: Partial<
+        Pick<
+          AdminProfile,
+          | 'name'
+          | 'first_name'
+          | 'last_name'
+          | 'phone'
+          | 'avatar_url'
+          | 'job_title'
+          | 'department'
+          | 'bio'
+          | 'preferred_language'
+          | 'timezone'
+          | 'notification_settings'
+          | 'default_operator_id'
+        >
       >
-    >
-  ) => {
-    if (!profile) return false;
-    setSaving(true);
-    setError(null);
+    ) => {
+      if (!profile) return false;
+      
+      // Spam protection - prevent multiple simultaneous updates
+      if (saving) return false;
+      
+      setSaving(true);
+      setError(null);
 
-    try {
-      const supabase = createClient();
-      const { error: updateError } = await supabase
-        .from('admin_users')
-        .update(updates)
-        .eq('id', profile.id);
-      if (updateError) throw updateError;
-      setProfile({ ...profile, ...updates });
-      return true;
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update profile');
-      return false;
-    } finally {
-      setSaving(false);
-    }
-  };
+      try {
+        const supabase = createClient();
+        const { error: updateError } = await supabase
+          .from('admin_users')
+          .update(updates)
+          .eq('id', profile.id);
+        if (updateError) throw updateError;
+        setProfile({ ...profile, ...updates });
+        return true;
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to update profile');
+        return false;
+      } finally {
+        setSaving(false);
+      }
+    },
+    [profile, saving]
+  );
 
   return { profile, loading, saving, error, updateProfile };
 }

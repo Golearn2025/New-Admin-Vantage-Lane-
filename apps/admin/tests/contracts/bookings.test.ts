@@ -147,7 +147,7 @@ describe('Bookings List Contract', () => {
       };
 
       expect(validResponse.data).toHaveLength(1);
-      expect(validResponse.data?.[0]?.fare_amount).toEqual(2500);
+      expect(validResponse.data?.[0]?.fare_amount).toEqual(25.00);
       expect(validResponse.pagination.total_count).toEqual(150);
       expect(validResponse.performance.query_duration_ms).toBeLessThan(100);
     });

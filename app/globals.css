@@ -289,6 +289,40 @@
   /* Borders */
   --vl-border: rgba(255, 255, 255, 0.08);
   --vl-border-strong: rgba(255, 255, 255, 0.12);
+
+  /* ============================================ */
+  /* CHART TOKENS (Dashboard & Analytics)        */
+  /* ============================================ */
+  
+  /* Chart Series Colors */
+  --chart-series-1: var(--color-primary);
+  --chart-series-2: var(--color-success);
+  --chart-series-3: var(--color-warning);
+  --chart-series-4: var(--color-info);
+  --chart-series-positive: var(--color-success);
+  --chart-series-negative: var(--color-error);
+  
+  /* Chart UI Elements */
+  --chart-grid: rgba(255, 255, 255, 0.05);
+  --chart-axis: rgba(255, 255, 255, 0.1);
+  --chart-bg: var(--color-bg-secondary);
+  --chart-tooltip-bg: var(--color-bg-tertiary);
+  --chart-tooltip-border: var(--color-border-primary);
+  
+  /* Chart Dimensions */
+  --chart-min-h: clamp(220px, 30vh, 360px);
+  --chart-card-min-h: clamp(280px, 35vh, 400px);
+  --stat-card-min-h: clamp(120px, 15vh, 160px);
+  
+  /* Card & Chart Widths (for grid minmax) */
+  --card-min-w: 280px;
+  --chart-min-w: 420px;
+  
+  /* Scrollbar */
+  --scrollbar-size: 4px;
+  
+  /* Transform (hover effects) */
+  --transform-hover-raise: translateY(calc(-1 * var(--spacing-0-5, 2px)));
 }
 
 /* Global Reset & Base Styles */

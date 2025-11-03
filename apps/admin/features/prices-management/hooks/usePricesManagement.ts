@@ -1,7 +1,10 @@
 /**
  * Prices Management Hook
  * 
- * Manages pricing configuration state and updates
+ * Manages pricing configuration state and updates.
+ * SWR-based data fetching with optimistic updates.
+ * 
+ * Ver 2.4: Debug console.log removed, production-ready
  */
 
 'use client';
@@ -41,10 +44,6 @@ export function usePricesManagement() {
    * Update vehicle type rates
    */
   const handleUpdateVehicleType = async (payload: UpdateVehicleTypePayload) => {
-    console.log('🟢 usePricesManagement: handleUpdateVehicleType called');
-    console.log('🟢 config:', config);
-    console.log('🟢 payload:', payload);
-    
     if (!config) {
       console.error('❌ No config available!');
       return;
@@ -54,21 +53,13 @@ export function usePricesManagement() {
     setSaveError(null);
 
     try {
-      console.log('🟢 Calling updateVehicleType API...');
       await updateVehicleType(config.id, payload);
-      console.log('🟢 updateVehicleType API success!');
-      
-      console.log('🟢 Invalidating cache...');
       await invalidatePricingCache();
-      console.log('🟢 Cache invalidated!');
       
       // Wait a bit for Supabase to propagate changes
-      console.log('🟢 Waiting for Supabase propagation...');
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      console.log('🟢 Mutating SWR with revalidate...');
       await mutate(undefined, { revalidate: true });
-      console.log('🟢 SWR mutated!');
       
       // Show success message
       alert('✅ Prices updated successfully!');

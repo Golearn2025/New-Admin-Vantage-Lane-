@@ -1,12 +1,22 @@
 /**
  * EnterpriseDataTable Component
- * Complete enterprise table cu TOATE features integrate
- * Selection, Sorting, Resizing, Bulk Actions, Ellipsis, Tooltip
+ * 
+ * Complete enterprise table with all features integrated:
+ * - Selection (multi-select with checkboxes)
+ * - Sorting (column-based with visual indicators)
+ * - Resizing (column width adjustment)
+ * - Performance optimized with React.memo
+ * - Zero inline functions
+ * - Zero TypeScript 'any'
+ * 
+ * Ver 2.5 - PAS 4: Performance Optimization & Architecture Refactor
  */
 
 'use client';
 
 import React from 'react';
+import { EnterpriseTableHeader } from './components/EnterpriseTableHeader';
+import { EnterpriseTableBody } from './components/EnterpriseTableBody';
 import type { 
   UseSelectionReturn,
   UseSortingReturn,
@@ -15,7 +25,7 @@ import type {
 import type { Column } from './types/index';
 import styles from './DataTable.module.css';
 
-export interface EnterpriseDataTableProps<T = any> {
+export interface EnterpriseDataTableProps<T = object> {
   /** Table data */
   data: T[];
   /** Column definitions */
@@ -44,7 +54,7 @@ export interface EnterpriseDataTableProps<T = any> {
   ariaLabel?: string;
 }
 
-export function EnterpriseDataTable<T = any>({
+export function EnterpriseDataTable<T = object>({
   data,
   columns,
   selection,
@@ -60,19 +70,21 @@ export function EnterpriseDataTable<T = any>({
   ariaLabel = 'Data table',
 }: EnterpriseDataTableProps<T>): React.ReactElement {
   
-  const handleSort = (columnId: string) => {
+  // Handle column sort - memoized to prevent recreation
+  const handleSort = React.useCallback((columnId: string) => {
     if (sorting) {
       sorting.toggleSort(columnId);
     }
-  };
+  }, [sorting]);
 
-  const handleResizeStart = (e: React.MouseEvent, columnId: string) => {
+  // Handle column resize start - memoized to prevent recreation
+  const handleResizeStart = React.useCallback((e: React.MouseEvent, columnId: string) => {
     if (!resize) return;
     
     e.preventDefault();
     e.stopPropagation();
     
-    // ✅ FIX: Use state width instead of DOM offsetWidth to prevent jump!
+    // Use state width instead of DOM offsetWidth to prevent jump
     const startWidth = resize.columnWidths[columnId] || 150;
     const startX = e.clientX;
 
@@ -93,8 +105,16 @@ export function EnterpriseDataTable<T = any>({
     document.body.style.userSelect = 'none';
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
-  };
+  }, [resize]);
 
+  // Handle row click - memoized to prevent recreation
+  const handleRowClick = React.useCallback((row: T) => {
+    if (onRowClick) {
+      onRowClick(row);
+    }
+  }, [onRowClick]);
+
+  // Build CSS classes
   const tableClasses = [
     styles.table,
     striped && styles.striped,
@@ -106,6 +126,7 @@ export function EnterpriseDataTable<T = any>({
     stickyHeader && styles.stickyHeader,
   ].filter(Boolean).join(' ');
 
+  // Loading state
   if (loading) {
     return (
       <div className={containerClasses}>
@@ -114,6 +135,7 @@ export function EnterpriseDataTable<T = any>({
     );
   }
 
+  // Empty state
   if (data.length === 0) {
     return (
       <div className={containerClasses}>
@@ -126,15 +148,14 @@ export function EnterpriseDataTable<T = any>({
     <div className={containerClasses} style={{ maxHeight }}>
       <div className={styles.tableWrapper}>
         <table className={tableClasses} aria-label={ariaLabel}>
-          {/* COLGROUP - Width aplicat AICI, nu pe th! */}
+          {/* COLGROUP - Apply widths here for consistent column sizing */}
           <colgroup>
             {selection && (
-              <col style={{ width: '48px', minWidth: '48px', maxWidth: '48px' }} />
+              <col className={styles.checkboxColumnWidth} />
             )}
             {columns.map((column) => {
               const width = resize?.columnWidths[column.id] 
-                ? resize.columnWidths[column.id] 
-                : (column.width ? parseInt(column.width) : 150);
+                ?? (column.width ? parseFloat(column.width as string) : 150);
               return (
                 <col
                   key={column.id}
@@ -144,127 +165,21 @@ export function EnterpriseDataTable<T = any>({
             })}
           </colgroup>
 
-          <thead className={styles.header}>
-            <tr>
-              {/* Selection checkbox column */}
-              {selection && (
-                <th 
-                  className={`${styles.headerCell} ${styles.headerCellCheckbox}`}
-                  style={{ width: '48px', minWidth: '48px', maxWidth: '48px' }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <input
-                      type="checkbox"
-                      checked={selection.isAllSelected}
-                      ref={(input) => {
-                        if (input) {
-                          input.indeterminate = selection.isIndeterminate;
-                        }
-                      }}
-                      onChange={selection.toggleAll}
-                      aria-label="Select all rows"
-                      className={styles.checkbox}
-                    />
-                  </div>
-                </th>
-              )}
+          <EnterpriseTableHeader
+            columns={columns}
+            selection={selection}
+            sorting={sorting}
+            resize={resize}
+            onSort={handleSort}
+            onResizeStart={handleResizeStart}
+          />
 
-              {/* Data columns */}
-              {columns.map((column) => {
-                const isSortable = column.sortable ?? false;
-                const isResizable = column.resizable ?? false;
-                const isSorted = sorting?.columnId === column.id;
-                const sortDirection = sorting?.getSortDirection(column.id);
-
-                const cellClasses = [
-                  styles.headerCell,
-                  isSortable && styles.headerCellSortable,
-                  isSorted && styles.headerCellSorted,
-                ].filter(Boolean).join(' ');
-
-                return (
-                  <th
-                    key={column.id}
-                    className={cellClasses}
-                    onClick={() => isSortable && handleSort(column.id)}
-                  >
-                    <div className={styles.headerWrapper}>
-                      <div className={styles.headerContent}>
-                        <span>{column.header}</span>
-                        {isSortable && (
-                          <span className={styles.sortIcon}>
-                            {sortDirection === 'asc' ? '↑' : sortDirection === 'desc' ? '↓' : '⇅'}
-                          </span>
-                        )}
-                      </div>
-                      
-                      {isResizable && resize && (
-                        <div
-                          className={styles.resizeHandle}
-                          onMouseDown={(e) => handleResizeStart(e, column.id)}
-                          aria-label={`Resize ${column.header} column`}
-                        />
-                      )}
-                    </div>
-                  </th>
-                );
-              })}
-            </tr>
-          </thead>
-
-          <tbody className={styles.body}>
-            {data.map((row, rowIndex) => {
-              // Use row.id if exists, otherwise use index
-              const rowId = (row as any).id || String(rowIndex);
-              const isSelected = selection?.isRowSelected(rowId) ?? false;
-
-              return (
-                <tr
-                  key={rowIndex}
-                  className={isSelected ? styles.rowSelected : undefined}
-                  onClick={() => onRowClick?.(row)}
-                >
-                  {/* Selection checkbox */}
-                  {selection && (
-                    <td 
-                      className={styles.cell}
-                      style={{ width: '48px', minWidth: '48px', maxWidth: '48px' }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <input
-                          type="checkbox"
-                          checked={isSelected}
-                          onChange={() => selection.toggleRow(rowId)}
-                          onClick={(e) => e.stopPropagation()}
-                          aria-label={`Select row ${rowIndex + 1}`}
-                          className={styles.checkbox}
-                        />
-                      </div>
-                    </td>
-                  )}
-
-                  {/* Data cells */}
-                  {columns.map((column) => {
-                    const value = column.accessor ? column.accessor(row) : (row as any)[column.id];
-                    const cellContent = column.cell ? column.cell(row, value) : String(value ?? '');
-                    const tooltipText = String(value ?? '');
-
-                    return (
-                      <td
-                        key={column.id}
-                        className={styles.cell}
-                        title={tooltipText}
-                      >
-                        <div className={styles.cellContent}>
-                          {cellContent}
-                        </div>
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
+          <EnterpriseTableBody
+            data={data}
+            columns={columns}
+            selection={selection}
+            onRowClick={onRowClick ? handleRowClick : undefined}
+          />
         </table>
       </div>
     </div>

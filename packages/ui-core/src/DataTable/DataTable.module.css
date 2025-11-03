@@ -268,6 +268,34 @@
 /* Expanded row styles moved to DataTable.states.module.css */
 
 /* ========================================
+   CHECKBOX COLUMN & UTILITIES
+   ======================================== */
+
+/* Checkbox column - consistent width across header and body */
+.checkboxColumn {
+  width: var(--size-checkbox-column, 48px);
+  min-width: var(--size-checkbox-column, 48px);
+  max-width: var(--size-checkbox-column, 48px);
+  padding: var(--spacing-2);
+  text-align: center;
+}
+
+/* Checkbox column width for colgroup */
+.checkboxColumnWidth {
+  width: var(--size-checkbox-column, 48px);
+  min-width: var(--size-checkbox-column, 48px);
+  max-width: var(--size-checkbox-column, 48px);
+}
+
+/* Flex center utility for checkbox containers */
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* ========================================
    STATES & RESPONSIVE
    ========================================
    

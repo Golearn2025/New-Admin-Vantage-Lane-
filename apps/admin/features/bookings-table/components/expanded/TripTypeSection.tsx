@@ -15,6 +15,7 @@
 'use client';
 
 import React from 'react';
+import { Clock, Car } from 'lucide-react';
 import type { BookingListItem } from '@vantage-lane/contracts';
 import { InfoSection } from './InfoSection';
 import styles from './TripTypeSection.module.css';
@@ -31,7 +32,7 @@ export function TripTypeSection({ booking }: TripTypeSectionProps) {
       : null;
 
     return (
-      <InfoSection title="Hourly Booking" icon="⏱️" variant="highlight">
+      <InfoSection title="Hourly Booking" icon={<Clock size={18} />} variant="highlight">
         <div className={styles.dataList}>
           <div className={styles.dataRow}>
             <span className={styles.label}>Duration:</span>
@@ -75,7 +76,7 @@ export function TripTypeSection({ booking }: TripTypeSectionProps) {
     if (totalVehicles === 0) return null;
 
     return (
-      <InfoSection title="Fleet Booking" icon="🚗" variant="highlight">
+      <InfoSection title="Fleet Booking" icon={<Car size={18} />} variant="highlight">
         <div className={styles.fleetSummary}>
           <strong>Total Vehicles: {totalVehicles}</strong>
         </div>

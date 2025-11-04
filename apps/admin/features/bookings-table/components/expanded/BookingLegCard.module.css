@@ -18,7 +18,7 @@
   color: var(--color-text-secondary);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
-  border: 1px solid var(--color-border-secondary);
+  border: var(--border-width-1) solid var(--color-border-secondary);
 }
 
 /* Section */
@@ -39,7 +39,7 @@
   padding: var(--spacing-sm);
   background-color: var(--color-bg-secondary);
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-secondary);
+  border: var(--border-width-1) solid var(--color-border-secondary);
   min-width: 0;
 }
 
@@ -70,7 +70,7 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-xs) 0;
-  border-bottom: 1px solid var(--color-border-tertiary);
+  border-bottom: var(--border-width-1) solid var(--color-border-tertiary);
 }
 
 .dataRow:last-child {
@@ -103,7 +103,7 @@
   gap: var(--spacing-sm);
   padding: var(--spacing-md);
   background-color: var(--color-warning-alpha-10);
-  border: 1px solid var(--color-warning);
+  border: var(--border-width-1) solid var(--color-warning);
   border-radius: var(--radius-md);
   margin-top: var(--spacing-md);
 }
@@ -124,7 +124,7 @@
   gap: var(--spacing-sm);
   margin-top: var(--spacing-md);
   padding-top: var(--spacing-md);
-  border-top: 1px solid var(--color-border-secondary);
+  border-top: var(--border-width-1) solid var(--color-border-secondary);
 }
 
 .btnPrimary,
@@ -152,7 +152,7 @@
 .btnSecondary {
   background-color: var(--color-bg-tertiary);
   color: var(--color-text-primary);
-  border: 1px solid var(--color-border-secondary);
+  border: var(--border-width-1) solid var(--color-border-secondary);
 }
 
 .btnSecondary:hover {
@@ -163,7 +163,7 @@
 .btnDanger {
   background-color: var(--color-danger-alpha-10);
   color: var(--color-danger);
-  border: 1px solid var(--color-danger);
+  border: var(--border-width-1) solid var(--color-danger);
 }
 
 .btnDanger:hover {

@@ -11,7 +11,8 @@
 'use client';
 
 import React from 'react';
-import { Hourglass, User, Car, MapPin, RefreshCw, CheckCircle, XCircle, Circle } from 'lucide-react';
+import { Hourglass, User, Car, MapPin, RefreshCw, CheckCircle, XCircle, Circle, Star, AlertTriangle, DollarSign, Banknote, Clock } from 'lucide-react';
+import { Button } from '@vantage-lane/ui-core';
 import type { BookingLegWithDetails } from '@entities/booking-leg';
 import { InfoSection } from './InfoSection';
 import styles from './BookingLegCard.module.css';
@@ -48,11 +49,11 @@ export function BookingLegCard({
   const getLegIcon = (type: string): React.ReactNode => {
     const size = 12;
     const icons: Record<string, React.ReactNode> = {
-      outbound: <Circle size={size} fill="#10b981" stroke="#10b981" />,
-      return: <Circle size={size} fill="#ef4444" stroke="#ef4444" />,
+      outbound: <Circle size={size} fill="var(--color-leg-outbound)" stroke="var(--color-leg-outbound)" />,
+      return: <Circle size={size} fill="var(--color-leg-return)" stroke="var(--color-leg-return)" />,
       fleet_vehicle: <Car size={size} strokeWidth={2} />,
     };
-    return icons[type] || <Circle size={size} fill="#10b981" stroke="#10b981" />;
+    return icons[type] || <Circle size={size} fill="var(--color-leg-outbound)" stroke="var(--color-leg-outbound)" />;
   };
 
   const legIcon = getLegIcon(leg.leg_type);
@@ -107,14 +108,14 @@ export function BookingLegCard({
       {leg.assigned_driver_id ? (
         <div className={styles.assignment}>
           <div className={styles.dataRow}>
-            <span className={styles.label}>👤 Driver:</span>
+            <span className={styles.label}><User size={14} /> Driver:</span>
             <span className={styles.value}>
-              {leg.driver_name} {leg.driver_rating && `(⭐ ${leg.driver_rating.toFixed(1)})`}
+              {leg.driver_name} {leg.driver_rating && (<>(<Star size={14} /> {leg.driver_rating.toFixed(1)})</>)}
               {leg.driver_phone && ` • ${leg.driver_phone}`}
             </span>
           </div>
           <div className={styles.dataRow}>
-            <span className={styles.label}>🚗 Vehicle:</span>
+            <span className={styles.label}><Car size={14} /> Vehicle:</span>
             <span className={styles.value}>
               {leg.vehicle_make} {leg.vehicle_model_name}
               {leg.vehicle_plate && ` • ${leg.vehicle_plate} • ${leg.vehicle_color}`}
@@ -123,7 +124,7 @@ export function BookingLegCard({
         </div>
       ) : (
         <div className={styles.unassigned}>
-          <span className={styles.unassignedIcon}>⚠️</span>
+          <span className={styles.unassignedIcon}><AlertTriangle size={16} /></span>
           <span className={styles.unassignedText}>No driver assigned</span>
         </div>
       )}
@@ -131,15 +132,15 @@ export function BookingLegCard({
       {/* Pricing */}
       <div className={styles.pricing}>
         <div className={styles.dataRow}>
-          <span className={styles.label}>💰 Price:</span>
+          <span className={styles.label}><DollarSign size={14} /> Price:</span>
           <span className={styles.value}>£{leg.leg_price.toFixed(2)}</span>
         </div>
         {leg.driver_payout && (
           <div className={styles.dataRow}>
-            <span className={styles.label}>💵 Payout:</span>
+            <span className={styles.label}><Banknote size={14} /> Payout:</span>
             <span className={styles.value}>
               £{leg.driver_payout.toFixed(2)} •{' '}
-              {leg.payout_status === 'paid' ? '✅ Paid' : '⏳ Pending'}
+              {leg.payout_status === 'paid' ? (<><CheckCircle size={14} /> Paid</>) : (<><Clock size={14} /> Pending</>)}
             </span>
           </div>
         )}
@@ -149,24 +150,24 @@ export function BookingLegCard({
       {leg.status !== 'completed' && leg.status !== 'cancelled' && (
         <div className={styles.actions}>
           {!leg.assigned_driver_id && onAssignDriver && (
-            <button className={styles.btnPrimary} onClick={() => onAssignDriver(leg.id)}>
+            <Button variant="primary" size="sm" onClick={() => onAssignDriver(leg.id)}>
               Assign Driver
-            </button>
+            </Button>
           )}
           {leg.assigned_driver_id && onChangeDriver && (
-            <button className={styles.btnSecondary} onClick={() => onChangeDriver(leg.id)}>
+            <Button variant="secondary" size="sm" onClick={() => onChangeDriver(leg.id)}>
               Change Driver
-            </button>
+            </Button>
           )}
           {leg.assigned_driver_id && onNotifyDriver && (
-            <button className={styles.btnSecondary} onClick={() => onNotifyDriver(leg.id)}>
+            <Button variant="secondary" size="sm" onClick={() => onNotifyDriver(leg.id)}>
               🔔 Notify
-            </button>
+            </Button>
           )}
           {onCancelLeg && (
-            <button className={styles.btnDanger} onClick={() => onCancelLeg(leg.id)}>
+            <Button variant="danger" size="sm" onClick={() => onCancelLeg(leg.id)}>
               Cancel
-            </button>
+            </Button>
           )}
         </div>
       )}

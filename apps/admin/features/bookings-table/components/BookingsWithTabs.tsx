@@ -62,13 +62,16 @@ export function BookingsWithTabs({
         </div>
       )}
 
-      <Tabs
-        tabs={tabs}
-        activeTab={activeTab}
-        onChange={handleTabChange}
-        variant="pills"
-        fullWidth={false}
-      />
+      {/* Tabs with responsive wrapper */}
+      <div className={styles.tabsWrapper}>
+        <Tabs
+          tabs={tabs}
+          activeTab={activeTab}
+          onChange={handleTabChange}
+          variant="pills"
+          fullWidth={false}
+        />
+      </div>
       
       <BookingsTable
         statusFilter={statusFilter}

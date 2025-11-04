@@ -13,6 +13,7 @@
 'use client';
 
 import React from 'react';
+import { MapPin, User, Sparkles, FileText, Plane, Map, Star, Phone, CheckCircle, DollarSign, Clipboard, Mail, Ticket } from 'lucide-react';
 import type { BookingListItem } from '@vantage-lane/contracts';
 import { InfoSection } from './InfoSection';
 import styles from './OverviewTab.module.css';
@@ -38,7 +39,7 @@ export function OverviewTab({ booking }: OverviewTabProps) {
   return (
     <div className={styles.container}>
       {/* Pickup Section */}
-      <InfoSection title="Pickup" icon="📍" variant="compact">
+      <InfoSection title="Pickup" icon={<MapPin size={18} />} variant="compact">
         <div className={styles.locationCard}>
           <div className={styles.address}>{booking.pickup_location}</div>
           
@@ -56,7 +57,7 @@ export function OverviewTab({ booking }: OverviewTabProps) {
             )}
             {booking.flight_number && (
               <span className={styles.metaItem}>
-                ✈️ {booking.flight_number}
+                <Plane size={14} /> {booking.flight_number}
               </span>
             )}
           </div>
@@ -67,21 +68,21 @@ export function OverviewTab({ booking }: OverviewTabProps) {
               onClick={() => handleCopyAddress(booking.pickup_location)}
               type="button"
             >
-              📋 Copy Address
+              <Clipboard size={14} /> Copy Address
             </button>
             <button
               className={styles.actionButton}
               onClick={() => handleOpenMaps(booking.pickup_location)}
               type="button"
             >
-              🗺️ Open in Maps
+              <Map size={14} /> Open in Maps
             </button>
           </div>
         </div>
       </InfoSection>
 
       {/* Drop-off Section */}
-      <InfoSection title="Drop-off" icon="📍" variant="compact">
+      <InfoSection title="Drop-off" icon={<MapPin size={18} />} variant="compact">
         <div className={styles.locationCard}>
           <div className={styles.address}>{booking.destination}</div>
 
@@ -91,45 +92,45 @@ export function OverviewTab({ booking }: OverviewTabProps) {
               onClick={() => handleCopyAddress(booking.destination)}
               type="button"
             >
-              📋 Copy Address
+              <Clipboard size={14} /> Copy Address
             </button>
             <button
               className={styles.actionButton}
               onClick={() => handleOpenMaps(booking.destination)}
               type="button"
             >
-              🗺️ Open in Maps
+              <Map size={14} /> Open in Maps
             </button>
           </div>
         </div>
       </InfoSection>
 
       {/* Customer Section */}
-      <InfoSection title="Customer" icon="👤" variant="compact">
+      <InfoSection title="Customer" icon={<User size={18} />} variant="compact">
         <div className={styles.customerCard}>
           <div className={styles.customerRow}>
             <span className={styles.customerName}>{booking.customer_name}</span>
             {booking.customer_loyalty_tier && (
               <span className={styles.loyaltyBadge}>
-                ⭐ {booking.customer_loyalty_tier.toUpperCase()}
+                <Star size={14} /> {booking.customer_loyalty_tier.toUpperCase()}
               </span>
             )}
           </div>
 
           <div className={styles.customerDetails}>
             <div className={styles.detailItem}>
-              <span className={styles.detailIcon}>📞</span>
+              <span className={styles.detailIcon}><Phone size={14} /></span>
               <span className={styles.detailText}>{booking.customer_phone}</span>
             </div>
             {booking.customer_email && (
               <div className={styles.detailItem}>
-                <span className={styles.detailIcon}>📧</span>
+                <span className={styles.detailIcon}><Mail size={14} /></span>
                 <span className={styles.detailText}>{booking.customer_email}</span>
               </div>
             )}
             {booking.customer_total_bookings > 0 && (
               <div className={styles.detailItem}>
-                <span className={styles.detailIcon}>🎫</span>
+                <span className={styles.detailIcon}><Ticket size={14} /></span>
                 <span className={styles.detailText}>
                   {booking.customer_total_bookings} bookings
                 </span>
@@ -141,7 +142,7 @@ export function OverviewTab({ booking }: OverviewTabProps) {
 
       {/* Services Section */}
       {(freeServices.length > 0 || paidServices.length > 0) && (
-        <InfoSection title="Services" icon="✨" variant="compact">
+        <InfoSection title="Services" icon={<Sparkles size={18} />} variant="compact">
           <div className={styles.servicesCard}>
             {freeServices.length > 0 && (
               <div className={styles.serviceGroup}>
@@ -149,7 +150,7 @@ export function OverviewTab({ booking }: OverviewTabProps) {
                 <div className={styles.serviceList}>
                   {freeServices.map((service, idx) => (
                     <span key={idx} className={styles.serviceItem}>
-                      ✅ {service.service_code}
+                      <CheckCircle size={14} /> {service.service_code}
                     </span>
                   ))}
                 </div>
@@ -162,7 +163,7 @@ export function OverviewTab({ booking }: OverviewTabProps) {
                 <div className={styles.serviceList}>
                   {paidServices.map((service, idx) => (
                     <span key={idx} className={styles.serviceItemPaid}>
-                      💰 {service.service_code} (+£{service.unit_price.toFixed(2)})
+                      <DollarSign size={14} /> {service.service_code} (+£{service.unit_price.toFixed(2)})
                     </span>
                   ))}
                 </div>
@@ -174,7 +175,7 @@ export function OverviewTab({ booking }: OverviewTabProps) {
 
       {/* Notes Section */}
       {booking.notes && (
-        <InfoSection title="Notes" icon="📝" variant="compact">
+        <InfoSection title="Notes" icon={<FileText size={18} />} variant="compact">
           <div className={styles.notesCard}>
             <p className={styles.notesText}>{booking.notes}</p>
           </div>

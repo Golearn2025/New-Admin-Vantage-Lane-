@@ -1,0 +1,16 @@
+/**
+ * Breakpoints Design Tokens
+ * 
+ * Responsive breakpoints for media queries.
+ * Mobile-first approach: min-width for upward scaling.
+ */
+
+:root {
+  /* Breakpoint Values */
+  --breakpoint-xs: 320px;  /* Extra Small - Mobile portrait */
+  --breakpoint-sm: 480px;  /* Small - Mobile landscape */
+  --breakpoint-md: 768px;  /* Medium - Tablet */
+  --breakpoint-lg: 1024px; /* Large - Desktop */
+  --breakpoint-xl: 1200px; /* Extra Large - Large desktop */
+  --breakpoint-2xl: 1536px; /* 2X Large - Ultra-wide */
+}

@@ -3,8 +3,8 @@
 .container {
   margin-top: var(--spacing-3);
   padding: var(--spacing-4);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--color-white-alpha-3);
+  border: 1px solid var(--color-white-alpha-5);
   border-radius: var(--border-radius-lg);
 }
 
@@ -26,8 +26,8 @@
   align-items: center;
   gap: var(--spacing-3);
   padding: var(--spacing-3);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-white-alpha-3);
+  border: 1px solid var(--color-white-alpha-10);
   border-radius: var(--border-radius-md);
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -35,21 +35,21 @@
 }
 
 .option:hover {
-  background: rgba(211, 170, 49, 0.1);
-  border-color: rgba(211, 170, 49, 0.3);
+  background: var(--color-vehicle-gold-alpha-10);
+  border-color: var(--color-vehicle-gold-alpha-30);
 }
 
 .option.active {
-  background: rgba(211, 170, 49, 0.15);
-  border-color: rgba(211, 170, 49, 0.5);
-  box-shadow: 0 0 15px rgba(211, 170, 49, 0.2);
+  background: var(--color-primary-alpha-15);
+  border-color: var(--color-vehicle-gold-alpha-50);
+  box-shadow: 0 0 15px var(--color-vehicle-gold-alpha-20);
 }
 
 .radio {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid var(--color-white-alpha-30);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,14 +58,14 @@
 }
 
 .option.active .radio {
-  border-color: rgba(211, 170, 49, 1);
+  border-color: var(--color-vehicle-gold-solid);
 }
 
 .dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(211, 170, 49, 1);
+  background: var(--color-vehicle-gold-solid);
 }
 
 .label {
@@ -75,5 +75,5 @@
 }
 
 .option.active .label {
-  color: rgba(211, 170, 49, 1);
+  color: var(--color-vehicle-gold-solid);
 }

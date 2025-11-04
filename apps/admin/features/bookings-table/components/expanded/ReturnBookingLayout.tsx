@@ -14,7 +14,10 @@ import { XCircle, CheckCircle, RefreshCw, Sparkles, Hourglass } from 'lucide-rea
 import React from 'react';
 import type { BookingListItem } from '@vantage-lane/contracts';
 import { useBookingLegs } from '../../hooks/useBookingLegs';
-import { BookingLegCard, PricingBreakdownCard, CommissionSplitsCard, InfoSection } from './index';
+import { BookingLegCard } from './BookingLegCard';
+import { PricingBreakdownCard } from './PricingBreakdownCard';
+import { CommissionSplitsCard } from './CommissionSplitsCard';
+import { InfoSection } from './InfoSection';
 import styles from './ReturnBookingLayout.module.css';
 
 interface ReturnBookingLayoutProps {

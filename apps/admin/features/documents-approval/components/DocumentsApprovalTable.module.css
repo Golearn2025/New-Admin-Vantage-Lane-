@@ -174,14 +174,8 @@
   transform: translateY(-1px);
 }
 
-/* Table */
-.tableContainer {
-  background: var(--color-bg-secondary);
-  border-radius: var(--border-radius-lg);
-  border: 1px solid var(--color-border-default);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
+/* Table Container - EnterpriseDataTable handles border/radius internally */
+/* No wrapper styles needed to prevent double borders */
 
 /* Pagination */
 .paginationWrapper {

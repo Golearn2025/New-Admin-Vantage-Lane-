@@ -7,8 +7,35 @@
   padding: var(--spacing-sm);
   margin-bottom: var(--spacing-md);
   background: var(--color-error-alpha-10);
-  border: 1px solid var(--color-error);
+  border: var(--border-width-1) solid var(--color-error);
   border-radius: var(--radius-md);
   color: var(--color-error);
   font-size: var(--font-size-sm);
+}
+
+/* Tabs wrapper - responsive horizontal scroll */
+.tabsWrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-bottom: var(--spacing-md);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-secondary) transparent;
+}
+
+.tabsWrapper::-webkit-scrollbar {
+  height: var(--spacing-1);
+}
+
+.tabsWrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tabsWrapper::-webkit-scrollbar-thumb {
+  background: var(--color-border-secondary);
+  border-radius: var(--radius-full);
+}
+
+.tabsWrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-primary);
 }

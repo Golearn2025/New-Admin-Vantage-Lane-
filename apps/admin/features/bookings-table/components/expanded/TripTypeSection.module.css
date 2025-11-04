@@ -16,7 +16,7 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-2) 0;
-  border-bottom: 1px solid var(--color-border-subtle);
+  border-bottom: var(--border-width-1) solid var(--color-border-subtle);
 }
 
 .dataRow:last-child {
@@ -54,7 +54,7 @@
 .fleetItem {
   padding: var(--spacing-3);
   background: var(--color-bg-tertiary);
-  border: 1px solid var(--color-border-default);
+  border: var(--border-width-1) solid var(--color-border-default);
   border-radius: var(--radius-sm);
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);

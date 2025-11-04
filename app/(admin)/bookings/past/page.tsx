@@ -8,10 +8,13 @@
 
 import { BookingsTable } from '@features/bookings-table';
 
+// ✅ Constant outside component prevents array recreation on every render
+const PAST_STATUS_FILTER = ['completed', 'cancelled'];
+
 export default function PastBookingsPage() {
   return (
     <BookingsTable
-      statusFilter={['completed', 'cancelled']}
+      statusFilter={PAST_STATUS_FILTER}
       title="Past Bookings"
       description="Completed and cancelled bookings"
       showStatusFilter={true}

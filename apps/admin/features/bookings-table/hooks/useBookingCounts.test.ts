@@ -21,7 +21,8 @@ describe('useBookingCounts', () => {
   });
 
   it('should start with loading state', () => {
-    (global.fetch as any).mockImplementation(() => new Promise(() => {})); // Never resolves
+    const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
+    mockFetch.mockImplementation(() => new Promise(() => {})); // Never resolves
     
     const { result } = renderHook(() => useBookingCounts());
     
@@ -39,10 +40,11 @@ describe('useBookingCounts', () => {
       cancelled: 10,
     };
 
-    (global.fetch as any).mockResolvedValueOnce({
+    const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
+    mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ counts: mockCounts }),
-    });
+    } as Response);
 
     const { result } = renderHook(() => useBookingCounts());
 
@@ -55,7 +57,8 @@ describe('useBookingCounts', () => {
   });
 
   it('should handle fetch errors', async () => {
-    (global.fetch as any).mockRejectedValueOnce(new Error('Network error'));
+    const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
+    mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
     const { result } = renderHook(() => useBookingCounts());
 
@@ -69,10 +72,11 @@ describe('useBookingCounts', () => {
   });
 
   it('should handle non-ok responses', async () => {
-    (global.fetch as any).mockResolvedValueOnce({
+    const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
+    mockFetch.mockResolvedValueOnce({
       ok: false,
       statusText: 'Internal Server Error',
-    });
+    } as Response);
 
     const { result } = renderHook(() => useBookingCounts());
 
@@ -94,10 +98,11 @@ describe('useBookingCounts', () => {
       cancelled: 10,
     };
 
-    (global.fetch as any).mockResolvedValue({
+    const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
+    mockFetch.mockResolvedValue({
       ok: true,
       json: async () => ({ counts: mockCounts }),
-    });
+    } as Response);
 
     const { result } = renderHook(() => useBookingCounts());
 
@@ -117,10 +122,11 @@ describe('useBookingCounts', () => {
 
   it('should handle refetch errors', async () => {
     // First call succeeds
-    (global.fetch as any).mockResolvedValueOnce({
+    const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
+    mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ counts: { all: 100, pending: 25, active: 15, completed: 50, cancelled: 10 } }),
-    });
+    } as Response);
 
     const { result } = renderHook(() => useBookingCounts());
 
@@ -129,7 +135,7 @@ describe('useBookingCounts', () => {
     });
 
     // Second call (refetch) fails
-    (global.fetch as any).mockRejectedValueOnce(new Error('Refetch error'));
+    mockFetch.mockRejectedValueOnce(new Error('Refetch error'));
 
     await result.current.refetch();
 
@@ -139,10 +145,11 @@ describe('useBookingCounts', () => {
   });
 
   it('should call correct API endpoint', async () => {
-    (global.fetch as any).mockResolvedValueOnce({
+    const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
+    mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ counts: { all: 0, pending: 0, active: 0, completed: 0, cancelled: 0 } }),
-    });
+    } as Response);
 
     renderHook(() => useBookingCounts());
 

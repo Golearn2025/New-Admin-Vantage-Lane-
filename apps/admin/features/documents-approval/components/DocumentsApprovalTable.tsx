@@ -9,7 +9,15 @@
 'use client';
 
 import React from 'react';
-import { DataTable, Input, TableActions, Pagination } from '@vantage-lane/ui-core';
+import { 
+  EnterpriseDataTable,
+  useSelection,
+  useSorting,
+  useColumnResize,
+  Input, 
+  TableActions, 
+  Pagination 
+} from '@vantage-lane/ui-core';
 import { useDocumentsApproval } from '../hooks/useDocumentsApproval';
 import { getDocumentsColumns } from '../columns/documentsColumns';
 import styles from './DocumentsApprovalTable.module.css';
@@ -41,6 +49,14 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
   }, [documents, currentPage, pageSize]);
   
   const totalPages = Math.ceil(documents.length / pageSize);
+  
+  // Initialize hooks for EnterpriseDataTable
+  const selection = useSelection({
+    data: paginatedDocs,
+    getRowId: (doc) => doc.id,
+  });
+  const sorting = useSorting();
+  const resize = useColumnResize();
   
   const columns = getDocumentsColumns({
     onApprove: (doc) => console.log('Approve:', doc),
@@ -138,7 +154,17 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
       {!loading && !error && (
         <>
           <div className={styles.tableContainer}>
-            <DataTable data={paginatedDocs} columns={columns} />
+            <EnterpriseDataTable
+              data={paginatedDocs}
+              columns={columns}
+              selection={selection}
+              sorting={sorting}
+              resize={resize}
+              stickyHeader={true}
+              maxHeight="calc(100vh - 400px)"
+              striped={true}
+              ariaLabel="Documents approval table"
+            />
           </div>
           
           {documents.length > 0 && (

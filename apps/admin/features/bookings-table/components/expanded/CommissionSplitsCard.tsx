@@ -10,6 +10,8 @@
 
 'use client';
 
+import React, { useEffect, useRef } from 'react';
+import { Coins } from 'lucide-react';
 import styles from './CommissionSplitsCard.module.css';
 import { InfoSection } from './InfoSection';
 
@@ -32,6 +34,8 @@ export function CommissionSplitsCard({
   driverEarnings,
   currency = 'GBP',
 }: CommissionSplitsProps) {
+  const breakdownRef = useRef<HTMLDivElement>(null);
+
   const formatPrice = (amount: number): string => {
     const symbol = currency === 'GBP' ? '£' : currency === 'EUR' ? '€' : '$';
     return `${symbol}${amount.toFixed(2)}`;
@@ -41,8 +45,21 @@ export function CommissionSplitsCard({
     return `${(rate * 100).toFixed(0)}%`;
   };
 
+  // Set CSS custom properties for bar widths
+  useEffect(() => {
+    if (breakdownRef.current && totalPaid > 0) {
+      const platformWidth = (platformFee / totalPaid) * 100;
+      const operatorWidth = ((operatorNet - driverEarnings) / totalPaid) * 100;
+      const driverWidth = (driverEarnings / totalPaid) * 100;
+
+      breakdownRef.current.style.setProperty('--platform-width', `${platformWidth}%`);
+      breakdownRef.current.style.setProperty('--operator-width', `${operatorWidth}%`);
+      breakdownRef.current.style.setProperty('--driver-width', `${driverWidth}%`);
+    }
+  }, [totalPaid, platformFee, operatorNet, driverEarnings]);
+
   return (
-    <InfoSection title="Commission Splits" icon="💵" variant="highlight">
+    <InfoSection title="Commission Splits" icon={<Coins size={18} />} variant="highlight">
       <div className={styles.splits}>
         {/* Total Paid */}
         <div className={`${styles.row} ${styles.total}`}>
@@ -77,20 +94,17 @@ export function CommissionSplitsCard({
         </div>
 
         {/* Visual Breakdown */}
-        <div className={styles.visualBreakdown}>
+        <div ref={breakdownRef} className={styles.visualBreakdown}>
           <div
             className={styles.platformBar}
-            style={{ '--bar-width': `${(platformFee / totalPaid) * 100}%` } as React.CSSProperties}
             title={`Platform: ${formatPrice(platformFee)}`}
           />
           <div
             className={styles.operatorBar}
-            style={{ '--bar-width': `${((operatorNet - driverEarnings) / totalPaid) * 100}%` } as React.CSSProperties}
             title={`Operator: ${formatPrice(operatorNet - driverEarnings)}`}
           />
           <div
             className={styles.driverBar}
-            style={{ '--bar-width': `${(driverEarnings / totalPaid) * 100}%` } as React.CSSProperties}
             title={`Driver: ${formatPrice(driverEarnings)}`}
           />
         </div>

@@ -1,14 +1,9 @@
-/**
- * Bookings Columns - Actions Column
- */
-
 'use client';
 
-import { ActionMenu } from '@vantage-lane/ui-core';
+import { ActionMenu, Button } from '@vantage-lane/ui-core';
 import { UserPlus, Pencil, MoreHorizontal, Eye, Calendar, Clock, Mail, Phone, Download, Copy, CreditCard, X } from 'lucide-react';
 import styles from './columns.module.css';
 import type { BookingColumn } from './schema';
-
 const __DEV__ = process.env.NODE_ENV !== 'production';
 
 export const getActionsColumn = (): BookingColumn => ({
@@ -18,10 +13,10 @@ export const getActionsColumn = (): BookingColumn => ({
   align: 'center',
   cell: (row) => (
     <div className={styles.actionsCell}>
-      {/* Fixed-size buttons with lucide-react icons */}
-      <button
-        type="button"
-        className={`${styles.btnFixed} ${styles.btn88x28} ${styles.btnPrimary}`}
+      {/* UI-Core Button components */}
+      <Button
+        variant="primary"
+        size="sm"
         onClick={() => {
           if (__DEV__) {
             // eslint-disable-next-line no-console
@@ -30,15 +25,12 @@ export const getActionsColumn = (): BookingColumn => ({
         }}
         aria-label="Assign Driver"
       >
-        <span className={styles.icon}>
-          <UserPlus size={12} strokeWidth={2} />
-        </span>
-        <span className={styles.label}>Assign</span>
-      </button>
+        <UserPlus size={16} strokeWidth={2} />
+      </Button>
 
-      <button
-        type="button"
-        className={`${styles.btnFixed} ${styles.btn88x28} ${styles.btnSecondary}`}
+      <Button
+        variant="secondary"
+        size="sm"
         onClick={() => {
           if (__DEV__) {
             // eslint-disable-next-line no-console
@@ -47,25 +39,19 @@ export const getActionsColumn = (): BookingColumn => ({
         }}
         aria-label="Edit Booking"
       >
-        <span className={styles.icon}>
-          <Pencil size={12} strokeWidth={2} />
-        </span>
-        <span className={styles.label}>Edit</span>
-      </button>
+        <Pencil size={16} strokeWidth={2} />
+      </Button>
 
       <ActionMenu
         position="bottom-right"
         trigger={
-          <button
-            type="button"
-            className={`${styles.btnFixed} ${styles.btn88x28} ${styles.btnSecondary}`}
+          <Button
+            variant="secondary"
+            size="sm"
             aria-label="More Options"
           >
-            <span className={styles.icon}>
-              <MoreHorizontal size={12} strokeWidth={2} />
-            </span>
-            <span className={styles.label}>More</span>
-          </button>
+            <MoreHorizontal size={16} strokeWidth={2} />
+          </Button>
         }
         items={[
           // VIEWING & INFO

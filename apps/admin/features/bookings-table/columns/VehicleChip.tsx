@@ -14,7 +14,7 @@ import React from 'react';
 import { Car, Sparkles, Truck, Bus } from 'lucide-react';
 import styles from './VehicleChip.module.css';
 
-type VehicleCategory = 'EXEC' | 'LUX' | 'SUV' | 'VAN' | 'FLEET';
+export type VehicleCategory = 'EXEC' | 'LUX' | 'SUV' | 'VAN' | 'FLEET';
 
 interface VehicleChipProps {
   category: VehicleCategory;

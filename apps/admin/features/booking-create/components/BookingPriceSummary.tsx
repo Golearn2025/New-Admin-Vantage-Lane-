@@ -1,4 +1,4 @@
-import { Hourglass, Percent } from 'lucide-react';
+import { Hourglass, Percent, Rocket } from 'lucide-react';
 import { useState } from 'react';
 /**
  * BookingPriceSummary Component
@@ -100,7 +100,7 @@ export function BookingPriceSummary({
           </>
         ) : (
           <>
-            <span className={styles.icon}>🚀</span>
+            <span className={styles.icon}><Rocket size={16} /></span>
             Create Booking
           </>
         )}

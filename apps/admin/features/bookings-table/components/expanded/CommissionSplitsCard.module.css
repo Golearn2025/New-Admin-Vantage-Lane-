@@ -77,20 +77,22 @@
 .operatorBar,
 .driverBar {
   height: 100%;
-  width: var(--bar-width, 0%);
   transition: var(--transition-base);
   cursor: pointer;
 }
 
 .platformBar {
+  width: var(--platform-width, 0%);
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
 }
 
 .operatorBar {
+  width: var(--operator-width, 0%);
   background: linear-gradient(135deg, var(--color-warning), var(--color-warning-hover));
 }
 
 .driverBar {
+  width: var(--driver-width, 0%);
   background: linear-gradient(135deg, var(--color-success), var(--color-success-hover));
 }
 

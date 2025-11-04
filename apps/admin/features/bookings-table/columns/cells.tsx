@@ -6,6 +6,7 @@
 'use client';
 
 import React from 'react';
+import { ChevronRight } from 'lucide-react';
 import { Email, Phone } from '@vantage-lane/ui-icons';
 import { getTripIcon } from './helpers';
 import styles from './columns.module.css';
@@ -43,7 +44,7 @@ export const getExpandColumn = (): BookingColumn => ({
   id: 'expand',
   header: '',
   width: '32px',
-  cell: () => <button className={styles.expandButton}>▶️</button>,
+  cell: () => <button className={styles.expandButton}><ChevronRight size={16} /></button>,
 });
 
 export const getReferenceColumn = (): BookingColumn => ({
@@ -52,6 +53,8 @@ export const getReferenceColumn = (): BookingColumn => ({
   accessor: (row) => row.reference,
   width: '100px',
   align: 'left',
+  resizable: true,
+  sortable: true,
   cell: (row) => (
     <div className={styles.referenceCell}>
       <div className={styles.referenceId}>{row.reference}</div>
@@ -68,6 +71,8 @@ export const getCustomerColumn = (): BookingColumn => ({
   accessor: (row) => row.customer_name,
   width: '120px',
   align: 'left',
+  resizable: true,
+  sortable: true,
   cell: (row) => (
     <div className={styles.customerCell}>
       <div className={styles.customerName}>{row.customer_name}</div>

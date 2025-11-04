@@ -11,6 +11,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Smartphone, CheckCircle, Clipboard } from 'lucide-react';
 import type { BookingListItem } from '@vantage-lane/contracts';
 import styles from './WhatsAppShare.module.css';
 
@@ -119,7 +120,7 @@ Vehicle: ${booking.vehicle_make || ''} ${booking.vehicle_model_name || ''} ${boo
       <div className={styles.preview}>
         <div className={styles.previewHeader}>
           <span className={styles.previewTitle}>
-            {level === 'basic' ? '📱 Job Alert Preview' : '✅ Full Details Preview'}
+            {level === 'basic' ? (<><Smartphone size={14} /> Job Alert Preview</>) : (<><CheckCircle size={14} /> Full Details Preview</>)}
           </span>
         </div>
         <pre className={styles.previewContent}>{message}</pre>
@@ -131,14 +132,14 @@ Vehicle: ${booking.vehicle_make || ''} ${booking.vehicle_model_name || ''} ${boo
           onClick={handleCopy}
           type="button"
         >
-          {copied ? '✅ Copied!' : '📋 Copy Message'}
+          {copied ? (<><CheckCircle size={14} /> Copied!</>) : (<><Clipboard size={14} /> Copy Message</>)}
         </button>
         <button
           className={styles.whatsappButton}
           onClick={handleWhatsApp}
           type="button"
         >
-          📱 Share to WhatsApp
+          <Smartphone size={14} /> Share to WhatsApp
         </button>
       </div>
     </div>

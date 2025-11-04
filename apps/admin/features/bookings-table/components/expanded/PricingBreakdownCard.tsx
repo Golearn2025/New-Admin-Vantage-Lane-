@@ -11,6 +11,7 @@
 'use client';
 
 import React from 'react';
+import { DollarSign } from 'lucide-react';
 import { InfoSection } from './InfoSection';
 import styles from './PricingBreakdownCard.module.css';
 
@@ -52,7 +53,7 @@ export function PricingBreakdownCard({
   );
 
   return (
-    <InfoSection title="Pricing Breakdown" icon="💰" variant="highlight">
+    <InfoSection title="Pricing Breakdown" icon={<DollarSign size={18} />} variant="highlight">
       <div className={styles.breakdown}>
         {/* Base Pricing */}
         {baseFare !== undefined && (

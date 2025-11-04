@@ -11,13 +11,14 @@
    ======================================== */
 
 .expandedRow {
-  border-bottom: var(--border-width-1) solid var(--color-border-primary);
+  background: var(--color-bg-secondary);
+  border-bottom: var(--border-width-1) solid var(--color-border-secondary);
 }
 
 .expandedCell {
-  padding: 0;
+  padding: var(--spacing-4);
   background: var(--color-bg-secondary);
-  border-top: var(--border-width-1) solid var(--color-border-primary);
+  border-bottom: var(--border-width-1) solid var(--color-border-secondary);
 }
 
 /* ========================================

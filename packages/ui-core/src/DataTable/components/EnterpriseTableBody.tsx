@@ -13,6 +13,7 @@
 import React from 'react';
 import { EnterpriseTableRow } from './EnterpriseTableRow';
 import styles from '../DataTable.module.css';
+import stateStyles from '../DataTable.states.module.css';
 import type { Column } from '../types/index';
 import type { UseSelectionReturn } from '../hooks';
 
@@ -27,6 +28,12 @@ interface EnterpriseTableBodyProps<T> {
   onRowClick?: ((row: T) => void) | undefined;
   /** Additional CSS class */
   className?: string | undefined;
+  /** Expanded row IDs */
+  expandedIds?: Set<string> | undefined;
+  /** Render expanded row content */
+  renderExpandedRow?: ((row: T) => React.ReactNode) | undefined;
+  /** Get row ID */
+  getRowId?: ((row: T) => string) | undefined;
 }
 
 /**
@@ -39,29 +46,43 @@ export function EnterpriseTableBody<T>({
   selection,
   onRowClick,
   className,
+  expandedIds,
+  renderExpandedRow,
+  getRowId,
 }: EnterpriseTableBodyProps<T>): React.ReactElement {
   const classes = [styles.body, className].filter(Boolean).join(' ');
 
   return (
     <tbody className={classes}>
       {data.map((row, index) => {
-        // Extract row ID - prefer row.id over index
+        // Extract row ID - use getRowId if provided, otherwise fallback to row.id
         const rowData = row as Record<string, unknown>;
-        const rowId = String(rowData.id ?? index);
+        const rowId = getRowId ? getRowId(row) : String(rowData.id ?? index);
         
         // Check selection state
         const isSelected = selection?.isRowSelected(rowId) ?? false;
+        
+        // Check if expanded
+        const isExpanded = expandedIds?.has(rowId) ?? false;
 
         return (
-          <EnterpriseTableRow
-            key={rowId}
-            row={row}
-            rowId={rowId}
-            columns={columns}
-            isSelected={isSelected}
-            onRowClick={onRowClick}
-            selection={selection}
-          />
+          <React.Fragment key={rowId}>
+            <EnterpriseTableRow
+              row={row}
+              rowId={rowId}
+              columns={columns}
+              isSelected={isSelected}
+              onRowClick={onRowClick}
+              selection={selection}
+            />
+            {isExpanded && renderExpandedRow && (
+              <tr className={stateStyles.expandedRow}>
+                <td colSpan={columns.length + (selection ? 1 : 0)} className={stateStyles.expandedCell}>
+                  {renderExpandedRow(row)}
+                </td>
+              </tr>
+            )}
+          </React.Fragment>
         );
       })}
     </tbody>

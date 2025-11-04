@@ -183,7 +183,7 @@ export function Pagination({
           >
             {pageSizeOptions.map((option) => (
               <option key={option} value={option}>
-                {option}
+                {option === -1 ? 'All' : option}
               </option>
             ))}
           </select>

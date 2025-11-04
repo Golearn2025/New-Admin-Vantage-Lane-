@@ -49,12 +49,8 @@
 /* Search and button use global Input/Button components from ui-core */
 /* No custom styles needed - handled by design system */
 
-.tableContainer {
-  background: var(--color-bg-secondary);
-  border-radius: var(--border-radius-lg);
-  border: 1px solid var(--color-border-default);
-  overflow: hidden;
-}
+/* Table Container - EnterpriseDataTable handles border/radius internally */
+/* No wrapper styles needed to prevent double borders */
 
 .loadingContainer {
   display: flex;
@@ -66,8 +62,8 @@
 }
 
 .spinner {
-  width: 32px;
-  height: 32px;
+  width: var(--spacing-8);
+  height: var(--spacing-8);
   border: 3px solid var(--color-border-default);
   border-top-color: var(--color-primary);
   border-radius: 50%;
@@ -122,8 +118,8 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-4);
-  background: rgba(211, 170, 49, 0.1);
-  border: 1px solid rgba(211, 170, 49, 0.3);
+  background: var(--color-vehicle-gold-alpha-10);
+  border: var(--border-width-1) solid var(--color-vehicle-gold-alpha-30);
   border-radius: var(--border-radius-lg);
   margin-bottom: var(--spacing-4);
   animation: var(--animation-slide-in);

@@ -40,16 +40,14 @@
 .tableWrapper {
   width: 100%;
   max-width: 100%;
-  overflow-y: auto;
-  overflow-x: auto;
+  overflow-x: auto;                /* ✅ Doar scroll orizontal */
+  overflow-y: visible !important;  /* ✅ FORCE: Permite pagina să scrolleze */
+  max-height: none !important;     /* ✅ FORCE: Fără limită de înălțime */
+  height: auto !important;         /* ✅ FORCE: Înălțime automată */
   border-radius: var(--radius-lg);
   border: var(--border-width-1) solid var(--color-border-secondary);
   box-sizing: border-box;
-}
-
-.tableScrollable {
-  max-height: var(--table-max-height);
-  overflow-y: auto;
+  overflow: hidden; /* ✅ Ensures border-radius is applied correctly */
 }
 
 /* ========================================
@@ -62,24 +60,28 @@
   z-index: 20;
   background: var(--color-bg-secondary);
   border-bottom: var(--border-width-2) solid var(--color-border-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* ✅ Shadow pentru claritate */
 }
 
 /* Sticky header container */
 .stickyHeader {
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  overflow: visible !important; /* ✅ FORCE: Nu restricționează înălțimea */
+  max-height: none !important;  /* ✅ FORCE: Fără limită */
+  height: auto !important;      /* ✅ FORCE: Înălțime automată */
 }
 
 .stickyHeader .tableWrapper {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: auto;
+  overflow-x: auto;                /* ✅ Doar scroll orizontal */
+  overflow-y: visible !important;  /* ✅ FORCE: Permite pagina să scrolleze */
+  max-height: none !important;     /* ✅ FORCE: Fără limită */
+  height: auto !important;         /* ✅ FORCE: Înălțime automată */
+  flex: none !important;           /* ✅ FORCE: Nu flex container */
 }
 
 .headerCell {
-  padding: var(--spacing-3) var(--spacing-2); /* ✅ ULTRA COMPACT: 12px 8px */
+  position: relative; /* ✅ CRITICAL: pentru resize handle absolute positioning */
+  overflow: visible; /* ✅ CRITICAL: nu ascunde resize handle-ul */
+  padding: var(--spacing-2) var(--spacing-2); /* ✅ COMPACT: 8px 8px */
   text-align: left; /* ✅ CONSISTENT cu cells - stânga by default */
   font-weight: var(--font-semibold);
   font-size: var(--font-sm);
@@ -96,6 +98,30 @@
 .headerCellExpand {
   width: var(--spacing-12);
   text-align: center;
+}
+
+/* ========================================
+   HEADER CORNER RADIUS
+   ======================================== */
+
+/* Top-left corner */
+.header tr th:first-child {
+  border-top-left-radius: var(--radius-lg);
+}
+
+/* Top-right corner */
+.header tr th:last-child {
+  border-top-right-radius: var(--radius-lg);
+}
+
+/* Bottom-left corner (last row, first cell) */
+.table :global(tbody tr:last-child td:first-child) {
+  border-bottom-left-radius: var(--radius-lg);
+}
+
+/* Bottom-right corner (last row, last cell) */
+.table :global(tbody tr:last-child td:last-child) {
+  border-bottom-right-radius: var(--radius-lg);
 }
 
 .headerCellSortable {
@@ -140,43 +166,60 @@
   color: var(--color-primary);
 }
 
-/* Resize Handle - VIZIBIL și STABIL! */
+/* Resize Handle - ULTRA VIZIBIL! */
 .resizeHandle {
   position: absolute;
   right: 0;
   top: 0;
   bottom: 0;
-  width: 12px; /* Mai larg pentru area mai mare */
+  width: 12px; /* Wider area */
   cursor: col-resize;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none; /* Previne selecția text */
+  z-index: 9999; /* Maximum over everything */
+  display: block;
+  user-select: none;
+  background: transparent;
 }
 
 .resizeHandle::before {
   content: '';
-  width: 2px;
-  height: 60%;
-  background: var(--color-border-primary);
-  border-radius: var(--border-radius-full);
-  transition: all var(--transition-fast);
-  pointer-events: none; /* Linia nu interferează cu mouse */
-}
-
-.resizeHandle:hover::before {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 3px; /* Wider by default */
+  height: 70%;
   background: var(--color-primary);
-  height: 80%;
-  width: 3px;
-  box-shadow: 0 0 4px var(--color-primary);
+  border-radius: 99px;
+  opacity: 1; /* ALWAYS visible */
+  transition: all 0.15s ease;
+  pointer-events: none;
 }
 
+/* Hover pe HEADER CELL arată handle-ul */
+.headerCell:hover .resizeHandle::before {
+  opacity: 1;
+  background: var(--color-primary);
+  width: 4px;
+  height: 80%;
+  box-shadow: 0 0 6px var(--color-primary);
+}
+
+/* Hover direct pe HANDLE */
+.resizeHandle:hover::before {
+  opacity: 1;
+  background: var(--color-primary);
+  width: 4px;
+  height: 90%;
+  box-shadow: 0 0 8px var(--color-primary);
+}
+
+/* Active (dragging) */
 .resizeHandle:active::before {
   background: var(--color-primary);
+  opacity: 1;
+  width: 5px;
   height: 100%;
-  width: 4px;
-  box-shadow: 0 0 8px var(--color-primary);
+  box-shadow: 0 0 12px var(--color-primary);
 }
 
 /* ========================================
@@ -243,7 +286,7 @@
    ======================================== */
 
 .cell {
-  padding: var(--spacing-3) var(--spacing-2); /* ✅ ULTRA COMPACT: 12px 8px */
+  padding: var(--spacing-2) var(--spacing-2); /* ✅ COMPACT: 8px 8px */
   text-align: left; /* ✅ DEFAULT - same ca header */
   color: var(--color-text-primary);
   border-bottom: var(--border-width-1) solid var(--color-border-secondary);
@@ -271,20 +314,20 @@
    CHECKBOX COLUMN & UTILITIES
    ======================================== */
 
-/* Checkbox column - consistent width across header and body */
+/* Checkbox column - resizable */
 .checkboxColumn {
   width: var(--size-checkbox-column, 48px);
-  min-width: var(--size-checkbox-column, 48px);
-  max-width: var(--size-checkbox-column, 48px);
-  padding: var(--spacing-2);
+  min-width: 32px;  /* ✅ Permite micșorare */
+  max-width: 200px; /* ✅ Permite mărire */
   text-align: center;
+  padding: var(--spacing-2);
 }
 
 /* Checkbox column width for colgroup */
 .checkboxColumnWidth {
   width: var(--size-checkbox-column, 48px);
-  min-width: var(--size-checkbox-column, 48px);
-  max-width: var(--size-checkbox-column, 48px);
+  min-width: 32px;  /* ✅ Permite micșorare */
+  max-width: 200px; /* ✅ Permite mărire */
 }
 
 /* Flex center utility for checkbox containers */

@@ -7,15 +7,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import type { UnifiedUser } from '@entities/user';
 
 export interface UseUsersTableBaseReturn {
-  data: any[];
+  data: UnifiedUser[];
   loading: boolean;
   error: string | null;
 }
 
 export function useUsersTableBase(): UseUsersTableBaseReturn {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<UnifiedUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

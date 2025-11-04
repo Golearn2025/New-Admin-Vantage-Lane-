@@ -54,19 +54,29 @@ export function EnterpriseTableHeader<T>({
         {/* Selection checkbox column */}
         {selection && (
           <th className={styles.checkboxColumn}>
-            <div className={styles.flexCenter}>
-              <input
-                type="checkbox"
-                checked={selection.isAllSelected}
-                ref={(input) => {
-                  if (input) {
-                    input.indeterminate = selection.isIndeterminate;
-                  }
-                }}
-                onChange={selection.toggleAll}
-                aria-label="Select all rows"
-                className={styles.checkbox}
-              />
+            <div className={styles.headerWrapper}>
+              <div className={styles.flexCenter}>
+                <input
+                  type="checkbox"
+                  checked={selection.isAllSelected}
+                  ref={(input) => {
+                    if (input) {
+                      input.indeterminate = selection.isIndeterminate;
+                    }
+                  }}
+                  onChange={selection.toggleAll}
+                  aria-label="Select all rows"
+                  className={styles.checkbox}
+                />
+              </div>
+              {/* Resize handle for checkbox column */}
+              {resize && onResizeStart && (
+                <div
+                  className={styles.resizeHandle}
+                  onMouseDown={(e) => onResizeStart(e, '__select__')}
+                  aria-label="Resize selection column"
+                />
+              )}
             </div>
           </th>
         )}
@@ -74,7 +84,8 @@ export function EnterpriseTableHeader<T>({
         {/* Data columns */}
         {columns.map((column) => {
           const isSortable = column.sortable ?? false;
-          const isResizable = column.resizable ?? false;
+          // Columns are resizable by default if resize hook is provided
+          const isResizable = resize ? (column.resizable ?? true) : false;
           const isSorted = sorting?.columnId === column.id;
           const sortDirection = sorting?.getSortDirection(column.id);
 

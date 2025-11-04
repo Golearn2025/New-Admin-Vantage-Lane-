@@ -11,10 +11,15 @@
 
 import { BookingsWithTabs } from '@features/bookings-table';
 
+type BookingStatus = 'pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress';
+
+// ✅ Constant outside component prevents array recreation on every render
+const ACTIVE_STATUS_FILTER: BookingStatus[] = ['pending', 'assigned', 'en_route', 'arrived', 'in_progress'];
+
 export default function ActiveBookingsPage() {
   return (
     <BookingsWithTabs
-      statusFilter={['pending', 'assigned', 'en_route', 'arrived', 'in_progress']}
+      statusFilter={ACTIVE_STATUS_FILTER}
       title="Active Bookings"
       description="Current bookings in progress"
       showStatusFilter={true}

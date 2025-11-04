@@ -49,9 +49,15 @@ export interface EnterpriseDataTableProps<T = object> {
   /** Sticky header */
   stickyHeader?: boolean;
   /** Max height */
-  maxHeight?: string;
+  maxHeight?: string | undefined;
   /** ARIA label */
   ariaLabel?: string;
+  /** Expanded row IDs */
+  expandedIds?: Set<string>;
+  /** Render expanded row content */
+  renderExpandedRow?: (row: T) => React.ReactNode;
+  /** Get row ID for expanded rows */
+  getRowId?: (row: T) => string;
 }
 
 export function EnterpriseDataTable<T = object>({
@@ -68,6 +74,9 @@ export function EnterpriseDataTable<T = object>({
   stickyHeader = false,
   maxHeight,
   ariaLabel = 'Data table',
+  expandedIds,
+  renderExpandedRow,
+  getRowId,
 }: EnterpriseDataTableProps<T>): React.ReactElement {
   
   // Handle column sort - memoized to prevent recreation
@@ -145,7 +154,7 @@ export function EnterpriseDataTable<T = object>({
   }
 
   return (
-    <div className={containerClasses} style={{ maxHeight }}>
+    <div className={containerClasses}>
       <div className={styles.tableWrapper}>
         <table className={tableClasses} aria-label={ariaLabel}>
           {/* COLGROUP - Apply widths here for consistent column sizing */}
@@ -179,6 +188,9 @@ export function EnterpriseDataTable<T = object>({
             columns={columns}
             selection={selection}
             onRowClick={onRowClick ? handleRowClick : undefined}
+            expandedIds={expandedIds}
+            renderExpandedRow={renderExpandedRow}
+            getRowId={getRowId}
           />
         </table>
       </div>

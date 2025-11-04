@@ -13,7 +13,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styles from './TabPanel.module.css';
 
 export interface Tab {
@@ -72,6 +72,39 @@ export function TabPanel({
     }
   };
 
+  const renderTab = useCallback(
+    (tab: Tab, index: number) => {
+      const isActive = tab.id === activeTab;
+      const tabClasses = [
+        styles.tab,
+        isActive && styles.active,
+        tab.disabled && styles.disabled,
+      ]
+        .filter(Boolean)
+        .join(' ');
+
+      return (
+        <button
+          key={tab.id}
+          className={tabClasses}
+          role="tab"
+          aria-selected={isActive}
+          aria-controls={`panel-${tab.id}`}
+          id={`tab-${tab.id}`}
+          tabIndex={isActive ? 0 : -1}
+          onClick={() => handleTabClick(tab.id)}
+          onKeyDown={(e) => handleKeyDown(e, index)}
+          disabled={tab.disabled}
+        >
+          {tab.icon && <span className={styles.icon}>{tab.icon}</span>}
+          <span className={styles.label}>{tab.label}</span>
+          {tab.badge && <span className={styles.badge}>{tab.badge}</span>}
+        </button>
+      );
+    },
+    [activeTab, handleTabClick, handleKeyDown]
+  );
+
   const activeTabContent = tabs.find((tab) => tab.id === activeTab)?.content;
 
   return (
@@ -81,35 +114,7 @@ export function TabPanel({
         className={`${styles.tabList} ${styles[`variant-${variant}`]} ${styles[`size-${size}`]}`}
         role="tablist"
       >
-        {tabs.map((tab, index) => {
-          const isActive = tab.id === activeTab;
-          const tabClasses = [
-            styles.tab,
-            isActive && styles.active,
-            tab.disabled && styles.disabled,
-          ]
-            .filter(Boolean)
-            .join(' ');
-
-          return (
-            <button
-              key={tab.id}
-              className={tabClasses}
-              role="tab"
-              aria-selected={isActive}
-              aria-controls={`panel-${tab.id}`}
-              id={`tab-${tab.id}`}
-              tabIndex={isActive ? 0 : -1}
-              onClick={() => handleTabClick(tab.id)}
-              onKeyDown={(e) => handleKeyDown(e, index)}
-              disabled={tab.disabled}
-            >
-              {tab.icon && <span className={styles.icon}>{tab.icon}</span>}
-              <span className={styles.label}>{tab.label}</span>
-              {tab.badge && <span className={styles.badge}>{tab.badge}</span>}
-            </button>
-          );
-        })}
+        {tabs.map(renderTab)}
       </div>
 
       {/* Tab Panel */}

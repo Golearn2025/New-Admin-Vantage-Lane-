@@ -65,3 +65,5 @@ files-with-hooks.txt
 missing-use-client.txt
 test-results.txt
 tests.txt
+full-audit.md
+audit-structure.sh

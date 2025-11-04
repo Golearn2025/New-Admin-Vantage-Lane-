@@ -7,7 +7,7 @@
 .title {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: rgba(211, 170, 49, 0.9);
+  color: var(--color-vehicle-gold-alpha-90);
   margin: 0 0 var(--spacing-3) 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -20,8 +20,8 @@
 .searchInput {
   width: 100%;
   padding: var(--spacing-3);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-white-alpha-5);
+  border: 1px solid var(--color-white-alpha-10);
   border-radius: var(--border-radius-lg);
   color: var(--color-text-primary);
   font-size: var(--font-size-base);
@@ -30,8 +30,8 @@
 
 .searchInput:focus {
   outline: none;
-  border-color: rgba(211, 170, 49, 0.5);
-  box-shadow: 0 0 20px rgba(211, 170, 49, 0.2);
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-gold-md);
 }
 
 .loading {
@@ -47,14 +47,14 @@
   left: 0;
   right: 0;
   margin-top: var(--spacing-2);
-  background: rgba(17, 24, 39, 0.95);
-  border: 1px solid rgba(211, 170, 49, 0.3);
+  background: var(--color-black-alpha-95);
+  border: 1px solid var(--color-vehicle-gold-alpha-30);
   border-radius: var(--border-radius-lg);
   max-height: 300px;
   overflow-y: auto;
   z-index: 10;
   backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-elevated);
 }
 
 .resultItem {
@@ -63,13 +63,13 @@
   text-align: left;
   background: transparent;
   border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--color-white-alpha-5);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .resultItem:hover {
-  background: rgba(211, 170, 49, 0.1);
+  background: var(--color-primary-alpha-10);
 }
 
 .resultName {
@@ -89,8 +89,8 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-4);
-  background: rgba(211, 170, 49, 0.1);
-  border: 1px solid rgba(211, 170, 49, 0.3);
+  background: var(--color-primary-alpha-10);
+  border: 1px solid var(--color-vehicle-gold-alpha-30);
   border-radius: var(--border-radius-lg);
   backdrop-filter: blur(10px);
 }
@@ -119,8 +119,8 @@
 
 .changeButton {
   padding: var(--spacing-2) var(--spacing-4);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--color-white-alpha-10);
+  border: 1px solid var(--color-white-alpha-20);
   border-radius: var(--border-radius-md);
   color: var(--color-text-primary);
   font-size: var(--font-size-sm);
@@ -129,6 +129,6 @@
 }
 
 .changeButton:hover {
-  background: rgba(211, 170, 49, 0.2);
-  border-color: rgba(211, 170, 49, 0.5);
+  background: var(--color-primary-alpha-20);
+  border-color: var(--color-border-hover);
 }

@@ -4,17 +4,17 @@
   position: sticky;
   top: var(--spacing-6);
   padding: var(--spacing-6);
-  background: rgba(17, 24, 39, 0.8);
-  border: 1px solid rgba(211, 170, 49, 0.3);
+  background: var(--color-black-alpha-80);
+  border: 1px solid var(--color-vehicle-gold-alpha-30);
   border-radius: var(--border-radius-xl);
   backdrop-filter: blur(20px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-elevated);
 }
 
 .title {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
-  color: rgba(211, 170, 49, 1);
+  color: var(--color-vehicle-gold-solid);
   margin: 0 0 var(--spacing-4) 0;
   text-align: center;
 }
@@ -47,7 +47,7 @@
   gap: var(--spacing-3);
   padding: var(--spacing-3) 0;
   margin: var(--spacing-2) 0;
-  background: rgba(211, 170, 49, 0.05);
+  background: var(--color-vehicle-gold-alpha-5);
   border-radius: var(--border-radius-md);
   padding: var(--spacing-3);
 }
@@ -57,15 +57,15 @@
   align-items: center;
   gap: var(--spacing-2);
   font-size: var(--font-size-sm);
-  color: rgba(211, 170, 49, 1);
+  color: var(--color-vehicle-gold-solid);
   font-weight: var(--font-weight-medium);
 }
 
 .discountInput {
   width: 80px;
   padding: var(--spacing-2);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(211, 170, 49, 0.3);
+  background: var(--color-white-alpha-5);
+  border: 1px solid var(--color-vehicle-gold-alpha-30);
   border-radius: var(--border-radius-md);
   color: var(--color-text-primary);
   font-size: var(--font-size-sm);
@@ -76,25 +76,25 @@
 
 .discountInput:focus {
   outline: none;
-  border-color: rgba(211, 170, 49, 0.6);
-  box-shadow: 0 0 0 3px rgba(211, 170, 49, 0.1);
+  border-color: var(--color-vehicle-gold-alpha-60);
+  box-shadow: 0 0 0 3px var(--color-vehicle-gold-alpha-10);
 }
 
 .discountText {
   font-size: var(--font-size-sm);
-  color: rgba(211, 170, 49, 1);
+  color: var(--color-vehicle-gold-solid);
   font-weight: var(--font-weight-medium);
 }
 
 .discountValue {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
-  color: rgba(239, 68, 68, 1);
+  color: var(--color-error-solid);
 }
 
 .divider {
   height: 1px;
-  background: rgba(211, 170, 49, 0.2);
+  background: var(--color-vehicle-gold-alpha-20);
   margin: var(--spacing-3) 0;
 }
 
@@ -114,15 +114,15 @@
 .totalValue {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
-  color: rgba(211, 170, 49, 1);
-  text-shadow: 0 0 20px rgba(211, 170, 49, 0.5);
+  color: var(--color-vehicle-gold-solid);
+  text-shadow: var(--shadow-lg);
 }
 
 .submitButton {
   width: 100%;
   padding: var(--spacing-4);
-  background: linear-gradient(135deg, rgba(211, 170, 49, 0.8), rgba(211, 170, 49, 0.6));
-  border: 1px solid rgba(211, 170, 49, 0.5);
+  background: linear-gradient(135deg, var(--color-vehicle-gold-alpha-80), var(--color-primary-alpha-60));
+  border: 1px solid var(--color-vehicle-gold-alpha-50);
   border-radius: var(--border-radius-lg);
   color: var(--color-bg-primary);
   font-size: var(--font-size-base);
@@ -136,8 +136,8 @@
 }
 
 .submitButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, rgba(211, 170, 49, 1), rgba(211, 170, 49, 0.8));
-  box-shadow: 0 0 30px rgba(211, 170, 49, 0.6);
+  background: linear-gradient(135deg, var(--color-vehicle-gold-solid), var(--color-vehicle-gold-alpha-80));
+  box-shadow: 0 0 30px var(--color-vehicle-gold-alpha-60);
   transform: translateY(-2px);
 }
 

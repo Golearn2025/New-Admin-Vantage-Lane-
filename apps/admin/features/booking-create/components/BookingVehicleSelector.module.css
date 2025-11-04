@@ -7,7 +7,7 @@
 .title {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: rgba(211, 170, 49, 0.9);
+  color: var(--color-vehicle-gold-alpha-90);
   margin: 0 0 var(--spacing-3) 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -26,8 +26,8 @@
   align-items: center;
   gap: var(--spacing-2);
   padding: var(--spacing-4);
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-white-alpha-5);
+  border: 2px solid var(--color-white-alpha-10);
   border-radius: var(--border-radius-lg);
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -35,21 +35,21 @@
 }
 
 .card:hover {
-  background: rgba(211, 170, 49, 0.1);
-  border-color: rgba(211, 170, 49, 0.3);
+  background: var(--color-vehicle-gold-alpha-10);
+  border-color: var(--color-vehicle-gold-alpha-30);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(211, 170, 49, 0.2);
+  box-shadow: var(--shadow-md);
 }
 
 .card.active {
-  background: rgba(211, 170, 49, 0.2);
-  border-color: rgba(211, 170, 49, 0.6);
-  box-shadow: 0 0 20px rgba(211, 170, 49, 0.4);
+  background: var(--color-vehicle-gold-alpha-20);
+  border-color: var(--color-vehicle-gold-alpha-60);
+  box-shadow: var(--shadow-lg);
 }
 
 .icon {
   font-size: var(--font-size-3xl);
-  color: rgba(211, 170, 49, 0.9);
+  color: var(--color-vehicle-gold-alpha-90);
 }
 
 .label {
@@ -71,7 +71,7 @@
   right: var(--spacing-2);
   width: 24px;
   height: 24px;
-  background: rgba(211, 170, 49, 1);
+  background: var(--color-vehicle-gold-solid);
   color: var(--color-bg-primary);
   border-radius: 50%;
   display: flex;

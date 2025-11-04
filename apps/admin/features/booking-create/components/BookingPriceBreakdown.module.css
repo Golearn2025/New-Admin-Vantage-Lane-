@@ -1,8 +1,8 @@
 /* BookingPriceBreakdown Styles */
 
 .container {
-  background: rgba(17, 24, 39, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-black-alpha-60);
+  border: 1px solid var(--color-white-alpha-10);
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-4);
   margin-bottom: var(--spacing-4);
@@ -24,7 +24,7 @@
 }
 
 .toggleButton:hover {
-  color: rgba(211, 170, 49, 1);
+  color: var(--color-vehicle-gold-solid);
 }
 
 .toggleLabel {
@@ -43,7 +43,7 @@
 .details {
   margin-top: var(--spacing-4);
   padding-top: var(--spacing-4);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--color-white-alpha-10);
 }
 
 .detailRow {
@@ -68,10 +68,10 @@
 .surgeBadge {
   margin-top: var(--spacing-3);
   padding: var(--spacing-2) var(--spacing-3);
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: var(--color-error-alpha-10);
+  border: 1px solid var(--color-error-alpha-30);
   border-radius: var(--border-radius-md);
-  color: rgba(252, 165, 165, 1);
+  color: var(--color-error-light-solid);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   text-align: center;

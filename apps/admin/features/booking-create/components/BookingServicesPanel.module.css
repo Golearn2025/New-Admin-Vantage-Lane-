@@ -7,7 +7,7 @@
 .title {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: rgba(211, 170, 49, 0.9);
+  color: var(--color-vehicle-gold-alpha-90);
   margin: 0 0 var(--spacing-4) 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -51,33 +51,33 @@
 }
 
 .badgeFree:hover {
-  background: rgba(34, 197, 94, 0.2);
-  box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+  background: var(--color-success-alpha-20);
+  box-shadow: 0 0 15px var(--color-success-light-alpha-30);
   transform: translateY(-2px);
 }
 
 .badgeFree.selected {
-  background: rgba(34, 197, 94, 0.3);
-  border-color: rgba(74, 222, 128, 0.5);
-  box-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+  background: var(--color-success-alpha-30);
+  border-color: var(--color-success-light-alpha-50);
+  box-shadow: 0 0 20px var(--color-success-light-alpha-40);
 }
 
 .badgePaid {
-  background: rgba(211, 170, 49, 0.1);
-  color: rgba(211, 170, 49, 1);
-  border-color: rgba(211, 170, 49, 0.3);
+  background: var(--color-vehicle-gold-alpha-10);
+  color: var(--color-vehicle-gold-solid);
+  border-color: var(--color-vehicle-gold-alpha-30);
 }
 
 .badgePaid:hover {
-  background: rgba(211, 170, 49, 0.2);
-  box-shadow: 0 0 15px rgba(211, 170, 49, 0.3);
+  background: var(--color-vehicle-gold-alpha-20);
+  box-shadow: 0 0 15px var(--color-vehicle-gold-alpha-30);
   transform: translateY(-2px);
 }
 
 .badgePaid.selected {
-  background: rgba(211, 170, 49, 0.3);
-  border-color: rgba(211, 170, 49, 0.6);
-  box-shadow: 0 0 20px rgba(211, 170, 49, 0.5);
+  background: var(--color-vehicle-gold-alpha-30);
+  border-color: var(--color-vehicle-gold-alpha-60);
+  box-shadow: var(--shadow-lg);
 }
 
 .check {
@@ -87,7 +87,7 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--color-white-alpha-10);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
 }
@@ -104,12 +104,12 @@
 .freeTag {
   font-size: var(--font-size-2xs);
   padding: 2px 6px;
-  background: rgba(74, 222, 128, 0.3);
+  background: var(--color-success-light-alpha-30);
   border-radius: var(--border-radius-sm);
   font-weight: var(--font-weight-bold);
 }
 
 .price {
   font-weight: var(--font-weight-bold);
-  color: rgba(211, 170, 49, 1);
+  color: var(--color-vehicle-gold-solid);
 }

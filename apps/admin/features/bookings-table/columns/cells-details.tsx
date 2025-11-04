@@ -8,8 +8,8 @@
 import React from 'react';
 import { StatusBadge } from '@vantage-lane/ui-core';
 import type { BookingStatus } from '@vantage-lane/ui-core';
-import { Route, Clock, Calendar, Plane, User, Luggage, CreditCard, Circle } from 'lucide-react';
-import { VehicleChip } from './VehicleChip';
+import { Route, Clock, Calendar, Plane, User, Luggage, CreditCard, MapPin } from 'lucide-react';
+import { VehicleChip, type VehicleCategory } from './VehicleChip';
 import {
   formatDate,
   formatTime,
@@ -27,14 +27,16 @@ export const getRouteColumn = (): BookingColumn => ({
   accessor: (row) => `${row.pickup_location} → ${row.destination}`,
   width: '180px',
   align: 'left',
+  resizable: true,
+  sortable: true,
   cell: (row) => (
     <div className={styles.routeCell}>
       <div className={styles.routeLocation}>
-        <Circle size={10} fill="#10b981" stroke="#10b981" />
+        <MapPin size={14} className={styles.pickupIcon} />
         <span>{formatLocation(row.pickup_location)}</span>
       </div>
       <div className={styles.routeLocation}>
-        <Circle size={10} fill="#ef4444" stroke="#ef4444" />
+        <MapPin size={14} className={styles.destinationIcon} />
         <span>{formatLocation(row.destination)}</span>
       </div>
       <div className={styles.routeDetail}>
@@ -75,12 +77,14 @@ export const getVehicleColumn = (): BookingColumn => ({
   accessor: (row) => row.category,
   width: '100px',
   align: 'left',
+  resizable: true,
+  sortable: true,
   cell: (row) => {
     const vehicleModel = formatVehicleModel(row.vehicle_model);
 
     return (
       <div className={styles.vehicleCell}>
-        <VehicleChip category={row.category as any} size="sm" />
+        <VehicleChip category={row.category as VehicleCategory} size="sm" />
         <div className={styles.vehicleModel}>{vehicleModel}</div>
         <div className={styles.vehicleCapacityRow}>
           <User size={13} />
@@ -101,6 +105,8 @@ export const getPaymentColumn = (): BookingColumn => ({
   accessor: (row) => row.fare_amount,
   width: '160px',
   align: 'left',
+  resizable: true,
+  sortable: true,
   cell: (row) => (
     <div className={styles.paymentCell}>
       <div className={styles.paymentLine}>
@@ -138,6 +144,8 @@ export const getStatusColumn = (): BookingColumn => ({
   accessor: (row) => row.status,
   width: '110px',
   align: 'center',
+  resizable: true,
+  sortable: true,
   cell: (row) => (
     <StatusBadge
       status={row.status as BookingStatus}

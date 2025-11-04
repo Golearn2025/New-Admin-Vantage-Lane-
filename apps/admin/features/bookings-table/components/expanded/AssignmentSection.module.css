@@ -164,9 +164,9 @@
 }
 
 .name {
-  font-size: var(--font-size-base) !important;
-  font-weight: var(--font-weight-semibold) !important;
-  color: var(--color-primary) !important;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
 }
 
 /* Details */

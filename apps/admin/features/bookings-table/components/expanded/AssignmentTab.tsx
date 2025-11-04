@@ -11,8 +11,9 @@
 
 'use client';
 
-import { Car, CheckCircle, Clock, Plane, User, UserCheck, RefreshCw, Hourglass } from 'lucide-react';
+import { Car, CheckCircle, Clock, Plane, User, UserCheck, RefreshCw, Hourglass, Smartphone, Radio, Star } from 'lucide-react';
 import React from 'react';
+import { Button } from '@vantage-lane/ui-core';
 import type { BookingListItem } from '@vantage-lane/contracts';
 import { InfoSection } from './InfoSection';
 import styles from './AssignmentTab.module.css';
@@ -46,27 +47,16 @@ export function AssignmentTab({
           </p>
 
           <div className={styles.actions}>
-            <button
-              className={styles.primaryButton}
-              onClick={onAssign}
-              type="button"
-            >
-              <span className={styles.buttonIcon}><UserCheck size={18} strokeWidth={2} /></span>
+            <Button variant="primary" size="sm" onClick={onAssign} leftIcon={<UserCheck size={16} />}>
               Assign Driver
-            </button>
-
-            <button
-              className={styles.secondaryButton}
-              onClick={onShareWhatsApp}
-              type="button"
-            >
-              <span className={styles.buttonIcon}>📱</span>
+            </Button>
+            <Button variant="secondary" size="sm" onClick={onShareWhatsApp} leftIcon={<Smartphone size={16} />}>
               Share to WhatsApp
-            </button>
+            </Button>
           </div>
 
           <div className={styles.broadcastInfo}>
-            <span className={styles.infoIcon}>📢</span>
+            <Radio size={18} />
             <span className={styles.infoText}>
               Broadcast this job to operators via WhatsApp
             </span>
@@ -80,12 +70,14 @@ export function AssignmentTab({
   return (
     <div className={styles.container}>
       <div className={styles.assignedBanner}>
-        ✅ Assigned to {booking.driver_name}
+        <span className={styles.bannerText}>
+          <CheckCircle size={16} /> Assigned to {booking.driver_name}
+        </span>
       </div>
 
       <div className={styles.grid}>
         {/* Driver Info */}
-        <InfoSection title="Driver" icon="👨‍✈️" variant="compact">
+        <InfoSection title="Driver" icon={<User size={18} />} variant="compact">
           <div className={styles.details}>
             <div className={styles.detailRow}>
               <span className={styles.label}>Name:</span>
@@ -96,7 +88,7 @@ export function AssignmentTab({
               <div className={styles.detailRow}>
                 <span className={styles.label}>Rating:</span>
                 <span className={styles.value}>
-                  ⭐ {booking.driver_rating.toFixed(1)}/5
+                  <Star size={14} /> {booking.driver_rating.toFixed(1)}/5
                 </span>
               </div>
             )}
@@ -118,7 +110,7 @@ export function AssignmentTab({
         </InfoSection>
 
         {/* Vehicle Info */}
-        <InfoSection title="Vehicle" icon="🚗" variant="compact">
+        <InfoSection title="Vehicle" icon={<Car size={18} />} variant="compact">
           <div className={styles.details}>
             {booking.vehicle_make && booking.vehicle_model_name && (
               <div className={styles.detailRow}>
@@ -156,39 +148,22 @@ export function AssignmentTab({
       {/* Assignment Meta */}
       {booking.assigned_at && (
         <div className={styles.meta}>
-          🕐 {new Date(booking.assigned_at).toLocaleString('en-GB')}
-          {booking.assigned_by_name && ` • 👤 ${booking.assigned_by_name}`}
+          <Clock size={14} /> {new Date(booking.assigned_at).toLocaleString('en-GB')}
+          {booking.assigned_by_name && (<> • <User size={14} /> {booking.assigned_by_name}</>)}
         </div>
       )}
 
       {/* Actions */}
       <div className={styles.actions}>
-        <button
-          className={styles.secondaryButton}
-          onClick={onReassign}
-          type="button"
-        >
-          <span className={styles.buttonIcon}><RefreshCw size={18} strokeWidth={2} /></span>
+        <Button variant="secondary" size="sm" onClick={onReassign} leftIcon={<RefreshCw size={16} />}>
           Reassign Driver
-        </button>
-
-        <button
-          className={styles.secondaryButton}
-          onClick={onContact}
-          type="button"
-        >
-          <span className={styles.buttonIcon}>📞</span>
+        </Button>
+        <Button variant="secondary" size="sm" onClick={onContact} leftIcon={<Clock size={16} />}>
           Contact Driver
-        </button>
-
-        <button
-          className={styles.secondaryButton}
-          onClick={onShareWhatsApp}
-          type="button"
-        >
-          <span className={styles.buttonIcon}>📱</span>
+        </Button>
+        <Button variant="secondary" size="sm" onClick={onShareWhatsApp} leftIcon={<Smartphone size={16} />}>
           Share Full Details
-        </button>
+        </Button>
       </div>
     </div>
   );

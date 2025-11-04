@@ -12,6 +12,7 @@
 'use client';
 
 import React from 'react';
+import { Calculator, Flame, Coins } from 'lucide-react';
 import type { BookingListItem } from '@vantage-lane/contracts';
 import { InfoSection } from './InfoSection';
 import styles from './PricingTab.module.css';
@@ -35,7 +36,7 @@ export function PricingTab({ booking }: PricingTabProps) {
   return (
     <div className={styles.container}>
       {/* Calculation Breakdown */}
-      <InfoSection title="Calculation" icon="🧮" variant="compact">
+      <InfoSection title="Calculation" icon={<Calculator size={18} />} variant="compact">
         <div className={styles.calculation}>
           <div className={styles.calcRow}>
             <span className={styles.calcLabel}>1. Base fare:</span>
@@ -90,7 +91,7 @@ export function PricingTab({ booking }: PricingTabProps) {
 
       {/* Surge Multipliers */}
       {hasSurge && (
-        <InfoSection title="Surge Multipliers" icon="🔥" variant="compact">
+        <InfoSection title="Surge Multipliers" icon={<Flame size={18} />} variant="compact">
           <div className={styles.surge}>
             <div className={styles.surgeRow}>
               <span className={styles.surgeLabel}>
@@ -117,7 +118,7 @@ export function PricingTab({ booking }: PricingTabProps) {
       )}
 
       {/* Commission Split */}
-      <InfoSection title="Commission Split" icon="💵" variant="compact">
+      <InfoSection title="Commission Split" icon={<Coins size={18} />} variant="compact">
         <div className={styles.commission}>
           <div className={styles.commissionRow}>
             <span className={styles.commissionLabel}>Platform Fee:</span>

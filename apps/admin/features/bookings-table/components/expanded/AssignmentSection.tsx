@@ -15,7 +15,7 @@
 
 'use client';
 
-import { Car, CheckCircle, Hash, MapPin, Timer, User, XCircle } from 'lucide-react';
+import { Car, CheckCircle, Hash, MapPin, Timer, User, XCircle, Phone, MessageSquare, Navigation, Settings, Clock, Star, Wrench, Users, Briefcase } from 'lucide-react';
 import React from 'react';
 import { TabPanel, type Tab } from './TabPanel';
 import styles from './AssignmentSection.module.css';
@@ -113,22 +113,22 @@ export function AssignmentSection({
     <div className={styles.container}>
       <div className={styles.header}>
         <h3 className={styles.title}>
-          🚗 Driver & Vehicle Assignment
-          {isAssigned && <span className={styles.badge}>✅ ASSIGNED</span>}
+          <Car size={18} /> Driver & Vehicle Assignment
+          {isAssigned && <span className={styles.badge}><CheckCircle size={14} /> ASSIGNED</span>}
         </h3>
         {isAssigned && (
           <div className={styles.headerActions}>
             <button className={styles.actionButton} onClick={onCall}>
-              📞 Call
+              <Phone size={14} /> Call
             </button>
             <button className={styles.actionButton} onClick={onMessage}>
-              💬 Message
+              <MessageSquare size={14} /> Message
             </button>
             <button className={styles.actionButton} onClick={onTrack}>
-              📍 Track
+              <Navigation size={14} /> Track
             </button>
             <button className={styles.actionButtonSecondary} onClick={onReassign}>
-              ⚙️ Reassign
+              <Settings size={14} /> Reassign
             </button>
           </div>
         )}
@@ -138,7 +138,7 @@ export function AssignmentSection({
 
       {isAssigned && assignedAt && (
         <div className={styles.footer}>
-          ⏱️ Assigned: {assignedAt}
+          <Clock size={14} /> Assigned: {assignedAt}
           {assignedBy && ` by ${assignedBy}`}
         </div>
       )}
@@ -181,18 +181,18 @@ function OverviewTab({
   return (
     <div className={styles.overview}>
       <div className={styles.overviewCard}>
-        <h4>👤 Driver</h4>
+        <h4><User size={16} /> Driver</h4>
         <p className={styles.name}>{driver?.name}</p>
-        <p>⭐ {driver?.rating}/5.0 • {driver?.totalTrips} trips</p>
-        <p>📞 {driver?.phone}</p>
-        {driver?.currentDistance && <p>📍 {driver.currentDistance} mi away</p>}
+        <p><Star size={14} /> {driver?.rating}/5.0 • {driver?.totalTrips} trips</p>
+        <p><Phone size={14} /> {driver?.phone}</p>
+        {driver?.currentDistance && <p><MapPin size={14} /> {driver.currentDistance} mi away</p>}
       </div>
       <div className={styles.overviewCard}>
-        <h4>🚗 Vehicle</h4>
+        <h4><Car size={16} /> Vehicle</h4>
         <p className={styles.name}>{vehicle?.make} {vehicle?.model}</p>
-        <p>🔢 {vehicle?.licensePlate}</p>
+        <p><Hash size={14} /> {vehicle?.licensePlate}</p>
         <p>{vehicle?.color} • {vehicle?.year}</p>
-        <p>💺 {vehicle?.seats} seats • 🧳 {vehicle?.luggageCapacity} bags</p>
+        <p><Users size={14} /> {vehicle?.seats} seats • <Briefcase size={14} /> {vehicle?.luggageCapacity} bags</p>
       </div>
     </div>
   );
@@ -216,7 +216,7 @@ function DriverTab({ driver }: { driver: DriverDetails }) {
       </div>
       <div className={styles.detailRow}>
         <span className={styles.detailLabel}>Rating:</span>
-        <span className={styles.detailValue}>⭐ {driver.rating}/5.0</span>
+        <span className={styles.detailValue}><Star size={14} /> {driver.rating}/5.0</span>
       </div>
       <div className={styles.detailRow}>
         <span className={styles.detailLabel}>Total Trips:</span>
@@ -250,20 +250,20 @@ function VehicleTab({ vehicle }: { vehicle: VehicleDetails }) {
       </div>
       <div className={styles.detailRow}>
         <span className={styles.detailLabel}>License Plate:</span>
-        <span className={styles.detailValue}>🔢 {vehicle.licensePlate}</span>
+        <span className={styles.detailValue}><Hash size={14} /> {vehicle.licensePlate}</span>
       </div>
       <div className={styles.detailRow}>
         <span className={styles.detailLabel}>Capacity:</span>
-        <span className={styles.detailValue}>💺 {vehicle.seats} seats</span>
+        <span className={styles.detailValue}><Users size={14} /> {vehicle.seats} seats</span>
       </div>
       <div className={styles.detailRow}>
         <span className={styles.detailLabel}>Luggage:</span>
-        <span className={styles.detailValue}>🧳 {vehicle.luggageCapacity} bags</span>
+        <span className={styles.detailValue}><Briefcase size={14} /> {vehicle.luggageCapacity} bags</span>
       </div>
       {vehicle.lastServiceDate && (
         <div className={styles.detailRow}>
           <span className={styles.detailLabel}>Last Service:</span>
-          <span className={styles.detailValue}>🛠️ {vehicle.lastServiceDate}</span>
+          <span className={styles.detailValue}><Wrench size={14} /> {vehicle.lastServiceDate}</span>
         </div>
       )}
     </div>

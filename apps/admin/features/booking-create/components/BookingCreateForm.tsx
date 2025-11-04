@@ -5,7 +5,7 @@
 
 'use client';
 
-import { Clock, MapPin, Plane, Timer } from 'lucide-react';
+import { Clock, MapPin, Plane, Timer, Target, Calendar, Users, Luggage, Baby, FileText, Ruler } from 'lucide-react';
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { BookingTypeSelector } from './BookingTypeSelector';
@@ -163,8 +163,8 @@ export function BookingCreateForm() {
 
       {error && <div className={styles.error}>{error}</div>}
       {priceError && <div className={styles.error}>Price calculation error: {priceError}</div>}
-      {isPriceLoading && <div className={styles.info}>⏳ Calculating price from backend...</div>}
-      {isCalculating && <div className={styles.info}>📏 Calculating distance...</div>}
+      {isPriceLoading && <div className={styles.info}><Clock size={14} /> Calculating price from backend...</div>}
+      {isCalculating && <div className={styles.info}><Ruler size={14} /> Calculating distance...</div>}
 
       <div className={styles.layout}>
         <div className={styles.formColumn}>
@@ -191,7 +191,7 @@ export function BookingCreateForm() {
               value={formData.dropoffText}
               onChange={handleDropoffChange}
               label="Dropoff Location"
-              icon="🎯"
+              icon={<Target size={14} />}
               placeholder="Search for dropoff location..."
             />
           )}
@@ -199,7 +199,7 @@ export function BookingCreateForm() {
           {formData.tripType !== 'hourly' && (distanceMiles || isCalculating) && (
             <div className={styles.distanceInfo}>
               <div className={styles.distanceCard}>
-                <span className={styles.distanceIcon}>📏</span>
+                <span className={styles.distanceIcon}><Ruler size={18} strokeWidth={2} /></span>
                 <div className={styles.distanceContent}>
                   <span className={styles.distanceLabel}>Distance</span>
                   <span className={styles.distanceValue}>
@@ -221,7 +221,7 @@ export function BookingCreateForm() {
 
           <div className={styles.row}>
             <div className={styles.fieldGroup}>
-              <label className={styles.label}>📅 Date</label>
+              <label className={styles.label}><Calendar size={14} /> Date</label>
               <input
                 type="date"
                 className={styles.input}
@@ -230,7 +230,7 @@ export function BookingCreateForm() {
               />
             </div>
             <div className={styles.fieldGroup}>
-              <label className={styles.label}>🕒 Time</label>
+              <label className={styles.label}><Clock size={14} /> Time</label>
               <input
                 type="time"
                 className={styles.input}
@@ -274,7 +274,7 @@ export function BookingCreateForm() {
 
           <div className={styles.row}>
             <div className={styles.fieldGroup}>
-              <label className={styles.label}>👥 Passengers</label>
+              <label className={styles.label}><Users size={14} /> Passengers</label>
               <input
                 type="number"
                 className={styles.input}
@@ -284,7 +284,7 @@ export function BookingCreateForm() {
               />
             </div>
             <div className={styles.fieldGroup}>
-              <label className={styles.label}>🎒 Bags</label>
+              <label className={styles.label}><Luggage size={14} /> Bags</label>
               <input
                 type="number"
                 className={styles.input}
@@ -297,7 +297,7 @@ export function BookingCreateForm() {
 
           <div className={styles.row}>
             <div className={styles.fieldGroup}>
-              <label className={styles.label}>👶 Child Seats</label>
+              <label className={styles.label}><Baby size={14} /> Child Seats</label>
               <input
                 type="number"
                 className={styles.input}
@@ -308,7 +308,7 @@ export function BookingCreateForm() {
               />
             </div>
             <div className={styles.fieldGroup}>
-              <label className={styles.label}>✈️ Flight Number</label>
+              <label className={styles.label}><Plane size={14} /> Flight Number</label>
               <input
                 type="text"
                 className={styles.input}
@@ -320,7 +320,7 @@ export function BookingCreateForm() {
           </div>
 
           <div className={styles.fieldGroup}>
-            <label className={styles.label}>📝 Notes</label>
+            <label className={styles.label}><FileText size={14} /> Notes</label>
             <textarea
               className={styles.textarea}
               rows={4}

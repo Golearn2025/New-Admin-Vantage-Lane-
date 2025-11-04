@@ -9,10 +9,12 @@
  */
 
 import React, { useState, useCallback } from 'react';
-import { DataTable } from '@vantage-lane/ui-core';
+import { EnterpriseDataTable, useSelection, useSorting, useColumnResize, Pagination } from '@vantage-lane/ui-core';
 import type { BookingListItem } from '@vantage-lane/contracts';
 import { useBookingsList } from '../hooks/useBookingsList';
 import { BookingExpandedRow } from './BookingExpandedRow';
+import { BulkActionsBar } from './BulkActionsBar';
+import { TableActionBar } from './TableActionBar';
 import { getBookingsColumns } from '../columns';
 import styles from './BookingsTable.module.css';
 
@@ -31,23 +33,38 @@ export function BookingsTable({
   description,
   showStatusFilter = false,
 }: BookingsTableProps) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(25);
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const [allSelected, setAllSelected] = useState(false);
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0,
+    pageSize: 10, // ✅ Default 10 rows
+    totalCount: 0,
+  });
 
+  // Fetch bookings data with "All" support
   const { bookings, loading, error, totalCount, fetchBookings } = useBookingsList({
     statusFilter,
     selectedStatus: showStatusFilter ? selectedStatus : 'all',
     tripTypeFilter,
-    currentPage,
-    pageSize,
+    currentPage: pagination.pageIndex + 1,
+    pageSize: pagination.pageSize === -1 ? 999999 : pagination.pageSize, // -1 = All
   });
 
-  // Toggle expand for a booking
-  const toggleExpand = (bookingId: string) => {
+  // Update totalCount when data arrives
+  React.useEffect(() => {
+    setPagination(p => ({ ...p, totalCount: totalCount }));
+  }, [totalCount]);
+
+  // Use EnterpriseDataTable hooks
+  const selection = useSelection<BookingListItem>({
+    data: bookings,
+    getRowId: (row) => row.id,
+  });
+  const sorting = useSorting({ initialColumnId: null, initialDirection: null });
+  const resize = useColumnResize();
+
+  // Toggle expand for a booking - memoized
+  const toggleExpand = useCallback((bookingId: string) => {
     setExpandedIds((prev) => {
       const next = new Set(prev);
       if (next.has(bookingId)) {
@@ -57,146 +74,122 @@ export function BookingsTable({
       }
       return next;
     });
-  };
-
-  // Handle select all
-  const handleSelectAll = useCallback(
-    (checked: boolean) => {
-      if (checked) {
-        const allIds = new Set(bookings.map((b) => b.id));
-        setSelectedIds(allIds);
-        setAllSelected(true);
-      } else {
-        setSelectedIds(new Set());
-        setAllSelected(false);
-      }
-    },
-    [bookings]
-  );
-
-  // Handle select individual row
-  const handleSelectRow = useCallback((id: string, checked: boolean) => {
-    setSelectedIds((prev) => {
-      const next = new Set(prev);
-      if (checked) {
-        next.add(id);
-      } else {
-        next.delete(id);
-        setAllSelected(false);
-      }
-      return next;
-    });
   }, []);
 
-  // Create columns with expand toggle and select
-  const columnsWithExpand = React.useMemo(() => {
-    const baseColumns = getBookingsColumns({
-      onSelectAll: handleSelectAll,
-      onSelectRow: handleSelectRow,
-      allSelected,
-      selectedIds,
-    });
+  // Page size options with "All"
+  const pageSizeOptions = React.useMemo(() => [10, 25, 50, -1], []); // -1 = All rows
 
-    return baseColumns.map((col) => {
-      if (col.id === 'expand') {
-        return {
-          ...col,
-          cell: (row: BookingListItem) => (
-            <button
-              className={styles.expandButton}
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleExpand(row.id);
-              }}
-              aria-label={expandedIds.has(row.id) ? 'Collapse row' : 'Expand row'}
-            >
-              {expandedIds.has(row.id) ? '▼' : '▶️'}
-            </button>
-          ),
-        };
-      }
-      return col;
-    });
-  }, [expandedIds, allSelected, selectedIds, handleSelectAll, handleSelectRow]);
+  // Calculate total pages
+  const totalPages = pagination.pageSize === -1 
+    ? 1 
+    : Math.max(1, Math.ceil(pagination.totalCount / pagination.pageSize));
+
+  // Get columns with expand button column
+  const columns = React.useMemo(() => {
+    const allColumns = getBookingsColumns();
+    // Filter out select and old expand columns
+    const filteredColumns = allColumns.filter((col) => col.id !== 'select' && col.id !== 'expand');
+    
+    // Add expand column with chevron button at start
+    const expandColumn = {
+      id: '__expand__',
+      header: '',
+      accessor: () => '',
+      width: '40px',
+      resizable: false,
+      sortable: false,
+      align: 'center' as const,
+      cell: (row: BookingListItem) => (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleExpand(row.id);
+          }}
+          className={styles.expandBtn}
+          aria-label={expandedIds.has(row.id) ? 'Collapse row' : 'Expand row'}
+        >
+          {expandedIds.has(row.id) ? '▼' : '▶'}
+        </button>
+      ),
+    };
+    
+    return [expandColumn, ...filteredColumns];
+  }, [expandedIds, toggleExpand]);
+
+  // Get selected count for bulk actions
+  const selectedCount = selection.selectedIds.size;
+  const hasSelection = selectedCount > 0;
 
   return (
     <div className={styles.container}>
-      {/* Header */}
-      <div className={styles.header}>
-        <h1 className={styles.title}>{title}</h1>
-        {description && (
-          <p className={styles.description}>
-            {description} ({totalCount} total)
-          </p>
-        )}
-      </div>
+      <BulkActionsBar
+        selectedCount={selectedCount}
+        onClearSelection={() => selection.clearSelection()}
+      />
 
-      {/* Filters & Actions */}
-      <div className={styles.filtersContainer}>
-        {showStatusFilter && (
-          <div className={styles.filterGroup}>
-            <label htmlFor="status-filter" className={styles.filterLabel}>
-              Status:
-            </label>
-            <select
-              id="status-filter"
-              value={selectedStatus}
-              onChange={(e) => {
-                setSelectedStatus(e.target.value);
-                setCurrentPage(1);
-              }}
-              className={styles.select}
-            >
-              <option value="all">All Status</option>
-              <option value="pending">Pending</option>
-              <option value="assigned">Assigned</option>
-              <option value="en_route">En Route</option>
-              <option value="arrived">Arrived</option>
-              <option value="in_progress">In Progress</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
-          </div>
-        )}
+      <TableActionBar
+        loading={loading}
+        showStatusFilter={showStatusFilter}
+        selectedStatus={selectedStatus}
+        onRefresh={() => fetchBookings()}
+        onStatusChange={(status) => {
+          setSelectedStatus(status);
+          setPagination(p => ({ ...p, pageIndex: 0 }));
+        }}
+      />
 
-        <div className={styles.actionsContainer}>
-          <button onClick={fetchBookings} disabled={loading} className={styles.refreshButton}>
-            {loading ? 'Loading...' : '🔄 Refresh'}
-          </button>
-        </div>
-      </div>
-
-      {/* Error State */}
+      {/* Error state */}
       {error && (
         <div className={styles.errorState}>
-          <strong>Error:</strong> {error}
+          {error}
         </div>
       )}
 
-      {/* DataTable */}
-      <DataTable<BookingListItem>
-        data={bookings}
-        columns={columnsWithExpand}
-        loading={loading}
-        emptyState="No bookings found."
-        expandable={true}
-        expandedIds={expandedIds}
-        renderExpandedRow={(booking) => (
-          <BookingExpandedRow booking={booking} />
-        )}
-        striped={true}
-        bordered={true}
-        stickyHeader={true}
-        pagination={{
-          pageIndex: currentPage - 1,
-          pageSize: pageSize,
-          totalCount: totalCount,
-        }}
-        onPaginationChange={(newPagination) => {
-          setCurrentPage(newPagination.pageIndex + 1);
-          setPageSize(newPagination.pageSize);
-        }}
-      />
+      {/* Table */}
+      <div className={styles.tableContainer}>
+        <EnterpriseDataTable<BookingListItem>
+          data={bookings}
+          columns={columns}
+          selection={selection}
+          sorting={sorting}
+          resize={resize}
+          loading={loading}
+          emptyState="No bookings found."
+          striped={true}
+          bordered={true}
+          stickyHeader={true}
+          ariaLabel="Bookings table"
+          expandedIds={expandedIds}
+          renderExpandedRow={(booking) => <BookingExpandedRow booking={booking} />}
+          getRowId={(row) => row.id}
+        />
+      </div>
+
+      {/* Pagination */}
+      {pagination.totalCount > 0 && (
+        <Pagination
+          currentPage={pagination.pageIndex + 1}
+          totalPages={totalPages}
+          totalItems={pagination.totalCount}
+          pageSize={pagination.pageSize === -1 ? pagination.totalCount : pagination.pageSize}
+          pageSizeOptions={pageSizeOptions}
+          onPageChange={(page) => setPagination(p => ({ ...p, pageIndex: page - 1 }))}
+          onPageSizeChange={(newSize) => {
+            if (newSize === -1) {
+              // "All" selected - show all rows
+              setPagination(p => ({ pageIndex: 0, pageSize: -1, totalCount: p.totalCount }));
+            } else {
+              // Normal page size
+              setPagination(p => ({ pageIndex: 0, pageSize: newSize, totalCount: p.totalCount }));
+            }
+          }}
+          showInfo={true}
+          showPageSizeSelector={true}
+          showPrevNext={true}
+          showFirstLast={false}
+          size="medium"
+        />
+      )}
     </div>
   );
 }

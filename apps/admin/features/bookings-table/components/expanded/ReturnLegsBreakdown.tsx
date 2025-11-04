@@ -15,6 +15,7 @@
  */
 
 import React from 'react';
+import { MapPin, DollarSign, User } from 'lucide-react';
 import type { BookingLeg } from '@vantage-lane/contracts';
 import { InfoSection } from './InfoSection';
 import styles from './ReturnLegsBreakdown.module.css';
@@ -65,7 +66,7 @@ export function ReturnLegsBreakdown({ legs, currency = 'GBP' }: ReturnLegsBreakd
 
         <div className={styles.legGrid}>
           {/* Route Info */}
-          <InfoSection title="Route" icon="📍" variant="compact">
+          <InfoSection title="Route" icon={<MapPin size={18} />} variant="compact">
             <div className={styles.fields}>
               <div className={styles.field}>
                 <span className={styles.label}>From:</span>
@@ -95,7 +96,7 @@ export function ReturnLegsBreakdown({ legs, currency = 'GBP' }: ReturnLegsBreakd
           </InfoSection>
 
           {/* Pricing */}
-          <InfoSection title="Pricing" icon="💰" variant="compact">
+          <InfoSection title="Pricing" icon={<DollarSign size={18} />} variant="compact">
             <div className={styles.fields}>
               <div className={styles.field}>
                 <span className={styles.label}>Leg Price:</span>
@@ -109,7 +110,7 @@ export function ReturnLegsBreakdown({ legs, currency = 'GBP' }: ReturnLegsBreakd
           </InfoSection>
 
           {/* Driver Assignment */}
-          <InfoSection title="Assignment" icon="👨‍✈️" variant="compact">
+          <InfoSection title="Assignment" icon={<User size={18} />} variant="compact">
             <div className={styles.fields}>
               <div className={styles.field}>
                 <span className={styles.label}>Status:</span>

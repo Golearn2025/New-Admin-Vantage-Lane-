@@ -15,36 +15,17 @@
 
 'use client';
 
-import { Car, CheckCircle, Hash, MapPin, Timer, User, XCircle, Phone, MessageSquare, Navigation, Settings, Clock, Star, Wrench, Users, Briefcase } from 'lucide-react';
+import { Car, CheckCircle, Phone, MessageSquare, Navigation, Settings, Clock } from 'lucide-react';
 import React from 'react';
 import { TabPanel, type Tab } from './TabPanel';
+import { PendingAssignmentTab } from './PendingAssignmentTab';
+import { AssignmentOverviewTab } from './AssignmentOverviewTab';
+import { DriverDetailsTab } from './DriverDetailsTab';
+import { VehicleDetailsTab } from './VehicleDetailsTab';
+import type { DriverDetails, VehicleDetails } from './AssignmentSection.types';
 import styles from './AssignmentSection.module.css';
 
-export interface DriverDetails {
-  id: string;
-  name: string;
-  phone: string;
-  email: string;
-  rating: number;
-  totalTrips: number;
-  currentDistance?: number; // miles from pickup
-  licenseNumber?: string;
-  memberSince?: string;
-  languages?: string[];
-  certifications?: string[];
-}
-
-export interface VehicleDetails {
-  id: string;
-  make: string;
-  model: string;
-  year: number;
-  color: string;
-  licensePlate: string;
-  seats: number;
-  luggageCapacity: number;
-  lastServiceDate?: string;
-}
+export type { DriverDetails, VehicleDetails };
 
 export interface AssignmentSectionProps {
   driverId: string | null;
@@ -82,7 +63,7 @@ export function AssignmentSection({
       label: 'Overview',
       icon: '<ClipboardList size={18} strokeWidth={2} />',
       content: isAssigned ? (
-        <OverviewTab
+        <AssignmentOverviewTab
           driver={driverDetails}
           vehicle={vehicleDetails}
           onCall={onCall}
@@ -90,7 +71,7 @@ export function AssignmentSection({
           onTrack={onTrack}
         />
       ) : (
-        <PendingTab onAssign={onAssign} />
+        <PendingAssignmentTab onAssign={onAssign} />
       ),
     },
     {
@@ -98,14 +79,14 @@ export function AssignmentSection({
       label: 'Driver Details',
       icon: '<User size={18} strokeWidth={2} />',
       disabled: !isAssigned,
-      content: driverDetails && <DriverTab driver={driverDetails} />,
+      content: driverDetails && <DriverDetailsTab driver={driverDetails} />,
     },
     {
       id: 'vehicle',
       label: 'Vehicle Details',
       icon: '<Car size={18} strokeWidth={2} />',
       disabled: !isAssigned,
-      content: vehicleDetails && <VehicleTab vehicle={vehicleDetails} />,
+      content: vehicleDetails && <VehicleDetailsTab vehicle={vehicleDetails} />,
     },
   ];
 
@@ -140,130 +121,6 @@ export function AssignmentSection({
         <div className={styles.footer}>
           <Clock size={14} /> Assigned: {assignedAt}
           {assignedBy && ` by ${assignedBy}`}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// Pending State (Not Assigned)
-function PendingTab({ onAssign }: { onAssign?: (() => void) | undefined }) {
-  return (
-    <div className={styles.pending}>
-      <div className={styles.pendingCard}>
-        <h4>❌ Driver Not Assigned</h4>
-        <button className={styles.assignButton} onClick={onAssign}>
-          🎯 Assign Driver Now
-        </button>
-      </div>
-      <div className={styles.pendingCard}>
-        <h4>❌ Vehicle Not Assigned</h4>
-        <p>Will be auto-assigned with driver</p>
-      </div>
-    </div>
-  );
-}
-
-// Overview Tab (Assigned)
-function OverviewTab({
-  driver,
-  vehicle,
-  onCall,
-  onMessage,
-  onTrack,
-}: {
-  driver?: DriverDetails | undefined;
-  vehicle?: VehicleDetails | undefined;
-  onCall?: (() => void) | undefined;
-  onMessage?: (() => void) | undefined;
-  onTrack?: (() => void) | undefined;
-}) {
-  return (
-    <div className={styles.overview}>
-      <div className={styles.overviewCard}>
-        <h4><User size={16} /> Driver</h4>
-        <p className={styles.name}>{driver?.name}</p>
-        <p><Star size={14} /> {driver?.rating}/5.0 • {driver?.totalTrips} trips</p>
-        <p><Phone size={14} /> {driver?.phone}</p>
-        {driver?.currentDistance && <p><MapPin size={14} /> {driver.currentDistance} mi away</p>}
-      </div>
-      <div className={styles.overviewCard}>
-        <h4><Car size={16} /> Vehicle</h4>
-        <p className={styles.name}>{vehicle?.make} {vehicle?.model}</p>
-        <p><Hash size={14} /> {vehicle?.licensePlate}</p>
-        <p>{vehicle?.color} • {vehicle?.year}</p>
-        <p><Users size={14} /> {vehicle?.seats} seats • <Briefcase size={14} /> {vehicle?.luggageCapacity} bags</p>
-      </div>
-    </div>
-  );
-}
-
-// Driver Details Tab
-function DriverTab({ driver }: { driver: DriverDetails }) {
-  return (
-    <div className={styles.details}>
-      <div className={styles.detailRow}>
-        <span className={styles.detailLabel}>Name:</span>
-        <span className={styles.detailValue}>{driver.name}</span>
-      </div>
-      <div className={styles.detailRow}>
-        <span className={styles.detailLabel}>Phone:</span>
-        <span className={styles.detailValue}>{driver.phone}</span>
-      </div>
-      <div className={styles.detailRow}>
-        <span className={styles.detailLabel}>Email:</span>
-        <span className={styles.detailValue}>{driver.email}</span>
-      </div>
-      <div className={styles.detailRow}>
-        <span className={styles.detailLabel}>Rating:</span>
-        <span className={styles.detailValue}><Star size={14} /> {driver.rating}/5.0</span>
-      </div>
-      <div className={styles.detailRow}>
-        <span className={styles.detailLabel}>Total Trips:</span>
-        <span className={styles.detailValue}>{driver.totalTrips}</span>
-      </div>
-      {driver.licenseNumber && (
-        <div className={styles.detailRow}>
-          <span className={styles.detailLabel}>License:</span>
-          <span className={styles.detailValue}>{driver.licenseNumber}</span>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// Vehicle Details Tab
-function VehicleTab({ vehicle }: { vehicle: VehicleDetails }) {
-  return (
-    <div className={styles.details}>
-      <div className={styles.detailRow}>
-        <span className={styles.detailLabel}>Make/Model:</span>
-        <span className={styles.detailValue}>{vehicle.make} {vehicle.model}</span>
-      </div>
-      <div className={styles.detailRow}>
-        <span className={styles.detailLabel}>Year:</span>
-        <span className={styles.detailValue}>{vehicle.year}</span>
-      </div>
-      <div className={styles.detailRow}>
-        <span className={styles.detailLabel}>Color:</span>
-        <span className={styles.detailValue}>{vehicle.color}</span>
-      </div>
-      <div className={styles.detailRow}>
-        <span className={styles.detailLabel}>License Plate:</span>
-        <span className={styles.detailValue}><Hash size={14} /> {vehicle.licensePlate}</span>
-      </div>
-      <div className={styles.detailRow}>
-        <span className={styles.detailLabel}>Capacity:</span>
-        <span className={styles.detailValue}><Users size={14} /> {vehicle.seats} seats</span>
-      </div>
-      <div className={styles.detailRow}>
-        <span className={styles.detailLabel}>Luggage:</span>
-        <span className={styles.detailValue}><Briefcase size={14} /> {vehicle.luggageCapacity} bags</span>
-      </div>
-      {vehicle.lastServiceDate && (
-        <div className={styles.detailRow}>
-          <span className={styles.detailLabel}>Last Service:</span>
-          <span className={styles.detailValue}><Wrench size={14} /> {vehicle.lastServiceDate}</span>
         </div>
       )}
     </div>

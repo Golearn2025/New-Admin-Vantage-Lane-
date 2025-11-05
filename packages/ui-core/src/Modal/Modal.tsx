@@ -8,6 +8,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Icon } from '../Icon';
 import styles from './Modal.module.css';
 
@@ -106,7 +107,7 @@ export function Modal({
     }
   };
 
-  return (
+  const modalContent = (
     <div className={styles.overlay} onClick={handleOverlayClick}>
       <div
         ref={modalRef}
@@ -139,4 +140,9 @@ export function Modal({
       </div>
     </div>
   );
+  
+  // Render modal in document.body using Portal to bypass stacking context
+  return typeof document !== 'undefined' 
+    ? createPortal(modalContent, document.body)
+    : null;
 }

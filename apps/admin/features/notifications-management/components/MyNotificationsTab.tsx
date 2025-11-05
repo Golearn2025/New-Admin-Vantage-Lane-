@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Inbox, Bell } from 'lucide-react';
 import React, { useState } from 'react';
 
 /**
@@ -9,6 +9,7 @@ import React, { useState } from 'react';
  */
 import { useNotifications } from '@admin-shared/hooks/useNotifications';
 import { Button, Input } from '@vantage-lane/ui-core';
+import { formatNotificationDate } from '@admin-shared/utils/formatDate';
 import styles from './MyNotificationsTab.module.css';
 
 export function MyNotificationsTab() {
@@ -30,30 +31,20 @@ export function MyNotificationsTab() {
       );
     });
 
-  const formatTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleString('en-GB', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
 
   return (
     <div className={styles.container}>
       {/* Stats */}
       <div className={styles.stats}>
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>📬</div>
+          <div className={styles.statIcon}><Inbox size={18} strokeWidth={2} /></div>
           <div className={styles.statContent}>
             <p className={styles.statLabel}>Total</p>
             <p className={styles.statValue}>{notifications.length}</p>
           </div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>🔔</div>
+          <div className={styles.statIcon}><Bell size={18} strokeWidth={2} /></div>
           <div className={styles.statContent}>
             <p className={styles.statLabel}>Unread</p>
             <p className={styles.statValue}>{unreadCount}</p>
@@ -121,7 +112,7 @@ export function MyNotificationsTab() {
             >
               <div className={styles.itemHeader}>
                 <h3 className={styles.itemTitle}>{notification.title}</h3>
-                <span className={styles.itemTime}>{formatTime(notification.createdAt)}</span>
+                <span className={styles.itemTime}>{formatNotificationDate(notification.createdAt)}</span>
               </div>
               <p className={styles.itemMessage}>{notification.message}</p>
               {!notification.read && <span className={styles.unreadDot} />}

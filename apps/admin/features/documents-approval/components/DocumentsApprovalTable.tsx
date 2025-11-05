@@ -8,7 +8,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   EnterpriseDataTable,
   useSelection,
@@ -16,10 +16,26 @@ import {
   useColumnResize,
   Input, 
   TableActions, 
-  Pagination 
+  Pagination,
+  BulkActionsToolbar,
+  type BulkAction,
+  exportToCSV,
+  exportToExcel,
+  formatDateForExport,
 } from '@vantage-lane/ui-core';
 import { useDocumentsApproval } from '../hooks/useDocumentsApproval';
 import { getDocumentsColumns } from '../columns/documentsColumns';
+import { 
+  approveDocument, 
+  rejectDocument, 
+  bulkApproveDocuments,
+  bulkRejectDocuments,
+  type Document 
+} from '@entities/document';
+import { DocumentViewerModal } from './DocumentViewerModal';
+import { ApproveDocumentDialog } from './ApproveDocumentDialog';
+import { RejectDocumentModal } from './RejectDocumentModal';
+import { CheckCircle, XCircle } from 'lucide-react';
 import styles from './DocumentsApprovalTable.module.css';
 
 export interface DocumentsApprovalTableProps {
@@ -58,10 +74,170 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
   const sorting = useSorting();
   const resize = useColumnResize();
   
+  // Modal states
+  const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [isApproveOpen, setIsApproveOpen] = useState(false);
+  const [isRejectOpen, setIsRejectOpen] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
+  
+  // TODO: Get admin ID from auth context
+  const adminId = 'f2036914-492c-4534-96f0-1eb19e08fb83'; // Catalin's ID
+  
+  // Handlers
+  const handleView = (doc: Document) => {
+    setSelectedDocument(doc);
+    setIsViewerOpen(true);
+  };
+  
+  const handleApprove = (doc: Document) => {
+    setSelectedDocument(doc);
+    setIsApproveOpen(true);
+  };
+  
+  const handleReject = (doc: Document) => {
+    setSelectedDocument(doc);
+    setIsRejectOpen(true);
+  };
+  
+  const handleConfirmApprove = async () => {
+    if (!selectedDocument) return;
+    
+    try {
+      setActionLoading(true);
+      await approveDocument(selectedDocument.id, adminId);
+      setIsApproveOpen(false);
+      setSelectedDocument(null);
+      await refetch();
+    } catch (error) {
+      console.error('Failed to approve document:', error);
+      alert('Failed to approve document. Please try again.');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+  
+  const handleConfirmReject = async (reason: string) => {
+    if (!selectedDocument) return;
+    
+    try {
+      setActionLoading(true);
+      await rejectDocument(selectedDocument.id, adminId, reason);
+      setIsRejectOpen(false);
+      setSelectedDocument(null);
+      await refetch();
+    } catch (error) {
+      console.error('Failed to reject document:', error);
+      alert('Failed to reject document. Please try again.');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+  
+  // Bulk action handlers
+  const handleBulkApprove = async () => {
+    const selectedIds = selection.selectedRows.map(doc => doc.id);
+    if (selectedIds.length === 0) return;
+    
+    if (!confirm(`Approve ${selectedIds.length} document(s)?`)) return;
+    
+    try {
+      setActionLoading(true);
+      const result = await bulkApproveDocuments(selectedIds, adminId);
+      
+      if (result.failed > 0) {
+        alert(`Approved ${result.success} document(s). Failed: ${result.failed}`);
+      } else {
+        alert(`Successfully approved ${result.success} document(s)`);
+      }
+      
+      selection.clearSelection();
+      await refetch();
+    } catch (error) {
+      console.error('Failed to bulk approve documents:', error);
+      alert('Failed to approve documents. Please try again.');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+  
+  const handleBulkReject = async () => {
+    const selectedIds = selection.selectedRows.map(doc => doc.id);
+    if (selectedIds.length === 0) return;
+    
+    const reason = prompt(`Enter rejection reason for ${selectedIds.length} document(s):`);
+    if (!reason || reason.trim().length < 10) {
+      alert('Rejection reason must be at least 10 characters');
+      return;
+    }
+    
+    try {
+      setActionLoading(true);
+      const result = await bulkRejectDocuments(selectedIds, adminId, reason.trim());
+      
+      if (result.failed > 0) {
+        alert(`Rejected ${result.success} document(s). Failed: ${result.failed}`);
+      } else {
+        alert(`Successfully rejected ${result.success} document(s)`);
+      }
+      
+      selection.clearSelection();
+      await refetch();
+    } catch (error) {
+      console.error('Failed to bulk reject documents:', error);
+      alert('Failed to reject documents. Please try again.');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+  
+  // Bulk actions configuration
+  const bulkActions: BulkAction[] = [
+    {
+      id: 'approve',
+      label: 'Approve Selected',
+      icon: <CheckCircle size={16} />,
+      onClick: handleBulkApprove,
+      disabled: actionLoading,
+    },
+    {
+      id: 'reject',
+      label: 'Reject Selected',
+      icon: <XCircle size={16} />,
+      onClick: handleBulkReject,
+      destructive: true,
+      disabled: actionLoading,
+    },
+  ];
+  
+  // Export handler
+  const handleExport = () => {
+    const exportData = documents.map(doc => ({
+      'Document ID': doc.id,
+      'Type': doc.type,
+      'Category': doc.category,
+      'Driver Name': doc.userName,
+      'Driver Email': doc.userEmail,
+      'Status': doc.status,
+      'Upload Date': formatDateForExport(doc.uploadDate),
+      'Expiry Date': doc.expiryDate ? formatDateForExport(doc.expiryDate) : 'N/A',
+      'Reviewed By': doc.approvedBy || doc.rejectedBy || 'N/A',
+      'Reviewed At': doc.approvedAt ? formatDateForExport(doc.approvedAt) : (doc.rejectedAt ? formatDateForExport(doc.rejectedAt) : 'N/A'),
+      'Rejection Reason': doc.rejectionReason || 'N/A',
+      'File Size': doc.fileSize ? `${(doc.fileSize / 1024).toFixed(2)} KB` : 'N/A',
+      'Notes': doc.description || '',
+    }));
+    
+    const filename = `documents-${filters.tab}-${new Date().toISOString().split('T')[0]}`;
+    
+    // Export as Excel (CSV with UTF-8 BOM for Excel compatibility)
+    exportToExcel(exportData, filename);
+  };
+  
   const columns = getDocumentsColumns({
-    onApprove: (doc) => console.log('Approve:', doc),
-    onReject: (doc) => console.log('Reject:', doc),
-    onView: (doc) => console.log('View:', doc),
+    onApprove: handleApprove,
+    onReject: handleReject,
+    onView: handleView,
   });
   
   return (
@@ -85,9 +261,10 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
           />
           
           <TableActions
-            onExport={() => console.log('Export')}
+            onExport={handleExport}
             onRefresh={refetch}
             loading={loading}
+            showAdd={false}
           />
         </div>
       </div>
@@ -150,6 +327,13 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
         </div>
       )}
       
+      {/* Bulk Actions Toolbar */}
+      <BulkActionsToolbar
+        selectedCount={selection.selectedRows.length}
+        actions={bulkActions}
+        onClearSelection={selection.clearSelection}
+      />
+      
       {/* Table */}
       {!loading && !error && (
         <>
@@ -184,6 +368,38 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
           )}
         </>
       )}
+      
+      {/* Modals */}
+      <DocumentViewerModal
+        isOpen={isViewerOpen}
+        onClose={() => {
+          setIsViewerOpen(false);
+          setSelectedDocument(null);
+        }}
+        document={selectedDocument}
+      />
+      
+      <ApproveDocumentDialog
+        isOpen={isApproveOpen}
+        onClose={() => {
+          setIsApproveOpen(false);
+          setSelectedDocument(null);
+        }}
+        onConfirm={handleConfirmApprove}
+        document={selectedDocument}
+        loading={actionLoading}
+      />
+      
+      <RejectDocumentModal
+        isOpen={isRejectOpen}
+        onClose={() => {
+          setIsRejectOpen(false);
+          setSelectedDocument(null);
+        }}
+        onConfirm={handleConfirmReject}
+        document={selectedDocument}
+        loading={actionLoading}
+      />
     </div>
   );
 }

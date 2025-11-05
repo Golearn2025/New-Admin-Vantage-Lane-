@@ -7,6 +7,7 @@
 // Components
 export * from './Button';
 export * from './Input';
+export * from './Textarea';
 export * from './Card';
 export * from './Checkbox';
 export * from './Select';
@@ -57,3 +58,6 @@ export * from './Tabs';
 
 // Theme System
 export * from './theme';
+
+// Utilities
+export * from './utils';

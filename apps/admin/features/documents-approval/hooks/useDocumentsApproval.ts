@@ -10,8 +10,14 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { listDocuments, getDocumentCounts } from '@entities/document';
-import type { Document } from '@entities/document';
+import type { Document, DocumentStatus } from '@entities/document';
 import type { DocumentsApprovalFilters, DocumentTab } from '../types';
+
+interface ApiFilters {
+  status?: DocumentStatus;
+  userType?: 'driver' | 'operator';
+  search?: string;
+}
 
 export function useDocumentsApproval() {
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -40,7 +46,7 @@ export function useDocumentsApproval() {
       setError(null);
       
       // Build filters based on active tab
-      const apiFilters: any = {};
+      const apiFilters: ApiFilters = {};
       
       if (filters.tab === 'pending') {
         apiFilters.status = 'pending';
@@ -98,6 +104,14 @@ export function useDocumentsApproval() {
     );
   }, [documents, filters.search]);
   
+  // Combined refetch function (documents + counts)
+  const refetch = async () => {
+    await Promise.all([
+      fetchDocuments(),
+      fetchCounts(),
+    ]);
+  };
+  
   return {
     documents: filteredDocuments,
     loading,
@@ -107,6 +121,6 @@ export function useDocumentsApproval() {
     selectedIds,
     setSelectedIds,
     counts,
-    refetch: fetchDocuments,
+    refetch,
   };
 }

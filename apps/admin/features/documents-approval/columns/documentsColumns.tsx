@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
+import { Eye, CheckCircle, XCircle } from 'lucide-react';
 import type { Document } from '@entities/document';
-import type { Column, RowAction } from '@vantage-lane/ui-core';
-import { RowActions } from '@vantage-lane/ui-core';
+import type { Column } from '@vantage-lane/ui-core';
 import { getDocumentLabel } from '@entities/document';
 import styles from './documentsColumns.module.css';
 
@@ -135,38 +135,44 @@ function getActionsColumn(callbacks: DocumentColumnsCallbacks = {}): Column<Docu
     id: 'actions',
     header: 'Actions',
     accessor: () => '',
-    cell: (row) => {
-      const actions: RowAction[] = [];
-      
-      if (callbacks.onView) {
-        actions.push({
-          label: 'View Document',
-          icon: 'eye',
-          onClick: () => callbacks.onView?.(row),
-        });
-      }
-      
-      if (row.status === 'pending' && callbacks.onApprove) {
-        actions.push({
-          label: 'Approve',
-          icon: 'edit',
-          onClick: () => callbacks.onApprove?.(row),
-        });
-      }
-      
-      if (row.status === 'pending' && callbacks.onReject) {
-        actions.push({
-          label: 'Reject',
-          icon: 'trash',
-          onClick: () => callbacks.onReject?.(row),
-          variant: 'danger',
-        });
-      }
-      
-      return <RowActions actions={actions} />;
-    },
+    cell: (row) => (
+      <div className={styles.actions}>
+        {callbacks.onView && (
+          <button
+            type="button"
+            onClick={() => callbacks.onView?.(row)}
+            className={styles.actionButton}
+            title="View Document"
+          >
+            <Eye size={16} />
+          </button>
+        )}
+        
+        {row.status === 'pending' && callbacks.onApprove && (
+          <button
+            type="button"
+            onClick={() => callbacks.onApprove?.(row)}
+            className={`${styles.actionButton} ${styles.actionApprove}`}
+            title="Approve"
+          >
+            <CheckCircle size={16} />
+          </button>
+        )}
+        
+        {row.status === 'pending' && callbacks.onReject && (
+          <button
+            type="button"
+            onClick={() => callbacks.onReject?.(row)}
+            className={`${styles.actionButton} ${styles.actionReject}`}
+            title="Reject"
+          >
+            <XCircle size={16} />
+          </button>
+        )}
+      </div>
+    ),
     sortable: false,
-    width: '80px',
+    width: '120px',
   };
 }
 

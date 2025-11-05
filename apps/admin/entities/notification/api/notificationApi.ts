@@ -7,6 +7,21 @@ import { createClient } from '@/lib/supabase/client';
 import type { NotificationData, CreateNotificationPayload } from '../model/types';
 
 /**
+ * Raw notification row from Supabase
+ */
+interface SupabaseNotificationRow {
+  id: string;
+  user_id: string;
+  type: string;
+  title: string;
+  message: string;
+  link: string | null;
+  read_at: string | null;
+  created_at: string;
+  target_type?: string;
+}
+
+/**
  * List all notifications for current user
  */
 export async function listNotifications(userId: string): Promise<NotificationData[]> {
@@ -163,7 +178,7 @@ export async function listSentNotifications(limit = 100): Promise<NotificationDa
 
     const { data } = await response.json();
 
-    return (data || []).map((n: any) => ({
+    return (data || []).map((n: SupabaseNotificationRow) => ({
       id: n.id,
       userId: n.user_id,
       type: n.type,

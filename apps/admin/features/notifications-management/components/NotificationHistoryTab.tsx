@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { User, Building2, Car, Users, Inbox } from 'lucide-react';
 
 /**
  * Notification History Tab
@@ -9,7 +10,16 @@ import React, { useState, useEffect } from 'react';
  * Compliant: <200 lines, 100% design tokens, TypeScript strict
  */
 import { listSentNotifications, type NotificationData } from '@entities/notification';
+import { formatNotificationDate } from '@admin-shared/utils/formatDate';
 import styles from './NotificationHistoryTab.module.css';
+
+interface GroupedNotification {
+  title: string;
+  message: string;
+  createdAt: string;
+  targetType: string;
+  count: number;
+}
 
 export function NotificationHistoryTab() {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
@@ -51,10 +61,10 @@ export function NotificationHistoryTab() {
     }
     acc[key].count++;
     return acc;
-  }, {} as Record<string, any>);
+  }, {} as Record<string, GroupedNotification>);
 
   const groupedArray = Object.values(groupedNotifications).sort(
-    (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
 
   if (loading) {
@@ -119,28 +129,22 @@ export function NotificationHistoryTab() {
       <div className={styles.list}>
         {groupedArray.length === 0 ? (
           <div className={styles.empty}>
-            <span className={styles.emptyIcon}>📭</span>
+            <span className={styles.emptyIcon}><Inbox size={48} strokeWidth={1.5} /></span>
             <p>No notifications sent yet</p>
           </div>
         ) : (
-          groupedArray.map((item: any, index: number) => (
+          groupedArray.map((item, index) => (
             <div key={index} className={styles.item}>
               <div className={styles.itemHeader}>
                 <span className={styles.itemBadge}>
-                  {item.targetType === 'admin' && '👤'}
-                  {item.targetType === 'operator' && '🏢'}
-                  {item.targetType === 'driver' && '🚗'}
-                  {item.targetType === 'customer' && '👥'}
-                  {item.count} {item.targetType}(s)
+                  {item.targetType === 'admin' && <User size={14} />}
+                  {item.targetType === 'operator' && <Building2 size={14} />}
+                  {item.targetType === 'driver' && <Car size={14} />}
+                  {item.targetType === 'customer' && <Users size={14} />}
+                  <span>{item.count} {item.targetType}(s)</span>
                 </span>
                 <span className={styles.itemDate}>
-                  {new Date(item.createdAt).toLocaleString('en-GB', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
+                  {formatNotificationDate(item.createdAt)}
                 </span>
               </div>
               <h4 className={styles.itemTitle}>{item.title}</h4>

@@ -9,19 +9,10 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import useSWR from 'swr';
 import {
   fetchPricingConfig,
-  updateVehicleType,
-  updateAirportFee,
-  updateZoneFee,
-  updateServicePolicies,
-  updateGeneralPolicies,
-  updateReturnSettings,
-  updateHourlySettings,
-  updateFleetSettings,
-  invalidatePricingCache,
   type PricingConfig,
   type ZoneFee,
   type ServicePolicies,
@@ -32,6 +23,17 @@ import {
   type UpdateVehicleTypePayload,
   type UpdateAirportFeePayload,
 } from '@entities/pricing';
+import {
+  handleUpdateVehicleType as handleUpdateVehicleTypeDelegate,
+  handleUpdateAirportFee as handleUpdateAirportFeeDelegate,
+  handleUpdateZoneFee as handleUpdateZoneFeeDelegate,
+  handleUpdateServicePolicies as handleUpdateServicePoliciesDelegate,
+  handleUpdateGeneralPolicies as handleUpdateGeneralPoliciesDelegate,
+  handleUpdateReturnSettings as handleUpdateReturnSettingsDelegate,
+  handleUpdateHourlySettings as handleUpdateHourlySettingsDelegate,
+  handleUpdateFleetSettings as handleUpdateFleetSettingsDelegate,
+  handleUpdateTimeMultipliers as handleUpdateTimeMultipliersDelegate,
+} from './handlers';
 
 export function usePricesManagement() {
   const { data: config, error, mutate } = useSWR<PricingConfig>(
@@ -46,196 +48,51 @@ export function usePricesManagement() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
-  /**
-   * Update vehicle type rates
-   */
   const handleUpdateVehicleType = async (payload: UpdateVehicleTypePayload) => {
-    if (!config) {
-      console.error('Error: No config available!');
-      return;
-    }
-
-    setIsSaving(true);
-    setSaveError(null);
-
-    try {
-      await updateVehicleType(config.id, payload);
-      await invalidatePricingCache();
-      
-      // Wait a bit for Supabase to propagate changes
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      await mutate(undefined, { revalidate: true });
-      
-      // Show success message
-      alert('Success: Prices updated successfully!');
-    } catch (err) {
-      console.error('Error in handleUpdateVehicleType:', err);
-      setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
-      throw err;
-    } finally {
-      setIsSaving(false);
-    }
+    if (!config) return;
+    await handleUpdateVehicleTypeDelegate(config, mutate, setIsSaving, setSaveError, payload);
   };
 
-  /**
-   * Update airport fee
-   */
   const handleUpdateAirportFee = async (payload: UpdateAirportFeePayload) => {
     if (!config) return;
-
-    setIsSaving(true);
-    setSaveError(null);
-
-    try {
-      await updateAirportFee(config.id, payload);
-      await invalidatePricingCache();
-      
-      // Wait for Supabase propagation
-      await new Promise(resolve => setTimeout(resolve, 500));
-      await mutate(undefined, { revalidate: true });
-      
-      alert('Success: Airport fee updated successfully!');
-    } catch (err) {
-      setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
-      throw err;
-    } finally {
-      setIsSaving(false);
-    }
+    await handleUpdateAirportFeeDelegate(config, mutate, setIsSaving, setSaveError, payload);
   };
 
-  /**
-   * Update zone fee
-   */
   const handleUpdateZoneFee = async (payload: { zoneCode: string; fee: Partial<ZoneFee> }) => {
     if (!config) return;
-    setIsSaving(true);
-    setSaveError(null);
-    try {
-      await updateZoneFee(config.id, payload);
-      await invalidatePricingCache();
-      await new Promise(resolve => setTimeout(resolve, 500));
-      await mutate(undefined, { revalidate: true });
-      alert('Success: Zone fee updated successfully!');
-    } catch (err) {
-      setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
-      throw err;
-    } finally {
-      setIsSaving(false);
-    }
+    await handleUpdateZoneFeeDelegate(config, mutate, setIsSaving, setSaveError, payload);
   };
 
-  /**
-   * Update service policies
-   */
   const handleUpdateServicePolicies = async (policies: ServicePolicies) => {
     if (!config) return;
-    setIsSaving(true);
-    setSaveError(null);
-    try {
-      await updateServicePolicies(config.id, policies);
-      await invalidatePricingCache();
-      await new Promise(resolve => setTimeout(resolve, 500));
-      await mutate(undefined, { revalidate: true });
-      alert('Success: Service policies updated successfully!');
-    } catch (err) {
-      setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
-      throw err;
-    } finally {
-      setIsSaving(false);
-    }
+    await handleUpdateServicePoliciesDelegate(config, mutate, setIsSaving, setSaveError, policies);
   };
 
-  /**
-   * Update general policies
-   */
   const handleUpdateGeneralPolicies = async (policies: GeneralPolicies) => {
     if (!config) return;
-    setIsSaving(true);
-    setSaveError(null);
-    try {
-      await updateGeneralPolicies(config.id, policies);
-      await invalidatePricingCache();
-      await new Promise(resolve => setTimeout(resolve, 500));
-      await mutate(undefined, { revalidate: true });
-      alert('Success: General policies updated successfully!');
-    } catch (err) {
-      setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
-      throw err;
-    } finally {
-      setIsSaving(false);
-    }
+    await handleUpdateGeneralPoliciesDelegate(config, mutate, setIsSaving, setSaveError, policies);
   };
 
-  /**
-   * Update return settings
-   */
   const handleUpdateReturnSettings = async (settings: ReturnSettings) => {
     if (!config) return;
-    setIsSaving(true);
-    setSaveError(null);
-    try {
-      await updateReturnSettings(config.id, settings);
-      await invalidatePricingCache();
-      await new Promise(resolve => setTimeout(resolve, 500));
-      await mutate(undefined, { revalidate: true });
-      alert('Success: Return settings updated successfully!');
-    } catch (err) {
-      setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
-      throw err;
-    } finally {
-      setIsSaving(false);
-    }
+    await handleUpdateReturnSettingsDelegate(config, mutate, setIsSaving, setSaveError, settings);
   };
 
-  /**
-   * Update hourly settings
-   */
   const handleUpdateHourlySettings = async (settings: HourlySettings) => {
     if (!config) return;
-    setIsSaving(true);
-    setSaveError(null);
-    try {
-      await updateHourlySettings(config.id, settings);
-      await invalidatePricingCache();
-      await new Promise(resolve => setTimeout(resolve, 500));
-      await mutate(undefined, { revalidate: true });
-      alert('Success: Hourly settings updated successfully!');
-    } catch (err) {
-      setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
-      throw err;
-    } finally {
-      setIsSaving(false);
-    }
+    await handleUpdateHourlySettingsDelegate(config, mutate, setIsSaving, setSaveError, settings);
   };
 
-  /**
-   * Update fleet settings
-   */
   const handleUpdateFleetSettings = async (settings: FleetSettings) => {
     if (!config) return;
-    setIsSaving(true);
-    setSaveError(null);
-    try {
-      await updateFleetSettings(config.id, settings);
-      await invalidatePricingCache();
-      await new Promise(resolve => setTimeout(resolve, 500));
-      await mutate(undefined, { revalidate: true });
-      alert('Success: Fleet settings updated successfully!');
-    } catch (err) {
-      setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
-      throw err;
-    } finally {
-      setIsSaving(false);
-    }
+    await handleUpdateFleetSettingsDelegate(config, mutate, setIsSaving, setSaveError, settings);
+  };
+
+  const handleUpdateTimeMultipliers = async (
+    multipliers: PricingConfig['time_multipliers']
+  ) => {
+    if (!config) return;
+    await handleUpdateTimeMultipliersDelegate(config, mutate, setIsSaving, setSaveError, multipliers);
   };
 
   return {
@@ -251,6 +108,7 @@ export function usePricesManagement() {
     updateReturnSettings: handleUpdateReturnSettings,
     updateHourlySettings: handleUpdateHourlySettings,
     updateFleetSettings: handleUpdateFleetSettings,
+    updateTimeMultipliers: handleUpdateTimeMultipliers,
     refresh: mutate,
   };
 }

@@ -77,6 +77,32 @@ export interface GeneralPolicies {
   };
 }
 
+export interface FleetSettings {
+  discounts: {
+    tier1: { min_vehicles: number; discount_rate: number };
+    tier2: { min_vehicles: number; discount_rate: number };
+  };
+  premium_services_multiply: boolean;
+}
+
+export interface HourlySettings {
+  rates: {
+    executive: number;
+    luxury: number;
+    van: number;
+    suv: number;
+  };
+  minimum_hours: number;
+  maximum_hours: number;
+  distance_limit_per_hour: number;
+  area_restriction: string;
+}
+
+export interface ReturnSettings {
+  discount_rate: number;
+  minimum_hours_between: number;
+}
+
 export interface PricingConfig {
   id: string;
   config_version: number;
@@ -89,6 +115,9 @@ export interface PricingConfig {
   premium_services: Record<string, PremiumService>;
   service_policies: ServicePolicies;
   general_policies: GeneralPolicies;
+  fleet_settings?: FleetSettings;
+  hourly_settings?: HourlySettings;
+  return_settings?: ReturnSettings;
   created_at: string;
   updated_at: string;
   notes: string | null;

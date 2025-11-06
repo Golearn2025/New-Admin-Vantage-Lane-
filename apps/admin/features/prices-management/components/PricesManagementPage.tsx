@@ -18,17 +18,13 @@ import { PremiumServicesTab } from './PremiumServicesTab';
 import { ZoneFeesTab } from './ZoneFeesTab';
 import { ServicePoliciesTab } from './ServicePoliciesTab';
 import { GeneralPoliciesTab } from './GeneralPoliciesTab';
-import { ReturnSettingsTab } from './ReturnSettingsTab';
-import { HourlyHireTab } from './HourlyHireTab';
-import { FleetSettingsTab } from './FleetSettingsTab';
 import styles from './PricesManagementPage.module.css';
 
 type TabType = 'vehicles' | 'airports' | 'surge' | 'premium' | 'zones' | 'services' | 'policies' | 'return' | 'hourly' | 'fleet';
 
 export function PricesManagementPage() {
-  const [activeTab, setActiveTab] = useState<TabType>('vehicles');
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { config, loading, error, isSaving, refresh } = usePricesManagement();
+  const [activeTab, setActiveTab] = useState<TabType>('vehicles');
 
   if (loading) {
     return (
@@ -67,10 +63,16 @@ export function PricesManagementPage() {
           </p>
         </div>
         <div className={styles.actions}>
-          <Button variant="primary" onClick={() => setIsModalOpen(true)}>
-            <Plus className="h-4 w-4" /> Add New
-          </Button>
-          <Button variant="secondary" onClick={() => refresh()} disabled={isSaving}>
+          <Button 
+            variant="secondary" 
+            onClick={async () => {
+              console.log('🔄 Refresh clicked!');
+              await refresh();
+              console.log('✅ Refresh complete!');
+              alert('Data refreshed successfully!');
+            }} 
+            disabled={isSaving}
+          >
             <RefreshCw className="h-4 w-4" /> Refresh
           </Button>
         </div>
@@ -159,9 +161,9 @@ export function PricesManagementPage() {
         {activeTab === 'zones' && <ZoneFeesTab config={config} />}
         {activeTab === 'services' && <ServicePoliciesTab config={config} />}
         {activeTab === 'policies' && <GeneralPoliciesTab config={config} />}
-        {activeTab === 'return' && <ReturnSettingsTab config={config} />}
-        {activeTab === 'hourly' && <HourlyHireTab config={config} />}
-        {activeTab === 'fleet' && <FleetSettingsTab config={config} />}
+        {activeTab === 'return' && <div className={styles.section}><p>Return Settings - Coming soon</p></div>}
+        {activeTab === 'hourly' && <div className={styles.section}><p>Hourly Hire - Coming soon</p></div>}
+        {activeTab === 'fleet' && <div className={styles.section}><p>Fleet Settings - Coming soon</p></div>}
       </div>
     </div>
   );

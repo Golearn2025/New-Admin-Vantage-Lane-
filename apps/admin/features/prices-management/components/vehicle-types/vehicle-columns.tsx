@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Input } from '@vantage-lane/ui-core';
 import type { Column } from '@vantage-lane/ui-core';
-import { Save, Edit, X, Car } from 'lucide-react';
+import { Edit, Car, Save, X } from 'lucide-react';
 import type { VehicleTypeRates } from '@entities/pricing';
 import styles from '../PricesManagementPage.module.css';
 
@@ -13,20 +13,21 @@ export type VehicleRow = {
   perMileAfter6: number;
   perMinute: number;
   minimumFare: number;
+  editing?: boolean;
+  original?: VehicleTypeRates;
 };
 
 export function createVehicleColumns(params: {
+  vehicleTypes: [string, VehicleTypeRates][];
   editingType: string | null;
   editedRates: Partial<VehicleTypeRates>;
   setEditedRates: React.Dispatch<React.SetStateAction<Partial<VehicleTypeRates>>>;
-  setEditingType: React.Dispatch<React.SetStateAction<string | null>>;
-  handleSave: (type: string) => Promise<void>;
-  handleCancel: () => void;
-  vehicleTypes: [string, VehicleTypeRates][];
   isSaving: boolean;
   onStartEdit: (type: string, rates: VehicleTypeRates) => void;
+  onSave: (type: string) => Promise<void>;
+  onCancel: () => void;
 }): Column<VehicleRow>[] {
-  const { editingType, editedRates, setEditedRates, handleSave, handleCancel, vehicleTypes, isSaving, onStartEdit } = params;
+  const { vehicleTypes, editingType, editedRates, setEditedRates, isSaving, onStartEdit, onSave, onCancel } = params;
 
   return [
     {
@@ -34,9 +35,9 @@ export function createVehicleColumns(params: {
       header: 'Vehicle Type',
       accessor: (row) => row.name,
       cell: (row) => (
-        <div className={styles.vehicleCell}>
+        <div className={styles.flexRow}>
           <Car className="h-4 w-4" />
-          <span>{row.name}</span>
+          {row.name}
         </div>
       ),
     },
@@ -109,7 +110,7 @@ export function createVehicleColumns(params: {
         ),
     },
     {
-      id: 'minimumFare',
+      id: 'minimum',
       header: 'Minimum',
       accessor: (row) => row.minimumFare,
       cell: (row) =>
@@ -132,23 +133,29 @@ export function createVehicleColumns(params: {
       cell: (row) =>
         editingType === row.id ? (
           <div className={styles.buttonGroup}>
-            <Button variant="primary" size="sm" onClick={() => handleSave(row.id)} disabled={isSaving}>
-              <Save className="h-4 w-4" /> Save
+            <Button variant="primary" size="sm" onClick={() => onSave(row.id)} disabled={isSaving}>
+              <Save className="h-4 w-4" />
             </Button>
-            <Button variant="secondary" size="sm" onClick={handleCancel}>
-              <X className="h-4 w-4" /> Cancel
+            <Button variant="secondary" size="sm" onClick={onCancel}>
+              <X className="h-4 w-4" />
             </Button>
           </div>
         ) : (
           <Button
-            variant="secondary"
+            variant="ghost"
             size="sm"
             onClick={() => {
+              console.log('🔥 EDIT BUTTON CLICKED!', row.id);
               const vehicleType = vehicleTypes.find(([type]) => type === row.id);
-              if (vehicleType) onStartEdit(row.id, vehicleType[1]);
+              if (vehicleType) {
+                console.log('✅ Found vehicle type:', vehicleType);
+                onStartEdit(row.id, vehicleType[1]);
+              } else {
+                console.error('❌ Vehicle type not found:', row.id);
+              }
             }}
           >
-            <Edit className="h-4 w-4" /> Edit
+            <Edit className="h-4 w-4" />
           </Button>
         ),
     },

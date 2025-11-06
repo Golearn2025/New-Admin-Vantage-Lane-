@@ -7,9 +7,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button, EnterpriseDataTable } from '@vantage-lane/ui-core';
+import { EnterpriseDataTable, Modal, Input, Button } from '@vantage-lane/ui-core';
 import { createVehicleColumns, type VehicleRow } from './vehicle-types/vehicle-columns';
-import { BarChart3, Banknote } from 'lucide-react';
+import { BarChart3, Banknote, Plus, RefreshCw, Save } from 'lucide-react';
 import { usePricesManagement } from '../hooks/usePricesManagement';
 import type { PricingConfig, VehicleTypeRates } from '@entities/pricing';
 import styles from './PricesManagementPage.module.css';
@@ -20,8 +20,19 @@ interface Props {
 
 export function VehicleTypesTab({ config }: Props) {
   const { updateVehicleType, isSaving } = usePricesManagement();
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingType, setEditingType] = useState<string | null>(null);
   const [editedRates, setEditedRates] = useState<Partial<VehicleTypeRates>>({});
+  const [newVehicleType, setNewVehicleType] = useState<Partial<VehicleTypeRates>>({
+    name: '',
+    base_fare: 0,
+    per_mile_first_6: 0,
+    per_mile_after_6: 0,
+    per_minute: 0,
+    minimum_fare: 0,
+    hourly_in_town: 0,
+    hourly_out_town: 0,
+  });
 
   const vehicleTypes = Object.entries(config.vehicle_types);
 
@@ -33,25 +44,29 @@ export function VehicleTypesTab({ config }: Props) {
     perMileAfter6: rates.per_mile_after_6,
     perMinute: rates.per_minute,
     minimumFare: rates.minimum_fare,
+    editing: editingType === type,
+    original: rates,
   }));
 
   const handleEdit = (type: string, rates: VehicleTypeRates) => {
+    console.log('🎯 Edit clicked:', type);
     setEditingType(type);
     setEditedRates(rates);
   };
 
   const handleSave = async (type: string) => {
-    try {
-      await updateVehicleType({
-        vehicleType: type,
-        rates: editedRates,
-      });
-      setEditingType(null);
-      setEditedRates({});
-    } catch (error) {
-      console.error('Failed to save:', error);
-      alert(`Failed to save: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
+    console.log('🔵 VehicleTypesTab: handleSave called');
+    console.log('🔵 Vehicle type:', type);
+    console.log('🔵 Edited rates:', editedRates);
+    
+    await updateVehicleType({
+      vehicleType: type,
+      rates: editedRates as VehicleTypeRates,
+    });
+    
+    console.log('✅ Save successful!');
+    setEditingType(null);
+    setEditedRates({});
   };
 
   const handleCancel = () => {
@@ -60,15 +75,14 @@ export function VehicleTypesTab({ config }: Props) {
   };
 
   const columns = createVehicleColumns({
+    vehicleTypes,
     editingType,
     editedRates,
     setEditedRates,
-    setEditingType,
-    handleSave,
-    handleCancel,
-    vehicleTypes,
     isSaving,
     onStartEdit: handleEdit,
+    onSave: handleSave,
+    onCancel: handleCancel,
   });
 
   const calculateExample = (rates: VehicleTypeRates) => {
@@ -90,10 +104,17 @@ export function VehicleTypesTab({ config }: Props) {
 
   return (
     <div className={styles.section}>
-      <h2 className={styles.sectionTitle}>Vehicle Type Rates</h2>
-      <p className={styles.sectionDescription}>
-        Configure base fares, per-mile rates, and hourly rates for each vehicle type
-      </p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--spacing-4)' }}>
+        <div>
+          <h2 className={styles.sectionTitle}>Vehicle Type Rates</h2>
+          <p className={styles.sectionDescription}>
+            Configure base fares, per-mile rates, and hourly rates for each vehicle type
+          </p>
+        </div>
+        <Button variant="primary" onClick={() => setIsAddModalOpen(true)}>
+          <Plus className="h-4 w-4" /> Add Vehicle Type
+        </Button>
+      </div>
 
       <EnterpriseDataTable columns={columns} data={vehicleData} stickyHeader />
 
@@ -166,6 +187,121 @@ export function VehicleTypesTab({ config }: Props) {
           );
         })()}
       </div>
+
+      {/* Add New Vehicle Type Modal */}
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        title="Add New Vehicle Type"
+        size="lg"
+      >
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-4)' }}>
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Vehicle Name</label>
+            <Input
+              type="text"
+              value={newVehicleType.name}
+              onChange={(e) => setNewVehicleType({ ...newVehicleType, name: e.target.value })}
+              placeholder="e.g., Premium SUV"
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Base Fare (£)</label>
+            <Input
+              type="number"
+              value={newVehicleType.base_fare}
+              onChange={(e) => setNewVehicleType({ ...newVehicleType, base_fare: Number(e.target.value) })}
+              min={0}
+              step={1}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Per Mile First 6 (£)</label>
+            <Input
+              type="number"
+              value={newVehicleType.per_mile_first_6}
+              onChange={(e) => setNewVehicleType({ ...newVehicleType, per_mile_first_6: Number(e.target.value) })}
+              min={0}
+              step={0.1}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Per Mile After 6 (£)</label>
+            <Input
+              type="number"
+              value={newVehicleType.per_mile_after_6}
+              onChange={(e) => setNewVehicleType({ ...newVehicleType, per_mile_after_6: Number(e.target.value) })}
+              min={0}
+              step={0.1}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Per Minute (£)</label>
+            <Input
+              type="number"
+              value={newVehicleType.per_minute}
+              onChange={(e) => setNewVehicleType({ ...newVehicleType, per_minute: Number(e.target.value) })}
+              min={0}
+              step={0.01}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Minimum Fare (£)</label>
+            <Input
+              type="number"
+              value={newVehicleType.minimum_fare}
+              onChange={(e) => setNewVehicleType({ ...newVehicleType, minimum_fare: Number(e.target.value) })}
+              min={0}
+              step={1}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Hourly In Town (£)</label>
+            <Input
+              type="number"
+              value={newVehicleType.hourly_in_town}
+              onChange={(e) => setNewVehicleType({ ...newVehicleType, hourly_in_town: Number(e.target.value) })}
+              min={0}
+              step={5}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Hourly Out Town (£)</label>
+            <Input
+              type="number"
+              value={newVehicleType.hourly_out_town}
+              onChange={(e) => setNewVehicleType({ ...newVehicleType, hourly_out_town: Number(e.target.value) })}
+              min={0}
+              step={5}
+            />
+          </div>
+
+          <div style={{ gridColumn: '1 / -1', display: 'flex', gap: 'var(--spacing-3)', justifyContent: 'flex-end', marginTop: 'var(--spacing-4)' }}>
+            <Button variant="secondary" onClick={() => setIsAddModalOpen(false)} disabled={isSaving}>
+              Cancel
+            </Button>
+            <Button 
+              variant="primary" 
+              onClick={async () => {
+                console.log('🆕 Add New Vehicle Type:', newVehicleType);
+                alert('Add New functionality - Coming soon!');
+                // TODO: Implement add new vehicle type API
+                setIsAddModalOpen(false);
+              }} 
+              disabled={isSaving || !newVehicleType.name}
+            >
+              <Save className="h-4 w-4" /> Add Vehicle Type
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

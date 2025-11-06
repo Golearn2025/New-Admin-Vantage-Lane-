@@ -7,9 +7,9 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Button, Input, EnterpriseDataTable } from '@vantage-lane/ui-core';
+import { Button, Input, EnterpriseDataTable, Modal } from '@vantage-lane/ui-core';
 import type { Column } from '@vantage-lane/ui-core';
-import { Save, Edit, X, Plane } from 'lucide-react';
+import { Save, Edit, X, Plane, Plus } from 'lucide-react';
 import { usePricesManagement } from '../hooks/usePricesManagement';
 import type { PricingConfig, AirportFee } from '@entities/pricing';
 import styles from './PricesManagementPage.module.css';
@@ -22,6 +22,13 @@ export function AirportFeesTab({ config }: Props) {
   const { updateAirportFee, isSaving } = usePricesManagement();
   const [editingAirport, setEditingAirport] = useState<string | null>(null);
   const [editedFee, setEditedFee] = useState<Partial<AirportFee>>({});
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [newAirport, setNewAirport] = useState<Partial<AirportFee>>({
+    name: '',
+    pickup_fee: 0,
+    dropoff_fee: 0,
+    free_wait_minutes: 0,
+  });
 
   const airports = Object.entries(config.airport_fees);
 
@@ -66,7 +73,7 @@ export function AirportFeesTab({ config }: Props) {
     freeWaitMinutes: fee.free_wait_minutes,
   }));
 
-  const columns: Column<AirportRow>[] = [
+  const columns: Column<AirportRow>[] = useMemo(() => [
     {
       id: 'name',
       header: 'Airport',
@@ -175,14 +182,21 @@ export function AirportFeesTab({ config }: Props) {
           </Button>
         ),
     },
-  ];
+  ], [editingAirport, editedFee, isSaving]);
 
   return (
     <div className={styles.section}>
-      <h2 className={styles.sectionTitle}>Airport Fees</h2>
-      <p className={styles.sectionDescription}>
-        Configure pickup and dropoff fees for each airport
-      </p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--spacing-4)' }}>
+        <div>
+          <h2 className={styles.sectionTitle}>Airport Fees</h2>
+          <p className={styles.sectionDescription}>
+            Configure pickup and dropoff fees for each airport
+          </p>
+        </div>
+        <Button variant="primary" onClick={() => setIsAddModalOpen(true)}>
+          <Plus className="h-4 w-4" /> Add Airport
+        </Button>
+      </div>
 
       <EnterpriseDataTable columns={columns} data={data} stickyHeader />
 
@@ -206,6 +220,76 @@ export function AirportFeesTab({ config }: Props) {
           </span>
         </div>
       </div>
+
+      {/* Add New Airport Modal */}
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        title="Add New Airport"
+        size="md"
+      >
+        <div style={{ display: 'grid', gap: 'var(--spacing-4)' }}>
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Airport Name</label>
+            <Input
+              type="text"
+              value={newAirport.name}
+              onChange={(e) => setNewAirport({ ...newAirport, name: e.target.value })}
+              placeholder="e.g., London Gatwick"
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Pickup Fee (£)</label>
+            <Input
+              type="number"
+              value={newAirport.pickup_fee}
+              onChange={(e) => setNewAirport({ ...newAirport, pickup_fee: Number(e.target.value) })}
+              min={0}
+              step={0.5}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Dropoff Fee (£)</label>
+            <Input
+              type="number"
+              value={newAirport.dropoff_fee}
+              onChange={(e) => setNewAirport({ ...newAirport, dropoff_fee: Number(e.target.value) })}
+              min={0}
+              step={0.5}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Free Wait Time (minutes)</label>
+            <Input
+              type="number"
+              value={newAirport.free_wait_minutes}
+              onChange={(e) => setNewAirport({ ...newAirport, free_wait_minutes: Number(e.target.value) })}
+              min={0}
+              step={5}
+            />
+          </div>
+
+          <div style={{ display: 'flex', gap: 'var(--spacing-3)', justifyContent: 'flex-end', marginTop: 'var(--spacing-4)' }}>
+            <Button variant="secondary" onClick={() => setIsAddModalOpen(false)} disabled={isSaving}>
+              Cancel
+            </Button>
+            <Button 
+              variant="primary" 
+              onClick={async () => {
+                console.log('🆕 Add New Airport:', newAirport);
+                alert('Add New Airport - Coming soon!');
+                setIsAddModalOpen(false);
+              }} 
+              disabled={isSaving || !newAirport.name}
+            >
+              <Save className="h-4 w-4" /> Add Airport
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

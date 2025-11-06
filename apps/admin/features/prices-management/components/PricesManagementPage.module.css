@@ -56,13 +56,16 @@
 }
 
 .tab {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
   padding: var(--spacing-3) var(--spacing-5);
   background: transparent;
   border: var(--border-width-sm) solid transparent;
   border-radius: var(--border-radius-md);
-  color: var(--color-text-secondary);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
@@ -311,4 +314,91 @@
 .toggleSwitch input:checked + .toggleSlider::before {
   transform: translateX(24px);
   background: var(--color-bg-primary);
+}
+
+/* Badge Color Variants */
+.statusBadgePrimary {
+  background: var(--color-primary-alpha-20);
+  color: var(--color-primary);
+}
+
+.statusBadgeSuccess {
+  background: var(--color-success-alpha-20);
+  color: var(--color-success);
+}
+
+.statusBadgeWarning {
+  background: var(--color-warning-alpha-20);
+  color: var(--color-warning);
+}
+
+.statusBadgeInfo {
+  background: var(--color-info-alpha-20);
+  color: var(--color-info);
+}
+
+.statusBadgeSecondary {
+  background: var(--gradient-secondary);
+  color: white;
+}
+
+/* Actions Container */
+.actionsContainer {
+  display: flex;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-6);
+}
+
+/* Input Container with Label */
+.inputWithLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+/* Narrow Input */
+.inputNarrow {
+  width: var(--size-32);
+}
+
+/* Button Group */
+.buttonGroup {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+/* Color Utilities */
+.textPrimary {
+  color: var(--color-primary);
+}
+
+.textSuccess {
+  color: var(--color-success);
+}
+
+.textInfo {
+  color: var(--color-info);
+}
+
+/* Select Input */
+.selectInput {
+  padding: var(--spacing-2);
+  border-radius: var(--border-radius-md);
+  border: var(--border-width-sm) solid var(--color-border-primary);
+  background: var(--color-bg-secondary);
+  width: var(--size-32);
+}
+
+/* Utilities: Flex row (icon + label) */
+.flexRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+/* Vehicle cell (icon + name) */
+.vehicleCell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
 }

@@ -1,0 +1,51 @@
+name: Code Quality Audit
+
+on:
+  pull_request:
+    paths:
+      - 'apps/admin/features/**'
+      - 'packages/ui-core/**'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Make audit script executable
+        run: chmod +x scripts/audit/audit-one-pro.sh
+      
+      - name: Run audit on changed modules
+        run: |
+          # Detect changed feature modules
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          CHANGED_MODULES=$(echo "$CHANGED_FILES" | grep "^apps/admin/features/" | cut -d'/' -f1-4 | sort -u)
+          
+          if [ -z "$CHANGED_MODULES" ]; then
+            echo "No feature modules changed"
+            exit 0
+          fi
+          
+          EXIT_CODE=0
+          for MODULE in $CHANGED_MODULES; do
+            echo "=========================================="
+            echo "Auditing: $MODULE"
+            echo "=========================================="
+            if ! ./scripts/audit/audit-one-pro.sh "$MODULE"; then
+              EXIT_CODE=1
+            fi
+            cat "audit-reports/$(echo $MODULE | sed 's#/#-#g')/summary.txt"
+            echo ""
+          done
+          
+          exit $EXIT_CODE
+      
+      - name: Upload audit reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-reports
+          path: audit-reports/
+          retention-days: 30

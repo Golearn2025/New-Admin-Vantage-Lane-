@@ -7,12 +7,11 @@
 import { createClient } from '@/lib/supabase/client';
 import type { PricingConfig, UpdateVehicleTypePayload, UpdateAirportFeePayload } from '../model/types';
 
-const supabase = createClient();
-
 /**
  * Fetch active pricing configuration
  */
 export async function fetchPricingConfig(): Promise<PricingConfig> {
+  const supabase = createClient();
   const { data, error } = await supabase
     .from('pricing_config')
     .select('*')
@@ -37,6 +36,7 @@ export async function updateVehicleType(
   configId: string,
   payload: UpdateVehicleTypePayload
 ): Promise<void> {
+  const supabase = createClient();
   console.log('🟡 pricingApi: updateVehicleType called');
   console.log('🟡 configId:', configId);
   console.log('🟡 payload:', payload);
@@ -103,6 +103,7 @@ export async function updateAirportFee(
   configId: string,
   payload: UpdateAirportFeePayload
 ): Promise<void> {
+  const supabase = createClient();
   const { airportCode, fee } = payload;
 
   // Fetch current config
@@ -146,8 +147,10 @@ export async function updateZoneFee(
   configId: string,
   payload: { zoneCode: string; fee: any }
 ): Promise<void> {
+  const supabase = createClient();
   const { zoneCode, fee } = payload;
 
+  // Fetch current config
   const { data: currentConfig } = await supabase
     .from('pricing_config')
     .select('zone_fees')
@@ -186,6 +189,7 @@ export async function updateServicePolicies(
   configId: string,
   policies: any
 ): Promise<void> {
+  const supabase = createClient();
   const { error } = await supabase
     .from('pricing_config')
     .update({
@@ -206,6 +210,7 @@ export async function updateGeneralPolicies(
   configId: string,
   policies: any
 ): Promise<void> {
+  const supabase = createClient();
   const { error } = await supabase
     .from('pricing_config')
     .update({
@@ -226,6 +231,7 @@ export async function updateReturnSettings(
   configId: string,
   settings: any
 ): Promise<void> {
+  const supabase = createClient();
   const { error } = await supabase
     .from('pricing_config')
     .update({
@@ -246,6 +252,7 @@ export async function updateHourlySettings(
   configId: string,
   settings: any
 ): Promise<void> {
+  const supabase = createClient();
   const { error } = await supabase
     .from('pricing_config')
     .update({
@@ -266,6 +273,7 @@ export async function updateFleetSettings(
   configId: string,
   settings: any
 ): Promise<void> {
+  const supabase = createClient();
   const { error } = await supabase
     .from('pricing_config')
     .update({
@@ -280,7 +288,29 @@ export async function updateFleetSettings(
 }
 
 /**
+ * Update time-based multipliers
+ */
+export async function updateTimeMultipliers(
+  configId: string,
+  multipliers: PricingConfig['time_multipliers']
+): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from('pricing_config')
+    .update({
+      time_multipliers: multipliers,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', configId);
+
+  if (error) {
+    throw new Error(`Failed to update time multipliers: ${error.message}`);
+  }
+}
+
+/**
  * Invalidate Backend Pricing cache
+ * OPTIONAL - Nu blochează dacă backend-ul nu rulează
  */
 export async function invalidatePricingCache(): Promise<void> {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_PRICING_URL || 'http://localhost:3001';
@@ -294,10 +324,13 @@ export async function invalidatePricingCache(): Promise<void> {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to invalidate cache');
+      console.warn('⚠️ Failed to invalidate backend cache (backend might not be running)');
+    } else {
+      console.log('✅ Backend cache invalidated successfully');
     }
   } catch (error) {
-    console.error('Error invalidating cache:', error);
-    throw error;
+    // Backend nu rulează - nu e o problemă critică
+    console.warn('⚠️ Backend pricing service not available (this is OK for development):', error);
+    // NU throw error - continuă fără invalidare cache
   }
 }

@@ -1,0 +1,28 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "max-lines": ["error", {
+      "max": 200,
+      "skipBlankLines": true,
+      "skipComments": true
+    }],
+    "max-lines-per-function": ["error", {
+      "max": 50,
+      "skipBlankLines": true,
+      "skipComments": true
+    }],
+    "complexity": ["error", 10],
+    "no-restricted-imports": ["error", {
+      "patterns": [
+        {
+          "group": ["react-icons/*", "@heroicons/*", "feather-icons/*"],
+          "message": "Use lucide-react only for icons."
+        },
+        {
+          "group": ["apps/admin/shared/ui/*", "@/shared/ui/*"],
+          "message": "Use @vantage-lane/ui-core for reusable UI components."
+        }
+      ]
+    }]
+  }
+}

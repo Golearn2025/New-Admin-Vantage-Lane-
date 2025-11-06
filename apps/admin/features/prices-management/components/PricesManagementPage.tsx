@@ -9,6 +9,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@vantage-lane/ui-core';
+import { Plus, RefreshCw, Car, Plane, TrendingUp, Star, Map, Settings, FileText, RotateCcw, Clock, Users } from 'lucide-react';
 import { usePricesManagement } from '../hooks/usePricesManagement';
 import { VehicleTypesTab } from './VehicleTypesTab';
 import { AirportFeesTab } from './AirportFeesTab';
@@ -17,17 +18,13 @@ import { PremiumServicesTab } from './PremiumServicesTab';
 import { ZoneFeesTab } from './ZoneFeesTab';
 import { ServicePoliciesTab } from './ServicePoliciesTab';
 import { GeneralPoliciesTab } from './GeneralPoliciesTab';
-import { ReturnSettingsTab } from './ReturnSettingsTab';
-import { HourlyHireTab } from './HourlyHireTab';
-import { FleetSettingsTab } from './FleetSettingsTab';
 import styles from './PricesManagementPage.module.css';
 
 type TabType = 'vehicles' | 'airports' | 'surge' | 'premium' | 'zones' | 'services' | 'policies' | 'return' | 'hourly' | 'fleet';
 
 export function PricesManagementPage() {
-  const [activeTab, setActiveTab] = useState<TabType>('vehicles');
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { config, loading, error, isSaving, refresh } = usePricesManagement();
+  const [activeTab, setActiveTab] = useState<TabType>('vehicles');
 
   if (loading) {
     return (
@@ -66,11 +63,17 @@ export function PricesManagementPage() {
           </p>
         </div>
         <div className={styles.actions}>
-          <Button variant="primary" onClick={() => setIsModalOpen(true)}>
-            ✨ Add New
-          </Button>
-          <Button variant="secondary" onClick={() => refresh()} disabled={isSaving}>
-            🔄 Refresh
+          <Button 
+            variant="secondary" 
+            onClick={async () => {
+              console.log('🔄 Refresh clicked!');
+              await refresh();
+              console.log('✅ Refresh complete!');
+              alert('Data refreshed successfully!');
+            }} 
+            disabled={isSaving}
+          >
+            <RefreshCw className="h-4 w-4" /> Refresh
           </Button>
         </div>
       </div>
@@ -81,61 +84,71 @@ export function PricesManagementPage() {
           className={`${styles.tab} ${activeTab === 'vehicles' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('vehicles')}
         >
-          🚗 Vehicle Types
+          <Car className="h-4 w-4" />
+          <span>Vehicle Types</span>
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'airports' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('airports')}
         >
-          ✈️ Airport Fees
+          <Plane className="h-4 w-4" />
+          <span>Airport Fees</span>
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'surge' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('surge')}
         >
-          📈 Surge Multipliers
+          <TrendingUp className="h-4 w-4" />
+          <span>Surge Multipliers</span>
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'premium' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('premium')}
         >
-          ⭐ Premium Services
+          <Star className="h-4 w-4" />
+          <span>Premium Services</span>
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'zones' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('zones')}
         >
-          🗺️ Zone Fees
+          <Map className="h-4 w-4" />
+          <span>Zone Fees</span>
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'services' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('services')}
         >
-          ⚙️ Service Policies
+          <Settings className="h-4 w-4" />
+          <span>Service Policies</span>
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'policies' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('policies')}
         >
-          📋 General Policies
+          <FileText className="h-4 w-4" />
+          <span>General Policies</span>
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'return' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('return')}
         >
-          🔄 Return Settings
+          <RotateCcw className="h-4 w-4" />
+          <span>Return Settings</span>
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'hourly' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('hourly')}
         >
-          ⏱️ Hourly Hire
+          <Clock className="h-4 w-4" />
+          <span>Hourly Hire</span>
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'fleet' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('fleet')}
         >
-          🚗🚗 Fleet Settings
+          <Users className="h-4 w-4" />
+          <span>Fleet Settings</span>
         </button>
       </div>
 
@@ -148,9 +161,9 @@ export function PricesManagementPage() {
         {activeTab === 'zones' && <ZoneFeesTab config={config} />}
         {activeTab === 'services' && <ServicePoliciesTab config={config} />}
         {activeTab === 'policies' && <GeneralPoliciesTab config={config} />}
-        {activeTab === 'return' && <ReturnSettingsTab config={config} />}
-        {activeTab === 'hourly' && <HourlyHireTab config={config} />}
-        {activeTab === 'fleet' && <FleetSettingsTab config={config} />}
+        {activeTab === 'return' && <div className={styles.section}><p>Return Settings - Coming soon</p></div>}
+        {activeTab === 'hourly' && <div className={styles.section}><p>Hourly Hire - Coming soon</p></div>}
+        {activeTab === 'fleet' && <div className={styles.section}><p>Fleet Settings - Coming soon</p></div>}
       </div>
     </div>
   );

@@ -7,7 +7,13 @@
 'use client';
 
 import React from 'react';
+import { Button } from '@vantage-lane/ui-core';
+import { Save } from 'lucide-react';
+import { TimeMultipliersTable, type TimeRow } from './surge/TimeMultipliersTable';
+import { EventMultipliersTable, type EventRow } from './surge/EventMultipliersTable';
+import { NightSurgeExample } from './surge/NightSurgeExample';
 import type { PricingConfig } from '@entities/pricing';
+import { usePricesManagement } from '../hooks/usePricesManagement';
 import styles from './PricesManagementPage.module.css';
 
 interface Props {
@@ -15,6 +21,7 @@ interface Props {
 }
 
 export function SurgeMultipliersTab({ config }: Props) {
+  const { updateTimeMultipliers, isSaving } = usePricesManagement();
   const [multipliers, setMultipliers] = React.useState(config.time_multipliers);
   const timeMultipliers = Object.entries(multipliers);
   const eventMultipliers = Object.entries(config.event_multipliers);
@@ -32,147 +39,57 @@ export function SurgeMultipliersTab({ config }: Props) {
     });
   };
 
+  // map data for extracted tables
+  const timeRows: TimeRow[] = timeMultipliers.map(([key, m]) => ({
+    id: key,
+    label: m.label,
+    value: m.value,
+    start: m.start_time ?? null,
+    end: m.end_time ?? null,
+    active: m.active,
+  }));
+
+  const eventRows: EventRow[] = eventMultipliers.map(([key, m]) => ({
+    id: key,
+    label: m.label,
+    value: m.value,
+    active: m.active,
+  }));
+
+  const handleSaveMultipliers = async () => {
+    try {
+      await updateTimeMultipliers?.(multipliers);
+    } catch (e) {
+      // errors are handled in hook via alert
+    }
+  };
+
   return (
     <div className={styles.section}>
       <h2 className={styles.sectionTitle}>Surge Multipliers</h2>
       <p className={styles.sectionDescription}>
         Time-based and event-based pricing multipliers
       </p>
+      <div className={styles.actionsContainer}>
+        <Button variant="primary" onClick={handleSaveMultipliers} disabled={isSaving}>
+          <Save className="h-4 w-4" /> Save Multipliers
+        </Button>
+      </div>
 
       {/* Time Multipliers */}
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>Time-Based Multipliers</h3>
-        <table className={styles.table}>
-          <thead className={styles.tableHeader}>
-            <tr>
-              <th className={styles.tableHeaderCell}>Period</th>
-              <th className={styles.tableHeaderCell}>Multiplier</th>
-              <th className={styles.tableHeaderCell}>Time Range</th>
-              <th className={styles.tableHeaderCell}>Status</th>
-              <th className={styles.tableHeaderCell}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {timeMultipliers.map(([key, multiplier]) => (
-              <tr key={key} className={styles.tableRow}>
-                <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                  {multiplier.label}
-                </td>
-                <td className={styles.tableCell}>
-                  <span className={styles.statusBadge} style={{
-                    background: 'var(--gradient-secondary)',
-                    color: 'white'
-                  }}>
-                    {multiplier.value}x
-                  </span>
-                </td>
-                <td className={styles.tableCell}>
-                  {multiplier.start_time && multiplier.end_time
-                    ? `🕐 ${multiplier.start_time} - ${multiplier.end_time}`
-                    : '🕐 All day'}
-                </td>
-                <td className={styles.tableCell}>
-                  <span
-                    className={`${styles.statusBadge} ${
-                      multiplier.active ? styles.statusActive : styles.statusInactive
-                    }`}
-                  >
-                    {multiplier.active ? '✓ Active' : '○ Inactive'}
-                  </span>
-                </td>
-                <td className={styles.tableCell}>
-                  <div className={styles.tableCellActions}>
-                    <label className={styles.toggleSwitch}>
-                      <input
-                        type="checkbox"
-                        checked={multiplier.active}
-                        onChange={() => handleToggle(key)}
-                      />
-                      <span className={styles.toggleSlider}></span>
-                    </label>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <TimeMultipliersTable rows={timeRows} onToggle={handleToggle} />
       </div>
 
       {/* Event Multipliers */}
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>Event-Based Multipliers</h3>
-        <table className={styles.table}>
-          <thead className={styles.tableHeader}>
-            <tr>
-              <th className={styles.tableHeaderCell}>Event</th>
-              <th className={styles.tableHeaderCell}>Multiplier</th>
-              <th className={styles.tableHeaderCell}>Status</th>
-              <th className={styles.tableHeaderCell}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {eventMultipliers.map(([key, multiplier]) => (
-              <tr key={key} className={styles.tableRow}>
-                <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                  🎉 {multiplier.label}
-                </td>
-                <td className={styles.tableCell}>
-                  <span className={styles.statusBadge} style={{
-                    background: 'var(--gradient-secondary)',
-                    color: 'white'
-                  }}>
-                    {multiplier.value}x
-                  </span>
-                </td>
-                <td className={styles.tableCell}>
-                  <span
-                    className={`${styles.statusBadge} ${
-                      multiplier.active ? styles.statusActive : styles.statusInactive
-                    }`}
-                  >
-                    {multiplier.active ? '✓ Active' : '○ Inactive'}
-                  </span>
-                </td>
-                <td className={styles.tableCell}>
-                  <div className={styles.tableCellActions}>
-                    <label className={styles.toggleSwitch}>
-                      <input
-                        type="checkbox"
-                        checked={multiplier.active}
-                        onChange={() => {}}
-                        disabled
-                      />
-                      <span className={styles.toggleSlider}></span>
-                    </label>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <EventMultipliersTable rows={eventRows} />
       </div>
 
       {/* Example */}
-      <div className={styles.exampleBox}>
-        <h3 className={styles.exampleTitle}>Example: Night Surge (22:00-06:00)</h3>
-        <div className={styles.exampleRow}>
-          <span className={styles.exampleLabel}>Base Trip Cost:</span>
-          <span className={styles.exampleValue}>£100.00</span>
-        </div>
-        <div className={styles.exampleRow}>
-          <span className={styles.exampleLabel}>Night Multiplier:</span>
-          <span className={styles.exampleValue}>
-            {config.time_multipliers.night?.value || 1}x (+
-            {(((config.time_multipliers.night?.value || 1) - 1) * 100).toFixed(0)}%)
-          </span>
-        </div>
-        <div className={`${styles.exampleRow} ${styles.exampleTotal}`}>
-          <span className={styles.exampleLabel}>Total:</span>
-          <span className={styles.exampleValue}>
-            £{(100 * (config.time_multipliers.night?.value || 1)).toFixed(2)}
-          </span>
-        </div>
-      </div>
+      <NightSurgeExample config={config} />
     </div>
   );
 }

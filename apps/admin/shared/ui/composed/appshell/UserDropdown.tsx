@@ -9,7 +9,6 @@
 'use client';
 
 import React from 'react';
-import { Settings, User, LogOut } from 'lucide-react';
 import { useUserDropdown } from './hooks/useUserDropdown';
 import styles from './UserDropdown.module.css';
 

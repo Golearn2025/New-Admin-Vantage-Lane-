@@ -123,7 +123,7 @@ function EnterpriseTableRowComponent<T>({
 
 /**
  * Memoized version - only re-renders if props change
- * Comparison: rowId and isSelected state
+ * Comparison: rowId, isSelected state, and columns reference
  */
 export const EnterpriseTableRow = React.memo(
   EnterpriseTableRowComponent,
@@ -131,11 +131,11 @@ export const EnterpriseTableRow = React.memo(
     // Re-render only if:
     // - rowId changed (shouldn't happen)
     // - isSelected changed
-    // - columns length changed
+    // - columns reference changed (important for dynamic columns!)
     return (
       prevProps.rowId === nextProps.rowId &&
       prevProps.isSelected === nextProps.isSelected &&
-      prevProps.columns.length === nextProps.columns.length
+      prevProps.columns === nextProps.columns
     );
   }
 ) as typeof EnterpriseTableRowComponent & { displayName: string };

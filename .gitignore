@@ -67,3 +67,9 @@ test-results.txt
 tests.txt
 full-audit.md
 audit-structure.sh
+
+# Audit reports (generated)
+audit-reports/
+complete-audit-*/
+audit-*.txt
+ultra-audit-*.txt

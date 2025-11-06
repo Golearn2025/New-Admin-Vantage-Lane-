@@ -7,6 +7,8 @@
 'use client';
 
 import React from 'react';
+import { DataTable } from '@vantage-lane/ui-core';
+import type { Column } from '@vantage-lane/ui-core';
 import type { PricingConfig, PremiumServiceOption } from '@entities/pricing';
 import styles from './PricesManagementPage.module.css';
 
@@ -30,25 +32,33 @@ export function PremiumServicesTab({ config }: Props) {
             ([k, v]) => k !== 'name' && typeof v === 'object'
           ) as [string, PremiumServiceOption][];
 
+          const columns: Column<{ id: string; label: string; price: number }>[] = [
+            {
+              id: 'label',
+              header: 'Option',
+              accessor: (row) => row.label,
+            },
+            {
+              id: 'price',
+              header: 'Price',
+              accessor: (row) => row.price,
+              cell: (row) => `£${row.price.toFixed(2)}`,
+            },
+          ];
+
+          const data = options.map(([optionKey, option]) => ({
+            id: optionKey,
+            label: option.label,
+            price: option.price,
+          }));
+
           return (
             <div key={key} className={styles.section}>
               <h3 className={styles.sectionTitle}>{service.name}</h3>
-              <table className={styles.table}>
-                <thead className={styles.tableHeader}>
-                  <tr>
-                    <th className={styles.tableHeaderCell}>Option</th>
-                    <th className={styles.tableHeaderCell}>Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {options.map(([optionKey, option]) => (
-                    <tr key={optionKey} className={styles.tableRow}>
-                      <td className={styles.tableCell}>{option.label}</td>
-                      <td className={styles.tableCell}>£{option.price.toFixed(2)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <DataTable
+                columns={columns}
+                data={data}
+              />
             </div>
           );
         })}

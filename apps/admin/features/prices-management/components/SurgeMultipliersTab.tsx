@@ -7,6 +7,9 @@
 'use client';
 
 import React from 'react';
+import { Clock, PartyPopper } from 'lucide-react';
+import { EnterpriseDataTable } from '@vantage-lane/ui-core';
+import type { Column } from '@vantage-lane/ui-core';
 import type { PricingConfig } from '@entities/pricing';
 import styles from './PricesManagementPage.module.css';
 
@@ -42,114 +45,133 @@ export function SurgeMultipliersTab({ config }: Props) {
       {/* Time Multipliers */}
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>Time-Based Multipliers</h3>
-        <table className={styles.table}>
-          <thead className={styles.tableHeader}>
-            <tr>
-              <th className={styles.tableHeaderCell}>Period</th>
-              <th className={styles.tableHeaderCell}>Multiplier</th>
-              <th className={styles.tableHeaderCell}>Time Range</th>
-              <th className={styles.tableHeaderCell}>Status</th>
-              <th className={styles.tableHeaderCell}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {timeMultipliers.map(([key, multiplier]) => (
-              <tr key={key} className={styles.tableRow}>
-                <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                  {multiplier.label}
-                </td>
-                <td className={styles.tableCell}>
-                  <span className={styles.statusBadge} style={{
-                    background: 'var(--gradient-secondary)',
-                    color: 'white'
-                  }}>
-                    {multiplier.value}x
-                  </span>
-                </td>
-                <td className={styles.tableCell}>
-                  {multiplier.start_time && multiplier.end_time
-                    ? `🕐 ${multiplier.start_time} - ${multiplier.end_time}`
-                    : '🕐 All day'}
-                </td>
-                <td className={styles.tableCell}>
-                  <span
-                    className={`${styles.statusBadge} ${
-                      multiplier.active ? styles.statusActive : styles.statusInactive
-                    }`}
-                  >
-                    {multiplier.active ? '✓ Active' : '○ Inactive'}
-                  </span>
-                </td>
-                <td className={styles.tableCell}>
-                  <div className={styles.tableCellActions}>
-                    <label className={styles.toggleSwitch}>
-                      <input
-                        type="checkbox"
-                        checked={multiplier.active}
-                        onChange={() => handleToggle(key)}
-                      />
-                      <span className={styles.toggleSlider}></span>
-                    </label>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {(() => {
+          type TimeRow = {
+            id: string;
+            label: string;
+            value: number;
+            start?: string | null;
+            end?: string | null;
+            active: boolean;
+          };
+          const data: TimeRow[] = timeMultipliers.map(([key, m]) => ({
+            id: key,
+            label: m.label,
+            value: m.value,
+            start: m.start_time ?? null,
+            end: m.end_time ?? null,
+            active: m.active,
+          }));
+
+          const columns: Column<TimeRow>[] = [
+            { id: 'label', header: 'Period', accessor: (row) => row.label },
+            {
+              id: 'value',
+              header: 'Multiplier',
+              accessor: (row) => row.value,
+              cell: (row) => (
+                <span className={`${styles.statusBadge} ${styles.statusBadgeSecondary}`}>{row.value}x</span>
+              ),
+            },
+            {
+              id: 'time',
+              header: 'Time Range',
+              accessor: () => '',
+              cell: (row) => (
+                <div className={styles.flexRow}>
+                  <Clock className="h-4 w-4" />
+                  {row.start && row.end ? `${row.start} - ${row.end}` : 'All day'}
+                </div>
+              ),
+            },
+            {
+              id: 'status',
+              header: 'Status',
+              accessor: (row) => row.active,
+              cell: (row) => (
+                <span className={`${styles.statusBadge} ${row.active ? styles.statusActive : styles.statusInactive}`}>
+                  {row.active ? '✓ Active' : '○ Inactive'}
+                </span>
+              ),
+            },
+            {
+              id: 'actions',
+              header: 'Actions',
+              accessor: () => '',
+              cell: (row) => (
+                <div className={styles.tableCellActions}>
+                  <label className={styles.toggleSwitch}>
+                    <input type="checkbox" checked={row.active} onChange={() => handleToggle(row.id)} />
+                    <span className={styles.toggleSlider}></span>
+                  </label>
+                </div>
+              ),
+            },
+          ];
+
+          return <EnterpriseDataTable<TimeRow> columns={columns} data={data} stickyHeader />;
+        })()}
       </div>
 
       {/* Event Multipliers */}
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>Event-Based Multipliers</h3>
-        <table className={styles.table}>
-          <thead className={styles.tableHeader}>
-            <tr>
-              <th className={styles.tableHeaderCell}>Event</th>
-              <th className={styles.tableHeaderCell}>Multiplier</th>
-              <th className={styles.tableHeaderCell}>Status</th>
-              <th className={styles.tableHeaderCell}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {eventMultipliers.map(([key, multiplier]) => (
-              <tr key={key} className={styles.tableRow}>
-                <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                  🎉 {multiplier.label}
-                </td>
-                <td className={styles.tableCell}>
-                  <span className={styles.statusBadge} style={{
-                    background: 'var(--gradient-secondary)',
-                    color: 'white'
-                  }}>
-                    {multiplier.value}x
-                  </span>
-                </td>
-                <td className={styles.tableCell}>
-                  <span
-                    className={`${styles.statusBadge} ${
-                      multiplier.active ? styles.statusActive : styles.statusInactive
-                    }`}
-                  >
-                    {multiplier.active ? '✓ Active' : '○ Inactive'}
-                  </span>
-                </td>
-                <td className={styles.tableCell}>
-                  <div className={styles.tableCellActions}>
-                    <label className={styles.toggleSwitch}>
-                      <input
-                        type="checkbox"
-                        checked={multiplier.active}
-                        onChange={() => {}}
-                        disabled
-                      />
-                      <span className={styles.toggleSlider}></span>
-                    </label>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {(() => {
+          type EventRow = { id: string; label: string; value: number; active: boolean };
+          const data: EventRow[] = eventMultipliers.map(([key, m]) => ({
+            id: key,
+            label: m.label,
+            value: m.value,
+            active: m.active,
+          }));
+
+          const columns: Column<EventRow>[] = [
+            {
+              id: 'label',
+              header: 'Event',
+              accessor: (row) => row.label,
+              cell: (row) => (
+                <div className={styles.flexRow}>
+                  <PartyPopper className="h-4 w-4" />
+                  {row.label}
+                </div>
+              ),
+            },
+            {
+              id: 'value',
+              header: 'Multiplier',
+              accessor: (row) => row.value,
+              cell: (row) => (
+                <span className={`${styles.statusBadge} ${styles.statusBadgeSecondary}`}>{row.value}x</span>
+              ),
+            },
+            {
+              id: 'status',
+              header: 'Status',
+              accessor: (row) => row.active,
+              cell: (row) => (
+                <span className={`${styles.statusBadge} ${row.active ? styles.statusActive : styles.statusInactive}`}>
+                  {row.active ? '✓ Active' : '○ Inactive'}
+                </span>
+              ),
+            },
+            {
+              id: 'actions',
+              header: 'Actions',
+              accessor: () => '',
+              cell: (row) => (
+                <div className={styles.tableCellActions}>
+                  <label className={styles.toggleSwitch}>
+                    <input type="checkbox" checked={row.active} disabled />
+                    <span className={styles.toggleSlider}></span>
+                  </label>
+                </div>
+              ),
+            },
+          ];
+
+          return <EnterpriseDataTable<EventRow> columns={columns} data={data} stickyHeader />;
+        })()}
       </div>
 
       {/* Example */}

@@ -8,6 +8,7 @@
 
 import React, { useState } from 'react';
 import { Button, Input } from '@vantage-lane/ui-core';
+import { Car, Plane, TrendingUp, Star, Check, X } from 'lucide-react';
 import styles from './AddPriceItemModal.module.css';
 
 interface Props {
@@ -103,19 +104,31 @@ export function AddPriceItemModal({ type, isOpen, onClose, onSave }: Props) {
   };
 
   const titles = {
-    vehicle: '🚗 Add New Vehicle Type',
-    airport: '✈️ Add New Airport',
-    multiplier: '📈 Add New Multiplier',
-    service: '⭐ Add Premium Service',
+    vehicle: 'Add New Vehicle Type',
+    airport: 'Add New Airport',
+    multiplier: 'Add New Multiplier',
+    service: 'Add Premium Service',
+  };
+
+  const icons = {
+    vehicle: <Car className="h-5 w-5" />,
+    airport: <Plane className="h-5 w-5" />,
+    multiplier: <TrendingUp className="h-5 w-5" />,
+    service: <Star className="h-5 w-5" />,
   };
 
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
-          <h2 className={styles.title}>{titles[type]}</h2>
+          <h2 className={styles.title}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
+              {icons[type]}
+              {titles[type]}
+            </div>
+          </h2>
           <button className={styles.closeButton} onClick={onClose}>
-            ✕
+            <X className="h-5 w-5" />
           </button>
         </div>
 
@@ -126,7 +139,7 @@ export function AddPriceItemModal({ type, isOpen, onClose, onSave }: Props) {
             Cancel
           </Button>
           <Button variant="primary" onClick={handleSave} disabled={isSaving}>
-            {isSaving ? 'Saving...' : '✓ Save'}
+            {isSaving ? 'Saving...' : <><Check className="h-4 w-4" /> Save</>}
           </Button>
         </div>
       </div>

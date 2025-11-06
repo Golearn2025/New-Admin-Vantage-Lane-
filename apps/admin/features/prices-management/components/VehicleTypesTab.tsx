@@ -7,7 +7,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button, Input } from '@vantage-lane/ui-core';
+import { Button, EnterpriseDataTable } from '@vantage-lane/ui-core';
+import { createVehicleColumns, type VehicleRow } from './vehicle-types/vehicle-columns';
+import { BarChart3, Banknote } from 'lucide-react';
 import { usePricesManagement } from '../hooks/usePricesManagement';
 import type { PricingConfig, VehicleTypeRates } from '@entities/pricing';
 import styles from './PricesManagementPage.module.css';
@@ -23,6 +25,16 @@ export function VehicleTypesTab({ config }: Props) {
 
   const vehicleTypes = Object.entries(config.vehicle_types);
 
+  const vehicleData: VehicleRow[] = vehicleTypes.map(([type, rates]) => ({
+    id: type,
+    name: rates.name,
+    baseFare: rates.base_fare,
+    perMileFirst6: rates.per_mile_first_6,
+    perMileAfter6: rates.per_mile_after_6,
+    perMinute: rates.per_minute,
+    minimumFare: rates.minimum_fare,
+  }));
+
   const handleEdit = (type: string, rates: VehicleTypeRates) => {
     setEditingType(type);
     setEditedRates(rates);
@@ -37,7 +49,7 @@ export function VehicleTypesTab({ config }: Props) {
       setEditingType(null);
       setEditedRates({});
     } catch (error) {
-      console.error('❌ Failed to save:', error);
+      console.error('Failed to save:', error);
       alert(`Failed to save: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
@@ -46,6 +58,18 @@ export function VehicleTypesTab({ config }: Props) {
     setEditingType(null);
     setEditedRates({});
   };
+
+  const columns = createVehicleColumns({
+    editingType,
+    editedRates,
+    setEditedRates,
+    setEditingType,
+    handleSave,
+    handleCancel,
+    vehicleTypes,
+    isSaving,
+    onStartEdit: handleEdit,
+  });
 
   const calculateExample = (rates: VehicleTypeRates) => {
     const distance = 15.5; // miles
@@ -71,139 +95,7 @@ export function VehicleTypesTab({ config }: Props) {
         Configure base fares, per-mile rates, and hourly rates for each vehicle type
       </p>
 
-      <table className={styles.table}>
-        <thead className={styles.tableHeader}>
-          <tr>
-            <th className={styles.tableHeaderCell}>Vehicle Type</th>
-            <th className={styles.tableHeaderCell}>Base Fare</th>
-            <th className={styles.tableHeaderCell}>Per Mile (1-6)</th>
-            <th className={styles.tableHeaderCell}>Per Mile (6+)</th>
-            <th className={styles.tableHeaderCell}>Per Minute</th>
-            <th className={styles.tableHeaderCell}>Minimum</th>
-            <th className={styles.tableHeaderCell}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {vehicleTypes.map(([type, rates]) => {
-            const isEditing = editingType === type;
-            const displayRates = isEditing ? (editedRates as VehicleTypeRates) : rates;
-
-            return (
-              <tr key={type} className={styles.tableRow}>
-                <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                  🚗 {rates.name}
-                </td>
-                <td className={styles.tableCell}>
-                  {isEditing ? (
-                    <Input
-                      type="number"
-                      value={displayRates.base_fare}
-                      onChange={(e) =>
-                        setEditedRates({ ...editedRates, base_fare: Number(e.target.value) })
-                      }
-                      min={0}
-                      step={1}
-                    />
-                  ) : (
-                    `£${rates.base_fare}`
-                  )}
-                </td>
-                <td className={styles.tableCell}>
-                  {isEditing ? (
-                    <Input
-                      type="number"
-                      value={displayRates.per_mile_first_6}
-                      onChange={(e) =>
-                        setEditedRates({
-                          ...editedRates,
-                          per_mile_first_6: Number(e.target.value),
-                        })
-                      }
-                      min={0}
-                      step={0.1}
-                    />
-                  ) : (
-                    `£${rates.per_mile_first_6}`
-                  )}
-                </td>
-                <td className={styles.tableCell}>
-                  {isEditing ? (
-                    <Input
-                      type="number"
-                      value={displayRates.per_mile_after_6}
-                      onChange={(e) =>
-                        setEditedRates({
-                          ...editedRates,
-                          per_mile_after_6: Number(e.target.value),
-                        })
-                      }
-                      min={0}
-                      step={0.1}
-                    />
-                  ) : (
-                    `£${rates.per_mile_after_6}`
-                  )}
-                </td>
-                <td className={styles.tableCell}>
-                  {isEditing ? (
-                    <Input
-                      type="number"
-                      value={displayRates.per_minute}
-                      onChange={(e) =>
-                        setEditedRates({ ...editedRates, per_minute: Number(e.target.value) })
-                      }
-                      min={0}
-                      step={0.01}
-                    />
-                  ) : (
-                    `£${rates.per_minute}`
-                  )}
-                </td>
-                <td className={styles.tableCell}>
-                  {isEditing ? (
-                    <Input
-                      type="number"
-                      value={displayRates.minimum_fare}
-                      onChange={(e) =>
-                        setEditedRates({ ...editedRates, minimum_fare: Number(e.target.value) })
-                      }
-                      min={0}
-                      step={1}
-                    />
-                  ) : (
-                    `£${rates.minimum_fare}`
-                  )}
-                </td>
-                <td className={styles.tableCell}>
-                  {isEditing ? (
-                    <div style={{ display: 'flex', gap: 'var(--spacing-2)' }}>
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        onClick={() => handleSave(type)}
-                        disabled={isSaving}
-                      >
-                        Save
-                      </Button>
-                      <Button variant="secondary" size="sm" onClick={handleCancel}>
-                        Cancel
-                      </Button>
-                    </div>
-                  ) : (
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => handleEdit(type, rates)}
-                    >
-                      Edit
-                    </Button>
-                  )}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <EnterpriseDataTable columns={columns} data={vehicleData} stickyHeader />
 
       {/* Example Calculation with Commissions */}
       <div className={styles.exampleBox}>
@@ -222,7 +114,12 @@ export function VehicleTypesTab({ config }: Props) {
           return (
             <>
               <div className={styles.exampleSection}>
-                <h4 className={styles.exampleSubtitle}>💰 Customer Pays:</h4>
+                <h4 className={styles.exampleSubtitle}>
+                  <div className={styles.flexRow}>
+                    <Banknote className="h-4 w-4" />
+                    Customer Pays:
+                  </div>
+                </h4>
                 <div className={styles.exampleRow}>
                   <span className={styles.exampleLabel}>Base Fare:</span>
                   <span className={styles.exampleValue}>£{example.baseFare.toFixed(2)}</span>
@@ -242,10 +139,15 @@ export function VehicleTypesTab({ config }: Props) {
               </div>
 
               <div className={styles.exampleSection}>
-                <h4 className={styles.exampleSubtitle}>📊 Commission Breakdown:</h4>
+                <h4 className={styles.exampleSubtitle}>
+                  <div className={styles.flexRow}>
+                    <BarChart3 className="h-4 w-4" />
+                    Commission Breakdown:
+                  </div>
+                </h4>
                 <div className={styles.exampleRow}>
                   <span className={styles.exampleLabel}>Platform Fee (10%):</span>
-                  <span className={styles.exampleValue} style={{color: 'var(--color-primary)'}}>£{platformFee.toFixed(2)}</span>
+                  <span className={`${styles.exampleValue} ${styles.textPrimary}`}>£{platformFee.toFixed(2)}</span>
                 </div>
                 <div className={styles.exampleRow}>
                   <span className={styles.exampleLabel}>Operator Net:</span>
@@ -253,11 +155,11 @@ export function VehicleTypesTab({ config }: Props) {
                 </div>
                 <div className={styles.exampleRow}>
                   <span className={styles.exampleLabel}>Operator Commission (20%):</span>
-                  <span className={styles.exampleValue} style={{color: 'var(--color-success)'}}>£{operatorCommissionAmount.toFixed(2)}</span>
+                  <span className={`${styles.exampleValue} ${styles.textSuccess}`}>£{operatorCommissionAmount.toFixed(2)}</span>
                 </div>
                 <div className={`${styles.exampleRow} ${styles.exampleTotal}`}>
                   <span className={styles.exampleLabel}>Driver Payout (80%):</span>
-                  <span className={styles.exampleValue} style={{color: 'var(--color-info)'}}>£{driverPayout.toFixed(2)}</span>
+                  <span className={`${styles.exampleValue} ${styles.textInfo}`}>£{driverPayout.toFixed(2)}</span>
                 </div>
               </div>
             </>

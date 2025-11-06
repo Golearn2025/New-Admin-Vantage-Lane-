@@ -8,7 +8,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button, Input } from '@vantage-lane/ui-core';
+import { Button, Input, EnterpriseDataTable } from '@vantage-lane/ui-core';
+import type { Column } from '@vantage-lane/ui-core';
+import { OctagonAlert, Route } from 'lucide-react';
 import { usePricesManagement } from '../hooks/usePricesManagement';
 import type { PricingConfig, ZoneFee } from '@entities/pricing';
 import styles from './PricesManagementPage.module.css';
@@ -31,6 +33,111 @@ export function ZoneFeesTab({ config }: Props) {
     setEditedFee(fee);
   };
 
+  type ZoneRow = {
+    id: string;
+    name: string;
+    code: string;
+    fee: number;
+    type: 'congestion' | 'toll';
+  };
+
+  const congestionData: ZoneRow[] = congestionZones.map(([code, zone]) => ({
+    id: code,
+    name: zone.name,
+    code: code.toUpperCase(),
+    fee: zone.fee,
+    type: 'congestion',
+  }));
+
+  const tollData: ZoneRow[] = tollZones.map(([code, zone]) => ({
+    id: code,
+    name: zone.name,
+    code: code.toUpperCase(),
+    fee: zone.fee,
+    type: 'toll',
+  }));
+
+  const commonColumns: Column<ZoneRow>[] = [
+    {
+      id: 'name',
+      header: 'Zone/Road',
+      accessor: (row) => row.name,
+      cell: (row) => (
+        <div className={styles.flexRow}>
+          {getZoneIcon(row.type)}
+          {row.name}
+        </div>
+      ),
+    },
+    {
+      id: 'code',
+      header: 'Code',
+      accessor: (row) => row.code,
+      cell: (row) => (
+        <span className={`${styles.statusBadge} ${row.type === 'congestion' ? styles.statusBadgeWarning : styles.statusBadgeSuccess}`}>
+          {row.code}
+        </span>
+      ),
+    },
+    {
+      id: 'fee',
+      header: 'Fee',
+      accessor: (row) => row.fee,
+      cell: (row) =>
+        editingZone === row.id ? (
+          <Input
+            type="number"
+            value={editedFee.fee ?? row.fee}
+            onChange={(e) => setEditedFee({ ...editedFee, fee: Number(e.target.value) })}
+            min={0}
+            step={0.5}
+          />
+        ) : (
+          `£${row.fee.toFixed(2)}`
+        ),
+    },
+    {
+      id: 'type',
+      header: 'Type',
+      accessor: (row) => row.type,
+      cell: (row) => (
+        <span className={`${styles.statusBadge} ${row.type === 'congestion' ? styles.statusBadgeInfo : styles.statusBadgeSuccess}`}>
+          {row.type === 'congestion' ? 'Congestion' : 'Toll'}
+        </span>
+      ),
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      accessor: () => '',
+      cell: (row) =>
+        editingZone === row.id ? (
+          <div className={styles.buttonGroup}>
+            <Button variant="primary" size="sm" onClick={() => handleSave(row.id)} disabled={isSaving}>
+              Save
+            </Button>
+            <Button variant="secondary" size="sm" onClick={handleCancel}>
+              Cancel
+            </Button>
+          </div>
+        ) : (
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() =>
+              handleEdit(row.id, {
+                name: row.name,
+                fee: row.fee,
+                type: row.type,
+              } as ZoneFee)
+            }
+          >
+            Edit
+          </Button>
+        ),
+    },
+  ];
+
   const handleSave = async (code: string) => {
     try {
       await updateZoneFee({
@@ -50,7 +157,9 @@ export function ZoneFeesTab({ config }: Props) {
   };
 
   const getZoneIcon = (type: string) => {
-    return type === 'congestion' ? '🚦' : '🛣️';
+    return type === 'congestion' 
+      ? <OctagonAlert className="h-4 w-4" /> 
+      : <Route className="h-4 w-4" />;
   };
 
   return (
@@ -62,166 +171,24 @@ export function ZoneFeesTab({ config }: Props) {
 
       {/* Congestion Zones */}
       <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>🚦 Congestion Charges</h3>
-        <table className={styles.table}>
-          <thead className={styles.tableHeader}>
-            <tr>
-              <th className={styles.tableHeaderCell}>Zone</th>
-              <th className={styles.tableHeaderCell}>Code</th>
-              <th className={styles.tableHeaderCell}>Fee</th>
-              <th className={styles.tableHeaderCell}>Type</th>
-              <th className={styles.tableHeaderCell}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {congestionZones.map(([code, zone]) => {
-              const isEditing = editingZone === code;
-              const displayFee = isEditing ? (editedFee as ZoneFee) : zone;
-
-              return (
-                <tr key={code} className={styles.tableRow}>
-                  <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                    {getZoneIcon(zone.type)} {zone.name}
-                  </td>
-                  <td className={styles.tableCell}>
-                    <span className={styles.statusBadge} style={{
-                      background: 'var(--color-warning-alpha-20)',
-                      color: 'var(--color-warning)'
-                    }}>
-                      {code.toUpperCase()}
-                    </span>
-                  </td>
-                  <td className={styles.tableCell}>
-                    {isEditing ? (
-                      <Input
-                        type="number"
-                        value={displayFee.fee}
-                        onChange={(e) =>
-                          setEditedFee({ ...editedFee, fee: Number(e.target.value) })
-                        }
-                        min={0}
-                        step={0.5}
-                      />
-                    ) : (
-                      `£${zone.fee.toFixed(2)}`
-                    )}
-                  </td>
-                  <td className={styles.tableCell}>
-                    <span className={styles.statusBadge} style={{
-                      background: 'var(--color-info-alpha-20)',
-                      color: 'var(--color-info)'
-                    }}>
-                      Congestion
-                    </span>
-                  </td>
-                  <td className={styles.tableCell}>
-                    {isEditing ? (
-                      <div style={{ display: 'flex', gap: 'var(--spacing-2)' }}>
-                        <Button
-                          variant="primary"
-                          size="sm"
-                          onClick={() => handleSave(code)}
-                          disabled={isSaving}
-                        >
-                          Save
-                        </Button>
-                        <Button variant="secondary" size="sm" onClick={handleCancel}>
-                          Cancel
-                        </Button>
-                      </div>
-                    ) : (
-                      <Button variant="secondary" size="sm" onClick={() => handleEdit(code, zone)}>
-                        Edit
-                      </Button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <h3 className={styles.sectionTitle}>
+          <div className={styles.flexRow}>
+            <OctagonAlert className="h-4 w-4" />
+            Congestion Charges
+          </div>
+        </h3>
+        <EnterpriseDataTable columns={commonColumns} data={congestionData} stickyHeader />
       </div>
 
       {/* Toll Roads */}
       <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>🛣️ Toll Roads</h3>
-        <table className={styles.table}>
-          <thead className={styles.tableHeader}>
-            <tr>
-              <th className={styles.tableHeaderCell}>Road</th>
-              <th className={styles.tableHeaderCell}>Code</th>
-              <th className={styles.tableHeaderCell}>Fee</th>
-              <th className={styles.tableHeaderCell}>Type</th>
-              <th className={styles.tableHeaderCell}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tollZones.map(([code, zone]) => {
-              const isEditing = editingZone === code;
-              const displayFee = isEditing ? (editedFee as ZoneFee) : zone;
-
-              return (
-                <tr key={code} className={styles.tableRow}>
-                  <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                    {getZoneIcon(zone.type)} {zone.name}
-                  </td>
-                  <td className={styles.tableCell}>
-                    <span className={styles.statusBadge} style={{
-                      background: 'var(--color-success-alpha-20)',
-                      color: 'var(--color-success)'
-                    }}>
-                      {code.toUpperCase()}
-                    </span>
-                  </td>
-                  <td className={styles.tableCell}>
-                    {isEditing ? (
-                      <Input
-                        type="number"
-                        value={displayFee.fee}
-                        onChange={(e) =>
-                          setEditedFee({ ...editedFee, fee: Number(e.target.value) })
-                        }
-                        min={0}
-                        step={0.5}
-                      />
-                    ) : (
-                      `£${zone.fee.toFixed(2)}`
-                    )}
-                  </td>
-                  <td className={styles.tableCell}>
-                    <span className={styles.statusBadge} style={{
-                      background: 'var(--color-success-alpha-20)',
-                      color: 'var(--color-success)'
-                    }}>
-                      Toll
-                    </span>
-                  </td>
-                  <td className={styles.tableCell}>
-                    {isEditing ? (
-                      <div style={{ display: 'flex', gap: 'var(--spacing-2)' }}>
-                        <Button
-                          variant="primary"
-                          size="sm"
-                          onClick={() => handleSave(code)}
-                          disabled={isSaving}
-                        >
-                          Save
-                        </Button>
-                        <Button variant="secondary" size="sm" onClick={handleCancel}>
-                          Cancel
-                        </Button>
-                      </div>
-                    ) : (
-                      <Button variant="secondary" size="sm" onClick={() => handleEdit(code, zone)}>
-                        Edit
-                      </Button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <h3 className={styles.sectionTitle}>
+          <div className={styles.flexRow}>
+            <Route className="h-4 w-4" />
+            Toll Roads
+          </div>
+        </h3>
+        <EnterpriseDataTable columns={commonColumns} data={tollData} stickyHeader />
       </div>
 
       {/* Example */}

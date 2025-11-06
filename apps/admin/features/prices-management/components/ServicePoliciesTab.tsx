@@ -8,7 +8,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button, Input } from '@vantage-lane/ui-core';
+import { Button } from '@vantage-lane/ui-core';
+import { WaitingTimeSection } from './service-policies/WaitingTimeSection';
+import { AdditionalServicesSection } from './service-policies/AdditionalServicesSection';
+import { MinimumRequirementsSection } from './service-policies/MinimumRequirementsSection';
+import { Save, Edit } from 'lucide-react';
 import { usePricesManagement } from '../hooks/usePricesManagement';
 import type { PricingConfig, ServicePolicies } from '@entities/pricing';
 import styles from './PricesManagementPage.module.css';
@@ -46,240 +50,33 @@ export function ServicePoliciesTab({ config }: Props) {
       </p>
 
       {/* Waiting Time Policies */}
-      <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>⏱️ Waiting Time</h3>
-        <table className={styles.table}>
-          <thead className={styles.tableHeader}>
-            <tr>
-              <th className={styles.tableHeaderCell}>Policy</th>
-              <th className={styles.tableHeaderCell}>Value</th>
-              <th className={styles.tableHeaderCell}>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className={styles.tableRow}>
-              <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                Free Waiting (Normal)
-              </td>
-              <td className={styles.tableCell}>
-                {isEditing ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
-                    <Input
-                      type="number"
-                      value={policies.free_waiting_normal_minutes}
-                      onChange={(e) =>
-                        setEditedPolicies({
-                          ...editedPolicies,
-                          free_waiting_normal_minutes: Number(e.target.value),
-                        })
-                      }
-                      min={0}
-                      step={5}
-                      style={{ width: '100px' }}
-                    />
-                    <span>minutes</span>
-                  </div>
-                ) : (
-                  `${policies.free_waiting_normal_minutes} minutes`
-                )}
-              </td>
-              <td className={styles.tableCell}>
-                Free waiting time for regular pickups
-              </td>
-            </tr>
-            <tr className={styles.tableRow}>
-              <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                Free Waiting (Airport)
-              </td>
-              <td className={styles.tableCell}>
-                {isEditing ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
-                    <Input
-                      type="number"
-                      value={policies.free_waiting_airport_minutes}
-                      onChange={(e) =>
-                        setEditedPolicies({
-                          ...editedPolicies,
-                          free_waiting_airport_minutes: Number(e.target.value),
-                        })
-                      }
-                      min={0}
-                      step={5}
-                      style={{ width: '100px' }}
-                    />
-                    <span>minutes</span>
-                  </div>
-                ) : (
-                  `${policies.free_waiting_airport_minutes} minutes`
-                )}
-              </td>
-              <td className={styles.tableCell}>
-                Free waiting time for airport pickups
-              </td>
-            </tr>
-            <tr className={styles.tableRow}>
-              <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                Waiting Rate
-              </td>
-              <td className={styles.tableCell}>
-                {isEditing ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
-                    <span>£</span>
-                    <Input
-                      type="number"
-                      value={policies.waiting_rate_per_hour}
-                      onChange={(e) =>
-                        setEditedPolicies({
-                          ...editedPolicies,
-                          waiting_rate_per_hour: Number(e.target.value),
-                        })
-                      }
-                      min={0}
-                      step={0.5}
-                      style={{ width: '100px' }}
-                    />
-                    <span>per hour</span>
-                  </div>
-                ) : (
-                  `£${policies.waiting_rate_per_hour.toFixed(2)} per hour`
-                )}
-              </td>
-              <td className={styles.tableCell}>
-                Charge per hour after free waiting time
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <WaitingTimeSection
+        policies={policies}
+        editedPolicies={editedPolicies}
+        setEditedPolicies={setEditedPolicies}
+        isEditing={isEditing}
+      />
 
       {/* Additional Services */}
-      <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>➕ Additional Services</h3>
-        <table className={styles.table}>
-          <thead className={styles.tableHeader}>
-            <tr>
-              <th className={styles.tableHeaderCell}>Service</th>
-              <th className={styles.tableHeaderCell}>Fee</th>
-              <th className={styles.tableHeaderCell}>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className={styles.tableRow}>
-              <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                Multi-Stop Fee
-              </td>
-              <td className={styles.tableCell}>
-                {isEditing ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
-                    <span>£</span>
-                    <Input
-                      type="number"
-                      value={policies.multi_stop_fee}
-                      onChange={(e) =>
-                        setEditedPolicies({
-                          ...editedPolicies,
-                          multi_stop_fee: Number(e.target.value),
-                        })
-                      }
-                      min={0}
-                      step={1}
-                      style={{ width: '100px' }}
-                    />
-                  </div>
-                ) : (
-                  `£${policies.multi_stop_fee.toFixed(2)}`
-                )}
-              </td>
-              <td className={styles.tableCell}>
-                Fee per additional stop
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <AdditionalServicesSection
+        policies={policies}
+        editedPolicies={editedPolicies}
+        setEditedPolicies={setEditedPolicies}
+      />
 
       {/* Minimum Requirements */}
-      <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>📏 Minimum Requirements</h3>
-        <table className={styles.table}>
-          <thead className={styles.tableHeader}>
-            <tr>
-              <th className={styles.tableHeaderCell}>Requirement</th>
-              <th className={styles.tableHeaderCell}>Value</th>
-              <th className={styles.tableHeaderCell}>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className={styles.tableRow}>
-              <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                Minimum Distance
-              </td>
-              <td className={styles.tableCell}>
-                {isEditing ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
-                    <Input
-                      type="number"
-                      value={policies.minimum_distance_miles}
-                      onChange={(e) =>
-                        setEditedPolicies({
-                          ...editedPolicies,
-                          minimum_distance_miles: Number(e.target.value),
-                        })
-                      }
-                      min={0}
-                      step={0.5}
-                      style={{ width: '100px' }}
-                    />
-                    <span>miles</span>
-                  </div>
-                ) : (
-                  `${policies.minimum_distance_miles} miles`
-                )}
-              </td>
-              <td className={styles.tableCell}>
-                Minimum billable distance for pricing
-              </td>
-            </tr>
-            <tr className={styles.tableRow}>
-              <td className={`${styles.tableCell} ${styles.tableCellBold}`}>
-                Minimum Time
-              </td>
-              <td className={styles.tableCell}>
-                {isEditing ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
-                    <Input
-                      type="number"
-                      value={policies.minimum_time_minutes}
-                      onChange={(e) =>
-                        setEditedPolicies({
-                          ...editedPolicies,
-                          minimum_time_minutes: Number(e.target.value),
-                        })
-                      }
-                      min={0}
-                      step={5}
-                      style={{ width: '100px' }}
-                    />
-                    <span>minutes</span>
-                  </div>
-                ) : (
-                  `${policies.minimum_time_minutes} minutes`
-                )}
-              </td>
-              <td className={styles.tableCell}>
-                Minimum billable time for pricing
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <MinimumRequirementsSection
+        policies={policies}
+        editedPolicies={editedPolicies}
+        setEditedPolicies={setEditedPolicies}
+      />
 
       {/* Actions */}
-      <div style={{ display: 'flex', gap: 'var(--spacing-3)', marginTop: 'var(--spacing-6)' }}>
+      <div className={styles.actionsContainer}>
         {isEditing ? (
           <>
             <Button variant="primary" onClick={handleSave} disabled={isSaving}>
-              💾 Save All Changes
+              <Save className="h-4 w-4" /> Save All Changes
             </Button>
             <Button variant="secondary" onClick={handleCancel}>
               Cancel
@@ -287,7 +84,7 @@ export function ServicePoliciesTab({ config }: Props) {
           </>
         ) : (
           <Button variant="primary" onClick={() => setIsEditing(true)}>
-            ✏️ Edit Policies
+            <Edit className="h-4 w-4" /> Edit Policies
           </Button>
         )}
       </div>

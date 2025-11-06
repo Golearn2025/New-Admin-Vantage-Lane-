@@ -23,6 +23,12 @@ import {
   updateFleetSettings,
   invalidatePricingCache,
   type PricingConfig,
+  type ZoneFee,
+  type ServicePolicies,
+  type GeneralPolicies,
+  type FleetSettings,
+  type HourlySettings,
+  type ReturnSettings,
   type UpdateVehicleTypePayload,
   type UpdateAirportFeePayload,
 } from '@entities/pricing';
@@ -45,7 +51,7 @@ export function usePricesManagement() {
    */
   const handleUpdateVehicleType = async (payload: UpdateVehicleTypePayload) => {
     if (!config) {
-      console.error('❌ No config available!');
+      console.error('Error: No config available!');
       return;
     }
 
@@ -62,11 +68,11 @@ export function usePricesManagement() {
       await mutate(undefined, { revalidate: true });
       
       // Show success message
-      alert('✅ Prices updated successfully!');
+      alert('Success: Prices updated successfully!');
     } catch (err) {
-      console.error('❌ Error in handleUpdateVehicleType:', err);
+      console.error('Error in handleUpdateVehicleType:', err);
       setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`❌ Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
       throw err;
     } finally {
       setIsSaving(false);
@@ -90,10 +96,10 @@ export function usePricesManagement() {
       await new Promise(resolve => setTimeout(resolve, 500));
       await mutate(undefined, { revalidate: true });
       
-      alert('✅ Airport fee updated successfully!');
+      alert('Success: Airport fee updated successfully!');
     } catch (err) {
       setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`❌ Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
       throw err;
     } finally {
       setIsSaving(false);
@@ -103,7 +109,7 @@ export function usePricesManagement() {
   /**
    * Update zone fee
    */
-  const handleUpdateZoneFee = async (payload: any) => {
+  const handleUpdateZoneFee = async (payload: { zoneCode: string; fee: Partial<ZoneFee> }) => {
     if (!config) return;
     setIsSaving(true);
     setSaveError(null);
@@ -112,10 +118,10 @@ export function usePricesManagement() {
       await invalidatePricingCache();
       await new Promise(resolve => setTimeout(resolve, 500));
       await mutate(undefined, { revalidate: true });
-      alert('✅ Zone fee updated successfully!');
+      alert('Success: Zone fee updated successfully!');
     } catch (err) {
       setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`❌ Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
       throw err;
     } finally {
       setIsSaving(false);
@@ -125,7 +131,7 @@ export function usePricesManagement() {
   /**
    * Update service policies
    */
-  const handleUpdateServicePolicies = async (policies: any) => {
+  const handleUpdateServicePolicies = async (policies: ServicePolicies) => {
     if (!config) return;
     setIsSaving(true);
     setSaveError(null);
@@ -134,10 +140,10 @@ export function usePricesManagement() {
       await invalidatePricingCache();
       await new Promise(resolve => setTimeout(resolve, 500));
       await mutate(undefined, { revalidate: true });
-      alert('✅ Service policies updated successfully!');
+      alert('Success: Service policies updated successfully!');
     } catch (err) {
       setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`❌ Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
       throw err;
     } finally {
       setIsSaving(false);
@@ -147,7 +153,7 @@ export function usePricesManagement() {
   /**
    * Update general policies
    */
-  const handleUpdateGeneralPolicies = async (policies: any) => {
+  const handleUpdateGeneralPolicies = async (policies: GeneralPolicies) => {
     if (!config) return;
     setIsSaving(true);
     setSaveError(null);
@@ -156,10 +162,10 @@ export function usePricesManagement() {
       await invalidatePricingCache();
       await new Promise(resolve => setTimeout(resolve, 500));
       await mutate(undefined, { revalidate: true });
-      alert('✅ General policies updated successfully!');
+      alert('Success: General policies updated successfully!');
     } catch (err) {
       setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`❌ Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
       throw err;
     } finally {
       setIsSaving(false);
@@ -169,7 +175,7 @@ export function usePricesManagement() {
   /**
    * Update return settings
    */
-  const handleUpdateReturnSettings = async (settings: any) => {
+  const handleUpdateReturnSettings = async (settings: ReturnSettings) => {
     if (!config) return;
     setIsSaving(true);
     setSaveError(null);
@@ -178,10 +184,10 @@ export function usePricesManagement() {
       await invalidatePricingCache();
       await new Promise(resolve => setTimeout(resolve, 500));
       await mutate(undefined, { revalidate: true });
-      alert('✅ Return settings updated successfully!');
+      alert('Success: Return settings updated successfully!');
     } catch (err) {
       setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`❌ Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
       throw err;
     } finally {
       setIsSaving(false);
@@ -191,7 +197,7 @@ export function usePricesManagement() {
   /**
    * Update hourly settings
    */
-  const handleUpdateHourlySettings = async (settings: any) => {
+  const handleUpdateHourlySettings = async (settings: HourlySettings) => {
     if (!config) return;
     setIsSaving(true);
     setSaveError(null);
@@ -200,10 +206,10 @@ export function usePricesManagement() {
       await invalidatePricingCache();
       await new Promise(resolve => setTimeout(resolve, 500));
       await mutate(undefined, { revalidate: true });
-      alert('✅ Hourly settings updated successfully!');
+      alert('Success: Hourly settings updated successfully!');
     } catch (err) {
       setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`❌ Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
       throw err;
     } finally {
       setIsSaving(false);
@@ -213,7 +219,7 @@ export function usePricesManagement() {
   /**
    * Update fleet settings
    */
-  const handleUpdateFleetSettings = async (settings: any) => {
+  const handleUpdateFleetSettings = async (settings: FleetSettings) => {
     if (!config) return;
     setIsSaving(true);
     setSaveError(null);
@@ -222,10 +228,10 @@ export function usePricesManagement() {
       await invalidatePricingCache();
       await new Promise(resolve => setTimeout(resolve, 500));
       await mutate(undefined, { revalidate: true });
-      alert('✅ Fleet settings updated successfully!');
+      alert('Success: Fleet settings updated successfully!');
     } catch (err) {
       setSaveError(err instanceof Error ? err.message : 'Failed to update');
-      alert(`❌ Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      alert(`Failed to update: ${err instanceof Error ? err.message : 'Unknown error'}`);
       throw err;
     } finally {
       setIsSaving(false);

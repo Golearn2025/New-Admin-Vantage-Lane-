@@ -1,258 +1,267 @@
 # 🛠️ Scripts Directory
 
-**Verification & Deployment Scripts**
+**Code Quality & Verification Scripts**
 
 ---
 
-## 📋 **AVAILABLE SCRIPTS:**
-
-### **1. check-everything.sh** ⭐ **RECOMMENDED**
+## 🎯 **QUICK START** - Complete Verification
 
 ```bash
-./scripts/check-everything.sh
+# Standard verification (fast)
+bash scripts/verify-complete.sh
+
+# Clean verification (removes all cache/deps, slow but 100% reliable)
+bash scripts/verify-clean.sh
+
+# Audit all modules
+bash scripts/audit/audit-all.sh
 ```
 
-**Ce face:**
+---
 
-- ✅ TypeScript compilation
-- ✅ ESLint code quality
-- ✅ Next.js production build
-- ✅ P0 critical items verification
-- ✅ Security audit
+## 🔍 **AUDIT SCRIPT** ⭐ **MAIN TOOL**
 
-**Când să-l folosești:**
+### **audit-one-pro.sh** - Per-Module Quality Audit
 
-- Înainte de commit mare
-- Înainte de Pull Request
-- Înainte de merge la main
-- Când vrei verificare completă
+```bash
+./scripts/audit/audit-one-pro.sh apps/admin/features/MODULE-NAME
+```
 
-**Durată:** ~5 minute
+**📖 Documentation:**
+- **[QUICK START](audit/QUICK-START.md)** - 3 pași simpli
+- **[README](audit/README.md)** - Documentație completă
+- **[Examples](audit/examples/)** - Exemple reale
+
+**Ce verifică:**
+- ✅ any types
+- ✅ culori hardcodate
+- ✅ px hardcodate
+- ✅ inline styles
+- ✅ !important
+- ✅ fișiere > 200 linii
+- ✅ raw <table> tags
+- ✅ importuri UI greșite
+- ✅ iconițe non-lucide
+- ✅ breakpoints custom
+- ✅ fetch în UI
+- ✅ inline map functions
+
+**Exemple:**
+```bash
+# Auth
+./scripts/audit/audit-one-pro.sh apps/admin/features/auth-login
+
+# Dashboard
+./scripts/audit/audit-one-pro.sh apps/admin/features/dashboard
+
+# Users
+./scripts/audit/audit-one-pro.sh apps/admin/features/users-table
+
+# Bookings
+./scripts/audit/audit-one-pro.sh apps/admin/features/bookings-table
+
+# Prices
+./scripts/audit/audit-one-pro.sh apps/admin/features/prices-management
+```
+
+**Output:**
+```
+audit-reports/apps-admin-features-MODULE/
+├── summary.txt              ← CITEȘTE ASTA PRIMUL!
+├── any.txt
+├── colors.txt
+├── px.txt
+├── inline-styles.txt
+├── important.txt
+├── file-size.txt
+├── raw-tables.txt
+├── illegal-ui-imports.txt
+├── illegal-icons.txt
+├── custom-breakpoints.txt
+├── fetch-in-ui.txt
+└── inline-map.txt
+```
 
 ---
 
-### **2. check-health.sh**
+## 🛡️ **UTILITY SCRIPTS**
 
+### **guard-app-logic.sh** - App Logic Guard
 ```bash
-./scripts/check-health.sh
+./scripts/guard-app-logic.sh
 # SAU
-npm run check:p0
+npm run guard:app-logic
 ```
 
 **Ce face:**
+- Verifică că `app/` folder NU conține business logic
+- Architecture enforcement
 
-- ✅ Verifică P0 critical files exist
-- ✅ Verifică environment variables
-- ✅ Verifică security headers
-- ✅ Verifică build success
+### **clean-restart.sh** - Clean Restart
+```bash
+./scripts/clean-restart.sh
+```
 
-**Când să-l folosești:**
+**Ce face:**
+- Șterge node_modules, .next, cache
+- Fresh install & restart
 
-- Quick check P0 items
-- După modificări critice
-- Verificare rapidă înainte de commit
-
-**Durată:** ~1 minut
-
----
-
-### **3. verify-pr1.sh**
-
+### **verify-pr1.sh** - Legacy PR Verification
 ```bash
 ./scripts/verify-pr1.sh
 ```
 
-**Ce face:**
-
-- Legacy PR verification script
-
-**Status:** Legacy (use check-everything.sh instead)
+**Status:** Legacy (folosește audit-one-pro.sh)
 
 ---
 
 ## 🚀 **QUICK START:**
 
-### **Verificare Rapidă (1 min):**
-
+### **1. Audit modul (30 sec):**
 ```bash
-npm run check:p0
+./scripts/audit/audit-one-pro.sh apps/admin/features/MODULE
 ```
 
-### **Verificare Completă (5 min):**
-
+### **2. Vezi rezultat:**
 ```bash
-./scripts/check-everything.sh
+cat audit-reports/apps-admin-features-MODULE/summary.txt
 ```
 
-### **Verificare Automată (pre-push):**
-
-```bash
-git push
-# Auto-runs check:all
-```
+### **3. Fix probleme & re-run**
 
 ---
 
-## ⚡ **NPM SCRIPTS (alternative):**
-
-Poți rula direct din package.json:
+## ⚡ **NPM SCRIPTS:**
 
 ```bash
-# Quick checks
-npm run check:ts          # TypeScript
-npm run check:lint        # ESLint
-npm run check:next        # Build
-npm run check:p0          # P0 items
+# TypeScript & Linting
+npm run check:ts          # TypeScript compilation
+npm run lint              # ESLint
 
-# Complete checks
-npm run check:all         # All checks + reports
-npm run check:enterprise  # Architecture checks
+# Architecture
+npm run guard:app-logic   # No logic in app/
 
 # Testing
 npm test                  # Unit tests
 npm run test:e2e          # E2E tests
 
-# Security
-npm audit                 # Vulnerabilities
+# Build
+npm run build             # Production build
 ```
 
 ---
 
-## 📊 **COMPARISON:**
-
-| Script                  | Duration | Checks              | Use Case        |
-| ----------------------- | -------- | ------------------- | --------------- |
-| **check:p0**            | 1 min    | P0 only             | Quick verify    |
-| **check:all**           | 3 min    | TS + Lint + Build   | Standard verify |
-| **check-everything.sh** | 5 min    | All + P0 + Security | Full verify     |
-
----
-
-## 🎯 **RECOMMENDED WORKFLOW:**
+## 📊 **WORKFLOW RECOMANDAT:**
 
 ```bash
-# 1. Durante dezvoltare:
-npm run check:ts        # Check types frecvent
+# 1. Înainte de commit:
+./scripts/audit/audit-one-pro.sh apps/admin/features/MODULE
+cat audit-reports/.../summary.txt
+# → Toate la 0? ✅ COMMIT!
 
-# 2. Înainte de commit mic:
-npm run check:all       # Standard check
+# 2. Periodic checks:
+npm run check:ts
+npm run lint
+npm run guard:app-logic
 
-# 3. Înainte de commit mare:
-./scripts/check-everything.sh   # Full check
-
-# 4. Înainte de PR:
-./scripts/check-everything.sh   # Full check
-npm test                        # Run tests
-
-# 5. Înainte de deploy:
-npm run check:all       # Final verify
-npm run check:p0        # P0 check
+# 3. Înainte de PR:
+./scripts/audit/audit-one-pro.sh apps/admin/features/MODULE
+npm run build
+npm test
 ```
 
 ---
 
-## 🔧 **TROUBLESHOOTING:**
+## 🎯 **BEST PRACTICES:**
 
-### **Script nu e executable:**
-
-```bash
-chmod +x scripts/check-everything.sh
-chmod +x scripts/check-health.sh
-```
-
-### **Script fails cu "command not found":**
-
-```bash
-# Run din project root:
-cd /path/to/Vantage\ Lane\ Admin
-./scripts/check-everything.sh
-```
-
-### **npm run check:p0 fails:**
-
-```bash
-# Make sure script exists:
-ls -la scripts/check-health.sh
-
-# Run manual:
-bash scripts/check-health.sh
-```
+1. **Rulează audit-one-pro.sh ÎNAINTE de commit**
+2. **ZERO toleranță pentru violations (toate la 0)**
+3. **Nu commit dacă audit fails**
+4. **Păstrează audit reports pentru proof**
+5. **Run periodic pe toate modulele**
 
 ---
 
-## 📝 **OUTPUT EXAMPLES:**
+## 📚 **DOCUMENTATION:**
 
-### **Success:**
+### **Audit Tool:**
+- [audit/QUICK-START.md](audit/QUICK-START.md) - Start rapid
+- [audit/README.md](audit/README.md) - Documentație completă
+- [audit/examples/](audit/examples/) - Exemple
 
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ✅ ALL CHECKS PASSED!
-  🎉 SAFE TO COMMIT!
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-### **Failure:**
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ❌ SOME CHECKS FAILED!
-  ⚠️  FIX ERRORS BEFORE COMMITTING
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Check:
-- /tmp/check_output.log for details
-- Fix errors
-- Re-run script
-```
+### **Project:**
+- `/RULES.md` - Reguli de cod (1020 linii)
+- `/WORKFLOW.md` - Workflow-ul proiectului (570 linii)
+- `VER-2.4-CHECKLIST.md` - Checklist versiune
 
 ---
 
-## 🎓 **BEST PRACTICES:**
+## 🔒 **VERIFICATION SCRIPTS**
 
-1. **Rulează check-everything.sh înainte de commit mare**
-2. **Rulează check:p0 după modificări P0 files**
-3. **Review script output pentru warnings**
-4. **Fix toate errors înainte de commit**
-5. **Nu skip checks pentru "quick fixes"**
+### **verify-complete.sh** - Complete Project Verification
+
+Rulează TOATE verificările:
+1. TypeScript compilation (0 errors)
+2. ESLint validation (0 warnings)
+3. Unit tests (all passing)
+4. Dead code detection (ts-prune)
+5. Circular dependencies (madge)
+6. Unused dependencies (depcheck)
+7. Module audits (audit-all.sh)
+8. **Audit completeness (1:1 match features vs reports)** ⭐ NEW!
+
+```bash
+bash scripts/verify-complete.sh
+```
+
+**Exit codes:**
+- `0` - All checks passed
+- `1` - Some checks failed (see output)
+
+**Reports generated:**
+- `complete-audit-TIMESTAMP/` - Full reports directory
+
+### **verify-clean.sh** - Clean Environment Verification
+
+Rulează în director COMPLET CURAT:
+1. `git clean -fdx` - Șterge tot (node_modules, .next, cache)
+2. `pnpm install` - Instalează fresh
+3. `pnpm check:ts && pnpm lint` - Verifică
+4. `pnpm build` - Build complet
+5. `pnpm test:run` - Toate testele
+6. `bash scripts/verify-complete.sh` - Verificare completă
+
+```bash
+bash scripts/verify-clean.sh
+```
+
+**⚠️ WARNING:** Șterge TOATE fișierele netracked! Confirmă înainte!
+
+**Use case:**
+- Verifică că nu ai dependențe locale ascunse
+- Elimină cache issues
+- Pregătește pentru CI/CD
+- Verificare finală înainte de release
 
 ---
 
 ## 💡 **PRO TIPS:**
 
-### **Alias în .bashrc/.zshrc:**
-
+### **Alias în .zshrc:**
 ```bash
-alias check-all='cd /path/to/project && ./scripts/check-everything.sh'
-alias check-p0='cd /path/to/project && npm run check:p0'
+alias audit='./scripts/audit/audit-one-pro.sh'
+alias audit-results='cat audit-reports/*/summary.txt'
+alias verify='bash scripts/verify-complete.sh'
+alias verify-clean='bash scripts/verify-clean.sh'
 ```
 
-### **Git Hook:**
-
+### **Usage:**
 ```bash
-# .git/hooks/pre-commit
-#!/bin/bash
-npm run check:all || exit 1
-```
-
-### **VS Code Task:**
-
-```json
-{
-  "label": "Check Everything",
-  "type": "shell",
-  "command": "./scripts/check-everything.sh"
-}
+audit apps/admin/features/dashboard
+audit-results
 ```
 
 ---
 
-## 📚 **RELATED DOCS:**
-
-- **PRE-COMMIT-CHECKLIST.md** - Complete checklist
-- **P0-FILES-CHECKLIST.md** - P0 items reference
-- **STRUCTURE.md** - Project structure
-
----
-
-**Last updated:** 2025-10-19  
-**Version:** 1.0.0
+**Last updated:** 2025-11-05  
+**Version:** 2.0.0 - Audit One Pro

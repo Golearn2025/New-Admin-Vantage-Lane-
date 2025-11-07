@@ -7,6 +7,7 @@
 
 import { useState } from 'react';
 import { Button } from '@vantage-lane/ui-core';
+import { Lock, Users, User, Building2, Crown, Car, BarChart3, AlertCircle } from 'lucide-react';
 import { useSettingsPermissions } from '../hooks/useSettingsPermissions';
 import type { SettingsPermissionsProps } from '../types';
 import type { UserRole } from '@entities/permission';
@@ -40,7 +41,10 @@ export function SettingsPermissions({ className }: SettingsPermissionsProps) {
     <div className={`${styles.container} ${className || ''}`}>
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>🔐 Permissions Management</h1>
+          <h1 className={styles.title}>
+            <Lock className="h-5 w-5" style={{ display: 'inline-block', marginRight: 'var(--spacing-2)', verticalAlign: 'middle' }} />
+            Permissions Management
+          </h1>
           <p className={styles.subtitle}>
             Control exactly which pages each role can access in the admin panel
           </p>
@@ -69,13 +73,15 @@ export function SettingsPermissions({ className }: SettingsPermissionsProps) {
           className={`${styles.viewButton} ${view === 'role' ? styles.active : ''}`}
           onClick={() => handleViewChange('role')}
         >
-          👥 Role Permissions
+          <Users className="h-4 w-4" style={{ display: 'inline-block', marginRight: 'var(--spacing-2)', verticalAlign: 'middle' }} />
+          Role Permissions
         </button>
         <button
           className={`${styles.viewButton} ${view === 'user' ? styles.active : ''}`}
           onClick={() => handleViewChange('user')}
         >
-          👤 User Overrides
+          <User className="h-4 w-4" style={{ display: 'inline-block', marginRight: 'var(--spacing-2)', verticalAlign: 'middle' }} />
+          User Overrides
         </button>
       </div>
 
@@ -93,11 +99,11 @@ export function SettingsPermissions({ className }: SettingsPermissionsProps) {
             value={selectedRole}
             onChange={(e) => handleRoleChange(e.target.value as UserRole)}
           >
-            <option value="operator">🏢 Operator - Fleet Management</option>
-            <option value="admin">👑 Admin - Full Access</option>
-            <option value="driver">🚗 Driver - Driver Portal</option>
-            <option value="customer">👤 Customer - Customer Portal</option>
-            <option value="auditor">📊 Auditor - Read-Only Access</option>
+            <option value="operator">Operator - Fleet Management</option>
+            <option value="admin">Admin - Full Access</option>
+            <option value="driver">Driver - Driver Portal</option>
+            <option value="customer">Customer - Customer Portal</option>
+            <option value="auditor">Auditor - Read-Only Access</option>
           </select>
         </div>
       )}
@@ -127,7 +133,8 @@ export function SettingsPermissions({ className }: SettingsPermissionsProps) {
 
       {error && (
         <div className={styles.error}>
-          <span>⚠️ {error}</span>
+          <AlertCircle className="h-4 w-4" style={{ display: 'inline-block', marginRight: 'var(--spacing-2)', verticalAlign: 'middle' }} />
+          <span>{error}</span>
         </div>
       )}
 

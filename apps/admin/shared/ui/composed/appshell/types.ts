@@ -7,7 +7,7 @@
 
 import { IconName } from '@vantage-lane/ui-icons';
 
-export type UserRole = 'admin' | 'operator';
+export type UserRole = 'admin' | 'operator' | 'driver';
 
 export interface UserInfo {
   name: string;

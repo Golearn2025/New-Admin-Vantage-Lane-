@@ -161,7 +161,7 @@ export function getAllUsersColumns(options?: {
   onEdit?: (user: UnifiedUser) => void;
   onDelete?: (user: UnifiedUser) => void;
 }): Column<UnifiedUser>[] {
-  return [
+  const columns = [
     getTypeColumn(),
     getNameColumn(),
     getEmailColumn(),
@@ -170,4 +170,5 @@ export function getAllUsersColumns(options?: {
     getCreatedColumn(),
     ...(options ? [getActionsColumn(options)] : []),
   ];
+  return columns;
 }

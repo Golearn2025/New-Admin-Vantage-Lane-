@@ -139,12 +139,14 @@ export function UsersTableBase({
 
   // Get columns (no need for manual checkbox column - selection hook handles it)
   const columns = useMemo(
-    () =>
-      getAllUsersColumns({
+    () => {
+      const cols = getAllUsersColumns({
         onView: (user: UnifiedUser) => setViewUser(user),
         onEdit: (user: UnifiedUser) => setEditUser(user),
         onDelete: (user: UnifiedUser) => setDeleteUser(user),
-      }),
+      });
+      return cols;
+    },
     []
   );
 
@@ -182,17 +184,17 @@ export function UsersTableBase({
           {showCreateButton && (
             <TableActions
               onAdd={() => setIsCreateModalOpen(true)}
-              onExport={() => console.log('Export')}
               onRefresh={refetch}
               loading={loading}
               addLabel={createLabel}
+              showExport={false}
             />
           )}
           {!showCreateButton && (
             <TableActions
-              onExport={() => console.log('Export')}
               onRefresh={refetch}
               loading={loading}
+              showExport={false}
             />
           )}
         </div>

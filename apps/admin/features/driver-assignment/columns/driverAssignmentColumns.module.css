@@ -1,0 +1,49 @@
+/**
+ * Driver Assignment Columns Styles
+ * 100% design tokens - ZERO hardcoded values
+ */
+
+.driverCell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.driverName {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.driverEmail {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.operatorCell {
+  display: flex;
+  flex-direction: column;
+}
+
+.operatorLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.operatorName {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.operatorEmail {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.notAssigned {
+  color: var(--color-text-secondary);
+}
+
+.actionsCell {
+  display: flex;
+  gap: var(--spacing-2);
+}

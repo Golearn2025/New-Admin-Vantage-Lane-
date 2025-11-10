@@ -53,11 +53,24 @@ export function useNotifications() {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       
-      if (!user) return;
+      if (!user) {
+        console.warn('⚠️ No user found for Realtime subscription');
+        return;
+      }
 
+      console.log('🔄 Setting up Realtime subscription for user:', user.id);
+
+      // Create unique channel name with timestamp to avoid conflicts
+      const channelName = `notifications:${user.id}:${Date.now()}`;
+      
       // Subscribe to INSERT events on notifications table
       channel = supabase
-        .channel('notifications-changes')
+        .channel(channelName, {
+          config: {
+            broadcast: { self: false },
+            presence: { key: user.id },
+          },
+        })
         .on(
           'postgres_changes',
           {
@@ -106,8 +119,24 @@ export function useNotifications() {
             }
           }
         )
-        .subscribe((status) => {
+        .subscribe((status, err) => {
           console.log('🔔 Realtime subscription status:', status);
+          if (err) {
+            console.error('❌ Realtime subscription error:', err);
+          }
+          if (status === 'SUBSCRIBED') {
+            console.log('✅ Realtime connected successfully!');
+          }
+          if (status === 'CHANNEL_ERROR') {
+            console.error('❌ CHANNEL_ERROR - Retrying connection...');
+            // Auto-retry after 5 seconds
+            setTimeout(() => {
+              if (channel) {
+                channel.unsubscribe();
+              }
+              setupRealtimeSubscription();
+            }, 5000);
+          }
         });
     };
 

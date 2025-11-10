@@ -8,7 +8,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Modal, Button, Select, Input, FormField } from '@vantage-lane/ui-core';
+import { Modal, Button, Select, Input } from '@vantage-lane/ui-core';
 import styles from './RejectDocumentModal.module.css';
 
 interface BulkRejectModalProps {
@@ -81,7 +81,14 @@ export function BulkRejectModal({
         </p>
 
         {/* Predefined Reasons Dropdown */}
-        <FormField label="Rejection Reason" required>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-2)' }}>
+          <label style={{ 
+            fontSize: 'var(--font-size-sm)', 
+            fontWeight: 'var(--font-weight-medium)',
+            color: 'var(--color-text-primary)'
+          }}>
+            Rejection Reason <span style={{ color: 'var(--color-danger)' }}>*</span>
+          </label>
           <Select
             value={selectedReason}
             options={PREDEFINED_REASONS}
@@ -91,11 +98,18 @@ export function BulkRejectModal({
             }}
             fullWidth
           />
-        </FormField>
+        </div>
 
         {/* Custom Reason Input (only if "Other" selected) */}
         {selectedReason === 'custom' && (
-          <FormField label="Specify Reason" required>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-2)' }}>
+            <label style={{ 
+              fontSize: 'var(--font-size-sm)', 
+              fontWeight: 'var(--font-weight-medium)',
+              color: 'var(--color-text-primary)'
+            }}>
+              Specify Reason <span style={{ color: 'var(--color-danger)' }}>*</span>
+            </label>
             <Input
               type="text"
               value={customReason}
@@ -106,7 +120,7 @@ export function BulkRejectModal({
               placeholder="Enter rejection reason (min 10 characters)"
               fullWidth
             />
-          </FormField>
+          </div>
         )}
 
         {/* Error Message */}

@@ -13,7 +13,7 @@ export interface DriverDetails {
   rating: number;
   totalTrips: number;
   currentDistance?: number; // miles from pickup
-  licenseNumber?: string;
+  // License info removed - retrieve from driver_documents table if needed
   memberSince?: string;
   languages?: string[];
   certifications?: string[];

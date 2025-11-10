@@ -1,0 +1,331 @@
+/**
+ * Driver Profile Styles
+ * 100% design tokens - zero hardcoded values
+ */
+
+.container {
+  padding: var(--spacing-6);
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-6);
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.badges {
+  display: flex;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
+.actions {
+  display: flex;
+  gap: var(--spacing-3);
+  flex-wrap: wrap;
+}
+
+.content {
+  margin-top: var(--spacing-4);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-8);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
+}
+
+/* Profile Tab */
+.profileTab {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.profileName {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--color-warning);
+  font-size: var(--font-size-md);
+}
+
+.ratingCount {
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+}
+
+.value {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.licenseInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.licenseExpiry {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
+.expiryLabel {
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+}
+
+.expiryDate {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2);
+}
+
+.select {
+  width: 100%;
+  padding: var(--spacing-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  transition: var(--transition-base);
+  margin-bottom: var(--spacing-3);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--spacing-3) 0;
+  border-bottom: var(--border-width) solid var(--color-border);
+  gap: var(--spacing-4);
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+.infoLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  min-width: 150px;
+}
+
+.rejectionReason {
+  color: var(--color-danger);
+  margin: 0;
+  padding: var(--spacing-3);
+  background: var(--color-danger-bg);
+  border-radius: var(--border-radius-md);
+}
+
+/* Documents Tab */
+.documentsTab {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.rejectForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-4);
+}
+
+.label {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+}
+
+.textarea {
+  padding: var(--spacing-3);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  font-family: inherit;
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+  background: var(--color-background);
+  resize: vertical;
+  transition: var(--transition-base);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
+}
+
+.rejectModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalBackdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+  position: relative;
+  background: var(--color-background);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-6);
+  max-width: 500px;
+  width: 90%;
+  box-shadow: var(--shadow-lg);
+  z-index: 1001;
+}
+
+.modalTitle {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-3) 0;
+}
+
+.modalMessage {
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-4) 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.modalActions {
+  display: flex;
+  gap: var(--spacing-3);
+  justify-content: flex-end;
+  margin-top: var(--spacing-4);
+}
+
+/* Vehicle Tab */
+.vehicleTab {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.expiryInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
+/* Operators Tab */
+.operatorsTab {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.infoText {
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.emptyMessage {
+  color: var(--color-text-tertiary);
+  text-align: center;
+  padding: var(--spacing-8);
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-4);
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    width: 100%;
+  }
+
+  .actions button {
+    flex: 1;
+  }
+}

@@ -45,11 +45,19 @@ export function useCurrentUser() {
 
         // Get role from user metadata (stored in Supabase auth)
         const userRole = session.user.user_metadata?.role || 'operator';
-        const userName = session.user.user_metadata?.name || session.user.email?.split('@')[0];
+        const firstName = session.user.user_metadata?.first_name;
+        const lastName = session.user.user_metadata?.last_name;
+        const userName = firstName && lastName ? `${firstName} ${lastName}` : session.user.email?.split('@')[0];
 
-        // Map role to AppShell role type
-        const appShellRole: 'admin' | 'operator' = 
-          userRole === 'admin' || userRole === 'super_admin' ? 'admin' : 'operator';
+        // Map role to AppShell role type (admin | operator | driver)
+        let appShellRole: 'admin' | 'operator' | 'driver' = 'operator';
+        if (userRole === 'admin' || userRole === 'super_admin') {
+          appShellRole = 'admin';
+        } else if (userRole === 'driver') {
+          appShellRole = 'driver';
+        } else {
+          appShellRole = 'operator';
+        }
 
         setUser({
           name: userName || session.user.email || 'User',

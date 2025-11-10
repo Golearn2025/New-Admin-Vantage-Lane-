@@ -28,4 +28,5 @@ export interface UnifiedUser {
   phone: string | null;
   status: 'active' | 'inactive';
   createdAt: string;
+  deletedAt?: string | null;  // Soft delete timestamp
 }

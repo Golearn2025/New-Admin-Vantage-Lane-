@@ -7,7 +7,7 @@
 'use client';
 
 import { useState } from 'react';
-import { createUser } from '@entities/user';
+import { createUserAction } from '@entities/user';
 import type { UserCreateFormData, UserType } from '../types';
 
 export interface UseUserCreateModalReturn {
@@ -51,7 +51,7 @@ export function useUserCreateModal(
     setIsSubmitting(true);
 
     try {
-      const result = await createUser({
+      const result = await createUserAction({
         userType: formData.userType,
         data: {
           email: formData.email,
@@ -59,6 +59,12 @@ export function useUserCreateModal(
           lastName: formData.lastName,
           phone: formData.phone,
           password: formData.password,
+          // Driver specific
+          ...(formData.userType === 'driver' && {
+            operatorId: formData.operatorId,
+            vehicleCategory: formData.vehicleCategory,
+            // License info will be uploaded as documents after creation
+          }),
         },
       });
 

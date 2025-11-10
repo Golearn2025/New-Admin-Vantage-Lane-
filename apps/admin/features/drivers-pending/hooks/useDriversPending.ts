@@ -7,37 +7,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { listPendingDrivers } from '@entities/driver';
+import { createClient } from '@/lib/supabase/client';
 import type { PendingDriver } from '../types';
-
-// Mock data for now - will connect to real API
-const mockPendingDrivers: PendingDriver[] = [
-  {
-    id: '1',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    phone: '+44 7700 900001',
-    verificationStatus: 'docs_uploaded',
-    documentsCount: 6,
-    requiredDocumentsCount: 6,
-    profilePhotoUrl: null,
-    createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-    uploadedAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
-  },
-  {
-    id: '2',
-    firstName: 'Jane',
-    lastName: 'Smith',
-    email: 'jane.smith@example.com',
-    phone: '+44 7700 900002',
-    verificationStatus: 'pending',
-    documentsCount: 3,
-    requiredDocumentsCount: 6,
-    profilePhotoUrl: null,
-    createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
-    uploadedAt: null,
-  },
-];
 
 export interface UseDriversPendingReturn {
   drivers: PendingDriver[];
@@ -56,12 +28,38 @@ export function useDriversPending(): UseDriversPendingReturn {
       setLoading(true);
       setError(null);
       
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Fetch real data from database
+      const data = await listPendingDrivers();
       
-      // TODO: Replace with real API call
-      // const data = await listPendingDrivers();
-      setDrivers(mockPendingDrivers);
+      console.log('[HOOK DEBUG] Raw data from listPendingDrivers:', data);
+      console.log('[HOOK DEBUG] First driver vehicle docs:', data[0]?.vehicleDocsApproved, '/', data[0]?.vehicleDocsRequired);
+      
+      // Map API data to PendingDriver type
+      const mappedDrivers: PendingDriver[] = data.map(driver => ({
+        id: driver.id,
+        firstName: driver.firstName,
+        lastName: driver.lastName,
+        email: driver.email,
+        phone: driver.phone,
+        profilePhotoUrl: driver.profilePhotoUrl,
+        // New separate counts
+        driverDocsApproved: driver.driverDocsApproved,
+        driverDocsRequired: driver.driverDocsRequired,
+        vehicleDocsApproved: driver.vehicleDocsApproved,
+        vehicleDocsRequired: driver.vehicleDocsRequired,
+        // Legacy fields
+        documentsCount: driver.documentsCount,
+        requiredDocumentsCount: driver.requiredDocumentsCount,
+        verificationStatus: driver.documentsCount === driver.requiredDocumentsCount && driver.approvedDocumentsCount === driver.requiredDocumentsCount
+          ? 'docs_uploaded'
+          : driver.documentsCount > 0
+            ? 'pending'
+            : 'not_uploaded',
+        createdAt: driver.createdAt,
+        uploadedAt: driver.uploadedAt,
+      }));
+      
+      setDrivers(mappedDrivers);
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Failed to fetch pending drivers'));
       console.error('Fetch pending drivers error:', err);
@@ -72,6 +70,46 @@ export function useDriversPending(): UseDriversPendingReturn {
 
   useEffect(() => {
     fetchDrivers();
+    
+    // Poll every 30 seconds for updates
+    const interval = setInterval(() => {
+      fetchDrivers();
+    }, 30000);
+    
+    // REAL-TIME: Listen for document changes
+    const supabase = createClient();
+    const channel = supabase
+      .channel('driver-documents-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'driver_documents',
+        },
+        () => {
+          // Refresh counts when any document is added/updated/deleted
+          fetchDrivers();
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'vehicle_documents',
+        },
+        () => {
+          // Refresh counts when vehicle documents change
+          fetchDrivers();
+        }
+      )
+      .subscribe();
+    
+    return () => {
+      clearInterval(interval);
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   return {

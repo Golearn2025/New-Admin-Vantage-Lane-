@@ -1,0 +1,51 @@
+/**
+ * Document Columns Styles
+ * 100% design tokens - zero hardcoded values
+ */
+
+.typeCell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--color-text-primary);
+}
+
+.date {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.expiryDate {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.statusCell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  align-items: flex-start;
+}
+
+.rejectionReason {
+  font-size: var(--font-size-xs);
+  color: var(--color-danger);
+  font-style: italic;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: help;
+}
+
+.expiryCell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
+.noExpiry {
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}

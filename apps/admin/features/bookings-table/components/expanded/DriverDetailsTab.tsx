@@ -40,12 +40,7 @@ export function DriverDetailsTab({ driver }: DriverDetailsTabProps) {
         <span className={styles.detailLabel}>Total Trips:</span>
         <span className={styles.detailValue}>{driver.totalTrips}</span>
       </div>
-      {driver.licenseNumber && (
-        <div className={styles.detailRow}>
-          <span className={styles.detailLabel}>License:</span>
-          <span className={styles.detailValue}>{driver.licenseNumber}</span>
-        </div>
-      )}
+      {/* License info moved to driver_documents table - view in driver profile */}
     </div>
   );
 }

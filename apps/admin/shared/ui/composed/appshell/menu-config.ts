@@ -20,7 +20,7 @@ const adminMenu: NavMenuItem[] = [
     icon: 'users',
     label: 'Users',
     href: '/users',
-    children: ['/users/all', '/users/drivers', '/users/drivers/pending', '/users/customers', '/users/operators', '/users/admins', '/users/assign-drivers-to-operators'],
+    children: ['/users/all', '/users/drivers', '/users/drivers/pending', '/users/customers', '/users/operators', '/users/admins', '/users/assign-drivers-to-operators', '/users/trash'],
   },
   { icon: 'documents', label: 'Documents', href: '/documents' },
   { icon: 'bell', label: 'Notifications', href: '/notifications' },
@@ -54,13 +54,19 @@ const operatorMenu: NavMenuItem[] = [
   { icon: 'settings', label: 'Settings', href: '/settings/profile' },
 ];
 
-// Driver - Acces limitat (folosește aceleași pagini ca admin, doar meniul e filtrat)
+// Driver - Portal dedicat pentru șoferi
 const driverMenu: NavMenuItem[] = [
   { icon: 'dashboard', label: 'Dashboard', href: '/dashboard' },
-  { icon: 'calendar', label: 'My Trips', href: '/bookings' },
-  { icon: 'documents', label: 'Documents', href: '/documents' },
+  {
+    icon: 'calendar',
+    label: 'My Trips',
+    href: '/driver/trips',
+    children: ['/driver/trips/active', '/driver/trips/upcoming', '/driver/trips/completed'],
+  },
+  { icon: 'documents', label: 'Documents', href: '/driver/documents' },
+  { icon: 'wallet', label: 'Earnings', href: '/driver/earnings' },
   { icon: 'support', label: 'Support', href: '/support-tickets' },
-  { icon: 'settings', label: 'Settings', href: '/settings/profile' },
+  { icon: 'settings', label: 'Profile', href: '/driver/profile' },
 ];
 
 /**

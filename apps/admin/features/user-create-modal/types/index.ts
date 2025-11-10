@@ -13,6 +13,8 @@ export interface UserCreateFormData {
   password: string;
   // Driver specific
   operatorId?: string;
+  // License info removed - will be uploaded as documents after driver creation
+  vehicleCategory?: string;
   // Operator specific
   commissionPct?: number;
   // Admin specific

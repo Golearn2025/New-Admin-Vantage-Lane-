@@ -56,3 +56,6 @@ export type {
   UseExpandableOptions,
   UseExpandableReturn,
 } from './hooks';
+
+// Utilities
+export { applySorting } from './utils/applySorting';

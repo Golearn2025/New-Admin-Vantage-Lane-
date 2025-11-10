@@ -8,7 +8,7 @@
 'use client';
 
 import { Modal, Button } from '@vantage-lane/ui-core';
-import { FileText, Download, X, Calendar, User, FileType } from 'lucide-react';
+import { FileText, Download, Calendar, User, FileType, CheckCircle, XCircle } from 'lucide-react';
 import type { Document } from '@entities/document';
 import styles from './DocumentViewerModal.module.css';
 
@@ -16,12 +16,16 @@ export interface DocumentViewerModalProps {
   isOpen: boolean;
   onClose: () => void;
   document: Document | null;
+  onApprove?: (document: Document) => void;
+  onReject?: (document: Document) => void;
 }
 
 export function DocumentViewerModal({
   isOpen,
   onClose,
   document,
+  onApprove,
+  onReject,
 }: DocumentViewerModalProps) {
   if (!document) return null;
 
@@ -167,15 +171,42 @@ export function DocumentViewerModal({
             </Button>
             {document.fileUrl && (
               <Button
-                variant="primary"
+                variant="outline"
                 size="md"
+                leftIcon={<Download size={16} />}
                 onClick={handleDownload}
               >
-                <Download size={16} />
                 Download
               </Button>
             )}
           </div>
+
+          {/* Quick Actions - Approve/Reject */}
+          {document.status === 'pending' && (onApprove || onReject) && (
+            <div className={styles.quickActions}>
+              {onReject && (
+                <Button
+                  variant="outline"
+                  size="md"
+                  leftIcon={<XCircle size={16} />}
+                  onClick={() => onReject(document)}
+                  className={styles.rejectButton}
+                >
+                  Reject
+                </Button>
+              )}
+              {onApprove && (
+                <Button
+                  variant="primary"
+                  size="md"
+                  leftIcon={<CheckCircle size={16} />}
+                  onClick={() => onApprove(document)}
+                >
+                  Approve
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </Modal>

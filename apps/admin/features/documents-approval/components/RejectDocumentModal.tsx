@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import { Modal, Button, Textarea } from '@vantage-lane/ui-core';
 import { XCircle } from 'lucide-react';
 import type { Document } from '@entities/document';
+import { REJECTION_REASONS } from '@features/driver-profile/constants/documentTypes';
 import styles from './RejectDocumentModal.module.css';
 
 export interface RejectDocumentModalProps {
@@ -28,33 +29,45 @@ export function RejectDocumentModal({
   document,
   loading = false,
 }: RejectDocumentModalProps) {
-  const [reason, setReason] = useState('');
+  const [selectedReason, setSelectedReason] = useState('');
+  const [customReason, setCustomReason] = useState('');
   const [error, setError] = useState('');
 
   // Reset state when modal closes
   useEffect(() => {
     if (!isOpen) {
-      setReason('');
+      setSelectedReason('');
+      setCustomReason('');
       setError('');
     }
   }, [isOpen]);
 
   const handleSubmit = () => {
-    if (!reason.trim()) {
+    // Get final reason
+    const finalReason = selectedReason === 'Other (please specify)' 
+      ? customReason.trim() 
+      : selectedReason;
+
+    if (!finalReason) {
       setError('Rejection reason is required');
       return;
     }
 
-    if (reason.trim().length < 10) {
+    if (finalReason.length < 10) {
       setError('Reason must be at least 10 characters');
       return;
     }
 
-    onConfirm(reason.trim());
+    onConfirm(finalReason);
   };
 
-  const handleChange = (value: string) => {
-    setReason(value);
+  const handleReasonSelect = (value: string) => {
+    setSelectedReason(value);
+    if (error) setError('');
+  };
+
+  const handleCustomReasonChange = (value: string) => {
+    setCustomReason(value);
     if (error) setError('');
   };
 
@@ -82,21 +95,52 @@ export function RejectDocumentModal({
         </div>
 
         <div className={styles.form}>
-          <Textarea
-            label="Rejection Reason"
-            placeholder="Please provide a detailed reason for rejecting this document..."
-            value={reason}
-            onChange={(e) => handleChange(e.target.value)}
-            rows={5}
-            maxLength={500}
-            showCharCount={true}
-            error={error}
-            hint="The driver will see this reason. Please be specific and helpful."
-            required
-            disabled={loading}
-            size="md"
-            resize="vertical"
-          />
+          <div className={styles.selectWrapper}>
+            <label htmlFor="rejection-reason" className={styles.label}>
+              Rejection Reason *
+            </label>
+            <select
+              id="rejection-reason"
+              className={styles.select}
+              value={selectedReason}
+              onChange={(e) => handleReasonSelect(e.target.value)}
+              disabled={loading}
+              required
+            >
+              <option value="">Select a reason...</option>
+              {REJECTION_REASONS.map((reason) => (
+                <option key={reason} value={reason}>
+                  {reason}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {selectedReason === 'Other (please specify)' && (
+            <Textarea
+              label="Please specify"
+              placeholder="Provide a detailed reason..."
+              value={customReason}
+              onChange={(e) => handleCustomReasonChange(e.target.value)}
+              rows={4}
+              maxLength={500}
+              showCharCount={true}
+              error={error}
+              hint="The driver will see this reason. Please be specific and helpful."
+              required
+              disabled={loading}
+              size="md"
+              resize="vertical"
+            />
+          )}
+
+          {selectedReason && selectedReason !== 'Other (please specify)' && (
+            <div className={styles.selectedReason}>
+              <p className={styles.hint}>
+                The driver will see this reason. Please be specific and helpful.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className={styles.actions}>
@@ -113,7 +157,7 @@ export function RejectDocumentModal({
             size="md"
             onClick={handleSubmit}
             loading={loading}
-            disabled={loading || !reason.trim()}
+            disabled={loading || !selectedReason || (selectedReason === 'Other (please specify)' && !customReason.trim())}
           >
             Reject Document
           </Button>

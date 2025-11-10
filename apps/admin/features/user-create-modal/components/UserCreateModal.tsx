@@ -120,20 +120,6 @@ export function UserCreateModal({
           />
         </div>
 
-        {/* Driver Specific: Operator Assignment */}
-        {formData.userType === 'driver' && (
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Assign to Operator</label>
-            <select
-              className={styles.select}
-              value={formData.operatorId || ''}
-              onChange={(e) => updateField('operatorId', e.target.value)}
-            >
-              <option value="">Select Operator (Optional)</option>
-              {/* TODO: Load operators dynamically */}
-            </select>
-          </div>
-        )}
 
         {/* Operator Specific: Commission */}
         {formData.userType === 'operator' && (

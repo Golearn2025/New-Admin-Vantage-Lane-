@@ -134,9 +134,24 @@
 .actions {
   display: flex;
   gap: var(--spacing-3);
+  margin-top: var(--spacing-6);
+}
+
+.quickActions {
+  display: flex;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-4);
   padding-top: var(--spacing-4);
-  border-top: 1px solid var(--color-border-muted);
-  margin-top: auto;
+  border-top: 1px solid var(--color-border);
+}
+
+.rejectButton {
+  color: var(--color-danger-default);
+  border-color: var(--color-danger-default);
+}
+
+.rejectButton:hover {
+  background: var(--color-danger-light);
 }
 
 .actions button {

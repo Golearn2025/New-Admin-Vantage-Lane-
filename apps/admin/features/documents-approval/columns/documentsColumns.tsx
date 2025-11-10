@@ -62,13 +62,20 @@ function getStatusColumn(): Column<Document> {
     cell: (row) => {
       const statusClass = `status${row.status.charAt(0).toUpperCase() + row.status.slice(1).replace('_', '')}`;
       return (
-        <span className={`${styles.statusBadge} ${styles[statusClass]}`}>
-          {row.status.replace('_', ' ')}
-        </span>
+        <div className={styles.statusCell}>
+          <span className={`${styles.statusBadge} ${styles[statusClass]}`}>
+            {row.status.replace('_', ' ')}
+          </span>
+          {row.status === 'rejected' && row.rejectionReason && (
+            <span className={styles.rejectionReason} title={row.rejectionReason}>
+              {row.rejectionReason}
+            </span>
+          )}
+        </div>
       );
     },
     sortable: true,
-    width: '130px',
+    width: '220px',
   };
 }
 

@@ -27,6 +27,9 @@ export function useDocumentsApproval() {
   const [filters, setFilters] = useState<DocumentsApprovalFilters>({
     tab: 'pending',
     search: '',
+    status: 'all',
+    documentType: 'all',
+    category: 'all',
   });
   
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -91,18 +94,38 @@ export function useDocumentsApproval() {
     fetchCounts();
   }, []);
   
-  // Filter documents based on search
+  // Filter documents based on search and filters
   const filteredDocuments = useMemo(() => {
-    if (!filters.search) return documents;
+    let filtered = documents;
     
-    const query = filters.search.toLowerCase();
-    return documents.filter(
-      (doc) =>
-        doc.userName.toLowerCase().includes(query) ||
-        doc.userEmail.toLowerCase().includes(query) ||
-        doc.name.toLowerCase().includes(query)
-    );
-  }, [documents, filters.search]);
+    // Apply search filter
+    if (filters.search) {
+      const query = filters.search.toLowerCase();
+      filtered = filtered.filter(
+        (doc) =>
+          doc.userName.toLowerCase().includes(query) ||
+          doc.userEmail.toLowerCase().includes(query) ||
+          doc.name.toLowerCase().includes(query)
+      );
+    }
+    
+    // Apply status filter
+    if (filters.status && filters.status !== 'all') {
+      filtered = filtered.filter((doc) => doc.status === filters.status);
+    }
+    
+    // Apply document type filter
+    if (filters.documentType && filters.documentType !== 'all') {
+      filtered = filtered.filter((doc) => doc.type === filters.documentType);
+    }
+    
+    // Apply category filter
+    if (filters.category && filters.category !== 'all') {
+      filtered = filtered.filter((doc) => doc.category === filters.category);
+    }
+    
+    return filtered;
+  }, [documents, filters.search, filters.status, filters.documentType, filters.category]);
   
   // Combined refetch function (documents + counts)
   const refetch = async () => {

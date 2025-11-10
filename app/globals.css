@@ -86,14 +86,20 @@
   --color-success-light: #dcfce7;
   --color-success-default: #16a34a;
   --color-success-dark: #15803d;
+  --color-success-500: #16a34a;  /* Badge compatibility */
 
   --color-warning-light: #fef3c7;
   --color-warning-default: #d97706;
   --color-warning-dark: #92400e;
+  --color-warning-500: #d97706;  /* Badge compatibility - Orange */
+  --color-warning-600: #b45309;  /* Badge text color - Darker orange */
 
   --color-danger-light: #fee2e2;
   --color-danger-default: #dc2626;
   --color-danger-dark: #991b1b;
+  /* Badge uses --color-danger-default which is already defined above */
+
+  --color-info-500: #3b82f6;     /* Badge compatibility - Blue */
 
   /* Typography */
   --font-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,

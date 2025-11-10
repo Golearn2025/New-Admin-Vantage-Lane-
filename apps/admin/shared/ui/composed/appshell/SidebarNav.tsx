@@ -79,7 +79,9 @@ export function SidebarNav({
 
       {/* Role indicator cu collapse toggle */}
       <div className={styles.roleIndicator}>
-        <span className={styles.roleLabel}>{role === 'admin' ? 'Administrator' : 'Operator'}</span>
+        <span className={styles.roleLabel}>
+          {role === 'admin' ? 'Administrator' : role === 'driver' ? 'Driver' : 'Operator'}
+        </span>
 
         {collapsible && (
           <button

@@ -1,0 +1,105 @@
+/**
+ * Vehicle Card Styles
+ * 100% design tokens
+ */
+
+.card {
+  background: var(--color-background-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  padding: var(--spacing-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
+}
+
+.icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.plate {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  font-family: monospace;
+}
+
+.details {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-1) 0;
+}
+
+.category {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.toggleButton {
+  flex-shrink: 0;
+}
+
+.documents {
+  padding: var(--spacing-5);
+}
+
+.documentsHeader {
+  margin-bottom: var(--spacing-4);
+}
+
+.documentsTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.documentsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: var(--spacing-3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    padding: var(--spacing-4);
+  }
+
+  .documents {
+    padding: var(--spacing-4);
+  }
+
+  .documentsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 375px) {
+  .top {
+    flex-wrap: wrap;
+  }
+}

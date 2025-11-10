@@ -17,6 +17,8 @@ export function useNotifications() {
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
+    let channel: ReturnType<ReturnType<typeof createClient>['channel']> | null = null;
+
     const fetchNotifications = async () => {
       try {
         const supabase = createClient();
@@ -47,12 +49,81 @@ export function useNotifications() {
       }
     };
 
+    const setupRealtimeSubscription = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) return;
+
+      // Subscribe to INSERT events on notifications table
+      channel = supabase
+        .channel('notifications-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'notifications',
+            filter: `user_id=eq.${user.id}`,
+          },
+          (payload) => {
+            console.log('🔔 NEW NOTIFICATION (Realtime):', payload.new);
+            
+            // Add new notification to the list
+            const newNotif = payload.new as NotificationData;
+            setNotifications((prev) => [newNotif, ...prev]);
+            setUnreadCount((prev) => prev + 1);
+            
+            // Optional: Show browser notification
+            if ('Notification' in window && Notification.permission === 'granted') {
+              new Notification(newNotif.title || 'New Notification', {
+                body: newNotif.message,
+                icon: '/brand/logo.png',
+              });
+            }
+          }
+        )
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'notifications',
+            filter: `user_id=eq.${user.id}`,
+          },
+          (payload) => {
+            console.log('🔔 NOTIFICATION UPDATED (Realtime):', payload.new);
+            
+            // Update notification in the list
+            const updatedNotif = payload.new as NotificationData;
+            setNotifications((prev) =>
+              prev.map((n) => (n.id === updatedNotif.id ? updatedNotif : n))
+            );
+            
+            // Update unread count if read status changed
+            if (updatedNotif.read && !(payload.old as NotificationData).read) {
+              setUnreadCount((prev) => Math.max(0, prev - 1));
+            }
+          }
+        )
+        .subscribe((status) => {
+          console.log('🔔 Realtime subscription status:', status);
+        });
+    };
+
     fetchNotifications();
+    setupRealtimeSubscription();
 
-    // Poll for new notifications every 30 seconds
-    const interval = setInterval(fetchNotifications, 30000);
+    // Request browser notification permission
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
 
-    return () => clearInterval(interval);
+    return () => {
+      if (channel) {
+        channel.unsubscribe();
+      }
+    };
   }, []);
 
   const handleMarkAsRead = async (notificationId: string) => {

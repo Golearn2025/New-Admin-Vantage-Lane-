@@ -96,7 +96,6 @@ export function BulkRejectModal({
               setSelectedReason(value as string);
               setError('');
             }}
-            fullWidth
           />
         </div>
 
@@ -118,7 +117,6 @@ export function BulkRejectModal({
                 setError('');
               }}
               placeholder="Enter rejection reason (min 10 characters)"
-              fullWidth
             />
           </div>
         )}

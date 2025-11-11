@@ -12,6 +12,12 @@
 export function formatNotificationDate(date: string | Date): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   
+  // Validate date
+  if (isNaN(dateObj.getTime())) {
+    console.error('Invalid date in formatNotificationDate:', date);
+    return 'Invalid Date';
+  }
+  
   return dateObj.toLocaleString('en-GB', {
     day: '2-digit',
     month: 'short',
@@ -27,6 +33,13 @@ export function formatNotificationDate(date: string | Date): string {
  */
 export function formatDate(date: string | Date): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
+  
+  // Validate date
+  if (isNaN(dateObj.getTime())) {
+    console.error('Invalid date in formatDate:', date);
+    return 'Invalid Date';
+  }
+  
   return dateObj.toLocaleDateString('en-GB');
 }
 
@@ -36,6 +49,13 @@ export function formatDate(date: string | Date): string {
  */
 export function formatRelativeTime(date: string | Date): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
+  
+  // Validate date
+  if (isNaN(dateObj.getTime())) {
+    console.error('Invalid date in formatRelativeTime:', date);
+    return 'Invalid Date';
+  }
+  
   const now = new Date();
   const diffMs = now.getTime() - dateObj.getTime();
   const diffSec = Math.floor(diffMs / 1000);

@@ -6,6 +6,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 export interface SendNotificationPayload {
   userId: string;
@@ -22,7 +23,8 @@ export interface SendNotificationPayload {
 export async function sendNotification(
   payload: SendNotificationPayload
 ): Promise<{ success: boolean; id: string }> {
-  const supabase = createClient();
+  // Use admin client to bypass RLS for notification inserts
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase
     .from('notifications')

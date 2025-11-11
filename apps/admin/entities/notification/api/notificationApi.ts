@@ -51,7 +51,7 @@ export async function listNotifications(userId: string): Promise<NotificationDat
     message: n.message,
     link: n.link,
     read: n.read_at !== null,
-    createdAt: n.created_at,
+    createdAt: new Date(n.created_at).toISOString(), // Convert Postgres timestamp to ISO format
   }));
   
   console.log('📡 listNotifications - mapped:', mapped.length, 'notifications');

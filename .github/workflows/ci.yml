@@ -22,7 +22,7 @@ jobs:
       - name: 📦 Setup pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: 10
+          version: 10.17.0
       
       - name: 🟢 Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4

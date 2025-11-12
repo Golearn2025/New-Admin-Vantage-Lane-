@@ -127,10 +127,10 @@ if [ ! -d "audit-reports" ]; then
   echo "=> Audit completeness: SKIPPED (audit-reports not found, normal in CI)"
 else
   # Lista toate features
-  ls apps/admin/features/ | sort > /tmp/features-verify.txt
+  ls apps/admin/features/ 2>/dev/null | sort > /tmp/features-verify.txt || true
   
   # Lista toate rapoartele
-  find audit-reports -maxdepth 1 -type d -name "apps-admin-features-*" 2>/dev/null | sed 's#audit-reports/apps-admin-features-##' | sort > /tmp/reports-verify.txt
+  find audit-reports -maxdepth 1 -type d -name "apps-admin-features-*" 2>/dev/null | sed 's#audit-reports/apps-admin-features-##' | sort > /tmp/reports-verify.txt || true
   
   # Skip if no reports found (audit-reports exists but empty)
   if [ ! -s /tmp/reports-verify.txt ]; then

@@ -16,35 +16,39 @@ import type { UnifiedUser } from '../model/types';
 export async function listAllUsers(): Promise<UnifiedUser[]> {
   const supabase = createClient();
   
-  // Fetch customers
+  // Fetch customers (exclude soft-deleted)
   const { data: customers, error: customersError } = await supabase
     .from('customers')
     .select('id, email, first_name, last_name, phone, status, created_at')
+    .is('deleted_at', null)
     .limit(1000);
   
   if (customersError) throw customersError;
   
-  // Fetch drivers
+  // Fetch drivers (exclude soft-deleted)
   const { data: drivers, error: driversError } = await supabase
     .from('drivers')
     .select('id, email, first_name, last_name, phone, is_active, created_at')
+    .is('deleted_at', null)
     .limit(1000);
   
   if (driversError) throw driversError;
   
-  // Fetch admins
+  // Fetch admins (exclude soft-deleted)
   const { data: admins, error: adminsError } = await supabase
     .from('admin_users')
     .select('id, email, first_name, last_name, phone, is_active, created_at')
+    .is('deleted_at', null)
     .limit(1000);
   
   if (adminsError) throw adminsError;
   
-  // Fetch operators (organizations)
+  // Fetch operators (organizations - exclude soft-deleted)
   const { data: operators, error: operatorsError } = await supabase
     .from('organizations')
     .select('id, name, contact_email, contact_phone, is_active, created_at')
     .eq('org_type', 'operator')
+    .is('deleted_at', null)
     .limit(1000);
   
   if (operatorsError) throw operatorsError;

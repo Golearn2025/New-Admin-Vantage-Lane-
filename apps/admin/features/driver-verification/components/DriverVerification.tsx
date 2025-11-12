@@ -5,12 +5,20 @@
 
 'use client';
 
-import { Bus, Hourglass, Truck, XCircle } from 'lucide-react';
 import React, { useState } from 'react';
-import { Button } from '@vantage-lane/ui-core';
+import { 
+  Avatar,
+  Card,
+  Badge,
+  Checkbox,
+  ProfileSection,
+  Button 
+} from '@vantage-lane/ui-core';
+import { Check, X, Clock, AlertCircle, Car, User } from 'lucide-react';
 import { DocumentViewer } from '@features/document-viewer';
 import { useDriverVerification } from '../hooks/useDriverVerification';
 import type { DriverDoc } from '../types';
+import type { VehicleServiceType } from '@entities/driver';
 import styles from './DriverVerification.module.css';
 
 export interface DriverVerificationProps {
@@ -18,9 +26,9 @@ export interface DriverVerificationProps {
 }
 
 export function DriverVerification({ driverId }: DriverVerificationProps) {
-  const { driver, loading, verifyDriver, rejectDriver, assignToOperator } = useDriverVerification(driverId);
+  const { driver, loading, error, verifyDriver, rejectDriver, approveDocument, rejectDocument } = useDriverVerification(driverId);
   const [selectedDoc, setSelectedDoc] = useState<DriverDoc | null>(null);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedServiceTypes, setSelectedServiceTypes] = useState<VehicleServiceType[]>([]);
 
   if (loading) {
     return <div className={styles.loading}>Loading driver data...</div>;
@@ -33,18 +41,24 @@ export function DriverVerification({ driverId }: DriverVerificationProps) {
   const allDocsVerified = driver.documents.every((d) => d.verified);
   const hasPhoto = !!driver.profilePhoto;
 
-  const toggleCategory = (cat: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+  const toggleServiceType = (type: VehicleServiceType) => {
+    setSelectedServiceTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
   };
 
   const handleActivate = async () => {
-    if (selectedCategories.length === 0) {
-      alert('⚠️ Select at least one vehicle category!');
+    if (selectedServiceTypes.length === 0) {
+      alert('⚠️ Select at least one service type!');
       return;
     }
-    await verifyDriver(selectedCategories);
+    await verifyDriver(selectedServiceTypes);
+  };
+  
+  const handleReject = async () => {
+    const reason = prompt('Enter rejection reason:');
+    if (!reason) return;
+    await rejectDriver(reason);
   };
 
   return (
@@ -56,34 +70,46 @@ export function DriverVerification({ driverId }: DriverVerificationProps) {
           <p className={styles.subtitle}>{driver.firstName} {driver.lastName}</p>
         </div>
         <div className={styles.status}>
-          {driver.status === 'pending' && <span className={styles.statusPending}>⏳ Pending</span>}
-          {driver.status === 'verified' && <span className={styles.statusVerified}>✓ Verified</span>}
-          {driver.status === 'rejected' && <span className={styles.statusRejected}>✗ Rejected</span>}
+          {driver.status === 'pending' && <Badge color="warning" icon="clock">Pending</Badge>}
+          {driver.status === 'pending_approval' && <Badge color="warning" icon="clock">Pending Approval</Badge>}
+          {driver.status === 'active' && <Badge color="success" icon="check">Active</Badge>}
+          {driver.status === 'verified' && <Badge color="success" icon="check">Verified</Badge>}
+          {driver.status === 'rejected' && <Badge color="danger" icon="x">Rejected</Badge>}
+          {driver.status === 'inactive' && <Badge color="neutral">Inactive</Badge>}
+          {driver.status === 'suspended' && <Badge color="danger">Suspended</Badge>}
         </div>
       </div>
 
       {/* Profile Photo */}
-      <div className={styles.section}>
+      <Card padding="lg">
         <h3>Profile Photo</h3>
         {driver.profilePhoto ? (
-          <img src={driver.profilePhoto} alt="Profile" className={styles.profilePhoto} />
+          <Avatar 
+            src={driver.profilePhoto} 
+            alt={`${driver.firstName} ${driver.lastName}`}
+            name={`${driver.firstName} ${driver.lastName}`}
+            size="2xl"
+          />
         ) : (
-          <div className={styles.noPhoto}>❌ No profile photo uploaded</div>
+          <div className={styles.noPhoto}>
+            <User size={48} />
+            <p>No profile photo uploaded</p>
+          </div>
         )}
-      </div>
+      </Card>
 
       {/* Documents Grid */}
-      <div className={styles.section}>
+      <Card padding="lg">
         <h3>Documents ({driver.documents.filter(d => d.verified).length}/{driver.documents.length} verified)</h3>
         <div className={styles.docsGrid}>
           {driver.documents.map((doc) => (
             <div key={doc.id} className={styles.docCard}>
               <div className={styles.docHeader}>
-                <span className={styles.docType}>{doc.type.toUpperCase()}</span>
+                <Badge color="neutral" size="sm">{doc.type.toUpperCase()}</Badge>
                 {doc.verified ? (
-                  <span className={styles.docVerified}>✓</span>
+                  <Badge color="success" icon="check" size="sm">Verified</Badge>
                 ) : (
-                  <span className={styles.docPending}><Hourglass size={18} strokeWidth={2} /></span>
+                  <Badge color="warning" icon="clock" size="sm">Pending</Badge>
                 )}
               </div>
               <div className={styles.docPreview}>
@@ -99,41 +125,54 @@ export function DriverVerification({ driverId }: DriverVerificationProps) {
             </div>
           ))}
         </div>
-      </div>
+      </Card>
 
       {/* Vehicle Categories Selection */}
-      <div className={styles.section}>
+      <Card padding="lg">
         <h3>Vehicle Categories</h3>
         <p className={styles.sectionDesc}>Select categories this driver can accept</p>
         <div className={styles.categoriesGrid}>
-          {['EXEC', 'LUX', 'VAN', 'SUV'].map((cat) => (
-            <label key={cat} className={styles.categoryCard}>
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes(cat)}
-                onChange={() => toggleCategory(cat)}
-                className={styles.categoryCheckbox}
-              />
-              <div className={styles.categoryContent}>
-                <span className={styles.categoryIcon}>
-                  {cat === 'EXEC' && '🎩'}
-                  {cat === 'LUX' && '💎'}
-                  {cat === 'VAN' && '🚐'}
-                  {cat === 'SUV' && '🚙'}
-                </span>
-                <span className={styles.categoryName}>{cat}</span>
-              </div>
-            </label>
-          ))}
+          {(['exec', 'lux', 'suv', 'van'] as const).map((type) => {
+            const serviceLabels = {
+              exec: 'EXEC - Executive (BMW 5, Mercedes E-Class)',
+              lux: 'LUX - Luxury (S-Class, 7 Series)',
+              suv: 'SUV - Premium SUV (Range Rover)',
+              van: 'VAN - Group Transport (V-Class)'
+            };
+            const serviceIcons = {
+              exec: '🎩',
+              lux: '💎',
+              suv: '🚙',
+              van: '🚐'
+            };
+            
+            return (
+              <label key={type} className={styles.categoryCard}>
+                <Checkbox
+                  id={`service-${type}`}
+                  checked={selectedServiceTypes.includes(type)}
+                  onChange={() => toggleServiceType(type)}
+                  className={styles.categoryCheckbox}
+                />
+                <div className={styles.categoryContent}>
+                  <span className={styles.categoryIcon}>{serviceIcons[type]}</span>
+                  <span className={styles.categoryName}>{serviceLabels[type]}</span>
+                </div>
+              </label>
+            );
+          })}
         </div>
         <p className={styles.categoryNote}>
           Driver will see ONLY bookings matching selected categories
         </p>
-      </div>
+      </Card>
 
       {/* Contact Info */}
-      <div className={styles.section}>
-        <h3>Contact Information</h3>
+      <ProfileSection 
+        title="Contact Information"
+        icon="📧"
+        variant="default"
+      >
         <div className={styles.infoGrid}>
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>Email:</span>
@@ -148,12 +187,12 @@ export function DriverVerification({ driverId }: DriverVerificationProps) {
             <span className={styles.infoValue}>{new Date(driver.createdAt).toLocaleDateString()}</span>
           </div>
         </div>
-      </div>
+      </ProfileSection>
 
       {/* Actions */}
       <div className={styles.actions}>
-        <Button variant="danger" onClick={() => rejectDriver()}>
-          ✗ Reject Driver
+        <Button variant="danger" onClick={handleReject}>
+          <X size={18} /> Reject Driver
         </Button>
         <Button
           variant="primary"

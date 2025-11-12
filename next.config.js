@@ -12,6 +12,10 @@ const nextConfig = {
   // Optimize package imports for faster Fast Refresh
   experimental: {
     optimizePackageImports: ['@features', '@entities', '@vantage-lane'],
+    // Allow larger file uploads in Server Actions (for document uploads)
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
   },
 
   // Configure on-demand entries for better HMR

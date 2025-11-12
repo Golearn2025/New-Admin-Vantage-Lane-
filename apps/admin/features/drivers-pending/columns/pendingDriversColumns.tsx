@@ -22,12 +22,12 @@ export function getPendingDriversColumns(options: {
             <img src={driver.profilePhotoUrl} alt="" className={styles.avatar} />
           ) : (
             <div className={styles.avatarPlaceholder}>
-              {driver.firstName[0]}{driver.lastName[0]}
+              {driver.firstName?.[0] || '?'}{driver.lastName?.[0] || '?'}
             </div>
           )}
           <div>
             <div className={styles.name}>
-              {driver.firstName} {driver.lastName}
+              {driver.firstName || ''} {driver.lastName || ''}
             </div>
             <div className={styles.email}>{driver.email}</div>
           </div>
@@ -45,29 +45,56 @@ export function getPendingDriversColumns(options: {
       id: 'documents',
       header: 'Documents',
       cell: (driver: PendingDriver) => {
-        const hasAllDocs = driver.documentsCount >= driver.requiredDocumentsCount;
+        const driverComplete = driver.driverDocsApproved >= driver.driverDocsRequired;
+        const vehicleComplete = driver.vehicleDocsApproved >= driver.vehicleDocsRequired;
+        
         return (
           <div className={styles.docsCell}>
-            <span className={hasAllDocs ? styles.docsComplete : styles.docsIncomplete}>
-              {driver.documentsCount}/{driver.requiredDocumentsCount}
-            </span>
-            {hasAllDocs && <span className={styles.checkmark}>✓</span>}
+            <div className={styles.docsCategoryRow}>
+              <span className={driverComplete ? styles.docsComplete : styles.docsIncomplete}>
+                {driver.driverDocsApproved}/{driver.driverDocsRequired} Driver
+              </span>
+              {driverComplete && <span className={styles.checkmark}>✓</span>}
+            </div>
+            <div className={styles.docsCategoryRow}>
+              <span className={vehicleComplete ? styles.docsComplete : styles.docsIncomplete}>
+                {driver.vehicleDocsApproved}/{driver.vehicleDocsRequired} Vehicle
+              </span>
+              {vehicleComplete && <span className={styles.checkmark}>✓</span>}
+            </div>
           </div>
         );
       },
-      width: '120px',
+      width: '180px',
     },
     {
       id: 'status',
       header: 'Status',
       cell: (driver: PendingDriver) => {
-        const statusMap = {
-          pending: { label: 'Pending', class: styles.statusPending },
-          docs_uploaded: { label: 'Docs Uploaded', class: styles.statusUploaded },
-          in_review: { label: 'In Review', class: styles.statusReview },
-        };
-        const status = statusMap[driver.verificationStatus];
-        return <span className={status.class}>{status.label}</span>;
+        const driverComplete = driver.driverDocsApproved >= driver.driverDocsRequired;
+        const vehicleComplete = driver.vehicleDocsApproved >= driver.vehicleDocsRequired;
+        
+        let statusLabel = '';
+        let statusClass = styles.statusPending;
+        
+        if (driverComplete && vehicleComplete) {
+          statusLabel = 'Complete';
+          statusClass = styles.docsComplete;
+        } else if (driverComplete) {
+          statusLabel = 'Driver Complete';
+          statusClass = styles.statusUploaded;
+        } else if (vehicleComplete) {
+          statusLabel = 'Vehicle Complete';
+          statusClass = styles.statusUploaded;
+        } else if (driver.driverDocsApproved > 0 || driver.vehicleDocsApproved > 0) {
+          statusLabel = 'Incomplete';
+          statusClass = styles.statusReview;
+        } else {
+          statusLabel = 'Not Started';
+          statusClass = styles.statusPending;
+        }
+        
+        return <span className={statusClass}>{statusLabel}</span>;
       },
       width: '140px',
     },

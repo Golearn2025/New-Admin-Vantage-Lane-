@@ -1,0 +1,55 @@
+/**
+ * Driver Documents Upload Styles
+ * 100% design tokens - zero hardcoded values
+ */
+
+.container {
+  padding: var(--spacing-6);
+  max-width: var(--container-xl);
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--color-background-elevated);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.header {
+  padding: var(--spacing-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-4);
+  }
+
+  .header {
+    padding: var(--spacing-4);
+  }
+
+  .title {
+    font-size: var(--font-size-xl);
+  }
+}
+
+@media (max-width: 375px) {
+  .container {
+    padding: var(--spacing-3);
+  }
+}

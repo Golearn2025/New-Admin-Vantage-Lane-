@@ -2,6 +2,8 @@
  * UsersTableBase Types
  */
 
+import type { UnifiedUser } from '@entities/user';
+
 export type UserType = 'all' | 'customer' | 'driver' | 'operator' | 'admin';
 
 export interface UsersTableBaseProps {
@@ -10,4 +12,10 @@ export interface UsersTableBaseProps {
   createLabel?: string;
   showCreateButton?: boolean;
   className?: string;
+  
+  /**
+   * Custom view handler (overrides default modal)
+   * Used for drivers to navigate to profile page
+   */
+  onViewCustom?: (user: UnifiedUser) => void;
 }

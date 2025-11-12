@@ -45,6 +45,16 @@
   align-items: center;
 }
 
+/* Filters */
+.filters {
+  display: flex;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  background: var(--color-surface-elevated);
+  border-radius: var(--border-radius-md);
+  flex-wrap: wrap;
+}
+
 /* Tabs */
 .tabs {
   display: flex;

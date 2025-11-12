@@ -44,8 +44,15 @@
 
 .docsCell {
   display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.docsCategoryRow {
+  display: flex;
   align-items: center;
   gap: var(--spacing-2);
+  font-size: var(--font-size-sm);
 }
 
 .docsComplete {

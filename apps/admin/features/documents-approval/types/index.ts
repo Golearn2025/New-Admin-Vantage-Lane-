@@ -11,6 +11,9 @@ export interface DocumentsApprovalFilters {
   tab: 'all' | 'pending' | 'expiring' | 'expired';
   search: string;
   userType?: 'driver' | 'operator';
+  status?: DocumentStatus | 'all';
+  documentType?: string | 'all';
+  category?: 'driver' | 'vehicle' | 'all';
 }
 
 export interface ApprovalAction {

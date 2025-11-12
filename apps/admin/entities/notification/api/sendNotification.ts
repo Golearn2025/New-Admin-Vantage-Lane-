@@ -1,9 +1,11 @@
 /**
  * Send Notification API
  * Send notifications to individual users
+ * Uses SERVER client for server actions
  */
+'use server';
 
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/server';
 
 export interface SendNotificationPayload {
   userId: string;

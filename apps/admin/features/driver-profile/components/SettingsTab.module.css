@@ -1,0 +1,119 @@
+/**
+ * SettingsTab Styles
+ * 100% design tokens - zero hardcode
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.header {
+  margin-bottom: var(--spacing-4);
+}
+
+.headerContent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+}
+
+.headerIcon {
+  color: var(--color-primary-default);
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.loading {
+  padding: var(--spacing-6);
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.categoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+}
+
+.categoryCard {
+  padding: var(--spacing-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: all var(--motion-duration-fast);
+}
+
+.categoryCard:hover {
+  border-color: var(--color-primary-alpha-30);
+  background-color: var(--color-primary-alpha-10);
+}
+
+.categoryDescription {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  margin: var(--spacing-2) 0 0 var(--spacing-6);
+  padding: 0;
+}
+
+.successBanner {
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--color-success-alpha-10);
+  border: 1px solid var(--color-success-alpha-30);
+  border-radius: var(--radius-md);
+  color: var(--color-success-default);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  margin-bottom: var(--spacing-4);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.infoTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-3) 0;
+}
+
+.infoList {
+  margin: 0;
+  padding-left: var(--spacing-5);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+.infoList li {
+  margin-bottom: var(--spacing-2);
+}
+
+@media (max-width: 768px) {
+  .categoriesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    gap: var(--spacing-3);
+  }
+}

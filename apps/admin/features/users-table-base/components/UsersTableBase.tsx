@@ -37,6 +37,7 @@ export function UsersTableBase({
   createLabel = 'Create User',
   showCreateButton = true,
   className,
+  onViewCustom,
 }: UsersTableBaseProps) {
   const { data: allData, loading, error, refetch } = useAllUsers();
   const [searchQuery, setSearchQuery] = useState('');
@@ -141,13 +142,13 @@ export function UsersTableBase({
   const columns = useMemo(
     () => {
       const cols = getAllUsersColumns({
-        onView: (user: UnifiedUser) => setViewUser(user),
+        onView: onViewCustom || ((user: UnifiedUser) => setViewUser(user)),
         onEdit: (user: UnifiedUser) => setEditUser(user),
         onDelete: (user: UnifiedUser) => setDeleteUser(user),
       });
       return cols;
     },
-    []
+    [onViewCustom]
   );
 
   if (error) {

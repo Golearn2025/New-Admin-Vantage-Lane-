@@ -1,0 +1,9 @@
+/**
+ * VehicleApprovalCard Styles
+ * Minimal wrapper styles - sub-components have own CSS
+ * 100% design tokens - zero hardcode
+ */
+
+.formSection {
+  margin-top: var(--spacing-4);
+}

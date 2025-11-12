@@ -8,6 +8,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   EnterpriseDataTable,
   useSelection,
@@ -21,6 +22,7 @@ import type { PendingDriver } from '../types';
 import styles from './DriversPending.module.css';
 
 export function DriversPending() {
+  const router = useRouter();
   const { drivers, loading, error, refetch } = useDriversPending();
   
   // Initialize hooks for EnterpriseDataTable
@@ -32,11 +34,13 @@ export function DriversPending() {
   const resize = useColumnResize();
 
   const handleView = (driver: PendingDriver) => {
-    window.location.href = `/users/drivers/${driver.id}/verify`;
+    // Navigate to driver profile page (with all tabs)
+    router.push(`/users/drivers/${driver.id}`);
   };
 
   const handleVerify = (driver: PendingDriver) => {
-    window.location.href = `/users/drivers/${driver.id}/verify`;
+    // Navigate to driver profile page with documents tab
+    router.push(`/users/drivers/${driver.id}?tab=documents`);
   };
 
   const columns = getPendingDriversColumns({

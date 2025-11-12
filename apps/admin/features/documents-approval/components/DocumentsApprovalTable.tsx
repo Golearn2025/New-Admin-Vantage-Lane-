@@ -14,7 +14,9 @@ import {
   useSelection,
   useSorting,
   useColumnResize,
-  Input, 
+  applySorting,
+  Input,
+  Select,
   TableActions, 
   Pagination,
   BulkActionsToolbar,
@@ -35,6 +37,7 @@ import {
 import { DocumentViewerModal } from './DocumentViewerModal';
 import { ApproveDocumentDialog } from './ApproveDocumentDialog';
 import { RejectDocumentModal } from './RejectDocumentModal';
+import { BulkRejectModal } from './BulkRejectModal';
 import { CheckCircle, XCircle } from 'lucide-react';
 import styles from './DocumentsApprovalTable.module.css';
 
@@ -58,27 +61,12 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
   const [currentPage, setCurrentPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(25);
   
-  // Paginate
-  const paginatedDocs = React.useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return documents.slice(start, start + pageSize);
-  }, [documents, currentPage, pageSize]);
-  
-  const totalPages = Math.ceil(documents.length / pageSize);
-  
-  // Initialize hooks for EnterpriseDataTable
-  const selection = useSelection({
-    data: paginatedDocs,
-    getRowId: (doc) => doc.id,
-  });
-  const sorting = useSorting();
-  const resize = useColumnResize();
-  
   // Modal states
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [isApproveOpen, setIsApproveOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
+  const [isBulkRejectOpen, setIsBulkRejectOpen] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
   
   // TODO: Get admin ID from auth context
@@ -92,11 +80,13 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
   
   const handleApprove = (doc: Document) => {
     setSelectedDocument(doc);
+    setIsViewerOpen(false); // Close viewer if open
     setIsApproveOpen(true);
   };
   
   const handleReject = (doc: Document) => {
     setSelectedDocument(doc);
+    setIsViewerOpen(false); // Close viewer if open
     setIsRejectOpen(true);
   };
   
@@ -134,6 +124,45 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
     }
   };
   
+  // Initialize hooks for EnterpriseDataTable
+  const sorting = useSorting();
+  const resize = useColumnResize();
+  
+  // Get columns with handlers (memoized)
+  const columns = React.useMemo(
+    () =>
+      getDocumentsColumns({
+        onApprove: handleApprove,
+        onReject: handleReject,
+        onView: handleView,
+      }),
+    []
+  );
+  
+  // Apply sorting FIRST (before pagination)
+  const sortedDocs = React.useMemo(() => {
+    return applySorting(documents, sorting, columns);
+  }, [documents, sorting, columns]);
+  
+  // Then paginate sorted data
+  const paginatedDocs = React.useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return sortedDocs.slice(start, start + pageSize);
+  }, [sortedDocs, currentPage, pageSize]);
+  
+  const totalPages = Math.ceil(sortedDocs.length / pageSize);
+  
+  // Selection based on paginated data
+  const selection = useSelection({
+    data: paginatedDocs,
+    getRowId: (doc) => doc.id,
+  });
+  
+  // Reset to page 1 when sorting changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [sorting.columnId, sorting.direction]);
+  
   // Bulk action handlers
   const handleBulkApprove = async () => {
     const selectedIds = selection.selectedRows.map(doc => doc.id);
@@ -165,15 +194,15 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
     const selectedIds = selection.selectedRows.map(doc => doc.id);
     if (selectedIds.length === 0) return;
     
-    const reason = prompt(`Enter rejection reason for ${selectedIds.length} document(s):`);
-    if (!reason || reason.trim().length < 10) {
-      alert('Rejection reason must be at least 10 characters');
-      return;
-    }
+    setIsBulkRejectOpen(true);
+  };
+  
+  const handleConfirmBulkReject = async (reason: string) => {
+    const selectedIds = selection.selectedRows.map(doc => doc.id);
     
     try {
       setActionLoading(true);
-      const result = await bulkRejectDocuments(selectedIds, adminId, reason.trim());
+      const result = await bulkRejectDocuments(selectedIds, adminId, reason);
       
       if (result.failed > 0) {
         alert(`Rejected ${result.success} document(s). Failed: ${result.failed}`);
@@ -181,6 +210,7 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
         alert(`Successfully rejected ${result.success} document(s)`);
       }
       
+      setIsBulkRejectOpen(false);
       selection.clearSelection();
       await refetch();
     } catch (error) {
@@ -234,11 +264,7 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
     exportToExcel(exportData, filename);
   };
   
-  const columns = getDocumentsColumns({
-    onApprove: handleApprove,
-    onReject: handleReject,
-    onView: handleView,
-  });
+  // Columns already defined above (before applySorting)
   
   return (
     <div className={`${styles.container} ${className || ''}`}>
@@ -267,6 +293,47 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
             showAdd={false}
           />
         </div>
+      </div>
+      
+      {/* Filters */}
+      <div className={styles.filters}>
+        <Select
+          value={filters.status || 'all'}
+          options={[
+            { label: 'All Status', value: 'all' },
+            { label: 'Pending', value: 'pending' },
+            { label: 'Approved', value: 'approved' },
+            { label: 'Rejected', value: 'rejected' },
+          ]}
+          onChange={(value) => setFilters({ ...filters, status: value as any })}
+        />
+        
+        <Select
+          value={filters.documentType || 'all'}
+          options={[
+            { label: 'All Types', value: 'all' },
+            { label: 'Profile Photo', value: 'profile_photo' },
+            { label: 'Driving Licence', value: 'driving_licence' },
+            { label: 'PCO Licence', value: 'pco_licence' },
+            { label: 'Bank Statement', value: 'bank_statement' },
+            { label: 'Proof of Identity', value: 'proof_of_identity' },
+            { label: 'PHV Licence', value: 'phv_licence' },
+            { label: 'MOT Certificate', value: 'mot_certificate' },
+            { label: 'Insurance', value: 'insurance_certificate' },
+            { label: 'V5C Logbook', value: 'v5c_logbook' },
+          ]}
+          onChange={(value) => setFilters({ ...filters, documentType: value as string })}
+        />
+        
+        <Select
+          value={filters.category || 'all'}
+          options={[
+            { label: 'All Categories', value: 'all' },
+            { label: 'Driver Documents', value: 'driver' },
+            { label: 'Vehicle Documents', value: 'vehicle' },
+          ]}
+          onChange={(value) => setFilters({ ...filters, category: value as any })}
+        />
       </div>
       
       {/* Tabs */}
@@ -377,6 +444,8 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
           setSelectedDocument(null);
         }}
         document={selectedDocument}
+        onApprove={handleApprove}
+        onReject={handleReject}
       />
       
       <ApproveDocumentDialog
@@ -398,6 +467,14 @@ export function DocumentsApprovalTable({ className }: DocumentsApprovalTableProp
         }}
         onConfirm={handleConfirmReject}
         document={selectedDocument}
+        loading={actionLoading}
+      />
+      
+      <BulkRejectModal
+        isOpen={isBulkRejectOpen}
+        onClose={() => setIsBulkRejectOpen(false)}
+        onConfirm={handleConfirmBulkReject}
+        count={selection.selectedRows.length}
         loading={actionLoading}
       />
     </div>

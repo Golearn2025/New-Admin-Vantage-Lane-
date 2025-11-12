@@ -1,0 +1,54 @@
+/**
+ * Deleted Users Columns - Styles
+ * 100% Design Tokens
+ */
+
+.name {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.email {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.deletedAt {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+}
+
+.actions {
+  display: flex;
+  gap: var(--spacing-2);
+  align-items: center;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2);
+  background: transparent;
+  border: none;
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.actionButton:hover {
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+}
+
+.actionRestore:hover {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.actionDelete:hover {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}

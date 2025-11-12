@@ -89,8 +89,9 @@ export function exportToCSV<T extends Record<string, unknown>>(
 }
 
 /**
- * Convert data to Excel-compatible format (CSV with UTF-8 BOM)
+ * Convert data to Excel-compatible CSV format with UTF-8 BOM
  * This opens correctly in Excel without import wizard
+ * Note: Exports as .csv (not binary .xlsx) for universal compatibility
  */
 export function exportToExcel<T extends Record<string, unknown>>(
   data: T[],
@@ -115,9 +116,10 @@ export function exportToExcel<T extends Record<string, unknown>>(
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     
+    // Use .csv extension (not .xlsx) since we're exporting CSV format
     const fileWithExtension = filename.endsWith('.csv') 
-      ? filename.replace('.csv', '.xlsx') 
-      : `${filename}.xlsx`;
+      ? filename
+      : `${filename}.csv`;
     
     link.setAttribute('download', fileWithExtension);
     link.style.visibility = 'hidden';

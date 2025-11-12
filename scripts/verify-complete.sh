@@ -122,29 +122,34 @@ echo ""
 echo "🔍 [8/8] Verifying audit completeness..."
 AUDIT_STATUS="PASS"
 
-# Lista toate features
-ls apps/admin/features/ | sort > /tmp/features-verify.txt
-
-# Lista toate rapoartele
-find audit-reports -maxdepth 1 -type d -name "apps-admin-features-*" | sed 's#audit-reports/apps-admin-features-##' | sort > /tmp/reports-verify.txt
-
-# Compară
-DIFF_OUTPUT=$(diff /tmp/features-verify.txt /tmp/reports-verify.txt 2>&1)
-
-if [ -z "$DIFF_OUTPUT" ]; then
-  FEATURES_COUNT=$(wc -l < /tmp/features-verify.txt | tr -d ' ')
-  echo "✅ Audit completeness: $FEATURES_COUNT features = $FEATURES_COUNT reports (1:1 match)"
+# Skip if audit-reports doesn't exist (normal in CI)
+if [ ! -d "audit-reports" ]; then
+  echo "⏭️  Audit completeness: SKIPPED (audit-reports not found, normal in CI)"
 else
-  echo "❌ Audit completeness: MISMATCH detected!"
-  echo ""
-  echo "Missing or extra reports:"
-  echo "$DIFF_OUTPUT"
-  AUDIT_STATUS="FAIL"
-  EXIT_CODE=1
+  # Lista toate features
+  ls apps/admin/features/ | sort > /tmp/features-verify.txt
+  
+  # Lista toate rapoartele
+  find audit-reports -maxdepth 1 -type d -name "apps-admin-features-*" | sed 's#audit-reports/apps-admin-features-##' | sort > /tmp/reports-verify.txt
+  
+  # Compară
+  DIFF_OUTPUT=$(diff /tmp/features-verify.txt /tmp/reports-verify.txt 2>&1)
+  
+  if [ -z "$DIFF_OUTPUT" ]; then
+    FEATURES_COUNT=$(wc -l < /tmp/features-verify.txt | tr -d ' ')
+    echo "✅ Audit completeness: $FEATURES_COUNT features = $FEATURES_COUNT reports (1:1 match)"
+  else
+    echo "❌ Audit completeness: MISMATCH detected!"
+    echo ""
+    echo "Missing or extra reports:"
+    echo "$DIFF_OUTPUT"
+    AUDIT_STATUS="FAIL"
+    EXIT_CODE=1
+  fi
+  
+  # Cleanup
+  rm -f /tmp/features-verify.txt /tmp/reports-verify.txt
 fi
-
-# Cleanup
-rm -f /tmp/features-verify.txt /tmp/reports-verify.txt
 echo ""
 
 # ========================================

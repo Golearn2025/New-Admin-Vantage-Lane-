@@ -5,20 +5,19 @@
 
 'use client';
 
-import React from 'react';
-import { StatusBadge } from '@vantage-lane/ui-core';
 import type { BookingStatus } from '@vantage-lane/ui-core';
-import { Route, Clock, Calendar, Plane, User, Luggage, CreditCard, MapPin } from 'lucide-react';
+import { StatusBadge } from '@vantage-lane/ui-core';
+import { Calendar, Clock, CreditCard, Luggage, MapPin, Plane, Route, User } from 'lucide-react';
 import { VehicleChip, type VehicleCategory } from './VehicleChip';
+import styles from './columns.module.css';
 import {
   formatDate,
-  formatTime,
   formatLocation,
   formatPrice,
   formatServiceName,
+  formatTime,
   formatVehicleModel,
 } from './helpers';
-import styles from './columns.module.css';
 import type { BookingColumn } from './schema';
 
 export const getRouteColumn = (): BookingColumn => ({
@@ -150,7 +149,7 @@ export const getStatusColumn = (): BookingColumn => ({
     <StatusBadge
       status={row.status as BookingStatus}
       isUrgent={row.is_urgent}
-      isNew={row.status === 'pending'}  // ✅ NEW = status pending (neasignat încă)
+      isNew={row.status === 'pending'} // ✅ NEW = status pending (neasignat încă)
       showIcon={true}
       size="md"
     />

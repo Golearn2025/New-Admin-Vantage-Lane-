@@ -1,13 +1,12 @@
 /**
  * ProfileTab Component
- * 
+ *
  * Driver profile information with edit capabilities
  */
 
-import React from 'react';
-import type { DriverProfileData, DocumentData } from '@entities/driver';
-import { Card, Avatar, Badge } from '@vantage-lane/ui-core';
-import { Star, Mail, Phone, Calendar, Award } from 'lucide-react';
+import type { DocumentData, DriverProfileData } from '@entities/driver';
+import { Avatar, Badge, Card } from '@vantage-lane/ui-core';
+import { Award, Calendar, Mail, Phone, Star } from 'lucide-react';
 import styles from '../driver-profile.module.css';
 
 interface ProfileTabProps {
@@ -43,19 +42,19 @@ function formatDate(dateString: string | null | undefined): string {
  */
 function getLicenseDocument(documents?: DocumentData[]): DocumentData | null {
   if (!documents) return null;
-  return documents.find(d => 
-    d.documentType === 'license' || 
-    d.documentType === 'driving_licence'
-  ) || null;
+  return (
+    documents.find((d) => d.documentType === 'license' || d.documentType === 'driving_licence') ||
+    null
+  );
 }
 
 export function ProfileTab({ driver, documents }: ProfileTabProps) {
   const licenseDoc = getLicenseDocument(documents);
-  const licenseExpiring = licenseDoc?.expiryDate 
-    ? getDaysUntilExpiry(licenseDoc.expiryDate) <= 30 
+  const licenseExpiring = licenseDoc?.expiryDate
+    ? getDaysUntilExpiry(licenseDoc.expiryDate) <= 30
     : false;
-  const pcoExpiring = driver.pcoLicenseExpiry 
-    ? getDaysUntilExpiry(driver.pcoLicenseExpiry) <= 30 
+  const pcoExpiring = driver.pcoLicenseExpiry
+    ? getDaysUntilExpiry(driver.pcoLicenseExpiry) <= 30
     : false;
 
   return (
@@ -69,10 +68,7 @@ export function ProfileTab({ driver, documents }: ProfileTabProps) {
               size="xl"
             />
           ) : (
-            <Avatar
-              alt={`${driver.firstName} ${driver.lastName}`}
-              size="xl"
-            />
+            <Avatar alt={`${driver.firstName} ${driver.lastName}`} size="xl" />
           )}
           <div className={styles.profileInfo}>
             <h2 className={styles.profileName}>
@@ -121,10 +117,7 @@ export function ProfileTab({ driver, documents }: ProfileTabProps) {
               <span>Driver License</span>
             </div>
             <div className={styles.licenseInfo}>
-              <Badge 
-                color={licenseDoc.status === 'approved' ? 'success' : 'warning'} 
-                size="sm"
-              >
+              <Badge color={licenseDoc.status === 'approved' ? 'success' : 'warning'} size="sm">
                 {licenseDoc.status}
               </Badge>
               {licenseDoc.expiryDate && (

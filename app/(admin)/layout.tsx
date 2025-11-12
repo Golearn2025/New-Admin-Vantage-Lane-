@@ -10,6 +10,8 @@
 import { usePathname } from 'next/navigation';
 import { AppShell, UserRole } from '@admin-shared/ui/composed/appshell';
 import { useCurrentUser } from '@admin-shared/hooks/useCurrentUser';
+import { useNewBookingRealtime } from '../../apps/admin/shared/hooks/useNewBookingRealtime';
+import { NotificationsProvider } from '@admin-shared/providers/NotificationsProvider';
 import styles from './layout.module.css';
 
 interface AdminLayoutProps {
@@ -18,6 +20,10 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
+  
+  // 🔊 CRITICAL: Hook-urile TREBUIE să fie primele - înainte de orice condiție!
+  useNewBookingRealtime();
+  
   const { user, loading } = useCurrentUser();
 
   // Determine role from user data or fallback to admin
@@ -29,8 +35,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <AppShell role={userRole} currentPath={pathname} {...(user && { user })}>
-      {children}
-    </AppShell>
+    <NotificationsProvider>
+      <AppShell role={userRole} currentPath={pathname} {...(user && { user })}>
+        {children}
+      </AppShell>
+    </NotificationsProvider>
   );
 }

@@ -1,17 +1,17 @@
 /**
  * All Bookings Page (Overview)
  *
- * Shows all bookings across all states
- * Use /bookings/active or /bookings/past for filtered views
+ * Shows all bookings with tabs for trip types (One Way, Return, etc.)
+ * No status filter - shows ALL bookings regardless of status
  */
 
-import { BookingsTable } from '@features/bookings-table';
+import { BookingsWithTabs } from '@features/bookings-table';
 
 export default function AllBookingsPage() {
   return (
-    <BookingsTable
+    <BookingsWithTabs
       title="All Bookings"
-      description="Overview of all bookings"
+      description="Overview of all bookings by type"
       showStatusFilter={true}
     />
   );

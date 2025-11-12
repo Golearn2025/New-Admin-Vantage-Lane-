@@ -150,7 +150,9 @@ async function fetchLegs(supabase: SupabaseClient, bookingIds: string[]) {
 async function fetchPricing(supabase: SupabaseClient, bookingIds: string[]) {
   const { data, error } = await supabase
     .from('booking_pricing')
-    .select('booking_id, price, currency, payment_method, payment_status, platform_fee, operator_net, driver_payout, platform_commission_pct, driver_commission_pct')
+    .select(
+      'booking_id, price, currency, payment_method, payment_status, platform_fee, operator_net, driver_payout, platform_commission_pct, driver_commission_pct'
+    )
     .in('booking_id', bookingIds);
 
   if (error) {
@@ -232,12 +234,18 @@ async function fetchVehicles(supabase: SupabaseClient, vehicleIds: string[]) {
   return data || [];
 }
 
-function mapStatusToDb(status: 'pending' | 'active' | 'completed' | 'cancelled'): string {
+function mapStatusToDb(status: 'pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress' | 'completed' | 'cancelled'): string {
   switch (status) {
     case 'pending':
       return 'NEW';
-    case 'active':
+    case 'assigned':
       return 'ASSIGNED';
+    case 'en_route':
+      return 'EN_ROUTE';
+    case 'arrived':
+      return 'ARRIVED';
+    case 'in_progress':
+      return 'IN_PROGRESS';
     case 'completed':
       return 'COMPLETED';
     case 'cancelled':

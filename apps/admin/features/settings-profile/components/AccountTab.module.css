@@ -89,48 +89,95 @@
   text-shadow: 0 0 12px var(--color-success-alpha-50);
 }
 
-/* Organization Card */
+/* Default Operator Styles */
 .orgCard {
   display: flex;
   align-items: center;
-  gap: var(--spacing-5);
-  padding: var(--spacing-7);
-  background: linear-gradient(135deg, var(--color-bg-overlay-50), var(--color-primary-alpha-8));
-  border: var(--border-width-md) solid var(--color-primary-alpha-25);
-  border-radius: var(--radius-xl);
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  background-color: var(--color-surface-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+}
+
+.orgCard:hover {
+  border-color: var(--color-border-hover);
+  background-color: var(--color-surface-tertiary);
 }
 
 .orgIcon {
-  font-size: var(--font-5xl);
-  filter: drop-shadow(0 0 16px var(--color-primary-alpha-40));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-12);
+  height: var(--size-12);
+  background-color: var(--color-primary-alpha-10);
+  border-radius: var(--radius-md);
+  color: var(--color-primary);
 }
 
 .orgContent {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
-  flex: 1;
+  gap: var(--spacing-1);
 }
 
 .orgLabel {
   font-size: var(--font-sm);
-  font-weight: 700;
-  color: var(--color-primary-alpha-80);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.025em;
 }
 
 .orgValue {
-  font-size: var(--font-xl);
-  font-weight: 800;
-  color: var(--color-primary);
-  text-shadow: 0 0 20px var(--color-primary-alpha-40);
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
 }
 
 .orgHint {
-  font-size: var(--font-sm);
-  color: var(--color-primary-alpha-60);
+  font-size: var(--font-xs);
+  color: var(--color-text-tertiary);
   font-style: italic;
+}
+
+/* Sound Notification Settings - 100% DESIGN TOKENS */
+.soundSettings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.soundControl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  background-color: var(--color-surface-tertiary);
+  border-radius: var(--radius-md);
+}
+
+.volumeControl {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3);
+  background-color: var(--color-surface-secondary);
+  border-radius: var(--radius-sm);
+}
+
+.volumeLabel {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.muteAllControl {
+  padding: var(--spacing-3);
+  border-top: 1px solid var(--color-border);
 }
 
 /* Responsive */

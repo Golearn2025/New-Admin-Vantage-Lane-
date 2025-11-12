@@ -1,15 +1,15 @@
 /**
  * useUserDropdown Hook
- * 
+ *
  * Centralized user dropdown menu logic.
  * Zero logic in UI component - all state management here.
  */
 
 'use client';
 
-import { useMemo, useCallback } from 'react';
-import { Settings, User, LogOut } from 'lucide-react';
 import { useLogout } from '@admin-shared/hooks';
+import { LogOut, Settings, User } from 'lucide-react';
+import { useCallback, useMemo } from 'react';
 
 export interface UseUserDropdownProps {
   onClose: () => void;

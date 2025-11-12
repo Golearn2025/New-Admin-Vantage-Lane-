@@ -8,15 +8,21 @@
  * Refactored: All inline styles moved to CSS module
  */
 
-import React, { useState, useCallback } from 'react';
-import { EnterpriseDataTable, useSelection, useSorting, useColumnResize, Pagination } from '@vantage-lane/ui-core';
 import type { BookingListItem } from '@vantage-lane/contracts';
+import {
+  EnterpriseDataTable,
+  Pagination,
+  useColumnResize,
+  useSelection,
+  useSorting,
+} from '@vantage-lane/ui-core';
+import React, { useCallback, useState } from 'react';
+import { getBookingsColumns } from '../columns';
 import { useBookingsList } from '../hooks/useBookingsList';
 import { BookingExpandedRow } from './BookingExpandedRow';
+import styles from './BookingsTable.module.css';
 import { BulkActionsBar } from './BulkActionsBar';
 import { TableActionBar } from './TableActionBar';
-import { getBookingsColumns } from '../columns';
-import styles from './BookingsTable.module.css';
 
 interface BookingsTableProps {
   statusFilter?: string[];
@@ -52,7 +58,7 @@ export function BookingsTable({
 
   // Update totalCount when data arrives
   React.useEffect(() => {
-    setPagination(p => ({ ...p, totalCount: totalCount }));
+    setPagination((p) => ({ ...p, totalCount: totalCount }));
   }, [totalCount]);
 
   // Use EnterpriseDataTable hooks
@@ -80,16 +86,17 @@ export function BookingsTable({
   const pageSizeOptions = React.useMemo(() => [10, 25, 50, -1], []); // -1 = All rows
 
   // Calculate total pages
-  const totalPages = pagination.pageSize === -1 
-    ? 1 
-    : Math.max(1, Math.ceil(pagination.totalCount / pagination.pageSize));
+  const totalPages =
+    pagination.pageSize === -1
+      ? 1
+      : Math.max(1, Math.ceil(pagination.totalCount / pagination.pageSize));
 
   // Get columns with expand button column
   const columns = React.useMemo(() => {
     const allColumns = getBookingsColumns();
     // Filter out select and old expand columns
     const filteredColumns = allColumns.filter((col) => col.id !== 'select' && col.id !== 'expand');
-    
+
     // Add expand column with chevron button at start
     const expandColumn = {
       id: '__expand__',
@@ -112,7 +119,7 @@ export function BookingsTable({
         </button>
       ),
     };
-    
+
     return [expandColumn, ...filteredColumns];
   }, [expandedIds, toggleExpand]);
 
@@ -134,16 +141,12 @@ export function BookingsTable({
         onRefresh={() => fetchBookings()}
         onStatusChange={(status) => {
           setSelectedStatus(status);
-          setPagination(p => ({ ...p, pageIndex: 0 }));
+          setPagination((p) => ({ ...p, pageIndex: 0 }));
         }}
       />
 
       {/* Error state */}
-      {error && (
-        <div className={styles.errorState}>
-          {error}
-        </div>
-      )}
+      {error && <div className={styles.errorState}>{error}</div>}
 
       {/* Table */}
       <div className={styles.tableContainer}>
@@ -173,14 +176,14 @@ export function BookingsTable({
           totalItems={pagination.totalCount}
           pageSize={pagination.pageSize === -1 ? pagination.totalCount : pagination.pageSize}
           pageSizeOptions={pageSizeOptions}
-          onPageChange={(page) => setPagination(p => ({ ...p, pageIndex: page - 1 }))}
+          onPageChange={(page) => setPagination((p) => ({ ...p, pageIndex: page - 1 }))}
           onPageSizeChange={(newSize) => {
             if (newSize === -1) {
               // "All" selected - show all rows
-              setPagination(p => ({ pageIndex: 0, pageSize: -1, totalCount: p.totalCount }));
+              setPagination((p) => ({ pageIndex: 0, pageSize: -1, totalCount: p.totalCount }));
             } else {
               // Normal page size
-              setPagination(p => ({ pageIndex: 0, pageSize: newSize, totalCount: p.totalCount }));
+              setPagination((p) => ({ pageIndex: 0, pageSize: newSize, totalCount: p.totalCount }));
             }
           }}
           showInfo={true}

@@ -1,23 +1,23 @@
 /**
  * Document Card Component
- * 
+ *
  * Reusable card for displaying document with:
  * - Name & description
  * - Status badge
  * - Upload button
  * - Expiry date (if applicable)
- * 
+ *
  * 100% UI-core components
  */
 
 'use client';
 
-import React from 'react';
-import { Card, Badge, Button } from '@vantage-lane/ui-core';
+import type { DocumentStatus, DocumentType } from '@entities/document';
+import { getDocumentDescription, getDocumentLabel, requiresExpiryDate } from '@entities/document';
 import type { BadgeColor } from '@vantage-lane/ui-core';
-import { Upload, Clock, AlertCircle, Check, X } from 'lucide-react';
-import { getDocumentLabel, getDocumentDescription, requiresExpiryDate } from '@entities/document';
-import type { DocumentType, DocumentStatus } from '@entities/document';
+import { Badge, Button, Card } from '@vantage-lane/ui-core';
+import { AlertCircle, Check, Clock, Upload, X } from 'lucide-react';
+import React from 'react';
 import styles from './DocumentCard.module.css';
 
 interface Document {
@@ -35,13 +35,14 @@ interface DocumentCardProps {
   onUpload: (documentType: DocumentType) => void;
 }
 
-const STATUS_CONFIG: Record<DocumentStatus, { icon: React.ComponentType<any>; color: BadgeColor }> = {
-  approved: { icon: Check, color: 'success' },
-  pending: { icon: Clock, color: 'warning' },
-  rejected: { icon: X, color: 'danger' },
-  expired: { icon: AlertCircle, color: 'danger' },
-  expiring_soon: { icon: AlertCircle, color: 'warning' },
-};
+const STATUS_CONFIG: Record<DocumentStatus, { icon: React.ComponentType<any>; color: BadgeColor }> =
+  {
+    approved: { icon: Check, color: 'success' },
+    pending: { icon: Clock, color: 'warning' },
+    rejected: { icon: X, color: 'danger' },
+    expired: { icon: AlertCircle, color: 'danger' },
+    expiring_soon: { icon: AlertCircle, color: 'warning' },
+  };
 
 export function DocumentCard({ documentType, document, onUpload }: DocumentCardProps) {
   const label = getDocumentLabel(documentType);
@@ -58,7 +59,7 @@ export function DocumentCard({ documentType, document, onUpload }: DocumentCardP
           <p className={styles.description}>{description}</p>
         </div>
         {document && document.status ? (
-          <Badge 
+          <Badge
             color={STATUS_CONFIG[document.status].color}
             size="sm"
             variant="solid"

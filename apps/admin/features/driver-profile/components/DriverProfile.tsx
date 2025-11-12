@@ -1,22 +1,22 @@
 /**
  * DriverProfile Component
- * 
+ *
  * Main driver profile page with tabs for Profile, Documents, Vehicle, Operators
  */
 
 'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { Tabs, Button, ErrorBanner, Badge } from '@vantage-lane/ui-core';
-import { useDriverProfile } from '../hooks/useDriverProfile';
-import { useDriverActions } from '../hooks/useDriverActions';
 import { createClient } from '@/lib/supabase/client';
-import { ProfileTab } from './ProfileTab';
-import { DocumentsTab } from './DocumentsTab';
-import { VehicleTab } from './VehicleTab';
-import { OperatorsTab } from './OperatorsTab';
+import { Badge, Button, ErrorBanner, Tabs } from '@vantage-lane/ui-core';
+import { useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import styles from '../driver-profile.module.css';
+import { useDriverActions } from '../hooks/useDriverActions';
+import { useDriverProfile } from '../hooks/useDriverProfile';
+import { DocumentsTab } from './DocumentsTab';
+import { OperatorsTab } from './OperatorsTab';
+import { ProfileTab } from './ProfileTab';
+import { VehicleTab } from './VehicleTab';
 
 interface DriverProfileProps {
   driverId: string;
@@ -41,7 +41,9 @@ export function DriverProfile({ driverId }: DriverProfileProps) {
   useEffect(() => {
     async function fetchAdminId() {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (user?.id) {
         setAdminId(user.id);
       }
@@ -72,7 +74,7 @@ export function DriverProfile({ driverId }: DriverProfileProps) {
       alert('Admin user not found. Please refresh the page.');
       return;
     }
-    
+
     try {
       await approveDriver(driverId, adminId);
       mutate();
@@ -121,44 +123,26 @@ export function DriverProfile({ driverId }: DriverProfileProps) {
 
         <div className={styles.actions}>
           {!driver.isApproved && (
-            <Button
-              variant="primary"
-              onClick={handleApprove}
-              disabled={isActionLoading}
-            >
+            <Button variant="primary" onClick={handleApprove} disabled={isActionLoading}>
               Approve Driver
             </Button>
           )}
 
           {driver.isActive ? (
-            <Button
-              variant="danger"
-              onClick={handleDeactivate}
-              disabled={isActionLoading}
-            >
+            <Button variant="danger" onClick={handleDeactivate} disabled={isActionLoading}>
               Deactivate
             </Button>
           ) : (
-            <Button
-              variant="primary"
-              onClick={handleActivate}
-              disabled={isActionLoading}
-            >
+            <Button variant="primary" onClick={handleActivate} disabled={isActionLoading}>
               Activate
             </Button>
           )}
         </div>
       </div>
 
-      {actionError && (
-        <ErrorBanner message={actionError} />
-      )}
+      {actionError && <ErrorBanner message={actionError} />}
 
-      <Tabs
-        tabs={tabs}
-        activeTab={activeTab}
-        onChange={setActiveTab}
-      />
+      <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
 
       <div className={styles.content}>
         {activeTab === 'profile' && <ProfileTab driver={driver} onUpdate={mutate} />}

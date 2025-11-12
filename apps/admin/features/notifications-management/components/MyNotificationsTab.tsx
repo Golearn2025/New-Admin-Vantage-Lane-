@@ -7,13 +7,13 @@ import React, { useState } from 'react';
  * My Notifications Tab
  * View and manage personal notifications
  */
-import { useNotifications } from '@admin-shared/hooks/useNotifications';
+import { useNotificationsContext } from '@admin-shared/providers/NotificationsProvider';
 import { Button, Input } from '@vantage-lane/ui-core';
 import { formatNotificationDate } from '@admin-shared/utils/formatDate';
 import styles from './MyNotificationsTab.module.css';
 
 export function MyNotificationsTab() {
-  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotificationsContext();
   const [filter, setFilter] = useState<'all' | 'unread' | 'read'>('all');
   const [search, setSearch] = useState('');
 

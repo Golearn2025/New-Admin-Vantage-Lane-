@@ -7,15 +7,14 @@
 
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
-import { Icon } from '@vantage-lane/ui-icons';
-import { BrandName } from '@admin-shared/ui/composed/BrandName';
-import { NavItem } from './NavItem';
-import { SidebarNavProps } from './types';
 import { signOutAction } from '@admin-shared/api/auth/actions';
+import { BrandName } from '@admin-shared/ui/composed/BrandName';
+import { Icon } from '@vantage-lane/ui-icons';
+import Image from 'next/image';
 import { useSidebarNavigation } from './hooks';
+import { NavItem } from './NavItem';
 import styles from './SidebarNav.module.css';
+import { SidebarNavProps } from './types';
 
 export function SidebarNav({
   role,

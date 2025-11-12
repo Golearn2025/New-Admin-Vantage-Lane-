@@ -6,7 +6,7 @@
  */
 
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { NextResponse, NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import './lib/config/env'; // Validate environment variables at startup
 
 export async function middleware(request: NextRequest) {
@@ -105,7 +105,7 @@ export async function middleware(request: NextRequest) {
     if (user) {
       const role = user.user_metadata?.role ?? 'operator';
       let redirectPath = '/dashboard';
-      
+
       if (role === 'admin') {
         redirectPath = '/dashboard';
       } else if (role === 'operator') {
@@ -113,7 +113,7 @@ export async function middleware(request: NextRequest) {
       } else if (role === 'driver') {
         redirectPath = '/driver/dashboard';
       }
-      
+
       const redirectUrl = new URL(redirectPath, request.url);
       return NextResponse.redirect(redirectUrl);
     }

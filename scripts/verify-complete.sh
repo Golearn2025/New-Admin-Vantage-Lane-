@@ -119,12 +119,12 @@ echo ""
 # ========================================
 # 8. VERIFY AUDIT COMPLETENESS (1:1 match)
 # ========================================
-echo "🔍 [8/8] Verifying audit completeness..."
+echo "[8/8] Verifying audit completeness..."
 AUDIT_STATUS="PASS"
 
 # Skip if audit-reports doesn't exist (normal in CI)
 if [ ! -d "audit-reports" ]; then
-  echo "⏭️  Audit completeness: SKIPPED (audit-reports not found, normal in CI)"
+  echo "=> Audit completeness: SKIPPED (audit-reports not found, normal in CI)"
 else
   # Lista toate features
   ls apps/admin/features/ | sort > /tmp/features-verify.txt
@@ -134,7 +134,7 @@ else
   
   # Skip if no reports found (audit-reports exists but empty)
   if [ ! -s /tmp/reports-verify.txt ]; then
-    echo "⏭️  Audit completeness: SKIPPED (no audit reports found, normal in CI)"
+    echo "=> Audit completeness: SKIPPED (no audit reports found, normal in CI)"
     rm -f /tmp/features-verify.txt /tmp/reports-verify.txt
     echo ""
     # Continue without setting EXIT_CODE
@@ -144,9 +144,9 @@ else
     
     if [ -z "$DIFF_OUTPUT" ]; then
       FEATURES_COUNT=$(wc -l < /tmp/features-verify.txt | tr -d ' ')
-      echo "✅ Audit completeness: $FEATURES_COUNT features = $FEATURES_COUNT reports (1:1 match)"
+      echo "=> Audit completeness: $FEATURES_COUNT features = $FEATURES_COUNT reports (1:1 match) - PASS"
     else
-      echo "❌ Audit completeness: MISMATCH detected!"
+      echo "=> Audit completeness: MISMATCH detected - FAIL"
       echo ""
       echo "Missing or extra reports:"
       echo "$DIFF_OUTPUT"

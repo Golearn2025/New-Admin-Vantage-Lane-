@@ -20,7 +20,7 @@ const adminMenu: NavMenuItem[] = [
     icon: 'users',
     label: 'Users',
     href: '/users',
-    children: ['/users/all', '/users/drivers', '/users/drivers/pending', '/users/customers', '/users/operators', '/users/admins'],
+    children: ['/users/all', '/users/drivers', '/users/drivers/pending', '/users/customers', '/users/operators', '/users/admins', '/users/assign-drivers-to-operators'],
   },
   { icon: 'documents', label: 'Documents', href: '/documents' },
   { icon: 'bell', label: 'Notifications', href: '/notifications' },
@@ -45,19 +45,22 @@ const adminMenu: NavMenuItem[] = [
   },
 ];
 
-// Operator - Acces limitat
+// Operator - Acces limitat (folosește aceleași pagini ca admin, doar meniul e filtrat)
 const operatorMenu: NavMenuItem[] = [
-  { icon: 'dashboard', label: 'Dashboard', href: '/operator/dashboard' },
-  {
-    icon: 'users',
-    label: 'My Drivers',
-    href: '/operator/drivers',
-    children: ['/operator/drivers'],
-  },
+  { icon: 'dashboard', label: 'Dashboard', href: '/dashboard' },
   { icon: 'calendar', label: 'Bookings', href: '/bookings' },
   { icon: 'documents', label: 'Documents', href: '/documents' },
   { icon: 'support', label: 'Support', href: '/support-tickets' },
-  { icon: 'settings', label: 'Settings', href: '/settings/profile' }, // Settings limitat
+  { icon: 'settings', label: 'Settings', href: '/settings/profile' },
+];
+
+// Driver - Acces limitat (folosește aceleași pagini ca admin, doar meniul e filtrat)
+const driverMenu: NavMenuItem[] = [
+  { icon: 'dashboard', label: 'Dashboard', href: '/dashboard' },
+  { icon: 'calendar', label: 'My Trips', href: '/bookings' },
+  { icon: 'documents', label: 'Documents', href: '/documents' },
+  { icon: 'support', label: 'Support', href: '/support-tickets' },
+  { icon: 'settings', label: 'Settings', href: '/settings/profile' },
 ];
 
 /**
@@ -69,6 +72,8 @@ export function getMenuForRole(role: UserRole): NavMenuItem[] {
       return adminMenu;
     case 'operator':
       return operatorMenu;
+    case 'driver':
+      return driverMenu;
     default:
       return [];
   }

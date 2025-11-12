@@ -62,14 +62,14 @@
 }
 
 .icon {
-  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
 }
 
 .cardTitle {
   flex: 1;
-}
-
-.cardTitle h3 {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);

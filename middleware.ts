@@ -63,6 +63,7 @@ export async function middleware(request: NextRequest) {
   );
 
   // Check auth for protected routes
+  // TEMPORARY: /operator and /driver are NOT protected (for development)
   const isProtectedRoute =
     (request.nextUrl.pathname.startsWith('/dashboard') ||
       request.nextUrl.pathname.startsWith('/bookings') ||
@@ -95,7 +96,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // If user is authenticated and tries to access login, redirect to dashboard
+  // If user is authenticated and tries to access login, redirect based on role
   if (request.nextUrl.pathname === '/login') {
     const {
       data: { user },
@@ -103,7 +104,16 @@ export async function middleware(request: NextRequest) {
 
     if (user) {
       const role = user.user_metadata?.role ?? 'operator';
-      const redirectPath = role === 'admin' ? '/dashboard' : '/bookings';
+      let redirectPath = '/dashboard';
+      
+      if (role === 'admin') {
+        redirectPath = '/dashboard';
+      } else if (role === 'operator') {
+        redirectPath = '/operator/dashboard';
+      } else if (role === 'driver') {
+        redirectPath = '/driver/dashboard';
+      }
+      
       const redirectUrl = new URL(redirectPath, request.url);
       return NextResponse.redirect(redirectUrl);
     }

@@ -9,6 +9,7 @@
 
 import React, { useState } from 'react';
 import { Button, Input } from '@vantage-lane/ui-core';
+import { Car, Gem, Bus, Truck } from 'lucide-react';
 import { useSettingsVehicleCategories } from '../hooks/useSettingsVehicleCategories';
 import type { VehicleCategory } from '../types';
 import styles from './SettingsVehicleCategories.module.css';
@@ -37,13 +38,13 @@ export function SettingsVehicleCategories() {
   };
 
   const getCategoryIcon = (code: string) => {
-    const icons: Record<string, string> = {
-      EXEC: '🎩',
-      LUX: '💎',
-      VAN: '🚐',
-      SUV: '🚙',
+    const icons: Record<string, React.ReactNode> = {
+      EXEC: <Car className="h-6 w-6" />,
+      LUX: <Gem className="h-6 w-6" />,
+      VAN: <Bus className="h-6 w-6" />,
+      SUV: <Truck className="h-6 w-6" />,
     };
-    return icons[code] || '🚗';
+    return icons[code] || <Car className="h-6 w-6" />;
   };
 
   return (
@@ -73,12 +74,10 @@ export function SettingsVehicleCategories() {
               <div key={category.id} className={styles.card}>
                 <div className={styles.cardHeader}>
                   <span className={styles.icon}>{getCategoryIcon(category.code)}</span>
-                  <div className={styles.cardTitle}>
-                    <h3>{category.code}</h3>
-                    <span className={category.isActive ? styles.active : styles.inactive}>
-                      {category.isActive ? 'Active' : 'Inactive'}
-                    </span>
-                  </div>
+                  <h3 className={styles.cardTitle}>{category.code}</h3>
+                  <span className={category.isActive ? styles.active : styles.inactive}>
+                    {category.isActive ? 'Active' : 'Inactive'}
+                  </span>
                 </div>
 
                 <div className={styles.cardBody}>

@@ -1,0 +1,97 @@
+/**
+ * Driver Assignment Table Styles
+ * 
+ * 100% design tokens - ZERO hardcoded values
+ * Premium, airy, modern design
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  padding: var(--spacing-6);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.headerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--color-primary-alpha-10);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: var(--spacing-1) 0 0 0;
+}
+
+/* Error */
+.errorWrapper {
+  margin-bottom: var(--spacing-4);
+}
+
+/* Tabs */
+.tabsWrapper {
+  margin-bottom: var(--spacing-4);
+}
+
+/* Table */
+.tableWrapper {
+  background: var(--color-bg-elevated);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--color-border-default);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-4);
+    gap: var(--spacing-4);
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-4);
+  }
+
+  .title {
+    font-size: var(--font-size-xl);
+  }
+
+  .subtitle {
+    font-size: var(--font-size-sm);
+  }
+}

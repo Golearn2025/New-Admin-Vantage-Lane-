@@ -1,19 +1,36 @@
 /**
  * VehicleTab Component
- * 
+ *
  * Driver vehicle information display
  */
 
-import React, { useState, useEffect } from 'react';
-import { Card, Badge, ErrorBanner, Button, ConfirmDialog, Input } from '@vantage-lane/ui-core';
-import { Car, Calendar, Shield, Users, Briefcase, CheckCircle, XCircle, Trash2, Plus, Edit2, Save, X as XIcon } from 'lucide-react';
-import { useDriverVehicle } from '../hooks/useDriverVehicle';
-import { VehicleApprovalCard } from './VehicleApprovalCard';
 import { createClient } from '@/lib/supabase/client';
 import { deleteVehicle, updateVehicle } from '@entities/vehicle';
-import { VEHICLE_YEARS, VEHICLE_COLORS, VEHICLE_MAKES, getModelsForMake } from '@entities/vehicle/constants/vehicleData';
-import type { VehicleData } from '@entities/driver';
+import {
+  VEHICLE_COLORS,
+  VEHICLE_MAKES,
+  VEHICLE_YEARS,
+  getModelsForMake,
+} from '@entities/vehicle/constants/vehicleData';
+import { Badge, Button, Card, ConfirmDialog, ErrorBanner, Input } from '@vantage-lane/ui-core';
+import {
+  Briefcase,
+  Calendar,
+  Car,
+  CheckCircle,
+  Edit2,
+  Plus,
+  Save,
+  Shield,
+  Trash2,
+  Users,
+  XCircle,
+  X as XIcon,
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 import styles from '../driver-profile.module.css';
+import { useDriverVehicle } from '../hooks/useDriverVehicle';
+import { VehicleApprovalCard } from './VehicleApprovalCard';
 
 interface VehicleTabProps {
   driverId: string;
@@ -40,12 +57,14 @@ function formatDate(dateString: string): string {
   });
 }
 
-
 export function VehicleTab({ driverId }: VehicleTabProps) {
   const { vehicles, isLoading, error, mutate } = useDriverVehicle(driverId);
   const [adminId, setAdminId] = useState<string>('');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [vehicleToDelete, setVehicleToDelete] = useState<{ id: string; licensePlate: string } | null>(null);
+  const [vehicleToDelete, setVehicleToDelete] = useState<{
+    id: string;
+    licensePlate: string;
+  } | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editingVehicleId, setEditingVehicleId] = useState<string | null>(null);
   const [editFormData, setEditFormData] = useState<any>({});
@@ -54,7 +73,9 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
   useEffect(() => {
     async function getAdminId() {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (user) {
         setAdminId(user.id);
       }
@@ -74,7 +95,10 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
     return (
       <Card>
         <div style={{ textAlign: 'center', padding: 'var(--spacing-6)' }}>
-          <Car size={48} style={{ color: 'var(--color-text-tertiary)', margin: '0 auto var(--spacing-4)' }} />
+          <Car
+            size={48}
+            style={{ color: 'var(--color-text-tertiary)', margin: '0 auto var(--spacing-4)' }}
+          />
           <p className={styles.emptyMessage} style={{ marginBottom: 'var(--spacing-4)' }}>
             No vehicle assigned to this driver yet.
           </p>
@@ -84,7 +108,9 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
               size="md"
               leftIcon={<Plus size={16} />}
               onClick={() => {
-                alert('Add Vehicle functionality - to be implemented.\n\nThis will open a modal to add a new vehicle for this driver.');
+                alert(
+                  'Add Vehicle functionality - to be implemented.\n\nThis will open a modal to add a new vehicle for this driver.'
+                );
               }}
             >
               Add Vehicle
@@ -162,8 +188,17 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
         return (
           <div key={vehicle.id} style={{ marginBottom: 'var(--spacing-4)' }}>
             <Card>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--spacing-3)' }}>
-                <h3 className={styles.sectionTitle} style={{ marginBottom: 0 }}>Vehicle Information</h3>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: 'var(--spacing-3)',
+                }}
+              >
+                <h3 className={styles.sectionTitle} style={{ marginBottom: 0 }}>
+                  Vehicle Information
+                </h3>
                 {!isEditing && adminId && (
                   <Button
                     variant="outline"
@@ -189,13 +224,13 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                       value={editFormData.make}
                       onChange={(e) => {
                         const newMake = e.target.value;
-                        setEditFormData({ 
-                          ...editFormData, 
+                        setEditFormData({
+                          ...editFormData,
                           make: newMake,
                           model: '', // Reset model when make changes
                         });
                       }}
-                      style={{ 
+                      style={{
                         maxWidth: '200px',
                         padding: 'var(--spacing-2)',
                         borderRadius: 'var(--border-radius-md)',
@@ -205,7 +240,9 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                     >
                       <option value="">Select make...</option>
                       {VEHICLE_MAKES.map((make) => (
-                        <option key={make.value} value={make.label}>{make.label}</option>
+                        <option key={make.value} value={make.label}>
+                          {make.label}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -220,7 +257,7 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                       value={editFormData.model}
                       onChange={(e) => setEditFormData({ ...editFormData, model: e.target.value })}
                       disabled={!editFormData.make}
-                      style={{ 
+                      style={{
                         maxWidth: '200px',
                         padding: 'var(--spacing-2)',
                         borderRadius: 'var(--border-radius-md)',
@@ -229,9 +266,12 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                       }}
                     >
                       <option value="">Select model...</option>
-                      {editFormData.make && getModelsForMake(editFormData.make).map((model) => (
-                        <option key={model.value} value={model.label}>{model.label}</option>
-                      ))}
+                      {editFormData.make &&
+                        getModelsForMake(editFormData.make).map((model) => (
+                          <option key={model.value} value={model.label}>
+                            {model.label}
+                          </option>
+                        ))}
                     </select>
                   </div>
 
@@ -243,8 +283,10 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                     </div>
                     <select
                       value={editFormData.year}
-                      onChange={(e) => setEditFormData({ ...editFormData, year: parseInt(e.target.value) })}
-                      style={{ 
+                      onChange={(e) =>
+                        setEditFormData({ ...editFormData, year: parseInt(e.target.value) })
+                      }
+                      style={{
                         maxWidth: '120px',
                         padding: 'var(--spacing-2)',
                         borderRadius: 'var(--border-radius-md)',
@@ -254,7 +296,9 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                     >
                       <option value="">Year...</option>
                       {VEHICLE_YEARS.map((year) => (
-                        <option key={year} value={year}>{year}</option>
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -268,7 +312,12 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                     <Input
                       type="text"
                       value={editFormData.licensePlate}
-                      onChange={(e) => setEditFormData({ ...editFormData, licensePlate: e.target.value.toUpperCase() })}
+                      onChange={(e) =>
+                        setEditFormData({
+                          ...editFormData,
+                          licensePlate: e.target.value.toUpperCase(),
+                        })
+                      }
                       placeholder="GL40KAT"
                       style={{ maxWidth: '150px' }}
                     />
@@ -283,7 +332,7 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                     <select
                       value={editFormData.color}
                       onChange={(e) => setEditFormData({ ...editFormData, color: e.target.value })}
-                      style={{ 
+                      style={{
                         maxWidth: '150px',
                         padding: 'var(--spacing-2)',
                         borderRadius: 'var(--border-radius-md)',
@@ -293,7 +342,9 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                     >
                       <option value="">Select color...</option>
                       {VEHICLE_COLORS.map((color) => (
-                        <option key={color.value} value={color.value}>{color.label}</option>
+                        <option key={color.value} value={color.value}>
+                          {color.label}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -306,8 +357,10 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                     </div>
                     <select
                       value={editFormData.category}
-                      onChange={(e) => setEditFormData({ ...editFormData, category: e.target.value })}
-                      style={{ 
+                      onChange={(e) =>
+                        setEditFormData({ ...editFormData, category: e.target.value })
+                      }
+                      style={{
                         maxWidth: '200px',
                         padding: 'var(--spacing-2)',
                         borderRadius: 'var(--border-radius-md)',
@@ -332,7 +385,12 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                     <Input
                       type="number"
                       value={editFormData.passengerCapacity}
-                      onChange={(e) => setEditFormData({ ...editFormData, passengerCapacity: parseInt(e.target.value) || 0 })}
+                      onChange={(e) =>
+                        setEditFormData({
+                          ...editFormData,
+                          passengerCapacity: parseInt(e.target.value) || 0,
+                        })
+                      }
                       min="1"
                       max="20"
                       style={{ maxWidth: '100px' }}
@@ -348,7 +406,12 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                     <Input
                       type="number"
                       value={editFormData.luggageCapacity}
-                      onChange={(e) => setEditFormData({ ...editFormData, luggageCapacity: parseInt(e.target.value) || 0 })}
+                      onChange={(e) =>
+                        setEditFormData({
+                          ...editFormData,
+                          luggageCapacity: parseInt(e.target.value) || 0,
+                        })
+                      }
                       min="0"
                       max="10"
                       style={{ maxWidth: '100px' }}
@@ -356,7 +419,16 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                   </div>
 
                   {/* Save/Cancel Buttons */}
-                  <div style={{ display: 'flex', gap: 'var(--spacing-2)', justifyContent: 'flex-end', marginTop: 'var(--spacing-2)', paddingTop: 'var(--spacing-3)', borderTop: '1px solid var(--color-border)' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: 'var(--spacing-2)',
+                      justifyContent: 'flex-end',
+                      marginTop: 'var(--spacing-2)',
+                      paddingTop: 'var(--spacing-3)',
+                      borderTop: '1px solid var(--color-border)',
+                    }}
+                  >
                     <Button
                       variant="outline"
                       size="sm"
@@ -419,7 +491,6 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
               )}
             </Card>
 
-
             <Card>
               <h3 className={styles.sectionTitle}>Documents & Compliance</h3>
               <div className={styles.infoRow}>
@@ -457,8 +528,14 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
                   <Car size={16} />
                   <span>Approval Status</span>
                 </div>
-                <Badge 
-                  color={vehicle.approvalStatus === 'approved' ? 'success' : vehicle.approvalStatus === 'rejected' ? 'danger' : 'warning'} 
+                <Badge
+                  color={
+                    vehicle.approvalStatus === 'approved'
+                      ? 'success'
+                      : vehicle.approvalStatus === 'rejected'
+                        ? 'danger'
+                        : 'warning'
+                  }
                   size="sm"
                 >
                   {vehicle.approvalStatus}
@@ -479,7 +556,14 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
             {!isEditing && adminId && (
               <Card>
                 <h3 className={styles.sectionTitle}>Admin Actions</h3>
-                <div style={{ display: 'flex', gap: 'var(--spacing-3)', marginTop: 'var(--spacing-3)', flexWrap: 'wrap' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: 'var(--spacing-3)',
+                    marginTop: 'var(--spacing-3)',
+                    flexWrap: 'wrap',
+                  }}
+                >
                   {vehicle.approvalStatus === 'approved' && (
                     <Button
                       variant="danger"
@@ -531,11 +615,11 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
         }}
         onConfirm={async () => {
           if (!vehicleToDelete) return;
-          
+
           setIsDeleting(true);
           try {
             const result = await deleteVehicle({ vehicleId: vehicleToDelete.id });
-            
+
             if (result.success) {
               // Refresh vehicle list
               await mutate();
@@ -545,7 +629,9 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
               alert(`Failed to delete vehicle: ${result.error || 'Unknown error'}`);
             }
           } catch (err) {
-            alert(`Error deleting vehicle: ${err instanceof Error ? err.message : 'Unknown error'}`);
+            alert(
+              `Error deleting vehicle: ${err instanceof Error ? err.message : 'Unknown error'}`
+            );
           } finally {
             setIsDeleting(false);
           }

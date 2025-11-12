@@ -7,24 +7,19 @@
 
 'use client';
 
-import React, { useMemo } from 'react';
-import Image from 'next/image';
-import { Icon } from '@vantage-lane/ui-icons';
-import { NotificationBell } from '@vantage-lane/ui-core';
+import { useNotificationsContext } from '@admin-shared/providers/NotificationsProvider';
 import { BrandName } from '@admin-shared/ui/composed/BrandName';
-import { useNotifications } from '@admin-shared/hooks/useNotifications';
-import { TopbarProps } from './types';
+import { NotificationBell } from '@vantage-lane/ui-core';
+import { Icon } from '@vantage-lane/ui-icons';
+import Image from 'next/image';
+import { useMemo } from 'react';
 import { useTopbarActions, useUserInitials } from './hooks';
-import { UserDropdown } from './UserDropdown';
 import styles from './Topbar.module.css';
+import { TopbarProps } from './types';
+import { UserDropdown } from './UserDropdown';
 
-export function Topbar({
-  role,
-  onMenuToggle,
-  sidebarCollapsed = false,
-  user,
-}: TopbarProps) {
-  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
+export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: TopbarProps) {
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotificationsContext();
   const {
     isUserDropdownOpen,
     dropdownRef,
@@ -120,10 +115,7 @@ export function Topbar({
           </button>
 
           {/* User dropdown component */}
-          <UserDropdown 
-            isOpen={isUserDropdownOpen} 
-            onClose={handleUserMenuClose}
-          />
+          <UserDropdown isOpen={isUserDropdownOpen} onClose={handleUserMenuClose} />
         </div>
       </div>
     </header>

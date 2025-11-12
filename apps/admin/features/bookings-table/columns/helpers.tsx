@@ -2,8 +2,8 @@
  * Bookings Columns - Helper Functions
  */
 
+import { ArrowRight, Car, RefreshCw, Timer } from 'lucide-react';
 import React from 'react';
-import { RefreshCw, ArrowRight, Timer, Car } from 'lucide-react';
 
 export const formatDate = (dateStr: string | null): string => {
   if (!dateStr) return 'N/A';
@@ -72,12 +72,12 @@ export const formatVehicleModel = (model: string | null): string => {
 
   // Format specific models with FULL brand + model name
   const modelMap: Record<string, string> = {
-    exec_5_series: 'BMW 5 Series',           // Executive
-    exec_e_class: 'Mercedes E-Class',        // Executive
-    lux_s_class: 'Mercedes S-Class',         // Luxury
-    lux_7_series: 'BMW 7 Series',            // Luxury
-    suv_range_rover: 'Range Rover',          // SUV
-    van_v_class: 'Mercedes V-Class',         // Van
+    exec_5_series: 'BMW 5 Series', // Executive
+    exec_e_class: 'Mercedes E-Class', // Executive
+    lux_s_class: 'Mercedes S-Class', // Luxury
+    lux_7_series: 'BMW 7 Series', // Luxury
+    suv_range_rover: 'Range Rover', // SUV
+    van_v_class: 'Mercedes V-Class', // Van
   };
 
   return modelMap[model.toLowerCase()] || model;

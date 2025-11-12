@@ -4,11 +4,11 @@
  * Compliant: <150 lines
  */
 
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/utils/logger';
 import type { BookingsListResponse } from '@admin-shared/api/contracts/bookings';
 import { fetchBookingsData, type QueryParams } from '@entities/booking/api';
+import { NextRequest, NextResponse } from 'next/server';
 import { transformBookingsData } from './transform';
 
 export async function GET(request: NextRequest) {
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     const statusParam = searchParams.get('status');
 
     // Validate status parameter
-    const validStatuses = ['pending', 'active', 'completed', 'cancelled'] as const;
+    const validStatuses = ['pending', 'assigned', 'en_route', 'arrived', 'in_progress', 'completed', 'cancelled'] as const;
     const status: QueryParams['status'] =
       statusParam && validStatuses.includes(statusParam as (typeof validStatuses)[number])
         ? (statusParam as (typeof validStatuses)[number])
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       status,
     };
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     // Fetch data
     const queryResult = await fetchBookingsData(supabase, params);

@@ -47,8 +47,9 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
       bookingServices: bookingServices as unknown as Array<Record<string, unknown>>,
     });
 
-    // ONEWAY/HOURLY: No legs, use booking data
-    if (booking.trip_type === 'oneway' || booking.trip_type === 'hourly') {
+    // ONEWAY/HOURLY or RETURN without legs: use booking data
+    if (booking.trip_type === 'oneway' || booking.trip_type === 'hourly' || 
+        (booking.trip_type === 'return' && bookingLegs.length === 0)) {
       const driver = drivers.find((d) => d.id === booking.assigned_driver_id);
       const vehicle = vehicles.find((v) => v.id === booking.assigned_vehicle_id);
       const pickupLocation = pickup?.place_text || pickup?.place_label || 'N/A';

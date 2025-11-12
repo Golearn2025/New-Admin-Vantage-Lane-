@@ -1,6 +1,6 @@
 /**
  * LoginForm Component
- * 
+ *
  * Presentational component - ZERO business logic.
  * Uses useLoginForm hook for all state management.
  * Uses lucide-react icons (Eye/EyeOff) instead of emoji.
@@ -8,13 +8,8 @@
 
 'use client';
 
+import { Button, Checkbox, ErrorBanner, FormRow } from '@vantage-lane/ui-core';
 import { Eye, EyeOff } from 'lucide-react';
-import {
-  FormRow,
-  ErrorBanner,
-  Button,
-  Checkbox,
-} from '@vantage-lane/ui-core';
 import { useLoginForm } from '../hooks/useLoginForm';
 import styles from './LoginForm.module.css';
 

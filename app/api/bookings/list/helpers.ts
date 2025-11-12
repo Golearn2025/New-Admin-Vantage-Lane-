@@ -34,19 +34,31 @@ export function calculateFlags(booking: RawBooking): { isUrgent: boolean; isNew:
  */
 export function mapStatus(
   dbStatus: string
-): 'pending' | 'assigned' | 'in_progress' | 'completed' | 'cancelled' {
+): 'pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress' | 'completed' | 'cancelled' {
   switch (dbStatus) {
     case 'NEW':
+    case 'pending':  // ← Mixed case support
       return 'pending';
     case 'ASSIGNED':
+    case 'assigned':  // ← Mixed case support
       return 'assigned';
+    case 'ARRIVED':
+    case 'arrived':
+      return 'arrived';
+    case 'EN_ROUTE':
+    case 'en_route':
+      return 'en_route';
     case 'IN_PROGRESS':
+    case 'in_progress': // ← Mixed case support
       return 'in_progress';
     case 'COMPLETED':
+    case 'completed':  // ← Mixed case support
       return 'completed';
     case 'CANCELLED':
+    case 'cancelled':  // ← Mixed case support
       return 'cancelled';
     default:
+      console.warn('Unknown status:', dbStatus);
       return 'pending';
   }
 }

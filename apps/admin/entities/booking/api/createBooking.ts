@@ -2,9 +2,11 @@
  * Create Booking API
  * Handles booking creation with segments, pricing, and services
  * Uses service role key to bypass RLS (admin operations)
+ * Ver 3.4 - Replace console with structured logger
  */
 
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { logger } from '@/lib/utils/logger';
 import type {
   CreateBookingPayload,
   BookingSegment,
@@ -18,34 +20,8 @@ interface CreateBookingResult {
   error?: string;
 }
 
-/**
- * Generate booking reference (CB-XXXXX format)
- */
-async function generateReference(): Promise<string> {
-  // Use service role key to bypass RLS for admin operations
-  const supabase = createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-  
-  // Get latest booking reference
-  const { data } = await supabase
-    .from('bookings')
-    .select('reference')
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .single();
-
-  if (data?.reference) {
-    const match = data.reference.match(/CB-(\d+)/);
-    if (match) {
-      const nextNum = parseInt(match[1]) + 1;
-      return `CB-${String(nextNum).padStart(5, '0')}`;
-    }
-  }
-
-  return 'CB-00001';
-}
+// Note: Reference generation is now handled by database trigger
+// booking_reference_trigger auto-generates CB-XXXXX on INSERT
 
 /**
  * Create complete booking with all related data
@@ -56,93 +32,77 @@ export async function createBooking(
   services: BookingService[],
   basePrice: number
 ): Promise<CreateBookingResult> {
+  // Validate service role key exists (required for admin operations)
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY is required for admin operations');
+  }
+
   // Use service role key to bypass RLS for admin operations
   const supabase = createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY
   );
 
   try {
-    // 1. Generate reference
-    const reference = await generateReference();
-
-    // 2. Create main booking
-    const { data: booking, error: bookingError } = await supabase
-      .from('bookings')
-      .insert({
-        reference,
-        ...payload,
-      })
-      .select()
-      .single();
-
-    if (bookingError) {
-      throw new Error(`Booking creation failed: ${bookingError.message}`);
-    }
-
-    // 3. Create segments (pickup + dropoff)
-    if (segments.length > 0) {
-      const segmentsToInsert = segments.map(seg => ({
-        booking_id: booking.id,
-        ...seg,
-      }));
-
-      const { error: segmentsError } = await supabase
-        .from('booking_segments')
-        .insert(segmentsToInsert);
-
-      if (segmentsError) {
-        console.error('Segments creation failed:', segmentsError);
-      }
-    }
-
-    // 4. Calculate services total
+    // Calculate services total
     const servicesTotal = services
       .filter(s => s.selected)
       .reduce((sum, s) => sum + (s.price || 0), 0);
 
-    // 5. Create pricing
-    const { error: pricingError } = await supabase
-      .from('booking_pricing')
-      .insert({
-        booking_id: booking.id,
-        price: basePrice,
-        extras_total: servicesTotal,
-        currency: payload.currency,
-        payment_method: payload.payment_method,
-        payment_status: payload.payment_status,
+    // Prepare segments data
+    const segmentsData = segments.map(seg => ({
+      seq_no: seg.seq_no,
+      role: seg.role,
+      place_text: seg.place_text,
+      place_label: seg.place_label || null,
+      lat: seg.lat || null,
+      lng: seg.lng || null,
+    }));
+
+    // Prepare pricing data
+    const pricingData = {
+      price: basePrice,
+      extras_total: servicesTotal,
+      currency: payload.currency,
+      payment_method: payload.payment_method,
+      payment_status: payload.payment_status,
+    };
+
+    // Prepare services data (only selected ones)
+    const selectedServices = services.filter(s => s.selected);
+    const servicesData = selectedServices.map(s => ({
+      service_code: s.code,
+      quantity: 1,
+      unit_price: s.price || 0,
+    }));
+
+    // Call RPC transaction function (ALL OR NOTHING)
+    const { data, error } = await supabase
+      .rpc('create_booking_transaction', {
+        p_booking: payload,
+        p_segments: segmentsData,
+        p_pricing: pricingData,
+        p_services: servicesData,
       });
 
-    if (pricingError) {
-      console.error('Pricing creation failed:', pricingError);
+    if (error) {
+      throw new Error(`Transaction failed: ${error.message}`);
     }
 
-    // 6. Create services (only selected ones)
-    const selectedServices = services.filter(s => s.selected);
-    if (selectedServices.length > 0) {
-      const servicesToInsert = selectedServices.map(s => ({
-        booking_id: booking.id,
-        service_code: s.code,
-        quantity: 1,
-        unit_price: s.price || 0,
-      }));
-
-      const { error: servicesError } = await supabase
-        .from('booking_services')
-        .insert(servicesToInsert);
-
-      if (servicesError) {
-        console.error('Services creation failed:', servicesError);
-      }
+    if (!data.success) {
+      throw new Error(data.error || 'Unknown transaction error');
     }
 
     return {
       success: true,
-      bookingId: booking.id,
-      reference: booking.reference,
+      bookingId: data.booking_id,
+      reference: data.reference,
     };
   } catch (error) {
-    console.error('Create booking error:', error);
+    logger.error('Create booking error:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',

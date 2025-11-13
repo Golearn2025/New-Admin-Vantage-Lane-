@@ -111,6 +111,8 @@ export interface BookingSegment {
   role: 'pickup' | 'dropoff';
   place_text: string;
   place_label?: string;
+  lat?: number;
+  lng?: number;
 }
 
 export interface BookingPricing {

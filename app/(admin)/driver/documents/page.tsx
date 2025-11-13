@@ -3,7 +3,7 @@
  * Routing only - zero logic
  */
 
-import { DriverDocumentsUpload } from '@features/driver-documents-upload';
+import { DriverDocumentsUpload } from '@features/driver/driver-documents-upload';
 
 export default function DriverDocumentsPage() {
   return <DriverDocumentsUpload />;

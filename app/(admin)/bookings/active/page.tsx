@@ -9,7 +9,7 @@
  * - IN_PROGRESS: Trip in progress
  */
 
-import { BookingsWithTabs } from '@features/bookings-table';
+import { BookingsWithTabs } from '@features/shared/bookings-table';
 
 type BookingStatus = 'pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress';
 

@@ -98,6 +98,7 @@ export interface BookingListItem {
   // Urgency flags
   is_urgent: boolean; // True if <3h until pickup and no driver assigned
   is_new: boolean; // True if created in last 24h
+  isNew?: boolean; // True for 10 seconds after realtime insert (for animation)
 
   // Trip info
   trip_type: 'oneway' | 'return' | 'hourly' | 'fleet';

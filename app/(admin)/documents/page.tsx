@@ -5,7 +5,7 @@
  * MODERN & PREMIUM - ZERO logic in app/ (RULES.md compliant)
  */
 
-import { DocumentsApprovalTable } from '@features/documents-approval';
+import { DocumentsApprovalTable } from '@features/shared/documents-approval';
 
 export default function DocumentsPage() {
   return <DocumentsApprovalTable />;

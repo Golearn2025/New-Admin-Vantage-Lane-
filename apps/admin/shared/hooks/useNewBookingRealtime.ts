@@ -1,14 +1,14 @@
 /**
  * New Booking Realtime Hook
- * 
+ *
  * Listen pentru bookings noi în Supabase și trigger sound alert
  * 100% Reutilizabil - TypeScript Strict, cleanup useEffect
  */
 
 'use client';
 
-import { useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { useEffect, useRef } from 'react';
 import { useNotificationSound } from './useNotificationSound';
 
 export function useNewBookingRealtime() {
@@ -19,21 +19,21 @@ export function useNewBookingRealtime() {
     const setupBookingRealtime = async () => {
       console.log('🚀 useNewBookingRealtime: Starting setup...');
       console.log('🔊 Sound settings:', settings);
-      
+
       const supabase = createClient();
-      
+
       if (!supabase) {
         console.error('❌ Supabase client failed to initialize!');
         return;
       }
-      
+
       console.log('✅ Supabase client initialized:', !!supabase);
-      
+
       // Create unique channel name
       const channelName = `bookings-new:${Date.now()}`;
-      
+
       console.log('🔄 Setting up New Booking Realtime subscription...');
-      
+
       // Subscribe to INSERT events on bookings table
       channelRef.current = supabase
         .channel(channelName, {
@@ -51,8 +51,13 @@ export function useNewBookingRealtime() {
           },
           (payload) => {
             console.log('🆕 NEW BOOKING DETECTED (Realtime):', payload.new);
-            console.log('🔊 About to play sound. Settings enabled:', settings.enabled, 'muted:', settings.muteAll);
-            
+            console.log(
+              '🔊 About to play sound. Settings enabled:',
+              settings.enabled,
+              'muted:',
+              settings.muteAll
+            );
+
             // Play sound alert IMMEDIATELY
             try {
               playNewBookingSound();
@@ -60,7 +65,7 @@ export function useNewBookingRealtime() {
             } catch (error) {
               console.error('❌ Sound play error:', error);
             }
-            
+
             // Optional: Show browser notification if permission granted
             if ('Notification' in window && Notification.permission === 'granted') {
               new Notification('New Booking Alert!', {

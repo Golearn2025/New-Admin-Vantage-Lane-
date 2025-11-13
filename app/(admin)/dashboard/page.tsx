@@ -3,7 +3,7 @@
  * All business logic moved to @features/dashboard
  */
 
-import { DashboardPage } from '@features/dashboard';
+import { DashboardPage } from '@features/shared/dashboard';
 
 export default function DashboardRoute() {
   return <DashboardPage />;

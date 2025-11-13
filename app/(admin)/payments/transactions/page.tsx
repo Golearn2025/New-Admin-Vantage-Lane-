@@ -5,7 +5,7 @@
  * Import feature component from @features/
  */
 
-import { PaymentsTable } from '@features/payments-table';
+import { PaymentsTable } from '@features/admin/payments-table';
 
 export default function TransactionsPage() {
   return <PaymentsTable />;

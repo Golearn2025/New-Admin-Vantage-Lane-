@@ -4,7 +4,7 @@
  * Wrapper around UsersTableBase for customers page
  */
 
-import { UsersTableBase } from '@features/users-table-base';
+import { UsersTableBase } from '@features/admin/users-table-base';
 
 export function CustomersTable() {
   return (

@@ -5,8 +5,8 @@
  * MODERN & PREMIUM - ZERO logic in app/ (RULES.md compliant)
  */
 
-import { UserProfile } from '@features/user-profile';
-import type { UserType } from '@features/user-profile';
+import { UserProfile } from '@features/admin/user-profile';
+import type { UserType } from '@features/admin/user-profile';
 
 interface UserProfilePageProps {
   params: { id: string };

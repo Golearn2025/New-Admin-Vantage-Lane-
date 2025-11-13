@@ -6,5 +6,5 @@
  * All page imports remain stable.
  */
 
-// eslint-disable-next-line no-restricted-imports -- Adapter internal bridging to legacy location
-export * from '../../../../apps/admin/features/settings-profile';
+// eslint-disable-next-line no-restricted-imports -- Adapter internal bridging to features/shared
+export * from '@features/shared/settings-profile';

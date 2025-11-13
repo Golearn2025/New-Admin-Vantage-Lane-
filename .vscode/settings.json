@@ -63,5 +63,68 @@
   "files.associations": {
     "CODEOWNERS": "plaintext",
     ".github/CODEOWNERS": "plaintext"
-  }
+  },
+  // GitLens - Configurație optimizată pentru Vantage Lane
+  "gitlens.currentLine.enabled": true,
+  "gitlens.currentLine.pullRequests.enabled": false,
+  "gitlens.currentLine.format": "${author}, ${agoOrDate} • ${message}",
+  "gitlens.currentLine.scrollable": false,
+  "gitlens.hovers.enabled": true,
+  "gitlens.hovers.currentLine.over": "line",
+  "gitlens.hovers.currentLine.details": true,
+  "gitlens.hovers.currentLine.changes": true,
+  "gitlens.hovers.annotations.enabled": true,
+  "gitlens.hovers.annotations.over": "line",
+  "gitlens.codeLens.enabled": true,
+  "gitlens.codeLens.authors.enabled": true,
+  "gitlens.codeLens.recentChange.enabled": true,
+  "gitlens.codeLens.scopes": [
+    "document",
+    "containers"
+  ],
+  "gitlens.blame.highlight.enabled": true,
+  "gitlens.blame.highlight.locations": [
+    "gutter",
+    "line",
+    "overview"
+  ],
+  "gitlens.blame.avatars": true,
+  "gitlens.blame.compact": true,
+  "gitlens.blame.format": "${author|10} ${agoOrDate|14-} ${message}",
+  "gitlens.blame.heatmap.enabled": true,
+  "gitlens.blame.heatmap.location": "right",
+  "gitlens.changes.locations": [
+    "gutter",
+    "overview"
+  ],
+  "gitlens.fileAnnotations.command": "blame",
+  "gitlens.views.commits.files.layout": "tree",
+  "gitlens.views.repositories.files.layout": "tree",
+  "gitlens.views.fileHistory.enabled": true,
+  "gitlens.views.lineHistory.enabled": true,
+  "gitlens.defaultDateFormat": "DD MMM YYYY",
+  "gitlens.defaultDateShortFormat": "DD MMM",
+  "gitlens.defaultDateStyle": "relative",
+  "gitlens.defaultTimeFormat": "HH:mm",
+  "gitlens.statusBar.enabled": true,
+  "gitlens.statusBar.alignment": "right",
+  "gitlens.statusBar.command": "gitlens.showQuickCommitFileDetails",
+  "gitlens.statusBar.format": "${author}, ${agoOrDate}",
+  "gitlens.advanced.messages": {
+    "suppressCommitHasNoPreviousCommitWarning": false,
+    "suppressCommitNotFoundWarning": false,
+    "suppressFileNotUnderSourceControlWarning": false,
+    "suppressGitVersionWarning": false,
+    "suppressLineUncommittedWarning": false,
+    "suppressNoRepositoryWarning": false
+  },
+  "gitlens.graph.layout": "editor",
+  "gitlens.graph.minimap.enabled": true,
+  "gitlens.graph.minimap.dataType": "lines",
+  "gitlens.graph.scrollMarkers.enabled": true,
+  "gitlens.integrations.enabled": true,
+  "gitlens.mode.statusBar.enabled": true,
+  "gitlens.plusFeatures.enabled": false,
+  "gitlens.showWelcomeOnInstall": false,
+  "gitlens.showWhatsNewAfterUpgrades": false
 }

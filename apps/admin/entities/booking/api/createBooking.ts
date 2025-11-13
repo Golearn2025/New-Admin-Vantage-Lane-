@@ -2,9 +2,11 @@
  * Create Booking API
  * Handles booking creation with segments, pricing, and services
  * Uses service role key to bypass RLS (admin operations)
+ * Ver 3.4 - Replace console with structured logger
  */
 
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { logger } from '@/lib/utils/logger';
 import type {
   CreateBookingPayload,
   BookingSegment,
@@ -92,7 +94,10 @@ export async function createBooking(
       reference: data.reference,
     };
   } catch (error) {
-    console.error('Create booking error:', error);
+    logger.error('Create booking error:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',

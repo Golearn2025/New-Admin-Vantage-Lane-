@@ -8,6 +8,7 @@ import { NextResponse } from 'next/server';
 import { createBooking } from '@entities/booking/api/createBooking';
 import { validateRequest } from '@/lib/api/validateRequest';
 import { CreateBookingSchema } from '@features/booking-create/schema';
+import { logger } from '@/lib/utils/logger';
 
 export async function POST(request: Request) {
   try {
@@ -35,7 +36,10 @@ export async function POST(request: Request) {
     
     return NextResponse.json(result, { status: 400 });
   } catch (error) {
-    console.error('API create booking error:', error);
+    logger.error('API create booking error:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return NextResponse.json(
       { success: false, error: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }

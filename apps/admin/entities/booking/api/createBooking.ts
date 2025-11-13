@@ -32,10 +32,15 @@ export async function createBooking(
   services: BookingService[],
   basePrice: number
 ): Promise<CreateBookingResult> {
+  // Validate service role key exists (required for admin operations)
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY is required for admin operations');
+  }
+
   // Use service role key to bypass RLS for admin operations
   const supabase = createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY
   );
 
   try {

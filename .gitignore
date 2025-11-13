@@ -76,3 +76,6 @@ audit-reports/
 complete-audit-*/
 audit-*.txt
 ultra-audit-*.txt
+
+# Database Backups (contains sensitive data)
+Supabase Database Backups/

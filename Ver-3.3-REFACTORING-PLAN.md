@@ -30,6 +30,39 @@ apps/admin/features/
 
 ---
 
+## 🔴 REGULA DE AUR - ZERO MODIFICĂRI LOGICĂ
+
+### ⚠️ EXTREM DE IMPORTANT:
+
+```
+❌ NU SE MODIFICĂ BUSINESS LOGIC!
+
+Singurele modificări permise:
+✅ Mutare foldere în admin/operator/driver/shared
+✅ Schimbare import paths (@features/... → @features/admin/...)
+✅ Update tsconfig.json aliases
+
+❌ INTERZIS:
+❌ Schimbat props componente
+❌ Schimbat nume componente/hooks
+❌ Schimbat logică internă
+❌ Schimbat API calls
+❌ Schimbat exports
+❌ Refactoring de cod "cât sunt aici"
+```
+
+### SCOPUL:
+Doar reorganizare structură pentru claritate.
+ZERO risk de bug în business logic.
+
+### VERIFICARE:
+Dacă vezi în git diff altceva decât:
+- folder paths
+- import strings
+→ STOP și reverify!
+
+---
+
 ## 📊 PROGRESS TRACKER
 
 ### ✅ FAZA 0: PRE-FLIGHT CHECK
@@ -327,25 +360,41 @@ function replaceInFiles(pattern, oldPath, newPath) {
 }
 ```
 
-### 3. **Checkpoint optimization**
-**Opțiuni:**
+### 3. **Checkpoint optimization** ⭐ BALANCED (RECOMANDAT)
 
-**A) SUPER SAFE (recomandat pentru început):**
+**STRATEGIE ADOPTATĂ:**
+
+```bash
+# ✅ BALANCED approach (optimal speed + safety):
+
+# 1. După fiecare 3-5 features mutate:
+pnpm check:ts
+pnpm lint
+
+# 2. La final (după TOATE features):
+pnpm check:ts
+pnpm lint
+pnpm test:run
+pnpm build
+rm -rf .next
+pnpm build  # rebuild cu cache curat
+
+# 3. Manual test în browser
+```
+
+**Alte opțiuni (nu recomandate):**
+
+**A) SUPER SAFE (prea lent):**
 ```bash
 # Check după FIECARE feature
 pnpm check:ts && pnpm lint
+# ⚠️ Prea multe checks, încetinește munca
 ```
 
-**B) BALANCED (mai rapid):**
-```bash
-# Check la fiecare 3-5 features
-# + Final check complet
-```
-
-**C) YOLO (nu recomand):**
+**C) YOLO (prea risky):**
 ```bash
 # Check doar la final
-# Risc mare - nu știi unde s-a rupt
+# ❌ Risc mare - nu știi unde s-a rupt
 ```
 
 ---
@@ -363,24 +412,80 @@ pnpm check:ts && pnpm lint
 
 ---
 
-## 🎯 NEXT STEPS AFTER REFACTORING
+## 🎯 ORDINEA RECOMANDATĂ - CRITICAL FIXES ÎNTÂI!
 
-După ce terminăm refactoring-ul:
+### ⚠️ IMPORTANT: NU ÎNCEPE REFACTORING-UL ÎNCĂ!
 
-1. **CRITICAL FIXES** (2-3 zile):
-   - [ ] Add transactions în createBooking
-   - [ ] Add Zod validation în API routes
-   - [ ] Replace console.log cu logger
-   - [ ] Fix service role fallback
-   - [ ] Fix password generation
+**ORDINEA CORECTĂ:**
 
-2. **CLEANUP CODE MORT** (1 zi):
-   - [ ] Șterge foldere goale (driver-bookings, etc.)
+### **STEP 1: CRITICAL FIXES ÎNTÂI** 🔴 (2-3 zile)
+
+```bash
+# Branch: Ver-3.4-Critical-Backend-Fixes (sau similar)
+
+1. Add transactions în createBooking (3-4 ore)
+   - Wrap în Supabase RPC function
+   - All or nothing pentru booking + segments + pricing + services
+   
+2. Add Zod validation în API routes (3-4 ore)
+   - app/api/bookings/create/route.ts
+   - app/api/bookings/list/route.ts
+   - Toate endpoints cu POST/PUT
+   
+3. Replace console.log cu logger (2-3 ore)
+   - Create lib/logger.ts (winston)
+   - Replace în toate entities/ (36 fișiere)
+   - Replace în app/api/
+   
+4. Fix service role fallback (30 min)
+   - Remove fallback la ANON key
+   - Throw error dacă SERVICE_ROLE_KEY lipsește
+   
+5. Fix password generation (1 oră)
+   - Use crypto.randomBytes() instead of Math.random()
+   - Move to server-only file
+
+# După fiecare fix:
+pnpm check:ts
+pnpm lint
+pnpm test:run
+pnpm build
+
+# Merge în main când TOATE sunt verzi
+```
+
+**MOTIVUL:**
+- Vrei să refactorizezi structură peste cod CORECT și SIGUR
+- Altfel nu mai știi dacă un bug vine din logică sau din mutarea folderelor
+- Security fixes trebuie făcute IMEDIAT (service role, passwords)
+
+---
+
+### **STEP 2: REFACTORING STRUCTURE** 🟢 (1-2 zile)
+
+```bash
+# Branch: Ver-3.3-Refactoring-Structure-Scalabil-Features (ACEST branch)
+
+# Rulezi planul din acest document:
+# FAZA 0 → FAZA 1 → FAZA 2-5 → FAZA 6
+
+# După ce TOTUL e verde:
+# Merge în main
+```
+
+---
+
+## 🎯 NEXT STEPS DUPĂ AMBELE (CRITICAL + REFACTORING)
+
+După ce terminăm AMBELE (critical fixes + refactoring):
+
+1. **CLEANUP CODE MORT** (1 zi):
+   - [ ] Șterge foldere goale (driver-bookings, driver-earnings, etc.)
    - [ ] Consolidate formatters
    - [ ] Fix TypeScript any (59 instances)
    - [ ] Fix hardcoded colors (206 instances)
 
-3. **DOCUMENTATION** (ongoing):
+2. **DOCUMENTATION** (ongoing):
    - [ ] Update ARCHITECTURE.md
    - [ ] Update CONTRIBUTING.md
    - [ ] Add ADR (Architecture Decision Records)

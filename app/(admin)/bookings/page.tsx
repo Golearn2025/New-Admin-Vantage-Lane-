@@ -5,7 +5,7 @@
  * No status filter - shows ALL bookings regardless of status
  */
 
-import { BookingsWithTabs } from '@features/bookings-table';
+import { BookingsWithTabs } from '@features/shared/bookings-table';
 
 export default function AllBookingsPage() {
   return (

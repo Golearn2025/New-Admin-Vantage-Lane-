@@ -7,7 +7,7 @@
 
 'use client';
 
-import { DriverProfile } from '@features/driver-profile';
+import { DriverProfile } from '@features/shared/driver-profile';
 
 interface DriverProfilePageProps {
   params: {

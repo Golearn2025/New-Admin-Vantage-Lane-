@@ -12,7 +12,7 @@
 
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import type { CountsByTripType } from '@features/bookings-table/utils/createBookingTabs';
+import type { CountsByTripType } from '@features/shared/bookings-table/utils/createBookingTabs';
 
 export async function GET() {
   try {

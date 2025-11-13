@@ -2,11 +2,11 @@
  * Login Page
  *
  * Minimal page component - ZERO business logic.
- * All logic is in @features/auth-login.
+ * All logic is in @features/shared/auth-login.
  * Uses lucide-react icons (no emoji).
  */
 
-import { LoginForm } from '@features/auth-login';
+import { LoginForm } from '@features/shared/auth-login';
 import { AuthCard, BrandBackground } from '@vantage-lane/ui-core';
 import styles from './login.module.css';
 

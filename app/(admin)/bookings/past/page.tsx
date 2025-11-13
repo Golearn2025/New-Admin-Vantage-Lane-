@@ -6,7 +6,7 @@
  * - CANCELLED: Booking cancelled (by customer, driver, or admin)
  */
 
-import { BookingsTable } from '@features/bookings-table';
+import { BookingsTable } from '@features/shared/bookings-table';
 
 // ✅ Constant outside component prevents array recreation on every render
 const PAST_STATUS_FILTER = ['completed', 'cancelled'];

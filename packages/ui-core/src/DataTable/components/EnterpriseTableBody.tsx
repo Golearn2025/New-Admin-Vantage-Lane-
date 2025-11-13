@@ -34,6 +34,8 @@ interface EnterpriseTableBodyProps<T> {
   renderExpandedRow?: ((row: T) => React.ReactNode) | undefined;
   /** Get row ID */
   getRowId?: ((row: T) => string) | undefined;
+  /** Get custom className for row */
+  getRowClassName?: ((row: T) => string) | undefined;
 }
 
 /**
@@ -49,6 +51,7 @@ export function EnterpriseTableBody<T>({
   expandedIds,
   renderExpandedRow,
   getRowId,
+  getRowClassName,
 }: EnterpriseTableBodyProps<T>): React.ReactElement {
   const classes = [styles.body, className].filter(Boolean).join(' ');
 
@@ -64,6 +67,9 @@ export function EnterpriseTableBody<T>({
         
         // Check if expanded
         const isExpanded = expandedIds?.has(rowId) ?? false;
+        
+        // Get custom className
+        const customClassName = getRowClassName ? getRowClassName(row) : '';
 
         return (
           <React.Fragment key={rowId}>
@@ -74,6 +80,7 @@ export function EnterpriseTableBody<T>({
               isSelected={isSelected}
               onRowClick={onRowClick}
               selection={selection}
+              className={customClassName}
             />
             {isExpanded && renderExpandedRow && (
               <tr className={stateStyles.expandedRow}>

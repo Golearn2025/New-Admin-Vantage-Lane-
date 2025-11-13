@@ -1,0 +1,79 @@
+/**
+ * PricingBreakdownCard Styles
+ * 100% Design Tokens - Zero Hardcoded Values
+ */
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-xs) 0;
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.labelIndent {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  padding-left: var(--spacing-md);
+}
+
+.value {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+  text-align: right;
+}
+
+.sectionTitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+  margin-top: var(--spacing-xs);
+}
+
+.divider {
+  height: var(--border-width-sm);
+  background-color: var(--color-border-tertiary);
+  margin: var(--spacing-xs) 0;
+}
+
+.dividerBold {
+  height: var(--border-width-md);
+  background-color: var(--color-border-secondary);
+  margin: var(--spacing-sm) 0;
+}
+
+.subtotal {
+  font-weight: var(--font-weight-semibold);
+}
+
+.discount {
+  color: var(--color-success);
+}
+
+.discount .label,
+.discount .value {
+  color: var(--color-success);
+}
+
+.total {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+}
+
+.total .label,
+.total .value {
+  color: var(--color-primary);
+  font-size: var(--font-size-lg);
+}

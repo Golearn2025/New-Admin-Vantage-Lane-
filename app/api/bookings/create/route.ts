@@ -7,7 +7,7 @@
 import { NextResponse } from 'next/server';
 import { createBooking } from '@entities/booking/api/createBooking';
 import { validateRequest } from '@/lib/api/validateRequest';
-import { CreateBookingSchema } from '@features/booking-create/schema';
+import { CreateBookingSchema } from '@features/admin/booking-create/schema';
 import { logger } from '@/lib/utils/logger';
 
 export async function POST(request: Request) {

@@ -3,7 +3,7 @@
  * Routing only - zero logic
  */
 
-import { DeletedUsersTable } from '@features/deleted-users-table';
+import { DeletedUsersTable } from '@features/admin/deleted-users-table';
 
 export default function UsersTrashPage() {
   return <DeletedUsersTable />;

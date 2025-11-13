@@ -1,0 +1,141 @@
+/**
+ * CommissionSplitsCard Styles
+ * 100% Design Tokens - Zero Hardcoded Values
+ */
+
+.splits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-xs) 0;
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.value {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+  text-align: right;
+}
+
+.total {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+}
+
+.total .label,
+.total .value {
+  color: var(--color-primary);
+  font-size: var(--font-size-lg);
+}
+
+.divider {
+  height: var(--border-width-sm);
+  background-color: var(--color-border-tertiary);
+  margin: var(--spacing-xs) 0;
+}
+
+.platform {
+  color: var(--color-primary);
+}
+
+.operator {
+  color: var(--color-warning);
+}
+
+.driver {
+  font-weight: var(--font-weight-bold);
+}
+
+.driver .value {
+  color: var(--color-success);
+  font-size: var(--font-size-base);
+}
+
+/* Visual Breakdown Bar */
+.visualBreakdown {
+  display: flex;
+  height: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-top: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.platformBar,
+.operatorBar,
+.driverBar {
+  height: 100%;
+  transition: var(--transition-base);
+  cursor: pointer;
+}
+
+.platformBar {
+  width: var(--platform-width, 0%);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+}
+
+.operatorBar {
+  width: var(--operator-width, 0%);
+  background: linear-gradient(135deg, var(--color-warning), var(--color-warning-hover));
+}
+
+.driverBar {
+  width: var(--driver-width, 0%);
+  background: linear-gradient(135deg, var(--color-success), var(--color-success-hover));
+}
+
+.platformBar:hover,
+.operatorBar:hover,
+.driverBar:hover {
+  opacity: 0.8;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-sm);
+  justify-content: center;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.legendDot {
+  width: var(--spacing-sm);
+  height: var(--spacing-sm);
+  border-radius: var(--radius-full);
+}
+
+.platformDot {
+  background-color: var(--color-primary);
+}
+
+.operatorDot {
+  background-color: var(--color-warning);
+}
+
+.driverDot {
+  background-color: var(--color-success);
+}
+
+.legendLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  font-weight: var(--font-weight-medium);
+}

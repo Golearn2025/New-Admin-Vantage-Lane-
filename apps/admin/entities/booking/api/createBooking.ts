@@ -11,7 +11,7 @@ import type {
   CreateBookingPayload,
   BookingSegment,
   BookingService,
-} from '@features/booking-create/types';
+} from '@features/admin/booking-create/types';
 
 interface CreateBookingResult {
   success: boolean;

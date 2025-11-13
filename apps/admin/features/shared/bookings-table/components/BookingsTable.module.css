@@ -1,0 +1,269 @@
+/**
+ * BookingsTable Styles
+ * All values use design tokens
+ */
+
+.container {
+  width: 100%;
+  max-width: 100%; /* ✅ NU depășește lățimea disponibilă */
+  min-height: calc(100vh - var(--size-15));
+  padding: var(--spacing-4); /* ✅ Reduced: 16px în loc de 24px */
+  overflow-x: hidden; /* ✅ ZERO scroll orizontal pe container */
+  box-sizing: border-box; /* ✅ Include padding în width */
+}
+
+/* Bulk Actions Bar - appears when rows selected */
+.bulkActionsBar {
+  background: var(--color-primary-alpha-10);
+  border: var(--border-width-1) solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--spacing-3)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bulkActionsContent {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.selectedCount {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+
+.bulkActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+/* Action Bar - buttons below tabs */
+.actionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+  padding: var(--spacing-3) 0;
+  flex-wrap: wrap;
+}
+
+.actionBarLeft,
+.actionBarRight {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
+.filterBadge {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.tableContainer {
+  width: 100%;
+  overflow: visible;
+}
+
+.select {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: var(--border-width-sm) solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.select:hover {
+  border-color: var(--color-primary);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 var(--spacing-1) var(--color-primary-light);
+}
+
+/* Responsive Mobile */
+@media (max-width: var(--breakpoint-md)) {
+  .container {
+    padding: var(--spacing-2);
+  }
+
+  .bulkActionsContent {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .bulkActions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .bulkActions button {
+    flex: 1;
+  }
+
+  .actionBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actionBarLeft,
+  .actionBarRight {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .actionBarLeft button,
+  .actionBarRight button {
+    flex: 1;
+  }
+}
+
+.errorState {
+  padding: var(--spacing-md);
+  background-color: var(--color-danger-light);
+  border: var(--border-width-sm) solid var(--color-danger);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-xl);
+  color: var(--color-danger);
+}
+
+.expandButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  padding: var(--spacing-1);
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.expandButton:hover {
+  color: var(--color-text-primary);
+}
+
+/* Expand chevron button */
+.expandBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-base);
+  width: var(--spacing-6);
+  height: var(--spacing-6);
+  border-radius: var(--radius-sm);
+}
+
+.expandBtn:hover {
+  color: var(--color-primary);
+  background: var(--color-primary-alpha-10);
+}
+
+.expandBtn:active {
+  transform: scale(0.95);
+}
+
+/* New Booking Animation - 60 second flash effect with fast pulses */
+.newBookingRow {
+  animation: newBookingFlash 60s ease-in-out;
+  position: relative;
+}
+
+@keyframes newBookingFlash {
+  /* Fast pulses - 8 pulses in first 5 seconds (0.625s each) */
+  0% {
+    background-color: var(--color-success-alpha-30);
+    box-shadow: 0 0 0 var(--spacing-1) var(--color-success);
+  }
+  0.8% {
+    background-color: var(--color-success-alpha-20);
+    box-shadow: 0 0 0 var(--spacing-xs) var(--color-success-light);
+  }
+  1.6% {
+    background-color: var(--color-success-alpha-30);
+    box-shadow: 0 0 0 var(--spacing-1) var(--color-success);
+  }
+  2.4% {
+    background-color: var(--color-success-alpha-20);
+    box-shadow: 0 0 0 var(--spacing-xs) var(--color-success-light);
+  }
+  3.2% {
+    background-color: var(--color-success-alpha-30);
+    box-shadow: 0 0 0 var(--spacing-1) var(--color-success);
+  }
+  4% {
+    background-color: var(--color-success-alpha-20);
+    box-shadow: 0 0 0 var(--spacing-xs) var(--color-success-light);
+  }
+  4.8% {
+    background-color: var(--color-success-alpha-30);
+    box-shadow: 0 0 0 var(--spacing-1) var(--color-success);
+  }
+  5.6% {
+    background-color: var(--color-success-alpha-20);
+    box-shadow: 0 0 0 var(--spacing-xs) var(--color-success-light);
+  }
+  6.4% {
+    background-color: var(--color-success-alpha-30);
+    box-shadow: 0 0 0 var(--spacing-1) var(--color-success);
+  }
+  7.2% {
+    background-color: var(--color-success-alpha-20);
+    box-shadow: 0 0 0 var(--spacing-xs) var(--color-success-light);
+  }
+  8% {
+    background-color: var(--color-success-alpha-30);
+    box-shadow: 0 0 0 var(--spacing-1) var(--color-success);
+  }
+  /* Slower fade after pulses */
+  10% {
+    background-color: var(--color-success-alpha-20);
+    box-shadow: none;
+  }
+  20% {
+    background-color: var(--color-success-alpha-15);
+    box-shadow: none;
+  }
+  40% {
+    background-color: var(--color-success-alpha-10);
+    box-shadow: none;
+  }
+  70% {
+    background-color: var(--color-success-alpha-5);
+    box-shadow: none;
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+}

@@ -58,6 +58,8 @@ export interface EnterpriseDataTableProps<T = object> {
   renderExpandedRow?: (row: T) => React.ReactNode;
   /** Get row ID for expanded rows */
   getRowId?: (row: T) => string;
+  /** Get custom className for row */
+  getRowClassName?: (row: T) => string;
 }
 
 export function EnterpriseDataTable<T = object>({
@@ -77,6 +79,7 @@ export function EnterpriseDataTable<T = object>({
   expandedIds,
   renderExpandedRow,
   getRowId,
+  getRowClassName,
 }: EnterpriseDataTableProps<T>): React.ReactElement {
   
   // Handle column sort - memoized to prevent recreation
@@ -191,6 +194,7 @@ export function EnterpriseDataTable<T = object>({
             expandedIds={expandedIds}
             renderExpandedRow={renderExpandedRow}
             getRowId={getRowId}
+            getRowClassName={getRowClassName}
           />
         </table>
       </div>

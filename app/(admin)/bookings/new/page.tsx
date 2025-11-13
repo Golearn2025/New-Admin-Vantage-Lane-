@@ -4,7 +4,7 @@
  * Ver 1.9 - Complete implementation
  */
 
-import { BookingCreateForm } from '@features/booking-create';
+import { BookingCreateForm } from '@features/admin/booking-create';
 
 export default function NewBookingPage() {
   return <BookingCreateForm />;

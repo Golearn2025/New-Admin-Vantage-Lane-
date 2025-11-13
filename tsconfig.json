@@ -24,6 +24,10 @@
     "paths": {
       "@/*": ["./apps/admin/*"],
       "@features/*": ["./apps/admin/features/*"],
+      "@features/admin/*": ["./apps/admin/features/admin/*"],
+      "@features/operator/*": ["./apps/admin/features/operator/*"],
+      "@features/driver/*": ["./apps/admin/features/driver/*"],
+      "@features/shared/*": ["./apps/admin/features/shared/*"],
       "@entities/*": ["./apps/admin/entities/*"],
       "@admin/*": ["./app/(admin)/*"],
       "@admin-shared/*": ["./apps/admin/shared/*"],

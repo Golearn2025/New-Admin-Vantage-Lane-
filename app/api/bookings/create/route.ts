@@ -1,26 +1,31 @@
 /**
  * API Route: Create Booking
  * POST /api/bookings/create
+ * Ver 3.4 - Add Zod validation
  */
 
 import { NextResponse } from 'next/server';
 import { createBooking } from '@entities/booking/api/createBooking';
-import type {
-  CreateBookingPayload,
-  BookingSegment,
-  BookingService,
-} from '@features/booking-create/types';
+import { validateRequest } from '@/lib/api/validateRequest';
+import { CreateBookingSchema } from '@features/booking-create/schema';
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    // Validate request body with Zod
+    const validated = await validateRequest(request, CreateBookingSchema);
     
-    const { payload, segments, services, basePrice } = body as {
-      payload: CreateBookingPayload;
-      segments: BookingSegment[];
-      services: BookingService[];
-      basePrice: number;
-    };
+    if (!validated.success) {
+      return NextResponse.json(
+        { 
+          success: false,
+          error: 'Validation failed', 
+          details: validated.error 
+        },
+        { status: 400 }
+      );
+    }
+    
+    const { payload, segments, services, basePrice } = validated.data;
 
     const result = await createBooking(payload, segments, services, basePrice);
 

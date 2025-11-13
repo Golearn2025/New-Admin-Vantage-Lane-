@@ -5,7 +5,7 @@
  * Import feature component from @features/
  */
 
-import { DisputesTable } from '@features/disputes-table';
+import { DisputesTable } from '@features/admin/disputes-table';
 
 export default function DisputesPage() {
   return <DisputesTable />;

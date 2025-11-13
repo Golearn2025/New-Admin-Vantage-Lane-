@@ -5,7 +5,7 @@
  * Import feature component from @features/
  */
 
-import { CustomersTable } from '@features/customers-table';
+import { CustomersTable } from '@features/admin/customers-table';
 
 export default function CustomersPage() {
   return <CustomersTable />;

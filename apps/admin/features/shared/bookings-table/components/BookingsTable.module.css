@@ -267,3 +267,37 @@
     box-shadow: none;
   }
 }
+
+/* Booking Group Indicator - for fleet/return legs */
+/* 8 color variants for consistent grouping */
+.groupBlue {
+  border-left: var(--spacing-1) solid #3b82f6;
+}
+
+.groupGreen {
+  border-left: var(--spacing-1) solid #10b981;
+}
+
+.groupAmber {
+  border-left: var(--spacing-1) solid #f59e0b;
+}
+
+.groupViolet {
+  border-left: var(--spacing-1) solid #8b5cf6;
+}
+
+.groupPink {
+  border-left: var(--spacing-1) solid #ec4899;
+}
+
+.groupCyan {
+  border-left: var(--spacing-1) solid #06b6d4;
+}
+
+.groupOrange {
+  border-left: var(--spacing-1) solid #f97316;
+}
+
+.groupIndigo {
+  border-left: var(--spacing-1) solid #6366f1;
+}

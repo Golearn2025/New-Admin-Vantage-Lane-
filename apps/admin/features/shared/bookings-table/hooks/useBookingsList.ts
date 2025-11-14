@@ -61,9 +61,18 @@ export function useBookingsList({
       const data: BookingsListResponse = await response.json();
 
       let filteredData = data.data;
-      if (statusFilter.length > 0) {
-        filteredData = data.data.filter((b) => statusFilter.includes(b.status));
+      
+      // ✅ FIX: Dropdown "All Status" overrides page-level statusFilter
+      // When user selects "All Status" dropdown → show EVERYTHING (ignore prop)
+      if (selectedStatus === 'all') {
+        // Dropdown is "All" → ignore statusFilter prop, show ALL statuses
+        filteredData = data.data;
+      } else if (selectedStatus !== 'all') {
+        // User selected specific status from dropdown → API already filtered
+        filteredData = data.data;
       }
+      
+      // Trip type filter (independent of status)
       if (tripTypeFilter && tripTypeFilter !== 'all') {
         filteredData = filteredData.filter((b) => b.trip_type === tripTypeFilter);
       }

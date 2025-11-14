@@ -19,6 +19,7 @@ const ACTIVE_STATUS_FILTER: BookingStatus[] = ['pending', 'assigned', 'en_route'
 export default function ActiveBookingsPage() {
   return (
     <BookingsWithTabs
+      key="active-bookings"  // Separate state from All Bookings
       statusFilter={ACTIVE_STATUS_FILTER}
       title="Active Bookings"
       description="Current bookings in progress"

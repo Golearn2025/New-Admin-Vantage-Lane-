@@ -36,16 +36,14 @@ const nextConfig = {
   },
 
   webpack: (config, { dev, isServer }) => {
-    // Disable webpack cache in development for Server Actions
+    // Enable webpack cache for Fast Refresh (HMR)
+    // Only disable for specific problematic modules if needed
     if (dev) {
-      config.cache = false;
+      // Keep cache enabled for Fast Refresh to work!
+      // config.cache is managed by Next.js automatically
     }
 
-    // Improve module resolution for faster rebuilds
-    config.snapshot = {
-      ...config.snapshot,
-      managedPaths: [],
-    };
+    // Module resolution managed by Next.js (no override needed)
 
     // Alias configuration
     config.resolve.alias['@admin'] = resolve(__dirname, 'app/(admin)');

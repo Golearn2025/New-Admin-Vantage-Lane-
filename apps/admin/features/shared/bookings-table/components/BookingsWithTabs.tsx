@@ -21,7 +21,7 @@ import { useBookingCounts } from '../hooks/useBookingCounts';
 import styles from './BookingsWithTabs.module.css';
 import { createBookingTabs, ZERO_COUNTS, type TabId } from '../utils/createBookingTabs';
 
-type BookingStatus = 'pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress';
+type BookingStatus = 'pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress' | 'completed' | 'cancelled';
 
 interface BookingsWithTabsProps {
   statusFilter?: BookingStatus[];

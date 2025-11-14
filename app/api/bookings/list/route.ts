@@ -17,7 +17,9 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1', 10);
-    const pageSize = Math.min(parseInt(searchParams.get('page_size') || '25', 10), 100);
+    const requestedPageSize = parseInt(searchParams.get('page_size') || '25', 10);
+    // Support "All" option: if requesting > 1000, allow up to 10000, otherwise limit to 100
+    const pageSize = requestedPageSize > 1000 ? Math.min(requestedPageSize, 10000) : Math.min(requestedPageSize, 100);
     const statusParam = searchParams.get('status');
 
     // Validate status parameter

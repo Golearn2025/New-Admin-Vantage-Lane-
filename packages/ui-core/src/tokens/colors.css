@@ -105,26 +105,43 @@
      BADGE COLORS - Status, Trip Type, Category, Service
      ======================================== */
 
-  /* Status Colors (Driver Workflow) */
-  --color-status-new: #f59e0b; /* Amber - NEW */
-  --color-status-new-alpha-10: rgba(245, 158, 11, 0.1);
-  --color-status-new-alpha-30: rgba(245, 158, 11, 0.3);
+  /* Status Colors (Booking Workflow) - Solid Badge Design */
+  /* 100% Token-Based, Zero Hardcoding */
 
-  --color-status-assigned: #3b82f6; /* Blue - ASSIGNED */
-  --color-status-assigned-alpha-10: rgba(59, 130, 246, 0.1);
-  --color-status-assigned-alpha-30: rgba(59, 130, 246, 0.3);
+  /* PENDING/NEW - Orange (warm, attention) */
+  --status-pending-bg: #ff6b00;
+  --status-pending-text: #ffffff;
+  --status-pending-shadow: rgba(255, 107, 0, 0.25);
 
-  --color-status-in-progress: #8b5cf6; /* Purple - IN_PROGRESS */
-  --color-status-in-progress-alpha-10: rgba(139, 92, 246, 0.1);
-  --color-status-in-progress-alpha-30: rgba(139, 92, 246, 0.3);
+  /* ASSIGNED - Blue (calm, delegated) */
+  --status-assigned-bg: #0066ff;
+  --status-assigned-text: #ffffff;
+  --status-assigned-shadow: rgba(0, 102, 255, 0.25);
 
-  --color-status-completed: #10b981; /* Green - COMPLETED */
-  --color-status-completed-alpha-10: rgba(16, 185, 129, 0.1);
-  --color-status-completed-alpha-30: rgba(16, 185, 129, 0.3);
+  /* EN ROUTE - Dark Green (moving, active) */
+  --status-en-route-bg: #047857;
+  --status-en-route-text: #ffffff;
+  --status-en-route-shadow: rgba(4, 120, 87, 0.25);
 
-  --color-status-cancelled: #ef4444; /* Red - CANCELLED */
-  --color-status-cancelled-alpha-10: rgba(239, 68, 68, 0.1);
-  --color-status-cancelled-alpha-30: rgba(239, 68, 68, 0.3);
+  /* ARRIVED - Purple (milestone reached) */
+  --status-arrived-bg: #b621fe;
+  --status-arrived-text: #ffffff;
+  --status-arrived-shadow: rgba(182, 33, 254, 0.25);
+
+  /* IN PROGRESS - Gold (active work) */
+  --status-in-progress-bg: #ffd700;
+  --status-in-progress-text: #664d00;
+  --status-in-progress-shadow: rgba(255, 215, 0, 0.25);
+
+  /* COMPLETED - Light Green (success) */
+  --status-completed-bg: #10b981;
+  --status-completed-text: #ffffff;
+  --status-completed-shadow: rgba(16, 185, 129, 0.25);
+
+  /* CANCELLED - Red (error, stopped) */
+  --status-cancelled-bg: #ff0033;
+  --status-cancelled-text: #ffffff;
+  --status-cancelled-shadow: rgba(255, 0, 51, 0.25);
 
   /* Vehicle/Category Colors */
   --color-vehicle-gold: rgba(211, 170, 49, 1); /* Gold for vehicle badges */

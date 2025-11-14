@@ -19,6 +19,7 @@ import {
 import React, { useCallback, useState } from 'react';
 import { getBookingsColumns } from '../columns';
 import { useBookingsList } from '../hooks/useBookingsList';
+import { getBookingGroupClass } from '../utils/bookingGroupColors';
 import { BookingExpandedRow } from './BookingExpandedRow';
 import styles from './BookingsTable.module.css';
 import { BulkActionsBar } from './BulkActionsBar';
@@ -165,7 +166,13 @@ export function BookingsTable({
           expandedIds={expandedIds}
           renderExpandedRow={(booking) => <BookingExpandedRow booking={booking} />}
           getRowId={(row) => row.id}
-          getRowClassName={(row: BookingListItem) => (row.isNew ? (styles.newBookingRow || '') : '')}
+          getRowClassName={(row: BookingListItem) => {
+            const classes = [];
+            if (row.isNew) classes.push(styles.newBookingRow);
+            const groupClass = getBookingGroupClass(row.id);
+            if (groupClass) classes.push(styles[groupClass as keyof typeof styles]);
+            return classes.filter(Boolean).join(' ');
+          }}
         />
       </div>
 

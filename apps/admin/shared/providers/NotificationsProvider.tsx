@@ -42,7 +42,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
   useEffect(() => {
     console.log('🚀 NotificationsProvider - MOUNTING (useEffect START)');
     console.log('   → globalIsSubscribed:', globalIsSubscribed);
-    
+
     // 🛡️ GLOBAL GUARD: Prevent double subscription across ALL mounts
     if (globalIsSubscribed && globalChannel) {
       console.log('⚠️ Already subscribed GLOBALLY, skipping setup');
@@ -87,7 +87,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
         console.log('⚠️ Already subscribed (checked in setupRealtime), ABORT');
         return;
       }
-      
+
       const supabase = createClient();
       const {
         data: { user },
@@ -97,7 +97,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
         console.warn('⚠️ No user found for Realtime subscription');
         return;
       }
-      
+
       // 🛡️ CRITICAL: Check AGAIN after async getUser
       if (globalIsSubscribed) {
         console.log('⚠️ Already subscribed (after getUser), ABORT');
@@ -109,7 +109,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
       console.log('   → Channel name:', channelName);
       console.log('   → User ID:', user.id);
       console.log('   → globalIsSubscribed BEFORE subscribe:', globalIsSubscribed);
-      
+
       // Mark as subscribed IMMEDIATELY before creating channel
       globalIsSubscribed = true;
 
@@ -154,11 +154,11 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
               console.warn('   → This is a Supabase Realtime bug (same event sent twice)');
               return; // ❌ IGNORE duplicate event
             }
-            
+
             // Mark this notification ID as processed
             processedNotificationIds.add(newNotif.id);
             console.log('✅ New notification added:', newNotif.id, newNotif.message);
-            
+
             setNotifications((prev) => [newNotif, ...prev]);
             setUnreadCount((prev) => prev + 1);
 

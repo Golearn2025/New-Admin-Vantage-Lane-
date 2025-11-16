@@ -37,6 +37,7 @@ export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: T
         message: n.message,
         createdAt: n.createdAt,
         read: n.read,
+        type: n.type, // ✅ ADĂUGAT: type pentru iconițele specifice
       })),
     [notifications]
   );

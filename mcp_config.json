@@ -15,7 +15,7 @@
       "args": [
         "-y",
         "mcp-remote",
-        "https://mcp.supabase.com/mcp?project_ref=fmeonuvmlopkutbjejlo"
+        "https://mcp.supabase.com/mcp?project_ref=fmeonuvmlopkutbjejlo&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtZW9udXZtbG9wa3V0YmplamxvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDIwNTEyOCwiZXhwIjoyMDc1NzgxMTI4fQ.aTpnrU5ATH2ezsGFnZ_Fub_I7jkaw31RtjcwAcPFnRE"
       ]
     }
   }

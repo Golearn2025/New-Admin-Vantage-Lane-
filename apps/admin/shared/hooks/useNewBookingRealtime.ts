@@ -9,16 +9,13 @@
 
 import { createClient } from '@/lib/supabase/client';
 import { useEffect, useRef } from 'react';
-import { useNotificationSound } from './useNotificationSound';
 
 export function useNewBookingRealtime() {
-  const { playNewBookingSound, settings } = useNotificationSound();
   const channelRef = useRef<ReturnType<ReturnType<typeof createClient>['channel']> | null>(null);
 
   useEffect(() => {
     const setupBookingRealtime = async () => {
       console.log('🚀 useNewBookingRealtime: Starting setup...');
-      console.log('🔊 Sound settings:', settings);
 
       const supabase = createClient();
 
@@ -50,29 +47,11 @@ export function useNewBookingRealtime() {
             table: 'bookings',
           },
           (payload) => {
-            console.log('🆕 NEW BOOKING DETECTED (Realtime):', payload.new);
-            console.log(
-              '🔊 About to play sound. Settings enabled:',
-              settings.enabled,
-              'muted:',
-              settings.muteAll
-            );
-
-            // Play sound alert IMMEDIATELY
-            try {
-              playNewBookingSound();
-              console.log('✅ Sound function called successfully');
-            } catch (error) {
-              console.error('❌ Sound play error:', error);
-            }
-
-            // Optional: Show browser notification if permission granted
-            if ('Notification' in window && Notification.permission === 'granted') {
-              new Notification('New Booking Alert!', {
-                body: `Booking ${payload.new.reference} received`,
-                icon: '/favicon.ico',
-              });
-            }
+            console.log('🆕 NEW BOOKING (Realtime):', payload.new);
+            console.log('📡 Fetching only this booking (not entire list)...');
+            
+            // Note: Sound is handled by NotificationsProvider to avoid duplicates
+            // This hook only handles real-time booking updates
           }
         )
         .subscribe((status, err) => {
@@ -96,5 +75,5 @@ export function useNewBookingRealtime() {
         channelRef.current = null;
       }
     };
-  }, [playNewBookingSound]);
+  }, []);
 }

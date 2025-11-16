@@ -1,20 +1,20 @@
 /**
  * useNotificationCenter Hook
- * 
+ *
  * Business logic for notification center
  */
 
 'use client';
 
-import { useState, useEffect } from 'react';
 import {
-  listNotifications,
-  getUnreadCount,
-  markAsRead as apiMarkAsRead,
-  markAllAsRead as apiMarkAllAsRead,
   deleteNotification as apiDeleteNotification,
+  markAllAsRead as apiMarkAllAsRead,
+  markAsRead as apiMarkAsRead,
+  getUnreadCount,
+  listNotifications,
 } from '@entities/notification';
 import type { NotificationData } from '@entities/notification/model/types';
+import { useEffect, useState } from 'react';
 
 export interface UseNotificationCenterReturn {
   notifications: NotificationData[];
@@ -28,7 +28,7 @@ export interface UseNotificationCenterReturn {
 }
 
 // TODO: Get from auth context
-const CURRENT_USER_ID = 'temp-admin-user-id';
+const CURRENT_USER_ID = 'b99e1183-fd54-4c62-99b1-b3283de298c0'; // Real admin user ID
 
 export function useNotificationCenter(): UseNotificationCenterReturn {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
@@ -40,12 +40,12 @@ export function useNotificationCenter(): UseNotificationCenterReturn {
     try {
       setLoading(true);
       setError(null);
-      
+
       const [notifs, count] = await Promise.all([
         listNotifications(CURRENT_USER_ID),
         getUnreadCount(CURRENT_USER_ID),
       ]);
-      
+
       setNotifications(notifs);
       setUnreadCount(count);
     } catch (err) {
@@ -58,19 +58,17 @@ export function useNotificationCenter(): UseNotificationCenterReturn {
 
   useEffect(() => {
     fetchNotifications();
-    
+
     // Poll every 30 seconds for new notifications
     const interval = setInterval(fetchNotifications, 30000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
   const markAsRead = async (id: string) => {
     try {
       await apiMarkAsRead(id);
-      setNotifications((prev) =>
-        prev.map((n) => (n.id === id ? { ...n, read: true } : n))
-      );
+      setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
       setUnreadCount((prev) => Math.max(0, prev - 1));
     } catch (err) {
       console.error('Mark as read error:', err);

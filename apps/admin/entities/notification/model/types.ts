@@ -3,15 +3,35 @@
  */
 
 export type NotificationType =
+  // Driver related
   | 'driver_registered'
-  | 'docs_uploaded'
+  | 'driver_created'
   | 'driver_verified'
   | 'driver_activated'
   | 'driver_rejected'
   | 'driver_assigned'
+  | 'docs_uploaded'
+  | 'account_approved'
+  // Booking related
   | 'booking_created'
+  | 'booking_cancelled'
+  | 'booking_assigned'
   | 'booking_updated'
-  | 'payment_received';
+  // Document related
+  | 'document_uploaded'
+  | 'document_approved'
+  | 'document_expiring'
+  | 'driver_document_expiring'
+  // Operator related
+  | 'operator_created'
+  // Messages
+  | 'admin_message'
+  // Payment related
+  | 'payment_received'
+  | 'payment_failed'
+  // System
+  | 'system'
+  | 'test_realtime';
 
 export interface NotificationData {
   id: string;

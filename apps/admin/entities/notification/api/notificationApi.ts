@@ -4,7 +4,7 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
-import type { NotificationData, CreateNotificationPayload } from '../model/types';
+import type { CreateNotificationPayload, NotificationData } from '../model/types';
 
 /**
  * Raw notification row from Supabase
@@ -26,9 +26,7 @@ interface SupabaseNotificationRow {
  */
 export async function listNotifications(userId: string): Promise<NotificationData[]> {
   const supabase = createClient();
-  
-  console.log('📡 listNotifications - userId:', userId);
-  
+
   const { data, error } = await supabase
     .from('notifications')
     .select('*')
@@ -36,11 +34,9 @@ export async function listNotifications(userId: string): Promise<NotificationDat
     .order('created_at', { ascending: false })
     .limit(50);
 
-  console.log('📡 listNotifications - data:', data, 'error:', error);
-
   if (error) {
     console.error('List notifications error:', error);
-    throw new Error(`Failed to fetch notifications: ${error.message}`);
+    throw new Error(error.message);
   }
 
   const mapped = (data || []).map((n) => ({
@@ -53,9 +49,7 @@ export async function listNotifications(userId: string): Promise<NotificationDat
     read: n.read_at !== null,
     createdAt: new Date(n.created_at).toISOString(), // Convert Postgres timestamp to ISO format
   }));
-  
-  console.log('📡 listNotifications - mapped:', mapped.length, 'notifications');
-  
+
   return mapped;
 }
 
@@ -64,7 +58,7 @@ export async function listNotifications(userId: string): Promise<NotificationDat
  */
 export async function getUnreadCount(userId: string): Promise<number> {
   const supabase = createClient();
-  
+
   const { count, error } = await supabase
     .from('notifications')
     .select('*', { count: 'exact', head: true })
@@ -84,7 +78,7 @@ export async function getUnreadCount(userId: string): Promise<number> {
  */
 export async function markAsRead(notificationId: string): Promise<void> {
   const supabase = createClient();
-  
+
   const { error } = await supabase
     .from('notifications')
     .update({ read_at: new Date().toISOString() })
@@ -101,7 +95,7 @@ export async function markAsRead(notificationId: string): Promise<void> {
  */
 export async function markAllAsRead(userId: string): Promise<void> {
   const supabase = createClient();
-  
+
   const { error } = await supabase
     .from('notifications')
     .update({ read_at: new Date().toISOString() })
@@ -121,18 +115,20 @@ export async function createNotification(
   payload: CreateNotificationPayload
 ): Promise<{ success: boolean; id: string }> {
   const supabase = createClient();
-  
+
   const { data, error } = await supabase
     .from('notifications')
-    .insert([{
-      user_id: payload.userId,
-      type: payload.type,
-      title: payload.title,
-      message: payload.message,
-      link: payload.link || null,
-      read: false,
-      created_at: new Date().toISOString(),
-    }])
+    .insert([
+      {
+        user_id: payload.userId,
+        type: payload.type,
+        title: payload.title,
+        message: payload.message,
+        link: payload.link || null,
+        read: false,
+        created_at: new Date().toISOString(),
+      },
+    ])
     .select('id')
     .single();
 
@@ -152,11 +148,8 @@ export async function createNotification(
  */
 export async function deleteNotification(notificationId: string): Promise<void> {
   const supabase = createClient();
-  
-  const { error } = await supabase
-    .from('notifications')
-    .delete()
-    .eq('id', notificationId);
+
+  const { error } = await supabase.from('notifications').delete().eq('id', notificationId);
 
   if (error) {
     console.error('Delete notification error:', error);
@@ -171,7 +164,7 @@ export async function deleteNotification(notificationId: string): Promise<void> 
 export async function listSentNotifications(limit = 100): Promise<NotificationData[]> {
   try {
     const response = await fetch('/api/notifications/history');
-    
+
     if (!response.ok) {
       throw new Error('Failed to fetch history');
     }

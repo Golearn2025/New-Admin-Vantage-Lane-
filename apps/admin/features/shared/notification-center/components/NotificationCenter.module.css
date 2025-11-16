@@ -37,20 +37,21 @@
 }
 
 @keyframes bellRing {
-  20% { 
-    transform: rotate(15deg); 
+  20% {
+    transform: rotate(15deg);
   }
-  40% { 
-    transform: rotate(-15deg) scale(1.1); 
+  40% {
+    transform: rotate(-15deg) scale(1.1);
   }
-  60% { 
-    transform: rotate(10deg) scale(1.1); 
+  60% {
+    transform: rotate(10deg) scale(1.1);
   }
-  80% { 
-    transform: rotate(-10deg); 
+  80% {
+    transform: rotate(-10deg);
   }
-  0%, 100% { 
-    transform: rotate(0deg); 
+  0%,
+  100% {
+    transform: rotate(0deg);
   }
 }
 
@@ -146,6 +147,22 @@
   border-bottom: 1px solid var(--color-border-subtle);
   cursor: pointer;
   transition: var(--motion-hover);
+}
+
+.itemIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-8);
+  height: var(--size-8);
+  border-radius: var(--radius-full);
+  background: var(--theme-primary-subtle);
+  flex-shrink: 0;
+  margin-top: var(--spacing-1);
+}
+
+.notificationIcon {
+  color: var(--theme-primary);
 }
 
 .item:hover {

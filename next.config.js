@@ -6,8 +6,9 @@ const __dirname = dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable React Strict Mode for better development experience
-  reactStrictMode: true,
+  // Disable React Strict Mode to prevent double mounting issues with real-time subscriptions
+  // Double mounting causes memory leaks and server crashes with Supabase Realtime
+  reactStrictMode: false,
 
   // Optimize package imports for faster Fast Refresh
   experimental: {

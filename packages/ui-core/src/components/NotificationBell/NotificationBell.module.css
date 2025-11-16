@@ -28,46 +28,100 @@
   color: var(--color-text-primary);
 }
 
+/* Bell Container - pentru animație */
+.bellContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--motion-hover);
+}
+
+/* Bell Animation - inspirat din Uiverse */
+.bell:hover .bellContainer {
+  animation: bellRing 650ms ease-out both;
+}
+
+@keyframes bellRing {
+  20% { 
+    transform: rotate(15deg); 
+  }
+  40% { 
+    transform: rotate(-15deg) scale(1.1); 
+  }
+  60% { 
+    transform: rotate(10deg) scale(1.1); 
+  }
+  80% { 
+    transform: rotate(-10deg); 
+  }
+  0%, 100% { 
+    transform: rotate(0deg); 
+  }
+}
+
 .bell:focus-visible {
   outline: 2px solid var(--color-border-focus);
   outline-offset: 2px;
 }
 
-.badge {
+/* Badge Container - pentru ping effect */
+.badgeContainer {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 4px;
+  right: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+}
+
+/* Badge Ping Animation */
+.badgePing {
+  position: absolute;
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--color-danger-default);
+  opacity: 0.7;
+  animation: badgePing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Badge actual */
+.badge {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 18px;
-  height: 18px;
-  padding: 2px 6px;
-  background: var(--theme-gradient);
+  min-width: 16px;
+  height: 16px;
+  padding: 1px 4px;
+  background: var(--color-danger-default);
   border-radius: var(--radius-full);
-  color: white;
-  font-size: var(--font-xs);
+  color: var(--color-text-on-danger);
+  font-size: 10px;
   font-weight: var(--font-semibold);
   line-height: 1;
-  box-shadow: var(--theme-glow);
-  animation: pulse 2s infinite;
+  box-shadow: var(--shadow-sm);
+  z-index: 1;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: var(--theme-glow);
-  }
-  50% {
-    box-shadow: var(--theme-glow-strong);
+/* Ping animation keyframes */
+@keyframes badgePing {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
   }
 }
+
 
 .dropdown {
   position: absolute;
   top: calc(100% + var(--spacing-2));
   right: 0;
   width: 380px;
-  max-height: 500px;
+  max-height: 600px;
   background: var(--color-bg-secondary);
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-lg);
@@ -110,8 +164,9 @@
 }
 
 .list {
-  max-height: 400px;
+  max-height: 450px;
   overflow-y: auto;
+  padding: var(--spacing-2);
 }
 
 .empty {
@@ -126,26 +181,91 @@
   align-items: flex-start;
   gap: var(--spacing-3);
   width: 100%;
-  padding: var(--spacing-3) var(--spacing-4) !important;
-  margin: 0 !important;
-  background: transparent !important;
-  background-color: transparent !important;
+  padding: var(--spacing-4) !important;
+  margin: var(--spacing-4) 0 !important;
+  background: var(--color-surface-elevated) !important;
+  background-color: var(--color-surface-elevated) !important;
   background-image: none !important;
-  border: none !important;
-  border-bottom: 1px solid var(--color-border-default) !important;
+  border: 1px solid var(--color-border-subtle) !important;
+  border-radius: var(--radius-lg);
   text-align: left;
   cursor: pointer;
   transition: var(--motion-hover);
+  box-shadow: var(--shadow-sm);
 }
 
 .item:hover {
   background: var(--theme-primary-alpha-10) !important;
   background-color: var(--theme-primary-alpha-10) !important;
+  border-color: var(--theme-primary-muted) !important;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.item:active {
+  transform: translateY(0);
+  transition: var(--transition-fast);
+}
+
+/* Item color variants - MORE VISIBLE backgrounds */
+.itemPrimary {
+  background: var(--theme-primary-alpha-15) !important;
+  border-color: var(--theme-primary-alpha-30) !important;
+  box-shadow: 
+    0 2px 8px var(--theme-primary-alpha-20),
+    inset 0 1px 0 var(--theme-primary-alpha-10);
+}
+
+.itemSuccess {
+  background: var(--color-success-alpha-15) !important;
+  border-color: var(--color-success-alpha-30) !important;
+  box-shadow: 
+    0 2px 8px var(--color-success-alpha-20),
+    inset 0 1px 0 var(--color-success-alpha-10);
+}
+
+.itemWarning {
+  background: var(--color-warning-alpha-15) !important;
+  border-color: var(--color-warning-alpha-30) !important;
+  box-shadow: 
+    0 2px 8px var(--color-warning-alpha-20),
+    inset 0 1px 0 var(--color-warning-alpha-10);
+}
+
+.itemDanger {
+  background: var(--color-danger-alpha-15) !important;
+  border-color: var(--color-danger-alpha-30) !important;
+  box-shadow: 
+    0 2px 8px var(--color-danger-alpha-20),
+    inset 0 1px 0 var(--color-danger-alpha-10);
+}
+
+.itemInfo {
+  background: var(--color-info-alpha-15) !important;
+  border-color: var(--color-info-alpha-30) !important;
+  box-shadow: 
+    0 2px 8px var(--color-info-alpha-20),
+    inset 0 1px 0 var(--color-info-alpha-10);
+}
+
+.itemSecondary {
+  background: var(--color-surface-layer) !important;
+  border-color: var(--color-border-default) !important;
+  box-shadow: var(--shadow-md);
+}
+
+.item.unread {
+  background: var(--theme-primary-subtle) !important;
+  border-color: var(--theme-primary-muted) !important;
+  box-shadow: 
+    var(--shadow-sm),
+    0 0 0 1px var(--theme-primary-alpha-20);
 }
 
 .item:last-child {
-  border-bottom: none;
+  margin-bottom: 0 !important;
 }
+
 
 .item.unread {
   background: var(--theme-primary-alpha-10);
@@ -175,6 +295,155 @@
   color: var(--color-text-muted);
 }
 
+/* Icon Container */
+.iconContainer {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-8);
+  height: var(--size-8);
+  margin-top: var(--spacing-1);
+  background: var(--theme-primary-subtle);
+  border: 1px solid var(--theme-primary-muted);
+  border-radius: var(--radius-lg);
+  transition: var(--motion-hover);
+}
+
+/* Color variants for icon containers */
+.iconContainerPrimary {
+  background: var(--theme-primary-subtle);
+  border-color: var(--theme-primary-muted);
+}
+
+.iconContainerSuccess {
+  background: var(--color-success-subtle);
+  border-color: var(--color-success-muted);
+}
+
+.iconContainerWarning {
+  background: var(--color-warning-subtle);
+  border-color: var(--color-warning-muted);
+}
+
+.iconContainerDanger {
+  background: var(--color-danger-subtle);
+  border-color: var(--color-danger-muted);
+}
+
+.iconContainerInfo {
+  background: var(--color-info-subtle);
+  border-color: var(--color-info-muted);
+}
+
+.iconContainerSecondary {
+  background: var(--color-surface-layer);
+  border-color: var(--color-border-strong);
+}
+
+/* Icon color variants */
+.iconPrimary {
+  color: var(--theme-primary);
+}
+
+.iconSuccess {
+  color: var(--color-success-default);
+}
+
+.iconWarning {
+  color: var(--color-warning-default);
+}
+
+.iconDanger {
+  color: var(--color-danger-default);
+}
+
+.iconInfo {
+  color: var(--color-info-default);
+}
+
+.iconSecondary {
+  color: var(--color-text-secondary);
+}
+
+/* Hover states for different color containers */
+.item:hover .iconContainerPrimary {
+  background: var(--theme-primary-hover);
+  border-color: var(--theme-primary);
+  transform: scale(1.05);
+}
+
+.item:hover .iconContainerSuccess {
+  background: var(--color-success-hover);
+  border-color: var(--color-success-default);
+  transform: scale(1.05);
+}
+
+.item:hover .iconContainerWarning {
+  background: var(--color-warning-hover);
+  border-color: var(--color-warning-default);
+  transform: scale(1.05);
+}
+
+.item:hover .iconContainerDanger {
+  background: var(--color-danger-hover);
+  border-color: var(--color-danger-default);
+  transform: scale(1.05);
+}
+
+.item:hover .iconContainerInfo {
+  background: var(--color-info-hover);
+  border-color: var(--color-info-default);
+  transform: scale(1.05);
+}
+
+.item:hover .iconContainerSecondary {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border-default);
+  transform: scale(1.05);
+}
+
+/* Legacy hover (fallback) */
+.item:hover .iconContainer {
+  transform: scale(1.05);
+}
+
+/* Notification Icon */
+.notificationIcon {
+  color: var(--theme-primary);
+  transition: var(--motion-hover);
+}
+
+.item:hover .notificationIcon {
+  color: var(--color-text-on-primary);
+}
+
+/* Unread Indicator */
+.unreadIndicator {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: var(--size-2);
+  height: var(--size-2);
+  background: var(--color-danger-default);
+  border: 1px solid var(--color-surface-elevated);
+  border-radius: var(--radius-full);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* Legacy dot (keeping for backwards compatibility) */
 .dot {
   flex-shrink: 0;
   width: var(--spacing-2);
@@ -191,9 +460,11 @@
 }
 
 .viewAll {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  padding: var(--spacing-2) !important;
+  padding: var(--spacing-3) var(--spacing-4) !important;
   margin: 0 !important;
   background: transparent !important;
   background-color: transparent !important;

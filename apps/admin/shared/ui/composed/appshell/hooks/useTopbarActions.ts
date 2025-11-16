@@ -32,7 +32,7 @@ export function useTopbarActions(): UseTopbarActionsReturn {
   }, []);
 
   const handleNavigateToNotifications = useCallback(() => {
-    router.push('/admin/notifications');
+    router.push('/notifications');
   }, [router]);
 
   // Close dropdown on outside click

@@ -56,7 +56,9 @@ export function NotificationCenter() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Notifications"
       >
-        <Bell className={styles.bellIcon} size={20} strokeWidth={2} />
+        <div className={styles.bellContainer}>
+          <Bell className={styles.bellIcon} size={20} strokeWidth={2} />
+        </div>
         {unreadCount > 0 && (
           <span className={styles.badge}>{unreadCount > 99 ? '99+' : unreadCount}</span>
         )}

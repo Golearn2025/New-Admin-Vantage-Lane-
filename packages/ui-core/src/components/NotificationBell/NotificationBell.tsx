@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Bell } from 'lucide-react';
+import { NotificationIcon, getNotificationColor } from './NotificationIcon';
 import styles from './NotificationBell.module.css';
 
 export interface Notification {
@@ -15,6 +16,7 @@ export interface Notification {
   message: string;
   createdAt: string;
   read: boolean;
+  type?: string;
 }
 
 export interface NotificationBellProps {
@@ -93,9 +95,16 @@ export function NotificationBell({
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Notifications"
       >
-        <Bell size={24} strokeWidth={2} />
+        <div className={styles.bellContainer}>
+          <Bell size={24} strokeWidth={2} />
+        </div>
         {unreadCount > 0 && (
-          <span className={styles.badge}>{unreadCount > 9 ? '9+' : unreadCount}</span>
+          <span className={styles.badgeContainer}>
+            <span className={styles.badgePing} />
+            <span className={styles.badge}>
+              {unreadCount > 9 ? '9+' : unreadCount}
+            </span>
+          </span>
         )}
       </button>
 
@@ -114,20 +123,30 @@ export function NotificationBell({
             {notifications.length === 0 ? (
               <div className={styles.empty}>No notifications</div>
             ) : (
-              notifications.slice(0, 5).map((notification) => (
-                <button
-                  key={notification.id}
-                  className={`${styles.item} ${!notification.read ? styles.unread : ''}`}
-                  onClick={() => onNotificationClick(notification.id)}
-                >
-                  {!notification.read && <span className={styles.dot} />}
-                  <div className={styles.content}>
-                    <p className={styles.notifTitle}>{notification.title}</p>
-                    <p className={styles.message}>{notification.message}</p>
-                    <p className={styles.time}>{formatTime(notification.createdAt)}</p>
-                  </div>
-                </button>
-              ))
+              notifications.slice(0, 5).map((notification) => {
+                const colorType = getNotificationColor(notification.type || 'default');
+                return (
+                  <button
+                    key={notification.id}
+                    className={`${styles.item} ${!notification.read ? styles.unread : ''} ${styles[`item${colorType.charAt(0).toUpperCase() + colorType.slice(1)}`] || ''}`}
+                    onClick={() => onNotificationClick(notification.id)}
+                  >
+                    <div className={`${styles.iconContainer} ${styles[`iconContainer${colorType.charAt(0).toUpperCase() + colorType.slice(1)}`] || ''}`}>
+                      <NotificationIcon 
+                        type={notification.type || 'default'} 
+                        size={16}
+                        className={`${styles.notificationIcon} ${styles[`icon${colorType.charAt(0).toUpperCase() + colorType.slice(1)}`] || ''}`}
+                      />
+                      {!notification.read && <span className={styles.unreadIndicator} />}
+                    </div>
+                    <div className={styles.content}>
+                      <p className={styles.notifTitle}>{notification.title}</p>
+                      <p className={styles.message}>{notification.message}</p>
+                      <p className={styles.time}>{formatTime(notification.createdAt)}</p>
+                    </div>
+                  </button>
+                );
+              })
             )}
           </div>
 

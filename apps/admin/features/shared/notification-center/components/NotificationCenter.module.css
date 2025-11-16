@@ -9,16 +9,49 @@
 
 .bellButton {
   position: relative;
-  padding: var(--spacing-2);
+  padding: var(--spacing-3);
   background: transparent;
   border: none;
   cursor: pointer;
   color: var(--color-text-primary);
-  transition: var(--transition-fast);
+  transition: var(--transition-base);
+  border-radius: var(--radius-full);
 }
 
 .bellButton:hover {
+  background: rgba(170, 170, 170, 0.1);
   color: var(--theme-primary);
+}
+
+/* Bell Container - pentru animație */
+.bellContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-base);
+}
+
+/* Bell Animation - inspirat din Uiverse */
+.bellButton:hover .bellContainer {
+  animation: bellRing 650ms ease-out both !important;
+}
+
+@keyframes bellRing {
+  20% { 
+    transform: rotate(15deg); 
+  }
+  40% { 
+    transform: rotate(-15deg) scale(1.1); 
+  }
+  60% { 
+    transform: rotate(10deg) scale(1.1); 
+  }
+  80% { 
+    transform: rotate(-10deg); 
+  }
+  0%, 100% { 
+    transform: rotate(0deg); 
+  }
 }
 
 .bellIcon {
@@ -28,8 +61,8 @@
 
 .badge {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: var(--spacing-1);
+  right: var(--spacing-1);
   min-width: var(--size-4);
   height: var(--size-4);
   padding: 0 var(--spacing-1);
@@ -41,6 +74,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: var(--z-badge);
+  box-shadow: var(--shadow-sm);
 }
 
 .dropdown {

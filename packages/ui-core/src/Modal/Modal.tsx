@@ -102,8 +102,12 @@ export function Modal({
   if (!isOpen) return null;
 
   const handleOverlayClick = (e: React.MouseEvent) => {
+    console.log('🔥 MODAL OVERLAY CLICKED!', e.target, e.currentTarget);
     if (closeOnOverlayClick && e.target === e.currentTarget) {
+      console.log('🔥 CLOSING MODAL via overlay');
       onClose();
+    } else {
+      console.log('🔥 Click inside modal content, not closing');
     }
   };
 
@@ -115,6 +119,10 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? 'modal-title' : undefined}
+        onClick={(e) => {
+          console.log('🔥 MODAL CONTENT CLICKED!', e.target);
+          e.stopPropagation();
+        }}
       >
         {(title || showCloseButton) && (
           <div className={styles.header}>

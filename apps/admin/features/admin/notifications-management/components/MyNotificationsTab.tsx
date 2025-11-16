@@ -1,7 +1,7 @@
 'use client';
 
 import { CheckCircle, Inbox, Bell, Trash, RotateCcw } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 /**
  * My Notifications Tab
@@ -14,13 +14,30 @@ import { useBulkNotifications } from '../hooks/useBulkNotifications';
 import { formatNotificationDate } from '@admin-shared/utils/formatDate';
 import styles from './MyNotificationsTab.module.css';
 
-export function MyNotificationsTab() {
-  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotificationsContext();
+interface MyNotificationsTabProps {
+  highlightId?: string | null;
+}
+
+export function MyNotificationsTab({ highlightId }: MyNotificationsTabProps) {
+  const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification } = useNotificationsContext();
   const [filter, setFilter] = useState<'all' | 'unread' | 'read'>('all');
   const [search, setSearch] = useState('');
+  const highlightRef = useRef<HTMLDivElement>(null);
   
   // Bulk operations hook
   const bulk = useBulkNotifications();
+
+  // Scroll to highlighted notification
+  useEffect(() => {
+    if (highlightId && highlightRef.current) {
+      setTimeout(() => {
+        highlightRef.current?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+      }, 100);
+    }
+  }, [highlightId, notifications]);
 
   const filteredNotifications = notifications
     .filter((n) => {
@@ -172,10 +189,13 @@ export function MyNotificationsTab() {
             const isCurrentLoading = bulk.loadingAction?.id === notification.id;
             const currentAction = isCurrentLoading ? bulk.loadingAction?.action : undefined;
             
+            const isHighlighted = highlightId === notification.id;
+
             return (
               <div
                 key={notification.id}
-                className={`${styles.item} ${!notification.read ? styles.unread : ''} ${isSelected ? styles.selected : ''}`}
+                ref={isHighlighted ? highlightRef : null}
+                className={`${styles.item} ${!notification.read ? styles.unread : ''} ${isSelected ? styles.selected : ''} ${isHighlighted ? styles.highlighted : ''}`}
               >
                 <div className={styles.itemSelector}>
                   <Checkbox
@@ -208,7 +228,7 @@ export function MyNotificationsTab() {
                     }}
                     onMarkRead={markAsRead}
                     onMarkUnread={bulk.handleMarkUnread}
-                    onDelete={bulk.handleDelete}
+                    onDelete={deleteNotification}
                     compact={false}
                     showLabels={true}
                     showConfirm={true}

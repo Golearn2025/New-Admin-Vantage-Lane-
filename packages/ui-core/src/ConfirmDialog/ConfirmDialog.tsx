@@ -63,15 +63,31 @@ export function ConfirmDialog({
           <Button variant="outline" size="md" onClick={onClose} disabled={loading}>
             {cancelLabel}
           </Button>
-          <Button
-            variant={variant === 'danger' ? 'danger' : 'primary'}
-            size="md"
-            onClick={onConfirm}
-            loading={loading}
+          <button
+            type="button"
+            style={{
+              backgroundColor: 'red',
+              color: 'white',
+              padding: '10px 20px',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: 'bold'
+            }}
+            onClick={(e) => {
+              console.log('🔥 RAW BUTTON CLICKED!', e);
+              alert('RAW BUTTON WORKS!');
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('🔥 ABOUT TO CALL onConfirm');
+              onConfirm();
+              console.log('🔥 onConfirm CALLED');
+            }}
             disabled={loading}
           >
-            {confirmLabel}
-          </Button>
+            TEST DELETE (RAW BUTTON)
+          </button>
         </div>
       </div>
     </Modal>

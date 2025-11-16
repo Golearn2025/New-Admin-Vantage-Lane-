@@ -5,7 +5,8 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Tabs } from '@vantage-lane/ui-core';
 import { MyNotificationsTab } from './MyNotificationsTab';
 import { SendNotificationsTab } from './SendNotificationsTab';
@@ -15,6 +16,8 @@ import styles from './NotificationsManagementPage.module.css';
 
 export function NotificationsManagementPage() {
   const [activeTab, setActiveTab] = useState('my-notifications');
+  const searchParams = useSearchParams();
+  const highlightId = searchParams.get('highlight');
 
   const tabs = [
     {
@@ -57,7 +60,7 @@ export function NotificationsManagementPage() {
       />
 
       <div className={styles.content}>
-        {activeTab === 'my-notifications' && <MyNotificationsTab />}
+        {activeTab === 'my-notifications' && <MyNotificationsTab highlightId={highlightId} />}
         {activeTab === 'send' && <SendNotificationsTab />}
         {activeTab === 'history' && <NotificationHistoryTab />}
         {activeTab === 'automated' && <AutomatedNotificationsTab />}

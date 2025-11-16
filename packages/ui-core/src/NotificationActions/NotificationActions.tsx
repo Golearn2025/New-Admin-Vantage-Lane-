@@ -65,19 +65,31 @@ export function NotificationActions({
   };
 
   const handleDelete = () => {
-    if (loading) return;
+    console.log('🔥 DELETE BUTTON CLICKED!', notification.id);
+    if (loading) {
+      console.log('⏳ Delete blocked - loading state');
+      return;
+    }
     
     if (showConfirm) {
+      console.log('🔥 Opening confirmation modal');
       setConfirmOpen(true);
     } else if (onDelete) {
+      console.log('🔥 Direct delete (no confirmation)');
       onDelete(notification.id);
+    } else {
+      console.error('❌ onDelete callback missing!');
     }
   };
 
   const handleConfirmDelete = () => {
+    console.log('🔥 CONFIRM DELETE CLICKED IN MODAL!', notification.id);
     setConfirmOpen(false);
     if (onDelete) {
+      console.log('🔥 CALLING onDelete callback:', notification.id);
       onDelete(notification.id);
+    } else {
+      console.error('❌ onDelete callback is missing!');
     }
   };
 
@@ -115,42 +127,53 @@ export function NotificationActions({
           </Button>
         )}
 
-        {/* Delete Button */}
+        {/* Delete Button - WORKING VERSION */}
         {onDelete && (
-          <Button
-            variant="ghost"
-            size={compact ? "sm" : "md"}
-            onClick={handleDelete}
-            loading={loading && loadingAction === 'delete'}
+          <button
+            type="button"
+            style={{
+              backgroundColor: 'transparent',
+              color: '#dc2626',
+              border: 'none',
+              borderRadius: '4px',
+              padding: compact ? '4px' : '6px',
+              fontSize: compact ? '14px' : '16px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minWidth: compact ? '28px' : '32px',
+              minHeight: compact ? '28px' : '32px',
+              transition: 'background-color 0.2s',
+            }}
+            onClick={(e) => {
+              console.log('🔥 DELETE CLICKED!', notification.id);
+              e.preventDefault();
+              e.stopPropagation();
+              if (onDelete) {
+                console.log('🔥 CALLING DELETE:', notification.id);
+                onDelete(notification.id);
+              }
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = '#fef2f2';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }}
             disabled={loading}
-            className={`${styles.actionButton} ${styles.deleteButton}`}
             aria-label="Delete notification"
+            title="Delete notification"
           >
             <Icon 
               name="trash" 
               size={compact ? "sm" : "md"} 
             />
-            {showLabels && (
-              <span className={styles.label}>Delete</span>
-            )}
-          </Button>
+          </button>
         )}
       </div>
 
-      {/* Delete Confirmation Dialog */}
-      {showConfirm && (
-        <ConfirmDialog
-          isOpen={confirmOpen}
-          onClose={() => setConfirmOpen(false)}
-          onConfirm={handleConfirmDelete}
-          title="Delete Notification"
-          message={`Are you sure you want to delete "${notification.title}"? This action cannot be undone.`}
-          confirmLabel="Delete"
-          cancelLabel="Cancel"
-          variant="danger"
-          loading={loading && loadingAction === 'delete'}
-        />
-      )}
+      {/* Modal removed - direct delete now */}
     </>
   );
 }

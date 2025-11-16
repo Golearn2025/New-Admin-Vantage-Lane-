@@ -309,7 +309,8 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
   };
 
   const handleDeleteNotification = async (notificationId: string) => {
-    console.log('🗑️ ATTEMPTING DELETE:', notificationId);
+    console.log('🗑️ PROVIDER DELETE CALLED:', notificationId);
+    console.log('🔍 Current notifications count:', notifications.length);
     
     // Get notification reference for state update
     const notification = notifications.find(n => n.id === notificationId);

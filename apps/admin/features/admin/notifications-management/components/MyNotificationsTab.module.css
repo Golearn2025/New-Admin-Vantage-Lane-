@@ -121,8 +121,27 @@
 }
 
 .item.selected {
-  border-color: var(--theme-primary);
-  background: var(--theme-primary-alpha-5);
+  background-color: var(--color-primary-50);
+  border-color: var(--color-primary-200);
+}
+
+.item.highlighted {
+  background-color: var(--color-warning-50);
+  border-color: var(--color-warning-300);
+  box-shadow: 0 0 0 3px var(--color-warning-100);
+  animation: highlightPulse 2s ease-out;
+}
+
+@keyframes highlightPulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--color-warning-200);
+  }
+  50% {
+    box-shadow: 0 0 0 8px var(--color-warning-100);
+  }
+  100% {
+    box-shadow: 0 0 0 3px var(--color-warning-100);
+  }
 }
 
 .item:hover {

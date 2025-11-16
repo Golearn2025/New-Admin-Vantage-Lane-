@@ -7,16 +7,16 @@
 
 'use client';
 
-import { NotificationBell, type Notification } from '@vantage-lane/ui-core';
+import { NotificationBell, BrandName } from '@vantage-lane/ui-core';
+import type { Notification as NotificationBellType } from '@vantage-lane/ui-core';
 import { useNotificationsContext } from '@admin-shared/providers/NotificationsProvider';
 import { useRouter } from 'next/navigation';
-import { BrandName } from '@admin-shared/ui/composed/BrandName';
-import { Icon } from '@vantage-lane/ui-icons';
 import Image from 'next/image';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTopbarActions, useUserInitials } from './hooks';
 import styles from './Topbar.module.css';
 import { TopbarProps } from './types';
+import { Icon } from '@vantage-lane/ui-icons';
 import { UserDropdown } from './UserDropdown';
 
 export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: TopbarProps) {
@@ -29,6 +29,8 @@ export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: T
     deleteNotification,
   } = useNotificationsContext();
   const router = useRouter();
+  
+  // Simple - no complex loading management like MyNotificationsTab
 
   // Hooks pentru business logic
   const { isUserDropdownOpen, handleUserMenuToggle, handleUserMenuClose, dropdownRef } =
@@ -41,7 +43,7 @@ export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: T
   };
 
   // Handle notification click with navigation
-  const handleNotificationClick = (notification: Notification) => {
+  const handleNotificationClick = (notification: NotificationBellType) => {
     // Mark as read if unread
     if (!notification.read) {
       markAsRead(notification.id);
@@ -53,6 +55,17 @@ export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: T
     } else {
       // Default: Go to notifications page with specific notification highlighted
       router.push(`/notifications?highlight=${notification.id}`);
+    }
+  };
+
+  // Simple debug wrapper for delete to match MyNotificationsTab exactly
+  const handleDelete = async (id: string) => {
+    console.log('🔥 TOPBAR DELETE CALLED (same as MyNotifications):', id);
+    try {
+      await deleteNotification(id);
+      console.log('✅ TOPBAR DELETE SUCCESS:', id);
+    } catch (error) {
+      console.error('❌ TOPBAR DELETE FAILED:', error);
     }
   };
 
@@ -138,7 +151,7 @@ export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: T
           onMarkAllRead={markAllAsRead}
           onMarkRead={markAsRead}
           onMarkUnread={markAsUnread}
-          onDelete={deleteNotification}
+          onDelete={handleDelete}
           onMarkAllUnread={handleMarkAllUnread}
           onArchiveAll={handleArchiveAll}
           onClearAll={handleClearAll}

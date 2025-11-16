@@ -110,12 +110,19 @@
 
 .item {
   position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
   padding: var(--spacing-4);
   background: var(--color-bg-secondary);
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-lg);
-  cursor: pointer;
   transition: var(--motion-hover);
+}
+
+.item.selected {
+  border-color: var(--theme-primary);
+  background: var(--theme-primary-alpha-5);
 }
 
 .item:hover {
@@ -156,11 +163,76 @@
 
 .unreadDot {
   position: absolute;
-  top: var(--spacing-4);
-  right: var(--spacing-4);
-  width: var(--spacing-2);
-  height: var(--spacing-2);
-  background: var(--theme-primary);
-  border-radius: var(--radius-full);
+  top: var(--spacing-2);
+  right: var(--spacing-2);
+  width: 8px;
+  height: 8px;
+  background: var(--theme-accent);
+  border-radius: 50%;
   box-shadow: var(--theme-glow);
+}
+
+/* Bulk Actions */
+.bulkActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--theme-primary-alpha-5);
+  border: 1px solid var(--theme-primary-border);
+  border-radius: var(--radius-lg);
+  margin: var(--spacing-3) 0;
+}
+
+.bulkInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.selectedCount {
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  color: var(--theme-primary);
+}
+
+.bulkButtons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+/* Removed deleteButton styles - using variant="danger" instead */
+
+/* Selection Header */
+.selectionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) 0;
+  margin: var(--spacing-2) 0;
+}
+
+.selectionLabel {
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+}
+
+/* Item Layout */
+.itemSelector {
+  display: flex;
+  align-items: flex-start;
+  padding-top: var(--spacing-1);
+}
+
+.itemContent {
+  flex: 1;
+  cursor: pointer;
+}
+
+.itemActions {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-1);
 }

@@ -1,14 +1,16 @@
 'use client';
 
-import { CheckCircle, Inbox, Bell } from 'lucide-react';
+import { CheckCircle, Inbox, Bell, Trash, RotateCcw } from 'lucide-react';
 import React, { useState } from 'react';
 
 /**
  * My Notifications Tab
- * View and manage personal notifications
+ * Enhanced with bulk operations and individual notification actions
+ * Premium UX with selection, delete, mark read/unread functionality
  */
 import { useNotificationsContext } from '@admin-shared/providers/NotificationsProvider';
-import { Button, Input } from '@vantage-lane/ui-core';
+import { Button, Input, NotificationActions, Checkbox } from '@vantage-lane/ui-core';
+import { useBulkNotifications } from '../hooks/useBulkNotifications';
 import { formatNotificationDate } from '@admin-shared/utils/formatDate';
 import styles from './MyNotificationsTab.module.css';
 
@@ -16,6 +18,9 @@ export function MyNotificationsTab() {
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotificationsContext();
   const [filter, setFilter] = useState<'all' | 'unread' | 'read'>('all');
   const [search, setSearch] = useState('');
+  
+  // Bulk operations hook
+  const bulk = useBulkNotifications();
 
   const filteredNotifications = notifications
     .filter((n) => {
@@ -31,6 +36,9 @@ export function MyNotificationsTab() {
       );
     });
 
+  // Computed values from hook
+  const isAllSelected = bulk.isAllSelected(filteredNotifications);
+  const isSomeSelected = bulk.isSomeSelected;
 
   return (
     <div className={styles.container}>
@@ -89,13 +97,68 @@ export function MyNotificationsTab() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          {unreadCount > 0 && (
+          {unreadCount > 0 && !isSomeSelected && (
             <Button variant="secondary" onClick={markAllAsRead}>
               Mark all as read
             </Button>
           )}
         </div>
       </div>
+
+      {/* Bulk Actions Bar */}
+      {isSomeSelected && (
+        <div className={styles.bulkActions}>
+          <div className={styles.bulkInfo}>
+            <span className={styles.selectedCount}>
+              {bulk.selectedCount} notification{bulk.selectedCount !== 1 ? 's' : ''} selected
+            </span>
+          </div>
+          <div className={styles.bulkButtons}>
+            <Button 
+              variant="secondary" 
+              onClick={bulk.handleBulkMarkRead}
+              loading={bulk.loading}
+              disabled={bulk.loading}
+            >
+              <CheckCircle size={16} />
+              Mark Read
+            </Button>
+            <Button 
+              variant="secondary" 
+              onClick={bulk.handleBulkMarkUnread}
+              loading={bulk.loading}
+              disabled={bulk.loading}
+            >
+              <RotateCcw size={16} />
+              Mark Unread
+            </Button>
+            <Button 
+              variant="danger" 
+              onClick={bulk.handleBulkDelete}
+              loading={bulk.loading}
+              disabled={bulk.loading}
+            >
+              <Trash size={16} />
+              Delete
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Selection Header */}
+      {filteredNotifications.length > 0 && (
+        <div className={styles.selectionHeader}>
+          <Checkbox
+            checked={isAllSelected}
+            indeterminate={isSomeSelected && !isAllSelected}
+            onChange={() => bulk.handleSelectAll(filteredNotifications)}
+            disabled={bulk.loading}
+          />
+          <span className={styles.selectionLabel}>
+            {isAllSelected ? 'Deselect all' : 'Select all'}
+          </span>
+        </div>
+      )}
 
       {/* Notifications List */}
       <div className={styles.list}>
@@ -104,20 +167,58 @@ export function MyNotificationsTab() {
             <p>No notifications found</p>
           </div>
         ) : (
-          filteredNotifications.map((notification) => (
-            <div
-              key={notification.id}
-              className={`${styles.item} ${!notification.read ? styles.unread : ''}`}
-              onClick={() => !notification.read && markAsRead(notification.id)}
-            >
-              <div className={styles.itemHeader}>
-                <h3 className={styles.itemTitle}>{notification.title}</h3>
-                <span className={styles.itemTime}>{formatNotificationDate(notification.createdAt)}</span>
+          filteredNotifications.map((notification) => {
+            const isSelected = bulk.selectedIds.has(notification.id);
+            const isCurrentLoading = bulk.loadingAction?.id === notification.id;
+            const currentAction = isCurrentLoading ? bulk.loadingAction?.action : undefined;
+            
+            return (
+              <div
+                key={notification.id}
+                className={`${styles.item} ${!notification.read ? styles.unread : ''} ${isSelected ? styles.selected : ''}`}
+              >
+                <div className={styles.itemSelector}>
+                  <Checkbox
+                    checked={isSelected}
+                    onChange={() => bulk.handleSelectNotification(notification.id)}
+                    disabled={bulk.loading}
+                  />
+                </div>
+                
+                <div 
+                  className={styles.itemContent}
+                  onClick={() => !notification.read && markAsRead(notification.id)}
+                >
+                  <div className={styles.itemHeader}>
+                    <h3 className={styles.itemTitle}>{notification.title}</h3>
+                    <span className={styles.itemTime}>
+                      {formatNotificationDate(notification.createdAt)}
+                    </span>
+                  </div>
+                  <p className={styles.itemMessage}>{notification.message}</p>
+                  {!notification.read && <span className={styles.unreadDot} />}
+                </div>
+
+                <div className={styles.itemActions}>
+                  <NotificationActions
+                    notification={{
+                      id: notification.id,
+                      read: notification.read,
+                      title: notification.title,
+                    }}
+                    onMarkRead={markAsRead}
+                    onMarkUnread={bulk.handleMarkUnread}
+                    onDelete={bulk.handleDelete}
+                    compact={false}
+                    showLabels={true}
+                    showConfirm={true}
+                    loading={isCurrentLoading && !bulk.loading}
+                    {...(currentAction && { loadingAction: currentAction })}
+                  />
+                </div>
               </div>
-              <p className={styles.itemMessage}>{notification.message}</p>
-              {!notification.read && <span className={styles.unreadDot} />}
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </div>

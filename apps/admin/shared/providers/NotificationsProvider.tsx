@@ -7,12 +7,18 @@
 'use client';
 
 import { createClient } from '@/lib/supabase/client';
-import type { NotificationData } from '@entities/notification';
 import {
-  getUnreadCount,
   listNotifications,
   markAllAsRead,
   markAsRead,
+  markAsUnread,
+  deleteNotification,
+  forceDeleteNotification,
+  bulkDelete,
+  bulkMarkRead,
+  bulkMarkUnread,
+  getUnreadCount,
+  type NotificationData,
 } from '@entities/notification';
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 
@@ -22,6 +28,11 @@ interface NotificationsContextValue {
   loading: boolean;
   markAsRead: (notificationId: string) => Promise<void>;
   markAllAsRead: () => Promise<void>;
+  markAsUnread: (notificationId: string) => Promise<void>;
+  deleteNotification: (notificationId: string) => Promise<void>;
+  bulkDelete: (notificationIds: string[]) => Promise<void>;
+  bulkMarkRead: (notificationIds: string[]) => Promise<void>;
+  bulkMarkUnread: (notificationIds: string[]) => Promise<void>;
 }
 
 const NotificationsContext = createContext<NotificationsContextValue | null>(null);
@@ -260,7 +271,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
       );
       setUnreadCount((prev) => Math.max(0, prev - 1));
     } catch (error) {
-      console.error('Failed to mark notification as read:', error);
+      console.error('Failed to mark as read:', error);
     }
   };
 
@@ -278,12 +289,141 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
     }
   };
 
+  const handleMarkAsUnread = async (notificationId: string) => {
+    try {
+      await markAsUnread(notificationId);
+
+      // Update local state
+      setNotifications((prev) =>
+        prev.map((n) => (n.id === notificationId ? { ...n, read: false } : n))
+      );
+      
+      // Update unread count
+      const notification = notifications.find(n => n.id === notificationId);
+      if (notification && notification.read) {
+        setUnreadCount(prev => prev + 1);
+      }
+    } catch (error) {
+      console.error('Failed to mark as unread:', error);
+    }
+  };
+
+  const handleDeleteNotification = async (notificationId: string) => {
+    console.log('🗑️ ATTEMPTING DELETE:', notificationId);
+    
+    // Get notification reference for state update
+    const notification = notifications.find(n => n.id === notificationId);
+    
+    try {
+      // Try normal delete first (should work now with fixed RLS)
+      await deleteNotification(notificationId);
+      console.log('✅ DELETE SUCCESS:', notificationId);
+    } catch (error) {
+      console.error('❌ NORMAL DELETE FAILED, TRYING FORCE DELETE:', error);
+      try {
+        // If normal delete fails, try force delete as backup
+        await forceDeleteNotification(notificationId);
+        console.log('✅ FORCE DELETE SUCCESS:', notificationId);
+      } catch (forceError) {
+        console.error('❌ FORCE DELETE ALSO FAILED:', forceError);
+        
+        // As a last resort, just update the UI optimistically
+        console.log('🔄 OPTIMISTIC DELETE - UPDATING UI ANYWAY');
+        setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
+        if (notification && !notification.read) {
+          setUnreadCount(prev => Math.max(0, prev - 1));
+        }
+        
+        // Still throw error to show user that backend failed
+        throw new Error(`All delete methods failed. Normal: ${error instanceof Error ? error.message : 'Unknown'}. Force: ${forceError instanceof Error ? forceError.message : 'Unknown'}`);
+      }
+    }
+
+    // Update local state (this runs if either delete method worked)
+    setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
+    
+    // Update unread count if deleted notification was unread
+    if (notification && !notification.read) {
+      setUnreadCount(prev => Math.max(0, prev - 1));
+    }
+    
+    console.log('✅ LOCAL STATE UPDATED for:', notificationId);
+  };
+
+  const handleBulkDelete = async (notificationIds: string[]) => {
+    console.log('🗑️ ATTEMPTING BULK DELETE:', notificationIds);
+    try {
+      await bulkDelete(notificationIds);
+      console.log('✅ BULK DELETE SUCCESS:', notificationIds);
+
+      // Update local state
+      const deletedNotifications = notifications.filter(n => notificationIds.includes(n.id));
+      const unreadDeleted = deletedNotifications.filter(n => !n.read).length;
+      
+      setNotifications((prev) => prev.filter((n) => !notificationIds.includes(n.id)));
+      setUnreadCount(prev => Math.max(0, prev - unreadDeleted));
+      
+      console.log('✅ BULK LOCAL STATE UPDATED for:', notificationIds);
+    } catch (error) {
+      console.error('❌ BULK DELETE FAILED:', error);
+      console.error('❌ Notification IDs:', notificationIds);
+      
+      // Re-throw to show user error
+      throw error;
+    }
+  };
+
+  const handleBulkMarkRead = async (notificationIds: string[]) => {
+    try {
+      await bulkMarkRead(notificationIds);
+
+      // Update local state
+      const unreadToRead = notifications.filter(n => 
+        notificationIds.includes(n.id) && !n.read
+      ).length;
+      
+      setNotifications((prev) => 
+        prev.map((n) => 
+          notificationIds.includes(n.id) ? { ...n, read: true } : n
+        )
+      );
+      setUnreadCount(prev => Math.max(0, prev - unreadToRead));
+    } catch (error) {
+      console.error('Failed to bulk mark read:', error);
+    }
+  };
+
+  const handleBulkMarkUnread = async (notificationIds: string[]) => {
+    try {
+      await bulkMarkUnread(notificationIds);
+
+      // Update local state
+      const readToUnread = notifications.filter(n => 
+        notificationIds.includes(n.id) && n.read
+      ).length;
+      
+      setNotifications((prev) => 
+        prev.map((n) => 
+          notificationIds.includes(n.id) ? { ...n, read: false } : n
+        )
+      );
+      setUnreadCount(prev => prev + readToUnread);
+    } catch (error) {
+      console.error('Failed to bulk mark unread:', error);
+    }
+  };
+
   const value: NotificationsContextValue = {
     notifications,
     unreadCount,
     loading,
     markAsRead: handleMarkAsRead,
     markAllAsRead: handleMarkAllAsRead,
+    markAsUnread: handleMarkAsUnread,
+    deleteNotification: handleDeleteNotification,
+    bulkDelete: handleBulkDelete,
+    bulkMarkRead: handleBulkMarkRead,
+    bulkMarkUnread: handleBulkMarkUnread,
   };
 
   return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;

@@ -27,12 +27,15 @@ interface SupabaseNotificationRow {
 export async function listNotifications(userId: string): Promise<NotificationData[]> {
   const supabase = createClient();
 
+  // Dynamic limit based on user - admin gets more
+  const limit = 100; // Increase for all users to handle larger volumes
+  
   const { data, error } = await supabase
     .from('notifications')
     .select('*')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
-    .limit(50);
+    .limit(limit);
 
   if (error) {
     console.error('List notifications error:', error);
@@ -144,18 +147,132 @@ export async function createNotification(
 }
 
 /**
+ * Mark notification as unread
+ */
+export async function markAsUnread(notificationId: string): Promise<void> {
+  const supabase = createClient();
+
+  const { error } = await supabase
+    .from('notifications')
+    .update({ read_at: null })
+    .eq('id', notificationId);
+
+  if (error) {
+    console.error('Mark as unread error:', error);
+    throw new Error(`Failed to mark notification as unread: ${error.message}`);
+  }
+}
+
+/**
  * Delete notification
  */
 export async function deleteNotification(notificationId: string): Promise<void> {
+  console.log('🔥 API DELETE CALL:', notificationId);
   const supabase = createClient();
 
-  const { error } = await supabase.from('notifications').delete().eq('id', notificationId);
+  // First check if notification exists and user can see it
+  const { data: existing, error: selectError } = await supabase
+    .from('notifications')
+    .select('id, user_id, created_at')
+    .eq('id', notificationId)
+    .single();
+
+  if (selectError) {
+    console.error('❌ CANNOT FIND NOTIFICATION:', selectError);
+    throw new Error(`Cannot find notification: ${selectError.message}`);
+  }
+
+  if (!existing) {
+    console.error('❌ NOTIFICATION NOT FOUND:', notificationId);
+    throw new Error('Notification not found or no permission');
+  }
+
+  console.log('✅ NOTIFICATION EXISTS:', existing);
+
+  // Now try to delete
+  const { data, error } = await supabase
+    .from('notifications')
+    .delete()
+    .eq('id', notificationId)
+    .select();
 
   if (error) {
-    console.error('Delete notification error:', error);
+    console.error('❌ API DELETE ERROR:', error);
+    console.error('❌ Error details:', {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code
+    });
     throw new Error(`Failed to delete notification: ${error.message}`);
   }
+
+  console.log('✅ API DELETE SUCCESS:', data);
+  console.log('✅ Deleted rows count:', data?.length || 0);
+
+  if (!data || data.length === 0) {
+    console.error('❌ NO ROWS DELETED - RLS POLICY ISSUE?');
+    throw new Error('Delete operation succeeded but no rows were affected. Check RLS policies.');
+  }
 }
+
+/**
+ * Force delete notification (bypass RLS if needed)
+ * Only use if regular delete fails due to RLS issues
+ */
+export async function forceDeleteNotification(notificationId: string): Promise<void> {
+  console.log('🚨 FORCE DELETE CALL:', notificationId);
+  
+  try {
+    const response = await fetch('/api/notifications/force-delete', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ notificationId })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ error: 'Unknown API error' }));
+      throw new Error(`API Error ${response.status}: ${errorData.error || 'Unknown error'}`);
+    }
+
+    const result = await response.json();
+    console.log('✅ FORCE DELETE via API SUCCESS:', result);
+
+  } catch (apiError) {
+    console.error('❌ FORCE DELETE via API FAILED:', apiError);
+    throw new Error(`Force delete failed: ${apiError instanceof Error ? apiError.message : 'Unknown error'}`);
+  }
+}
+
+/**
+ * Admin cleanup - delete old notifications (older than X days)
+ */
+export async function cleanupOldNotifications(daysOld = 30): Promise<{ deletedCount: number }> {
+  console.log(`🧹 ADMIN CLEANUP: Deleting notifications older than ${daysOld} days`);
+  const supabase = createClient();
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - daysOld);
+
+  const { data, error } = await supabase
+    .from('notifications')
+    .delete()
+    .lt('created_at', cutoffDate.toISOString())
+    .select('id');
+
+  if (error) {
+    console.error('❌ CLEANUP ERROR:', error);
+    throw new Error(`Cleanup failed: ${error.message}`);
+  }
+
+  const deletedCount = data?.length || 0;
+  console.log(`✅ CLEANUP SUCCESS: Deleted ${deletedCount} old notifications`);
+
+  return { deletedCount };
+}
+
+// Re-export bulk operations from dedicated module
+export { bulkDelete, bulkMarkRead, bulkMarkUnread, validateBulkOperation } from './bulkOperations';
 
 /**
  * List sent notifications history

@@ -138,6 +138,22 @@
   border-bottom: 1px solid var(--color-border-default);
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.quickAction {
+  font-size: var(--font-xs);
+  padding: var(--spacing-1) var(--spacing-2);
+}
+
+.menuTrigger {
+  padding: var(--spacing-1);
+  min-width: auto;
+}
+
 .title {
   margin: 0;
   font-size: var(--font-lg);
@@ -179,25 +195,36 @@
   position: relative;
   display: flex;
   align-items: flex-start;
-  gap: var(--spacing-3);
+  justify-content: space-between;
+  gap: var(--spacing-2);
   width: 100%;
-  padding: var(--spacing-4) !important;
-  margin: var(--spacing-4) 0 !important;
-  background: var(--color-surface-elevated) !important;
-  background-color: var(--color-surface-elevated) !important;
-  background-image: none !important;
-  border: 1px solid var(--color-border-subtle) !important;
+  padding: var(--spacing-3);
+  margin: var(--spacing-2) 0;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
-  text-align: left;
-  cursor: pointer;
   transition: var(--motion-hover);
   box-shadow: var(--shadow-sm);
 }
 
+.itemContent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  flex: 1;
+  padding: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  text-align: left;
+  cursor: pointer;
+  transition: var(--motion-hover);
+}
+
 .item:hover {
-  background: var(--theme-primary-alpha-10) !important;
-  background-color: var(--theme-primary-alpha-10) !important;
-  border-color: var(--theme-primary-muted) !important;
+  background: var(--theme-primary-alpha-10);
+  border-color: var(--theme-primary-muted);
   transform: translateY(-1px);
   box-shadow: var(--shadow-lg);
 }
@@ -481,5 +508,20 @@
 
 .viewAll:hover {
   background: var(--theme-primary-alpha-10) !important;
-  background-color: var(--theme-primary-alpha-10) !important;
 }
+
+/* Actions container */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  flex-shrink: 0;
+  opacity: 0;
+  transition: var(--transition-fast);
+}
+
+.item:hover .actions {
+  opacity: 1;
+}
+
+/* Responsive */

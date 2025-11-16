@@ -6,8 +6,11 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Bell } from 'lucide-react';
+import { Bell, Archive, Settings, Trash, RotateCcw, CheckCircle, MoreHorizontal } from 'lucide-react';
 import { NotificationIcon, getNotificationColor } from './NotificationIcon';
+import { NotificationActions } from '../../NotificationActions';
+import { Button } from '../../Button';
+import { ActionMenu } from '../../ActionMenu';
 import styles from './NotificationBell.module.css';
 
 export interface Notification {
@@ -17,14 +20,31 @@ export interface Notification {
   createdAt: string;
   read: boolean;
   type?: string;
+  link?: string;
 }
 
 export interface NotificationBellProps {
   notifications: Notification[];
   unreadCount: number;
-  onNotificationClick: (id: string) => void;
+  onNotificationClick: (notification: Notification) => void;
   onViewAll: () => void;
   onMarkAllRead: () => void;
+  
+  // Individual action callbacks
+  onMarkRead?: (id: string) => void;
+  onMarkUnread?: (id: string) => void;
+  onDelete?: (id: string) => void;
+  
+  // Enterprise action callbacks
+  onMarkAllUnread?: () => void;
+  onArchiveAll?: () => void;
+  onClearAll?: () => void;
+  onViewArchived?: () => void;
+  onSettings?: () => void;
+  
+  // Action states
+  loadingActions?: boolean;
+  loadingAction?: { id: string; action: 'read' | 'unread' | 'delete' };
 }
 
 export function NotificationBell({
@@ -33,6 +53,16 @@ export function NotificationBell({
   onNotificationClick,
   onViewAll,
   onMarkAllRead,
+  onMarkRead,
+  onMarkUnread,
+  onDelete,
+  onMarkAllUnread,
+  onArchiveAll,
+  onClearAll,
+  onViewArchived,
+  onSettings,
+  loadingActions = false,
+  loadingAction,
 }: NotificationBellProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -112,11 +142,66 @@ export function NotificationBell({
         <div className={styles.dropdown}>
           <div className={styles.header}>
             <h3 className={styles.title}>Notifications</h3>
-            {unreadCount > 0 && (
-              <button className={styles.markAllRead} onClick={onMarkAllRead}>
-                Mark all read
-              </button>
-            )}
+            
+            {/* Enterprise Actions Menu */}
+            <div className={styles.headerActions}>
+              {unreadCount > 0 && (
+                <Button 
+                  variant="secondary" 
+                  size="sm" 
+                  onClick={onMarkAllRead}
+                  className={styles.quickAction}
+                >
+                  <CheckCircle size={14} />
+                  Mark all read
+                </Button>
+              )}
+              
+              <ActionMenu
+                trigger={
+                  <Button variant="ghost" size="sm" className={styles.menuTrigger}>
+                    <MoreHorizontal size={16} />
+                  </Button>
+                }
+                position="bottom-right"
+                items={[
+                  ...(onMarkAllUnread ? [{
+                    icon: <RotateCcw size={14} />,
+                    label: 'Mark all unread',
+                    onClick: onMarkAllUnread
+                  }] : []),
+                  
+                  ...(onArchiveAll || onClearAll ? [{ separator: true }] : []),
+                  
+                  ...(onArchiveAll ? [{
+                    icon: <Archive size={14} />,
+                    label: 'Archive all',
+                    onClick: onArchiveAll
+                  }] : []),
+                  
+                  ...(onClearAll ? [{
+                    icon: <Trash size={14} />,
+                    label: 'Clear all',
+                    onClick: onClearAll,
+                    variant: 'danger' as const
+                  }] : []),
+                  
+                  ...(onViewArchived || onSettings ? [{ separator: true }] : []),
+                  
+                  ...(onViewArchived ? [{
+                    icon: <Archive size={14} />,
+                    label: 'View archived',
+                    onClick: onViewArchived
+                  }] : []),
+                  
+                  ...(onSettings ? [{
+                    icon: <Settings size={14} />,
+                    label: 'Settings',
+                    onClick: onSettings
+                  }] : []),
+                ].filter(item => item !== undefined)}
+              />
+            </div>
           </div>
 
           <div className={styles.list}>
@@ -125,26 +210,55 @@ export function NotificationBell({
             ) : (
               notifications.slice(0, 5).map((notification) => {
                 const colorType = getNotificationColor(notification.type || 'default');
+                const isCurrentLoading = loadingAction?.id === notification.id;
+                const currentAction = isCurrentLoading ? loadingAction.action : undefined;
+                
                 return (
-                  <button
+                  <div
                     key={notification.id}
                     className={`${styles.item} ${!notification.read ? styles.unread : ''} ${styles[`item${colorType.charAt(0).toUpperCase() + colorType.slice(1)}`] || ''}`}
-                    onClick={() => onNotificationClick(notification.id)}
                   >
-                    <div className={`${styles.iconContainer} ${styles[`iconContainer${colorType.charAt(0).toUpperCase() + colorType.slice(1)}`] || ''}`}>
-                      <NotificationIcon 
-                        type={notification.type || 'default'} 
-                        size={16}
-                        className={`${styles.notificationIcon} ${styles[`icon${colorType.charAt(0).toUpperCase() + colorType.slice(1)}`] || ''}`}
-                      />
-                      {!notification.read && <span className={styles.unreadIndicator} />}
-                    </div>
-                    <div className={styles.content}>
-                      <p className={styles.notifTitle}>{notification.title}</p>
-                      <p className={styles.message}>{notification.message}</p>
-                      <p className={styles.time}>{formatTime(notification.createdAt)}</p>
-                    </div>
-                  </button>
+                    <button
+                      className={styles.itemContent}
+                      onClick={() => onNotificationClick(notification)}
+                      disabled={loadingActions}
+                    >
+                      <div className={`${styles.iconContainer} ${styles[`iconContainer${colorType.charAt(0).toUpperCase() + colorType.slice(1)}`] || ''}`}>
+                        <NotificationIcon 
+                          type={notification.type || 'default'} 
+                          size={16}
+                          className={`${styles.notificationIcon} ${styles[`icon${colorType.charAt(0).toUpperCase() + colorType.slice(1)}`] || ''}`}
+                        />
+                        {!notification.read && <span className={styles.unreadIndicator} />}
+                      </div>
+                      <div className={styles.content}>
+                        <p className={styles.notifTitle}>{notification.title}</p>
+                        <p className={styles.message}>{notification.message}</p>
+                        <p className={styles.time}>{formatTime(notification.createdAt)}</p>
+                      </div>
+                    </button>
+                    
+                    {/* Notification Actions */}
+                    {(onMarkRead || onMarkUnread || onDelete) && (
+                      <div className={styles.actions}>
+                        <NotificationActions
+                          notification={{
+                            id: notification.id,
+                            read: notification.read,
+                            title: notification.title,
+                          }}
+                          {...(onMarkRead && { onMarkRead })}
+                          {...(onMarkUnread && { onMarkUnread })}
+                          {...(onDelete && { onDelete })}
+                          compact={true}
+                          showLabels={false}
+                          showConfirm={true}
+                          loading={isCurrentLoading && loadingActions}
+                          {...(currentAction && { loadingAction: currentAction })}
+                        />
+                      </div>
+                    )}
+                  </div>
                 );
               })
             )}

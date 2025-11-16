@@ -56,3 +56,9 @@ export interface CreateNotificationPayload {
 export interface UpdateNotificationPayload {
   read?: boolean;
 }
+
+export interface BulkOperationResult {
+  success: boolean;
+  processedCount: number;
+  errors?: string[];
+}

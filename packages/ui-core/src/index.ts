@@ -31,6 +31,7 @@ export * from './ProfileSection';
 export * from './FormField';
 export * from './SaveButton';
 export * from './components/NotificationBell';
+export * from './NotificationActions';
 
 // Auth Components
 export * from './AuthCard';

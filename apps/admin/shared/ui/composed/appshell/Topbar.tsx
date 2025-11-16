@@ -7,9 +7,10 @@
 
 'use client';
 
+import { NotificationBell, type Notification } from '@vantage-lane/ui-core';
 import { useNotificationsContext } from '@admin-shared/providers/NotificationsProvider';
+import { useRouter } from 'next/navigation';
 import { BrandName } from '@admin-shared/ui/composed/BrandName';
-import { NotificationBell } from '@vantage-lane/ui-core';
 import { Icon } from '@vantage-lane/ui-icons';
 import Image from 'next/image';
 import { useMemo } from 'react';
@@ -19,15 +20,65 @@ import { TopbarProps } from './types';
 import { UserDropdown } from './UserDropdown';
 
 export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: TopbarProps) {
-  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotificationsContext();
-  const {
-    isUserDropdownOpen,
-    dropdownRef,
-    handleUserMenuToggle,
-    handleUserMenuClose,
-    handleNavigateToNotifications,
-  } = useTopbarActions();
-  const userInitials = useUserInitials(user?.name);
+  const { 
+    notifications, 
+    unreadCount, 
+    markAsRead, 
+    markAllAsRead,
+    markAsUnread,
+    deleteNotification,
+  } = useNotificationsContext();
+  const router = useRouter();
+
+  // Hooks pentru business logic
+  const { isUserDropdownOpen, handleUserMenuToggle, handleUserMenuClose, dropdownRef } =
+    useTopbarActions();
+  const userInitials = useUserInitials(user?.name || 'U');
+
+  // Navigate to notifications page
+  const handleNavigateToNotifications = () => {
+    router.push('/notifications');
+  };
+
+  // Handle notification click with navigation
+  const handleNotificationClick = (notification: Notification) => {
+    // Mark as read if unread
+    if (!notification.read) {
+      markAsRead(notification.id);
+    }
+
+    // Navigate to specific notification or related page
+    if (notification.link) {
+      router.push(notification.link);
+    } else {
+      // Default: Go to notifications page with specific notification highlighted
+      router.push(`/notifications?highlight=${notification.id}`);
+    }
+  };
+
+  // Enterprise action handlers
+  const handleMarkAllUnread = () => {
+    // Implement mark all unread logic
+    console.log('Mark all unread - not implemented yet');
+  };
+
+  const handleArchiveAll = () => {
+    // Implement archive all logic
+    console.log('Archive all - not implemented yet');
+  };
+
+  const handleClearAll = () => {
+    // Implement clear all logic
+    console.log('Clear all - not implemented yet');
+  };
+
+  const handleViewArchived = () => {
+    router.push('/notifications?view=archived');
+  };
+
+  const handleSettings = () => {
+    router.push('/settings/notifications');
+  };
 
   const notificationsMapped = useMemo(
     () =>
@@ -82,9 +133,17 @@ export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: T
         <NotificationBell
           notifications={notificationsMapped}
           unreadCount={unreadCount}
-          onNotificationClick={markAsRead}
+          onNotificationClick={handleNotificationClick}
           onViewAll={handleNavigateToNotifications}
           onMarkAllRead={markAllAsRead}
+          onMarkRead={markAsRead}
+          onMarkUnread={markAsUnread}
+          onDelete={deleteNotification}
+          onMarkAllUnread={handleMarkAllUnread}
+          onArchiveAll={handleArchiveAll}
+          onClearAll={handleClearAll}
+          onViewArchived={handleViewArchived}
+          onSettings={handleSettings}
         />
 
         {/* User menu */}

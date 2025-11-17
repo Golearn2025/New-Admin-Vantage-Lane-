@@ -1,0 +1,166 @@
+/**
+ * Create Ticket Modal Styles
+ * 100% Design Tokens - Zero hardcoded values
+ */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.label {
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+}
+
+.required {
+  color: var(--color-danger-500);
+}
+
+.userSelection {
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: flex-start;
+}
+
+.userTypeSelect {
+  flex-shrink: 0;
+  min-width: var(--size-32);
+}
+
+.userSearch {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+/* Fix search icon spacing - Multiple targeting approaches */
+.searchInput input,
+.userSearch input,
+.userSearch input[type="text"] {
+  padding-left: var(--spacing-10); /* 40px - more space for search icon */
+}
+
+/* Also try CSS custom property override */
+.searchInput {
+  --input-padding-left: var(--spacing-10);
+}
+
+.userResults {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  max-height: var(--size-48);
+  overflow-y: auto;
+  z-index: 10;
+  margin-top: var(--spacing-1);
+}
+
+.userResult {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  width: 100%;
+  padding: var(--spacing-3);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color var(--motion-duration-fast);
+}
+
+.userResult:hover {
+  background: var(--color-surface-hover);
+}
+
+.userResult:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: var(--spacing-0-5);
+}
+
+.userName {
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  font-size: var(--font-sm);
+}
+
+.userEmail {
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--spacing-2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .userSelection {
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+  
+  .userTypeSelect {
+    width: 100%;
+  }
+  
+  .actions {
+    flex-direction: column-reverse;
+  }
+}
+
+@media (max-width: 375px) {
+  .form {
+    gap: var(--spacing-3);
+  }
+  
+  .actions {
+    gap: var(--spacing-2);
+  }
+}
+
+@media (max-width: 320px) {
+  .form {
+    gap: var(--spacing-2);
+  }
+  
+  .userSelection {
+    gap: var(--spacing-1);
+  }
+  
+  .userResult {
+    padding: var(--spacing-2);
+    gap: var(--spacing-2);
+  }
+  
+  .userName {
+    font-size: var(--font-xs);
+  }
+  
+  .userEmail {
+    font-size: var(--font-2xs);
+  }
+  
+  .actions {
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+}

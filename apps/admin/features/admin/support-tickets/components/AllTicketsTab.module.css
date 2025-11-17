@@ -1,0 +1,206 @@
+/**
+ * All Tickets Tab Styles
+ * 100% Design Tokens - Zero hardcoded values
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-4) 0;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.title h2 {
+  margin: 0;
+  font-size: var(--font-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+
+.filters {
+  margin-bottom: var(--spacing-4);
+}
+
+.ticketNumber {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-family: var(--font-mono);
+  font-weight: var(--font-medium);
+  color: var(--color-info-500);
+}
+
+.subject {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.subjectTitle {
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.subjectPreview {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-normal);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.userAvatar {
+  width: var(--size-8);
+  height: var(--size-8);
+  border-radius: var(--radius-full);
+  background: var(--color-primary-500);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-xs);
+  font-weight: var(--font-medium);
+  flex-shrink: 0;
+}
+
+.userName {
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  font-size: var(--font-sm);
+}
+
+.userType {
+  font-size: var(--font-xs);
+  color: var(--color-text-tertiary);
+  text-transform: capitalize;
+}
+
+.mobileInfo {
+  display: none; /* Hidden by default */
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
+  padding-top: var(--spacing-2);
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+.mobileUser {
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-medium);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-3);
+  }
+  
+  .createButton {
+    align-self: stretch;
+  }
+
+  .subjectTitle {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .subjectPreview {
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+
+  /* Show mobile info on mobile */
+  .mobileInfo {
+    display: flex;
+  }
+}
+
+@media (max-width: 375px) {
+  .container {
+    gap: var(--spacing-3);
+  }
+  
+  .userInfo {
+    gap: var(--spacing-2);
+  }
+  
+  .actions {
+    flex-direction: column;
+    gap: var(--spacing-half);
+  }
+  
+  /* Mobile info gets smaller text */
+  .mobileInfo {
+    gap: var(--spacing-1);
+    margin-top: var(--spacing-1);
+    padding-top: var(--spacing-1);
+  }
+  
+  .mobileUser {
+    font-size: var(--font-2xs);
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    gap: var(--spacing-2);
+  }
+  
+  .ticketNumber {
+    font-size: var(--font-xs);
+  }
+  
+  .ticketNumber span {
+    font-size: var(--font-2xs);
+  }
+  
+  .subjectTitle {
+    font-size: var(--font-sm);
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+  
+  .subjectPreview {
+    font-size: var(--font-xs);
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+  
+  /* Stack mobile info vertically on very small screens */
+  .mobileInfo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-half);
+  }
+  
+  .actions {
+    min-width: var(--size-16);
+  }
+}

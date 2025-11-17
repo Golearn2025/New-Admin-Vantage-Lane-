@@ -114,6 +114,7 @@ export function EnterpriseTableHeader<T>({
               className={cellClasses}
               onClick={handleSort}
               data-column-id={column.id}
+              data-hide-mobile={column.hideOnMobile || false}
             >
               <div className={styles.headerWrapper}>
                 {/* Header content with sort icon */}

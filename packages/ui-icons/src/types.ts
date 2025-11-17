@@ -38,7 +38,8 @@ export type IconName =
   | 'wallet'
   | 'scale'
   | 'fileText'
-  | 'receipt';
+  | 'receipt'
+  | 'star';
 
 export interface BaseIconProps {
   size?: number;

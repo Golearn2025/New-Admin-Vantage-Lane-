@@ -71,6 +71,7 @@ function EnterpriseTableCellComponent<T>({
     <td 
       className={classes}
       data-column-id={column.id}
+      data-hide-mobile={column.hideOnMobile || false}
       title={tooltipText}
     >
       <div className={styles.cellContent}>

@@ -50,6 +50,7 @@ export function getEmailColumn(): Column<UnifiedUser> {
     cell: (row) => <span className={styles.email}>{row.email}</span>,
     sortable: true,
     width: '250px',
+    // Keep email visible on mobile as it's important for identification
   };
 }
 
@@ -64,6 +65,7 @@ export function getPhoneColumn(): Column<UnifiedUser> {
     cell: (row) => <span className={styles.phone}>{row.phone || '—'}</span>,
     sortable: false,
     width: '150px',
+    hideOnMobile: true, // Hide on mobile - can be seen in user details
   };
 }
 
@@ -113,6 +115,7 @@ export function getCreatedColumn(): Column<UnifiedUser> {
     },
     sortable: true,
     width: '120px',
+    hideOnMobile: true, // Hide on mobile - can be seen in user details
   };
 }
 

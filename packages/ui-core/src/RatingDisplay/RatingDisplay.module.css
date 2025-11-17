@@ -1,0 +1,113 @@
+/**
+ * RatingDisplay Styles
+ * 
+ * 100% design tokens - zero hardcode!
+ * Responsive cu toate breakpoint-urile.
+ */
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-family: var(--font-family-base);
+}
+
+/* Size variants */
+.size-sm {
+  gap: var(--spacing-half);
+}
+
+.size-sm .rating {
+  font-size: var(--font-xs);
+  font-weight: var(--font-medium);
+}
+
+.size-sm .count {
+  font-size: var(--font-2xs);
+}
+
+.size-md .rating {
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
+}
+
+.size-md .count {
+  font-size: var(--font-xs);
+}
+
+.size-lg {
+  gap: var(--spacing-2);
+}
+
+.size-lg .rating {
+  font-size: var(--font-lg);
+  font-weight: var(--font-bold);
+}
+
+.size-lg .count {
+  font-size: var(--font-sm);
+}
+
+/* Stars container */
+.stars {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-quarter);
+}
+
+/* Star states */
+.starFilled {
+  color: var(--color-warning-500); /* Gold color for stars */
+}
+
+.starEmpty {
+  color: var(--color-border-secondary);
+}
+
+/* Rating value */
+.rating {
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+/* Count and labels */
+.count {
+  color: var(--color-text-tertiary);
+  line-height: var(--line-height-tight);
+}
+
+.newLabel {
+  color: var(--color-info-600);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/* Mobile responsive */
+@media (max-width: 375px) {
+  .size-lg {
+    gap: var(--spacing-1);
+  }
+  
+  .size-lg .rating {
+    font-size: var(--font-base);
+  }
+  
+  .size-lg .count {
+    font-size: var(--font-xs);
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    gap: var(--spacing-half);
+  }
+  
+  .size-md .rating {
+    font-size: var(--font-xs);
+  }
+  
+  .size-md .count {
+    font-size: var(--font-2xs);
+  }
+}

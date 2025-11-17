@@ -34,6 +34,7 @@ const adminMenu: NavMenuItem[] = [
   { icon: 'documents', label: 'Documents', href: '/documents' },
   { icon: 'bell', label: 'Notifications', href: '/notifications' },
   { icon: 'support', label: 'Support', href: '/support-tickets' },
+  { icon: 'star', label: 'Reviews', href: '/reviews' },
   { icon: 'prices', label: 'Prices', href: '/prices' },
   {
     icon: 'wallet',

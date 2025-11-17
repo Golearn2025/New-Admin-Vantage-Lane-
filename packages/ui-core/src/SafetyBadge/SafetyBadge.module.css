@@ -1,0 +1,58 @@
+/**
+ * SafetyBadge Styles
+ * 
+ * 100% design tokens - zero hardcode
+ * Responsive and accessible
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  align-items: flex-start;
+}
+
+.clickable {
+  cursor: pointer;
+  transition: opacity var(--motion-duration-fast) var(--motion-easing-base);
+}
+
+.clickable:hover {
+  opacity: var(--opacity-hover);
+}
+
+.withPenalty {
+  position: relative;
+}
+
+.penaltyIndicator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.penaltyText {
+  font-size: var(--font-2xs);
+  font-weight: var(--font-medium);
+  color: var(--color-danger-600);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  line-height: var(--line-height-tight);
+}
+
+/* Mobile responsive */
+@media (max-width: 375px) {
+  .container {
+    gap: var(--spacing-half);
+  }
+  
+  .penaltyText {
+    font-size: var(--font-3xs);
+  }
+}
+
+@media (max-width: 320px) {
+  .penaltyText {
+    display: none; /* Hide penalty text on very small screens */
+  }
+}

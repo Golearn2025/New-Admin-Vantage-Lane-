@@ -67,6 +67,7 @@ import {
   FileText as LFileText,
   Banknote as LBanknote,
   Receipt as LReceipt,
+  Star as LStar,
 } from 'lucide-react';
 
 // Lucide mappings
@@ -115,6 +116,7 @@ export const Scale = makeLucide(LScale);
 export const FileText = makeLucide(LFileText);
 export const Banknote = makeLucide(LBanknote);
 export const Receipt = makeLucide(LReceipt);
+export const Star = makeLucide(LStar);
 
 // Icon map pentru dynamic loading (MUST be after all exports)
 const iconMap: Record<import('./types').IconName, React.ComponentType<any>> = {
@@ -146,6 +148,7 @@ const iconMap: Record<import('./types').IconName, React.ComponentType<any>> = {
   fileText: FileText,
   banknote: Banknote,
   receipt: Receipt,
+  star: Star,
   // Placeholders for missing icons
   disputes: Scale,
   payouts: Banknote,

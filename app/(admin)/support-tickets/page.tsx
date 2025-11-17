@@ -1,9 +1,10 @@
-// Support Tickets page
+/**
+ * Support Tickets Page - Router
+ * Next.js 14 App Router page for support tickets management
+ */
+
+import { SupportTicketsManagementPage } from '@/features/admin/support-tickets/components/SupportTicketsManagementPage';
+
 export default function SupportTicketsPage() {
-  return (
-    <div>
-      <h1>Support Tickets</h1>
-      <p>Support tickets page - M0.1 placeholder</p>
-    </div>
-  );
+  return <SupportTicketsManagementPage />;
 }

@@ -33,6 +33,11 @@ export * from './SaveButton';
 export * from './components/NotificationBell';
 export * from './NotificationActions';
 
+// Rating Components
+export * from './RatingDisplay';
+export * from './RatingBreakdown';
+export * from './SafetyBadge';
+
 // Auth Components
 export * from './AuthCard';
 export * from './BrandBackground';

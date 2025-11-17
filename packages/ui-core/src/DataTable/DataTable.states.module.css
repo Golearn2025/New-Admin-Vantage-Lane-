@@ -119,6 +119,46 @@
   }
 }
 
+@media (max-width: 375px) {
+  .headerCell,
+  .cell {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--font-xs);
+  }
+
+  .tableCompact .cell {
+    padding: var(--spacing-1) var(--spacing-2);
+  }
+  
+  .checkboxColumn {
+    width: var(--size-8);
+    min-width: var(--size-8);
+    padding: var(--spacing-2);
+  }
+}
+
+@media (max-width: 320px) {
+  .headerCell,
+  .cell {
+    padding: var(--spacing-1) var(--spacing-2);
+    font-size: var(--font-2xs);
+  }
+
+  .tableCompact .cell {
+    padding: var(--spacing-half) var(--spacing-1);
+  }
+  
+  .checkboxColumn {
+    width: var(--size-6);
+    min-width: var(--size-6);
+    padding: var(--spacing-1);
+  }
+  
+  .cellContent {
+    line-height: var(--line-height-tight);
+  }
+}
+
 /* ========================================
    ACCESSIBILITY
    ======================================== */

@@ -1,0 +1,170 @@
+/**
+ * Reviews Management Page Styles
+ * 
+ * 100% design tokens - zero hardcode
+ * Responsive pentru toate breakpoints
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--spacing-6);
+  background: var(--color-bg-primary);
+  gap: var(--spacing-6);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-4);
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.title {
+  font-size: var(--font-3xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: var(--font-base);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--spacing-4);
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-4);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+}
+
+.tableTitle {
+  font-size: var(--font-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.tableActions {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.statsContainer {
+  padding: var(--spacing-4);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-6);
+}
+
+.statCard {
+  padding: var(--spacing-6);
+}
+
+.statCard h3 {
+  font-size: var(--font-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.safetyStats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-2) 0;
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+
+.statRow:last-child {
+  border-bottom: none;
+}
+
+.statRow span {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-4);
+    gap: var(--spacing-4);
+  }
+  
+  .title {
+    font-size: var(--font-2xl);
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: var(--spacing-3);
+    align-items: stretch;
+  }
+  
+  .tableHeader {
+    flex-direction: column;
+    gap: var(--spacing-2);
+    align-items: stretch;
+  }
+  
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+  }
+}
+
+@media (max-width: 375px) {
+  .container {
+    padding: var(--spacing-3);
+  }
+  
+  .title {
+    font-size: var(--font-xl);
+  }
+  
+  .subtitle {
+    font-size: var(--font-sm);
+  }
+  
+  .tableHeader {
+    padding: var(--spacing-3);
+  }
+}

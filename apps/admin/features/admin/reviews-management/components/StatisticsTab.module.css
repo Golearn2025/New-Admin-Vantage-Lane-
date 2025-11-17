@@ -1,0 +1,61 @@
+/**
+ * Statistics Tab Styles
+ * 100% design tokens, responsive
+ */
+
+.statisticsTab {
+  padding: var(--spacing-4);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-6);
+}
+
+.safetyStats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-2) 0;
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+
+.statRow:last-child {
+  border-bottom: none;
+}
+
+.statRow span {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+.loading {
+  padding: var(--spacing-8);
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.error {
+  color: var(--color-danger-600);
+  padding: var(--spacing-4);
+  text-align: center;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+  }
+  
+  .statisticsTab {
+    padding: var(--spacing-3);
+  }
+}

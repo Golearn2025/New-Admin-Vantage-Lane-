@@ -24,6 +24,8 @@ export interface DriverReview {
   driverName?: string;
   customerName?: string;
   bookingNumber?: string;
+  driverCurrentRating?: number;
+  driverTotalRatings?: number;
 }
 
 export interface CustomerReview {

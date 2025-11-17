@@ -1,0 +1,196 @@
+/**
+ * Review Details Modal Styles
+ * 
+ * 100% design tokens, responsive, glassmorphism
+ */
+
+.reviewDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--spacing-4);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+}
+
+.ratingSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  align-items: center;
+}
+
+.ratingText {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-medium);
+}
+
+.participants {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+}
+
+.participant {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.participant svg {
+  color: var(--color-text-tertiary);
+}
+
+.participantInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.participantLabel {
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  font-weight: var(--font-medium);
+}
+
+.participantName {
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+  font-weight: var(--font-medium);
+}
+
+.reviewTextSection,
+.feedbackSection,
+.categoriesSection,
+.adminNotesSection {
+  padding: var(--spacing-4);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-3);
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+
+.sectionHeader svg {
+  color: var(--color-text-tertiary);
+}
+
+.reviewText {
+  font-size: var(--font-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.feedbackTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.categoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-3);
+}
+
+.categoryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-2);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: var(--radius-md);
+}
+
+.categoryName {
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+  text-transform: capitalize;
+}
+
+.adminNotes {
+  font-size: var(--font-sm);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+  padding: var(--spacing-3);
+  background: var(--color-warning-50);
+  border: 1px solid var(--color-warning-200);
+  border-radius: var(--radius-md);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .reviewDetails {
+    gap: var(--spacing-4);
+  }
+  
+  .reviewHeader {
+    flex-direction: column;
+    gap: var(--spacing-3);
+    align-items: center;
+  }
+  
+  .participants {
+    gap: var(--spacing-2);
+  }
+  
+  .participant {
+    gap: var(--spacing-2);
+  }
+  
+  .categoriesGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .actions {
+    flex-direction: column-reverse;
+  }
+}
+
+@media (max-width: 375px) {
+  .reviewDetails {
+    gap: var(--spacing-3);
+  }
+  
+  .reviewTextSection,
+  .feedbackSection,
+  .categoriesSection,
+  .adminNotesSection,
+  .participants {
+    padding: var(--spacing-3);
+  }
+}

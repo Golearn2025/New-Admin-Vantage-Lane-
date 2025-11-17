@@ -9,11 +9,13 @@
 
 import React from 'react';
 import { 
-  RatingDisplay, 
-  SafetyBadge, 
-  Badge,
-  Avatar
+  Badge, 
+  StatusBadge,
+  Avatar,
+  RatingDisplay,
+  SafetyBadge 
 } from '@vantage-lane/ui-core';
+import { MessageSquare, User } from 'lucide-react';
 import { formatInvestigationStatus } from '@entities/review';
 import type { DriverReview, SafetyIncident } from '@entities/review';
 import type { Column } from '@vantage-lane/ui-core';
@@ -114,29 +116,55 @@ export const driverReviewColumns: Column<DriverReview>[] = [
     width: '140px',
   },
   {
-    id: 'review',
-    header: 'Review Text',
-    accessor: (row) => row.reviewText || '',
+    id: 'driverRating',
+    header: 'Driver Overall',
+    accessor: (row) => row.driverCurrentRating || 5.00,
     cell: (row) => (
-      <div style={{ 
-        maxWidth: '280px',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        color: 'var(--color-text-secondary)'
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--spacing-2)'
       }}>
-        {row.reviewText || (
-          <span style={{ 
-            fontStyle: 'italic',
-            color: 'var(--color-text-tertiary)'
-          }}>
-            No comment
-          </span>
-        )}
+        <User size={14} />
+        <RatingDisplay
+          rating={row.driverCurrentRating || 5.00}
+          totalRatings={row.driverTotalRatings || 0}
+          size="sm"
+          showStars={true}
+          showCount={false}
+        />
       </div>
     ),
-    sortable: false,
+    width: '120px',
+    sortable: true,
+  },
+  {
+    id: 'reviewText',
+    header: 'Review',
+    accessor: (row) => row.reviewText || '',
+    cell: (row) => (
+      <div style={{
+        maxWidth: '300px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        color: 'var(--color-text-primary)',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--spacing-2)'
+      }} 
+      onClick={() => {
+        // This will be handled by onRowClick
+        console.log('Review text clicked:', row.id);
+      }}
+      title="Click to view full review">
+        <MessageSquare size={14} />
+        {row.reviewText || 'No review text'}
+      </div>
+    ),
     width: '300px',
+    sortable: false,
   },
   {
     id: 'verified',

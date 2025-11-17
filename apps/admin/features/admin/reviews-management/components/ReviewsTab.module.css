@@ -1,0 +1,48 @@
+/**
+ * Reviews Tab Styles
+ * 100% design tokens, responsive
+ */
+
+.reviewsTab {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--spacing-4);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-4);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+}
+
+.title {
+  font-size: var(--font-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.error {
+  color: var(--color-danger-600);
+  padding: var(--spacing-4);
+  text-align: center;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: var(--spacing-2);
+    align-items: stretch;
+  }
+}

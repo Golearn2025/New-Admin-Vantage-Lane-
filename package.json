@@ -90,7 +90,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/stripe": "^8.0.416",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "depcheck": "^1.4.7",
     "dependency-cruiser": "^17.0.2",

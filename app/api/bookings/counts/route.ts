@@ -11,14 +11,14 @@
  */
 
 import { NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { createClient } from '@/lib/supabase/server';
 import type { CountsByTripType } from '@features/shared/bookings-table/utils/createBookingTabs';
 
 export async function GET() {
   try {
-    const supabase = createAdminClient();
+    const supabase = await createClient();
 
-    // Get all bookings with trip_type (admin client bypasses RLS)
+    // Get all bookings with trip_type (respects RLS for user authentication)
     // Note: booking_type column doesn't exist yet, will be added later
     const { data: bookings, error } = await supabase
       .from('bookings')

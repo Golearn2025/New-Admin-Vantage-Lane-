@@ -3,7 +3,7 @@
  * Used by realtime to fetch new booking complete data
  */
 
-import { createAdminClient } from '@/lib/supabase/admin';
+import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/utils/logger';
 import { fetchBookingsData } from '@entities/booking/api';
 import { transformBookingsData } from '../list/transform';
@@ -20,7 +20,7 @@ export async function GET(
       return NextResponse.json({ error: 'Booking ID required' }, { status: 400 });
     }
 
-    const supabase = createAdminClient();
+    const supabase = await createClient();
 
     // Fetch single booking with all JOINs
     const { data: booking, error } = await supabase

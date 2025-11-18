@@ -4,7 +4,7 @@
  * Compliant: <150 lines
  */
 
-import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/utils/logger';
 import type { BookingsListResponse } from '@admin-shared/api/contracts/bookings';
 import { fetchBookingsData, type QueryParams } from '@entities/booking/api';
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
       status,
     };
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     // Fetch data
     const queryResult = await fetchBookingsData(supabase, params);

@@ -18,7 +18,7 @@ export async function GET() {
   try {
     const supabase = createAdminClient();
 
-    // Get all bookings with trip_type (admin client with service role)
+    // Get all bookings with trip_type (admin client bypasses RLS)
     // Note: booking_type column doesn't exist yet, will be added later
     const { data: bookings, error } = await supabase
       .from('bookings')

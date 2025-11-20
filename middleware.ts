@@ -106,10 +106,8 @@ export async function middleware(request: NextRequest) {
       const role = user.user_metadata?.role ?? 'operator';
       let redirectPath = '/dashboard';
 
-      if (role === 'admin') {
+      if (role === 'admin' || role === 'operator') {
         redirectPath = '/dashboard';
-      } else if (role === 'operator') {
-        redirectPath = '/operator/dashboard';
       } else if (role === 'driver') {
         redirectPath = '/driver/dashboard';
       }

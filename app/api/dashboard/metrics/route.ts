@@ -30,8 +30,8 @@ interface DashboardMetricsResponse {
   cacheKey?: string;
 }
 
-// Cache configuration
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+// Cache configuration  
+const CACHE_TTL = 10 * 1000; // 10 seconds (for testing)
 let cachedData: DashboardMetricsResponse | null = null;
 let cacheTime: number = 0;
 
@@ -42,17 +42,11 @@ export async function GET(request: Request) {
     const startDate = searchParams.get('start_date');
     const endDate = searchParams.get('end_date');
 
-    // Create cache key based on date range
-    const cacheKey = `${startDate}-${endDate}`;
+    // Create cache key based on date range (will be updated with organization_id later)
+    let cacheKey = `${startDate}-${endDate}`;
 
-    // Check cache first (cache per date range)
+    // Cache will be checked after determining organization_id
     const now = Date.now();
-    if (cachedData && now - cacheTime < CACHE_TTL && cachedData.cacheKey === cacheKey) {
-      return NextResponse.json({
-        ...cachedData,
-        cached: true,
-      });
-    }
 
     // Create Supabase client with user context (RLS enforced)
     const supabase = await createClient();
@@ -67,25 +61,64 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // RBAC check - verify user is admin
-    const { data: adminUser, error: rbacError } = await supabase
+    // RBAC check - verify user is admin OR operator
+    const { data: adminUser } = await supabase
       .from('admin_users')
       .select('role, is_active')
       .eq('auth_user_id', user.id)
       .single();
 
-    if (rbacError || !adminUser) {
-      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
+    // Check if user is operator if not admin
+    let organizationId: string | null = null;
+    let isAuthorized = false;
+
+    if (adminUser && adminUser.is_active && ['super_admin', 'admin'].includes(adminUser.role)) {
+      // User is admin - can see all data
+      isAuthorized = true;
+      organizationId = null; // null = see all organizations
+    } else {
+      // Check if user is operator
+      const { data: operatorUser } = await supabase
+        .from('user_organization_roles')
+        .select(`
+          organization_id, 
+          role, 
+          is_active,
+          organizations!inner (
+            name
+          )
+        `)
+        .eq('user_id', user.id)
+        .eq('is_active', true)
+        .single();
+
+      if (operatorUser && operatorUser.role === 'admin') {
+        // User is operator - can see only their organization data
+        isAuthorized = true;
+        organizationId = operatorUser.organization_id;
+      }
     }
 
-    if (!adminUser.is_active || !['super_admin', 'admin'].includes(adminUser.role)) {
-      return NextResponse.json({ error: 'Forbidden - Insufficient permissions' }, { status: 403 });
+    if (!isAuthorized) {
+      return NextResponse.json({ error: 'Forbidden - Admin or Operator access required' }, { status: 403 });
     }
 
-    // Call database function with date range
+    // Update cache key to include organization filtering
+    cacheKey = `${startDate}-${endDate}-${organizationId || 'all'}`;
+
+    // Check cache again with updated key
+    if (cachedData && now - cacheTime < CACHE_TTL && cachedData.cacheKey === cacheKey) {
+      return NextResponse.json({
+        ...cachedData,
+        cached: true,
+      });
+    }
+
+    // Call database function with date range and organization filtering
     const { data, error } = await supabase.rpc('get_dashboard_metrics', {
       p_start_date: startDate || undefined,
       p_end_date: endDate || undefined,
+      p_organization_id: organizationId || undefined, // null for admin, UUID for operator
     });
 
     if (error) {

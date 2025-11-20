@@ -59,12 +59,16 @@ export function useCurrentUser() {
           appShellRole = 'operator';
         }
 
-        setUser({
+        const userInfo = {
           name: userName || session.user.email || 'User',
           email: session.user.email || '',
           role: appShellRole,
           auth_user_id: session.user.id,
-        });
+        };
+        
+        console.log('🔍 USER DEBUG: Setting user info for role:', userRole, userInfo);
+        
+        setUser(userInfo);
       } catch (err) {
         logger.error('Error fetching current user in useCurrentUser', {
           error: err instanceof Error ? err.message : String(err),

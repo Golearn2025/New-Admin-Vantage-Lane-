@@ -8,7 +8,7 @@
 'use client';
 
 import { useLogout } from '@admin-shared/hooks';
-import { LogOut, Settings, User } from 'lucide-react';
+import { LogOut, User } from 'lucide-react';
 import { useCallback, useMemo } from 'react';
 
 export interface UseUserDropdownProps {
@@ -46,13 +46,6 @@ export function useUserDropdown({
         label: 'Profile Settings',
         href: '/settings/profile',
         icon: <User size={20} />,
-      },
-      {
-        id: 'settings',
-        type: 'link',
-        label: 'Account Settings',
-        href: '/settings/account',
-        icon: <Settings size={20} />,
       },
       {
         id: 'logout',

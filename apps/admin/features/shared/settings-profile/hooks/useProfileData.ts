@@ -55,6 +55,8 @@ export function useProfileData(userId: string | undefined) {
 
     const fetchProfile = async () => {
       try {
+        console.log('🔍 PROFILE DEBUG: Fetching profile for userId:', userId);
+        
         const supabase = createClient();
         const { data, error: fetchError } = await supabase
           .from('admin_users')
@@ -75,7 +77,55 @@ export function useProfileData(userId: string | undefined) {
           .eq('auth_user_id', userId)
           .single();
 
-        if (fetchError) throw fetchError;
+        console.log('🔍 PROFILE DEBUG: Query result:', { data, fetchError });
+
+        if (fetchError) {
+          console.error('❌ PROFILE DEBUG: Fetch error:', fetchError);
+          
+          // Special handling for operators who might not have admin_users record
+          if (fetchError.code === 'PGRST116' || fetchError.message?.includes('No rows returned')) {
+            console.log('🔄 PROFILE DEBUG: No admin_users record found, creating operator profile placeholder');
+            
+            // Create a minimal profile for operator without admin_users record
+            const operatorProfile: AdminProfile = {
+              id: `temp-${userId}`,
+              auth_user_id: userId,
+              email: '', // Will be filled from session
+              name: '',
+              first_name: null,
+              last_name: null,
+              phone: null,
+              avatar_url: null,
+              job_title: null,
+              department: null,
+              bio: null,
+              preferred_language: 'en',
+              timezone: 'UTC',
+              role: 'admin', // Fallback role
+              is_active: true,
+              two_factor_enabled: false,
+              notification_settings: {
+                email: true,
+                sms: false,
+                push: true,
+              },
+              last_login: null,
+              created_at: new Date().toISOString(),
+              updated_at: null,
+              approved_by: null,
+              approved_at: null,
+              default_operator_id: null,
+              default_operator_name: null,
+            };
+            
+            setProfile(operatorProfile);
+            setError('Profile not fully configured. Some features may be limited.');
+            setLoading(false);
+            return;
+          }
+          
+          throw fetchError;
+        }
         
         // Type-safe organization name extraction
         const orgData = data.organizations as { name?: string } | null;

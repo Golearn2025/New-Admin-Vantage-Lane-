@@ -64,7 +64,7 @@ export function OperatorDashboard() {
             <div key={driver.id} className={styles.driverCard}>
               <div className={styles.driverInfo}>
                 <div className={styles.driverAvatar}>{driver.firstName[0]}{driver.lastName[0]}</div>
-                <div>
+                <div className={styles.driverDetails}>
                   <div className={styles.driverName}>{driver.firstName} {driver.lastName}</div>
                   <div className={styles.driverEmail}>{driver.email}</div>
                 </div>

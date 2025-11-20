@@ -15,6 +15,7 @@ import { SaveButton } from '@vantage-lane/ui-core';
 import { PersonalInfoTab } from './PersonalInfoTab';
 import { AccountTab } from './AccountTab';
 import { SecurityTab } from './SecurityTab';
+import { ChangePasswordModal } from './ChangePasswordModal';
 import type { AdminProfile } from '../hooks/useProfileData';
 import { useProfileForm } from '../hooks/useProfileForm';
 import styles from './ProfileForm.module.css';
@@ -45,6 +46,8 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
     hasPendingChanges,
     saving,
     saveSuccess,
+    showChangePasswordModal,
+    setShowChangePasswordModal,
   } = useProfileForm({ profile, onSave });
 
   if (loading) {
@@ -129,6 +132,12 @@ export function ProfileForm({ profile, loading = false, error, onSave }: Profile
           </SaveButton>
         </div>
       )}
+
+      {/* Change Password Modal */}
+      <ChangePasswordModal
+        isOpen={showChangePasswordModal}
+        onClose={() => setShowChangePasswordModal(false)}
+      />
     </div>
   );
 }

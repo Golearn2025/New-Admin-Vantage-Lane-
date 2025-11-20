@@ -80,15 +80,87 @@
 }
 
 .error {
-  padding: var(--vl-spacing-6);
-  background: linear-gradient(135deg, rgba(250, 112, 154, 0.15), rgba(254, 225, 64, 0.1));
-  border: 1px solid rgba(250, 112, 154, 0.5);
-  border-radius: var(--vl-radius-xl);
-  color: var(--color-warning);
+  padding: var(--spacing-4);
+  background: var(--color-danger-subtle);
+  border: 1px solid var(--color-danger-muted);
+  border-radius: var(--radius-md);
+  color: var(--color-danger-default);
   text-align: center;
-  font-size: var(--vl-font-size-lg);
-  font-weight: 600;
-  box-shadow: 0 0 30px rgba(250, 112, 154, 0.2);
+}
+
+.operatorProfile {
+  padding: var(--spacing-6);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+}
+
+.operatorProfile h2 {
+  margin: 0 0 var(--spacing-4) 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xl);
+}
+
+.operatorProfile p {
+  margin: 0 0 var(--spacing-2) 0;
+  color: var(--color-text-secondary);
+}
+
+.operatorData {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.operatorField {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-3);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+}
+
+.operatorField label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  min-width: 140px;
+}
+
+.operatorField span {
+  color: var(--color-text-secondary);
+  text-align: right;
+}
+
+.status {
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.active {
+  background: var(--color-success-subtle);
+  color: var(--color-success-default);
+}
+
+.inactive {
+  background: var(--color-danger-subtle);
+  color: var(--color-danger-default);
+}
+
+.operatorNote {
+  margin-top: var(--spacing-4);
+  padding: var(--spacing-3);
+  background: var(--color-info-subtle);
+  border: 1px solid var(--color-info-muted);
+  border-radius: var(--radius-md);
+}
+
+.operatorNote p {
+  margin: 0;
+  color: var(--color-info-default);
+  font-size: var(--font-size-sm);
 }
 
 /* Responsive - CA DASHBOARD */

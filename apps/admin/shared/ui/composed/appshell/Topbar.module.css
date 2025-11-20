@@ -278,6 +278,55 @@
   }
 }
 
+/* Hide brand name text on small screens to preserve space for avatar */
+@media (max-width: 480px) {
+  /* Hide the BrandName component completely on small screens */
+  .mobileLogo > span:last-child {
+    display: none !important; /* This hides the BrandName component */
+  }
+}
+
+/* For ultra-small screens, make even more space */
+@media (max-width: 375px) {
+  .rightSection {
+    gap: var(--spacing-2); /* Reduce gap between notifications and user */
+  }
+  
+  .mobileLogo {
+    gap: var(--spacing-2); /* Reduce gap between logo and text */
+  }
+  
+  /* Ensure text is hidden and only logo shows */
+  .mobileLogo > span:last-child {
+    display: none !important;
+  }
+}
+
+/* For very small screens like 300px */
+@media (max-width: 320px) {
+  .topbar {
+    padding: 0 var(--spacing-2); /* Reduce overall padding */
+  }
+  
+  .rightSection {
+    gap: var(--spacing-1); /* Even smaller gap */
+  }
+  
+  .mobileLogo {
+    gap: var(--spacing-1);
+  }
+  
+  /* Make sure only logo is visible */
+  .mobileLogo > span:last-child {
+    display: none !important;
+  }
+  
+  .logoImage {
+    width: 32px; /* Slightly smaller logo on very small screens */
+    height: 32px;
+  }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .topbar.luxe {

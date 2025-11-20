@@ -119,7 +119,7 @@
 .dropdown {
   position: absolute;
   top: calc(100% + var(--spacing-2));
-  right: 0;
+  right: -50px; /* Adjust to center better relative to bell */
   width: 380px;
   max-height: 600px;
   background: var(--color-bg-secondary);
@@ -524,4 +524,303 @@
   opacity: 1;
 }
 
-/* Responsive */
+/* Desktop responsive - keep absolute positioning to respect sidebar */
+@media (min-width: 768px) {
+  .dropdown {
+    /* Keep original absolute positioning on desktop to respect sidebar layout */
+    position: absolute;
+    top: calc(100% + var(--spacing-2));
+    right: 0;
+    width: 380px;
+    max-height: 600px;
+    z-index: 1000;
+  }
+}
+
+/* Mobile responsive - use fixed positioning (sidebar is overlay) */
+@media (max-width: 767px) {
+  /* Mobile positioning - center dropdown beautifully */
+  .dropdown {
+    position: fixed !important; /* Fixed only on mobile (sidebar is overlay) */
+    top: 60px !important; /* Below header */
+    left: 50% !important; /* Center horizontally */
+    right: auto !important; /* Remove right constraint */
+    width: calc(100vw - var(--spacing-8)) !important; /* Full width minus padding */
+    max-width: 400px !important; /* Max width for larger phones */
+    max-height: calc(100vh - 120px) !important; /* Viewport height minus header space */
+    transform: translateX(-50%) !important; /* Perfect centering */
+    z-index: 9999; /* Higher z-index for mobile */
+  }
+  
+  /* Mobile header adjustments */
+  .header {
+    padding: var(--spacing-3);
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+  }
+  
+  .title {
+    font-size: var(--font-size-base);
+  }
+  
+  .headerActions {
+    flex-wrap: wrap;
+    gap: var(--spacing-1);
+  }
+  
+  .quickAction {
+    font-size: 10px;
+    padding: var(--spacing-1);
+  }
+  
+  /* Mobile notification items */
+  .item {
+    padding: var(--spacing-3) var(--spacing-2);
+    margin: var(--spacing-1) 0;
+  }
+  
+  .itemContent {
+    gap: var(--spacing-2);
+  }
+  
+  .iconContainer {
+    width: var(--size-6);
+    height: var(--size-6);
+    margin-top: 0;
+  }
+  
+  .content {
+    min-width: 0; /* Allow text to wrap */
+  }
+  
+  .notifTitle {
+    font-size: var(--font-xs);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .message {
+    font-size: var(--font-xs);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.3;
+  }
+  
+  .time {
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  
+  /* Mobile actions - always visible */
+  .actions {
+    opacity: 1 !important; /* Always visible on mobile */
+    gap: 2px;
+  }
+  
+  /* Mobile list adjustments */
+  .list {
+    max-height: calc(100vh - 200px); /* Adjust for fixed positioning */
+    padding: var(--spacing-1);
+  }
+  
+  /* Mobile footer */
+  .footer {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+  
+  .viewAll {
+    padding: var(--spacing-2) var(--spacing-3) !important;
+    font-size: var(--font-xs);
+  }
+}
+
+/* Small mobile - 320px to 374px */
+@media (max-width: 374px) {
+  .dropdown {
+    width: calc(100vw - var(--spacing-6)) !important; /* Smaller padding on tiny screens */
+    max-width: 350px !important; /* Smaller max width */
+    top: 55px !important;
+    /* Keep centering from parent media query */
+  }
+  
+  .header {
+    padding: var(--spacing-2);
+  }
+  
+  .title {
+    font-size: var(--font-sm);
+  }
+  
+  .headerActions {
+    gap: 2px;
+  }
+  
+  .quickAction {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+  
+  .item {
+    padding: var(--spacing-2);
+  }
+  
+  .iconContainer {
+    width: var(--size-5);
+    height: var(--size-5);
+  }
+  
+  .notifTitle {
+    font-size: 11px;
+  }
+  
+  .message {
+    font-size: 10px;
+  }
+  
+  .time {
+    font-size: 9px;
+  }
+}
+
+/* Ultra-small mobile - 280px to 320px (Galaxy Fold, very narrow screens) */
+@media (max-width: 320px) {
+  .dropdown {
+    width: calc(100vw - var(--spacing-4)) !important; /* Even smaller padding */
+    max-width: 300px !important; /* Smaller max width for very narrow screens */
+    top: 50px !important; /* Closer to header on tiny screens */
+  }
+  
+  .header {
+    padding: var(--spacing-1);
+    flex-direction: column; /* Stack header elements vertically */
+    align-items: center;
+    gap: var(--spacing-1);
+  }
+  
+  .title {
+    font-size: 12px;
+  }
+  
+  .headerActions {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1px;
+  }
+  
+  .quickAction {
+    font-size: 8px;
+    padding: 1px 3px;
+  }
+  
+  .item {
+    padding: var(--spacing-1);
+    margin: 1px 0;
+  }
+  
+  .itemContent {
+    gap: var(--spacing-1);
+  }
+  
+  .iconContainer {
+    width: var(--size-4);
+    height: var(--size-4);
+  }
+  
+  .content {
+    min-width: 0;
+  }
+  
+  .notifTitle {
+    font-size: 10px;
+    line-height: 1.2;
+  }
+  
+  .message {
+    font-size: 9px;
+    line-height: 1.2;
+  }
+  
+  .time {
+    font-size: 8px;
+  }
+  
+  .actions {
+    gap: 1px;
+  }
+  
+  .list {
+    padding: var(--spacing-1);
+    max-height: calc(100vh - 160px);
+  }
+  
+  .footer {
+    padding: var(--spacing-1);
+  }
+  
+  .viewAll {
+    padding: var(--spacing-1) !important;
+    font-size: 9px;
+  }
+}
+
+/* Ultra-narrow screens - 280px and below (Galaxy Fold inner screen) */
+@media (max-width: 280px) {
+  .dropdown {
+    width: calc(100vw - 8px) !important; /* Minimal padding */
+    max-width: 270px !important; /* Very small max width */
+    top: 45px !important;
+  }
+  
+  .header {
+    padding: 4px;
+  }
+  
+  .title {
+    font-size: 11px;
+  }
+  
+  .headerActions {
+    display: none; /* Hide actions on very small screens to save space */
+  }
+  
+  .item {
+    padding: 4px;
+  }
+  
+  .iconContainer {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .notifTitle {
+    font-size: 9px;
+  }
+  
+  .message {
+    font-size: 8px;
+  }
+  
+  .time {
+    font-size: 7px;
+  }
+}
+
+/* Landscape mobile - specific fix for landscape orientation */
+@media (max-width: 767px) and (orientation: landscape) {
+  .dropdown {
+    max-height: calc(100vh - 80px) !important;
+    top: 50px !important;
+  }
+  
+  .list {
+    max-height: calc(100vh - 140px);
+  }
+}
+
+/* Tablet responsive - 768px to 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .dropdown {
+    width: 340px; /* Slightly smaller on tablet */
+    right: -10px; /* Adjust positioning */
+  }
+}

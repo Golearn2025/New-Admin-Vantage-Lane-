@@ -16,28 +16,23 @@ export interface UseProfileFormProps {
 }
 
 export interface UseProfileFormReturn {
-  // Form field values
   firstName: string;
   lastName: string;
   phone: string;
   bio: string;
-  
-  // Field change handlers
   handleFirstNameChange: (value: string) => void;
   handleLastNameChange: (value: string) => void;
   handlePhoneChange: (value: string) => void;
   handleBioChange: (value: string) => void;
-  
-  // Security handlers
   handleChangePassword: () => void;
   handleEnable2FA: () => void;
   handleDeleteAccount: () => void;
-  
-  // Save logic
   handleSave: () => Promise<void>;
   hasPendingChanges: boolean;
   saving: boolean;
   saveSuccess: boolean;
+  showChangePasswordModal: boolean;
+  setShowChangePasswordModal: (show: boolean) => void;
 }
 
 export function useProfileForm({ profile, onSave }: UseProfileFormProps): UseProfileFormReturn {
@@ -48,16 +43,33 @@ export function useProfileForm({ profile, onSave }: UseProfileFormProps): UsePro
   
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
   // Calculate if there are pending changes
   const hasPendingChanges = useMemo(() => {
-    return (
-      firstName !== (profile.first_name || '') ||
-      lastName !== (profile.last_name || '') ||
-      phone !== (profile.phone || '') ||
-      bio !== (profile.bio || '')
-    );
-  }, [firstName, lastName, phone, bio, profile]);
+    const changes = {
+      firstName: firstName !== (profile.first_name || ''),
+      lastName: lastName !== (profile.last_name || ''),
+      phone: phone !== (profile.phone || ''),
+      bio: bio !== (profile.bio || '')
+    };
+    
+    const hasChanges = Object.values(changes).some(Boolean);
+    
+    console.log('🔍 PROFILE FORM: Pending changes check', {
+      changes,
+      hasChanges,
+      currentValues: { firstName, lastName, phone, bio },
+      profileValues: { 
+        first_name: profile.first_name, 
+        last_name: profile.last_name, 
+        phone: profile.phone, 
+        bio: profile.bio 
+      }
+    });
+    
+    return hasChanges;
+  }, [firstName, lastName, phone, bio, profile.first_name, profile.last_name, profile.phone, profile.bio]);
 
   // Memoized change handlers
   const handleFirstNameChange = useCallback((value: string) => {
@@ -78,8 +90,16 @@ export function useProfileForm({ profile, onSave }: UseProfileFormProps): UsePro
 
   // Save handler with spam protection
   const handleSave = useCallback(async () => {
-    if (!hasPendingChanges || saving) return;
+    console.log('🚀 PROFILE FORM: handleSave called', { hasPendingChanges, saving });
+    
+    if (!hasPendingChanges || saving) {
+      console.log('❌ PROFILE FORM: Save blocked', { 
+        reason: !hasPendingChanges ? 'No pending changes' : 'Already saving' 
+      });
+      return;
+    }
 
+    console.log('🔄 PROFILE FORM: Starting save process...');
     setSaving(true);
     setSaveSuccess(false);
 
@@ -90,7 +110,9 @@ export function useProfileForm({ profile, onSave }: UseProfileFormProps): UsePro
       bio: bio || null,
     };
 
+    console.log('🔄 PROFILE FORM: Calling onSave with updates', updates);
     const success = await onSave(updates);
+    console.log('🔄 PROFILE FORM: Save result', success);
 
     if (success) {
       setSaveSuccess(true);
@@ -100,9 +122,10 @@ export function useProfileForm({ profile, onSave }: UseProfileFormProps): UsePro
     setSaving(false);
   }, [hasPendingChanges, saving, firstName, lastName, phone, bio, onSave]);
 
-  // Security handlers (placeholder for now)
+  // Security handlers
   const handleChangePassword = useCallback(() => {
-    // TODO: Implement password change
+    console.log('🔐 CHANGE PASSWORD: Opening change password modal');
+    setShowChangePasswordModal(true);
   }, []);
 
   const handleEnable2FA = useCallback(() => {
@@ -129,5 +152,7 @@ export function useProfileForm({ profile, onSave }: UseProfileFormProps): UsePro
     hasPendingChanges,
     saving,
     saveSuccess,
+    showChangePasswordModal,
+    setShowChangePasswordModal,
   };
 }

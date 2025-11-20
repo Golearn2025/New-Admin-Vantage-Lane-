@@ -1,2 +1,92 @@
 'use client';
-import{useState,useEffect}from'react';const mockStats={totalDrivers:12,pendingDrivers:3,activeDrivers:9,totalBookings:156};const mockDrivers=[{id:'1',firstName:'John',lastName:'Doe',email:'john@example.com',status:'pending'},{id:'2',firstName:'Jane',lastName:'Smith',email:'jane@example.com',status:'active'},{id:'3',firstName:'Mike',lastName:'Johnson',email:'mike@example.com',status:'pending'}];const mockNotifications=[{id:'1',type:'driver_assigned',title:'New Driver Assigned',message:'John Doe has been assigned to your operator account',createdAt:new Date(Date.now()-3600000).toISOString()},{id:'2',type:'booking',title:'New Booking',message:'New booking received for executive transport',createdAt:new Date(Date.now()-7200000).toISOString()}];export function useOperatorDashboard(){const[stats,setStats]=useState(mockStats);const[recentDrivers,setRecentDrivers]=useState(mockDrivers);const[notifications,setNotifications]=useState(mockNotifications);const[loading,setLoading]=useState(true);useEffect(()=>{const fetch=async()=>{setLoading(true);await new Promise(r=>setTimeout(r,500));setLoading(false)};fetch()},[]);return{stats,recentDrivers,notifications,loading}}
+
+import { useState, useEffect } from 'react';
+
+interface OperatorStats {
+  totalDrivers: number;
+  activeDrivers: number;
+  pendingDrivers: number;
+  totalBookings: number;
+  organizationId?: string;
+  organizationName?: string;
+}
+
+interface RecentDriver {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  status: 'active' | 'pending' | 'inactive';
+  createdAt: string;
+}
+
+interface Notification {
+  id: string;
+  type: string;
+  title: string;
+  message: string;
+  createdAt: string;
+}
+
+export function useOperatorDashboard() {
+  const [stats, setStats] = useState<OperatorStats>({
+    totalDrivers: 0,
+    activeDrivers: 0,
+    pendingDrivers: 0,
+    totalBookings: 0,
+  });
+  const [recentDrivers, setRecentDrivers] = useState<RecentDriver[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        // Fetch operator stats
+        const statsResponse = await fetch('/api/operator/stats');
+        if (!statsResponse.ok) {
+          throw new Error('Failed to fetch operator stats');
+        }
+        const statsData = await statsResponse.json();
+        setStats(statsData);
+
+        // Fetch recent drivers
+        const driversResponse = await fetch('/api/operator/recent-drivers');
+        if (!driversResponse.ok) {
+          throw new Error('Failed to fetch recent drivers');
+        }
+        const driversData = await driversResponse.json();
+        setRecentDrivers(driversData);
+
+        // Fetch recent notifications
+        const notificationsResponse = await fetch('/api/operator/notifications');
+        if (!notificationsResponse.ok) {
+          throw new Error('Failed to fetch notifications');
+        }
+        const notificationsData = await notificationsResponse.json();
+        setNotifications(notificationsData);
+
+      } catch (err) {
+        console.error('Error fetching operator dashboard data:', err);
+        setError(err instanceof Error ? err.message : 'Unknown error');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return {
+    stats,
+    recentDrivers,
+    notifications,
+    loading,
+    error,
+  };
+}

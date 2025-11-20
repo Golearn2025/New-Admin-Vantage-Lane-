@@ -12,6 +12,7 @@
 import { DASHBOARD_CARDS } from '@admin-shared/config/dashboard.cards';
 import { determineChartGrouping } from '@admin-shared/utils/chartGrouping';
 import { DashboardMetrics } from '@features/shared/dashboard-metrics/DashboardMetrics';
+import { OperatorDashboard } from '@features/operator/operator-dashboard';
 import { Select } from '@vantage-lane/ui-core';
 import type { DatePreset } from '@vantage-lane/ui-dashboard';
 import { DateRangePicker, useDateRangeOrchestrator } from '@vantage-lane/ui-dashboard';
@@ -163,6 +164,11 @@ export default function DashboardPage() {
         <ChartCard title="Booking Status" loading={isLoading}>
           {convertedCharts && <DonutChart data={statusDistributionData} />}
         </ChartCard>
+      </div>
+
+      {/* Operator Dashboard - Shows operational data for operators */}
+      <div className={styles.operatorSection}>
+        <OperatorDashboard />
       </div>
     </div>
   );

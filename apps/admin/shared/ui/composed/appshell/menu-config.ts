@@ -58,7 +58,12 @@ const adminMenu: NavMenuItem[] = [
 // Operator - Acces limitat (folosește aceleași pagini ca admin, doar meniul e filtrat)
 const operatorMenu: NavMenuItem[] = [
   { icon: 'dashboard', label: 'Dashboard', href: '/dashboard' },
-  { icon: 'calendar', label: 'Bookings', href: '/bookings' },
+  {
+    icon: 'calendar',
+    label: 'Bookings',
+    href: '/bookings',
+    children: ['/bookings/active', '/bookings/past', '/bookings/new'],
+  },
   { icon: 'documents', label: 'Documents', href: '/documents' },
   { icon: 'support', label: 'Support', href: '/support-tickets' },
   { icon: 'settings', label: 'Settings', href: '/settings/profile' },

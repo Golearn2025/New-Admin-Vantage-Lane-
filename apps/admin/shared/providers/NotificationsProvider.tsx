@@ -8,16 +8,16 @@
 
 import { createClient } from '@/lib/supabase/client';
 import {
+  bulkDelete,
+  bulkMarkRead,
+  bulkMarkUnread,
+  deleteNotification,
+  forceDeleteNotification,
+  getUnreadCount,
   listNotifications,
   markAllAsRead,
   markAsRead,
   markAsUnread,
-  deleteNotification,
-  forceDeleteNotification,
-  bulkDelete,
-  bulkMarkRead,
-  bulkMarkUnread,
-  getUnreadCount,
   type NotificationData,
 } from '@entities/notification';
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
@@ -50,15 +50,49 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
   const [userId, setUserId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // 🔄 DETECT USER CHANGE and reset notifications cache
+  useEffect(() => {
+    const checkUserChange = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      // If user changed, reset cache
+      if (userId && user?.id && userId !== user.id) {
+        console.log('🔄 USER CHANGED! Clearing notifications cache:', userId, '→', user.id);
+        setNotifications([]);
+        setUnreadCount(0);
+        setLoading(true);
+        
+        // Re-fetch notifications for new user
+        try {
+          const [notifs, count] = await Promise.all([
+            listNotifications(user.id),
+            getUnreadCount(user.id),
+          ]);
+          setNotifications(notifs);
+          setUnreadCount(count);
+        } catch (error) {
+          console.error('❌ Failed to fetch notifications for new user:', error);
+        } finally {
+          setLoading(false);
+        }
+      }
+      
+      if (user?.id) {
+        setUserId(user.id);
+      }
+    };
+    
+    checkUserChange();
+  }, []); // Run once on mount and when dependencies change
+
   useEffect(() => {
     console.log('🚀 NotificationsProvider - MOUNTING (useEffect START)');
     console.log('   → globalIsSubscribed:', globalIsSubscribed);
 
     // 🛡️ GLOBAL GUARD: Prevent double subscription across ALL mounts
-    if (globalIsSubscribed && globalChannel) {
-      console.log('⚠️ Already subscribed GLOBALLY, skipping setup');
-      return;
-    }
+    // BUT always fetch notifications for current user
+    const shouldSetupRealtime = !globalIsSubscribed || !globalChannel;
 
     const fetchNotifications = async () => {
       try {
@@ -243,8 +277,16 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
     audioRef.current = new Audio('/sounds/notification-good-427346.mp3');
     audioRef.current.preload = 'auto';
 
+    // ALWAYS fetch notifications for current user
     fetchNotifications();
-    setupRealtimeSubscription();
+    
+    // Setup realtime ONLY if not already subscribed
+    if (shouldSetupRealtime) {
+      console.log('🔄 Setting up realtime subscription...');
+      setupRealtimeSubscription();
+    } else {
+      console.log('⚠️ Realtime already subscribed, skipping setup');
+    }
 
     // Request browser notification permission
     if ('Notification' in window && Notification.permission === 'default') {
@@ -297,11 +339,11 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
       setNotifications((prev) =>
         prev.map((n) => (n.id === notificationId ? { ...n, read: false } : n))
       );
-      
+
       // Update unread count
-      const notification = notifications.find(n => n.id === notificationId);
+      const notification = notifications.find((n) => n.id === notificationId);
       if (notification && notification.read) {
-        setUnreadCount(prev => prev + 1);
+        setUnreadCount((prev) => prev + 1);
       }
     } catch (error) {
       console.error('Failed to mark as unread:', error);
@@ -311,10 +353,10 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
   const handleDeleteNotification = async (notificationId: string) => {
     console.log('🗑️ PROVIDER DELETE CALLED:', notificationId);
     console.log('🔍 Current notifications count:', notifications.length);
-    
+
     // Get notification reference for state update
-    const notification = notifications.find(n => n.id === notificationId);
-    
+    const notification = notifications.find((n) => n.id === notificationId);
+
     try {
       // Try normal delete first (should work now with fixed RLS)
       await deleteNotification(notificationId);
@@ -327,27 +369,29 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
         console.log('✅ FORCE DELETE SUCCESS:', notificationId);
       } catch (forceError) {
         console.error('❌ FORCE DELETE ALSO FAILED:', forceError);
-        
+
         // As a last resort, just update the UI optimistically
         console.log('🔄 OPTIMISTIC DELETE - UPDATING UI ANYWAY');
         setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
         if (notification && !notification.read) {
-          setUnreadCount(prev => Math.max(0, prev - 1));
+          setUnreadCount((prev) => Math.max(0, prev - 1));
         }
-        
+
         // Still throw error to show user that backend failed
-        throw new Error(`All delete methods failed. Normal: ${error instanceof Error ? error.message : 'Unknown'}. Force: ${forceError instanceof Error ? forceError.message : 'Unknown'}`);
+        throw new Error(
+          `All delete methods failed. Normal: ${error instanceof Error ? error.message : 'Unknown'}. Force: ${forceError instanceof Error ? forceError.message : 'Unknown'}`
+        );
       }
     }
 
     // Update local state (this runs if either delete method worked)
     setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
-    
+
     // Update unread count if deleted notification was unread
     if (notification && !notification.read) {
-      setUnreadCount(prev => Math.max(0, prev - 1));
+      setUnreadCount((prev) => Math.max(0, prev - 1));
     }
-    
+
     console.log('✅ LOCAL STATE UPDATED for:', notificationId);
   };
 
@@ -358,17 +402,17 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
       console.log('✅ BULK DELETE SUCCESS:', notificationIds);
 
       // Update local state
-      const deletedNotifications = notifications.filter(n => notificationIds.includes(n.id));
-      const unreadDeleted = deletedNotifications.filter(n => !n.read).length;
-      
+      const deletedNotifications = notifications.filter((n) => notificationIds.includes(n.id));
+      const unreadDeleted = deletedNotifications.filter((n) => !n.read).length;
+
       setNotifications((prev) => prev.filter((n) => !notificationIds.includes(n.id)));
-      setUnreadCount(prev => Math.max(0, prev - unreadDeleted));
-      
+      setUnreadCount((prev) => Math.max(0, prev - unreadDeleted));
+
       console.log('✅ BULK LOCAL STATE UPDATED for:', notificationIds);
     } catch (error) {
       console.error('❌ BULK DELETE FAILED:', error);
       console.error('❌ Notification IDs:', notificationIds);
-      
+
       // Re-throw to show user error
       throw error;
     }
@@ -379,16 +423,14 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
       await bulkMarkRead(notificationIds);
 
       // Update local state
-      const unreadToRead = notifications.filter(n => 
-        notificationIds.includes(n.id) && !n.read
+      const unreadToRead = notifications.filter(
+        (n) => notificationIds.includes(n.id) && !n.read
       ).length;
-      
-      setNotifications((prev) => 
-        prev.map((n) => 
-          notificationIds.includes(n.id) ? { ...n, read: true } : n
-        )
+
+      setNotifications((prev) =>
+        prev.map((n) => (notificationIds.includes(n.id) ? { ...n, read: true } : n))
       );
-      setUnreadCount(prev => Math.max(0, prev - unreadToRead));
+      setUnreadCount((prev) => Math.max(0, prev - unreadToRead));
     } catch (error) {
       console.error('Failed to bulk mark read:', error);
     }
@@ -399,16 +441,14 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
       await bulkMarkUnread(notificationIds);
 
       // Update local state
-      const readToUnread = notifications.filter(n => 
-        notificationIds.includes(n.id) && n.read
+      const readToUnread = notifications.filter(
+        (n) => notificationIds.includes(n.id) && n.read
       ).length;
-      
-      setNotifications((prev) => 
-        prev.map((n) => 
-          notificationIds.includes(n.id) ? { ...n, read: false } : n
-        )
+
+      setNotifications((prev) =>
+        prev.map((n) => (notificationIds.includes(n.id) ? { ...n, read: false } : n))
       );
-      setUnreadCount(prev => prev + readToUnread);
+      setUnreadCount((prev) => prev + readToUnread);
     } catch (error) {
       console.error('Failed to bulk mark unread:', error);
     }

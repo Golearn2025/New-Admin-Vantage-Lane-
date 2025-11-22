@@ -13,6 +13,7 @@ import { DASHBOARD_CARDS } from '@admin-shared/config/dashboard.cards';
 import { determineChartGrouping } from '@admin-shared/utils/chartGrouping';
 import { DashboardMetrics } from '@features/shared/dashboard-metrics/DashboardMetrics';
 import { OperatorDashboard } from '@features/operator/operator-dashboard';
+import { useCurrentUser } from '@admin-shared/hooks/useCurrentUser';
 import { Select } from '@vantage-lane/ui-core';
 import type { DatePreset } from '@vantage-lane/ui-dashboard';
 import { DateRangePicker, useDateRangeOrchestrator } from '@vantage-lane/ui-dashboard';
@@ -53,6 +54,9 @@ const DATE_PRESET_TABS = [
 ] as const;
 
 export default function DashboardPage() {
+  // Get current user for role-based display
+  const { user } = useCurrentUser();
+  
   // ORCHESTRATOR - MASTER date filter management
   const { preset, effectiveRange, setPreset, setCustomRange, apiParams } =
     useDateRangeOrchestrator('last_30_days');
@@ -148,18 +152,21 @@ export default function DashboardPage() {
       </div>
 
       <div className={styles.chartsGrid}>
-        <ChartCard title="Operator Performance" loading={isLoading}>
-          {convertedCharts && (
-            <StackedBarChart
-              data={convertedCharts.operator_performance}
-              series={[
-                { key: 'bookings', label: 'Bookings', color: 'var(--chart-series-1)' },
-                { key: 'revenue', label: 'Revenue (£)', color: 'var(--chart-series-2)' },
-                { key: 'commission', label: 'Commission (£)', color: 'var(--chart-series-3)' },
-              ]}
-            />
-          )}
-        </ChartCard>
+        {/* Operator Performance - Only show to admin */}
+        {user?.role === 'admin' && (
+          <ChartCard title="Operator Performance" loading={isLoading}>
+            {convertedCharts && (
+              <StackedBarChart
+                data={convertedCharts.operator_performance}
+                series={[
+                  { key: 'bookings', label: 'Bookings', color: 'var(--chart-series-1)' },
+                  { key: 'revenue', label: 'Revenue (£)', color: 'var(--chart-series-2)' },
+                  { key: 'commission', label: 'Commission (£)', color: 'var(--chart-series-3)' },
+                ]}
+              />
+            )}
+          </ChartCard>
+        )}
 
         <ChartCard title="Booking Status" loading={isLoading}>
           {convertedCharts && <DonutChart data={statusDistributionData} />}

@@ -141,4 +141,17 @@ export const DASHBOARD_CARDS: CardSpec[] = [
     field: 'scheduled_count',
     access: ['admin', 'operator'],
   },
+  // Operator-specific card
+  {
+    key: 'operator_earnings',
+    title: 'Operator Earnings',
+    subtitle: 'Your commission',
+    unit: 'GBP_pence',
+    format: 'currency',
+    priority: 9,
+    windows: ['this_week', 'last_week', 'this_month', 'last_month', 'this_year', 'all'],
+    defaultWindow: 'this_month',
+    field: 'operator_earnings_pence',
+    access: ['operator'],
+  },
 ];

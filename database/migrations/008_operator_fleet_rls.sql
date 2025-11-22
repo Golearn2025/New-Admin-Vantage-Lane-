@@ -27,7 +27,7 @@ RETURNS BOOLEAN AS $$
     SELECT 1 
     FROM admin_users 
     WHERE auth_user_id = auth.uid() 
-    AND role = 'super_admin'
+    AND role IN ('admin', 'super_admin')  -- ✅ Accept both admin and super_admin
     AND is_active = true
   );
 $$ LANGUAGE SQL SECURITY DEFINER STABLE;

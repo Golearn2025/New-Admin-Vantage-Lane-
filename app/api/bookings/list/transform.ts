@@ -47,9 +47,9 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
       bookingServices: bookingServices as unknown as Array<Record<string, unknown>>,
     });
 
-    // ONEWAY/HOURLY or RETURN/FLEET without legs: use booking data
-    if (booking.trip_type === 'oneway' || booking.trip_type === 'hourly' || 
-        ((booking.trip_type === 'return' || booking.trip_type === 'fleet') && bookingLegs.length === 0)) {
+    // Use legs data if available (preferred), fallback to segments
+    if (bookingLegs.length === 0) {
+      // No legs - use segments as fallback
       const driver = drivers.find((d) => d.id === booking.assigned_driver_id);
       const vehicle = vehicles.find((v) => v.id === booking.assigned_vehicle_id);
       const pickupLocation = pickup?.place_text || pickup?.place_label || 'N/A';
@@ -84,18 +84,19 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
         operator_rating: organization?.rating_average || null,
         operator_reviews: organization?.review_count || null,
         source: booking.source || 'web',
-        // No legs property for ONEWAY/HOURLY (optional field)
+        // No legs property for fallback mode (optional field)
       });
     }
-    // RETURN/FLEET: Use legs data
-    else if (bookingLegs.length > 0) {
+    // Has legs: Use legs data (preferred for all trip types)
+    else {
       bookingLegs.forEach((leg) => {
         const legDriver = drivers.find((d) => d.id === leg.assigned_driver_id);
         const legVehicle = vehicles.find((v) => v.id === leg.assigned_vehicle_id);
 
         rows.push({
-          id: `${booking.id}-${String(leg.leg_number).padStart(2, '0')}`,
-          reference: `${booking.reference}-${String(leg.leg_number).padStart(2, '0')}`,
+          // For oneway/hourly with 1 leg, use original ID/reference to avoid confusion
+          id: booking.trip_type === 'oneway' || booking.trip_type === 'hourly' ? booking.id : `${booking.id}-${String(leg.leg_number).padStart(2, '0')}`,
+          reference: booking.trip_type === 'oneway' || booking.trip_type === 'hourly' ? (booking.reference || 'N/A') : `${booking.reference || 'N/A'}-${String(leg.leg_number).padStart(2, '0')}`,
           status: mapStatus(leg.status),
           is_urgent: isUrgent,
           is_new: isNew,

@@ -31,6 +31,7 @@ interface BookingsTableProps {
   title: string;
   description?: string;
   showStatusFilter?: boolean;
+  statusFilterOptions?: string[]; // Optional: limit dropdown options (e.g., for Past page)
 }
 
 export function BookingsTable({
@@ -39,12 +40,13 @@ export function BookingsTable({
   title,
   description,
   showStatusFilter = false,
+  statusFilterOptions,
 }: BookingsTableProps) {
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
-    pageSize: 10, // ✅ Default 10 rows
+    pageSize: 25, // ✅ Normal page size - API handles filtering now
     totalCount: 0,
   });
 
@@ -144,6 +146,7 @@ export function BookingsTable({
           setSelectedStatus(status);
           setPagination((p) => ({ ...p, pageIndex: 0 }));
         }}
+        {...(statusFilterOptions && { statusFilterOptions })}
       />
 
       {/* Error state */}

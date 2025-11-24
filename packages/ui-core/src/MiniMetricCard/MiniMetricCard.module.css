@@ -103,7 +103,7 @@
   height: 32px;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-default);
-  background: transparent;
+  background: var(--color-surface-elevated);
   color: var(--color-text-muted);
   display: flex;
   align-items: center;

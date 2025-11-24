@@ -64,8 +64,18 @@ const operatorMenu: NavMenuItem[] = [
     href: '/bookings',
     children: ['/bookings/active', '/bookings/past', '/bookings/new'],
   },
-  { icon: 'documents', label: 'Documents', href: '/documents' },
-  { icon: 'support', label: 'Support', href: '/support-tickets' },
+  {
+    icon: 'users',
+    label: 'Users',
+    href: '/users',
+    children: [
+      '/users/drivers',         // ✅ DOAR Drivers (șoferii asignați la operator)
+      '/users/drivers/pending', // ✅ Documentele pending ale șoferilor lor
+    ],
+  },
+  { icon: 'documents', label: 'Documents', href: '/documents' }, // ✅ Documentele șoferilor lor + approve/reject
+  { icon: 'bell', label: 'Notifications', href: '/notifications' }, // ✅ Trimite la admini + șoferii lor + istoricul său
+  { icon: 'support', label: 'Support', href: '/support-tickets' }, // ✅ Toate ticketele de la toți șoferii
   { icon: 'settings', label: 'Settings', href: '/settings/profile' },
 ];
 

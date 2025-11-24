@@ -58,7 +58,7 @@ export function mapStatus(
     case 'cancelled':  // ← Mixed case support
       return 'cancelled';
     default:
-      console.warn('Unknown status:', dbStatus);
+      console.warn('🚨 Unknown status:', dbStatus, 'for booking');
       return 'pending';
   }
 }

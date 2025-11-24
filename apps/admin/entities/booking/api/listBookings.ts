@@ -7,16 +7,24 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { QueryParams, QueryResult, RawBooking } from './listBookings.types';
 
+// Use existing mapStatusToDb function (avoid duplicate)
+
 export async function fetchBookingsData(
   supabase: SupabaseClient,
   params: QueryParams
 ): Promise<QueryResult> {
-  const { page, pageSize, status } = params;
+  const { page, pageSize, status, statusFilters } = params;
 
   // Base query - FĂRĂ nested (fetch separat!)
   let query = supabase.from('bookings').select('*', { count: 'exact' });
 
-  if (status) {
+  // Apply status filtering
+  if (statusFilters && statusFilters.length > 0) {
+    // Multiple status filters (for Past page: completed, cancelled)
+    const dbStatuses = statusFilters.map(s => mapStatusToDb(s));
+    query = query.in('status', dbStatuses);
+  } else if (status) {
+    // Single status filter (for dropdown selection)
     const dbStatus = mapStatusToDb(status);
     query = query.eq('status', dbStatus);
   }

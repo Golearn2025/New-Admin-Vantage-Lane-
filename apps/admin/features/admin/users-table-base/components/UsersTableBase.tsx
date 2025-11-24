@@ -24,6 +24,7 @@ import { UserCreateModal } from '@features/admin/user-create-modal';
 import { UserViewModal } from '@features/admin/user-view-modal';
 import { UserEditModal } from '@features/admin/user-edit-modal';
 import { useAllUsers } from '@features/admin/users-table/hooks/useAllUsers';
+import { useOperatorDrivers } from '@features/admin/users-table/hooks/useOperatorDrivers';
 import { getAllUsersColumns } from '@features/admin/users-table/columns/commonColumns';
 import { bulkUpdateUsers, bulkDeleteUsers } from '@entities/user';
 import { BulkActionsBar } from './BulkActionsBar';
@@ -38,8 +39,15 @@ export function UsersTableBase({
   showCreateButton = true,
   className,
   onViewCustom,
+  useOperatorFilter = false,
 }: UsersTableBaseProps) {
-  const { data: allData, loading, error, refetch } = useAllUsers();
+  // ✅ RBAC: Use appropriate hook based on user role
+  const allUsersResult = useAllUsers();
+  const operatorDriversResult = useOperatorDrivers();
+  
+  const { data: allData, loading, error, refetch } = useOperatorFilter 
+    ? operatorDriversResult 
+    : allUsersResult;
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);

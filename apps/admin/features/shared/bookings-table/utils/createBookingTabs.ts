@@ -14,8 +14,9 @@ export type TabId =
   | 'oneway'
   | 'return'
   | 'hourly'
+  | 'daily'
   | 'fleet'
-  | 'by_request'
+  | 'bespoke'
   | 'events'
   | 'corporate';
 
@@ -26,8 +27,9 @@ export const ZERO_COUNTS: CountsByTripType = {
   oneway: 0,
   return: 0,
   hourly: 0,
+  daily: 0,
   fleet: 0,
-  by_request: 0,
+  bespoke: 0,
   events: 0,
   corporate: 0,
 };
@@ -37,21 +39,23 @@ export const TAB_ORDER: TabId[] = [
   'oneway',
   'return',
   'hourly',
+  'daily',
   'fleet',
-  'by_request',
+  'bespoke',
   'events',
   'corporate',
 ];
 
-const TAB_META: Record<TabId, { label: string }> = {
-  all: { label: 'All Bookings' },
-  oneway: { label: 'One Way' },
-  return: { label: 'Return' },
-  hourly: { label: 'Hourly' },
-  fleet: { label: 'Fleet' },
-  by_request: { label: 'By Request' },
-  events: { label: 'Events' },
-  corporate: { label: 'Corporate' },
+const TAB_META: Record<TabId, { label: string; color: 'theme' | 'success' | 'warning' | 'danger' | 'info' | 'neutral' | 'magenta' | 'purple' | 'burnred' | 'lightblue' }> = {
+  all: { label: 'All Bookings', color: 'magenta' },
+  oneway: { label: 'One Way', color: 'info' },
+  return: { label: 'Return', color: 'success' },
+  hourly: { label: 'Hourly', color: 'danger' },
+  daily: { label: 'Daily', color: 'warning' },
+  fleet: { label: 'Fleet', color: 'burnred' },
+  bespoke: { label: 'Bespoke', color: 'purple' },
+  events: { label: 'Events', color: 'lightblue' },
+  corporate: { label: 'Corporate', color: 'neutral' },
 };
 
 /**
@@ -69,6 +73,7 @@ export function createBookingTabs(counts: CountsByTripType): Tab[] {
     id,
     label: TAB_META[id].label,
     badge: formatBadge(counts[id]),
-    badgeColor: 'theme' as const,
+    badgeColor: TAB_META[id].color, // Badge color
+    tabColor: TAB_META[id].color,   // Tab background color - same as badge
   }));
 }

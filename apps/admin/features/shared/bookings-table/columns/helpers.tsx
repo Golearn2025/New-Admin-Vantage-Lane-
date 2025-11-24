@@ -2,7 +2,7 @@
  * Bookings Columns - Helper Functions
  */
 
-import { ArrowRight, Car, RefreshCw, Timer } from 'lucide-react';
+import { ArrowRight, Car, RefreshCw, Timer, Calendar, MessageSquare, Star, Building2 } from 'lucide-react';
 import React from 'react';
 
 export const formatDate = (dateStr: string | null): string => {
@@ -25,10 +25,32 @@ export const getTripIcon = (tripType: string): React.ReactNode => {
       return <ArrowRight size={14} strokeWidth={2} />;
     case 'hourly':
       return <Timer size={14} strokeWidth={2} />;
+    case 'daily':
+      return <Calendar size={14} strokeWidth={2} />;
     case 'fleet':
       return <Car size={14} strokeWidth={2} />;
+    case 'bespoke':
+      return <MessageSquare size={14} strokeWidth={2} />;
+    case 'events':
+      return <Star size={14} strokeWidth={2} />;
+    case 'corporate':
+      return <Building2 size={14} strokeWidth={2} />;
     default:
       return <ArrowRight size={14} strokeWidth={2} />;
+  }
+};
+
+export const getTripTypeColor = (tripType: string): 'info' | 'success' | 'danger' | 'warning' | 'burnred' | 'purple' | 'lightblue' | 'neutral' => {
+  switch (tripType) {
+    case 'oneway': return 'info';        // 🔵 Albastru
+    case 'return': return 'success';     // 🟢 Verde  
+    case 'hourly': return 'danger';      // 🔴 Roșu
+    case 'daily': return 'warning';      // 🟡 Galben
+    case 'fleet': return 'burnred';      // 🍷 Burgundy
+    case 'bespoke': return 'purple';     // 🟣 Mov
+    case 'events': return 'lightblue';   // 🌊 Albastru deschis
+    case 'corporate': return 'neutral';  // 🔘 Gri
+    default: return 'info';              // 🔵 Default
   }
 };
 

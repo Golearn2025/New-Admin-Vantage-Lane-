@@ -197,6 +197,80 @@
   --color-category-exec-alpha-10: rgba(241, 209, 106, 0.1);
   --color-category-exec-alpha-30: rgba(241, 209, 106, 0.3);
 
+  /* ========================================
+     STANDARD COLORS FOR TABS & BADGES (MISSING)
+     ======================================== */
+
+  /* Blue Scale */
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-900: #1e3a8a;
+
+  /* Light Blue Scale - pentru Events */
+  --color-lightblue-100: #f0f9ff;
+  --color-lightblue-200: #e0f2fe;
+  --color-lightblue-300: #7dd3fc;
+  --color-lightblue-500: #0ea5e9;
+  --color-lightblue-600: #0284c7;
+  --color-lightblue-900: #0c4a6e;
+
+  /* Green Scale */
+  --color-green-100: #dcfce7;
+  --color-green-200: #bbf7d0;
+  --color-green-300: #86efac;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-900: #14532d;
+
+  /* Red Scale */
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-900: #7f1d1d;
+
+  /* Yellow Scale */
+  --color-yellow-100: #fef3c7;
+  --color-yellow-200: #fde68a;
+  --color-yellow-300: #fcd34d;
+  --color-yellow-500: #eab308;
+  --color-yellow-900: #713f12;
+
+  /* Gray Scale */
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-600: #4b5563;
+  --color-gray-900: #111827;
+
+  /* Purple Scale */
+  --color-purple-100: #f3e8ff;
+  --color-purple-200: #e9d5ff;
+  --color-purple-300: #d946ef;
+  --color-purple-500: #a855f7;
+  --color-purple-600: #9333ea;
+  --color-purple-900: #581c87;
+
+  /* Magenta Scale */
+  --color-magenta-100: #fdf2f8;
+  --color-magenta-200: #fce7f3;
+  --color-magenta-300: #f9a8d4;
+  --color-magenta-500: #ec4899;
+  --color-magenta-600: #db2777;
+  --color-magenta-900: #831843;
+
+  /* Burn Red Scale - Burgundy/Maroon pentru Fleet */
+  --color-burnred-100: #fef1f0;
+  --color-burnred-200: #fee2e0;
+  --color-burnred-300: #fca5a0;
+  --color-burnred-500: #f56565;
+  --color-burnred-600: #7c2d12;
+  --color-burnred-900: #3c1010;
+
   --color-category-lux: #8b5cf6; /* Purple - LUXURY S-Class */
   --color-category-lux-alpha-10: rgba(139, 92, 246, 0.1);
   --color-category-lux-alpha-30: rgba(139, 92, 246, 0.3);

@@ -55,10 +55,13 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
       const pickupLocation = pickup?.place_text || pickup?.place_label || 'N/A';
       const dropoffLocation = dropoff?.place_text || dropoff?.place_label || 'N/A';
 
+      const mappedStatus = mapStatus(booking.status);
+      // console.log(`🔍 TRANSFORM DEBUG: ${booking.reference} - DB status: "${booking.status}" → API status: "${mappedStatus}"`);
+      
       rows.push({
         id: booking.id,
         reference: booking.reference || 'N/A',
-        status: mapStatus(booking.status),
+        status: mappedStatus,
         is_urgent: isUrgent,
         is_new: isNew,
         trip_type: booking.trip_type as 'oneway' | 'return' | 'hourly' | 'fleet',
@@ -93,11 +96,14 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
         const legDriver = drivers.find((d) => d.id === leg.assigned_driver_id);
         const legVehicle = vehicles.find((v) => v.id === leg.assigned_vehicle_id);
 
+        const legMappedStatus = mapStatus(leg.status);
+        // console.log(`🔍 LEG TRANSFORM DEBUG: ${booking.reference} leg ${leg.leg_number} - DB status: "${leg.status}" → API status: "${legMappedStatus}"`);
+        
         rows.push({
           // For oneway/hourly with 1 leg, use original ID/reference to avoid confusion
           id: booking.trip_type === 'oneway' || booking.trip_type === 'hourly' ? booking.id : `${booking.id}-${String(leg.leg_number).padStart(2, '0')}`,
           reference: booking.trip_type === 'oneway' || booking.trip_type === 'hourly' ? (booking.reference || 'N/A') : `${booking.reference || 'N/A'}-${String(leg.leg_number).padStart(2, '0')}`,
-          status: mapStatus(leg.status),
+          status: legMappedStatus,
           is_urgent: isUrgent,
           is_new: isNew,
           trip_type: booking.trip_type as 'oneway' | 'return' | 'hourly' | 'fleet',

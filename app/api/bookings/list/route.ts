@@ -21,6 +21,7 @@ export async function GET(request: NextRequest) {
     // Support "All" option: if requesting > 1000, allow up to 10000, otherwise limit to 100
     const pageSize = requestedPageSize > 1000 ? Math.min(requestedPageSize, 10000) : Math.min(requestedPageSize, 100);
     const statusParam = searchParams.get('status');
+    const statusFilterParams = searchParams.getAll('status_filter'); // Multiple statuses
 
     // Validate status parameter
     const validStatuses = ['pending', 'assigned', 'en_route', 'arrived', 'in_progress', 'completed', 'cancelled'] as const;
@@ -28,12 +29,24 @@ export async function GET(request: NextRequest) {
       statusParam && validStatuses.includes(statusParam as (typeof validStatuses)[number])
         ? (statusParam as (typeof validStatuses)[number])
         : null;
+    
+    // Validate multiple status filters
+    const statusFilters = statusFilterParams.filter(s => 
+      validStatuses.includes(s as (typeof validStatuses)[number])
+    ) as (typeof validStatuses)[number][];
 
-    const params: QueryParams = {
-      page,
-      pageSize,
-      status,
-    };
+    const params: QueryParams = statusFilters.length > 0 
+      ? {
+          page,
+          pageSize,
+          status,
+          statusFilters,
+        }
+      : {
+          page,
+          pageSize,
+          status,
+        };
 
     const supabase = createAdminClient();
 

@@ -7,6 +7,7 @@ export interface QueryParams {
   page: number;
   pageSize: number;
   status: 'pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress' | 'completed' | 'cancelled' | null;
+  statusFilters?: ('pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress' | 'completed' | 'cancelled')[];
 }
 
 export interface RawBooking {

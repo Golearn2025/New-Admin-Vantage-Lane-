@@ -10,6 +10,7 @@ interface TableActionBarProps {
   selectedStatus: string;
   onRefresh: () => void;
   onStatusChange: (status: string) => void;
+  statusFilterOptions?: string[]; // Optional: limit dropdown options
 }
 
 export function TableActionBar({
@@ -18,7 +19,29 @@ export function TableActionBar({
   selectedStatus,
   onRefresh,
   onStatusChange,
+  statusFilterOptions,
 }: TableActionBarProps) {
+  // Default status options (all statuses)
+  const defaultStatusOptions = [
+    { value: 'all', label: 'All Status' },
+    { value: 'pending', label: 'Pending' },
+    { value: 'assigned', label: 'Assigned' },
+    { value: 'en_route', label: 'En Route' },
+    { value: 'arrived', label: 'Arrived' },
+    { value: 'in_progress', label: 'In Progress' },
+    { value: 'completed', label: 'Completed' },
+    { value: 'cancelled', label: 'Cancelled' },
+  ];
+
+  // If statusFilterOptions provided, filter to only those options
+  const availableOptions = statusFilterOptions 
+    ? [
+        { value: 'all', label: 'All Status' },
+        ...defaultStatusOptions.filter(option => 
+          statusFilterOptions.includes(option.value)
+        )
+      ]
+    : defaultStatusOptions;
   return (
     <div className={styles.actionBar}>
       <div className={styles.actionBarLeft}>
@@ -58,14 +81,11 @@ export function TableActionBar({
             onChange={(e) => onStatusChange(e.target.value)}
             className={styles.select}
           >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="assigned">Assigned</option>
-            <option value="en_route">En Route</option>
-            <option value="arrived">Arrived</option>
-            <option value="in_progress">In Progress</option>
-            <option value="completed">Completed</option>
-            <option value="cancelled">Cancelled</option>
+            {availableOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
       )}

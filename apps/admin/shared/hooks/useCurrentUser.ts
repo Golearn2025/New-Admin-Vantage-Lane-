@@ -7,10 +7,10 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { logger } from '@/lib/utils/logger';
 import type { UserInfo } from '@admin-shared/ui/composed/appshell/types';
+import { useEffect, useState } from 'react';
 
 interface AdminUser {
   id: string;
@@ -47,7 +47,8 @@ export function useCurrentUser() {
         const userRole = session.user.user_metadata?.role || 'operator';
         const firstName = session.user.user_metadata?.first_name;
         const lastName = session.user.user_metadata?.last_name;
-        const userName = firstName && lastName ? `${firstName} ${lastName}` : session.user.email?.split('@')[0];
+        const userName =
+          firstName && lastName ? `${firstName} ${lastName}` : session.user.email?.split('@')[0];
 
         // Map role to AppShell role type (admin | operator | driver)
         let appShellRole: 'admin' | 'operator' | 'driver' = 'operator';
@@ -59,15 +60,36 @@ export function useCurrentUser() {
           appShellRole = 'operator';
         }
 
-        const userInfo = {
+        // For operators, fetch their organization_id from organizations table
+        let organizationId: string | undefined = undefined;
+        if (appShellRole === 'operator') {
+          try {
+            const { data: organization } = await supabase
+              .from('organizations')
+              .select('id')
+              .eq('auth_user_id', session.user.id)
+              .single();
+            
+            organizationId = organization?.id;
+          } catch (orgError) {
+            // Non-blocking error - operator might not have organization assigned yet
+            logger.warn('Could not fetch organization for operator', { 
+              userId: session.user.id, 
+              error: orgError 
+            });
+          }
+        }
+
+        const userInfo: UserInfo = {
           name: userName || session.user.email || 'User',
           email: session.user.email || '',
           role: appShellRole,
           auth_user_id: session.user.id,
+          ...(organizationId && { organization_id: organizationId }),
         };
-        
+
         console.log('🔍 USER DEBUG: Setting user info for role:', userRole, userInfo);
-        
+
         setUser(userInfo);
       } catch (err) {
         logger.error('Error fetching current user in useCurrentUser', {

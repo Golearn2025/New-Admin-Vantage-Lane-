@@ -19,7 +19,7 @@ import { Icon, type IconName } from '../Icon';
 import styles from './Badge.module.css';
 
 export type BadgeVariant = 'solid' | 'outline' | 'soft';
-export type BadgeColor = 'theme' | 'success' | 'warning' | 'danger' | 'info' | 'neutral';
+export type BadgeColor = 'theme' | 'success' | 'warning' | 'danger' | 'info' | 'neutral' | 'purple' | 'magenta' | 'burnred' | 'lightblue';
 export type BadgeSize = 'sm' | 'md' | 'lg';
 
 export interface BadgeProps {

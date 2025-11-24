@@ -21,7 +21,8 @@ export interface Tab {
   label: string;
   icon?: IconName;
   badge?: number | string;
-  badgeColor?: 'theme' | 'success' | 'warning' | 'danger' | 'info' | 'neutral';
+  badgeColor?: 'theme' | 'success' | 'warning' | 'danger' | 'info' | 'neutral' | 'magenta' | 'purple' | 'burnred' | 'lightblue';
+  tabColor?: 'theme' | 'success' | 'warning' | 'danger' | 'info' | 'neutral' | 'magenta' | 'purple' | 'burnred' | 'lightblue'; // NEW: Tab background color
   disabled?: boolean;
   content?: React.ReactNode;
 }
@@ -127,6 +128,11 @@ export function Tabs({
           const isActive = tab.id === activeTab;
           const isDisabled = tab.disabled;
 
+          // Get tab color CSS class
+          const tabColorClass = tab.tabColor 
+            ? styles[`tabColor${tab.tabColor.charAt(0).toUpperCase() + tab.tabColor.slice(1)}`]
+            : '';
+
           return (
             <button
               key={tab.id}
@@ -138,7 +144,7 @@ export function Tabs({
               tabIndex={isActive ? 0 : -1}
               className={`${styles.tab} ${isActive ? styles.tabActive : ''} ${
                 isDisabled ? styles.tabDisabled : ''
-              }`}
+              } ${tabColorClass}`}
               onClick={() => handleTabClick(tab.id, isDisabled)}
               onKeyDown={(e) => handleKeyDown(e, tab.id, index)}
               type="button"
@@ -158,9 +164,9 @@ export function Tabs({
               {/* Badge */}
               {tab.badge !== undefined && (
                 <Badge 
-                  color={isActive ? 'neutral' : (tab.badgeColor || 'theme')} 
+                  color={isActive ? (tab.badgeColor || 'neutral') : 'neutral'} 
                   size="sm"
-                  variant={isActive ? 'solid' : 'soft'}
+                  variant="solid"
                 >
                   {tab.badge}
                 </Badge>

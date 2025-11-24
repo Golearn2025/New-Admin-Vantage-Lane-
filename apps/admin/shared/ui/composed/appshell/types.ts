@@ -15,6 +15,7 @@ export interface UserInfo {
   role: UserRole;
   avatar?: string;
   auth_user_id?: string;
+  organization_id?: string; // ✅ For operators - their organization ID
 }
 
 export interface NavMenuItem {

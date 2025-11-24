@@ -18,4 +18,10 @@ export interface UsersTableBaseProps {
    * Used for drivers to navigate to profile page
    */
   onViewCustom?: (user: UnifiedUser) => void;
+  
+  /**
+   * RBAC: Use operator filter to show only assigned drivers
+   * When true, uses useOperatorDrivers hook instead of useAllUsers
+   */
+  useOperatorFilter?: boolean;
 }

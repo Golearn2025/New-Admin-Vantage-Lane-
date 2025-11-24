@@ -5,6 +5,7 @@
 .badge {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--spacing-1);
   font-weight: var(--font-medium);
   border-radius: var(--radius-full);
@@ -14,6 +15,9 @@
 
 .content {
   line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
 }
 
 /* ============================================ */
@@ -155,6 +159,86 @@
 .soft.color-neutral {
   background: var(--color-surface-secondary);
   color: var(--color-text-primary);
+}
+
+/* ============================================ */
+/* VARIANTS - MAGENTA                           */
+/* ============================================ */
+
+.solid.color-magenta {
+  background: var(--color-magenta-600);
+  color: white;
+}
+
+.outline.color-magenta {
+  background: transparent;
+  border: 1px solid var(--color-magenta-600);
+  color: var(--color-magenta-600);
+}
+
+.soft.color-magenta {
+  background: var(--color-magenta-100);
+  color: var(--color-magenta-900);
+}
+
+/* ============================================ */
+/* VARIANTS - PURPLE                            */
+/* ============================================ */
+
+.solid.color-purple {
+  background: var(--color-purple-600);
+  color: white;
+}
+
+.outline.color-purple {
+  background: transparent;
+  border: 1px solid var(--color-purple-600);
+  color: var(--color-purple-600);
+}
+
+.soft.color-purple {
+  background: var(--color-purple-100);
+  color: var(--color-purple-900);
+}
+
+/* ============================================ */
+/* VARIANTS - BURN RED                          */
+/* ============================================ */
+
+.solid.color-burnred {
+  background: var(--color-burnred-600);
+  color: white;
+}
+
+.outline.color-burnred {
+  background: transparent;
+  border: 1px solid var(--color-burnred-600);
+  color: var(--color-burnred-600);
+}
+
+.soft.color-burnred {
+  background: var(--color-burnred-100);
+  color: var(--color-burnred-900);
+}
+
+/* ============================================ */
+/* VARIANTS - LIGHT BLUE                       */
+/* ============================================ */
+
+.solid.color-lightblue {
+  background: var(--color-lightblue-600);
+  color: white;
+}
+
+.outline.color-lightblue {
+  background: transparent;
+  border: 1px solid var(--color-lightblue-600);
+  color: var(--color-lightblue-600);
+}
+
+.soft.color-lightblue {
+  background: var(--color-lightblue-100);
+  color: var(--color-lightblue-900);
 }
 
 /* ============================================ */

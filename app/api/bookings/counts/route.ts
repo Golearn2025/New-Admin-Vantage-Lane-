@@ -42,9 +42,10 @@ export async function GET() {
       oneway: bookings?.filter((b: BookingRow) => b.trip_type === 'oneway').length || 0,
       return: bookings?.filter((b: BookingRow) => b.trip_type === 'return').length || 0,
       hourly: bookings?.filter((b: BookingRow) => b.trip_type === 'hourly').length || 0,
+      daily: bookings?.filter((b: BookingRow) => b.trip_type === 'daily').length || 0,
       fleet: bookings?.filter((b: BookingRow) => b.trip_type === 'fleet').length || 0,
-      // These will be 0 until booking_type field is added to DB
-      by_request: 0,
+      bespoke: bookings?.filter((b: BookingRow) => b.trip_type === 'bespoke').length || 0,
+      // These will be 0 until booking_type field is added to DB  
       events: 0,
       corporate: 0,
     };

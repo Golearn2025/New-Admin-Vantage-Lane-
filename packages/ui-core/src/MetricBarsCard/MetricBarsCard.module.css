@@ -182,7 +182,7 @@
   align-items: center;
   gap: var(--spacing-2);
   padding: var(--spacing-2) var(--spacing-3);
-  background: transparent;
+  background: var(--theme-primary-alpha-10);
   border: 1px solid var(--theme-primary);
   border-radius: var(--radius-md);
   color: var(--theme-primary);

@@ -105,7 +105,7 @@
   padding: var(--spacing-2) var(--spacing-3);
   font-size: var(--font-sm);
   color: var(--color-text-primary);
-  background: transparent;
+  background: var(--color-surface-elevated);
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.2s ease;

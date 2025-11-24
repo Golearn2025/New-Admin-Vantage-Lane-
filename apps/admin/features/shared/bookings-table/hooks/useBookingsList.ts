@@ -53,7 +53,23 @@ export function useBookingsList({
         page_size: pageSize.toString(),
       });
 
-      if (selectedStatus !== 'all') params.append('status', selectedStatus);
+      console.log('🔍 API CALL DEBUG:', {
+        page: currentPage,
+        pageSize: pageSize,
+        statusFilter,
+        selectedStatus
+      });
+
+      // If user selected specific dropdown status, use it
+      if (selectedStatus !== 'all') {
+        params.append('status', selectedStatus);
+      }
+      // Otherwise, if page has statusFilter prop (e.g., Past page), send multiple statuses
+      else if (statusFilter.length > 0) {
+        // For multiple statuses, send first one to API (we'll filter client-side)
+        // This is a limitation - API only supports single status
+        statusFilter.forEach(status => params.append('status_filter', status));
+      }
 
       const response = await fetch(`/api/bookings/list?${params}`);
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -62,15 +78,16 @@ export function useBookingsList({
 
       let filteredData = data.data;
       
-      // ✅ FIX: Dropdown "All Status" overrides page-level statusFilter
-      // When user selects "All Status" dropdown → show EVERYTHING (ignore prop)
-      if (selectedStatus === 'all') {
-        // Dropdown is "All" → ignore statusFilter prop, show ALL statuses
-        filteredData = data.data;
-      } else if (selectedStatus !== 'all') {
-        // User selected specific status from dropdown → API already filtered
-        filteredData = data.data;
-      }
+      // API now handles filtering, just use the data
+      filteredData = data.data;
+      
+      console.log('🔍 API RETURNED:', {
+        statusFilter,
+        selectedStatus,
+        dataCount: data.data.length,
+        firstBooking: data.data[0]?.reference,
+        firstStatus: data.data[0]?.status
+      });
       
       // Trip type filter (independent of status)
       if (tripTypeFilter && tripTypeFilter !== 'all') {

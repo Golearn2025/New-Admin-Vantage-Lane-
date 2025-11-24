@@ -1,56 +1,61 @@
 /**
  * Document Entity - Database Queries
  * Read operations for documents
- * 
+ *
  * MODERN & PREMIUM - Type-safe queries
  * File: < 200 lines (RULES.md compliant)
  */
 
 import { createClient } from '@/lib/supabase/client';
-import type {
-  Document,
-  DocumentListFilters,
-} from '../model/types';
+import type { Document, DocumentListFilters } from '../model/types';
 
 /**
  * List documents with filters - Fetches from BOTH driver_documents AND vehicle_documents
  */
-export async function listDocuments(
-  filters?: DocumentListFilters
-): Promise<Document[]> {
+export async function listDocuments(filters?: DocumentListFilters): Promise<Document[]> {
   const supabase = createClient();
-  
+
   // 1. Fetch driver documents
   let driverQuery = supabase
     .from('driver_documents')
-    .select(`
+    .select(
+      `
       *,
       driver:drivers!driver_id (
         id,
         first_name,
         last_name
       )
-    `)
+    `
+    )
     .neq('status', 'replaced');
-  
+
   if (filters?.status) {
     driverQuery = driverQuery.eq('status', filters.status);
   }
-  
+
   if (filters?.userId) {
     driverQuery = driverQuery.eq('driver_id', filters.userId);
   }
-  
+
+  // ✅ RBAC: Filter by organization for operators  
+  if (filters?.organizationId) {
+    console.log('🔍 RBAC: Filtering driver docs by org:', filters.organizationId);
+    // Note: Supabase filtering on joined tables requires specific syntax
+    driverQuery = driverQuery.filter('driver.organization_id', 'eq', filters.organizationId);
+  }
+
   const { data: driverDocs, error: driverError } = await driverQuery;
-  
+
   if (driverError) {
     console.error('Error fetching driver documents:', driverError);
   }
-  
+
   // 2. Fetch vehicle documents (with driver info via vehicles join)
   let vehicleQuery = supabase
     .from('vehicle_documents')
-    .select(`
+    .select(
+      `
       *,
       vehicle:vehicles!vehicle_id (
         id,
@@ -62,25 +67,26 @@ export async function listDocuments(
           last_name
         )
       )
-    `)
+    `
+    )
     .neq('status', 'replaced');
-  
+
   if (filters?.status) {
     vehicleQuery = vehicleQuery.eq('status', filters.status);
   }
-  
+
   // Filter by driver if userId provided
   if (filters?.userId) {
     // Need to filter by vehicle.driver_id, but can't do in query
     // Will filter client-side below
   }
-  
+
   const { data: vehicleDocs, error: vehicleError } = await vehicleQuery;
-  
+
   if (vehicleError) {
     console.error('Error fetching vehicle documents:', vehicleError);
   }
-  
+
   // 3. Transform driver documents
   const mappedDriverDocs: Document[] = (driverDocs || []).map((doc: any) => ({
     id: doc.id,
@@ -108,7 +114,7 @@ export async function listDocuments(
     createdAt: doc.created_at,
     updatedAt: doc.updated_at,
   }));
-  
+
   // 4. Transform vehicle documents
   const mappedVehicleDocs: Document[] = (vehicleDocs || [])
     .filter((doc: any) => {
@@ -124,7 +130,9 @@ export async function listDocuments(
       category: 'vehicle' as const, // Vehicle category
       userId: doc.vehicle?.driver_id || '',
       userType: 'driver' as const,
-      userName: doc.vehicle?.driver ? `${doc.vehicle.driver.first_name} ${doc.vehicle.driver.last_name}` : 'Unknown',
+      userName: doc.vehicle?.driver
+        ? `${doc.vehicle.driver.first_name} ${doc.vehicle.driver.last_name}`
+        : 'Unknown',
       userEmail: '',
       name: doc.file_name || doc.document_type,
       description: doc.notes || '',
@@ -144,10 +152,10 @@ export async function listDocuments(
       createdAt: doc.created_at,
       updatedAt: doc.updated_at,
     }));
-  
+
   // 5. Combine both types of documents
   let allDocuments = [...mappedDriverDocs, ...mappedVehicleDocs];
-  
+
   // 6. Client-side search filter
   if (filters?.search) {
     const searchQuery = filters.search.toLowerCase();
@@ -157,28 +165,28 @@ export async function listDocuments(
         doc.name.toLowerCase().includes(searchQuery)
     );
   }
-  
+
   // 7. Sort by upload date (newest first)
   allDocuments.sort((a, b) => {
     const dateA = new Date(a.uploadDate).getTime();
     const dateB = new Date(b.uploadDate).getTime();
     return dateB - dateA;
   });
-  
+
   return allDocuments;
 }
 
 export async function getDocumentById(id: string): Promise<Document | null> {
   // TODO: Replace with real API call
   await new Promise((resolve) => setTimeout(resolve, 300));
-  
+
   return null;
 }
 
 export async function getDriverDocuments(driverId: string): Promise<Document[]> {
   // TODO: Replace with real API call
   await new Promise((resolve) => setTimeout(resolve, 500));
-  
+
   return [];
 }
 
@@ -193,19 +201,19 @@ export async function getDocumentCounts(): Promise<{
   expiring_soon: number;
 }> {
   const supabase = createClient();
-  
+
   // Fetch driver documents
   const { data: driverDocs, error: driverError } = await supabase
     .from('driver_documents')
     .select('status')
     .neq('status', 'replaced');
-  
+
   // Fetch vehicle documents
   const { data: vehicleDocs, error: vehicleError } = await supabase
     .from('vehicle_documents')
     .select('status')
     .neq('status', 'replaced');
-  
+
   if (driverError || vehicleError) {
     console.error('Error fetching document counts:', driverError || vehicleError);
     return {
@@ -216,7 +224,7 @@ export async function getDocumentCounts(): Promise<{
       expiring_soon: 0,
     };
   }
-  
+
   const counts = {
     pending: 0,
     approved: 0,
@@ -224,7 +232,7 @@ export async function getDocumentCounts(): Promise<{
     expired: 0,
     expiring_soon: 0,
   };
-  
+
   // Count driver documents
   driverDocs?.forEach((doc: any) => {
     const status = doc.status as keyof typeof counts;
@@ -232,7 +240,7 @@ export async function getDocumentCounts(): Promise<{
       counts[status]++;
     }
   });
-  
+
   // Count vehicle documents
   vehicleDocs?.forEach((doc: any) => {
     const status = doc.status as keyof typeof counts;
@@ -240,14 +248,12 @@ export async function getDocumentCounts(): Promise<{
       counts[status]++;
     }
   });
-  
+
   return counts;
 }
 
 // Check if driver has all required documents approved
-export async function checkDriverDocumentsComplete(
-  driverId: string
-): Promise<{
+export async function checkDriverDocumentsComplete(driverId: string): Promise<{
   complete: boolean;
   missingDocuments: string[];
   rejectedDocuments: string[];
@@ -255,7 +261,7 @@ export async function checkDriverDocumentsComplete(
 }> {
   // TODO: Replace with real API call
   await new Promise((resolve) => setTimeout(resolve, 300));
-  
+
   return {
     complete: false,
     missingDocuments: [],

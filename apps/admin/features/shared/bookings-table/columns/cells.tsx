@@ -8,7 +8,8 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
 import { Email, Phone } from '@vantage-lane/ui-icons';
-import { getTripIcon } from './helpers';
+import { Badge } from '@vantage-lane/ui-core';
+import { getTripIcon, getTripTypeColor } from './helpers';
 import styles from './columns.module.css';
 import type { BookingColumn, BookingsColumnsProps } from './schema';
 
@@ -59,7 +60,13 @@ export const getReferenceColumn = (): BookingColumn => ({
     <div className={styles.referenceCell}>
       <div className={styles.referenceId}>{row.reference}</div>
       <div className={styles.referenceType}>
-        <span className={styles.tripIcon}>{getTripIcon(row.trip_type)}</span> {row.trip_type.toUpperCase()}
+        <Badge 
+          color={getTripTypeColor(row.trip_type)}
+          variant="solid" 
+          size="sm"
+        >
+          {getTripIcon(row.trip_type)} {row.trip_type.toUpperCase()}
+        </Badge>
       </div>
     </div>
   ),

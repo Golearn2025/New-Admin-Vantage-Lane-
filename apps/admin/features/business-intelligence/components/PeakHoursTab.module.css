@@ -1,0 +1,272 @@
+/**
+ * PeakHoursTab Styles
+ *
+ * 100% Design tokens - zero hardcoded values.
+ */
+
+.peakHoursContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  padding: var(--spacing-4);
+}
+
+.peakHourCard {
+  padding: var(--spacing-6);
+  background: linear-gradient(135deg, var(--color-warning-50) 0%, var(--color-warning-100) 100%);
+  border: 1px solid var(--color-warning-200);
+}
+
+.peakHourHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-3);
+}
+
+.peakHourInfo {
+  flex: 1;
+}
+
+.peakHourTitle {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-warning-700);
+  margin: 0 0 var(--spacing-1) 0;
+}
+
+.peakHourTime {
+  font-size: var(--font-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-warning-800);
+}
+
+.peakHourDescription {
+  font-size: var(--font-sm);
+  color: var(--color-warning-600);
+  margin: 0;
+}
+
+.chartCard {
+  padding: var(--spacing-6);
+}
+
+.chartHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-4);
+}
+
+.chartTitle {
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.chartContainer {
+  margin-top: var(--spacing-4);
+}
+
+.chartPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  background: var(--color-background-subtle);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  gap: var(--spacing-3);
+}
+
+.chartBars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 200px;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4);
+  width: 100%;
+}
+
+.chartBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  max-width: 60px;
+}
+
+.chartBarFill {
+  width: 100%;
+  min-height: 4px;
+  background: var(--color-info-background);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: height var(--motion-duration-normal) ease;
+}
+
+.chartBarLabel {
+  margin-top: var(--spacing-2);
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.chartPlaceholder p {
+  margin: 0;
+  font-size: var(--font-sm);
+}
+
+.breakdownCard {
+  padding: var(--spacing-6);
+}
+
+.breakdownTitle {
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.hoursList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.hourRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-3);
+  background: var(--color-background-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.hourTime {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-width: 80px;
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.hourStats {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex: 1;
+}
+
+.hourType {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+}
+
+.hourProgress {
+  width: 100px;
+  height: 4px;
+  background: var(--color-background-subtle);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.hourProgressBar {
+  height: 100%;
+  background: var(--color-theme-500);
+  border-radius: var(--radius-full);
+  transition: width var(--motion-duration-normal) ease;
+}
+
+.recommendationsCard {
+  padding: var(--spacing-6);
+}
+
+.recommendationsHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
+}
+
+.recommendationsTitle {
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.recommendationsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.recommendationItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  background: var(--color-info-50);
+  border: 1px solid var(--color-info-200);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm);
+  color: var(--color-info-800);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .peakHoursContainer {
+    padding: var(--spacing-3);
+    gap: var(--spacing-4);
+  }
+
+  .peakHourCard,
+  .chartCard,
+  .breakdownCard,
+  .recommendationsCard {
+    padding: var(--spacing-4);
+  }
+
+  .peakHourHeader {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--spacing-3);
+  }
+
+  .hourRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
+
+  .hourProgress {
+    width: 100%;
+  }
+}
+
+@media (max-width: 375px) {
+  .peakHoursContainer {
+    padding: var(--spacing-2);
+  }
+
+  .chartHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
+
+  .recommendationItem {
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+}

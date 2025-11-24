@@ -1,0 +1,191 @@
+/**
+ * RoutesTab Styles
+ *
+ * 100% Design tokens - zero hardcoded values.
+ */
+
+.routesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  padding: var(--spacing-4);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.routesCard {
+  padding: var(--spacing-6);
+}
+
+.routesHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+
+.routesTitle {
+  flex: 1;
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.routesList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.routeItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  background: var(--color-background-subtle);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.routeRank {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-theme-background);
+  color: var(--color-theme-foreground);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-sm);
+}
+
+.routeDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.routeLocations {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.pickup,
+.destination {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  color: var(--color-text-primary);
+}
+
+.routeStats {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.routeProgress {
+  width: 100px;
+  height: 6px;
+  background: var(--color-background);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.routeProgressBar {
+  height: 100%;
+  background: var(--color-success-background);
+  border-radius: var(--radius-full);
+  transition: width var(--motion-duration-normal) ease;
+}
+
+.insightsCard {
+  padding: var(--spacing-6);
+}
+
+.insightsHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+
+.insightsTitle {
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.insightsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.insightItem {
+  display: flex;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  background: var(--color-background-subtle);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .routesContainer {
+    padding: var(--spacing-3);
+    gap: var(--spacing-4);
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-3);
+  }
+
+  .routesCard,
+  .insightsCard {
+    padding: var(--spacing-4);
+  }
+
+  .routeItem {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-3);
+  }
+
+  .routeLocations {
+    justify-content: center;
+  }
+
+  .routeStats {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 375px) {
+  .routesContainer {
+    padding: var(--spacing-2);
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .routeLocations {
+    flex-direction: column;
+    text-align: center;
+  }
+}

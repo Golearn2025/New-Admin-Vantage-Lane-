@@ -10,6 +10,7 @@ import { NavMenuItem, UserRole } from './types';
 // Admin - Acces complet
 const adminMenu: NavMenuItem[] = [
   { icon: 'dashboard', label: 'Dashboard', href: '/dashboard' },
+  { icon: 'scale', label: 'Business Intelligence', href: '/business-intelligence' },
   {
     icon: 'calendar',
     label: 'Bookings',

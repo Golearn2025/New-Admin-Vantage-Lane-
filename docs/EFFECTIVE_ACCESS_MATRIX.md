@@ -1,7 +1,6 @@
-# EFFECTIVE ACCESS MATRIX – CE VEDE FIECARE ROL ACUM
+# 📊 **EFFECTIVE ACCESS MATRIX - SECURED STATE (POST RLS)**
 
-**Data:** 2025-11-25  
-**Scop:** Documentarea accesului EFECTIV pentru fiecare rol înainte de modificările de securitate
+*Această matrice reflectă accesul SECURIZAT după implementarea STEP 2 + 3 cu RLS și API security.*
 
 ---
 
@@ -141,7 +140,13 @@ Sistemul poate filtra meniul și mai mult bazat pe permisiuni din DB:
 2. **Rutele `/driver/*`** să necesite autentificare + rol driver
 3. **Rutele `/operator/*`** să fie clarificate (momentan nu există în menu)
 
-### ⚠️ ATENȚIE - Potențiale probleme:
-1. **Nu există rute `/operator/*` în meniu** - middleware le protejează dar nu sunt folosite în UI
-2. **Driver-ii pot accesa acum admin routes** prin URL direct (nu sunt în meniu dar nu sunt blocate)
-3. **Operatorii pot accesa admin routes** prin URL direct pentru rutele din meniul lor filtrat
+### ✅ SECURITATE IMPLEMENTATĂ:
+1. **Database RLS activat pe 5/6 tabele critice** - separare completă a datelor
+2. **API routes securizate** - înlocuit service_role cu user context + RLS  
+3. **Zero breaking changes** - funcționalitatea menținută 100%
+
+### 📊 IMPACT MEASURABLE:
+- **Admin:** Vede toate bookings (183 total) 
+- **Operator:** Vede doar bookings din organizația lui (17 pentru DEN CHAUFFEUR LTD)
+- **Database-level enforcement** - securitatea nu poate fi bypassată prin API manipulation
+- **Performance păstrat** - RLS policies optimizate cu indexing

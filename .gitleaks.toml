@@ -1,0 +1,53 @@
+# GitLeaks Configuration for Vantage Lane Admin
+# Detects secrets in code while reducing false positives
+
+[extend]
+# Use default rules but with custom allowlists
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API key"
+regex = '''(?i)(?:key|api[[:punct:]]?key|token|secret|password)[[:punct:]]?\s*[=:]\s*['"`]?([0-9a-zA-Z\-_\.]{20,})['"`]?'''
+tags = ["key", "API", "generic"]
+
+[[rules]]
+id = "supabase-service-key"
+description = "Supabase service key"
+regex = '''eyJ[A-Za-z0-9_-]*\.eyJ[A-Za-z0-9_-]*\.[A-Za-z0-9_-]*'''
+tags = ["supabase", "jwt", "secret"]
+
+[[rules]]
+id = "stripe-key"
+description = "Stripe API key"
+regex = '''(?i)(sk|pk)_(test|live)_[0-9a-zA-Z]{24}'''
+tags = ["stripe", "key"]
+
+[allowlist]
+description = "Allowlist for false positives"
+
+# Environment variable examples and documentation
+paths = [
+    '''.*\.env\.example$''',
+    '''.*\.env\.template$''',
+    '''.*README.*''',
+    '''.*\.md$''',
+    '''.*docs/.*''',
+]
+
+# Common false positive patterns
+regexes = [
+    '''NEXT_PUBLIC_''',  # Next.js public env vars
+    '''process\.env\.''',  # Environment variable access
+    '''placeholder''',    # Placeholder values
+    '''example''',       # Example values
+    '''test.*password''', # Test passwords
+    '''dummy.*secret''',  # Dummy secrets
+    '''fake.*key''',      # Fake keys
+]
+
+# Specific lines to ignore
+[allowlist.commit]
+regex = '''(?i)(test|example|placeholder|dummy|fake)'''
+
+[allowlist.path]
+regex = '''(test|spec|example|template|docs)/.*'''

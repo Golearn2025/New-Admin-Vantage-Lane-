@@ -1,0 +1,128 @@
+# 🛡️ RLS Policies Validation - MANUAL ONLY
+# This workflow connects to Supabase with service role credentials
+# SECURITY: Only run manually and never on production
+
+name: 🛡️ RLS Validation (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment for validation'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - development
+      
+concurrency:
+  group: rls-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Security configuration
+  NODE_ENV: ${{ github.event.inputs.environment }}
+
+jobs:
+  rls-validation:
+    name: 🔒 Validate RLS Policies
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: ${{ github.event.inputs.environment }}
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10.17.0
+      
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'pnpm'
+      
+      - name: 📚 Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: 🛡️ Environment Safety Check
+        run: |
+          echo "🔍 Validating environment safety..."
+          
+          # Ensure we're not targeting production accidentally
+          if [[ "${{ github.event.inputs.environment }}" == "production" ]]; then
+            echo "❌ BLOCKED: RLS validation on production is not allowed"
+            echo "👉 Use staging environment for security testing"
+            exit 1
+          fi
+          
+          # Ensure proper secrets are available
+          if [[ -z "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" ]]; then
+            echo "❌ Missing NEXT_PUBLIC_SUPABASE_URL secret"
+            exit 1
+          fi
+          
+          if [[ -z "${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" ]]; then
+            echo "❌ Missing SUPABASE_SERVICE_ROLE_KEY secret"
+            exit 1
+          fi
+          
+          echo "✅ Environment safety validated"
+          echo "🎯 Target: ${{ github.event.inputs.environment }}"
+      
+      - name: 🔒 Run RLS Policies Validation
+        run: node scripts/validate-rls-policies.js
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          NODE_ENV: ${{ github.event.inputs.environment }}
+        continue-on-error: false
+      
+      - name: 📄 Upload RLS validation report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rls-validation-report-${{ github.event.inputs.environment }}
+          path: rls-validation-report.md
+          retention-days: 30
+      
+      - name: ✅ Validation Complete
+        run: |
+          echo "🎉 RLS validation completed successfully!"
+          echo "📊 Report uploaded as artifact"
+          echo "🛡️ Database security: VERIFIED"
+          echo "🎯 Environment: ${{ github.event.inputs.environment }}"
+
+  security-summary:
+    name: 📊 Security Summary
+    runs-on: ubuntu-latest
+    needs: rls-validation
+    if: always()
+    
+    steps:
+      - name: 📋 Security Status Summary
+        run: |
+          echo "# 🛡️ Security Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by:** @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** ${{ needs.rls-validation.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "${{ needs.rls-validation.result }}" == "success" ]]; then
+            echo "✅ **Result:** RLS policies validation PASSED" >> $GITHUB_STEP_SUMMARY
+            echo "🛡️ **Security:** Database access control verified" >> $GITHUB_STEP_SUMMARY
+            echo "📊 **Report:** Available in workflow artifacts" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Result:** RLS policies validation FAILED" >> $GITHUB_STEP_SUMMARY
+            echo "🚨 **Action Required:** Review security issues in report" >> $GITHUB_STEP_SUMMARY
+            echo "📋 **Next Steps:** Fix RLS policies before deployment" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "*Security validation should only be run on staging environments*" >> $GITHUB_STEP_SUMMARY

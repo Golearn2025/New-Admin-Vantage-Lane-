@@ -39,6 +39,9 @@
     "check:deadcode": "bash scripts/check-deadcode.sh",
     "check:performance": "bash scripts/check-performance.sh",
     "check:advanced": "npm run check:quality && npm run check:duplicates && npm run check:deadcode && npm run check:performance",
+    "security:validate": "bash scripts/validate-security.sh",
+    "security:rls": "node scripts/validate-rls-policies.js",
+    "security:full": "npm run security:validate && npm run security:rls",
     "gen:component": "plop component",
     "guard:ui": "node scripts/guard-components.mjs",
     "guard:app-logic": "bash scripts/guard-app-logic.sh",
@@ -77,7 +80,7 @@
     "recharts": "^2.15.4",
     "stripe": "^19.2.0",
     "swr": "^2.3.6",
-    "typescript": "^5.0.0",
+    "typescript": "5.3.3",
     "zod": "^4.1.12"
   },
   "devDependencies": {

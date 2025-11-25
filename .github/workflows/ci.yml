@@ -36,8 +36,34 @@ jobs:
       - name: 🛡️ Run UI Component Guard
         run: pnpm guard:ui
       
+      - name: 🚨 Security: Check service_role abuse
+        run: |
+          echo "🔍 Checking for service_role abuse..."
+          ADMIN_CLIENT_COUNT=$(grep -r "createAdminClient" app/api/ --include="*.ts" | wc -l || echo 0)
+          if [ "$ADMIN_CLIENT_COUNT" -gt 0 ]; then
+            echo "❌ SECURITY: createAdminClient() found in API routes"
+            grep -r "createAdminClient" app/api/ --include="*.ts"
+            echo "👉 Use withAdminOrOperatorClient() for RLS compliance"
+            exit 1
+          fi
+          echo "✅ No service_role abuse detected"
+      
+      - name: 🔒 GitLeaks secrets scanning
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          config-path: .gitleaks.toml
+        continue-on-error: false
+      
+      - name: 🔐 App Logic Guard
+        run: pnpm guard:app-logic
+      
       - name: 🔍 Run ESLint
         run: pnpm lint
+      
+      - name: 📘 TypeScript Check
+        run: pnpm check:ts
       
       - name: 🏗️ Build application
         run: pnpm build
@@ -46,4 +72,8 @@ jobs:
           NEXT_TELEMETRY_DISABLED: 1
       
       - name: ✅ All checks passed
-        run: echo "✅ CI pipeline completed successfully!"
+        run: |
+          echo "✅ CI pipeline completed successfully!"
+          echo "🛡️ Security checks: PASSED"
+          echo "📦 Build: SUCCESSFUL" 
+          echo "🎯 Ready for deployment"

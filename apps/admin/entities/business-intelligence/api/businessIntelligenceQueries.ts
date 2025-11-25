@@ -90,12 +90,12 @@ export async function fetchPeakHoursData(): Promise<PeakHourData[]> {
         if (!hourlyData[hour]) {
           hourlyData[hour] = { count: 0, distances: [], passengers: [] };
         }
-        hourlyData[hour].count++;
+        hourlyData[hour]!.count++;
         if (booking.distance_miles) {
-          hourlyData[hour].distances.push(parseFloat(booking.distance_miles));
+          hourlyData[hour]!.distances.push(parseFloat(booking.distance_miles));
         }
         if (booking.passenger_count) {
-          hourlyData[hour].passengers.push(parseFloat(booking.passenger_count));
+          hourlyData[hour]!.passengers.push(parseFloat(booking.passenger_count));
         }
       }
     });

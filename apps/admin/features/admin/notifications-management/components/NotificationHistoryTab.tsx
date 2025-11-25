@@ -59,7 +59,7 @@ export function NotificationHistoryTab() {
         count: 0,
       };
     }
-    acc[key].count++;
+    acc[key]!.count++;
     return acc;
   }, {} as Record<string, GroupedNotification>);
 

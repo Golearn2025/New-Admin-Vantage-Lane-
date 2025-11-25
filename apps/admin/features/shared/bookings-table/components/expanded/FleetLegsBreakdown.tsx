@@ -42,7 +42,7 @@ export function FleetLegsBreakdown({ legs, currency = 'GBP' }: FleetLegsBreakdow
     if (!acc[category]) {
       acc[category] = [];
     }
-    acc[category].push(leg);
+    acc[category]!.push(leg);
     return acc;
   }, {} as Record<string, BookingLeg[]>);
 

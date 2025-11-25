@@ -46,6 +46,8 @@ export async function GET(request: NextRequest) {
         daily: bookings?.filter((b: BookingRow) => b.trip_type === 'daily').length || 0,
         fleet: bookings?.filter((b: BookingRow) => b.trip_type === 'fleet').length || 0,
         bespoke: bookings?.filter((b: BookingRow) => b.trip_type === 'bespoke').length || 0,
+        events: bookings?.filter((b: BookingRow) => b.trip_type === 'events').length || 0,
+        corporate: bookings?.filter((b: BookingRow) => b.trip_type === 'corporate').length || 0,
       };
 
       return NextResponse.json({

@@ -1,3 +1,6 @@
+> ⚠️ DEPRECATED – Regulile și checklist-urile din acest fișier au fost migrate (parțial sau complet) în `docs/AUDIT_ENTERPRISE.md`.  
+> Te rog folosește DOAR `docs/AUDIT_ENTERPRISE.md` ca sursă de adevăr pentru reguli și audit.
+
 # 🎯 RAPORT CENTRALIZAT ULTRA-COMPLET - TOT PROIECTUL
 
 **Data:** 5 November 2025, 23:20  

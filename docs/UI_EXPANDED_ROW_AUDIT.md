@@ -1,3 +1,6 @@
+> ⚠️ DEPRECATED – Regulile și checklist-urile din acest fișier au fost migrate (parțial sau complet) în `docs/AUDIT_ENTERPRISE.md`.  
+> Te rog folosește DOAR `docs/AUDIT_ENTERPRISE.md` ca sursă de adevăr pentru reguli și audit.
+
 # 🔍 **UI EXPANDED ROW - AUDIT COMPLET**
 
 **Date:** 2025-10-22  

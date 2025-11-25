@@ -1,4 +1,7 @@
-# 🔍 PROJECT AUDIT REPORT
+⚠️ DEPRECATED – Regulile și checklist-urile din acest fișier au fost migrate (parțial sau complet) în `docs/AUDIT_ENTERPRISE.md`.  
+Te rog folosește DOAR `docs/AUDIT_ENTERPRISE.md` ca sursă de adevăr pentru reguli și audit.
+
+# VANTAGE LANE ADMIN - AUDIT REPORT
 **Date:** 29 Oct 2025  
 **Project:** Vantage Lane Admin  
 **Auditor:** Cascade AI

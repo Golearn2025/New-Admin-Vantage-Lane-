@@ -1,0 +1,28 @@
+# Gitleaks ignore file
+# Add patterns for false positives
+
+# Test files with fake credentials
+**/test/**/*fake*
+**/test/**/*mock*
+**/fixtures/**/*
+**/examples/**/*
+
+# Documentation examples
+README.md:*example*
+DOCS.md:*example*
+*.example.*
+
+# Playwright test users (not real secrets)
+e2e/fixtures/test-users.ts
+e2e/setup/global-setup.ts
+
+# Package lock files (dependencies, not our secrets)
+package-lock.json
+pnpm-lock.yaml
+
+# Common false positives
+# Generic UUIDs that look like secrets
+# [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+
+# Add specific patterns here if needed:
+# path/to/file.ts:line_number_with_false_positive

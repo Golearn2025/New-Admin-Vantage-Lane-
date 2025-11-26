@@ -1,0 +1,51 @@
+name: 🛡️ Security - Gitleaks Scan
+
+on:
+  push:
+    branches: [ main, develop, 'Ver-*' ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Daily scan at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  gitleaks:
+    name: 🔍 Secrets Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # Full history for complete scan
+          fetch-depth: 0
+
+      - name: 🛡️ Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📊 Upload SARIF Report
+        if: failure()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
+          category: gitleaks
+
+      - name: ❌ Fail on Secrets Found
+        if: failure()
+        run: |
+          echo "🚨 SECRETS DETECTED! Check the Security tab for details."
+          echo "📋 Common issues:"
+          echo "   - API keys in .env files"
+          echo "   - Database URLs with passwords"
+          echo "   - JWT secrets in code"
+          echo "   - Private keys in config"
+          echo ""
+          echo "🔧 To fix:"
+          echo "   1. Remove secrets from code"
+          echo "   2. Add to .env (gitignored)"
+          echo "   3. Use environment variables"
+          echo "   4. Update .gitleaksignore if false positive"
+          exit 1

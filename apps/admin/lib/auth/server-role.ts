@@ -141,9 +141,9 @@ export function isAllowed(pathname: string, role: ServerRole): boolean {
     return role === 'admin' || role === 'operator' || role === 'driver';
   }
 
-  // Settings Profile - NUMAI Operator (conform matricei)
+  // Settings Profile - Admin ȘI Operator (profile settings pentru toți)
   if (pathname.startsWith('/settings/profile')) {
-    return role === 'operator';
+    return role === 'admin' || role === 'operator';
   }
 
   // Alte Settings - NUMAI Admin  

@@ -23,11 +23,11 @@
   box-sizing: border-box;
 }
 
-/* Main Area când sidebar e collapsed */
-.mainAreaCollapsed {
-  margin-left: var(--sidebar-collapsed-width) !important;
-  width: calc(100% - var(--sidebar-collapsed-width)) !important; /* ✅ Mai mult spațiu când sidebar e collapsed */
-  max-width: calc(100% - var(--sidebar-collapsed-width)) !important;
+/* Main Area când sidebar e collapsed - Higher specificity than base class */
+.appShell .mainArea.mainAreaCollapsed {
+  margin-left: var(--sidebar-collapsed-width);
+  width: calc(100% - var(--sidebar-collapsed-width)); /* ✅ Mai mult spațiu când sidebar e collapsed */
+  max-width: calc(100% - var(--sidebar-collapsed-width));
 }
 
 /* Page Content */
@@ -66,12 +66,13 @@
   }
 }
 
-/* Mobile Responsive */
+/* Mobile Responsive - Higher specificity for proper override */
 @media (max-width: 768px) {
-  .mainArea {
-    margin-left: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
+  .appShell .mainArea,
+  .appShell .mainArea.mainAreaCollapsed {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
     /* Full width pe mobile - override desktop sidebar offset */
   }
   /* ✅ pageContent padding removed - fiecare pagină își controlează propriul padding! */
@@ -86,10 +87,10 @@
   }
 }
 
-/* High contrast mode */
+/* High contrast mode - Natural specificity */
 @media (prefers-contrast: high) {
   .appShell {
-    background: var(--color-bg-primary) !important;
-    /* Fallback la solid color */
+    background: var(--color-bg-primary);
+    /* Fallback la solid color - browser defaults to high contrast */
   }
 }

@@ -1,0 +1,44 @@
+/* ProjectsStatusList.module.css - 100% design tokens */
+
+.projectsCard {
+  padding: var(--spacing-6);
+  margin-bottom: var(--spacing-6);
+}
+
+.cardTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.projectsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.projectItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3);
+  background: var(--color-background-elevated);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.projectItem:hover {
+  background: var(--color-background-hover);
+}
+
+.projectName {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.errors {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}

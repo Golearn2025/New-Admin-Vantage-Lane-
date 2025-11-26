@@ -17,9 +17,9 @@
   transition: left var(--motion-base);
 }
 
-/* Topbar când sidebar e collapsed */
-.topbarCollapsed {
-  left: var(--sidebar-collapsed-width) !important;
+/* Topbar când sidebar e collapsed - Higher specificity */
+.topbar.topbarCollapsed {
+  left: var(--sidebar-collapsed-width);
 }
 
 /* Premium Topbar with theme tint */
@@ -261,7 +261,7 @@
 @media (max-width: 768px) {
   .topbar,
   .topbar.topbarCollapsed {
-    left: 0 !important; /* Full width pe mobile */
+    left: 0; /* Full width pe mobile - higher specificity override */
     padding: 0 var(--spacing-4);
   }
 
@@ -280,9 +280,9 @@
 
 /* Hide brand name text on small screens to preserve space for avatar */
 @media (max-width: 480px) {
-  /* Hide the BrandName component completely on small screens */
-  .mobileLogo > span:last-child {
-    display: none !important; /* This hides the BrandName component */
+  /* Hide the BrandName component completely on small screens - higher specificity */
+  .topbar .mobileLogo > span:last-child {
+    display: none; /* This hides the BrandName component */
   }
 }
 
@@ -296,9 +296,9 @@
     gap: var(--spacing-2); /* Reduce gap between logo and text */
   }
   
-  /* Ensure text is hidden and only logo shows */
-  .mobileLogo > span:last-child {
-    display: none !important;
+  /* Ensure text is hidden and only logo shows - higher specificity */
+  .topbar .mobileLogo > span:last-child {
+    display: none;
   }
 }
 
@@ -316,9 +316,9 @@
     gap: var(--spacing-1);
   }
   
-  /* Make sure only logo is visible */
-  .mobileLogo > span:last-child {
-    display: none !important;
+  /* Make sure only logo is visible - higher specificity */
+  .topbar .mobileLogo > span:last-child {
+    display: none;
   }
   
   .logoImage {

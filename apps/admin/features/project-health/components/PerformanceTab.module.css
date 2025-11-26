@@ -1,0 +1,128 @@
+/* PerformanceTab.module.css - 100% design tokens */
+
+.container {
+  padding: var(--spacing-6);
+  background: var(--color-background);
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-12);
+  color: var(--color-text-secondary);
+}
+
+.spinner {
+  width: var(--spacing-8);
+  height: var(--spacing-8);
+  border: var(--border-width-md) solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-3);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-6);
+  margin-bottom: var(--spacing-6);
+}
+
+.apiCard,
+.resourcesCard,
+.requestsCard {
+  padding: var(--spacing-6);
+}
+
+.cardTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.apiMetrics,
+.resourceMetrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.apiMetric,
+.resourceMetric {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3);
+  background: var(--color-background-elevated);
+  border-radius: var(--border-radius-md);
+}
+
+.metricLabel {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.metricValue {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-family: monospace;
+}
+
+.progressBar {
+  flex: 1;
+  height: var(--spacing-2);
+  background: var(--color-border);
+  border-radius: var(--border-radius-full);
+  margin: 0 var(--spacing-3);
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: var(--border-radius-full);
+  transition: width 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-4);
+  }
+  
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .detailsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .resourceMetric {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
+  
+  .progressBar {
+    width: 100%;
+    margin: var(--spacing-2) 0;
+  }
+}

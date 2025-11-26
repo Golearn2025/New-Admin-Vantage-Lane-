@@ -1,0 +1,84 @@
+name: 📊 Bundle Size Analysis
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  bundle-analysis:
+    name: 📦 Bundle Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.19'
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: 📚 Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🏗️ Build for Production
+        run: |
+          pnpm build
+        env:
+          NODE_ENV: production
+          BUNDLE_ANALYZE: true
+
+      - name: 📊 Analyze Bundle
+        run: |
+          echo "📦 Bundle Analysis Results:"
+          echo "================================"
+          
+          # Check for .next folder
+          if [ -d ".next" ]; then
+            # Show main bundle sizes
+            echo "🎯 Main Bundle Files:"
+            find .next -name "*.js" -type f | head -10 | while read file; do
+              size=$(wc -c < "$file")
+              echo "   $(basename "$file"): ${size} bytes"
+            done
+            
+            echo ""
+            echo "📊 Pages Bundle Sizes:"
+            find .next/static/chunks/pages -name "*.js" -type f 2>/dev/null | head -5 | while read file; do
+              size=$(wc -c < "$file")
+              echo "   $(basename "$file"): ${size} bytes"
+            done
+            
+            echo ""
+            echo "⚠️  Large Files (>500KB):"
+            find .next -name "*.js" -type f -size +500k 2>/dev/null | while read file; do
+              size=$(wc -c < "$file")
+              echo "   ❗ $(basename "$file"): ${size} bytes"
+            done
+          else
+            echo "❌ .next folder not found - build may have failed"
+          fi
+
+      - name: 🚨 Bundle Size Check
+        run: |
+          # Fail if any single file is over 1MB
+          large_files=$(find .next -name "*.js" -type f -size +1M 2>/dev/null | wc -l)
+          
+          if [ "$large_files" -gt 0 ]; then
+            echo "🚨 WARNING: Found $large_files files larger than 1MB"
+            echo "📋 Consider:"
+            echo "   - Code splitting"
+            echo "   - Dynamic imports"
+            echo "   - Tree shaking optimization"
+            echo "   - Removing unused dependencies"
+            exit 1
+          else
+            echo "✅ All bundle files are within acceptable size limits"
+          fi

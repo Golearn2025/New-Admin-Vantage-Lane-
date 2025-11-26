@@ -84,6 +84,7 @@ export function AppShell({ role, currentPath, children, user }: AppShellProps) {
         <Topbar
           role={role}
           onMenuToggle={handleMenuToggle}
+          onNavigate={handleNavigate}
           sidebarCollapsed={isSidebarCollapsed}
           {...(user && { user })}
         />

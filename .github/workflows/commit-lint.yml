@@ -1,0 +1,95 @@
+name: 📝 Commit Message Lint
+
+on:
+  push:
+    branches: [ main, develop, 'Ver-*' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  commitlint:
+    name: 📋 Commit Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.19'
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: 📚 Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 📝 Lint Commit Messages
+        run: |
+          echo "📝 Checking commit message format..."
+          echo "Expected format: type(scope): subject"
+          echo "Examples:"
+          echo "  ✅ feat(auth): add login functionality"
+          echo "  ✅ fix(ui): resolve button styling issue"  
+          echo "  ✅ docs: update README with new instructions"
+          echo "  ❌ fixed bug"
+          echo "  ❌ Added new feature"
+          echo ""
+          
+          # Get the commit range for PR or single commit for push
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # For PR, check all commits in the PR
+            COMMIT_RANGE="${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}"
+          else
+            # For push, check the last commit
+            COMMIT_RANGE="HEAD~1..HEAD"
+          fi
+          
+          echo "🔍 Checking commits in range: $COMMIT_RANGE"
+          
+          # Check each commit message
+          git log --format="%H %s" $COMMIT_RANGE | while read commit_hash commit_message; do
+            echo "📋 Checking: $commit_message"
+            
+            # Check conventional commit format: type(scope): subject
+            if echo "$commit_message" | grep -qE '^(feat|fix|docs|style|refactor|test|chore|ci|perf|build|revert)(\(.+\))?: .+'; then
+              echo "✅ Valid: $commit_message"
+            else
+              echo "❌ Invalid commit message: $commit_message"
+              echo ""
+              echo "🚨 Commit message must follow conventional commits format:"
+              echo "   type(scope): subject"
+              echo ""
+              echo "📋 Valid types:"
+              echo "   feat: new feature"
+              echo "   fix: bug fix" 
+              echo "   docs: documentation"
+              echo "   style: formatting, missing semicolons"
+              echo "   refactor: code refactoring"
+              echo "   test: adding tests"
+              echo "   chore: maintenance tasks"
+              echo "   ci: CI/CD changes"
+              echo "   perf: performance improvements"
+              echo "   build: build system changes"
+              echo "   revert: reverting changes"
+              echo ""
+              echo "📋 Examples:"
+              echo "   feat(auth): add OAuth integration"
+              echo "   fix(ui-core): resolve table header styling"
+              echo "   docs: update installation guide"
+              echo "   refactor(api): extract user service"
+              echo ""
+              exit 1
+            fi
+          done
+
+      - name: ✅ Success
+        run: |
+          echo "🎉 All commit messages follow conventional commits format!"
+          echo "📋 Great job maintaining clean git history!"

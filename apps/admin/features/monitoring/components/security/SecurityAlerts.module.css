@@ -1,0 +1,49 @@
+/* SecurityAlerts.module.css - 100% design tokens */
+
+.alertsCard {
+  padding: var(--spacing-6);
+  margin-bottom: var(--spacing-6);
+}
+
+.cardTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.alertsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.noAlerts {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.alertItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  background: var(--color-background-elevated);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+}
+
+.alertMessage {
+  flex: 1;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+}
+
+.alertTime {
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-xs);
+}

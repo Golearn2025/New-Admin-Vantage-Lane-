@@ -14,9 +14,9 @@
   border-radius: var(--radius-md);
   transition: var(--motion-hover);
   cursor: pointer;
-  min-height: 44px; /* A11y touch target */
+  min-height: var(--touch-target-min); /* A11y touch target */
   position: relative;
-  border: 1px solid transparent;
+  border: var(--border-width-default) solid transparent;
 }
 
 /* Premium: Left accent bar for active/hover */
@@ -26,7 +26,7 @@
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 3px;
+  width: var(--spacing-1);
   height: 0;
   background: var(--theme-gradient);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
@@ -50,8 +50,8 @@
 }
 
 .navLink:focus-visible {
-  outline: 2px solid var(--theme-primary);
-  outline-offset: 2px;
+  outline: var(--outline-width-default) solid var(--theme-primary);
+  outline-offset: var(--outline-offset-default);
   color: var(--theme-primary);
   box-shadow: var(--theme-shadow-focus);
 }
@@ -112,8 +112,8 @@
   font-weight: var(--font-semibold);
   padding: var(--spacing-1) var(--spacing-2);
   border-radius: var(--radius-full);
-  min-width: 20px;
-  height: 20px;
+  min-width: var(--size-icon-md);
+  height: var(--size-icon-md);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,7 +150,7 @@
   font-size: var(--font-sm);
   border-radius: var(--radius-sm);
   transition: var(--motion-hover);
-  min-height: 36px;
+  min-height: var(--touch-target-sm);
   display: flex;
   align-items: center;
 
@@ -160,8 +160,8 @@
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-border-focus);
-    outline-offset: 1px;
+    outline: var(--outline-width-default) solid var(--color-border-focus);
+    outline-offset: var(--outline-offset-sm);
   }
 }
 
@@ -169,7 +169,7 @@
 @media (max-width: 768px) {
   .navLink {
     padding: var(--spacing-4);
-    min-height: 48px; /* Larger touch targets on mobile */
+    min-height: var(--touch-target-lg); /* Larger touch targets on mobile */
   }
 
   .navLabel {
@@ -183,7 +183,7 @@
 
   .submenuItem {
     padding: var(--spacing-3);
-    min-height: 44px;
+    min-height: var(--touch-target-min);
     font-size: var(--font-sm);
   }
 }

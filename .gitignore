@@ -6,6 +6,13 @@ node_modules/
 # Testing
 /coverage
 
+# Playwright
+/e2e/reports/
+/e2e/artifacts/
+/e2e/.auth/
+/playwright-report/
+/test-results/
+
 # Next.js
 /.next/
 **/.next/

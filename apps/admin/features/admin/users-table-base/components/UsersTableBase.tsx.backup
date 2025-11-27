@@ -1,6 +1,6 @@
 /**
  * UsersTableBase Component
- *
+ * 
  * Reusable table component for all user types
  * Includes: Bulk selection, Create modal, Search, Pagination
  * 100% design tokens, zero hardcoded values
@@ -8,27 +8,28 @@
 
 'use client';
 
-import type { UnifiedUser } from '@entities/user';
-import { bulkDeleteUsers, bulkUpdateUsers } from '@entities/user';
-import { UserCreateModal } from '@features/admin/user-create-modal';
-import { UserEditModal } from '@features/admin/user-edit-modal';
-import { UserViewModal } from '@features/admin/user-view-modal';
-import { getAllUsersColumns } from '@features/admin/users-table/columns/commonColumns';
-import { useAllUsers } from '@features/admin/users-table/hooks/useAllUsers';
-import { useOperatorDrivers } from '@features/admin/users-table/hooks/useOperatorDrivers';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
-  ConfirmDialog,
   EnterpriseDataTable,
-  Input,
-  Pagination,
-  TableActions,
-  useColumnResize,
   useSelection,
   useSorting,
+  useColumnResize,
+  Input,
+  TableActions,
+  Pagination,
+  ConfirmDialog,
+  Button,
 } from '@vantage-lane/ui-core';
-import { useCallback, useMemo, useState } from 'react';
-import type { UsersTableBaseProps } from '../types';
+import { UserCreateModal } from '@features/admin/user-create-modal';
+import { UserViewModal } from '@features/admin/user-view-modal';
+import { UserEditModal } from '@features/admin/user-edit-modal';
+import { useAllUsers } from '@features/admin/users-table/hooks/useAllUsers';
+import { useOperatorDrivers } from '@features/admin/users-table/hooks/useOperatorDrivers';
+import { getAllUsersColumns } from '@features/admin/users-table/columns/commonColumns';
+import { bulkUpdateUsers, bulkDeleteUsers } from '@entities/user';
 import { BulkActionsBar } from './BulkActionsBar';
+import type { UsersTableBaseProps } from '../types';
+import type { UnifiedUser } from '@entities/user';
 import styles from './UsersTableBase.module.css';
 
 export function UsersTableBase({
@@ -43,13 +44,10 @@ export function UsersTableBase({
   // ✅ RBAC: Use appropriate hook based on user role
   const allUsersResult = useAllUsers();
   const operatorDriversResult = useOperatorDrivers();
-
-  const {
-    data: allData,
-    loading,
-    error,
-    refetch,
-  } = useOperatorFilter ? operatorDriversResult : allUsersResult;
+  
+  const { data: allData, loading, error, refetch } = useOperatorFilter 
+    ? operatorDriversResult 
+    : allUsersResult;
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
@@ -130,9 +128,7 @@ export function UsersTableBase({
         const isActive = bulkAction === 'activate';
         if (userType !== 'all') {
           await bulkUpdateUsers({ userIds, isActive, userType });
-          alert(
-            `✅ Successfully ${isActive ? 'activated' : 'deactivated'} ${userIds.length} user(s)`
-          );
+          alert(`✅ Successfully ${isActive ? 'activated' : 'deactivated'} ${userIds.length} user(s)`);
         } else {
           alert('⚠️ Cannot bulk update from "All Users" view. Use specific user type pages.');
         }
@@ -151,14 +147,17 @@ export function UsersTableBase({
   }, [bulkAction, selectedUserIds, userType, refetch, selection]);
 
   // Get columns (no need for manual checkbox column - selection hook handles it)
-  const columns = useMemo(() => {
-    const cols = getAllUsersColumns({
-      onView: onViewCustom || ((user: UnifiedUser) => setViewUser(user)),
-      onEdit: (user: UnifiedUser) => setEditUser(user),
-      onDelete: (user: UnifiedUser) => setDeleteUser(user),
-    });
-    return cols;
-  }, [onViewCustom]);
+  const columns = useMemo(
+    () => {
+      const cols = getAllUsersColumns({
+        onView: onViewCustom || ((user: UnifiedUser) => setViewUser(user)),
+        onEdit: (user: UnifiedUser) => setEditUser(user),
+        onDelete: (user: UnifiedUser) => setDeleteUser(user),
+      });
+      return cols;
+    },
+    [onViewCustom]
+  );
 
   if (error) {
     return (
@@ -178,9 +177,7 @@ export function UsersTableBase({
         <div className={styles.headerLeft}>
           <h1 className={styles.title}>{title}</h1>
           <span className={styles.count}>
-            {loading
-              ? '...'
-              : `${filteredData.length} ${userType === 'all' ? 'users' : `${userType}s`}`}
+            {loading ? '...' : `${filteredData.length} ${userType === 'all' ? 'users' : `${userType}s`}`}
           </span>
         </div>
 
@@ -203,7 +200,11 @@ export function UsersTableBase({
             />
           )}
           {!showCreateButton && (
-            <TableActions onRefresh={refetch} loading={loading} showExport={false} />
+            <TableActions
+              onRefresh={refetch}
+              loading={loading}
+              showExport={false}
+            />
           )}
         </div>
       </div>
@@ -293,15 +294,15 @@ export function UsersTableBase({
           bulkAction === 'delete'
             ? 'Delete Selected Users'
             : bulkAction === 'activate'
-              ? 'Activate Selected Users'
-              : 'Deactivate Selected Users'
+            ? 'Activate Selected Users'
+            : 'Deactivate Selected Users'
         }
         message={
           bulkAction === 'delete'
             ? `⚠️ Soft delete ${selectedCount} user(s)? They will be marked as deleted but data will be preserved for audit.`
             : bulkAction === 'activate'
-              ? `Activate ${selectedCount} user(s)? They will be able to login and use the system.`
-              : `Deactivate ${selectedCount} user(s)? They won't be able to login until reactivated.`
+            ? `Activate ${selectedCount} user(s)? They will be able to login and use the system.`
+            : `Deactivate ${selectedCount} user(s)? They won't be able to login until reactivated.`
         }
         variant={bulkAction === 'delete' ? 'danger' : 'warning'}
       />
@@ -318,7 +319,11 @@ export function UsersTableBase({
       )}
 
       {/* View User Modal */}
-      <UserViewModal isOpen={!!viewUser} onClose={() => setViewUser(null)} user={viewUser} />
+      <UserViewModal
+        isOpen={!!viewUser}
+        onClose={() => setViewUser(null)}
+        user={viewUser}
+      />
 
       {/* Edit User Modal */}
       <UserEditModal

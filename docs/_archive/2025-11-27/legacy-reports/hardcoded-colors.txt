@@ -1,0 +1,206 @@
+apps/admin/features/user-view-modal/components/UserViewModal.module.css:  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+apps/admin/features/user-view-modal/components/UserViewModal.module.css:  background: rgba(211, 170, 49, 0.2);
+apps/admin/features/user-view-modal/components/UserViewModal.module.css:  border: 1px solid rgba(211, 170, 49, 0.5);
+apps/admin/features/user-view-modal/components/UserViewModal.module.css:  background: rgba(255, 255, 255, 0.05);
+apps/admin/features/driver-profile/driver-profile.module.css:  background: rgba(0, 0, 0, 0.5);
+apps/admin/features/document-viewer/components/DocumentViewer.module.css:  background: rgba(255, 255, 255, 0.02);
+apps/admin/features/document-viewer/components/DocumentViewer.module.css:  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+apps/admin/features/document-viewer/components/DocumentViewer.module.css:  background: rgba(255, 255, 255, 0.05);
+apps/admin/features/document-viewer/components/DocumentViewer.module.css:  border: 1px solid rgba(255, 255, 255, 0.1);
+apps/admin/features/document-viewer/components/DocumentViewer.module.css:  background: rgba(211, 170, 49, 0.1);
+apps/admin/features/document-viewer/components/DocumentViewer.module.css:  border-color: rgba(211, 170, 49, 0.3);
+apps/admin/features/document-viewer/components/DocumentViewer.module.css:  color: rgba(211, 170, 49, 1);
+apps/admin/features/document-viewer/components/DocumentViewer.module.css:  background: rgba(0, 0, 0, 0.3);
+apps/admin/features/document-viewer/components/DocumentViewer.module.css:  background: rgba(255, 255, 255, 0.02);
+apps/admin/features/document-viewer/components/DocumentViewer.module.css:  border-top: 1px solid rgba(255, 255, 255, 0.1);
+apps/admin/features/payments-overview/components/PaymentsOverview.module.css:  --accent-color: #3b82f6;
+apps/admin/features/payments-overview/components/PaymentsOverview.module.css:  --accent-color: #10b981;
+apps/admin/features/payments-overview/components/PaymentsOverview.module.css:  --accent-color: #f59e0b;
+apps/admin/features/payments-overview/components/PaymentsOverview.module.css:  --accent-color: #8b5cf6;
+apps/admin/features/dashboard-metrics/DashboardMetrics.module.css:  background: rgba(255, 45, 85, 0.1);
+apps/admin/features/dashboard-metrics/DashboardMetrics.module.css:  border: 1px solid rgba(255, 45, 85, 0.3);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  border: 4px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:    rgba(211, 170, 49, 0.08) 0%, 
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:    rgba(211, 170, 49, 0.03) 100%
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  border: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:    rgba(211, 170, 49, 0.12) 0%, 
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:    rgba(211, 170, 49, 0.06) 100%
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  border-color: rgba(211, 170, 49, 0.4);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  box-shadow: 0 4px 20px rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  background: rgba(211, 170, 49, 0.1);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  border: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  text-shadow: 0 2px 10px rgba(211, 170, 49, 0.3);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:    rgba(18, 20, 22, 0.6) 0%, 
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:    rgba(26, 29, 33, 0.6) 100%
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  border: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  text-shadow: 0 2px 10px rgba(211, 170, 49, 0.3);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  background: rgba(255, 255, 255, 0.05);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  border: 1px solid rgba(255, 255, 255, 0.1);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  box-shadow: 0 0 20px rgba(211, 170, 49, 0.4);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:    rgba(211, 170, 49, 0.05) 0%, 
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:    rgba(211, 170, 49, 0.02) 100%
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  border: 1px solid rgba(211, 170, 49, 0.3);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:    rgba(18, 20, 22, 0.4) 0%, 
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:    rgba(26, 29, 33, 0.4) 100%
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  border: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileStatsTab.module.css:  text-shadow: 0 4px 20px rgba(211, 170, 49, 0.4);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  border: 4px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  background: rgba(255, 255, 255, 0.02);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  border: 1px dashed rgba(255, 255, 255, 0.1);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:    rgba(211, 170, 49, 0.3) 0%, 
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:    rgba(211, 170, 49, 0.1) 50%,
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:    rgba(211, 170, 49, 0.3) 100%
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:    rgba(211, 170, 49, 0.8) 0%, 
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:    rgba(211, 170, 49, 0.4) 100%
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  box-shadow: 0 0 20px rgba(211, 170, 49, 0.4);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:    rgba(18, 20, 22, 0.8) 0%, 
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:    rgba(26, 29, 33, 0.8) 100%
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  border: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  border-color: rgba(211, 170, 49, 0.4);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  box-shadow: 0 4px 20px rgba(211, 170, 49, 0.15);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  text-shadow: 0 2px 8px rgba(211, 170, 49, 0.3);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  color: rgba(211, 170, 49, 1);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  text-shadow: 0 0 10px rgba(211, 170, 49, 0.3);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  border-top: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  color: rgba(211, 170, 49, 0.9);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  background: rgba(34, 197, 94, 0.25);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  background: rgba(211, 170, 49, 0.15);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  color: rgba(211, 170, 49, 1);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  border-color: rgba(211, 170, 49, 0.4);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  background: rgba(211, 170, 49, 0.25);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  box-shadow: 0 0 15px rgba(211, 170, 49, 0.4);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  background: rgba(74, 222, 128, 0.3);
+apps/admin/features/user-profile/components/ProfileActivityTab.module.css:  color: rgba(211, 170, 49, 1);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    rgba(18, 20, 22, 0.95) 0%, 
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    rgba(26, 29, 33, 0.95) 50%, 
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    rgba(18, 20, 22, 0.95) 100%
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    0 0 40px rgba(211, 170, 49, 0.15),
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  border: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    radial-gradient(circle at 20% 30%, rgba(211, 170, 49, 0.03) 0%, transparent 50%),
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    radial-gradient(circle at 80% 70%, rgba(211, 170, 49, 0.03) 0%, transparent 50%),
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.01) 10px, rgba(255, 255, 255, 0.01) 11px);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  box-shadow: 0 2px 20px rgba(211, 170, 49, 0.4);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  border: 4px solid rgba(211, 170, 49, 0.3);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    0 0 30px rgba(211, 170, 49, 0.3),
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    inset 0 2px 8px rgba(0, 0, 0, 0.2);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  border-color: rgba(211, 170, 49, 0.6);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    0 0 40px rgba(211, 170, 49, 0.5),
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    inset 0 2px 8px rgba(0, 0, 0, 0.2);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    rgba(211, 170, 49, 0.1) 0%, 
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    rgba(211, 170, 49, 0.05) 100%
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  text-shadow: 0 2px 8px rgba(211, 170, 49, 0.3);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  border: 1px solid rgba(255, 255, 255, 0.1);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  background: rgba(148, 163, 184, 0.1);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  border-color: rgba(148, 163, 184, 0.2);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  background: rgba(100, 116, 139, 0.1);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  border-color: rgba(100, 116, 139, 0.2);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  background: rgba(255, 255, 255, 0.02);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  border: 1px solid rgba(255, 255, 255, 0.05);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  background: rgba(255, 255, 255, 0.02);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  background: rgba(211, 170, 49, 0.1);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    rgba(211, 170, 49, 0.08) 0%, 
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    rgba(211, 170, 49, 0.03) 100%
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  border: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  background: rgba(211, 170, 49, 0.1);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  border: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    rgba(211, 170, 49, 0.05) 0%, 
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    rgba(211, 170, 49, 0.02) 100%
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  border: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    rgba(211, 170, 49, 0.1) 0%, 
+apps/admin/features/user-profile/components/ProfileHeader.module.css:    rgba(211, 170, 49, 0.05) 100%
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  border-color: rgba(211, 170, 49, 0.4);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  box-shadow: 0 0 30px rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileHeader.module.css:  text-shadow: 0 2px 10px rgba(211, 170, 49, 0.3);
+apps/admin/features/user-profile/components/UserProfile.module.css:  background: rgba(255, 255, 255, 0.02);
+apps/admin/features/user-profile/components/UserProfile.module.css:  border: 1px solid rgba(255, 255, 255, 0.05);
+apps/admin/features/user-profile/components/UserProfile.module.css:  background: rgba(211, 170, 49, 0.05);
+apps/admin/features/user-profile/components/UserProfile.module.css:    rgba(211, 170, 49, 0.15) 0%, 
+apps/admin/features/user-profile/components/UserProfile.module.css:    rgba(211, 170, 49, 0.08) 100%
+apps/admin/features/user-profile/components/UserProfile.module.css:  border-color: rgba(211, 170, 49, 0.3);
+apps/admin/features/user-profile/components/UserProfile.module.css:  box-shadow: 0 0 20px rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/UserProfile.module.css:    rgba(18, 20, 22, 0.6) 0%, 
+apps/admin/features/user-profile/components/UserProfile.module.css:    rgba(26, 29, 33, 0.6) 100%
+apps/admin/features/user-profile/components/UserProfile.module.css:  border: 1px solid rgba(211, 170, 49, 0.1);
+apps/admin/features/user-profile/components/UserProfile.module.css:  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+apps/admin/features/user-profile/components/UserProfile.module.css:  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:    rgba(18, 20, 22, 0.6) 0%, 
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:    rgba(26, 29, 33, 0.6) 100%
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:  border: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:  border-bottom: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:  background: rgba(211, 170, 49, 0.1);
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:  border: 1px solid rgba(211, 170, 49, 0.3);
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:    rgba(211, 170, 49, 0.05) 0%, 
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:    rgba(211, 170, 49, 0.02) 100%
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:  border: 1px solid rgba(211, 170, 49, 0.2);
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:    rgba(211, 170, 49, 0.1) 0%, 
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:    rgba(211, 170, 49, 0.05) 100%
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:  border-color: rgba(211, 170, 49, 0.4);
+apps/admin/features/user-profile/components/ProfileDocumentsTab.module.css:  box-shadow: 0 4px 20px rgba(211, 170, 49, 0.2);
+apps/admin/features/drivers-pending/components/DriversPending.module.css:  border: 3px solid rgba(255, 255, 255, 0.1);
+apps/admin/features/drivers-pending/components/DriversPending.module.css:  border-top-color: rgba(211, 170, 49, 1);
+apps/admin/features/drivers-pending/components/DriversPending.module.css:  background: rgba(255, 255, 255, 0.02);
+apps/admin/features/drivers-pending/components/DriversPending.module.css:  border: 1px solid rgba(255, 255, 255, 0.05);
+apps/admin/features/drivers-pending/components/DriversPending.module.css:  background: rgba(255, 59, 48, 0.1);
+apps/admin/features/drivers-pending/components/DriversPending.module.css:  border: 1px solid rgba(255, 59, 48, 0.3);
+apps/admin/features/drivers-pending/columns/pendingDriversColumns.module.css:  border: 2px solid rgba(211, 170, 49, 0.3);
+apps/admin/features/drivers-pending/columns/pendingDriversColumns.module.css:  background: rgba(211, 170, 49, 0.2);
+apps/admin/features/drivers-pending/columns/pendingDriversColumns.module.css:  border: 2px solid rgba(211, 170, 49, 0.3);
+apps/admin/features/drivers-pending/columns/pendingDriversColumns.module.css:  color: rgba(211, 170, 49, 1);
+apps/admin/features/drivers-pending/columns/pendingDriversColumns.module.css:  background: rgba(211, 170, 49, 0.2);
+apps/admin/features/drivers-pending/columns/pendingDriversColumns.module.css:  border: 1px solid rgba(211, 170, 49, 0.5);
+apps/admin/features/drivers-pending/columns/pendingDriversColumns.module.css:  color: rgba(211, 170, 49, 1);
+apps/admin/features/settings-vehicle-categories/components/SettingsVehicleCategories.module.css:  background: rgba(255, 255, 255, 0.02);
+apps/admin/features/settings-vehicle-categories/components/SettingsVehicleCategories.module.css:  border: 1px solid rgba(255, 255, 255, 0.1);
+apps/admin/features/settings-vehicle-categories/components/SettingsVehicleCategories.module.css:  border-color: rgba(211, 170, 49, 0.3);
+apps/admin/features/settings-vehicle-categories/components/SettingsVehicleCategories.module.css:  background: rgba(255, 255, 255, 0.03);
+apps/admin/features/settings-vehicle-categories/components/SettingsVehicleCategories.module.css:  color: rgba(211, 170, 49, 1);
+apps/admin/features/settings-vehicle-categories/components/SettingsVehicleCategories.module.css:  border-top: 1px solid rgba(255, 255, 255, 0.05);
+apps/admin/features/settings-vehicle-categories/components/SettingsVehicleCategories.module.css:  background: rgba(255, 255, 255, 0.02);
+apps/admin/features/settings-vehicle-categories/components/SettingsVehicleCategories.module.css:  border: 1px solid rgba(255, 255, 255, 0.1);
+apps/admin/features/settings-vehicle-categories/components/SettingsVehicleCategories.module.css:  color: rgba(211, 170, 49, 1);
+apps/admin/features/settings-vehicle-categories/components/SettingsVehicleCategories.module.css:  background: rgba(211, 170, 49, 0.1);
+apps/admin/features/settings-vehicle-categories/components/SettingsVehicleCategories.module.css:  border-left: 3px solid rgba(211, 170, 49, 1);
+apps/admin/features/user-create-modal/components/UserCreateModal.module.css:  background: rgba(255, 255, 255, 0.05);
+apps/admin/features/user-create-modal/components/UserCreateModal.module.css:  border: 1px solid rgba(255, 255, 255, 0.1);
+apps/admin/features/user-create-modal/components/UserCreateModal.module.css:  border-color: rgba(255, 255, 255, 0.2);
+apps/admin/features/user-create-modal/components/UserCreateModal.module.css:  background: rgba(255, 255, 255, 0.08);
+apps/admin/features/user-create-modal/components/UserCreateModal.module.css:  border-color: rgba(211, 170, 49, 0.5);
+apps/admin/features/user-create-modal/components/UserCreateModal.module.css:  box-shadow: 0 0 20px rgba(211, 170, 49, 0.2);
+apps/admin/features/user-create-modal/components/UserCreateModal.module.css:  background: rgba(255, 59, 48, 0.1);
+apps/admin/features/user-create-modal/components/UserCreateModal.module.css:  border: 1px solid rgba(255, 59, 48, 0.3);
+apps/admin/features/user-create-modal/components/UserCreateModal.module.css:  border-top: 1px solid rgba(255, 255, 255, 0.1);
+apps/admin/features/user-edit-modal/components/UserEditModal.module.css:  background: rgba(211, 170, 49, 0.2);
+apps/admin/features/user-edit-modal/components/UserEditModal.module.css:  border: 1px solid rgba(211, 170, 49, 0.5);
+apps/admin/features/user-edit-modal/components/UserEditModal.module.css:  background: rgba(255, 255, 255, 0.05);
+apps/admin/features/user-edit-modal/components/UserEditModal.module.css:  border: 1px solid rgba(255, 255, 255, 0.1);
+apps/admin/features/user-edit-modal/components/UserEditModal.module.css:  border-color: rgba(211, 170, 49, 0.5);
+apps/admin/features/user-edit-modal/components/UserEditModal.module.css:  border-color: rgba(211, 170, 49, 0.8);
+apps/admin/features/user-edit-modal/components/UserEditModal.module.css:  box-shadow: 0 0 0 3px rgba(211, 170, 49, 0.1);
+apps/admin/features/user-edit-modal/components/UserEditModal.module.css:  background: rgba(255, 59, 48, 0.1);
+apps/admin/features/user-edit-modal/components/UserEditModal.module.css:  border: 1px solid rgba(255, 59, 48, 0.3);
+apps/admin/features/user-edit-modal/components/UserEditModal.module.css:  border-top: 1px solid rgba(255, 255, 255, 0.1);
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:  background: radial-gradient(ellipse at 30% 20%, rgba(203, 178, 106, 0.04) 0%, transparent 70%),
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:    radial-gradient(ellipse at 70% 80%, rgba(229, 212, 133, 0.02) 0%, transparent 70%);
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:    rgba(0, 0, 0, 0) 0%,
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:    rgba(0, 0, 0, 0.35) 80%
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:    rgba(255, 255, 255, 0.02) 0deg,
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:    rgba(203, 178, 106, 0.08) 60deg,
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:    rgba(255, 255, 255, 0.02) 120deg,
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:    rgba(229, 212, 133, 0.06) 180deg,
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:    rgba(255, 255, 255, 0.02) 240deg,
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:    rgba(203, 178, 106, 0.04) 300deg,
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:    rgba(255, 255, 255, 0.02) 360deg
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:      rgba(203, 178, 106, 0.06) 0px,
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:      rgba(203, 178, 106, 0.06) 1px,
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:      rgba(229, 212, 133, 0.04) 0px,
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:      rgba(229, 212, 133, 0.04) 1px,
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:      rgba(203, 178, 106, 0.15) 50%,
+apps/admin/shared/ui/composed/BrandBackground/BrandBackground.module.css:    linear-gradient(45deg, transparent 40%, rgba(229, 212, 133, 0.12) 50%, transparent 60%);
+apps/admin/shared/ui/composed/ErrorBanner/ErrorBanner.module.css:  background-color: rgba(0, 0, 0, 0.1);

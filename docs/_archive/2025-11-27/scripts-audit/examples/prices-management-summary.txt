@@ -1,0 +1,12 @@
+any: 0
+colors: 2
+px: 15
+inline-styles: 46
+important: 0
+files>200: 7
+raw-tables: 13
+illegal-ui-imports: 0
+illegal-icons: 0
+custom-breakpoints: 0
+fetch-in-ui: 0
+inline-map: 5

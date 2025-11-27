@@ -1,0 +1,8 @@
+missing-useCallback: 12
+missing-useMemo: 8
+missing-react-memo: 5
+heavy-imports: 2
+console-log: 3
+img-tag: 0
+missing-keys: 1
+unused-imports: 6

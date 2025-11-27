@@ -1,0 +1,59 @@
+apps/admin/features/driver-assignment/hooks/useDriverAssignment.ts:        (operatorsData || []).map((op: any) => [op.id, op])
+apps/admin/features/driver-assignment/hooks/useDriverAssignment.ts:      const transformedDrivers: DriverAssignment[] = (driversData || []).map((driver: any) => {
+apps/admin/features/driver-assignment/hooks/useOperators.ts:        const transformedOperators: Operator[] = (data || []).map((op: any) => ({
+apps/admin/features/user-view-modal/hooks/useUserViewModal.ts:  data: any[];
+apps/admin/features/driver-profile/components/VehicleTab.tsx:  const [editFormData, setEditFormData] = useState<any>({});
+apps/admin/features/driver-profile/hooks/useDriverDocuments.ts:  let vehicleDocs: any[] = [];
+apps/admin/features/document-viewer/hooks/useDocumentViewer.ts:  data: any[];
+apps/admin/features/payouts-table/hooks/usePayoutsList.ts:        const payouts: Payout[] = (legs || []).map((leg: any) => ({
+apps/admin/features/payments-overview/hooks/usePaymentsOverview.ts:  data: any[];
+apps/admin/features/user-profile/components/ProfileStatsTab.tsx:  const [stats, setStats] = useState<any>(null);
+apps/admin/features/prices-management/hooks/handlers.ts:  mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>;
+apps/admin/features/prices-management/hooks/handlers.ts:export async function handleUpdateVehicleType(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, payload: UpdateVehicleTypePayload) {
+apps/admin/features/prices-management/hooks/handlers.ts:export async function handleUpdateAirportFee(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, payload: UpdateAirportFeePayload) {
+apps/admin/features/prices-management/hooks/handlers.ts:export async function handleUpdateZoneFee(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, payload: { zoneCode: string; fee: Partial<ZoneFee> }) {
+apps/admin/features/prices-management/hooks/handlers.ts:export async function handleUpdateServicePolicies(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, policies: ServicePolicies) {
+apps/admin/features/prices-management/hooks/handlers.ts:export async function handleUpdateGeneralPolicies(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, policies: GeneralPolicies) {
+apps/admin/features/prices-management/hooks/handlers.ts:export async function handleUpdateReturnSettings(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, settings: ReturnSettings) {
+apps/admin/features/prices-management/hooks/handlers.ts:export async function handleUpdateHourlySettings(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, settings: HourlySettings) {
+apps/admin/features/prices-management/hooks/handlers.ts:export async function handleUpdateFleetSettings(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, settings: FleetSettings) {
+apps/admin/features/prices-management/hooks/handlers.ts:  mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>,
+apps/admin/features/driver-documents-upload/components/DocumentCard.tsx:const STATUS_CONFIG: Record<DocumentStatus, { icon: React.ComponentType<any>; color: BadgeColor }> =
+apps/admin/features/payments-table/components/PaymentsTable.tsx:            accessor: (row: any) => row.id,
+apps/admin/features/payments-table/components/PaymentsTable.tsx:            cell: (row: any) => (
+apps/admin/features/payments-table/components/PaymentsTable.tsx:            accessor: (row: any) => row.bookingId,
+apps/admin/features/payments-table/components/PaymentsTable.tsx:            cell: (row: any) => (
+apps/admin/features/payments-table/components/PaymentsTable.tsx:            accessor: (row: any) => row.amount,
+apps/admin/features/payments-table/components/PaymentsTable.tsx:            cell: (row: any) => (
+apps/admin/features/payments-table/components/PaymentsTable.tsx:            accessor: (row: any) => row.status,
+apps/admin/features/payments-table/components/PaymentsTable.tsx:            cell: (row: any) => (
+apps/admin/features/payments-table/components/PaymentsTable.tsx:            accessor: (row: any) => row.createdAt,
+apps/admin/features/payments-table/components/PaymentsTable.tsx:            cell: (row: any) => (
+apps/admin/features/user-edit-modal/hooks/useUserEditModal.ts:  data: any[];
+apps/admin/features/booking-create/hooks/usePriceCalculation.ts:  const [pricing, setPricing] = useState<any>(null);
+apps/admin/lib/utils/logger.ts:  private log(level: LogLevel, message: string, ...args: any[]) {
+apps/admin/lib/utils/logger.ts:  info(message: string, ...args: any[]) {
+apps/admin/lib/utils/logger.ts:  warn(message: string, ...args: any[]) {
+apps/admin/lib/utils/logger.ts:  error(message: string, ...args: any[]) {
+apps/admin/lib/utils/logger.ts:  debug(message: string, ...args: any[]) {
+apps/admin/entities/driver/api/listPendingDrivers.ts:    let vehicleDocuments: any[] = [];
+apps/admin/entities/payment/api/processRefund.ts:      (t: any) => t.status === 'succeeded'
+apps/admin/entities/payment/api/createPaymentIntent.ts:    const paymentIntentParams: any = {
+apps/admin/entities/user/api/hardDeleteUsers.ts:      .map((u: any) => u.auth_user_id)
+apps/admin/entities/document/api/documentQueries.ts:  const mappedDriverDocs: Document[] = (driverDocs || []).map((doc: any) => ({
+apps/admin/entities/document/api/documentQueries.ts:    .filter((doc: any) => {
+apps/admin/entities/document/api/documentQueries.ts:    .map((doc: any) => ({
+apps/admin/entities/document/api/documentQueries.ts:  driverDocs?.forEach((doc: any) => {
+apps/admin/entities/document/api/documentQueries.ts:  vehicleDocs?.forEach((doc: any) => {
+apps/admin/entities/dispute/api/disputeApi.ts:  return (data || []).map((dispute: any) => ({
+apps/admin/entities/permission/api/getUserPermissions.ts:  const pages: PageWithPermission[] = (data || []).map((d: any) => {
+apps/admin/entities/permission/api/getRolePermissions.ts:    (permsData || []).map((p: any) => [p.page_key, p.enabled])
+apps/admin/entities/permission/api/getRolePermissions.ts:  const pages: PageWithPermission[] = (pagesData || []).map((d: any) => ({
+apps/admin/entities/pricing/api/pricingApi.ts:  payload: { zoneCode: string; fee: any }
+apps/admin/entities/pricing/api/pricingApi.ts:  policies: any
+apps/admin/entities/pricing/api/pricingApi.ts:  policies: any
+apps/admin/entities/pricing/api/pricingApi.ts:  settings: any
+apps/admin/entities/pricing/api/pricingApi.ts:  settings: any
+apps/admin/entities/pricing/api/pricingApi.ts:  settings: any
+apps/admin/entities/refund/api/refundApi.ts:  return (data || []).map((refund: any) => ({
+apps/admin/entities/invoice/api/invoiceApi.ts:  return (data || []).map((payment: any) => ({

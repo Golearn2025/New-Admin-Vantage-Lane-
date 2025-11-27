@@ -1,0 +1,16 @@
+any: 0
+colors: 0
+px: 0
+inline-styles: 0
+important: 0
+files>200: 0
+raw-tables: 0
+illegal-ui-imports: 0
+illegal-icons: 0
+custom-breakpoints: 0
+fetch-in-ui: 0
+inline-map: 0
+css-no-tokens: 0
+bad-tokens: 0
+large-functions: 0
+useeffect-in-ui: 0

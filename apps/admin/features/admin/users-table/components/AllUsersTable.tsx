@@ -1,6 +1,6 @@
 /**
  * AllUsersTable Component
- * 
+ *
  * Wrapper around UsersTableBase for all users page
  */
 

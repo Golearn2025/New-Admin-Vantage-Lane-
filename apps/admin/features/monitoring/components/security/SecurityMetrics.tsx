@@ -7,7 +7,7 @@
 
 'use client';
 
-import { MetricsGrid } from '@vantage-lane/ui-core';
+import { Card } from '@vantage-lane/ui-core';
 import * as Sentry from "@sentry/nextjs";
 
 interface SecurityMetricsProps {
@@ -32,5 +32,16 @@ export function SecurityMetrics({ metrics }: SecurityMetricsProps): JSX.Element 
     { label: "Security Score", value: `${metrics?.securityScore || 95}%`, trendLabel: "overall rating" }
   ];
 
-  return <MetricsGrid metrics={metricsData} />;
+  return (
+    <Card className="p-4">
+      <div className="space-y-2">
+        {metricsData.map((metric, index) => (
+          <div key={index} className="flex justify-between">
+            <span>{metric.label}:</span>
+            <span>{metric.value}</span>
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
 }

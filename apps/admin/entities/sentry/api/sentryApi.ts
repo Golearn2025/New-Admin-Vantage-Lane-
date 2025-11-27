@@ -82,11 +82,11 @@ class SentryApiService {
     };
   }
 
-  async getLatestRelease(projectSlug: string): Promise<SentryRelease | null> {
+  async getLatestRelease(projectSlug: string): Promise<{ latestRelease: SentryRelease | null }> {
     const releases = await this.makeRequest<SentryRelease[]>(
       `/projects/${this.orgSlug}/${projectSlug}/releases/?per_page=1`
     );
-    return releases && releases.length > 0 ? releases[0] : null;
+    return { latestRelease: releases?.[0] ?? null };
   }
 
   async getRecentTransactions(projectSlug: string, limit = 10): Promise<SentryTransaction[]> {

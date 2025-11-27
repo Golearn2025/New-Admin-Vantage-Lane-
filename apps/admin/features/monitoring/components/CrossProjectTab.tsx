@@ -17,8 +17,8 @@ export function CrossProjectTab(): JSX.Element {
 
   if (loading) {
     return (
-      <div className={styles.loading}>
-        <div className={styles.spinner}></div>
+      <div className={styles.loading || ""}>
+        <div className={styles.spinner || ""}></div>
         <p>Loading ecosystem metrics...</p>
       </div>
     );
@@ -26,14 +26,14 @@ export function CrossProjectTab(): JSX.Element {
 
   if (error) {
     return (
-      <div className={styles.error}>
+      <div className={styles.error || ""}>
         <p>Failed to load ecosystem data: {error}</p>
       </div>
     );
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container || ""}>
       <EcosystemOverview metrics={metrics} />
       <ProjectsStatusList metrics={metrics} />
       <DeploymentTimeline />

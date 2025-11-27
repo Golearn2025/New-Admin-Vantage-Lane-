@@ -73,13 +73,11 @@ deps.txt
 typescript.txt
 files-with-hooks.txt
 missing-use-client.txt
-test-results.txt
-tests.txt
-full-audit.md
-audit-structure.sh
 
-# Audit reports (generated)
-audit-reports/
+# Audit outputs (temporary data) - screenshots și logs nu se commitează
+docs/audit/outputs/
+# Keep structure documentation
+!docs/audit/outputs/.gitkeep
 complete-audit-*/
 audit-*.txt
 ultra-audit-*.txt

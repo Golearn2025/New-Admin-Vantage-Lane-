@@ -21,42 +21,42 @@ export function MonitoringPage(): JSX.Element {
     {
       id: 'cross-project',
       label: 'Cross-Project',
-      icon: 'Globe',
+      icon: 'users',
       content: <CrossProjectTab />
     },
     {
       id: 'security',
       label: 'Security',
-      icon: 'Shield',
+      icon: 'settings',
       content: <SecurityMonitoringTab />
     },
     {
       id: 'performance',
       label: 'Performance',
-      icon: 'Zap',
+      icon: 'lightning',
       content: <PerformanceOverviewTab />
     }
   ];
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container || ""}>
       {/* Header */}
-      <div className={styles.header}>
-        <div className={styles.headerContent}>
-          <h1 className={styles.title}>Ecosystem Monitoring</h1>
-          <p className={styles.description}>
+      <div className={styles.header || ""}>
+        <div className={styles.headerContent || ""}>
+          <h1 className={styles.title || ""}>Ecosystem Monitoring</h1>
+          <p className={styles.description || ""}>
             Real-time monitoring pentru întregul ecosistem Vantage Lane
           </p>
         </div>
-        <div className={styles.headerActions}>
-          <span className={styles.lastUpdated}>
+        <div className={styles.headerActions || ""}>
+          <span className={styles.lastUpdated || ""}>
             Last updated: {new Date().toLocaleTimeString()}
           </span>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className={styles.tabsContainer}>
+      <div className={styles.tabsContainer || ""}>
         <Tabs
           tabs={tabs}
           activeTab={activeTab}

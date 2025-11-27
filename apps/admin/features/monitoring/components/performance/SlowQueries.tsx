@@ -17,8 +17,8 @@ interface SlowQueriesProps {
 
 export function SlowQueries({ queries }: SlowQueriesProps): JSX.Element {
   return (
-    <Card className={styles.queriesCard}>
-      <h3 className={styles.cardTitle}>Slow Database Queries</h3>
+    <Card className={styles.queriesCard || ""}>
+      <h3 className={styles.cardTitle || ""}>Slow Database Queries</h3>
       
       <DataTable
         data={queries || []}

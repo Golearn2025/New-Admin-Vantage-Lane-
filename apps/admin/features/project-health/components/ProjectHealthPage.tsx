@@ -21,42 +21,42 @@ export function ProjectHealthPage(): JSX.Element {
     {
       id: 'health',
       label: 'System Health',
-      icon: 'Activity',
+      icon: 'trending-up',
       content: <SystemHealthTab />
     },
     {
       id: 'performance',
       label: 'Performance',
-      icon: 'Zap',
+      icon: 'lightning',
       content: <PerformanceTab />
     },
     {
       id: 'events',
       label: 'Recent Events',
-      icon: 'History',
+      icon: 'clock',
       content: <EventsTab />
     }
   ];
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container || ""}>
       {/* Header */}
-      <div className={styles.header}>
-        <div className={styles.headerContent}>
-          <h1 className={styles.title}>Project Health</h1>
-          <p className={styles.description}>
+      <div className={styles.header || ""}>
+        <div className={styles.headerContent || ""}>
+          <h1 className={styles.title || ""}>Project Health</h1>
+          <p className={styles.description || ""}>
             Real-time system monitoring și performance metrics
           </p>
         </div>
-        <div className={styles.headerActions}>
-          <span className={styles.lastUpdated}>
+        <div className={styles.headerActions || ""}>
+          <span className={styles.lastUpdated || ""}>
             Last updated: {new Date().toLocaleTimeString()}
           </span>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className={styles.tabsContainer}>
+      <div className={styles.tabsContainer || ""}>
         <Tabs
           tabs={tabs}
           activeTab={activeTab}

@@ -1,0 +1,2 @@
+apps/admin/features/prices-management/components/AddPriceItemModal.module.css:11:  background: rgba(0, 0, 0, 0.8);
+apps/admin/features/prices-management/components/AddPriceItemModal.module.css:34:              0 20px 60px rgba(0, 0, 0, 0.5);

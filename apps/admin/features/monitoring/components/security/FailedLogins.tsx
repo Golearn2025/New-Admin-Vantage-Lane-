@@ -46,8 +46,8 @@ export function FailedLogins({ loginAttempts }: FailedLoginsProps): JSX.Element 
   }
 
   return (
-    <Card className={styles.loginsCard}>
-      <h3 className={styles.cardTitle}>
+    <Card className={styles.loginsCard || ""}>
+      <h3 className={styles.cardTitle || ""}>
         Failed Login Attempts ({loginAttempts.length})
       </h3>
       

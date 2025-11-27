@@ -18,15 +18,15 @@ export function PerformanceOverviewTab(): JSX.Element {
 
   if (loading) {
     return (
-      <div className={styles.loading}>
-        <div className={styles.spinner}></div>
+      <div className={styles.loading || ""}>
+        <div className={styles.spinner || ""}></div>
         <p>Loading performance data...</p>
       </div>
     );
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container || ""}>
       <PerformanceMetrics metrics={metrics} />
       <SlowQueries queries={queries} />
       <CacheStats cache={cache} />

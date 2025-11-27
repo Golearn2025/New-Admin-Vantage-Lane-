@@ -1,0 +1,15 @@
+apps/admin/features/prices-management/components/PricesManagementPage.module.css:9:  max-width: 1400px;
+apps/admin/features/prices-management/components/PricesManagementPage.module.css:77:  transform: translateY(-2px);
+apps/admin/features/prices-management/components/PricesManagementPage.module.css:157:  letter-spacing: 0.5px;
+apps/admin/features/prices-management/components/PricesManagementPage.module.css:254:  letter-spacing: 0.5px;
+apps/admin/features/prices-management/components/PricesManagementPage.module.css:273:  width: 48px;
+apps/admin/features/prices-management/components/PricesManagementPage.module.css:274:  height: 24px;
+apps/admin/features/prices-management/components/PricesManagementPage.module.css:299:  height: 16px;
+apps/admin/features/prices-management/components/PricesManagementPage.module.css:300:  width: 16px;
+apps/admin/features/prices-management/components/PricesManagementPage.module.css:301:  left: 3px;
+apps/admin/features/prices-management/components/PricesManagementPage.module.css:302:  bottom: 3px;
+apps/admin/features/prices-management/components/PricesManagementPage.module.css:315:  transform: translateX(24px);
+apps/admin/features/prices-management/components/AddPriceItemModal.module.css:12:  backdrop-filter: blur(8px);
+apps/admin/features/prices-management/components/AddPriceItemModal.module.css:34:              0 20px 60px rgba(0, 0, 0, 0.5);
+apps/admin/features/prices-management/components/AddPriceItemModal.module.css:35:  max-width: 500px;
+apps/admin/features/prices-management/components/AddPriceItemModal.module.css:44:    transform: translateY(50px);

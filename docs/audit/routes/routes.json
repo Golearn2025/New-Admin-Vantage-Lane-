@@ -1,0 +1,464 @@
+{
+  "admin": [
+    {
+      "route": "/api-test",
+      "file": "app/(admin)/api-test/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/bookings",
+      "file": "app/(admin)/bookings/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/bookings/[id]",
+      "file": "app/(admin)/bookings/[id]/page.tsx",
+      "isDynamic": true,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/bookings/active",
+      "file": "app/(admin)/bookings/active/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/bookings/new",
+      "file": "app/(admin)/bookings/new/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/bookings/past",
+      "file": "app/(admin)/bookings/past/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/business-intelligence",
+      "file": "app/(admin)/business-intelligence/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/dashboard",
+      "file": "app/(admin)/dashboard/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/debug/profile",
+      "file": "app/(admin)/debug/profile/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/disputes",
+      "file": "app/(admin)/disputes/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/documents",
+      "file": "app/(admin)/documents/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/driver",
+      "file": "app/(admin)/driver/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/driver/documents",
+      "file": "app/(admin)/driver/documents/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/invoices",
+      "file": "app/(admin)/invoices/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/monitoring",
+      "file": "app/(admin)/monitoring/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/notifications",
+      "file": "app/(admin)/notifications/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/operator/drivers",
+      "file": "app/(admin)/operator/drivers/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/payments",
+      "file": "app/(admin)/payments/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/payments/disputes",
+      "file": "app/(admin)/payments/disputes/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/payments/refunds",
+      "file": "app/(admin)/payments/refunds/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/payments/transactions",
+      "file": "app/(admin)/payments/transactions/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/payouts",
+      "file": "app/(admin)/payouts/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/prices",
+      "file": "app/(admin)/prices/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/prices/history",
+      "file": "app/(admin)/prices/history/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/project-health",
+      "file": "app/(admin)/project-health/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/refunds",
+      "file": "app/(admin)/refunds/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/reviews",
+      "file": "app/(admin)/reviews/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/settings",
+      "file": "app/(admin)/settings/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/settings/commissions",
+      "file": "app/(admin)/settings/commissions/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/settings/legal",
+      "file": "app/(admin)/settings/legal/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/settings/notifications",
+      "file": "app/(admin)/settings/notifications/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/settings/permissions",
+      "file": "app/(admin)/settings/permissions/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/settings/profile",
+      "file": "app/(admin)/settings/profile/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/settings/roles",
+      "file": "app/(admin)/settings/roles/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/settings/security",
+      "file": "app/(admin)/settings/security/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/settings/vehicle-categories",
+      "file": "app/(admin)/settings/vehicle-categories/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/settings/webhooks",
+      "file": "app/(admin)/settings/webhooks/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/support-tickets",
+      "file": "app/(admin)/support-tickets/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/support-tickets/[id]",
+      "file": "app/(admin)/support-tickets/[id]/page.tsx",
+      "isDynamic": true,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/users",
+      "file": "app/(admin)/users/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/users/[id]",
+      "file": "app/(admin)/users/[id]/page.tsx",
+      "isDynamic": true,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/users/admins",
+      "file": "app/(admin)/users/admins/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/users/all",
+      "file": "app/(admin)/users/all/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/users/assign-drivers-to-operators",
+      "file": "app/(admin)/users/assign-drivers-to-operators/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/users/corporate",
+      "file": "app/(admin)/users/corporate/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/users/customers",
+      "file": "app/(admin)/users/customers/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/users/drivers",
+      "file": "app/(admin)/users/drivers/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/users/drivers/[id]",
+      "file": "app/(admin)/users/drivers/[id]/page.tsx",
+      "isDynamic": true,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 3
+    },
+    {
+      "route": "/users/drivers/[id]/verify",
+      "file": "app/(admin)/users/drivers/[id]/verify/page.tsx",
+      "isDynamic": true,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 4
+    },
+    {
+      "route": "/users/drivers/pending",
+      "file": "app/(admin)/users/drivers/pending/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 3
+    },
+    {
+      "route": "/users/operators",
+      "file": "app/(admin)/users/operators/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    },
+    {
+      "route": "/users/trash",
+      "file": "app/(admin)/users/trash/page.tsx",
+      "isDynamic": false,
+      "isNested": true,
+      "hasAuth": true,
+      "depth": 2
+    }
+  ],
+  "operator": [],
+  "driver": [],
+  "shared": [
+    {
+      "route": "/",
+      "file": "app/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": false,
+      "depth": 1
+    },
+    {
+      "route": "/forgot-password",
+      "file": "app/forgot-password/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/login",
+      "file": "app/login/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": false,
+      "depth": 1
+    },
+    {
+      "route": "/logout",
+      "file": "app/logout/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    },
+    {
+      "route": "/test-simple",
+      "file": "app/test-simple/page.tsx",
+      "isDynamic": false,
+      "isNested": false,
+      "hasAuth": true,
+      "depth": 1
+    }
+  ]
+}

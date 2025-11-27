@@ -1,0 +1,6 @@
+apps/admin/features/documents-approval/components/DocumentViewerModal.module.css:7:  min-height: 600px;
+apps/admin/features/documents-approval/components/DocumentViewerModal.module.css:31:  max-height: 600px;
+apps/admin/features/documents-approval/components/DocumentViewerModal.module.css:37:  height: 600px;
+apps/admin/features/documents-approval/components/DocumentViewerModal.module.css:107:  letter-spacing: 0.5px;
+apps/admin/features/documents-approval/components/DocumentViewerModal.module.css:154:    height: 400px;
+apps/admin/features/documents-approval/components/DocumentViewerModal.module.css:158:    max-height: 400px;

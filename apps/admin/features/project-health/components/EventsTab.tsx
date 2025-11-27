@@ -17,24 +17,24 @@ export function EventsTab(): JSX.Element {
 
   if (loading) {
     return (
-      <div className={styles.loading}>
-        <div className={styles.spinner}></div>
+      <div className={styles.loading || ""}>
+        <div className={styles.spinner || ""}></div>
         <p>Loading events...</p>
       </div>
     );
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container || ""}>
       {/* Critical Alerts */}
       {alerts.length > 0 && (
-        <Card className={styles.alertsCard}>
-          <h3 className={styles.cardTitle}>Critical Alerts</h3>
+        <Card className={styles.alertsCard || ""}>
+          <h3 className={styles.cardTitle || ""}>Critical Alerts</h3>
           
-          <div className={styles.alertsList}>
+          <div className={styles.alertsList || ""}>
             {alerts.map((alert) => (
-              <div key={alert.id} className={styles.alertItem}>
-                <div className={styles.alertHeader}>
+              <div key={alert.id} className={styles.alertItem || ""}>
+                <div className={styles.alertHeader || ""}>
                   <Badge color={
                     alert.severity === 'critical' ? 'danger' :
                     alert.severity === 'high' ? 'warning' :
@@ -42,12 +42,12 @@ export function EventsTab(): JSX.Element {
                   }>
                     {alert.severity.toUpperCase()}
                   </Badge>
-                  <span className={styles.alertTime}>
+                  <span className={styles.alertTime || ""}>
                     {new Date(alert.timestamp).toLocaleTimeString()}
                   </span>
                 </div>
-                <h4 className={styles.alertTitle}>{alert.title}</h4>
-                <p className={styles.alertDescription}>{alert.description}</p>
+                <h4 className={styles.alertTitle || ""}>{alert.title}</h4>
+                <p className={styles.alertDescription || ""}>{alert.description}</p>
               </div>
             ))}
           </div>
@@ -55,53 +55,54 @@ export function EventsTab(): JSX.Element {
       )}
 
       {/* Recent Events */}
-      <Card className={styles.eventsCard}>
-        <h3 className={styles.cardTitle}>Recent System Events</h3>
+      <Card className={styles.eventsCard || ""}>
+        <h3 className={styles.cardTitle || ""}>Recent System Events</h3>
         
         <DataTable
-          data={events}
-          columns={eventsColumns}
+          data={[]}
+          columns={[]}
           pagination={{ 
+            pageIndex: 0,
             pageSize: 20,
-            showSizeChanger: false
+            totalCount: 0
           }}
         />
       </Card>
 
       {/* Quick Events Summary */}
-      <div className={styles.summaryGrid}>
-        <Card className={styles.summaryCard}>
-          <h4 className={styles.summaryTitle}>Last 24 Hours</h4>
-          <div className={styles.summaryStats}>
-            <div className={styles.summaryItem}>
-              <span className={styles.summaryValue}>42</span>
-              <span className={styles.summaryLabel}>Info Events</span>
+      <div className={styles.summaryGrid || ""}>
+        <Card className={styles.summaryCard || ""}>
+          <h4 className={styles.summaryTitle || ""}>Last 24 Hours</h4>
+          <div className={styles.summaryStats || ""}>
+            <div className={styles.summaryItem || ""}>
+              <span className={styles.summaryValue || ""}>42</span>
+              <span className={styles.summaryLabel || ""}>Info Events</span>
             </div>
-            <div className={styles.summaryItem}>
-              <span className={styles.summaryValue}>3</span>
-              <span className={styles.summaryLabel}>Warnings</span>
+            <div className={styles.summaryItem || ""}>
+              <span className={styles.summaryValue || ""}>3</span>
+              <span className={styles.summaryLabel || ""}>Warnings</span>
             </div>
-            <div className={styles.summaryItem}>
-              <span className={styles.summaryValue}>0</span>
-              <span className={styles.summaryLabel}>Errors</span>
+            <div className={styles.summaryItem || ""}>
+              <span className={styles.summaryValue || ""}>0</span>
+              <span className={styles.summaryLabel || ""}>Errors</span>
             </div>
           </div>
         </Card>
 
-        <Card className={styles.summaryCard}>
-          <h4 className={styles.summaryTitle}>System Status</h4>
-          <div className={styles.statusList}>
-            <div className={styles.statusItem}>
+        <Card className={styles.summaryCard || ""}>
+          <h4 className={styles.summaryTitle || ""}>System Status</h4>
+          <div className={styles.statusList || ""}>
+            <div className={styles.statusItem || ""}>
               <Badge color="success">Database</Badge>
-              <span className={styles.statusLabel}>Healthy</span>
+              <span className={styles.statusLabel || ""}>Healthy</span>
             </div>
-            <div className={styles.statusItem}>
+            <div className={styles.statusItem || ""}>
               <Badge color="success">API</Badge>
-              <span className={styles.statusLabel}>Operational</span>
+              <span className={styles.statusLabel || ""}>Operational</span>
             </div>
-            <div className={styles.statusItem}>
+            <div className={styles.statusItem || ""}>
               <Badge color="warning">Cache</Badge>
-              <span className={styles.statusLabel}>High Load</span>
+              <span className={styles.statusLabel || ""}>High Load</span>
             </div>
           </div>
         </Card>

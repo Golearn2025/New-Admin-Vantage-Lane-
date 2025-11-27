@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-11-27T02:57:54.647Z",
+  "sharedFiles": {
+    "all": [],
+    "adminOperator": [
+      "apps/admin/shared/hooks/useCurrentUser"
+    ],
+    "adminDriver": [
+      "apps/admin/entities/document",
+      "packages/ui-core/src"
+    ],
+    "operatorDriver": []
+  },
+  "roleData": {
+    "admin": {
+      "files": 228,
+      "imports": 245
+    },
+    "operator": {
+      "files": 13,
+      "imports": 4
+    },
+    "driver": {
+      "files": 13,
+      "imports": 24
+    }
+  }
+}

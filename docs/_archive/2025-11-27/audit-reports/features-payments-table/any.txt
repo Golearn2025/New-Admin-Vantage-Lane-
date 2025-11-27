@@ -1,0 +1,10 @@
+apps/admin/features/payments-table/components/PaymentsTable.tsx:317:            accessor: (row: any) => row.id,
+apps/admin/features/payments-table/components/PaymentsTable.tsx:321:            cell: (row: any) => (
+apps/admin/features/payments-table/components/PaymentsTable.tsx:337:            accessor: (row: any) => row.bookingId,
+apps/admin/features/payments-table/components/PaymentsTable.tsx:341:            cell: (row: any) => (
+apps/admin/features/payments-table/components/PaymentsTable.tsx:357:            accessor: (row: any) => row.amount,
+apps/admin/features/payments-table/components/PaymentsTable.tsx:361:            cell: (row: any) => (
+apps/admin/features/payments-table/components/PaymentsTable.tsx:370:            accessor: (row: any) => row.status,
+apps/admin/features/payments-table/components/PaymentsTable.tsx:374:            cell: (row: any) => (
+apps/admin/features/payments-table/components/PaymentsTable.tsx:383:            accessor: (row: any) => row.createdAt,
+apps/admin/features/payments-table/components/PaymentsTable.tsx:387:            cell: (row: any) => (

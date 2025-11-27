@@ -1,0 +1,5 @@
+apps/admin/features/auth-forgot-password/components/ForgotPasswordForm.module.css:52:  outline-offset: 2px;
+apps/admin/features/auth-forgot-password/components/ForgotPasswordForm.module.css:69:  width: 80px;
+apps/admin/features/auth-forgot-password/components/ForgotPasswordForm.module.css:70:  height: 80px;
+apps/admin/features/auth-forgot-password/components/ForgotPasswordForm.module.css:96:  max-width: 400px;
+apps/admin/features/auth-forgot-password/components/ForgotPasswordForm.module.css:127:  outline-offset: 2px;

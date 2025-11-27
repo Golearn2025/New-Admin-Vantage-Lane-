@@ -1,0 +1,7 @@
+apps/admin/features/prices-management/components/GeneralPoliciesTab.tsx: 401 lines
+apps/admin/features/prices-management/components/ServicePoliciesTab.tsx: 326 lines
+apps/admin/features/prices-management/components/HourlyHireTab.tsx: 215 lines
+apps/admin/features/prices-management/components/ZoneFeesTab.tsx: 266 lines
+apps/admin/features/prices-management/components/VehicleTypesTab.tsx: 283 lines
+apps/admin/features/prices-management/components/ReturnSettingsTab.tsx: 205 lines
+apps/admin/features/prices-management/hooks/usePricesManagement.ts: 256 lines

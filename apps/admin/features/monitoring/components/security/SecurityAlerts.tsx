@@ -44,12 +44,12 @@ export function SecurityAlerts({ alerts }: SecurityAlertsProps): JSX.Element {
   };
 
   return (
-    <Card className={styles.alertsCard}>
-      <h3 className={styles.cardTitle}>Security Alerts (Real-time)</h3>
+    <Card className={styles.alertsCard || ""}>
+      <h3 className={styles.cardTitle || ""}>Security Alerts (Real-time)</h3>
       
-      <div className={styles.alertsList}>
+      <div className={styles.alertsList || ""}>
         {alerts.length === 0 ? (
-          <div className={styles.noAlerts}>
+          <div className={styles.noAlerts || ""}>
             <Badge color="success">✓ All Clear</Badge>
             <span>No security threats detected</span>
           </div>
@@ -57,14 +57,14 @@ export function SecurityAlerts({ alerts }: SecurityAlertsProps): JSX.Element {
           alerts.map((alert) => (
             <div 
               key={alert.id}
-              className={styles.alertItem}
+              className={styles.alertItem || ""}
               onClick={() => handleAlertClick(alert)}
             >
               <Badge color={alert.severity === 'high' ? 'danger' : 'warning'}>
                 {alert.type.toUpperCase()}
               </Badge>
-              <span className={styles.alertMessage}>{alert.message}</span>
-              <span className={styles.alertTime}>
+              <span className={styles.alertMessage || ""}>{alert.message}</span>
+              <span className={styles.alertTime || ""}>
                 {new Date(alert.timestamp).toLocaleTimeString()}
               </span>
             </div>

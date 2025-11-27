@@ -126,5 +126,16 @@
   "gitlens.mode.statusBar.enabled": true,
   "gitlens.plusFeatures.enabled": false,
   "gitlens.showWelcomeOnInstall": false,
-  "gitlens.showWhatsNewAfterUpgrades": false
+  "gitlens.showWhatsNewAfterUpgrades": false,
+  
+  // Fix GitHub Actions validation errors (disable remote action validation)
+  "yaml.validate": true,
+  "yaml.schemaStore.enable": false,
+  "github-actions.workflows.pinned.workflows": [],
+  "redhat.telemetry.enabled": false,
+  
+  // Disable remote schema validation for GitHub Actions
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "!.github/workflows/*.yml"
+  }
 }

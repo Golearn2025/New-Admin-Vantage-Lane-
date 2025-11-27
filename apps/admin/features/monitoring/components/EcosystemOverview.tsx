@@ -7,7 +7,7 @@
 
 'use client';
 
-import { MetricsGrid } from '@vantage-lane/ui-core';
+import { Card } from '@vantage-lane/ui-core';
 import { CrossProjectMetrics } from '@entities/sentry';
 
 interface EcosystemOverviewProps {
@@ -22,5 +22,16 @@ export function EcosystemOverview({ metrics }: EcosystemOverviewProps): JSX.Elem
     { label: "Overall Health", value: metrics?.overallHealth || 'unknown', trendLabel: "ecosystem status" }
   ];
 
-  return <MetricsGrid metrics={metricsData} />;
+  return (
+    <Card className="p-4">
+      <div className="space-y-2">
+        {metricsData.map((metric, index) => (
+          <div key={index} className="flex justify-between">
+            <span>{metric.label}:</span>
+            <span>{metric.value}</span>
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
 }

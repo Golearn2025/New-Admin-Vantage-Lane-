@@ -32,21 +32,21 @@ export function ProjectsStatusList({ metrics }: ProjectsStatusListProps): JSX.El
   };
 
   return (
-    <Card className={styles.projectsCard}>
-      <h3 className={styles.cardTitle}>Projects Status</h3>
+    <Card className={styles.projectsCard || ""}>
+      <h3 className={styles.cardTitle || ""}>Projects Status</h3>
       
-      <div className={styles.projectsList}>
+      <div className={styles.projectsList || ""}>
         {projects.map((project, index) => (
           <div 
             key={index} 
-            className={styles.projectItem}
+            className={styles.projectItem || ""}
             onClick={() => handleProjectClick(project)}
           >
-            <span className={styles.projectName}>{project.name}</span>
+            <span className={styles.projectName || ""}>{project.name}</span>
             <Badge color={project.status === 'active' ? 'success' : 'neutral'}>
               {project.status}
             </Badge>
-            <span className={styles.errors}>{project.errors} errors</span>
+            <span className={styles.errors || ""}>{project.errors} errors</span>
           </div>
         ))}
       </div>

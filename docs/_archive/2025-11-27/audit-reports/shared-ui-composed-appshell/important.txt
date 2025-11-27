@@ -1,0 +1,16 @@
+apps/admin/shared/ui/composed/appshell/Topbar.module.css:22:  left: var(--sidebar-collapsed-width) !important;
+apps/admin/shared/ui/composed/appshell/Topbar.module.css:264:    left: 0 !important; /* Full width pe mobile */
+apps/admin/shared/ui/composed/appshell/AppShell.module.css:28:  margin-left: var(--sidebar-collapsed-width) !important;
+apps/admin/shared/ui/composed/appshell/AppShell.module.css:29:  width: calc(100% - var(--sidebar-collapsed-width)) !important; /* ✅ Mai mult spațiu când sidebar e collapsed */
+apps/admin/shared/ui/composed/appshell/AppShell.module.css:30:  max-width: calc(100% - var(--sidebar-collapsed-width)) !important;
+apps/admin/shared/ui/composed/appshell/AppShell.module.css:72:    margin-left: 0 !important;
+apps/admin/shared/ui/composed/appshell/AppShell.module.css:73:    width: 100% !important;
+apps/admin/shared/ui/composed/appshell/AppShell.module.css:74:    max-width: 100% !important;
+apps/admin/shared/ui/composed/appshell/AppShell.module.css:92:    background: var(--color-bg-primary) !important;
+apps/admin/shared/ui/composed/appshell/Drawer.module.css:85:  position: static !important;
+apps/admin/shared/ui/composed/appshell/Drawer.module.css:86:  display: flex !important;
+apps/admin/shared/ui/composed/appshell/Drawer.module.css:128:    backdrop-filter: none !important;
+apps/admin/shared/ui/composed/appshell/Drawer.module.css:129:    -webkit-backdrop-filter: none !important;
+apps/admin/shared/ui/composed/appshell/Drawer.module.css:144:    background: var(--color-bg-secondary) !important;
+apps/admin/shared/ui/composed/appshell/Drawer.module.css:145:    backdrop-filter: none !important;
+apps/admin/shared/ui/composed/appshell/Drawer.module.css:146:    -webkit-backdrop-filter: none !important;

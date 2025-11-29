@@ -26,7 +26,7 @@ import {
   useSelection,
   useSorting,
 } from '@vantage-lane/ui-core';
-import { useCallback, useMemo, useState } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import type { UsersTableBaseProps } from '../types';
 import { BulkActionsBar } from './BulkActionsBar';
 import styles from './UsersTableBase.module.css';
@@ -94,8 +94,11 @@ export function UsersTableBase({
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
-  // Get selected user IDs from selection hook
-  const selectedUserIds = Array.from(selection.selectedRows).map((user) => user.id);
+  // Get selected user IDs from selection hook - memoized
+  const selectedUserIds = useMemo(() => 
+    Array.from(selection.selectedRows).map((user) => user.id),
+    [selection.selectedRows]
+  );
   const selectedCount = selectedUserIds.length;
 
   const handleBulkDelete = () => {

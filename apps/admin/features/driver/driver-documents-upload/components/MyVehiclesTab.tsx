@@ -7,7 +7,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button } from '@vantage-lane/ui-core';
 import { Plus } from 'lucide-react';
 import { VehicleCard } from './VehicleCard';
@@ -29,49 +29,52 @@ export function MyVehiclesTab() {
     handleUploadDocument,
     handleCloseUploadModal,
     handleUploadFile,
+    reloadVehicles
   } = useMyVehicles();
+
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  // Memoize vehicle cards to prevent re-creation on every render
+  const vehicleCards = useMemo(() => 
+    vehicles.map((vehicle) => (
+      <VehicleCard
+        key={vehicle.id}
+        vehicle={vehicle}
+        onUploadDocument={(vehicleId, docType) => handleUploadDocument(vehicleId, docType)}
+      />
+    )), 
+    [vehicles, handleUploadDocument]
+  );
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className={styles.headerContent}>
-          <h2 className={styles.title}>My Vehicles</h2>
-          <p className={styles.subtitle}>
-            Manage your vehicles and their documents
-          </p>
-        </div>
+        <h2 className={styles.title}>My Vehicles</h2>
         <Button
-          onClick={handleAddVehicle}
+          onClick={() => setShowAddModal(true)}
           variant="primary"
           size="md"
-          leftIcon={<Plus size={16} />}
         >
+          <Plus size={16} />
           Add Vehicle
         </Button>
       </div>
 
       {vehicles.length === 0 ? (
         <div className={styles.empty}>
-          <p className={styles.emptyText}>No vehicles added yet</p>
-          <p className={styles.emptySubtext}>
-            Click "Add Vehicle" to register your first vehicle
-          </p>
+          <div className={styles.emptyIcon}>🚗</div>
+          <h3>No Vehicles Registered</h3>
+          <p>Add your first vehicle to start uploading documents</p>
         </div>
       ) : (
         <div className={styles.grid}>
-          {vehicles.map((vehicle) => (
-            <VehicleCard
-              key={vehicle.id}
-              vehicle={vehicle}
-              onUploadDocument={handleUploadDocument}
-            />
-          ))}
+          {vehicleCards}
         </div>
       )}
 
       <AddVehicleModal
-        isOpen={addVehicleModalOpen}
-        onClose={handleCloseAddVehicle}
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
         onAdd={handleAddVehicleSubmit}
       />
 

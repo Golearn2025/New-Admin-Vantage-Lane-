@@ -7,7 +7,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Modal, Button, Input, Select } from '@vantage-lane/ui-core';
 import { VEHICLE_YEARS, VEHICLE_COLORS, VEHICLE_MAKES, getModelsForMake } from '@entities/vehicle';
 import styles from './AddVehicleModal.module.css';
@@ -59,6 +59,12 @@ export function AddVehicleModal({ isOpen, onClose, onAdd }: AddVehicleModalProps
       setAvailableModels(models);
     }
   }, [formData.make]);
+
+  // Memoize year options to prevent re-creation on every render
+  const yearOptions = useMemo(() => 
+    VEHICLE_YEARS.map(y => ({ value: y.toString(), label: y.toString() })),
+    []
+  );
 
   const validateForm = (): string | null => {
     if (!formData.licensePlate.trim()) return 'License plate is required';
@@ -166,7 +172,7 @@ export function AddVehicleModal({ isOpen, onClose, onAdd }: AddVehicleModalProps
             <Select
               value={formData.year.toString()}
               onChange={(value) => handleChange('year', parseInt(value.toString()))}
-              options={VEHICLE_YEARS.map(y => ({ value: y.toString(), label: y.toString() }))}
+              options={yearOptions}
               disabled={isSubmitting}
               fullWidth
             />

@@ -20,6 +20,46 @@ interface UnifiedUser {
   createdAt: string;
 }
 
+// Type definitions for database rows
+interface CustomerData {
+  id: string;
+  email: string;
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  status: string;
+  created_at: string;
+}
+
+interface DriverData {
+  id: string;
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  is_active: boolean;
+  created_at: string;
+}
+
+interface AdminData {
+  id: string;
+  email: string;
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  is_active: boolean;
+  created_at: string;
+}
+
+interface OperatorData {
+  id: string;
+  name?: string;
+  contact_email?: string;
+  contact_phone?: string;
+  is_active: boolean;
+  created_at: string;
+}
+
 export async function GET(request: NextRequest) {
   const startTime = Date.now();
 
@@ -132,49 +172,49 @@ export async function GET(request: NextRequest) {
 }
 
 // Transform functions <50 lines each
-function mapCustomer(c: any): UnifiedUser {
+function mapCustomer(c: CustomerData): UnifiedUser {
   return {
     id: c.id,
     userType: 'customer',
     name: `${c.first_name || ''} ${c.last_name || ''}`.trim() || 'No Name',
     email: c.email,
-    phone: c.phone,
+    phone: c.phone || null,
     status: c.status === 'active' ? 'active' : 'inactive',
     createdAt: c.created_at,
   };
 }
 
-function mapDriver(d: any): UnifiedUser {
+function mapDriver(d: DriverData): UnifiedUser {
   return {
     id: d.id,
     userType: 'driver',
     name: `${d.first_name || ''} ${d.last_name || ''}`.trim() || 'No Name',
     email: d.email || 'no-email@example.com',
-    phone: d.phone,
+    phone: d.phone || null,
     status: d.is_active ? 'active' : 'inactive',
     createdAt: d.created_at,
   };
 }
 
-function mapAdmin(a: any): UnifiedUser {
+function mapAdmin(a: AdminData): UnifiedUser {
   return {
     id: a.id,
     userType: 'admin',
     name: `${a.first_name || ''} ${a.last_name || ''}`.trim() || 'No Name',
     email: a.email,
-    phone: a.phone,
+    phone: a.phone || null,
     status: a.is_active ? 'active' : 'inactive',
     createdAt: a.created_at,
   };
 }
 
-function mapOperator(o: any): UnifiedUser {
+function mapOperator(o: OperatorData): UnifiedUser {
   return {
     id: o.id,
     userType: 'operator',
     name: o.name || 'Unnamed Operator',
     email: o.contact_email || 'no-email@example.com',
-    phone: o.contact_phone,
+    phone: o.contact_phone || null,
     status: o.is_active ? 'active' : 'inactive',
     createdAt: o.created_at,
   };

@@ -7,6 +7,7 @@
 
 'use client';
 
+import { useMemo } from 'react';
 import { Card, Badge, DataTable } from '@vantage-lane/ui-core';
 import { useSystemEvents } from '../hooks/useSystemEvents';
 import { eventsColumns } from '../columns/eventsColumns';
@@ -15,11 +16,33 @@ import styles from './EventsTab.module.css';
 export function EventsTab(): JSX.Element {
   const { events, alerts, loading } = useSystemEvents();
 
+  // Memoize alert items to prevent re-creation on every render
+  const alertItems = useMemo(() => 
+    alerts.map((alert) => (
+      <div key={alert.id} className={styles.alertItem || ""}>
+        <div className={styles.alertHeader || ""}>
+          <Badge color={
+            alert.severity === 'critical' ? 'danger' :
+            alert.severity === 'high' ? 'warning' :
+            alert.severity === 'medium' ? 'info' : 'neutral'
+          }>
+            {alert.severity.toUpperCase()}
+          </Badge>
+          <span className={styles.alertTime || ""}>
+            {new Date(alert.timestamp).toLocaleTimeString()}
+          </span>
+        </div>
+        <h4 className={styles.alertTitle || ""}>{alert.title}</h4>
+        <p className={styles.alertDescription || ""}>{alert.description}</p>
+      </div>
+    )), 
+    [alerts]
+  );
+
   if (loading) {
     return (
       <div className={styles.loading || ""}>
-        <div className={styles.spinner || ""}></div>
-        <p>Loading events...</p>
+        Loading system events...
       </div>
     );
   }
@@ -32,24 +55,7 @@ export function EventsTab(): JSX.Element {
           <h3 className={styles.cardTitle || ""}>Critical Alerts</h3>
           
           <div className={styles.alertsList || ""}>
-            {alerts.map((alert) => (
-              <div key={alert.id} className={styles.alertItem || ""}>
-                <div className={styles.alertHeader || ""}>
-                  <Badge color={
-                    alert.severity === 'critical' ? 'danger' :
-                    alert.severity === 'high' ? 'warning' :
-                    alert.severity === 'medium' ? 'info' : 'neutral'
-                  }>
-                    {alert.severity.toUpperCase()}
-                  </Badge>
-                  <span className={styles.alertTime || ""}>
-                    {new Date(alert.timestamp).toLocaleTimeString()}
-                  </span>
-                </div>
-                <h4 className={styles.alertTitle || ""}>{alert.title}</h4>
-                <p className={styles.alertDescription || ""}>{alert.description}</p>
-              </div>
-            ))}
+            {alertItems}
           </div>
         </Card>
       )}

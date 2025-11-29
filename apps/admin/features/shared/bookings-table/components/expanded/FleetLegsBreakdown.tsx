@@ -9,7 +9,7 @@
  * Compliant: <200 lines, 100% design tokens, TypeScript strict
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { BookingLeg } from '@vantage-lane/contracts';
 import { formatCurrency } from '@/shared/utils/formatters';
 import { InfoSection } from './InfoSection';
@@ -43,11 +43,15 @@ export function FleetLegsBreakdown({ legs, currency = 'GBP' }: FleetLegsBreakdow
     return acc;
   }, {} as Record<string, BookingLeg[]>);
 
-  const categoryGroups: CategoryGroup[] = Object.entries(groupedLegs).map(([category, categoryLegs]) => ({
-    category,
-    legs: categoryLegs,
-    total: categoryLegs.reduce((sum: number, leg: BookingLeg) => sum + parseFloat(leg.leg_price || '0'), 0)
-  }));
+  // Memoize category groups to prevent re-creation on every render
+  const categoryGroups: CategoryGroup[] = useMemo(() => 
+    Object.entries(groupedLegs).map(([category, categoryLegs]) => ({
+      category,
+      legs: categoryLegs,
+      total: categoryLegs.reduce((sum: number, leg: BookingLeg) => sum + parseFloat(leg.leg_price || '0'), 0)
+    })), 
+    [groupedLegs]
+  );
 
   const getCategoryIcon = (category: string): string => {
     const icons: Record<string, string> = {

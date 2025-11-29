@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import styles from './BookingPriceBreakdown.module.css';
 
@@ -35,6 +35,29 @@ export interface BookingPriceBreakdownProps {
 export function BookingPriceBreakdown({ breakdown, details }: BookingPriceBreakdownProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // Memoize details list to prevent re-creation on every render
+  const detailsList = useMemo(() => 
+    details?.map((detail, index) => (
+      <div key={index} className={styles.detailRow}>
+        <span className={styles.detailLabel}>{detail.description}</span>
+        <span className={styles.detailValue}>
+          {detail.amount >= 0 ? '£' : '-£'}{Math.abs(detail.amount).toFixed(2)}
+        </span>
+      </div>
+    )) || [], 
+    [details]
+  );
+
+  // Memoize surge multipliers text
+  const surgeText = useMemo(() => {
+    if (!breakdown?.multipliers || Object.keys(breakdown.multipliers).length === 0) return null;
+    
+    return Object.keys(breakdown.multipliers).map(key => {
+      const multiplier = breakdown.multipliers?.[key] || 1;
+      return `${key} (+${((multiplier - 1) * 100).toFixed(0)}%)`;
+    }).join(', ');
+  }, [breakdown?.multipliers]);
+
   if (!breakdown || !details) {
     return (
       <div className={styles.container}>
@@ -56,21 +79,11 @@ export function BookingPriceBreakdown({ breakdown, details }: BookingPriceBreakd
 
       {isExpanded && (
         <div className={styles.details}>
-          {details.map((detail, index) => (
-            <div key={index} className={styles.detailRow}>
-              <span className={styles.detailLabel}>{detail.description}</span>
-              <span className={styles.detailValue}>
-                {detail.amount >= 0 ? '£' : '-£'}{Math.abs(detail.amount).toFixed(2)}
-              </span>
-            </div>
-          ))}
+          {detailsList}
 
-          {breakdown.multipliers && Object.keys(breakdown.multipliers).length > 0 && (
+          {surgeText && (
             <div className={styles.surgeBadge}>
-              🔥 Surge Applied: {Object.keys(breakdown.multipliers).map(key => {
-                const multiplier = breakdown.multipliers?.[key] || 1;
-                return `${key} (+${((multiplier - 1) * 100).toFixed(0)}%)`;
-              }).join(', ')}
+              🔥 Surge Applied: {surgeText}
             </div>
           )}
         </div>

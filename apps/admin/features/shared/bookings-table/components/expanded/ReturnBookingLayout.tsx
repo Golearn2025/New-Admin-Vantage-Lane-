@@ -11,7 +11,7 @@
 
 import { XCircle, CheckCircle, RefreshCw, Sparkles, Hourglass } from 'lucide-react';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { BookingListItem } from '@vantage-lane/contracts';
 import { useBookingLegs } from '../../hooks/useBookingLegs';
 import { BookingLegCard } from './BookingLegCard';
@@ -32,6 +32,32 @@ export function ReturnBookingLayout({
   premiumServices = [],
 }: ReturnBookingLayoutProps) {
   const { legs, loading, error } = useBookingLegs(booking.id);
+
+  // Memoize leg cards to prevent re-creation on every render
+  const legCards = useMemo(() => 
+    legs.map((leg) => (
+      <BookingLegCard
+        key={leg.id}
+        leg={leg}
+        onAssignDriver={(id) => console.log('Assign driver to leg:', id)}
+        onChangeDriver={(id) => console.log('Change driver for leg:', id)}
+        onNotifyDriver={(id) => console.log('Notify driver for leg:', id)}
+        onCancelLeg={(id) => console.log('Cancel leg:', id)}
+      />
+    )), 
+    [legs]
+  );
+
+  // Memoize free services list to prevent re-creation on every render
+  const freeServicesList = useMemo(() => 
+    freeServices.map((service, idx) => (
+      <span key={idx} className={styles.serviceItem}>
+        ✅ {service.service_code}
+        {service.notes && ` (${service.notes})`}
+      </span>
+    )), 
+    [freeServices]
+  );
 
   if (loading) {
     return (
@@ -90,16 +116,7 @@ export function ReturnBookingLayout({
       <div className={styles.legsSection}>
         <h3 className={styles.legsTitle}>🔄 Return Journey Legs</h3>
         {legs.length > 0 ? (
-          legs.map((leg) => (
-            <BookingLegCard
-              key={leg.id}
-              leg={leg}
-              onAssignDriver={(id) => console.log('Assign driver to leg:', id)}
-              onChangeDriver={(id) => console.log('Change driver for leg:', id)}
-              onNotifyDriver={(id) => console.log('Notify driver for leg:', id)}
-              onCancelLeg={(id) => console.log('Cancel leg:', id)}
-            />
-          ))
+          legCards
         ) : (
           <div className={styles.noLegs}>
             <span className={styles.noLegsIcon}>⚠️</span>
@@ -114,12 +131,7 @@ export function ReturnBookingLayout({
       {freeServices.length > 0 && (
         <InfoSection title="Included Services" icon="✨" variant="compact">
           <div className={styles.servicesList}>
-            {freeServices.map((service, idx) => (
-              <span key={idx} className={styles.serviceItem}>
-                ✅ {service.service_code}
-                {service.notes && ` (${service.notes})`}
-              </span>
-            ))}
+            {freeServicesList}
           </div>
         </InfoSection>
       )}

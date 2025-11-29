@@ -6,7 +6,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button } from '@vantage-lane/ui-core';
 import { Save } from 'lucide-react';
 import { TimeMultipliersTable, type TimeRow } from './surge/TimeMultipliersTable';
@@ -39,22 +39,28 @@ export function SurgeMultipliersTab({ config }: Props) {
     });
   };
 
-  // map data for extracted tables
-  const timeRows: TimeRow[] = timeMultipliers.map(([key, m]) => ({
-    id: key,
-    label: m.label,
-    value: m.value,
-    start: m.start_time ?? null,
-    end: m.end_time ?? null,
-    active: m.active,
-  }));
+  // Memoize data transformation for tables to prevent re-creation on every render
+  const timeRows: TimeRow[] = useMemo(() => 
+    timeMultipliers.map(([key, m]) => ({
+      id: key,
+      label: m.label,
+      value: m.value,
+      start: m.start_time ?? null,
+      end: m.end_time ?? null,
+      active: m.active,
+    })), 
+    [timeMultipliers]
+  );
 
-  const eventRows: EventRow[] = eventMultipliers.map(([key, m]) => ({
-    id: key,
-    label: m.label,
-    value: m.value,
-    active: m.active,
-  }));
+  const eventRows: EventRow[] = useMemo(() => 
+    eventMultipliers.map(([key, m]) => ({
+      id: key,
+      label: m.label,
+      value: m.value,
+      active: m.active,
+    })), 
+    [eventMultipliers]
+  );
 
   const handleSaveMultipliers = async () => {
     try {

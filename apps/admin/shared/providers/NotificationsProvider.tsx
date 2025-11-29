@@ -20,7 +20,7 @@ import {
   markAsUnread,
   type NotificationData,
 } from '@entities/notification';
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
 
 interface NotificationsContextValue {
   notifications: NotificationData[];
@@ -48,6 +48,31 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
+
+  // Memoized utility functions for notifications array operations
+  const updateNotificationById = useCallback((id: string, updates: Partial<NotificationData>) => 
+    (prev: NotificationData[]) => 
+      prev.map((n) => (n.id === id ? { ...n, ...updates } : n)), 
+    []
+  );
+
+  const updateNotificationsByIds = useCallback((ids: string[], updates: Partial<NotificationData>) => 
+    (prev: NotificationData[]) => 
+      prev.map((n) => (ids.includes(n.id) ? { ...n, ...updates } : n)), 
+    []
+  );
+
+  const markAllNotificationsAsRead = useCallback(() => 
+    (prev: NotificationData[]) => 
+      prev.map((n) => ({ ...n, read: true })), 
+    []
+  );
+
+  const replaceNotificationById = useCallback((id: string, updatedNotification: NotificationData) => 
+    (prev: NotificationData[]) => 
+      prev.map((n) => (n.id === id ? updatedNotification : n)), 
+    []
+  );
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // 🔄 DETECT USER CHANGE and reset notifications cache
@@ -251,9 +276,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
               targetType: raw.target_type,
             };
 
-            setNotifications((prev) =>
-              prev.map((n) => (n.id === updatedNotif.id ? updatedNotif : n))
-            );
+            setNotifications(replaceNotificationById(updatedNotif.id, updatedNotif));
 
             // Update unread count if read status changed
             const wasRead = oldRaw.read_at !== null;
@@ -308,9 +331,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
       await markAsRead(notificationId);
 
       // Update local state
-      setNotifications((prev) =>
-        prev.map((n) => (n.id === notificationId ? { ...n, read: true } : n))
-      );
+      setNotifications(updateNotificationById(notificationId, { read: true }));
       setUnreadCount((prev) => Math.max(0, prev - 1));
     } catch (error) {
       console.error('Failed to mark as read:', error);
@@ -324,7 +345,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
       await markAllAsRead(userId);
 
       // Update local state
-      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+      setNotifications(markAllNotificationsAsRead());
       setUnreadCount(0);
     } catch (error) {
       console.error('Failed to mark all as read:', error);
@@ -336,9 +357,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
       await markAsUnread(notificationId);
 
       // Update local state
-      setNotifications((prev) =>
-        prev.map((n) => (n.id === notificationId ? { ...n, read: false } : n))
-      );
+      setNotifications(updateNotificationById(notificationId, { read: false }));
 
       // Update unread count
       const notification = notifications.find((n) => n.id === notificationId);
@@ -427,9 +446,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
         (n) => notificationIds.includes(n.id) && !n.read
       ).length;
 
-      setNotifications((prev) =>
-        prev.map((n) => (notificationIds.includes(n.id) ? { ...n, read: true } : n))
-      );
+      setNotifications(updateNotificationsByIds(notificationIds, { read: true }));
       setUnreadCount((prev) => Math.max(0, prev - unreadToRead));
     } catch (error) {
       console.error('Failed to bulk mark read:', error);
@@ -445,9 +462,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
         (n) => notificationIds.includes(n.id) && n.read
       ).length;
 
-      setNotifications((prev) =>
-        prev.map((n) => (notificationIds.includes(n.id) ? { ...n, read: false } : n))
-      );
+      setNotifications(updateNotificationsByIds(notificationIds, { read: false }));
       setUnreadCount((prev) => prev + readToUnread);
     } catch (error) {
       console.error('Failed to bulk mark unread:', error);

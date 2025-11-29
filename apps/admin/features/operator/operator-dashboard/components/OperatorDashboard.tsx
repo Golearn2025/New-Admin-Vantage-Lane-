@@ -5,13 +5,47 @@
  * Dashboard for operators - shows ONLY their data
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { CheckCircle, ClipboardList, Hourglass, User } from 'lucide-react';
 import { useOperatorDashboard } from '../hooks/useOperatorDashboard';
 import styles from './OperatorDashboard.module.css';
 
 export function OperatorDashboard() {
   const { stats, recentDrivers, notifications, loading } = useOperatorDashboard();
+
+  // Memoize driver cards to prevent re-creation on every render
+  const driverCards = useMemo(() => 
+    recentDrivers.map((driver) => (
+      <div key={driver.id} className={styles.driverCard}>
+        <div className={styles.driverInfo}>
+          <div className={styles.driverAvatar}>{driver.firstName[0]}{driver.lastName[0]}</div>
+          <div className={styles.driverDetails}>
+            <div className={styles.driverName}>{driver.firstName} {driver.lastName}</div>
+            <div className={styles.driverStatus}>{driver.status}</div>
+          </div>
+        </div>
+        <div className={styles.driverActions}>
+          <button className={styles.viewButton}>View Profile</button>
+        </div>
+      </div>
+    )), 
+    [recentDrivers]
+  );
+
+  // Memoize notification cards to prevent re-creation on every render
+  const notificationCards = useMemo(() => 
+    notifications.map((notif) => (
+      <div key={notif.id} className={styles.notifCard}>
+        <div className={styles.notifIcon}>{notif.type === 'driver_assigned' ? '👤' : '📋'}</div>
+        <div className={styles.notifContent}>
+          <div className={styles.notifTitle}>{notif.title}</div>
+          <div className={styles.notifMessage}>{notif.message}</div>
+          <div className={styles.notifTime}>{new Date(notif.createdAt).toLocaleDateString()}</div>
+        </div>
+      </div>
+    )), 
+    [notifications]
+  );
 
   if (loading) {
     return <div className={styles.loading}>Loading your dashboard...</div>;
@@ -60,20 +94,7 @@ export function OperatorDashboard() {
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Recently Added Drivers</h2>
         <div className={styles.driversList}>
-          {recentDrivers.map((driver) => (
-            <div key={driver.id} className={styles.driverCard}>
-              <div className={styles.driverInfo}>
-                <div className={styles.driverAvatar}>{driver.firstName[0]}{driver.lastName[0]}</div>
-                <div className={styles.driverDetails}>
-                  <div className={styles.driverName}>{driver.firstName} {driver.lastName}</div>
-                  <div className={styles.driverEmail}>{driver.email}</div>
-                </div>
-              </div>
-              <span className={driver.status === 'pending' ? styles.statusPending : styles.statusActive}>
-                {driver.status === 'pending' ? '⏳ Pending' : '✓ Active'}
-              </span>
-            </div>
-          ))}
+          {driverCards}
         </div>
       </div>
 
@@ -81,16 +102,7 @@ export function OperatorDashboard() {
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Recent Notifications</h2>
         <div className={styles.notifsList}>
-          {notifications.map((notif) => (
-            <div key={notif.id} className={styles.notifCard}>
-              <div className={styles.notifIcon}>{notif.type === 'driver_assigned' ? '👤' : '📋'}</div>
-              <div className={styles.notifContent}>
-                <div className={styles.notifTitle}>{notif.title}</div>
-                <div className={styles.notifMessage}>{notif.message}</div>
-                <div className={styles.notifTime}>{new Date(notif.createdAt).toLocaleString()}</div>
-              </div>
-            </div>
-          ))}
+          {notificationCards}
         </div>
       </div>
     </div>

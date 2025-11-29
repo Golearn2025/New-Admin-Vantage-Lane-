@@ -1,7 +1,7 @@
 'use client';
 
 import { CheckCircle, Inbox, Bell, Trash, RotateCcw } from 'lucide-react';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
 /**
  * My Notifications Tab
@@ -52,6 +52,68 @@ export function MyNotificationsTab({ highlightId }: MyNotificationsTabProps) {
         n.message.toLowerCase().includes(search.toLowerCase())
       );
     });
+
+  // Memoize notification items with REAL-TIME support - CRITICAL dependencies!
+  const notificationItems = useMemo(() => 
+    filteredNotifications.map((notification) => {
+      const isSelected = bulk.selectedIds.has(notification.id);
+      const isCurrentLoading = bulk.loadingAction?.id === notification.id;
+      const currentAction = isCurrentLoading ? bulk.loadingAction?.action : undefined;
+      
+      const isHighlighted = highlightId === notification.id;
+
+      return (
+        <div
+          key={notification.id}
+          ref={isHighlighted ? highlightRef : null}
+          className={`${styles.item} ${!notification.read ? styles.unread : ''} ${isSelected ? styles.selected : ''} ${isHighlighted ? styles.highlighted : ''}`}
+        >
+          <div className={styles.itemSelector}>
+            <Checkbox
+              checked={isSelected}
+              onChange={() => bulk.handleSelectNotification(notification.id)}
+              disabled={bulk.loading}
+            />
+          </div>
+          
+          <div 
+            className={styles.itemContent}
+            onClick={() => !notification.read && markAsRead(notification.id)}
+          >
+            <div className={styles.itemHeader}>
+              <h3 className={styles.itemTitle}>{notification.title}</h3>
+              <span className={styles.itemTime}>
+                {formatNotificationDate(notification.createdAt)}
+              </span>
+            </div>
+            <p className={styles.itemMessage}>{notification.message}</p>
+            {!notification.read && <span className={styles.unreadDot} />}
+          </div>
+          
+          <div className={styles.itemActions}>
+            <NotificationActions
+              notification={{
+                id: notification.id,
+                read: notification.read,
+                title: notification.title,
+              }}
+              onMarkRead={markAsRead}
+              onMarkUnread={bulk.handleMarkUnread}
+              onDelete={deleteNotification}
+              compact={false}
+              showLabels={true}
+              showConfirm={true}
+              loading={isCurrentLoading && !bulk.loading}
+              {...(currentAction && { loadingAction: currentAction })}
+            />
+          </div>
+        </div>
+      );
+    }), 
+    // CRITICAL: All real-time dependencies included!
+    [filteredNotifications, bulk.selectedIds, bulk.loadingAction, bulk.loading, bulk.handleSelectNotification, 
+     bulk.handleMarkUnread, highlightId, markAsRead, deleteNotification]
+  );
 
   // Computed values from hook
   const isAllSelected = bulk.isAllSelected(filteredNotifications);
@@ -184,61 +246,7 @@ export function MyNotificationsTab({ highlightId }: MyNotificationsTabProps) {
             <p>No notifications found</p>
           </div>
         ) : (
-          filteredNotifications.map((notification) => {
-            const isSelected = bulk.selectedIds.has(notification.id);
-            const isCurrentLoading = bulk.loadingAction?.id === notification.id;
-            const currentAction = isCurrentLoading ? bulk.loadingAction?.action : undefined;
-            
-            const isHighlighted = highlightId === notification.id;
-
-            return (
-              <div
-                key={notification.id}
-                ref={isHighlighted ? highlightRef : null}
-                className={`${styles.item} ${!notification.read ? styles.unread : ''} ${isSelected ? styles.selected : ''} ${isHighlighted ? styles.highlighted : ''}`}
-              >
-                <div className={styles.itemSelector}>
-                  <Checkbox
-                    checked={isSelected}
-                    onChange={() => bulk.handleSelectNotification(notification.id)}
-                    disabled={bulk.loading}
-                  />
-                </div>
-                
-                <div 
-                  className={styles.itemContent}
-                  onClick={() => !notification.read && markAsRead(notification.id)}
-                >
-                  <div className={styles.itemHeader}>
-                    <h3 className={styles.itemTitle}>{notification.title}</h3>
-                    <span className={styles.itemTime}>
-                      {formatNotificationDate(notification.createdAt)}
-                    </span>
-                  </div>
-                  <p className={styles.itemMessage}>{notification.message}</p>
-                  {!notification.read && <span className={styles.unreadDot} />}
-                </div>
-
-                <div className={styles.itemActions}>
-                  <NotificationActions
-                    notification={{
-                      id: notification.id,
-                      read: notification.read,
-                      title: notification.title,
-                    }}
-                    onMarkRead={markAsRead}
-                    onMarkUnread={bulk.handleMarkUnread}
-                    onDelete={deleteNotification}
-                    compact={false}
-                    showLabels={true}
-                    showConfirm={true}
-                    loading={isCurrentLoading && !bulk.loading}
-                    {...(currentAction && { loadingAction: currentAction })}
-                  />
-                </div>
-              </div>
-            );
-          })
+          notificationItems
         )}
       </div>
     </div>

@@ -10,7 +10,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Card, Checkbox, Button, ErrorBanner } from '@vantage-lane/ui-core';
 import { Save, Briefcase } from 'lucide-react';
 import { listJobCategories, getDriverJobTypes, updateDriverJobTypes } from '@entities/vehicle';
@@ -29,6 +29,26 @@ export function SettingsTab({ driverId, adminId }: SettingsTabProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  // Memoize category cards to prevent re-creation on every render
+  const categoryCards = useMemo(() => 
+    categories.map(category => (
+      <div key={category.id} className={styles.categoryCard}>
+        <Checkbox
+          id={`category-${category.id}`}
+          checked={selectedCategories.has(category.id)}
+          onChange={() => handleToggleCategory(category.id)}
+          label={category.name}
+        />
+        {category.description && (
+          <p className={styles.categoryDescription}>
+            {category.description}
+          </p>
+        )}
+      </div>
+    )), 
+    [categories, selectedCategories]
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -127,21 +147,7 @@ export function SettingsTab({ driverId, adminId }: SettingsTabProps) {
         </div>
 
         <div className={styles.categoriesGrid}>
-          {categories.map(category => (
-            <div key={category.id} className={styles.categoryCard}>
-              <Checkbox
-                id={`category-${category.id}`}
-                checked={selectedCategories.has(category.id)}
-                onChange={() => handleToggleCategory(category.id)}
-                label={category.name}
-              />
-              {category.description && (
-                <p className={styles.categoryDescription}>
-                  {category.description}
-                </p>
-              )}
-            </div>
-          ))}
+          {categoryCards}
         </div>
 
         {successMessage && (

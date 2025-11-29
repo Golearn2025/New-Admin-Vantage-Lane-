@@ -5,7 +5,7 @@
  * File: < 200 lines (RULES.md compliant)
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card, Badge, Icon } from '@vantage-lane/ui-core';
 import { formatHour, formatNumber } from '@entities/business-intelligence';
 import { EmptyStateCard } from './EmptyStateCard';
@@ -30,20 +30,67 @@ export function PeakHoursTab({ data, hasData }: PeakHoursTabProps) {
 
   const { peakHours } = data;
   
-  // Sort by hour for display
-  const sortedHours = [...peakHours].sort((a, b) => a.hourOfDay - b.hourOfDay);
+  // Memoize calculations to prevent re-computation on every render
+  const sortedHours = useMemo(() => 
+    [...peakHours].sort((a, b) => a.hourOfDay - b.hourOfDay), 
+    [peakHours]
+  );
   
-  // Find peak hour
-  const peakHour = peakHours.reduce((max, hour) => 
-    hour.bookingsCount > max.bookingsCount ? hour : max
+  const peakHour = useMemo(() => 
+    peakHours.reduce((max, hour) => 
+      hour.bookingsCount > max.bookingsCount ? hour : max
+    ), 
+    [peakHours]
   );
 
-  // Prepare chart data
-  const chartData = sortedHours.map(hour => ({
-    name: formatHour(hour.hourOfDay),
-    value: hour.bookingsCount,
-    hour: hour.hourOfDay,
-  }));
+  const chartData = useMemo(() => 
+    sortedHours.map(hour => ({
+      name: formatHour(hour.hourOfDay),
+      value: hour.bookingsCount,
+      hour: hour.hourOfDay,
+    })), 
+    [sortedHours]
+  );
+
+  // Memoize chart bars for performance
+  const chartBars = useMemo(() => 
+    sortedHours.slice(0, 12).map(hour => (
+      <div key={hour.hourOfDay} className={styles.chartBar}>
+        <div 
+          className={styles.chartBarFill}
+          style={{
+            height: `${(hour.bookingsCount / peakHour.bookingsCount) * 100}%`
+          }}
+        />
+        <span className={styles.chartBarLabel}>
+          {hour.hourOfDay}h
+        </span>
+      </div>
+    )), 
+    [sortedHours, peakHour.bookingsCount]
+  );
+
+  // Memoize hours list for breakdown table
+  const hoursList = useMemo(() => 
+    sortedHours.map((hour) => (
+      <div key={hour.hourOfDay} className={styles.hourRow}>
+        <div className={styles.hourTime}>
+          <Icon name="clock" size="sm" />
+          <span>{formatHour(hour.hourOfDay)}</span>
+        </div>
+        <div className={styles.hourStats}>
+          <Badge 
+            color={hour.bookingsCount === peakHour.bookingsCount ? 'success' : 'info'}
+            variant="outline"
+            size="sm"
+          >
+            {formatNumber(hour.bookingsCount)} bookings
+          </Badge>
+        </div>
+      </div>
+    )), 
+    [sortedHours, peakHour.bookingsCount]
+  );
 
   return (
     <div className={styles.peakHoursContainer}>
@@ -80,19 +127,7 @@ export function PeakHoursTab({ data, hasData }: PeakHoursTabProps) {
           <div className={styles.chartPlaceholder}>
             <Icon name="clock" size="lg" />
             <div className={styles.chartBars}>
-              {sortedHours.slice(0, 12).map(hour => (
-                <div key={hour.hourOfDay} className={styles.chartBar}>
-                  <div 
-                    className={styles.chartBarFill}
-                    style={{
-                      height: `${(hour.bookingsCount / peakHour.bookingsCount) * 100}%`
-                    }}
-                  />
-                  <span className={styles.chartBarLabel}>
-                    {hour.hourOfDay}h
-                  </span>
-                </div>
-              ))}
+              {chartBars}
             </div>
           </div>
         </div>
@@ -103,35 +138,7 @@ export function PeakHoursTab({ data, hasData }: PeakHoursTabProps) {
         <h3 className={styles.breakdownTitle}>Hourly Breakdown</h3>
         
         <div className={styles.hoursList}>
-          {sortedHours.map((hour) => (
-            <div key={hour.hourOfDay} className={styles.hourRow}>
-              <div className={styles.hourTime}>
-                <Icon name="clock" size="sm" />
-                <span>{formatHour(hour.hourOfDay)}</span>
-              </div>
-              
-              <div className={styles.hourStats}>
-                <Badge color="neutral" variant="outline" size="sm">
-                  {formatNumber(hour.bookingsCount)} bookings
-                </Badge>
-                
-                <div className={styles.hourStats}>
-                  <Icon name="trending-up" size="sm" />
-                  <span>{hour.averageDistance > 0 ? `${hour.averageDistance}mi` : 'Variat'}</span>
-                </div>
-              </div>
-
-              {/* Progress bar */}
-              <div className={styles.hourProgress}>
-                <div 
-                  className={styles.hourProgressBar}
-                  style={{
-                    width: `${(hour.bookingsCount / peakHour.bookingsCount) * 100}%`
-                  }}
-                />
-              </div>
-            </div>
-          ))}
+          {hoursList}
         </div>
       </Card>
 

@@ -7,7 +7,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button, Input, EnterpriseDataTable } from '@vantage-lane/ui-core';
 import type { Column } from '@vantage-lane/ui-core';
 import { OctagonAlert, Route } from 'lucide-react';
@@ -41,21 +41,28 @@ export function ZoneFeesTab({ config }: Props) {
     type: 'congestion' | 'toll';
   };
 
-  const congestionData: ZoneRow[] = congestionZones.map(([code, zone]) => ({
-    id: code,
-    name: zone.name,
-    code: code.toUpperCase(),
-    fee: zone.fee,
-    type: 'congestion',
-  }));
+  // Memoize data transformation to prevent re-creation on every render
+  const congestionData: ZoneRow[] = useMemo(() => 
+    congestionZones.map(([code, zone]) => ({
+      id: code,
+      name: zone.name,
+      code: code.toUpperCase(),
+      fee: zone.fee,
+      type: 'congestion',
+    })), 
+    [congestionZones]
+  );
 
-  const tollData: ZoneRow[] = tollZones.map(([code, zone]) => ({
-    id: code,
-    name: zone.name,
-    code: code.toUpperCase(),
-    fee: zone.fee,
-    type: 'toll',
-  }));
+  const tollData: ZoneRow[] = useMemo(() => 
+    tollZones.map(([code, zone]) => ({
+      id: code,
+      name: zone.name,
+      code: code.toUpperCase(),
+      fee: zone.fee,
+      type: 'toll',
+    })), 
+    [tollZones]
+  );
 
   const commonColumns: Column<ZoneRow>[] = [
     {

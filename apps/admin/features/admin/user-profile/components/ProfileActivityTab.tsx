@@ -7,7 +7,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getDriverBookings } from '@entities/driver/api/driverApi';
 import { getCustomerBookings } from '@entities/customer/api/customerApi';
 import type { UserType } from '../types';
@@ -58,6 +58,101 @@ interface Booking {
 export function ProfileActivityTab({ userId, userType, className }: ProfileActivityTabProps) {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Memoize service badges to prevent re-creation on every render
+  const getServiceBadges = useMemo(() => {
+    const createServiceBadges = (services: any[]) => 
+      services.map((service, idx) => {
+        const isFree = (service.unit_price || 0) === 0;
+        const serviceName = service.service_code.replace(/_/g, ' ');
+        return (
+          <span 
+            key={idx} 
+            className={`${styles.serviceBadge} ${isFree ? styles.serviceFree : styles.servicePaid}`}
+          >
+            {serviceName}
+            {!isFree && (
+              <span className={styles.servicePrice}> +£{service.unit_price}</span>
+            )}
+            {isFree && <span className={styles.freeTag}>FREE</span>}
+          </span>
+        );
+      });
+    return createServiceBadges;
+  }, []);
+
+  // Memoize booking timeline items to prevent re-creation on every render
+  const bookingTimelineItems = useMemo(() => 
+    bookings.map((booking) => (
+      <div key={booking.id} className={styles.timelineItem}>
+        <div className={styles.timelineDot} />
+        <div className={styles.bookingCard}>
+          <div className={styles.cardHeader}>
+            <span className={styles.reference}>#{booking.reference}</span>
+            <span className={`${styles.statusBadge} ${styles[`status${capitalize(booking.status)}`]}`}>
+              {booking.status}
+            </span>
+          </div>
+          
+          <div className={styles.cardBody}>
+            {/* Locations */}
+            {getLocation(booking.segments, 'pickup') && (
+              <div className={styles.detail}>
+                <span className={styles.label}>📍 Pickup:</span>
+                <span className={styles.value}>{getLocation(booking.segments, 'pickup')}</span>
+              </div>
+            )}
+            {getLocation(booking.segments, 'dropoff') && (
+              <div className={styles.detail}>
+                <span className={styles.label}>🎯 Dropoff:</span>
+                <span className={styles.value}>{getLocation(booking.segments, 'dropoff')}</span>
+              </div>
+            )}
+
+            {/* Date & Time */}
+            <div className={styles.detail}>
+              <span className={styles.label}>📅 Date:</span>
+              <span className={styles.value}>
+                {new Date(booking.start_at).toLocaleDateString('en-GB', { 
+                  day: '2-digit', 
+                  month: 'short', 
+                  year: 'numeric' 
+                })}
+              </span>
+            </div>
+
+            {/* Price */}
+            {formatPrice(booking.pricing) && (
+              <div className={styles.detail}>
+                <span className={styles.label}>💰 Price:</span>
+                <span className={styles.value}>{formatPrice(booking.pricing)}</span>
+              </div>
+            )}
+
+            {/* Flight Number */}
+            {booking.flight_number && (
+              <div className={styles.detail}>
+                <span className={styles.label}>✈️ Flight:</span>
+                <span className={styles.value}>{booking.flight_number}</span>
+              </div>
+            )}
+
+          </div>
+
+          {/* Services Section - Horizontal Badges */}
+          {booking.services && booking.services.length > 0 && (
+            <div className={styles.servicesSection}>
+              <h4 className={styles.servicesTitle}>Services Included:</h4>
+              <div className={styles.servicesBadges}>
+                {getServiceBadges(booking.services)}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    )), 
+    [bookings, getServiceBadges]
+  );
 
   useEffect(() => {
     async function fetchBookings() {
@@ -124,130 +219,7 @@ export function ProfileActivityTab({ userId, userType, className }: ProfileActiv
       <h2 className={styles.title}>{title}</h2>
       
       <div className={styles.timeline}>
-        {bookings.map((booking) => (
-          <div key={booking.id} className={styles.timelineItem}>
-            <div className={styles.timelineDot} />
-            <div className={styles.bookingCard}>
-              <div className={styles.cardHeader}>
-                <span className={styles.reference}>#{booking.reference}</span>
-                <span className={`${styles.statusBadge} ${styles[`status${capitalize(booking.status)}`]}`}>
-                  {booking.status}
-                </span>
-              </div>
-              
-              <div className={styles.cardBody}>
-                {/* Locations */}
-                {getLocation(booking.segments, 'pickup') && (
-                  <div className={styles.detail}>
-                    <span className={styles.label}>📍 Pickup:</span>
-                    <span className={styles.value}>{getLocation(booking.segments, 'pickup')}</span>
-                  </div>
-                )}
-                {getLocation(booking.segments, 'dropoff') && (
-                  <div className={styles.detail}>
-                    <span className={styles.label}>🎯 Dropoff:</span>
-                    <span className={styles.value}>{getLocation(booking.segments, 'dropoff')}</span>
-                  </div>
-                )}
-
-                {/* Date & Time */}
-                <div className={styles.detail}>
-                  <span className={styles.label}>📅 Date:</span>
-                  <span className={styles.value}>
-                    {new Date(booking.start_at).toLocaleDateString('en-GB', { 
-                      day: '2-digit', 
-                      month: 'short', 
-                      year: 'numeric' 
-                    })}
-                  </span>
-                </div>
-                <div className={styles.detail}>
-                  <span className={styles.label}>🕒 Time:</span>
-                  <span className={styles.value}>
-                    {new Date(booking.start_at).toLocaleTimeString('en-GB', { 
-                      hour: '2-digit', 
-                      minute: '2-digit' 
-                    })}
-                  </span>
-                </div>
-
-                {/* Trip Details */}
-                {booking.category && (
-                  <div className={styles.detail}>
-                    <span className={styles.label}>🚗 Category:</span>
-                    <span className={styles.value}>{booking.category}</span>
-                  </div>
-                )}
-                <div className={styles.detail}>
-                  <span className={styles.label}>👥 Passengers:</span>
-                  <span className={styles.value}>{booking.passenger_count}</span>
-                </div>
-                <div className={styles.detail}>
-                  <span className={styles.label}>🎒 Bags:</span>
-                  <span className={styles.value}>{booking.bag_count}</span>
-                </div>
-
-                {/* Flight Number */}
-                {booking.flight_number && (
-                  <div className={styles.detail}>
-                    <span className={styles.label}>✈️ Flight:</span>
-                    <span className={styles.value}>{booking.flight_number}</span>
-                  </div>
-                )}
-
-                {/* Distance & Duration */}
-                {booking.distance_miles && (
-                  <div className={styles.detail}>
-                    <span className={styles.label}>📍 Distance:</span>
-                    <span className={styles.value}>{booking.distance_miles} miles</span>
-                  </div>
-                )}
-                {booking.duration_min && (
-                  <div className={styles.detail}>
-                    <span className={styles.label}>⏱️ Duration:</span>
-                    <span className={styles.value}>{booking.duration_min} min</span>
-                  </div>
-                )}
-
-                {/* Price */}
-                {formatPrice(booking.pricing) && (
-                  <div className={styles.detail}>
-                    <span className={styles.label}>💷 Total:</span>
-                    <span className={`${styles.value} ${styles.priceHighlight}`}>
-                      {formatPrice(booking.pricing)}
-                    </span>
-                  </div>
-                )}
-
-              </div>
-
-              {/* Services Section - Horizontal Badges */}
-              {booking.services && booking.services.length > 0 && (
-                <div className={styles.servicesSection}>
-                  <h4 className={styles.servicesTitle}>Services Included:</h4>
-                  <div className={styles.servicesBadges}>
-                    {booking.services.map((service, idx) => {
-                      const isFree = (service.unit_price || 0) === 0;
-                      const serviceName = service.service_code.replace(/_/g, ' ');
-                      return (
-                        <span 
-                          key={idx} 
-                          className={`${styles.serviceBadge} ${isFree ? styles.serviceFree : styles.servicePaid}`}
-                        >
-                          {serviceName}
-                          {!isFree && (
-                            <span className={styles.servicePrice}> +£{service.unit_price}</span>
-                          )}
-                          {isFree && <span className={styles.freeTag}>FREE</span>}
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
+        {bookingTimelineItems}
       </div>
     </div>
   );

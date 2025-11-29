@@ -9,6 +9,8 @@
  */
 
 import { exportToExcel, formatDateForExport } from '@vantage-lane/ui-core';
+import { useMemo } from 'react';
+import { formatDate } from '@/shared/utils/formatters';
 import type { Document } from '@entities/document';
 
 interface FiltersState {
@@ -25,8 +27,9 @@ interface DocumentsExportProps {
 }
 
 export function useDocumentsExport({ documents, filters }: DocumentsExportProps) {
-  const handleExport = () => {
-    const exportData = documents.map((doc) => ({
+  // Memoize export data transformation to prevent re-creation on every render
+  const exportData = useMemo(() => 
+    documents.map((doc) => ({
       'Document ID': doc.id,
       Type: doc.type,
       Category: doc.category,
@@ -44,10 +47,13 @@ export function useDocumentsExport({ documents, filters }: DocumentsExportProps)
       'Rejection Reason': doc.rejectionReason || 'N/A',
       'File Size': doc.fileSize ? `${(doc.fileSize / 1024).toFixed(2)} KB` : 'N/A',
       Notes: doc.description || '',
-    }));
+    })), 
+    [documents]
+  );
 
+  const handleExport = () => {
     const filename = `documents-${filters.tab}-${new Date().toISOString().split('T')[0]}`;
-
+    
     // Export as Excel (CSV with UTF-8 BOM for Excel compatibility)
     exportToExcel(exportData, filename);
   };

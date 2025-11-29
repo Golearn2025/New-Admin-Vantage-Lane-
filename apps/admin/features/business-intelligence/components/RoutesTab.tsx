@@ -5,7 +5,7 @@
  * File: < 200 lines (RULES.md compliant)
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card, Badge, Icon, StatCard } from '@vantage-lane/ui-core';
 import { formatNumber } from '@entities/business-intelligence';
 import { EmptyStateCard } from './EmptyStateCard';
@@ -29,6 +29,53 @@ export function RoutesTab({ data, hasData }: RoutesTabProps) {
   }
 
   const { topRoutes } = data;
+
+  // Memoize route items to prevent re-creation on every render
+  const routeItems = useMemo(() => 
+    topRoutes.slice(0, 10).map((route, index) => (
+      <div key={`${route.pickupLocation}-${route.destination}`} className={styles.routeItem}>
+        <div className={styles.routeRank}>
+          <span className={styles.rankNumber}>#{index + 1}</span>
+        </div>
+        
+        <div className={styles.routeDetails}>
+          <div className={styles.routeInfo}>
+            <div className={styles.routePath}>
+              <Icon name="star" size="sm" />
+              <span className={styles.pickupLocation}>{route.pickupLocation}</span>
+              <Icon name="arrow-right" size="sm" />
+              <span className={styles.destination}>{route.destination}</span>
+            </div>
+            
+            <div className={styles.routeMetrics}>
+              <div className={styles.metric}>
+                <span className={styles.metricLabel}>Frequency:</span>
+                <span className={styles.metricValue}>{formatNumber(route.frequency)} trips</span>
+              </div>
+              <div className={styles.metric}>
+                <span className={styles.metricLabel}>Share:</span>
+                <span className={styles.metricValue}>{route.percentage.toFixed(1)}% of total</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className={styles.routeBadges}>
+            <Badge color="info" variant="outline" size="sm">
+              Popular Route
+            </Badge>
+          </div>
+        </div>
+
+        <div className={styles.routeProgress}>
+          <div 
+            className={styles.progressBar}
+            style={{ width: `${(route.frequency / (topRoutes[0]?.frequency || 1)) * 100}%` }}
+          />
+        </div>
+      </div>
+    )), 
+    [topRoutes]
+  );
   const topRoute = topRoutes[0] || {
     pickupLocation: 'Unknown',
     destination: 'Unknown',
@@ -76,46 +123,7 @@ export function RoutesTab({ data, hasData }: RoutesTabProps) {
         </div>
 
         <div className={styles.routesList}>
-          {topRoutes.slice(0, 10).map((route, index) => (
-            <div key={`${route.pickupLocation}-${route.destination}`} className={styles.routeItem}>
-              <div className={styles.routeRank}>
-                <span className={styles.rankNumber}>#{index + 1}</span>
-              </div>
-              
-              <div className={styles.routeDetails}>
-                <div className={styles.routeLocations}>
-                  <span className={styles.pickup}>
-                    <Icon name="star" size="sm" />
-                    {route.pickupLocation}
-                  </span>
-                  <Icon name="arrow-right" size="sm" />
-                  <span className={styles.destination}>
-                    <Icon name="star" size="sm" />
-                    {route.destination}
-                  </span>
-                </div>
-                
-                <div className={styles.routeStats}>
-                  <Badge color="neutral" variant="outline" size="sm">
-                    {formatNumber(route.frequency)} rides
-                  </Badge>
-                  <Badge color="success" variant="solid" size="sm">
-                    {route.percentage}%
-                  </Badge>
-                </div>
-              </div>
-
-              {/* Progress bar */}
-              <div className={styles.routeProgress}>
-                <div 
-                  className={styles.routeProgressBar}
-                  style={{
-                    width: `${(route.frequency / topRoute.frequency) * 100}%`
-                  }}
-                />
-              </div>
-            </div>
-          ))}
+          {routeItems}
         </div>
       </Card>
 

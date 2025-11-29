@@ -5,7 +5,7 @@
  * File: < 200 lines (RULES.md compliant)
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card, Badge, Icon, StatCard } from '@vantage-lane/ui-core';
 import { formatNumber, formatCurrency } from '@entities/business-intelligence';
 import { EmptyStateCard } from './EmptyStateCard';
@@ -29,6 +29,47 @@ export function RevenueTab({ data, hasData }: RevenueTabProps) {
   }
 
   const { vehicleStats } = data;
+
+  // Memoize category items to prevent re-creation on every render
+  const categoryItems = useMemo(() => 
+    vehicleStats.map((category, index) => (
+      <div key={category.vehicleCategory} className={styles.categoryItem}>
+        <div className={styles.categoryRank}>
+          <span className={styles.rankNumber}>#{index + 1}</span>
+        </div>
+        
+        <div className={styles.categoryDetails}>
+          <div className={styles.categoryName}>
+            <Icon name="dollar-circle" size="sm" />
+            <span>{category.vehicleCategory}</span>
+          </div>
+          
+          <div className={styles.categoryMetrics}>
+            <div className={styles.metric}>
+              <span className={styles.metricLabel}>Revenue:</span>
+              <span className={styles.metricValue}>{formatCurrency(category.totalRevenue)}</span>
+            </div>
+            <div className={styles.metric}>
+              <span className={styles.metricLabel}>Bookings:</span>
+              <span className={styles.metricValue}>{formatNumber(category.bookingsCount)}</span>
+            </div>
+            <div className={styles.metric}>
+              <span className={styles.metricLabel}>Avg Rating:</span>
+              <span className={styles.metricValue}>{category.averageRating.toFixed(1)} ⭐</span>
+            </div>
+          </div>
+          
+          <div className={styles.categoryProgress}>
+            <div 
+              className={styles.progressBar}
+              style={{ width: `${(category.totalRevenue / (vehicleStats[0]?.totalRevenue || 1)) * 100}%` }}
+            />
+          </div>
+        </div>
+      </div>
+    )), 
+    [vehicleStats]
+  );
   const totalRevenue = vehicleStats.reduce((sum, stat) => sum + stat.totalRevenue, 0);
   const totalBookings = vehicleStats.reduce((sum, stat) => sum + stat.bookingsCount, 0);
   const averageRevenue = totalRevenue / totalBookings;
@@ -80,51 +121,7 @@ export function RevenueTab({ data, hasData }: RevenueTabProps) {
         </div>
 
         <div className={styles.categoryList}>
-          {vehicleStats.map((category, index) => (
-            <div key={category.vehicleCategory} className={styles.categoryItem}>
-              <div className={styles.categoryRank}>
-                <span className={styles.rankNumber}>#{index + 1}</span>
-              </div>
-              
-              <div className={styles.categoryDetails}>
-                <div className={styles.categoryName}>
-                  <Icon name="dollar-circle" size="sm" />
-                  <span>{category.vehicleCategory}</span>
-                </div>
-                
-                <div className={styles.categoryMetrics}>
-                  <div className={styles.metric}>
-                    <span className={styles.metricLabel}>Revenue:</span>
-                    <span className={styles.metricValue}>{formatCurrency(category.totalRevenue)}</span>
-                  </div>
-                  <div className={styles.metric}>
-                    <span className={styles.metricLabel}>Bookings:</span>
-                    <span className={styles.metricValue}>{formatNumber(category.bookingsCount)}</span>
-                  </div>
-                  <div className={styles.metric}>
-                    <span className={styles.metricLabel}>Rating:</span>
-                    <span className={styles.metricValue}>{category.averageRating}⭐</span>
-                  </div>
-                </div>
-                
-                <div className={styles.categoryBadges}>
-                  <Badge color="success" variant="outline" size="sm">
-                    {category.utilizationRate}% utilized
-                  </Badge>
-                </div>
-              </div>
-
-              {/* Progress bar */}
-              <div className={styles.categoryProgress}>
-                <div 
-                  className={styles.categoryProgressBar}
-                  style={{
-                    width: `${(category.totalRevenue / topCategory.totalRevenue) * 100}%`
-                  }}
-                />
-              </div>
-            </div>
-          ))}
+          {categoryItems}
         </div>
       </Card>
 

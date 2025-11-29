@@ -11,7 +11,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Calculator, Flame, Coins } from 'lucide-react';
 import type { BookingListItem } from '@vantage-lane/contracts';
 import { InfoSection } from './InfoSection';
@@ -28,6 +28,21 @@ export function PricingTab({ booking }: PricingTabProps) {
   const platformFee = booking.platform_fee || 0;
   const operatorNet = booking.operator_net || 0;
   const driverPayout = booking.driver_payout || 0;
+
+  // Memoize paid services items to prevent re-creation on every render
+  const paidServiceItems = useMemo(() => 
+    booking.paid_services.map((service, idx) => (
+      <div key={idx} className={styles.calcRow}>
+        <span className={styles.calcLabel}>
+          {idx + 4}. {service.service_code}:
+        </span>
+        <span className={styles.calcValue}>
+          {formatCurrency(service.unit_price * service.quantity)}
+        </span>
+      </div>
+    )), 
+    [booking.paid_services]
+  );
 
   // Calculate surge if applicable
   const hasSurge = booking.platform_commission_pct && booking.platform_commission_pct > 10;
@@ -68,16 +83,7 @@ export function PricingTab({ booking }: PricingTabProps) {
 
           {booking.paid_services.length > 0 && (
             <>
-              {booking.paid_services.map((service, idx) => (
-                <div key={idx} className={styles.calcRow}>
-                  <span className={styles.calcLabel}>
-                    {idx + 4}. {service.service_code}:
-                  </span>
-                  <span className={styles.calcValue}>
-                    {formatCurrency(service.unit_price * service.quantity)}
-                  </span>
-                </div>
-              ))}
+              {paidServiceItems}
             </>
           )}
 

@@ -11,6 +11,7 @@
 
 import React from 'react';
 import type { BookingLeg } from '@vantage-lane/contracts';
+import { formatCurrency } from '@/shared/utils/formatters';
 import { InfoSection } from './InfoSection';
 import styles from './FleetLegsBreakdown.module.css';
 
@@ -30,11 +31,7 @@ export function FleetLegsBreakdown({ legs, currency = 'GBP' }: FleetLegsBreakdow
     return null;
   }
 
-  const formatPrice = (price: string | number | null | undefined): string => {
-    if (!price) return '0.00';
-    const num = typeof price === 'string' ? parseFloat(price) : price;
-    return num.toFixed(2);
-  };
+  // Use centralized formatters
 
   // Group legs by vehicle category
   const groupedLegs = legs.reduce((acc, leg) => {
@@ -49,7 +46,7 @@ export function FleetLegsBreakdown({ legs, currency = 'GBP' }: FleetLegsBreakdow
   const categoryGroups: CategoryGroup[] = Object.entries(groupedLegs).map(([category, categoryLegs]) => ({
     category,
     legs: categoryLegs,
-    total: categoryLegs.reduce((sum: number, leg: BookingLeg) => sum + parseFloat(formatPrice(leg.leg_price)), 0)
+    total: categoryLegs.reduce((sum: number, leg: BookingLeg) => sum + parseFloat(leg.leg_price || '0'), 0)
   }));
 
   const getCategoryIcon = (category: string): string => {
@@ -75,8 +72,8 @@ export function FleetLegsBreakdown({ legs, currency = 'GBP' }: FleetLegsBreakdow
   };
 
   const renderVehicle = (leg: BookingLeg) => {
-    const legPrice = parseFloat(formatPrice(leg.leg_price));
-    const driverPayout = parseFloat(formatPrice(leg.driver_payout));
+    const legPrice = parseFloat(leg.leg_price || '0');
+    const driverPayout = parseFloat(leg.driver_payout || '0');
 
     return (
       <div key={leg.id} className={styles.vehicleCard}>
@@ -84,7 +81,7 @@ export function FleetLegsBreakdown({ legs, currency = 'GBP' }: FleetLegsBreakdow
           <span className={styles.vehicleNumber}>
             Vehicle #{leg.leg_number}
           </span>
-          <span className={styles.vehiclePrice}>£{legPrice.toFixed(2)}</span>
+          <span className={styles.vehiclePrice}>{formatCurrency(legPrice)}</span>
         </div>
 
         <div className={styles.vehicleGrid}>
@@ -104,7 +101,7 @@ export function FleetLegsBreakdown({ legs, currency = 'GBP' }: FleetLegsBreakdow
           <div className={styles.vehiclePricing}>
             <div className={styles.pricingItem}>
               <span className={styles.pricingLabel}>Driver Payout:</span>
-              <span className={styles.pricingValueHighlight}>£{driverPayout.toFixed(2)}</span>
+              <span className={styles.pricingValueHighlight}>{formatCurrency(driverPayout)}</span>
             </div>
           </div>
         </div>
@@ -126,7 +123,7 @@ export function FleetLegsBreakdown({ legs, currency = 'GBP' }: FleetLegsBreakdow
             {name} ({count} vehicle{count !== 1 ? 's' : ''})
           </h3>
           <span className={styles.categoryTotal}>
-            {count} × £{unitPrice.toFixed(2)} = £{group.total.toFixed(2)}
+            {count} × {formatCurrency(unitPrice)} = {formatCurrency(group.total)}
           </span>
         </div>
 
@@ -137,8 +134,8 @@ export function FleetLegsBreakdown({ legs, currency = 'GBP' }: FleetLegsBreakdow
     );
   };
 
-  const totalPrice = legs.reduce((sum, leg) => sum + parseFloat(formatPrice(leg.leg_price)), 0);
-  const totalDriverPayout = legs.reduce((sum, leg) => sum + parseFloat(formatPrice(leg.driver_payout)), 0);
+  const totalPrice = legs.reduce((sum, leg) => sum + parseFloat(leg.leg_price || '0'), 0);
+  const totalDriverPayout = legs.reduce((sum, leg) => sum + parseFloat(leg.driver_payout || '0'), 0);
   const totalVehicles = legs.length;
 
   return (
@@ -147,7 +144,7 @@ export function FleetLegsBreakdown({ legs, currency = 'GBP' }: FleetLegsBreakdow
         <h2 className={styles.title}>🚙 Fleet Breakdown</h2>
         <div className={styles.headerBadges}>
           <span className={styles.badge}>{totalVehicles} Vehicles</span>
-          <span className={styles.badgePrimary}>Total: £{totalPrice.toFixed(2)}</span>
+          <span className={styles.badgePrimary}>Total: {formatCurrency(totalPrice)}</span>
         </div>
       </div>
 
@@ -163,15 +160,15 @@ export function FleetLegsBreakdown({ legs, currency = 'GBP' }: FleetLegsBreakdow
           </div>
           <div className={styles.summaryItem}>
             <span className={styles.summaryLabel}>Total Customer Pays:</span>
-            <span className={styles.summaryValue}>£{totalPrice.toFixed(2)}</span>
+            <span className={styles.summaryValue}>{formatCurrency(totalPrice)}</span>
           </div>
           <div className={styles.summaryItem}>
             <span className={styles.summaryLabel}>Avg per Vehicle:</span>
-            <span className={styles.summaryValue}>£{(totalPrice / totalVehicles).toFixed(2)}</span>
+            <span className={styles.summaryValue}>{formatCurrency(totalPrice / totalVehicles)}</span>
           </div>
           <div className={styles.summaryItem}>
             <span className={styles.summaryLabel}>Total Driver Payout:</span>
-            <span className={styles.summaryValue}>£{totalDriverPayout.toFixed(2)}</span>
+            <span className={styles.summaryValue}>{formatCurrency(totalDriverPayout)}</span>
           </div>
         </div>
       </div>

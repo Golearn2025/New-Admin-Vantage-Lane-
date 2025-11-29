@@ -25,11 +25,26 @@ export function PerformanceOverviewTab(): JSX.Element {
     );
   }
 
+  // Convert PerformanceMetric[] to expected format
+  const convertedMetrics = {
+    averageResponseTime: metrics.find(m => m.name === 'averageResponseTime')?.value || 0,
+    throughput: metrics.find(m => m.name === 'throughput')?.value || 0,
+    errorRate: metrics.find(m => m.name === 'errorRate')?.value || 0,
+    apdex: metrics.find(m => m.name === 'apdex')?.value || 0,
+  };
+
+  // Convert Record<string, unknown> to expected cache format
+  const convertedCache = {
+    hitRate: (cache.hitRate as number) || 0,
+    missRate: 100 - ((cache.hitRate as number) || 0),
+    totalRequests: (cache.totalRequests as number) || 0,
+  };
+
   return (
     <div className={styles.container || ""}>
-      <PerformanceMetrics metrics={metrics} />
+      <PerformanceMetrics metrics={convertedMetrics} />
       <SlowQueries queries={queries} />
-      <CacheStats cache={cache} />
+      <CacheStats cache={convertedCache} />
     </div>
   );
 }

@@ -35,7 +35,9 @@ interface DocumentCardProps {
   onUpload: (documentType: DocumentType) => void;
 }
 
-const STATUS_CONFIG: Record<DocumentStatus, { icon: React.ComponentType<any>; color: BadgeColor }> =
+import type { LucideProps } from 'lucide-react';
+
+const STATUS_CONFIG: Record<DocumentStatus, { icon: React.ComponentType<LucideProps>; color: BadgeColor }> =
   {
     approved: { icon: Check, color: 'success' },
     pending: { icon: Clock, color: 'warning' },

@@ -59,11 +59,11 @@
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-8px);
+    /* DISABLED: hover loop fix */
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    /* DISABLED: hover loop fix */
   }
 }
 

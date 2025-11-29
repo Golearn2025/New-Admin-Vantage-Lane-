@@ -6,20 +6,20 @@
  */
 
 import { useState, useEffect } from 'react';
-import * as Sentry from "@sentry/nextjs";
+import type { PerformanceMetric, SlowQuery } from '../types';
 
 interface PerformanceData {
-  metrics: any;
-  queries: any[];
-  cache: any;
+  metrics: PerformanceMetric[];
+  queries: SlowQuery[];
+  cache: Record<string, unknown>;
   loading: boolean;
 }
 
 export function usePerformanceData(): PerformanceData {
   const [data, setData] = useState<PerformanceData>({
-    metrics: null,
+    metrics: [],
     queries: [],
-    cache: null,
+    cache: {},
     loading: true
   });
 
@@ -28,30 +28,29 @@ export function usePerformanceData(): PerformanceData {
       try {
         // Mock data pentru acum
         setData({
-          metrics: {
-            averageResponseTime: 245,
-            throughput: 850,
-            errorRate: 0.2,
-            apdex: 0.94
-          },
-          queries: [
-            {
-              query: 'SELECT * FROM bookings WHERE...',
-              duration: 1250,
-              timestamp: new Date().toISOString()
-            }
-          ],
+          metrics: [{
+            id: '1',
+            name: 'averageResponseTime',
+            value: 245,
+            unit: 'ms',
+            timestamp: new Date().toISOString()
+          }],
+          queries: [{
+            id: '1',
+            query: 'SELECT * FROM users WHERE ...',
+            duration: 1250,
+            timestamp: new Date().toISOString()
+          }],
           cache: {
-            hitRate: 94,
-            missRate: 6,
+            hitRate: 85.2,
+            size: '2.1GB',
             totalRequests: 12500
           },
           loading: false
         });
 
-        Sentry.logger.info("Performance data loaded");
       } catch (error) {
-        Sentry.captureException(error);
+        console.error('Performance monitoring error:', error);
         setData(prev => ({ ...prev, loading: false }));
       }
     };

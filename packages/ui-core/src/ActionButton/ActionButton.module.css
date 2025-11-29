@@ -80,14 +80,14 @@
 .primary:hover:not(.disabled):not(.loading) {
   background: var(--color-accent-600);
   border-color: var(--color-accent-600);
-  transform: translateY(-1px);
+  /* DISABLED: hover loop fix */
   box-shadow: var(--shadow-sm);
 }
 
 .primary:active:not(.disabled):not(.loading) {
   background: var(--color-accent-700);
   border-color: var(--color-accent-700);
-  transform: translateY(0);
+  /* transform: translateY(0); */ /* DISABLED: hover loop fix */
 }
 
 /* ========================================

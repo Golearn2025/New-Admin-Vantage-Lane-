@@ -31,12 +31,12 @@
 }
 
 .actionButton:hover {
-  transform: translateY(-2px);
+  /* DISABLED: hover loop fix */
   box-shadow: var(--shadow-sm);
 }
 
 .actionButton:active {
-  transform: translateY(0);
+  /* DISABLED: hover loop fix */
   box-shadow: var(--shadow-xs);
 }
 

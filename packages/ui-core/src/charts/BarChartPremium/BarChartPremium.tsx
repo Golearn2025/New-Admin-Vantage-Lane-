@@ -90,13 +90,23 @@ export function BarChartPremium({
     }
   };
 
-  // Custom tooltip
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  // Custom tooltip with proper types
+  interface TooltipProps {
+    active?: boolean;
+    payload?: Array<{
+      value: number;
+      name: string;
+      color: string;
+    }>;
+    label?: string;
+  }
+
+  const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className={styles.tooltip}>
           <div className={styles.tooltipLabel}>{label}</div>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry, index) => (
             <div key={index} className={styles.tooltipItem}>
               <span
                 className={styles.tooltipDot}

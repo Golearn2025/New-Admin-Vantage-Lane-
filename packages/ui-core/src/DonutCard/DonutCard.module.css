@@ -137,12 +137,12 @@
 
 .legendItem:hover {
   background: var(--color-surface-secondary);
-  transform: translateX(4px);
+  /* DISABLED: hover loop fix */
 }
 
 .legendItemActive {
   background: var(--color-surface-secondary);
-  transform: translateX(4px);
+  /* DISABLED: hover loop fix */
 }
 
 /* Color indicator */

@@ -78,7 +78,7 @@
 
 .primary:hover:not(.disabled):not(.loading) {
   box-shadow: var(--shadow-2xl), var(--theme-shadow-button-hover), var(--theme-glow);
-  transform: translateY(-2px);
+  /* transform: translateY(0); */ /* DISABLED: hover loop fix */
 }
 
 .primary:hover:not(.disabled):not(.loading)::before {
@@ -90,7 +90,7 @@
 }
 
 .primary:active:not(.disabled):not(.loading) {
-  transform: translateY(0);
+  /* transform: translateY(0); */ /* DISABLED: hover loop fix */
   box-shadow: var(--theme-shadow-button);
 }
 
@@ -112,11 +112,11 @@
   &:hover:not(.disabled):not(.loading) {
     background: var(--color-surface-elevated);
     box-shadow: var(--shadow-xl);
-    transform: translateY(-1px);
+    /* transform: translateY(0); */ /* DISABLED: hover loop fix */
   }
   
   &:active:not(.disabled):not(.loading) {
-    transform: translateY(0);
+    /* transform: translateY(0); */ /* DISABLED: hover loop fix */
     box-shadow: var(--shadow-lg);
   }
 }
@@ -129,7 +129,7 @@
   &:hover:not(.disabled):not(.loading) {
     background-color: var(--theme-primary-alpha-10);
     box-shadow: var(--theme-glow);
-    transform: translateY(-1px);
+    /* transform: translateY(0); */ /* DISABLED: hover loop fix */
   }
   
   &:focus-visible {
@@ -137,7 +137,7 @@
   }
   
   &:active:not(.disabled):not(.loading) {
-    transform: translateY(0);
+    /* transform: translateY(0); */ /* DISABLED: hover loop fix */
   }
 }
 

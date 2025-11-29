@@ -27,7 +27,7 @@
 
 /* Hover Effect */
 .statusBadge:hover {
-  transform: translateY(-1px);
+  /* DISABLED: hover loop fix */
   box-shadow: 0 4px 12px var(--badge-shadow);
 }
 

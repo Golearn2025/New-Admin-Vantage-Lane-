@@ -196,11 +196,11 @@
 .actionButton:hover {
   background: var(--theme-primary-alpha-10);
   box-shadow: var(--theme-glow);
-  transform: translateX(2px);
+  /* DISABLED: hover loop fix */
 }
 
 .actionButton:active {
-  transform: translateX(0);
+  /* DISABLED: hover loop fix */
 }
 
 .actionIcon {
@@ -208,7 +208,7 @@
 }
 
 .actionButton:hover .actionIcon {
-  transform: translateX(2px);
+  /* DISABLED: hover loop fix */
 }
 
 /* ============================================ */

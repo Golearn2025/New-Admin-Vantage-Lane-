@@ -17,6 +17,7 @@
 import React from 'react';
 import { MapPin, DollarSign, User } from 'lucide-react';
 import type { BookingLeg } from '@vantage-lane/contracts';
+import { formatCurrency, formatDate as formatDateCentralized } from '@/shared/utils/formatters';
 import { InfoSection } from './InfoSection';
 import styles from './ReturnLegsBreakdown.module.css';
 
@@ -33,12 +34,7 @@ export function ReturnLegsBreakdown({ legs, currency = 'GBP' }: ReturnLegsBreakd
   const outboundLeg = legs.find(leg => leg.leg_type === 'outbound');
   const returnLeg = legs.find(leg => leg.leg_type === 'return');
 
-  const formatPrice = (price: string | number | null | undefined): string => {
-    if (!price) return '0.00';
-    const num = typeof price === 'string' ? parseFloat(price) : price;
-    return num.toFixed(2);
-  };
-
+  // Use centralized formatters
   const formatDate = (dateStr: string): string => {
     const date = new Date(dateStr);
     return date.toLocaleDateString('en-GB', { 
@@ -53,15 +49,15 @@ export function ReturnLegsBreakdown({ legs, currency = 'GBP' }: ReturnLegsBreakd
   const renderLeg = (leg: BookingLeg | undefined, legLabel: string, icon: string) => {
     if (!leg) return null;
 
-    const legPrice = parseFloat(formatPrice(leg.leg_price));
-    const driverPayout = parseFloat(formatPrice(leg.driver_payout));
+    const legPrice = parseFloat(leg.leg_price || '0');
+    const driverPayout = parseFloat(leg.driver_payout || '0');
 
     return (
       <div className={styles.legContainer}>
         <div className={styles.legHeader}>
           <span className={styles.legIcon}>{icon}</span>
           <h3 className={styles.legTitle}>{legLabel}</h3>
-          <span className={styles.legPrice}>£{legPrice.toFixed(2)}</span>
+          <span className={styles.legPrice}>{formatCurrency(legPrice)}</span>
         </div>
 
         <div className={styles.legGrid}>
@@ -100,11 +96,11 @@ export function ReturnLegsBreakdown({ legs, currency = 'GBP' }: ReturnLegsBreakd
             <div className={styles.fields}>
               <div className={styles.field}>
                 <span className={styles.label}>Leg Price:</span>
-                <span className={styles.value}>£{legPrice.toFixed(2)}</span>
+                <span className={styles.value}>{formatCurrency(legPrice)}</span>
               </div>
               <div className={styles.field}>
                 <span className={styles.label}>Driver Payout:</span>
-                <span className={styles.valueHighlight}>£{driverPayout.toFixed(2)}</span>
+                <span className={styles.valueHighlight}>{formatCurrency(driverPayout)}</span>
               </div>
             </div>
           </InfoSection>
@@ -135,15 +131,15 @@ export function ReturnLegsBreakdown({ legs, currency = 'GBP' }: ReturnLegsBreakd
     );
   };
 
-  const totalPrice = legs.reduce((sum, leg) => sum + parseFloat(formatPrice(leg.leg_price)), 0);
-  const totalDriverPayout = legs.reduce((sum, leg) => sum + parseFloat(formatPrice(leg.driver_payout)), 0);
+  const totalPrice = legs.reduce((sum, leg) => sum + parseFloat(leg.leg_price || '0'), 0);
+  const totalDriverPayout = legs.reduce((sum, leg) => sum + parseFloat(leg.driver_payout || '0'), 0);
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>🔄 Return Trip Breakdown</h2>
         <div className={styles.totalBadge}>
-          Total: £{totalPrice.toFixed(2)}
+          Total: {formatCurrency(totalPrice)}
         </div>
       </div>
 
@@ -153,11 +149,11 @@ export function ReturnLegsBreakdown({ legs, currency = 'GBP' }: ReturnLegsBreakd
       <div className={styles.summary}>
         <div className={styles.summaryItem}>
           <span className={styles.summaryLabel}>Total Customer Pays:</span>
-          <span className={styles.summaryValue}>£{totalPrice.toFixed(2)}</span>
+          <span className={styles.summaryValue}>{formatCurrency(totalPrice)}</span>
         </div>
         <div className={styles.summaryItem}>
           <span className={styles.summaryLabel}>Total Driver Payout:</span>
-          <span className={styles.summaryValue}>£{totalDriverPayout.toFixed(2)}</span>
+          <span className={styles.summaryValue}>{formatCurrency(totalDriverPayout)}</span>
         </div>
       </div>
     </div>

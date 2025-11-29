@@ -12,8 +12,8 @@
   text-decoration: none;
   color: var(--color-text-muted);
   border-radius: var(--radius-md);
-  transition: var(--motion-hover);
-  cursor: pointer;
+  /* transition: var(--motion-hover); */ /* DISABLED: causing infinite loop */
+  cursor: pointer; /* Safe now - no hover transform */
   min-height: var(--touch-target-min); /* A11y touch target */
   position: relative;
   border: var(--border-width-default) solid transparent;
@@ -30,24 +30,23 @@
   height: 0;
   background: var(--theme-gradient);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  transition: height var(--motion-duration-normal) var(--motion-easing-ease-out);
+  /* transition: height var(--motion-duration-normal) var(--motion-easing-ease-out); */ /* DISABLED: causing infinite loop */
   box-shadow: var(--theme-glow);
 }
 
 /* NavLink Hover & Focus States */
-.navLink:hover {
+/* .navLink:hover {
   color: var(--color-text-primary);
   background: var(--theme-primary-alpha-10);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
   border: 1px solid var(--theme-primary-alpha-20);
-  transform: translateX(2px);
-}
+} */ /* DISABLED: causing hover loop between elements */
 
 /* Premium: Show accent bar on hover */
-.navLink:hover::before {
+/* .navLink:hover::before {
   height: 60%;
-}
+} */ /* DISABLED: causing hover loop between elements */
 
 .navLink:focus-visible {
   outline: var(--outline-width-default) solid var(--theme-primary);
@@ -91,7 +90,7 @@
 
 .navIcon {
   flex-shrink: 0;
-  transition: var(--motion-hover);
+  /* transition: var(--motion-hover); */ /* DISABLED: causing infinite loop */
 }
 
 .navLabel {
@@ -124,7 +123,7 @@
 /* Chevron for expandable items */
 .chevron {
   flex-shrink: 0;
-  transition: transform var(--motion-hover);
+  /* transition: transform var(--motion-hover); */ /* DISABLED: causing infinite loop */
   color: var(--color-text-muted);
 }
 
@@ -149,15 +148,15 @@
   text-decoration: none;
   font-size: var(--font-sm);
   border-radius: var(--radius-sm);
-  transition: var(--motion-hover);
+  /* transition: var(--motion-hover); */ /* DISABLED: causing infinite loop */
   min-height: var(--touch-target-sm);
   display: flex;
   align-items: center;
 
-  &:hover {
+  /* &:hover {
     color: var(--color-text-secondary);
     background: var(--color-surface-elevated);
-  }
+  } */ /* DISABLED: causing hover loop between elements */
 
   &:focus-visible {
     outline: var(--outline-width-default) solid var(--color-border-focus);

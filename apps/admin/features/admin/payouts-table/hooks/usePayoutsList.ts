@@ -8,6 +8,23 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import type { Payout } from '../types';
 
+interface LegData {
+  id: string;
+  assigned_driver_id: string;
+  driver_payout: number | null;
+  payout_status: string;
+  created_at: string;
+  drivers?: {
+    first_name: string;
+    last_name: string;
+  };
+  bookings?: {
+    pickup_datetime: string;
+    pickup_location: string;
+    dropoff_location: string;
+  };
+}
+
 export function usePayoutsList() {
   const [data, setData] = useState<Payout[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +50,7 @@ export function usePayoutsList() {
         if (dbError) throw dbError;
 
         // Transform to Payout format
-        const payouts: Payout[] = (legs || []).map((leg: any) => ({
+        const payouts: Payout[] = (legs || []).map((leg: LegData) => ({
           id: leg.id,
           driverId: leg.assigned_driver_id,
           driverName: leg.drivers

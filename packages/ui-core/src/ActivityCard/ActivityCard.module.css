@@ -193,7 +193,7 @@
 
 .viewAllButton:hover {
   gap: var(--spacing-3);
-  transform: translateX(2px);
+  /* DISABLED: hover loop fix */
 }
 
 /* ============================================ */

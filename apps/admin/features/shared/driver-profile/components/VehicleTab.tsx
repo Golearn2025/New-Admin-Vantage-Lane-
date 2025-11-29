@@ -28,6 +28,21 @@ import {
   X as XIcon,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+
+// Vehicle edit form data interface
+interface VehicleEditFormData {
+  make?: string;
+  model?: string;
+  year?: number;
+  color?: string;
+  licensePlate?: string;
+  seats?: number;
+  isActive?: boolean;
+  vehicleType?: string;
+  category?: string;
+  passengerCapacity?: number;
+  luggageCapacity?: number;
+}
 import styles from '../driver-profile.module.css';
 import { useDriverVehicle } from '../hooks/useDriverVehicle';
 import { VehicleApprovalCard } from './VehicleApprovalCard';
@@ -67,7 +82,7 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
   } | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editingVehicleId, setEditingVehicleId] = useState<string | null>(null);
-  const [editFormData, setEditFormData] = useState<any>({});
+  const [editFormData, setEditFormData] = useState<VehicleEditFormData>({});
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {

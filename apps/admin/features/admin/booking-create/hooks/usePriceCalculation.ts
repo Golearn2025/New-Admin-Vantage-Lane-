@@ -6,6 +6,28 @@
 import { useState, useEffect } from 'react';
 import type { BookingFormData } from '../types';
 
+// Pricing calculation result interface
+interface PricingData {
+  subtotal: number;
+  fees: number;
+  total: number;
+  finalPrice: number;
+  currency: 'GBP';
+  breakdown: {
+    distance: number;
+    time: number;
+    vehicleType: string;
+    surcharges: number;
+    subtotal: number;
+    services: number;
+  };
+  details?: Array<{
+    label: string;
+    value: number;
+    type: 'base' | 'fee' | 'service';
+  }>;
+}
+
 /**
  * Map UI category to backend vehicleType
  */
@@ -61,7 +83,7 @@ interface PricingResult {
 }
 
 export function usePriceCalculation(formData: BookingFormData): PricingResult {
-  const [pricing, setPricing] = useState<any>(null);
+  const [pricing, setPricing] = useState<PricingData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -127,13 +149,33 @@ export function usePriceCalculation(formData: BookingFormData): PricingResult {
     formData.services,
   ]);
 
+  // Convert PricingData breakdown to PriceBreakdown format
+  const convertedBreakdown: PriceBreakdown | undefined = pricing?.breakdown ? {
+    baseFare: pricing.breakdown.distance || 0,
+    distanceFee: pricing.breakdown.distance || 0, 
+    timeFee: pricing.breakdown.time || 0,
+    additionalFees: pricing.breakdown.surcharges || 0,
+    services: pricing.breakdown.services || 0,
+    subtotal: pricing.breakdown.subtotal || 0,
+    multipliers: {},
+    discounts: 0,
+    finalPrice: pricing.finalPrice || 0
+  } : undefined;
+
+  // Convert PricingData details to PriceDetail format
+  const convertedDetails: PriceDetail[] | undefined = pricing?.details?.map(detail => ({
+    component: detail.label,
+    amount: detail.value,
+    description: `${detail.type} fee`
+  }));
+
   return {
     // Use subtotal (all fees WITHOUT services) instead of just baseFare
     basePrice: pricing?.breakdown?.subtotal || 0,
     servicesTotal: pricing?.breakdown?.services || 0,
     total: pricing?.finalPrice || 0,
-    breakdown: pricing?.breakdown,
-    details: pricing?.details,
+    breakdown: convertedBreakdown,
+    details: convertedDetails,
     isLoading,
     error,
   };

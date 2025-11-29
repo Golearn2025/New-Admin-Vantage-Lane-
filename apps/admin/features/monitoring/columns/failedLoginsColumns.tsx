@@ -5,34 +5,36 @@
  * Conform RULES.md: <50 linii, ui-core components
  */
 
-import { Badge } from '@vantage-lane/ui-core';
+import { type Column, Badge } from '@vantage-lane/ui-core';
+import type { FailedLogin } from '../types';
 
-export const failedLoginsColumns = [
+export const failedLoginsColumns: Column<FailedLogin>[] = [
   {
     id: 'email',
     header: 'Email',
-    accessor: (row: any) => row.email,
-    cell: (row: any, value: any) => (
-      <code className="text-sm">{value}</code>
+    accessor: (row: FailedLogin) => row.email,
+    cell: (row: FailedLogin, value: unknown) => (
+      <code className="text-sm">{String(value)}</code>
     )
   },
   {
     id: 'ip_address',
     header: 'IP Address',
-    accessor: (row: any) => row.ip_address,
-    cell: (row: any, value: any) => (
-      <span className="font-mono text-sm">{value}</span>
+    accessor: (row: FailedLogin) => row.ip_address,
+    cell: (row: FailedLogin, value: unknown) => (
+      <span className="font-mono text-sm">{String(value)}</span>
     )
   },
   {
     id: 'failure_reason',
     header: 'Reason',
-    accessor: (row: any) => row.failure_reason,
-    cell: (row: any, value: any) => {
-      const color = value === 'account_locked' ? 'danger' : 'warning';
+    accessor: (row: FailedLogin) => row.failure_reason,
+    cell: (row: FailedLogin, value: unknown) => {
+      const stringValue = String(value);
+      const color = stringValue === 'account_locked' ? 'danger' : 'warning';
       return (
         <Badge color={color}>
-          {value.replace('_', ' ').toUpperCase()}
+          {stringValue.replace('_', ' ').toUpperCase()}
         </Badge>
       );
     }
@@ -40,9 +42,9 @@ export const failedLoginsColumns = [
   {
     id: 'timestamp',
     header: 'Time',
-    accessor: (row: any) => row.timestamp,
-    cell: (row: any, value: any) => {
-      const time = new Date(value);
+    accessor: (row: FailedLogin) => row.timestamp,
+    cell: (row: FailedLogin, value: unknown) => {
+      const time = new Date(String(value));
       return (
         <span className="text-sm text-gray-600">
           {time.toLocaleTimeString()}

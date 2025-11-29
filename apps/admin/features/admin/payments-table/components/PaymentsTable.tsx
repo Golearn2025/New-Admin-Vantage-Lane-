@@ -7,6 +7,7 @@
 
 import React, { useEffect, useMemo } from 'react';
 import { FileSpreadsheet, FileText, ExternalLink, RefreshCw, Ban } from 'lucide-react';
+import { formatCurrency, formatDate, formatPercentage } from '@/shared/utils/formatters';
 import { 
   EnterpriseDataTable,
   usePagination,
@@ -19,6 +20,7 @@ import {
   TableFilters,
   ActionButton,
 } from '@vantage-lane/ui-core';
+import type { Payment, PaymentTableRow } from '../types';
 import { usePaymentsList } from '../hooks/usePaymentsList';
 import { usePaymentsFilters } from '../hooks/usePaymentsFilters';
 import styles from './PaymentsTable.module.css';
@@ -56,7 +58,7 @@ export function PaymentsTable() {
     const totalTransactions = data.length;
     const totalAmount = data.reduce((sum, payment) => sum + (payment.amount || 0), 0);
     const successfulPayments = data.filter(p => p.status === 'captured' || p.status === 'authorized').length;
-    const successRate = totalTransactions > 0 ? ((successfulPayments / totalTransactions) * 100).toFixed(1) : '0';
+    const successRate = totalTransactions > 0 ? formatPercentage((successfulPayments / totalTransactions) * 100, 1) : formatPercentage(0, 1);
     
     return {
       totalTransactions,
@@ -314,11 +316,11 @@ export function PaymentsTable() {
           { 
             id: 'id', 
             header: 'Payment ID', 
-            accessor: (row: any) => row.id,
+            accessor: (row: PaymentTableRow) => row.id,
             width: '150px',
             resizable: true,
             sortable: true,
-            cell: (row: any) => (
+            cell: (row: PaymentTableRow) => (
               <button
                 className={styles.copyableId}
                 onClick={() => {
@@ -334,11 +336,11 @@ export function PaymentsTable() {
           { 
             id: 'bookingId', 
             header: 'Booking ID', 
-            accessor: (row: any) => row.bookingId,
+            accessor: (row: PaymentTableRow) => row.bookingId,
             width: '150px',
             resizable: true,
             sortable: true,
-            cell: (row: any) => (
+            cell: (row: PaymentTableRow) => (
               <button
                 className={styles.copyableId}
                 onClick={() => {
@@ -354,24 +356,24 @@ export function PaymentsTable() {
           {
             id: 'amount',
             header: 'Amount',
-            accessor: (row: any) => row.amount,
+            accessor: (row: PaymentTableRow) => row.amount,
             sortable: true,
             resizable: true,
             width: '120px',
-            cell: (row: any) => (
+            cell: (row: PaymentTableRow) => (
               <span className={styles.amount}>
-                £{(row.amount / 100).toFixed(2)}
+                {formatCurrency(row.amount / 100)}
               </span>
             )
           },
           { 
             id: 'status', 
             header: 'Status', 
-            accessor: (row: any) => row.status,
+            accessor: (row: PaymentTableRow) => row.status,
             sortable: true,
             resizable: true,
             width: '120px',
-            cell: (row: any) => (
+            cell: (row: PaymentTableRow) => (
               <span className={styles.statusBadge}>
                 {row.status}
               </span>
@@ -380,17 +382,13 @@ export function PaymentsTable() {
           {
             id: 'createdAt',
             header: 'Created',
-            accessor: (row: any) => row.createdAt,
+            accessor: (row: PaymentTableRow) => row.createdAt,
             sortable: true,
             resizable: true,
             width: '130px',
-            cell: (row: any) => (
+            cell: (row: PaymentTableRow) => (
               <span className={styles.date}>
-                {new Date(row.createdAt).toLocaleDateString('en-GB', {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric'
-                })}
+                {formatDate(row.createdAt)}
               </span>
             )
           },

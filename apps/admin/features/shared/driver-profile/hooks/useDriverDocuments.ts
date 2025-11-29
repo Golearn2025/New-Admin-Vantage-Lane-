@@ -8,6 +8,27 @@ import useSWR from 'swr';
 import type { DocumentData } from '@entities/driver';
 import { createClient } from '@/lib/supabase/client';
 
+// Vehicle document interface
+interface VehicleDocument {
+  id: string;
+  vehicle_id: string;
+  document_type: string;
+  file_url: string;
+  file_name: string;
+  upload_date: string;
+  expiry_date?: string | null;
+  approval_status: 'pending' | 'approved' | 'rejected';
+  approved_by?: string;
+  approved_at?: string;
+  notes?: string;
+  status: 'pending' | 'approved' | 'rejected' | 'expired' | 'expiring_soon' | 'replaced';
+  reviewed_by?: string;
+  reviewed_at?: string;
+  rejection_reason?: string;
+  replaces_document_id?: string | null;
+  replacement_reason?: string | null;
+}
+
 interface UseDriverDocumentsResult {
   documents: DocumentData[];
   isLoading: boolean;
@@ -38,7 +59,7 @@ async function fetchDriverDocuments(driverId: string): Promise<DocumentData[]> {
     .select('id')
     .eq('driver_id', driverId);
 
-  let vehicleDocs: any[] = [];
+  let vehicleDocs: VehicleDocument[] = [];
   if (!vehiclesError && vehicles && vehicles.length > 0) {
     const vehicleIds = vehicles.map(v => v.id);
     const { data: vDocs, error: vDocsError } = await supabase
@@ -61,11 +82,11 @@ async function fetchDriverDocuments(driverId: string): Promise<DocumentData[]> {
     fileUrl: doc.file_url,
     fileName: doc.file_name,
     uploadDate: doc.upload_date,
-    expiryDate: doc.expiry_date,
+    expiryDate: doc.expiry_date || null,
     status: doc.status as 'pending' | 'approved' | 'rejected' | 'expired' | 'expiring_soon' | 'replaced',
-    reviewedBy: doc.reviewed_by,
-    reviewedAt: doc.reviewed_at,
-    rejectionReason: doc.rejection_reason,
+    reviewedBy: doc.reviewed_by || null,
+    reviewedAt: doc.reviewed_at || null,
+    rejectionReason: doc.rejection_reason || null,
     replacesDocumentId: doc.replaces_document_id || null,
     replacementReason: doc.replacement_reason || null,
   }));
@@ -79,11 +100,11 @@ async function fetchDriverDocuments(driverId: string): Promise<DocumentData[]> {
     fileUrl: doc.file_url,
     fileName: doc.file_name,
     uploadDate: doc.upload_date,
-    expiryDate: doc.expiry_date,
+    expiryDate: doc.expiry_date || null,
     status: doc.status as 'pending' | 'approved' | 'rejected' | 'expired' | 'expiring_soon' | 'replaced',
-    reviewedBy: doc.reviewed_by,
-    reviewedAt: doc.reviewed_at,
-    rejectionReason: doc.rejection_reason,
+    reviewedBy: doc.reviewed_by || null,
+    reviewedAt: doc.reviewed_at || null,
+    rejectionReason: doc.rejection_reason || null,
     replacesDocumentId: doc.replaces_document_id || null,
     replacementReason: doc.replacement_reason || null,
   }));

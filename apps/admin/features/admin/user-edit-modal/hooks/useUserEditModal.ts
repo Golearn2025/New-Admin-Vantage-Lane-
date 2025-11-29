@@ -8,14 +8,25 @@
 
 import { useState, useEffect } from 'react';
 
+// User interface for edit modal
+interface UserEditData {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'operator' | 'driver';
+  status: 'active' | 'inactive';
+  createdAt: string;
+  updatedAt?: string;
+}
+
 export interface UseUserEditModalReturn {
-  data: any[];
+  data: UserEditData[];
   loading: boolean;
   error: string | null;
 }
 
 export function useUserEditModal(): UseUserEditModalReturn {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<UserEditData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

@@ -20,14 +20,14 @@ const { logger } = Sentry;
 
 export function ProjectsStatusList({ metrics }: ProjectsStatusListProps): JSX.Element {
   const projects = [
-    { name: 'Admin Dashboard', status: 'active', errors: metrics?.adminDashboard?.errorCount || 0 },
-    { name: 'Landing Page', status: 'not-deployed', errors: 0 },
-    { name: 'Backend Prices', status: 'not-deployed', errors: 0 },
-    { name: 'Driver App', status: 'not-deployed', errors: 0 },
-    { name: 'Client App', status: 'not-deployed', errors: 0 }
+    { id: '1', name: 'Admin Dashboard', status: 'active', errors: metrics?.adminDashboard?.errorCount || 0 },
+    { id: '2', name: 'Landing Page', status: 'not-deployed', errors: 0 },
+    { id: '3', name: 'Backend Prices', status: 'not-deployed', errors: 0 },
+    { id: '4', name: 'Driver App', status: 'not-deployed', errors: 0 },
+    { id: '5', name: 'Client App', status: 'not-deployed', errors: 0 }
   ];
 
-  const handleProjectClick = (project: any) => {
+  const handleProjectClick = (project: { id: string; name: string; status: string }) => {
     logger.info("Project clicked", { projectName: project.name });
   };
 

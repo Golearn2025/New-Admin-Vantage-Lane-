@@ -15,6 +15,7 @@ import React from 'react';
 import { Calculator, Flame, Coins } from 'lucide-react';
 import type { BookingListItem } from '@vantage-lane/contracts';
 import { InfoSection } from './InfoSection';
+import { formatCurrency, formatPercentage } from '@/shared/utils/formatters';
 import styles from './PricingTab.module.css';
 
 interface PricingTabProps {
@@ -40,16 +41,16 @@ export function PricingTab({ booking }: PricingTabProps) {
         <div className={styles.calculation}>
           <div className={styles.calcRow}>
             <span className={styles.calcLabel}>1. Base fare:</span>
-            <span className={styles.calcValue}>£{basePrice.toFixed(2)}</span>
+            <span className={styles.calcValue}>{formatCurrency(basePrice)}</span>
           </div>
 
           {booking.distance_miles && (
             <div className={styles.calcRow}>
               <span className={styles.calcLabel}>
-                2. Distance ({booking.distance_miles.toFixed(1)} mi):
+                2. Distance ({booking.distance_miles?.toFixed(1) || 0} mi):
               </span>
               <span className={styles.calcValue}>
-                £{((booking.distance_miles * 2.8) || 0).toFixed(2)}
+                {formatCurrency((booking.distance_miles || 0) * 2.8)}
               </span>
             </div>
           )}
@@ -60,7 +61,7 @@ export function PricingTab({ booking }: PricingTabProps) {
                 3. Time ({booking.duration_min} min):
               </span>
               <span className={styles.calcValue}>
-                £{((booking.duration_min * 0.45) || 0).toFixed(2)}
+                {formatCurrency((booking.duration_min || 0) * 0.45)}
               </span>
             </div>
           )}
@@ -73,7 +74,7 @@ export function PricingTab({ booking }: PricingTabProps) {
                     {idx + 4}. {service.service_code}:
                   </span>
                   <span className={styles.calcValue}>
-                    £{(service.unit_price * service.quantity).toFixed(2)}
+                    {formatCurrency(service.unit_price * service.quantity)}
                   </span>
                 </div>
               ))}
@@ -84,7 +85,7 @@ export function PricingTab({ booking }: PricingTabProps) {
 
           <div className={styles.calcRow}>
             <span className={styles.calcLabelBold}>Subtotal:</span>
-            <span className={styles.calcValueBold}>£{basePrice.toFixed(2)}</span>
+            <span className={styles.calcValueBold}>{formatCurrency(basePrice)}</span>
           </div>
         </div>
       </InfoSection>
@@ -98,20 +99,20 @@ export function PricingTab({ booking }: PricingTabProps) {
                 Active multiplier:
               </span>
               <span className={styles.surgeMultiplier}>
-                ⚡ {surgeMultiplier.toFixed(1)}x
+                ⚡ {surgeMultiplier?.toFixed(1) || 0}x
               </span>
             </div>
 
             <div className={styles.surgeRow}>
               <span className={styles.surgeLabel}>Surge amount:</span>
-              <span className={styles.surgeAmount}>+£{surgeAmount.toFixed(2)}</span>
+              <span className={styles.surgeAmount}>+{formatCurrency(surgeAmount)}</span>
             </div>
 
             <div className={styles.surgeDivider} />
 
             <div className={styles.surgeRow}>
               <span className={styles.surgeLabelBold}>Total with surge:</span>
-              <span className={styles.surgeValueBold}>£{totalPrice.toFixed(2)}</span>
+              <span className={styles.surgeValueBold}>{formatCurrency(totalPrice)}</span>
             </div>
           </div>
         </InfoSection>
@@ -123,10 +124,10 @@ export function PricingTab({ booking }: PricingTabProps) {
           <div className={styles.commissionRow}>
             <span className={styles.commissionLabel}>Platform Fee:</span>
             <span className={styles.commissionValue}>
-              £{platformFee.toFixed(2)}
+              {formatCurrency(platformFee)}
               {booking.platform_commission_pct && (
                 <span className={styles.commissionPct}>
-                  ({booking.platform_commission_pct.toFixed(0)}%)
+                  ({formatPercentage(booking.platform_commission_pct, 0)})
                 </span>
               )}
             </span>
@@ -135,17 +136,17 @@ export function PricingTab({ booking }: PricingTabProps) {
           <div className={styles.commissionRow}>
             <span className={styles.commissionLabel}>Operator Net:</span>
             <span className={styles.commissionValue}>
-              £{operatorNet.toFixed(2)}
+              {formatCurrency(operatorNet)}
             </span>
           </div>
 
           <div className={styles.commissionRow}>
             <span className={styles.commissionLabel}>Driver Payout:</span>
             <span className={styles.commissionValueHighlight}>
-              £{driverPayout.toFixed(2)}
+              {formatCurrency(driverPayout)}
               {booking.driver_commission_pct && (
                 <span className={styles.commissionPct}>
-                  ({booking.driver_commission_pct.toFixed(0)}%)
+                  ({formatPercentage(booking.driver_commission_pct, 0)})
                 </span>
               )}
             </span>
@@ -155,7 +156,7 @@ export function PricingTab({ booking }: PricingTabProps) {
 
           <div className={styles.commissionRow}>
             <span className={styles.commissionLabelBold}>Total:</span>
-            <span className={styles.commissionValueBold}>£{totalPrice.toFixed(2)}</span>
+            <span className={styles.commissionValueBold}>{formatCurrency(totalPrice)}</span>
           </div>
         </div>
       </InfoSection>

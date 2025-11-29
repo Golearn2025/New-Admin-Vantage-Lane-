@@ -72,11 +72,11 @@
 
 .bulkActionButton:hover {
   background: var(--theme-primary-alpha-20);
-  transform: translateY(-1px);
+  /* DISABLED: hover loop fix */
 }
 
 .bulkActionButton:active {
-  transform: translateY(0);
+  /* DISABLED: hover loop fix */
 }
 
 .bulkActionButtonDanger {
@@ -294,11 +294,11 @@
 .paginationButton:hover:not(:disabled) {
   background: var(--color-surface-hover);
   border-color: var(--theme-primary);
-  transform: translateY(-1px);
+  /* DISABLED: hover loop fix */
 }
 
 .paginationButton:active:not(:disabled) {
-  transform: translateY(0);
+  /* DISABLED: hover loop fix */
 }
 
 .paginationButton:disabled {
@@ -326,7 +326,7 @@
 
 .viewAllButton:hover {
   gap: var(--spacing-3);
-  transform: translateX(2px);
+  /* DISABLED: hover loop fix */
 }
 
 /* ============================================ */

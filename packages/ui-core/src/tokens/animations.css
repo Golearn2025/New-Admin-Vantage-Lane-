@@ -39,44 +39,44 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    /* DISABLED: hover loop fix */
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    /* DISABLED: hover loop fix */
   }
 }
 
 @keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    /* DISABLED: hover loop fix */
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    /* DISABLED: hover loop fix */
   }
 }
 
 @keyframes slideInRight {
   from {
     opacity: 0;
-    transform: translateX(20px);
+    /* DISABLED: hover loop fix */
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    /* DISABLED: hover loop fix */
   }
 }
 
 @keyframes slideInLeft {
   from {
     opacity: 0;
-    transform: translateX(-20px);
+    /* DISABLED: hover loop fix */
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    /* DISABLED: hover loop fix */
   }
 }
 

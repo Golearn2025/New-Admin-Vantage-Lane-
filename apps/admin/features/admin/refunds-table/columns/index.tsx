@@ -6,6 +6,7 @@
 
 import React from 'react';
 import type { RefundListItem } from '@entities/refund';
+import { formatCurrency, formatDate } from '@/shared/utils/formatters';
 import styles from './columns.module.css';
 
 // Column type definition
@@ -19,24 +20,7 @@ interface Column<T> {
   cell?: (row: T) => React.ReactNode;
 }
 
-/**
- * Format currency cu simbol
- */
-function formatCurrency(amount: number, currency: string): string {
-  const symbol = currency === 'GBP' ? '£' : currency === 'EUR' ? '€' : '$';
-  return `${symbol}${(amount / 100).toFixed(2)}`;
-}
-
-/**
- * Format date
- */
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric'
-  });
-}
+// NOTE: formatCurrency and formatDate imported from centralized formatters
 
 /**
  * Status badge component
@@ -106,7 +90,7 @@ export function getRefundsColumns(): Column<RefundListItem>[] {
       width: '120px',
       cell: (row) => (
         <span className={styles.amount}>
-          {formatCurrency(row.amount, row.currency)}
+          {formatCurrency(row.amount)}
         </span>
       )
     },

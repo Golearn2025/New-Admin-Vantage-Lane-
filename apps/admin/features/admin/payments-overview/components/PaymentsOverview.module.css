@@ -68,19 +68,19 @@
 
 /* Card Colors - Industry Standard */
 .statCardBlue {
-  --accent-color: #3b82f6;
+  --accent-color: var(--color-primary);
 }
 
 .statCardGreen {
-  --accent-color: #10b981;
+  --accent-color: var(--color-success);
 }
 
 .statCardOrange {
-  --accent-color: #f59e0b;
+  --accent-color: var(--color-warning);
 }
 
 .statCardPurple {
-  --accent-color: #8b5cf6;
+  --accent-color: var(--color-category-lux);
 }
 
 .statLabel {

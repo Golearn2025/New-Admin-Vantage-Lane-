@@ -33,11 +33,11 @@
 .primary:hover:not(:disabled) {
   background: linear-gradient(135deg, var(--color-accent-500), var(--color-accent-600));
   box-shadow: var(--shadow-gold-lg);
-  transform: translateY(calc(var(--spacing-1) * -1));
+  /* transform: translateY(calc(var(--spacing-1) * -1)); */ /* DISABLED: hover loop fix */
 }
 
 .primary:active:not(:disabled) {
-  transform: translateY(0);
+  /* transform: translateY(0); */ /* DISABLED: hover loop fix */
   box-shadow: var(--shadow-gold-sm);
 }
 
@@ -52,7 +52,7 @@
   background: var(--color-primary-alpha-20);
   border-color: var(--color-border-strong);
   box-shadow: var(--shadow-gold-sm);
-  transform: translateY(calc(var(--spacing-1) * -1));
+  /* transform: translateY(calc(var(--spacing-1) * -1)); */ /* DISABLED: hover loop fix */
 }
 
 .button:disabled {

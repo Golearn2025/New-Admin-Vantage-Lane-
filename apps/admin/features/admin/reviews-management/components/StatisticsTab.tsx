@@ -17,14 +17,34 @@ import {
 import { getPlatformStatistics } from '@entities/review/api/reviewApi';
 import styles from './StatisticsTab.module.css';
 
+interface RatingBreakdownData {
+  averageRating: number;
+  totalRatings: number;
+  fiveStars: number;
+  fourStars: number;
+  threeStars: number;
+  twoStars: number;
+  oneStar: number;
+}
+
+interface SafetyStats {
+  pending: number;
+  investigating: number;
+  resolved: number;
+  dismissed: number;
+  total: number;
+}
+
+interface StatisticsState {
+  ratingBreakdown: RatingBreakdownData | null;
+  safetyStats: SafetyStats | null;
+  loading: boolean;
+  error: string | null;
+}
+
 export function StatisticsTab() {
   // Platform statistics state
-  const [statistics, setStatistics] = useState<{
-    ratingBreakdown: any;
-    safetyStats: any;
-    loading: boolean;
-    error: string | null;
-  }>({
+  const [statistics, setStatistics] = useState<StatisticsState>({
     ratingBreakdown: null,
     safetyStats: null,
     loading: true,

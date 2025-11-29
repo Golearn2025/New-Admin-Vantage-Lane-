@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import type { BookingListItem, BookingsListResponse } from '@vantage-lane/contracts';
 import { logger } from '@/lib/utils/logger';
 import { createClient } from '@/lib/supabase/client';
+import { fetchAuthedJson } from '@admin-shared/utils/fetchAuthedJson';
 
 interface Props {
   statusFilter?: string[];
@@ -71,10 +72,8 @@ export function useBookingsList({
         statusFilter.forEach(status => params.append('status_filter', status));
       }
 
-      const response = await fetch(`/api/bookings/list?${params}`);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-      const data: BookingsListResponse = await response.json();
+      // Use authenticated fetch wrapper
+      const data: BookingsListResponse = await fetchAuthedJson(`/api/bookings/list?${params}`);
 
       let filteredData = data.data;
       
@@ -110,13 +109,8 @@ export function useBookingsList({
   // Fetch single booking with complete data (for realtime)
   const fetchSingleBooking = useCallback(async (bookingId: string) => {
     try {
-      const response = await fetch(`/api/bookings/${bookingId}`);
-      if (!response.ok) {
-        logger.error('Failed to fetch single booking', { bookingId, status: response.status });
-        return;
-      }
-
-      const booking: BookingListItem = await response.json();
+      // Use authenticated fetch wrapper
+      const booking: BookingListItem = await fetchAuthedJson(`/api/bookings/${bookingId}`);
 
       // Check if booking passes current filters
       if (selectedStatus !== 'all' && booking.status !== selectedStatus) {

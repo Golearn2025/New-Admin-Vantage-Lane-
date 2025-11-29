@@ -32,7 +32,7 @@
   border-color: var(--color-primary);
   color: var(--color-primary);
   box-shadow: var(--shadow-lg);
-  transform: translateY(-1px);
+  /* DISABLED: hover loop fix */
 }
 
 .refreshButton:disabled {

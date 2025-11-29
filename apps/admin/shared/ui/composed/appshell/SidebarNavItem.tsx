@@ -8,27 +8,30 @@
 
 'use client';
 
+import { memo } from 'react';
 import { NavItem } from './NavItem';
 import type { IconName } from '@vantage-lane/ui-icons';
 
+interface MenuItemType {
+  href: string;
+  icon: IconName;
+  label: string;
+  badgeCount?: number;
+  children?: string[];
+}
+
 export interface SidebarNavItemProps {
-  item: {
-    href: string;
-    icon: IconName;
-    label: string;
-    badgeCount?: number;
-    children?: string[];
-  };
+  item: MenuItemType;
   currentPath: string;
   expandable: boolean;
   expandedItems: string[];
   onNavigate?: (path: string) => void;
   onToggleExpandHandler?: (href: string) => void;
-  isMenuItemActive: (item: any, path: string) => boolean;
-  isMenuItemExpanded: (item: any, path: string) => boolean;
+  isMenuItemActive: (item: MenuItemType, path: string) => boolean;
+  isMenuItemExpanded: (item: MenuItemType, path: string) => boolean;
 }
 
-export function SidebarNavItem({ 
+function SidebarNavItemComponent({ 
   item,
   currentPath,
   expandable,
@@ -58,3 +61,6 @@ export function SidebarNavItem({
     />
   );
 }
+
+// Memoized for performance - avoids re-renders when parent updates
+export const SidebarNavItem = memo(SidebarNavItemComponent);

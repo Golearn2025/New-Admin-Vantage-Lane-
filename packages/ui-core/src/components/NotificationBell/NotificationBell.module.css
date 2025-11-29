@@ -225,12 +225,12 @@
 .item:hover {
   background: var(--theme-primary-alpha-10);
   border-color: var(--theme-primary-muted);
-  transform: translateY(-1px);
+  /* DISABLED: hover loop fix */
   box-shadow: var(--shadow-lg);
 }
 
 .item:active {
-  transform: translateY(0);
+  /* DISABLED: hover loop fix */
   transition: var(--transition-fast);
 }
 

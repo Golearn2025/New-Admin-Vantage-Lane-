@@ -10,6 +10,7 @@
 import { Modal, Button } from '@vantage-lane/ui-core';
 import { FileText, Download, Calendar, User, FileType, CheckCircle, XCircle } from 'lucide-react';
 import type { Document } from '@entities/document';
+import { formatFileSize } from '@/shared/utils/formatters';
 import styles from './DocumentViewerModal.module.css';
 
 export interface DocumentViewerModalProps {
@@ -43,13 +44,7 @@ export function DocumentViewerModal({
     });
   };
 
-  const formatFileSize = (bytes?: number) => {
-    if (!bytes) return 'Unknown';
-    const kb = bytes / 1024;
-    if (kb < 1024) return `${kb.toFixed(1)} KB`;
-    const mb = kb / 1024;
-    return `${mb.toFixed(1)} MB`;
-  };
+  // Use centralized file size formatter
 
   return (
     <Modal

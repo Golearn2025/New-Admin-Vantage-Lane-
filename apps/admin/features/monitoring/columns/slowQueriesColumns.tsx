@@ -5,33 +5,34 @@
  * Conform RULES.md: <30 linii
  */
 
-import { Badge } from '@vantage-lane/ui-core';
+import { type Column, Badge } from '@vantage-lane/ui-core';
+import type { SlowQuery } from '../types';
 
-export const slowQueriesColumns = [
+export const slowQueriesColumns: Column<SlowQuery>[] = [
   {
     id: 'query',
     header: 'Query',
-    accessor: (row: any) => row.query,
-    cell: (row: any, value: any) => (
-      <code className="text-xs">{value.substring(0, 50)}...</code>
+    accessor: (row: SlowQuery) => row.query,
+    cell: (row: SlowQuery, value: unknown) => (
+      <code className="text-xs">{String(value).substring(0, 50)}...</code>
     )
   },
   {
     id: 'duration',
     header: 'Duration',
-    accessor: (row: any) => row.duration,
-    cell: (row: any, value: any) => (
-      <Badge color={value > 1000 ? 'danger' : 'warning'}>
-        {value}ms
+    accessor: (row: SlowQuery) => row.duration,
+    cell: (row: SlowQuery, value: unknown) => (
+      <Badge color={parseInt(String(value)) > 1000 ? 'danger' : 'warning'}>
+        {String(value)}ms
       </Badge>
     )
   },
   {
     id: 'timestamp',
     header: 'Time',
-    accessor: (row: any) => row.timestamp,
-    cell: (row: any, value: any) => (
-      <span className="text-sm">{new Date(value).toLocaleTimeString()}</span>
+    accessor: (row: SlowQuery) => row.timestamp,
+    cell: (row: SlowQuery, value: unknown) => (
+      <span className="text-sm">{new Date(String(value)).toLocaleTimeString()}</span>
     )
   }
 ];

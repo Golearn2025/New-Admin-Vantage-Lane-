@@ -8,6 +8,7 @@
 :root {
   /* Breakpoint Values */
   --breakpoint-xs: 320px;  /* Extra Small - Mobile portrait */
+  --breakpoint-xs-plus: 375px;  /* iPhone Standard - Mobile portrait large */
   --breakpoint-sm: 480px;  /* Small - Mobile landscape */
   --breakpoint-md: 768px;  /* Medium - Tablet */
   --breakpoint-lg: 1024px; /* Large - Desktop */

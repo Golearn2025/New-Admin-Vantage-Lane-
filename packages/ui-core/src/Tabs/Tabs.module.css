@@ -392,11 +392,11 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(4px);
+    /* DISABLED: hover loop fix */
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    /* DISABLED: hover loop fix */
   }
 }
 

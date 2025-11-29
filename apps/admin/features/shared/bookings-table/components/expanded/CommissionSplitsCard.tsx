@@ -12,6 +12,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { Coins } from 'lucide-react';
+import { formatCurrency, formatPercentage } from '@/shared/utils/formatters';
 import styles from './CommissionSplitsCard.module.css';
 import { InfoSection } from './InfoSection';
 
@@ -36,14 +37,7 @@ export function CommissionSplitsCard({
 }: CommissionSplitsProps) {
   const breakdownRef = useRef<HTMLDivElement>(null);
 
-  const formatPrice = (amount: number): string => {
-    const symbol = currency === 'GBP' ? '£' : currency === 'EUR' ? '€' : '$';
-    return `${symbol}${amount.toFixed(2)}`;
-  };
-
-  const formatRate = (rate: number): string => {
-    return `${(rate * 100).toFixed(0)}%`;
-  };
+  // Use centralized formatters
 
   // Set CSS custom properties for bar widths
   useEffect(() => {
@@ -64,7 +58,7 @@ export function CommissionSplitsCard({
         {/* Total Paid */}
         <div className={`${styles.row} ${styles.total}`}>
           <span className={styles.label}>Client Paid:</span>
-          <span className={styles.value}>{formatPrice(totalPaid)}</span>
+          <span className={styles.value}>{formatCurrency(totalPaid)}</span>
         </div>
 
         <div className={styles.divider} />
@@ -72,40 +66,40 @@ export function CommissionSplitsCard({
         {/* Platform Fee */}
         <div className={styles.row}>
           <span className={styles.label}>
-            Platform Fee {platformRate && `(${formatRate(platformRate)})`}:
+            Platform Fee {platformRate && `(${formatPercentage(platformRate * 100, 0)})`}:
           </span>
-          <span className={`${styles.value} ${styles.platform}`}>{formatPrice(platformFee)}</span>
+          <span className={`${styles.value} ${styles.platform}`}>{formatCurrency(platformFee)}</span>
         </div>
 
         {/* Operator Commission */}
         <div className={styles.row}>
           <span className={styles.label}>
-            Operator Commission {operatorRate && `(${formatRate(operatorRate)})`}:
+            Operator Commission {operatorRate && `(${formatPercentage(operatorRate * 100, 0)})`}:
           </span>
           <span className={`${styles.value} ${styles.operator}`}>
-            {formatPrice(operatorNet - driverEarnings)}
+            {formatCurrency(operatorNet - driverEarnings)}
           </span>
         </div>
 
         {/* Driver Earnings */}
         <div className={`${styles.row} ${styles.driver}`}>
           <span className={styles.label}>Driver Earnings:</span>
-          <span className={styles.value}>{formatPrice(driverEarnings)}</span>
+          <span className={styles.value}>{formatCurrency(driverEarnings)}</span>
         </div>
 
         {/* Visual Breakdown */}
         <div ref={breakdownRef} className={styles.visualBreakdown}>
           <div
             className={styles.platformBar}
-            title={`Platform: ${formatPrice(platformFee)}`}
+            title={`Platform: ${formatCurrency(platformFee)}`}
           />
           <div
             className={styles.operatorBar}
-            title={`Operator: ${formatPrice(operatorNet - driverEarnings)}`}
+            title={`Operator: ${formatCurrency(operatorNet - driverEarnings)}`}
           />
           <div
             className={styles.driverBar}
-            title={`Driver: ${formatPrice(driverEarnings)}`}
+            title={`Driver: ${formatCurrency(driverEarnings)}`}
           />
         </div>
 

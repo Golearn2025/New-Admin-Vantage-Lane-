@@ -19,7 +19,7 @@
 .card:hover {
   border-color: var(--color-border-default);
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-4px);
+  /* DISABLED: hover loop fix */
 }
 
 /* Variants */

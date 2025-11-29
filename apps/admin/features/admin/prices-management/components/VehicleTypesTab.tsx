@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import { EnterpriseDataTable, Modal, Input, Button } from '@vantage-lane/ui-core';
 import { createVehicleColumns, type VehicleRow } from './vehicle-types/vehicle-columns';
 import { BarChart3, Banknote, Plus, RefreshCw, Save } from 'lucide-react';
+import { formatCurrency } from '@/shared/utils/formatters';
 import { usePricesManagement } from '../hooks/usePricesManagement';
 import type { PricingConfig, VehicleTypeRates } from '@entities/pricing';
 import styles from './PricesManagementPage.module.css';
@@ -143,19 +144,19 @@ export function VehicleTypesTab({ config }: Props) {
                 </h4>
                 <div className={styles.exampleRow}>
                   <span className={styles.exampleLabel}>Base Fare:</span>
-                  <span className={styles.exampleValue}>£{example.baseFare.toFixed(2)}</span>
+                  <span className={styles.exampleValue}>{formatCurrency(example.baseFare)}</span>
                 </div>
                 <div className={styles.exampleRow}>
                   <span className={styles.exampleLabel}>Distance Fee:</span>
-                  <span className={styles.exampleValue}>£{example.distanceFee.toFixed(2)}</span>
+                  <span className={styles.exampleValue}>{formatCurrency(example.distanceFee)}</span>
                 </div>
                 <div className={styles.exampleRow}>
                   <span className={styles.exampleLabel}>Time Fee:</span>
-                  <span className={styles.exampleValue}>£{example.timeFee.toFixed(2)}</span>
+                  <span className={styles.exampleValue}>{formatCurrency(example.timeFee)}</span>
                 </div>
                 <div className={`${styles.exampleRow} ${styles.exampleTotal}`}>
                   <span className={styles.exampleLabel}>Customer Total:</span>
-                  <span className={styles.exampleValue}>£{customerPrice.toFixed(2)}</span>
+                  <span className={styles.exampleValue}>{formatCurrency(customerPrice)}</span>
                 </div>
               </div>
 
@@ -168,19 +169,19 @@ export function VehicleTypesTab({ config }: Props) {
                 </h4>
                 <div className={styles.exampleRow}>
                   <span className={styles.exampleLabel}>Platform Fee (10%):</span>
-                  <span className={`${styles.exampleValue} ${styles.textPrimary}`}>£{platformFee.toFixed(2)}</span>
+                  <span className={`${styles.exampleValue} ${styles.textPrimary}`}>{formatCurrency(platformFee)}</span>
                 </div>
                 <div className={styles.exampleRow}>
                   <span className={styles.exampleLabel}>Operator Net:</span>
-                  <span className={styles.exampleValue}>£{operatorNet.toFixed(2)}</span>
+                  <span className={styles.exampleValue}>{formatCurrency(operatorNet)}</span>
                 </div>
                 <div className={styles.exampleRow}>
                   <span className={styles.exampleLabel}>Operator Commission (20%):</span>
-                  <span className={`${styles.exampleValue} ${styles.textSuccess}`}>£{operatorCommissionAmount.toFixed(2)}</span>
+                  <span className={`${styles.exampleValue} ${styles.textSuccess}`}>{formatCurrency(operatorCommissionAmount)}</span>
                 </div>
                 <div className={`${styles.exampleRow} ${styles.exampleTotal}`}>
                   <span className={styles.exampleLabel}>Driver Payout (80%):</span>
-                  <span className={`${styles.exampleValue} ${styles.textInfo}`}>£{driverPayout.toFixed(2)}</span>
+                  <span className={`${styles.exampleValue} ${styles.textInfo}`}>{formatCurrency(driverPayout)}</span>
                 </div>
               </div>
             </>

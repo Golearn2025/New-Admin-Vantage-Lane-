@@ -29,8 +29,8 @@
     var(--color-surface-glass),
     var(--theme-primary-alpha-10)
   );
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: var(--blur-lg);
+  -webkit-backdrop-filter: var(--blur-lg);
   border-bottom: 1px solid var(--color-border-strong);
   box-shadow: var(--shadow-sm);
 }
@@ -242,19 +242,19 @@
 /* User dropdown styles moved to UserDropdown.module.css */
 
 /* Mobile Responsive */
-/* iPhone SE / Small mobile (320px-374px) */
-@media (max-width: 374px) {
+/* iPhone SE / Small mobile (up to xs-plus) */
+@media (max-width: 375px) {
   .userName,
   .userRole {
-    max-width: 80px;
+    max-width: var(--logo-size-small);
   }
 }
 
-/* iPhone Standard / Medium mobile (375px-480px) */
+/* iPhone Standard / Medium mobile (xs-plus to sm) */
 @media (min-width: 375px) and (max-width: 480px) {
   .userName,
   .userRole {
-    max-width: 100px;
+    max-width: var(--logo-size-medium);
   }
 }
 
@@ -322,8 +322,8 @@
   }
   
   .logoImage {
-    width: 32px; /* Slightly smaller logo on very small screens */
-    height: 32px;
+    width: var(--logo-size); /* Slightly smaller logo on very small screens */
+    height: var(--logo-size);
   }
 }
 

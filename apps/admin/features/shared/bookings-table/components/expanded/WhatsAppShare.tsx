@@ -13,6 +13,8 @@
 import React, { useState } from 'react';
 import { Smartphone, CheckCircle, Clipboard } from 'lucide-react';
 import type { BookingListItem } from '@vantage-lane/contracts';
+import { Button } from '@vantage-lane/ui-core';
+import { formatCurrency } from '@/shared/utils/formatters';
 import styles from './WhatsAppShare.module.css';
 
 interface WhatsAppShareProps {

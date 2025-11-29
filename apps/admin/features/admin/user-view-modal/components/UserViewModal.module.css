@@ -21,14 +21,14 @@
   color: var(--color-text-primary);
   margin: 0 0 var(--spacing-4) 0;
   padding-bottom: var(--spacing-3);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .badge {
   display: inline-block;
   padding: var(--spacing-2) var(--spacing-4);
-  background: rgba(211, 170, 49, 0.2);
-  border: 1px solid rgba(211, 170, 49, 0.5);
+  background: var(--color-vehicle-gold-alpha-20);
+  border: 1px solid var(--color-vehicle-gold-alpha-50);
   border-radius: var(--border-radius-md);
   color: var(--color-text-primary);
   font-size: var(--font-size-sm);
@@ -67,7 +67,7 @@
   font-family: 'Monaco', 'Courier New', monospace;
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--color-bg-subtle);
   padding: var(--spacing-2);
   border-radius: var(--border-radius-sm);
   margin: 0;

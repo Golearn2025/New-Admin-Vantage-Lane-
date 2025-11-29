@@ -37,7 +37,13 @@ export function useOperators() {
 
         if (queryError) throw queryError;
 
-        const transformedOperators: Operator[] = (data || []).map((op: any) => ({
+        interface OrganizationData {
+          id: string;
+          name: string;
+          contact_email?: string;
+        }
+
+        const transformedOperators: Operator[] = (data || []).map((op: OrganizationData) => ({
           id: op.id,
           name: op.name,
           email: op.contact_email || '',

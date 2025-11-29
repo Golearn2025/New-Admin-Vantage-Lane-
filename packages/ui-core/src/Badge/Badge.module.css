@@ -271,7 +271,7 @@
 /* ============================================ */
 
 .badge:hover {
-  transform: translateY(-1px);
+  /* DISABLED: hover loop fix */
 }
 
 .solid:hover {

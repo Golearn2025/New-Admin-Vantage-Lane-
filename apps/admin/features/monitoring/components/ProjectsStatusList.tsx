@@ -7,6 +7,7 @@
 
 'use client';
 
+import { useMemo } from 'react';
 import { Card, Badge } from '@vantage-lane/ui-core';
 import { CrossProjectMetrics } from '@entities/sentry';
 import * as Sentry from "@sentry/nextjs";
@@ -31,24 +32,30 @@ export function ProjectsStatusList({ metrics }: ProjectsStatusListProps): JSX.El
     logger.info("Project clicked", { projectName: project.name });
   };
 
+  // Memoize projects list to prevent re-creation on every render
+  const projectItems = useMemo(() => 
+    projects.map((project, index) => (
+      <div 
+        key={index} 
+        className={styles.projectItem || ""}
+        onClick={() => handleProjectClick(project)}
+      >
+        <span className={styles.projectName || ""}>{project.name}</span>
+        <Badge color={project.status === 'active' ? 'success' : 'neutral'}>
+          {project.status}
+        </Badge>
+        <span className={styles.errors || ""}>{project.errors} errors</span>
+      </div>
+    )), 
+    [projects]
+  );
+
   return (
     <Card className={styles.projectsCard || ""}>
       <h3 className={styles.cardTitle || ""}>Projects Status</h3>
       
       <div className={styles.projectsList || ""}>
-        {projects.map((project, index) => (
-          <div 
-            key={index} 
-            className={styles.projectItem || ""}
-            onClick={() => handleProjectClick(project)}
-          >
-            <span className={styles.projectName || ""}>{project.name}</span>
-            <Badge color={project.status === 'active' ? 'success' : 'neutral'}>
-              {project.status}
-            </Badge>
-            <span className={styles.errors || ""}>{project.errors} errors</span>
-          </div>
-        ))}
+        {projectItems}
       </div>
     </Card>
   );

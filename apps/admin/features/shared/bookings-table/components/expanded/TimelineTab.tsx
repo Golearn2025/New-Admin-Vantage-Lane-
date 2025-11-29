@@ -9,7 +9,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { BookingListItem } from '@vantage-lane/contracts';
 import styles from './TimelineTab.module.css';
 
@@ -81,8 +81,7 @@ export function TimelineTab({ booking }: TimelineTabProps) {
   events.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
 
   const formatTimestamp = (timestamp: string): string => {
-    const date = new Date(timestamp);
-    return date.toLocaleString('en-GB', {
+    return new Date(timestamp).toLocaleString('en-GB', {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
@@ -93,17 +92,45 @@ export function TimelineTab({ booking }: TimelineTabProps) {
 
   const getRelativeTime = (timestamp: string): string => {
     const now = new Date();
-    const then = new Date(timestamp);
-    const diffMs = now.getTime() - then.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
+    const eventTime = new Date(timestamp);
+    const diffMs = now.getTime() - eventTime.getTime();
+    const diffMins = Math.floor(diffMs / (1000 * 60));
     const diffHours = Math.floor(diffMins / 60);
     const diffDays = Math.floor(diffHours / 24);
 
-    if (diffMins < 1) return 'Just now';
-    if (diffMins < 60) return `${diffMins} min ago`;
+    if (diffMins < 60) return `${diffMins}m ago`;
     if (diffHours < 24) return `${diffHours}h ago`;
     return `${diffDays}d ago`;
   };
+
+  // Memoize timeline events to prevent re-creation on every render
+  const timelineEvents = useMemo(() => 
+    events.map((event, index) => (
+      <div key={index} className={styles.event}>
+        <div className={styles.eventIcon}>{event.icon}</div>
+        
+        <div className={styles.eventContent}>
+          <div className={styles.eventHeader}>
+            <span className={styles.eventTitle}>{event.title}</span>
+            <span className={styles.eventTime}>
+              {getRelativeTime(event.timestamp)}
+            </span>
+          </div>
+          
+          {event.description && (
+            <p className={styles.eventDescription}>{event.description}</p>
+          )}
+          
+          <span className={styles.eventTimestamp}>
+            {formatTimestamp(event.timestamp)}
+          </span>
+        </div>
+
+        {index < events.length - 1 && <div className={styles.eventLine} />}
+      </div>
+    )), 
+    [events]
+  );
 
   if (events.length === 0) {
     return (
@@ -119,30 +146,7 @@ export function TimelineTab({ booking }: TimelineTabProps) {
   return (
     <div className={styles.container}>
       <div className={styles.timeline}>
-        {events.map((event, index) => (
-          <div key={index} className={styles.event}>
-            <div className={styles.eventIcon}>{event.icon}</div>
-            
-            <div className={styles.eventContent}>
-              <div className={styles.eventHeader}>
-                <span className={styles.eventTitle}>{event.title}</span>
-                <span className={styles.eventTime}>
-                  {getRelativeTime(event.timestamp)}
-                </span>
-              </div>
-              
-              {event.description && (
-                <p className={styles.eventDescription}>{event.description}</p>
-              )}
-              
-              <span className={styles.eventTimestamp}>
-                {formatTimestamp(event.timestamp)}
-              </span>
-            </div>
-
-            {index < events.length - 1 && <div className={styles.eventLine} />}
-          </div>
-        ))}
+        {timelineEvents}
       </div>
     </div>
   );

@@ -7,6 +7,7 @@
 
 'use client';
 
+import { useMemo } from 'react';
 import { Card } from '@vantage-lane/ui-core';
 import * as Sentry from "@sentry/nextjs";
 
@@ -27,15 +28,21 @@ export function PerformanceMetrics({ metrics }: PerformanceMetricsProps): JSX.El
     { label: "Apdex Score", value: metrics?.apdex?.toFixed(2) || '0.00', trendLabel: "user satisfaction" }
   ];
 
+  // Memoize performance metrics items to prevent re-creation on every render
+  const metricsItems = useMemo(() => 
+    metricsData.map((metric, index) => (
+      <div key={index} className="flex justify-between">
+        <span>{metric.label}:</span>
+        <span>{metric.value}</span>
+      </div>
+    )), 
+    [metricsData]
+  );
+
   return (
     <Card className="p-4">
       <div className="space-y-2">
-        {metricsData.map((metric, index) => (
-          <div key={index} className="flex justify-between">
-            <span>{metric.label}:</span>
-            <span>{metric.value}</span>
-          </div>
-        ))}
+        {metricsItems}
       </div>
     </Card>
   );

@@ -7,6 +7,7 @@
 
 'use client';
 
+import { useMemo } from 'react';
 import { Card, Badge } from '@vantage-lane/ui-core';
 import * as Sentry from "@sentry/nextjs";
 import styles from './SecurityAlerts.module.css';
@@ -28,24 +29,32 @@ const { logger } = Sentry;
 
 export function SecurityAlerts({ alerts }: SecurityAlertsProps): JSX.Element {
   const handleAlertClick = (alert: SecurityAlert) => {
-    Sentry.startSpan({
-      op: "ui.click",
-      name: "Security Alert Click"
-    }, (span) => {
-      span.setAttribute("alert_type", alert.type);
-      span.setAttribute("alert_severity", alert.severity);
-      
-      logger.warn("Security alert reviewed", {
-        alertId: alert.id,
-        alertType: alert.type,
-        severity: alert.severity
-      });
-    });
+    logger.info("Security alert clicked", { alertId: alert.id, type: alert.type });
   };
+
+  // Memoize alert items to prevent re-creation on every render
+  const alertItems = useMemo(() => 
+    alerts.map((alert) => (
+      <div 
+        key={alert.id}
+        className={styles.alertItem || ""}
+        onClick={() => handleAlertClick(alert)}
+      >
+        <Badge color={alert.severity === 'high' ? 'danger' : 'warning'}>
+          {alert.type.toUpperCase()}
+        </Badge>
+        <span className={styles.alertMessage || ""}>{alert.message}</span>
+        <span className={styles.alertTime || ""}>
+          {new Date(alert.timestamp).toLocaleTimeString()}
+        </span>
+      </div>
+    )), 
+    [alerts]
+  );
 
   return (
     <Card className={styles.alertsCard || ""}>
-      <h3 className={styles.cardTitle || ""}>Security Alerts (Real-time)</h3>
+      <h3 className={styles.cardTitle || ""}>Security Alerts (Live)</h3>
       
       <div className={styles.alertsList || ""}>
         {alerts.length === 0 ? (
@@ -54,21 +63,7 @@ export function SecurityAlerts({ alerts }: SecurityAlertsProps): JSX.Element {
             <span>No security threats detected</span>
           </div>
         ) : (
-          alerts.map((alert) => (
-            <div 
-              key={alert.id}
-              className={styles.alertItem || ""}
-              onClick={() => handleAlertClick(alert)}
-            >
-              <Badge color={alert.severity === 'high' ? 'danger' : 'warning'}>
-                {alert.type.toUpperCase()}
-              </Badge>
-              <span className={styles.alertMessage || ""}>{alert.message}</span>
-              <span className={styles.alertTime || ""}>
-                {new Date(alert.timestamp).toLocaleTimeString()}
-              </span>
-            </div>
-          ))
+          alertItems
         )}
       </div>
     </Card>

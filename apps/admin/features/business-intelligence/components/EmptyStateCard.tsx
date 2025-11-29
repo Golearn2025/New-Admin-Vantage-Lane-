@@ -5,7 +5,7 @@
  * File: < 200 lines (RULES.md compliant)
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card, Icon, Badge } from '@vantage-lane/ui-core';
 import { getEmptyStateMessage, getIndustryBenchmarks } from '@entities/business-intelligence';
 import type { IconName } from '@vantage-lane/ui-core';
@@ -21,19 +21,30 @@ export function EmptyStateCard({ type, icon, title }: EmptyStateCardProps) {
   const message = getEmptyStateMessage(type);
   const benchmarks = getIndustryBenchmarks(type);
 
+  // Memoize benchmark items to prevent re-creation on every render
+  const benchmarkItems = useMemo(() => 
+    benchmarks.map((benchmark, index) => (
+      <li key={index} className={styles.benchmarkItem}>
+        <Icon name="check" size="sm" />
+        <span>{benchmark}</span>
+      </li>
+    )), 
+    [benchmarks]
+  );
+
   return (
-    <Card className={styles.emptyState || ''}>
+    <Card className={styles.emptyStateCard || ''}>
       <div className={styles.emptyStateContent}>
-        {/* Icon */}
+        {/* Main Icon */}
         <div className={styles.iconContainer}>
           <Icon name={icon} size="lg" />
         </div>
 
-        {/* Title */}
-        <h3 className={styles.title}>{title}</h3>
-
-        {/* Message */}
-        <p className={styles.message}>{message}</p>
+        {/* Title & Description */}
+        <div className={styles.textContent}>
+          <h2 className={styles.title}>{title}</h2>
+          <p className={styles.description}>{message}</p>
+        </div>
 
         {/* Industry Benchmarks */}
         {benchmarks.length > 0 && (
@@ -44,12 +55,7 @@ export function EmptyStateCard({ type, icon, title }: EmptyStateCardProps) {
             </div>
             
             <ul className={styles.benchmarksList}>
-              {benchmarks.map((benchmark, index) => (
-                <li key={index} className={styles.benchmarkItem}>
-                  <Icon name="check" size="sm" />
-                  <span>{benchmark}</span>
-                </li>
-              ))}
+              {benchmarkItems}
             </ul>
           </div>
         )}

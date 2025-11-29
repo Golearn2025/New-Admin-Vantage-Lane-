@@ -7,7 +7,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Card, Badge, Button } from '@vantage-lane/ui-core';
 import { Car, ChevronDown, ChevronUp } from 'lucide-react';
 import { DocumentCard } from './DocumentCard';

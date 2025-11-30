@@ -9,6 +9,7 @@ import type { BookingStatus } from '@vantage-lane/ui-core';
 import { StatusBadge } from '@vantage-lane/ui-core';
 import { Calendar, Clock, CreditCard, Luggage, MapPin, Plane, Route, User } from 'lucide-react';
 import { VehicleChip, type VehicleCategory } from './VehicleChip';
+import React, { useMemo } from 'react';
 import styles from './columns.module.css';
 import {
   formatDate,
@@ -106,19 +107,26 @@ export const getPaymentColumn = (): BookingColumn => ({
   align: 'left',
   resizable: true,
   sortable: true,
-  cell: (row) => (
-    <div className={styles.paymentCell}>
-      <div className={styles.paymentLine}>
-        <span className={styles.paymentLabel}>Base:</span>
-        <span>{formatPrice(row.base_price)}</span>
-      </div>
-      {row.paid_services.map((service, idx) => (
+  cell: (row) => {
+    // Memoize service items to prevent re-creation on every render
+    const serviceItems = useMemo(() => 
+      row.paid_services.map((service, idx) => (
         <div key={idx} className={styles.paymentLine}>
           <span className={styles.paymentLabel}>+ {formatServiceName(service.service_code)}:</span>
           <span>{formatPrice(service.unit_price * service.quantity)}</span>
         </div>
-      ))}
-      {row.paid_services.length > 0 && (
+      )), 
+      [row.paid_services]
+    );
+
+    return (
+      <div className={styles.paymentCell}>
+        <div className={styles.paymentLine}>
+          <span className={styles.paymentLabel}>Base:</span>
+          <span>{formatPrice(row.base_price)}</span>
+        </div>
+        {serviceItems}
+        {row.paid_services.length > 0 && (
         <div className={styles.paymentTotal}>
           <span className={styles.paymentLabel}>TOTAL:</span>
           <span>{formatPrice(row.fare_amount)}</span>
@@ -134,7 +142,8 @@ export const getPaymentColumn = (): BookingColumn => ({
         </div>
       </div>
     </div>
-  ),
+    );
+  },
 });
 
 export const getStatusColumn = (): BookingColumn => ({

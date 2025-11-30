@@ -6,7 +6,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { EnterpriseDataTable, Modal, Input, Button } from '@vantage-lane/ui-core';
 import { createVehicleColumns, type VehicleRow } from './vehicle-types/vehicle-columns';
 import { BarChart3, Banknote, Plus, RefreshCw, Save } from 'lucide-react';
@@ -37,7 +37,9 @@ export function VehicleTypesTab({ config }: Props) {
 
   const vehicleTypes = Object.entries(config.vehicle_types);
 
-  const vehicleData: VehicleRow[] = vehicleTypes.map(([type, rates]) => ({
+  // Memoize vehicle data transformation to prevent re-creation on every render
+  const vehicleData: VehicleRow[] = useMemo(() =>
+    vehicleTypes.map(([type, rates]) => ({
     id: type,
     name: rates.name,
     baseFare: rates.base_fare,
@@ -47,7 +49,9 @@ export function VehicleTypesTab({ config }: Props) {
     minimumFare: rates.minimum_fare,
     editing: editingType === type,
     original: rates,
-  }));
+  })), 
+  [vehicleTypes, editingType]
+  );
 
   const handleEdit = (type: string, rates: VehicleTypeRates) => {
     console.log('🎯 Edit clicked:', type);

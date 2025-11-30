@@ -5,7 +5,7 @@
  * File: < 200 lines (RULES.md compliant)
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card, StatCard, Badge, Icon } from '@vantage-lane/ui-core';
 import { formatNumber, formatCurrency, getInsightColor, getInsightIcon } from '@entities/business-intelligence';
 import { EmptyStateCard } from './EmptyStateCard';

@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button } from '@vantage-lane/ui-core';
 import { Lock, Users, User, Building2, Crown, Car, BarChart3, AlertCircle } from 'lucide-react';
 import { useSettingsPermissions } from '../hooks/useSettingsPermissions';

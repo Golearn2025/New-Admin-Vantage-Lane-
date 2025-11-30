@@ -18,7 +18,7 @@ import {
 } from '@vantage-lane/ui-core';
 import React, { useCallback, useState } from 'react';
 import { getBookingsColumns } from '../columns';
-import { useBookingsList } from '../hooks/useBookingsList';
+import { useBookingsListSwitcher } from '../hooks/useBookingsListSwitcher';
 import { getBookingGroupClass } from '../utils/bookingGroupColors';
 import { BookingExpandedRow } from './BookingExpandedRow';
 import styles from './BookingsTable.module.css';
@@ -50,8 +50,8 @@ export function BookingsTable({
     totalCount: 0,
   });
 
-  // Fetch bookings data with "All" support
-  const { bookings, loading, error, totalCount, fetchBookings } = useBookingsList({
+  // Fetch bookings data with "All" support - STEP 3A: Feature flag switcher
+  const { bookings, loading, error, totalCount, fetchBookings } = useBookingsListSwitcher({
     statusFilter,
     selectedStatus: showStatusFilter ? selectedStatus : 'all',
     tripTypeFilter,

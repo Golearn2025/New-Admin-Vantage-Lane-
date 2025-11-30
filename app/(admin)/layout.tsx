@@ -12,6 +12,7 @@ import { AppShell, UserRole } from '@admin-shared/ui/composed/appshell';
 import { useCurrentUser } from '@admin-shared/hooks/useCurrentUser';
 import { useNewBookingRealtime } from '../../apps/admin/shared/hooks/useNewBookingRealtime';
 import { NotificationsProvider } from '@admin-shared/providers/NotificationsProvider';
+import { ReactQueryProvider } from '@admin-shared/providers/ReactQueryProvider';
 import styles from './layout.module.css';
 
 interface AdminLayoutProps {
@@ -35,10 +36,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <NotificationsProvider>
-      <AppShell role={userRole} currentPath={pathname} {...(user && { user })}>
-        {children}
-      </AppShell>
-    </NotificationsProvider>
+    <ReactQueryProvider>
+      <NotificationsProvider>
+        <AppShell role={userRole} currentPath={pathname} {...(user && { user })}>
+          {children}
+        </AppShell>
+      </NotificationsProvider>
+    </ReactQueryProvider>
   );
 }

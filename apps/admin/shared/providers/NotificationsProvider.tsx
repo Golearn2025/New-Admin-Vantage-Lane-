@@ -234,14 +234,9 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
             setNotifications((prev) => [newNotif, ...prev]);
             setUnreadCount((prev) => prev + 1);
 
-            // 🔊 Play sound for booking notifications
-            if (newNotif.type === 'booking_created' && audioRef.current) {
-              audioRef.current.volume = 0.8;
-              audioRef.current.currentTime = 0;
-              audioRef.current.play().catch((err) => {
-                console.warn('⚠️ Sound play blocked:', err);
-              });
-            }
+            // 🔊 STEP 2 - Realtime Standardization: 
+            // Sound is now handled by useBookingsList realtime (single source)
+            // Notifications handle ONLY bell/unread count, NO sound
 
             // Optional: Show browser notification
             if ('Notification' in window && Notification.permission === 'granted') {

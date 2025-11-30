@@ -5,64 +5,31 @@
  */
 
 import { logger } from '@/lib/utils/logger';
-import type { BookingsListResponse } from '@admin-shared/api/contracts/bookings';
 import type { BookingsListParams, BookingRowDTO } from '@entities/booking/types/bookingsList.types';
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-// Status mapping from DB to contract enum
-function mapDbStatusToContract(dbStatus: string): 'pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress' | 'completed' | 'cancelled' {
-  switch (dbStatus?.toUpperCase()) {
-    case 'NEW':
-    case 'PENDING':
-      return 'pending';
-    case 'ASSIGNED':
-      return 'assigned';
-    case 'EN_ROUTE':
-    case 'ENROUTE':
-      return 'en_route';
-    case 'ARRIVED':
-      return 'arrived';
-    case 'IN_PROGRESS':
-    case 'INPROGRESS':
-      return 'in_progress';
-    case 'COMPLETED':
-    case 'FINISHED':
-      return 'completed';
-    case 'CANCELLED':
-    case 'CANCELED':
-      return 'cancelled';
-    default:
-      return 'pending'; // Default fallback
-  }
-}
+import { createClient } from '@/lib/supabase/server';
+import { transformRowsToResponse } from './mappers';
 
 export async function GET(request: NextRequest) {
   const startTime = Date.now();
 
   try {
-    // Extract and validate Authorization token
-    const authHeader = request.headers.get('authorization');
-    const token = authHeader?.replace('Bearer ', '');
+    // Create server Supabase client with cookies (proper session propagation)
+    const supabase = await createClient();
     
-    if (!token) {
-      logger.warn('Missing Authorization token in bookings list API');
-      return NextResponse.json(
-        { error: 'Unauthorized - Missing token' }, 
-        { status: 401 }
-      );
-    }
+    // Get authenticated user
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
-    // Create authenticated Supabase client
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { 
-        global: { 
-          headers: { Authorization: `Bearer ${token}` } 
-        } 
-      }
-    );
+    if (authError || !user) {
+      logger.warn('Unauthorized access to bookings list API', { 
+        error: authError?.message,
+        hasUser: !!user 
+      });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     
     const { searchParams } = new URL(request.url);
     
@@ -93,6 +60,13 @@ export async function GET(request: NextRequest) {
       to: searchParams.get('to') || null,
     };
 
+    // Add structured logging for debugging
+    logger.info('Calling get_bookings_list RPC', {
+      user_id: user.id,
+      params: rpcParams,
+      rpc_name: 'get_bookings_list'
+    });
+
     // Call RPC function with correct parameter order
     // Function expects: p_limit, p_offset, p_sort, p_dir, p_search, p_status, p_from, p_to
     const { data, error } = await supabase.rpc('get_bookings_list', {
@@ -111,7 +85,7 @@ export async function GET(request: NextRequest) {
         error: error.message, 
         code: error.code,
         params: rpcParams,
-        token_present: !!token
+        user_id: user?.id
       });
       
       // Return proper error response instead of throwing
@@ -128,112 +102,23 @@ export async function GET(request: NextRequest) {
     const rows = (data as BookingRowDTO[]) || [];
     const total = rows.length > 0 ? (rows[0]?.total_count ?? 0) : 0;
     
-    // Build response matching existing contract
-    const totalPages = Math.ceil(total / pageSize);
-    const response: BookingsListResponse = {
-      data: rows.map(row => ({
-          // Core identifiers
-          id: row.booking_id,
-          reference: row.reference || 'N/A',
-          
-          // Status & flags - map DB values to contract enum
-          status: mapDbStatusToContract(row.status),
-          is_urgent: false, // TODO: Calculate from pickup_time < 3h and no driver
-          is_new: false, // TODO: Calculate from created_at < 24h ago
-          
-          // Trip info
-          trip_type: (row.trip_type as 'oneway' | 'return' | 'hourly' | 'fleet') || 'oneway',
-          category: 'EXEC', // TODO: Get from booking data
-          vehicle_model: null, // TODO: Get from vehicle assignment
-          
-          // Customer info - handle null/undefined safely
-          customer_name: row.customer_name || 'Unknown Customer',
-          customer_phone: row.customer_phone || '',
-          customer_email: row.customer_email || null,
-          customer_total_bookings: 0, // TODO: Calculate
-          customer_loyalty_tier: null,
-          customer_status: null,
-          customer_total_spent: 0,
-          
-          // Locations
-          pickup_location: row.pickup_address,
-          destination: row.dropoff_address,
-          
-          // Dates
-          scheduled_at: row.pickup_time,
-          created_at: row.created_at,
-          
-          // Trip details
-          distance_miles: null,
-          duration_min: null,
-          hours: null,
-          passenger_count: null,
-          bag_count: null,
-          flight_number: null,
-          notes: null,
-          
-          // Return trip
-          return_date: null,
-          return_time: null,
-          return_flight_number: null,
-          
-          // Fleet
-          fleet_executive: null,
-          fleet_s_class: null,
-          fleet_v_class: null,
-          fleet_suv: null,
-          
-          // Pricing - convert string to number
-          fare_amount: typeof row.price_total === 'string' ? parseFloat(row.price_total) || 0 : (row.price_total || 0),
-          base_price: typeof row.price_total === 'string' ? parseFloat(row.price_total) || 0 : (row.price_total || 0),
-          platform_fee: 0,
-          operator_net: typeof row.price_total === 'string' ? parseFloat(row.price_total) || 0 : (row.price_total || 0),
-          driver_payout: 0,
-          platform_commission_pct: null,
-          driver_commission_pct: null,
-          paid_services: [],
-          free_services: [],
-          payment_method: 'CARD',
-          payment_status: 'pending',
-          currency: row.currency || 'GBP',
-          
-          // Assignment
-          driver_name: row.driver_name,
-          driver_id: row.driver_id,
-          driver_phone: null,
-          driver_email: null,
-          driver_rating: null,
-          vehicle_id: row.vehicle_id,
-          vehicle_make: null,
-          vehicle_model_name: row.vehicle_name,
-          vehicle_year: null,
-          vehicle_color: null,
-          vehicle_plate: null,
-          assigned_at: null,
-          assigned_by_name: null,
-          
-          // Meta
-          operator_name: row.organization_name,
-          operator_rating: null,
-          operator_reviews: null,
-          source: 'web' as const,
-          
-          // Legs
-          legs: [],
-        })),
-        pagination: {
-          total_count: total,
-          page_size: pageSize,
-          has_next_page: page < totalPages,
-          has_previous_page: page > 1,
-          current_page: page,
-          total_pages: totalPages,
-        },
-        performance: {
-          query_duration_ms: Date.now() - startTime,
-          cache_hit: false,
-        },
-      };
+    // Enhanced logging with first row sample for debugging
+    logger.info('RPC get_bookings_list success - raw data sample', {
+      user_id: user.id,
+      total_rows: rows.length,
+      total_count: total,
+      first_row_sample: rows.length > 0 ? {
+        booking_id: rows[0]?.booking_id,
+        status: rows[0]?.status,
+        customer_name: rows[0]?.customer_name,
+        pickup_time: rows[0]?.pickup_time,
+        price_total: rows[0]?.price_total,
+        currency: rows[0]?.currency
+      } : null
+    });
+    
+    // Transform data using extracted mapper
+    const response = transformRowsToResponse(rows, page, pageSize, startTime);
 
     logger.info('Bookings list RPC success', {
       total_rows: rows.length,

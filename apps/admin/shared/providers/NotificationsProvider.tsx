@@ -129,7 +129,9 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
         console.log('🔔 NotificationsProvider - Auth user:', user?.id);
 
         if (!user) {
-          console.log('❌ No auth user found');
+          console.log('❌ No auth user found - waiting for session');
+          // Don't throw error, just wait for session to be ready
+          setLoading(false);
           return;
         }
 
@@ -164,7 +166,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
       } = await supabase.auth.getUser();
 
       if (!user) {
-        console.warn('⚠️ No user found for Realtime subscription');
+        console.warn('⚠️ No user found for Realtime subscription - waiting for auth');
         return;
       }
 

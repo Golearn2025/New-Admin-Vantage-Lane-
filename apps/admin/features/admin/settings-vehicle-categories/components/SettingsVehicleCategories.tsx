@@ -7,7 +7,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button, Input } from '@vantage-lane/ui-core';
 import { Car, Gem, Bus, Truck } from 'lucide-react';
 import { useSettingsVehicleCategories } from '../hooks/useSettingsVehicleCategories';

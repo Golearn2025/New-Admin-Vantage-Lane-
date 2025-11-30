@@ -8,7 +8,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { Document } from '@entities/document';
 import { getDocumentLabel, getDocumentDescription } from '@entities/document';
 import styles from './ProfileDocumentsTab.module.css';
@@ -97,37 +97,48 @@ export function ProfileDocumentsTab({
     );
   };
   
+  // Memoize document cards to prevent re-creation on every render
+  const driverDocCards = useMemo(() => 
+    driverDocs.map(renderDocumentCard), 
+    [driverDocs, renderDocumentCard]
+  );
+
+  const vehicleDocCards = useMemo(() => 
+    vehicleDocs.map(renderDocumentCard), 
+    [vehicleDocs, renderDocumentCard]
+  );
+
   return (
     <div className={styles.container}>
       {/* Driver Documents Section */}
-      <div className={styles.section}>
+      <section className={styles.section}>
         <div className={styles.sectionHeader}>
-          <h3 className={styles.sectionTitle}>🪪 Driver Documents</h3>
-          <span className={styles.count}>{driverDocs.length} documents</span>
+          <h3 className={styles.sectionTitle}>Driver Documents</h3>
+          <p className={styles.sectionSubtitle}>Required documents for driver verification</p>
         </div>
         <div className={styles.docsGrid}>
           {driverDocs.length > 0 ? (
-            driverDocs.map(renderDocumentCard)
+            driverDocCards
           ) : (
             <p className={styles.emptyState}>No driver documents found</p>
           )}
         </div>
-      </div>
-      
+      </section>
+
       {/* Vehicle Documents Section */}
-      <div className={styles.section}>
+      <section className={styles.section}>
         <div className={styles.sectionHeader}>
-          <h3 className={styles.sectionTitle}>🚗 Vehicle Documents</h3>
-          <span className={styles.count}>{vehicleDocs.length} documents</span>
+          <h3 className={styles.sectionTitle}>Vehicle Documents</h3>
+          <p className={styles.sectionSubtitle}>Required documents for vehicle verification</p>
         </div>
         <div className={styles.docsGrid}>
           {vehicleDocs.length > 0 ? (
-            vehicleDocs.map(renderDocumentCard)
+            vehicleDocCards
           ) : (
             <p className={styles.emptyState}>No vehicle documents found</p>
           )}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

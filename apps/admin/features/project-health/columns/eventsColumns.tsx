@@ -5,6 +5,7 @@
  * Conform RULES.md: ui-core only, lucide-react icons
  */
 
+import React, { useMemo } from 'react';
 import { Badge } from '@vantage-lane/ui-core';
 import { SystemEvent } from '@entities/health';
 
@@ -56,14 +57,20 @@ export const eventsColumns = [
     cell: ({ getValue }: { getValue: () => Record<string, unknown> | undefined }) => {
       const details = getValue();
       if (!details) return <span className="text-gray-400">-</span>;
+
+      // Memoize detail entries to prevent re-creation on every render
+      const DetailEntries = useMemo(() => 
+        Object.entries(details).map(([key, value]) => (
+          <div key={key}>
+            {key}: {String(value)}
+          </div>
+        )), 
+        [details]
+      );
       
       return (
         <div className="text-xs text-gray-500">
-          {Object.entries(details).map(([key, value]) => (
-            <div key={key}>
-              {key}: {String(value)}
-            </div>
-          ))}
+          {DetailEntries}
         </div>
       );
     }

@@ -7,7 +7,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button } from '@vantage-lane/ui-core';
 import styles from './BulkActionsBar.module.css';
 

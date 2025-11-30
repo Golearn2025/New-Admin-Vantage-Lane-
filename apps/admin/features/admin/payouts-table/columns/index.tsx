@@ -6,7 +6,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { Column } from '@vantage-lane/ui-core';
 import type { Payout } from '../types';
 

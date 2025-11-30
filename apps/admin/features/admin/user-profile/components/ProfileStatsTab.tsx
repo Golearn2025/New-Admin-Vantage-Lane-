@@ -7,7 +7,7 @@
  * MODERN & PREMIUM Design with glass morphism
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Car, CheckCircle, Hourglass, BarChart3, TrendingUp, Users, DollarSign } from 'lucide-react';
 import { getDriverStats } from '@entities/driver/api/driverApi';
 import { getCustomerStats } from '@entities/customer/api/customerApi';

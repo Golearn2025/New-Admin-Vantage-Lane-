@@ -5,7 +5,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { PaymentsTable } from '@features/admin/payments-table';
 import styles from './PaymentsOverview.module.css';
 

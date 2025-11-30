@@ -8,7 +8,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ProfileHeader } from './ProfileHeader';
 import { ProfileDocumentsTab } from './ProfileDocumentsTab';
 import { ProfileActivityTab } from './ProfileActivityTab';

@@ -4,7 +4,7 @@
  * < 150 lines - RULES.md compliant
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { RefundListItem } from '@entities/refund';
 import { formatCurrency, formatDate } from '@/shared/utils/formatters';
 import styles from './columns.module.css';

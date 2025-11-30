@@ -5,7 +5,7 @@
  * Displays operator information
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { OperatorData } from '@entities/operator';
 import type { Column, RowAction } from '@vantage-lane/ui-core';
 import { RowActions } from '@vantage-lane/ui-core';

@@ -8,13 +8,12 @@
  * ✅ Design tokens only  
  * ✅ UI-core components
  * ✅ Lucide-react icons
- * ✅ Architecture: features → entities
  */
 
 import { createClient } from '@/lib/supabase/client';
 import { updateVehicle } from '@entities/vehicle';
 import { ErrorBanner } from '@vantage-lane/ui-core';
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import styles from '../driver-profile.module.css';
 import { useDriverVehicle } from '../hooks/useDriverVehicle';
@@ -115,10 +114,9 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
     );
   }
 
-  // Main render - show vehicles
-  return (
-    <div className={styles.vehicleTab}>
-      {vehicles.map((vehicle) => {
+  // Memoize vehicle cards to prevent re-creation on every render
+  const vehicleCards = useMemo(() => 
+    vehicles.map((vehicle) => {
         // Show approval card for pending vehicles
         if (vehicle.approvalStatus === 'pending' && adminId) {
           return (
@@ -166,7 +164,14 @@ export function VehicleTab({ driverId }: VehicleTabProps) {
             )}
           </div>
         );
-      })}
+      }), 
+    [vehicles, adminId, mutate]
+  );
+
+  // Main render - show vehicles
+  return (
+    <div className={styles.vehicleTab}>
+      {vehicleCards}
     </div>
   );
 }

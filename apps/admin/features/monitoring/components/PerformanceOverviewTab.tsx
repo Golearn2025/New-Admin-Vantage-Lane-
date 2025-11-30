@@ -11,6 +11,7 @@ import { PerformanceMetrics } from './performance/PerformanceMetrics';
 import { SlowQueries } from './performance/SlowQueries';
 import { CacheStats } from './performance/CacheStats';
 import { usePerformanceData } from '../hooks/usePerformanceData';
+import React, { useMemo } from 'react';
 import styles from './PerformanceOverviewTab.module.css';
 
 export function PerformanceOverviewTab(): JSX.Element {

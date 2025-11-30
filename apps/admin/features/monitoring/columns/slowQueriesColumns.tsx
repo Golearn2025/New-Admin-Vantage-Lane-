@@ -6,6 +6,7 @@
  */
 
 import { type Column, Badge } from '@vantage-lane/ui-core';
+import React, { useMemo } from 'react';
 import type { SlowQuery } from '../types';
 
 export const slowQueriesColumns: Column<SlowQuery>[] = [

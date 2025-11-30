@@ -7,6 +7,7 @@
 
 'use client';
 
+import React, { useMemo } from 'react';
 import { Card } from '@vantage-lane/ui-core';
 import { SecurityAlerts } from './security/SecurityAlerts';
 import { FailedLogins } from './security/FailedLogins';

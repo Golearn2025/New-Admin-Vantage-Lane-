@@ -10,6 +10,7 @@
 import { usePerformanceMetrics } from '../hooks/usePerformanceMetrics';
 import { StatCard, Card, DataTable } from '@vantage-lane/ui-core';
 import { performanceColumns } from '../columns/performanceColumns';
+import React, { useMemo } from 'react';
 import styles from './PerformanceTab.module.css';
 
 export function PerformanceTab(): JSX.Element {

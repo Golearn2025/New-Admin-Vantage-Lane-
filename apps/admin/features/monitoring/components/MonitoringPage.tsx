@@ -7,7 +7,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Tabs, type Tab } from '@vantage-lane/ui-core';
 import { CrossProjectTab } from './CrossProjectTab';
 import { SecurityMonitoringTab } from './SecurityMonitoringTab';

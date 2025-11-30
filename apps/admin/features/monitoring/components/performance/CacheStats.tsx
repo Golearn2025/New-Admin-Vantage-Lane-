@@ -7,6 +7,7 @@
 
 'use client';
 
+import React, { useMemo } from 'react';
 import { Card } from '@vantage-lane/ui-core';
 import styles from './CacheStats.module.css';
 

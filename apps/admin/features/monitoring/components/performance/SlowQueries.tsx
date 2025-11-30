@@ -10,6 +10,7 @@
 import { Card, DataTable } from '@vantage-lane/ui-core';
 import { slowQueriesColumns } from '../../columns/slowQueriesColumns';
 import type { SlowQuery } from '../../types';
+import React, { useMemo } from 'react';
 import styles from './SlowQueries.module.css';
 
 interface SlowQueriesProps {

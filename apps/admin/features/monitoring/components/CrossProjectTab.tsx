@@ -7,6 +7,7 @@
 'use client';
 
 import { EcosystemOverview } from './EcosystemOverview';
+import React, { useMemo } from 'react';
 import { ProjectsStatusList } from './ProjectsStatusList';
 import { DeploymentTimeline } from './DeploymentTimeline';
 import { useCrossProjectMetrics } from '../hooks/useCrossProjectMetrics';

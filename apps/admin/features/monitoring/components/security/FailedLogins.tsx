@@ -10,6 +10,7 @@
 import { Card, DataTable } from '@vantage-lane/ui-core';
 import * as Sentry from "@sentry/nextjs";
 import { failedLoginsColumns } from '../../columns/failedLoginsColumns';
+import React, { useMemo } from 'react';
 import styles from './FailedLogins.module.css';
 
 interface LoginAttempt {

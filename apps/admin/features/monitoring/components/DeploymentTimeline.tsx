@@ -8,6 +8,7 @@
 'use client';
 
 import { Card, Badge } from '@vantage-lane/ui-core';
+import React, { useMemo } from 'react';
 import styles from './DeploymentTimeline.module.css';
 
 export function DeploymentTimeline(): JSX.Element {

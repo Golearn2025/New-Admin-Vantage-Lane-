@@ -4,7 +4,7 @@
  * < 150 lines - RULES.md compliant
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { InvoiceListItem } from '@entities/invoice';
 import styles from './columns.module.css';
 

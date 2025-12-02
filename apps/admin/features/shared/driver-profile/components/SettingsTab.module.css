@@ -107,7 +107,7 @@
   margin-bottom: var(--spacing-2);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .categoriesGrid {
     grid-template-columns: 1fr;
   }

@@ -1,0 +1,121 @@
+/* SystemHealthTab.module.css - 100% design tokens */
+
+.container {
+  padding: var(--spacing-6);
+  background: var(--color-background);
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-12);
+  color: var(--color-text-secondary);
+}
+
+.spinner {
+  width: var(--spacing-8);
+  height: var(--spacing-8);
+  border: var(--border-width-md) solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-3);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error {
+  padding: var(--spacing-6);
+  background: var(--color-danger-50);
+  border: var(--border-width-sm) solid var(--color-danger-200);
+  border-radius: var(--border-radius-md);
+  color: var(--color-danger-600);
+  text-align: center;
+}
+
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+}
+
+.checksGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-6);
+}
+
+.checksCard,
+.metricsCard {
+  padding: var(--spacing-6);
+}
+
+.cardTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.checksList,
+.metricsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.checkItem,
+.metricItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3);
+  background: var(--color-background-elevated);
+  border-radius: var(--border-radius-md);
+  border: var(--border-width-sm) solid var(--color-border);
+}
+
+.checkName,
+.metricName {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.metricValue {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+}
+
+/* Responsive Design */
+@media (width <= 768px) {
+  .container {
+    padding: var(--spacing-4);
+  }
+  
+  .statusGrid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-3);
+  }
+  
+  .checksGrid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+  }
+  
+  .checkItem,
+  .metricItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
+}

@@ -6,6 +6,8 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import type { BookingListItem, BookingsListResponse } from '@vantage-lane/contracts';
 import { logger } from '@/lib/utils/logger';
 import { createClient } from '@/lib/supabase/client';
+import { fetchAuthedJson } from '@admin-shared/utils/fetchAuthedJson';
+import { playBookingNotificationSound } from '@admin-shared/utils/notificationSound';
 
 interface Props {
   statusFilter?: string[];
@@ -71,10 +73,8 @@ export function useBookingsList({
         statusFilter.forEach(status => params.append('status_filter', status));
       }
 
-      const response = await fetch(`/api/bookings/list?${params}`);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-      const data: BookingsListResponse = await response.json();
+      // Use authenticated fetch wrapper
+      const data: BookingsListResponse = await fetchAuthedJson(`/api/bookings/list?${params}`);
 
       let filteredData = data.data;
       
@@ -110,13 +110,8 @@ export function useBookingsList({
   // Fetch single booking with complete data (for realtime)
   const fetchSingleBooking = useCallback(async (bookingId: string) => {
     try {
-      const response = await fetch(`/api/bookings/${bookingId}`);
-      if (!response.ok) {
-        logger.error('Failed to fetch single booking', { bookingId, status: response.status });
-        return;
-      }
-
-      const booking: BookingListItem = await response.json();
+      // Use authenticated fetch wrapper
+      const booking: BookingListItem = await fetchAuthedJson(`/api/bookings/${bookingId}`);
 
       // Check if booking passes current filters
       if (selectedStatus !== 'all' && booking.status !== selectedStatus) {
@@ -196,10 +191,112 @@ export function useBookingsList({
           },
           (payload) => {
             logger.info('🆕 NEW BOOKING (Realtime):', payload.new);
-            logger.info('📡 Fetching only this booking (not entire list)...');
+            logger.info('📡 INJECT without refetch (STEP 2 - Realtime Standardization)');
 
-            // Fetch ONLY the new booking with all JOINs
-            fetchSingleBooking((payload.new as any).id);
+            const newBookingRaw = payload.new as any;
+            
+            // Check if we should inject based on current page and filters
+            const shouldInject = currentPage === 1 && (
+              selectedStatus === 'all' || 
+              selectedStatus === 'active' || 
+              selectedStatus === 'pending' ||
+              (selectedStatus === 'new' && ['NEW', 'PENDING'].includes(newBookingRaw.status))
+            );
+
+            if (shouldInject) {
+              // Map raw DB row to BookingListItem format (minimal)
+              const newBookingItem: BookingListItem = {
+                id: newBookingRaw.id,
+                reference: newBookingRaw.reference || 'N/A',
+                status: 'pending' as const, // Always show as pending initially
+                customer_name: newBookingRaw.customer_name || 'New Customer',
+                pickup_location: newBookingRaw.pickup_address || 'Pickup Location TBD',
+                destination: newBookingRaw.dropoff_address || 'Destination TBD',
+                scheduled_at: newBookingRaw.pickup_time,
+                created_at: newBookingRaw.created_at,
+                trip_type: 'oneway' as const,
+                fare_amount: typeof newBookingRaw.price_total === 'string' ? 
+                  parseFloat(newBookingRaw.price_total) * 100 : 
+                  (newBookingRaw.price_total || 0) * 100,
+                currency: newBookingRaw.currency || 'GBP',
+                operator_name: newBookingRaw.organization_name || '',
+                driver_name: newBookingRaw.driver_name || null,
+                // Minimal required fields
+                is_urgent: false,
+                is_new: true, // Mark as new for 24h
+                category: 'EXEC',
+                vehicle_model: null,
+                customer_phone: '',
+                customer_email: null,
+                customer_total_bookings: 0,
+                customer_loyalty_tier: null,
+                customer_status: null,
+                customer_total_spent: 0,
+                distance_miles: null,
+                duration_min: null,
+                hours: null,
+                passenger_count: null,
+                bag_count: null,
+                flight_number: null,
+                notes: null,
+                return_date: null,
+                return_time: null,
+                return_flight_number: null,
+                fleet_executive: null,
+                fleet_s_class: null,
+                fleet_v_class: null,
+                fleet_suv: null,
+                base_price: typeof newBookingRaw.price_total === 'string' ? 
+                  parseFloat(newBookingRaw.price_total) * 100 : 
+                  (newBookingRaw.price_total || 0) * 100,
+                platform_fee: 0,
+                operator_net: typeof newBookingRaw.price_total === 'string' ? 
+                  parseFloat(newBookingRaw.price_total) * 100 : 
+                  (newBookingRaw.price_total || 0) * 100,
+                driver_payout: 0,
+                platform_commission_pct: null,
+                driver_commission_pct: null,
+                paid_services: [],
+                free_services: [],
+                payment_method: 'CARD',
+                payment_status: 'pending',
+                driver_id: newBookingRaw.driver_id,
+                driver_phone: null,
+                driver_email: null,
+                driver_rating: null,
+                vehicle_id: newBookingRaw.vehicle_id,
+                vehicle_make: null,
+                vehicle_model_name: newBookingRaw.vehicle_name,
+                vehicle_year: null,
+                vehicle_color: null,
+                vehicle_plate: null,
+                assigned_at: null,
+                assigned_by_name: null,
+                operator_rating: null,
+                operator_reviews: null,
+                source: 'web' as const,
+                legs: [],
+              };
+
+              // INJECT at top of list + update total count
+              setBookings(prev => [newBookingItem, ...prev].slice(0, pageSize));
+              setTotalCount(prev => prev + 1);
+              
+              logger.info('✅ NEW BOOKING injected into list without refetch', {
+                id: newBookingItem.id,
+                reference: newBookingItem.reference,
+                total_count_new: totalCount + 1
+              });
+              
+              // 🔊 SINGLE SOUND SOURCE - Play notification sound
+              playBookingNotificationSound();
+            } else {
+              logger.info('📊 New booking not injected (wrong page/filter)', {
+                current_page: currentPage,
+                selected_status: selectedStatus,
+                booking_status: newBookingRaw.status
+              });
+            }
           }
         )
         .subscribe((status, err) => {

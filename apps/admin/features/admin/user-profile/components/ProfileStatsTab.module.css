@@ -12,7 +12,7 @@
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   margin: 0 0 var(--spacing-6) 0;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 8px rgb(0 0 0 / 30%);
 }
 
 /* Loading & Empty States */
@@ -30,7 +30,7 @@
 .spinner {
   width: 48px;
   height: 48px;
-  border: 4px solid rgba(211, 170, 49, 0.2);
+  border: 4px solid rgb(211 170 49 / 20%);
   border-top-color: var(--theme-primary);
   border-radius: var(--border-radius-full);
   animation: spin 1s linear infinite;
@@ -54,10 +54,10 @@
   gap: var(--spacing-4);
   padding: var(--spacing-6);
   background: linear-gradient(135deg, 
-    rgba(211, 170, 49, 0.08) 0%, 
-    rgba(211, 170, 49, 0.03) 100%
+    rgb(211 170 49 / 8%) 0%, 
+    rgb(211 170 49 / 3%) 100%
   );
-  border: 1px solid rgba(211, 170, 49, 0.2);
+  border: 1px solid rgb(211 170 49 / 20%);
   border-radius: var(--border-radius-lg);
   backdrop-filter: blur(10px);
   transition: all var(--transition-fast);
@@ -65,11 +65,11 @@
 
 .statCard:hover {
   background: linear-gradient(135deg, 
-    rgba(211, 170, 49, 0.12) 0%, 
-    rgba(211, 170, 49, 0.06) 100%
+    rgb(211 170 49 / 12%) 0%, 
+    rgb(211 170 49 / 6%) 100%
   );
-  border-color: rgba(211, 170, 49, 0.4);
-  box-shadow: 0 4px 20px rgba(211, 170, 49, 0.2);
+  border-color: rgb(211 170 49 / 40%);
+  box-shadow: 0 4px 20px rgb(211 170 49 / 20%);
   transform: translateY(-2px);
 }
 
@@ -80,9 +80,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(211, 170, 49, 0.1);
+  background: rgb(211 170 49 / 10%);
   border-radius: var(--border-radius-lg);
-  border: 1px solid rgba(211, 170, 49, 0.2);
+  border: 1px solid rgb(211 170 49 / 20%);
 }
 
 .statInfo {
@@ -104,17 +104,17 @@
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-bold);
   color: var(--theme-primary);
-  text-shadow: 0 2px 10px rgba(211, 170, 49, 0.3);
+  text-shadow: 0 2px 10px rgb(211 170 49 / 30%);
 }
 
 /* Progress Section */
 .progressSection {
   padding: var(--spacing-6);
   background: linear-gradient(135deg, 
-    rgba(18, 20, 22, 0.6) 0%, 
-    rgba(26, 29, 33, 0.6) 100%
+    rgb(18 20 22 / 60%) 0%, 
+    rgb(26 29 33 / 60%) 100%
   );
-  border: 1px solid rgba(211, 170, 49, 0.2);
+  border: 1px solid rgb(211 170 49 / 20%);
   border-radius: var(--border-radius-lg);
   backdrop-filter: blur(10px);
   margin-bottom: var(--spacing-6);
@@ -137,15 +137,15 @@
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
   color: var(--theme-primary);
-  text-shadow: 0 2px 10px rgba(211, 170, 49, 0.3);
+  text-shadow: 0 2px 10px rgb(211 170 49 / 30%);
 }
 
 .progressBar {
   height: 12px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(255 255 255 / 5%);
   border-radius: var(--border-radius-full);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(255 255 255 / 10%);
 }
 
 .progressFill {
@@ -156,17 +156,17 @@
   );
   border-radius: var(--border-radius-full);
   transition: width var(--transition-base);
-  box-shadow: 0 0 20px rgba(211, 170, 49, 0.4);
+  box-shadow: 0 0 20px rgb(211 170 49 / 40%);
 }
 
 /* Earnings Section */
 .earningsSection {
   padding: var(--spacing-6);
   background: linear-gradient(135deg, 
-    rgba(211, 170, 49, 0.05) 0%, 
-    rgba(211, 170, 49, 0.02) 100%
+    rgb(211 170 49 / 5%) 0%, 
+    rgb(211 170 49 / 2%) 100%
   );
-  border: 1px solid rgba(211, 170, 49, 0.3);
+  border: 1px solid rgb(211 170 49 / 30%);
   border-radius: var(--border-radius-lg);
   backdrop-filter: blur(10px);
 }
@@ -182,11 +182,11 @@
   text-align: center;
   padding: var(--spacing-8);
   background: linear-gradient(135deg, 
-    rgba(18, 20, 22, 0.4) 0%, 
-    rgba(26, 29, 33, 0.4) 100%
+    rgb(18 20 22 / 40%) 0%, 
+    rgb(26 29 33 / 40%) 100%
   );
   border-radius: var(--border-radius-lg);
-  border: 1px solid rgba(211, 170, 49, 0.2);
+  border: 1px solid rgb(211 170 49 / 20%);
 }
 
 .earningsAmount {
@@ -207,7 +207,7 @@
   font-size: 56px;
   font-weight: var(--font-weight-bold);
   color: var(--theme-primary);
-  text-shadow: 0 4px 20px rgba(211, 170, 49, 0.4);
+  text-shadow: 0 4px 20px rgb(211 170 49 / 40%);
   line-height: 1;
 }
 

@@ -103,7 +103,7 @@
   line-height: var(--line-height-relaxed);
   color: var(--color-text-primary);
   white-space: pre-wrap;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .feedbackTags {
@@ -153,7 +153,7 @@
 }
 
 /* Mobile Responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .reviewDetails {
     gap: var(--spacing-4);
   }
@@ -181,7 +181,7 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (width <= 375px) {
   .reviewDetails {
     gap: var(--spacing-3);
   }

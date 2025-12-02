@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { fetchAuthedJson } from '../../../../shared/utils/fetchAuthedJson';
 
 interface OperatorStats {
   totalDrivers: number;
@@ -47,28 +48,16 @@ export function useOperatorDashboard() {
       setError(null);
 
       try {
-        // Fetch operator stats
-        const statsResponse = await fetch('/api/operator/stats');
-        if (!statsResponse.ok) {
-          throw new Error('Failed to fetch operator stats');
-        }
-        const statsData = await statsResponse.json();
+        // Fetch operator stats with auth
+        const statsData = await fetchAuthedJson<OperatorStats>('/api/operator/stats');
         setStats(statsData);
 
-        // Fetch recent drivers
-        const driversResponse = await fetch('/api/operator/recent-drivers');
-        if (!driversResponse.ok) {
-          throw new Error('Failed to fetch recent drivers');
-        }
-        const driversData = await driversResponse.json();
+        // Fetch recent drivers with auth
+        const driversData = await fetchAuthedJson<RecentDriver[]>('/api/operator/recent-drivers');
         setRecentDrivers(driversData);
 
-        // Fetch recent notifications
-        const notificationsResponse = await fetch('/api/operator/notifications');
-        if (!notificationsResponse.ok) {
-          throw new Error('Failed to fetch notifications');
-        }
-        const notificationsData = await notificationsResponse.json();
+        // Fetch recent notifications with auth
+        const notificationsData = await fetchAuthedJson<Notification[]>('/api/operator/notifications');
         setNotifications(notificationsData);
 
       } catch (err) {

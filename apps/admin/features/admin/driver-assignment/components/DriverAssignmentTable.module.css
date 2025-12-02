@@ -75,7 +75,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .container {
     padding: var(--spacing-4);
     gap: var(--spacing-4);

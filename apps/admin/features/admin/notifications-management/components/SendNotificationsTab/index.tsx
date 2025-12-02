@@ -7,7 +7,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@vantage-lane/ui-core';
 import {
   sendNotificationToAllAdmins,
@@ -32,18 +32,29 @@ export function SendNotificationsTab() {
     message: '',
     link: '',
   });
-  const [selectedUserId, setSelectedUserId] = useState('');
   const [users, setUsers] = useState<UserOption[]>([]);
+  const [selectedUserId, setSelectedUserId] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [result, setResult] = useState<SendResult | null>(null);
 
+  // Memoized functions for mapping user data
+  const mapDriverData = useCallback((data: any[]) => 
+    data.map(d => ({ id: d.id, name: `${d.first_name} ${d.last_name}` })), []
+  );
+
+  const mapOrganizationData = useCallback((data: any[]) => 
+    data.map(o => ({ id: o.id, name: o.name })), []
+  );
+
+  // Reset selection when target changes
   useEffect(() => {
+    setSelectedUserId('');
+    setUsers([]);
+    setResult(null);
+    
     if (target === 'individual-driver' || target === 'individual-operator') {
       fetchUsers();
-    } else {
-      setUsers([]);
-      setSelectedUserId('');
     }
   }, [target]);
 
@@ -60,7 +71,7 @@ export function SendNotificationsTab() {
           .order('first_name');
         
         if (data) {
-          setUsers(data.map(d => ({ id: d.id, name: `${d.first_name} ${d.last_name}` })));
+          setUsers(mapDriverData(data));
         }
       } else if (target === 'individual-operator') {
         const { data } = await supabase
@@ -71,11 +82,10 @@ export function SendNotificationsTab() {
           .order('name');
         
         if (data) {
-          setUsers(data.map(o => ({ id: o.id, name: o.name })));
+          setUsers(mapOrganizationData(data));
         }
       }
     } catch (error) {
-      console.error('Fetch users error:', error);
     } finally {
       setLoading(false);
     }
@@ -130,7 +140,6 @@ export function SendNotificationsTab() {
       setSelectedUserId('');
       alert(`✅ Notification sent${response.count ? ` to ${response.count} user(s)` : ''}!`);
     } catch (error) {
-      console.error('Send notification error:', error);
       alert('❌ Failed to send notification');
     } finally {
       setSending(false);

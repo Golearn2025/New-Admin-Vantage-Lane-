@@ -1,0 +1,35 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "plugins": ["stylelint-no-px"],
+  "rules": {
+    "comment-empty-line-before": null,
+    "declaration-empty-line-before": null,
+    
+    "color-no-hex": [true, { "message": "Use var(--color-*) tokens instead of hex colors. REGULA 3 violation!" }],
+    "color-named": "never",
+    "function-disallowed-list": [
+      ["rgb", "rgba", "hsl", "hsla"],
+      { "message": "Use var(--color-*) tokens instead of color functions. REGULA 3 violation!" }
+    ],
+    
+    "meowtec/no-px": [true, { 
+      "ignore": ["1px", "2px"],
+      "message": "Use design tokens (var(--spacing-*)) instead of px values. REGULA 4 violation!"
+    }],
+    
+    "declaration-property-value-no-unknown": null,
+    "custom-property-pattern": "^(color|spacing|font|radius|shadow|motion|width|height|blur)-.+",
+    "no-duplicate-selectors": true,
+    "no-empty-source": null,
+    "selector-class-pattern": "^[a-z][a-zA-Z0-9]*$"
+  },
+  "ignoreFiles": [
+    "**/*.js",
+    "**/*.ts", 
+    "**/*.tsx",
+    "node_modules/**/*",
+    ".next/**/*",
+    "packages/ui-core/dist/**/*",
+    "packages/ui-core/src/tokens/**/*"
+  ]
+}

@@ -20,7 +20,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--breakpoint-xs)), 1fr));
   gap: var(--spacing-4);
 }
 
@@ -31,7 +31,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .container {
     padding: var(--spacing-4);
   }
@@ -41,7 +41,7 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: var(--breakpoint-xs-plus)) {
   .container {
     padding: var(--spacing-3);
   }

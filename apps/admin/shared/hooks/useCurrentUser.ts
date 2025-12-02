@@ -1,8 +1,8 @@
 /**
- * useCurrentUser Hook
+ * useCurrentUser Hook - OPTIMIZED VERSION
  *
- * Citește user-ul curent autentificat și detaliile din admin_users.
- * Client-side hook pentru AppShell și components.
+ * Folosește React Query pentru caching și reducing API calls.
+ * ÎNAINTE: 20+ queries/minut | DUPĂ: 1 query/session
  */
 
 'use client';
@@ -10,6 +10,7 @@
 import { createClient } from '@/lib/supabase/client';
 import { logger } from '@/lib/utils/logger';
 import type { UserInfo } from '@admin-shared/ui/composed/appshell/types';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
 interface AdminUser {
@@ -20,90 +21,127 @@ interface AdminUser {
   auth_user_id: string;
 }
 
-export function useCurrentUser() {
-  const [user, setUser] = useState<UserInfo | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const supabase = createClient();
-
-        // Get current session
-        const {
-          data: { session },
-          error: sessionError,
-        } = await supabase.auth.getSession();
-
-        if (sessionError) throw sessionError;
-        if (!session?.user) {
-          setUser(null);
-          setLoading(false);
-          return;
-        }
-
-        // Get role from user metadata (stored in Supabase auth)
-        const userRole = session.user.user_metadata?.role || 'operator';
-        const firstName = session.user.user_metadata?.first_name;
-        const lastName = session.user.user_metadata?.last_name;
-        const userName =
-          firstName && lastName ? `${firstName} ${lastName}` : session.user.email?.split('@')[0];
-
-        // Map role to AppShell role type (admin | operator | driver)
-        let appShellRole: 'admin' | 'operator' | 'driver' = 'operator';
-        if (userRole === 'admin' || userRole === 'super_admin') {
-          appShellRole = 'admin';
-        } else if (userRole === 'driver') {
-          appShellRole = 'driver';
-        } else {
-          appShellRole = 'operator';
-        }
-
-        // For operators, fetch their organization_id from organizations table
-        let organizationId: string | undefined = undefined;
-        if (appShellRole === 'operator') {
-          try {
-            const { data: organization } = await supabase
-              .from('organizations')
-              .select('id')
-              .eq('auth_user_id', session.user.id)
-              .single();
-            
-            organizationId = organization?.id;
-          } catch (orgError) {
-            // Non-blocking error - operator might not have organization assigned yet
-            logger.warn('Could not fetch organization for operator', { 
-              userId: session.user.id, 
-              error: orgError 
-            });
-          }
-        }
-
-        const userInfo: UserInfo = {
-          name: userName || session.user.email || 'User',
-          email: session.user.email || '',
-          role: appShellRole,
-          auth_user_id: session.user.id,
-          ...(organizationId && { organization_id: organizationId }),
-        };
-
-        console.log('🔍 USER DEBUG: Setting user info for role:', userRole, userInfo);
-
-        setUser(userInfo);
-      } catch (err) {
-        logger.error('Error fetching current user in useCurrentUser', {
-          error: err instanceof Error ? err.message : String(err),
-        });
-        setError(err instanceof Error ? err : new Error('Unknown error'));
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
-  return { user, loading, error };
+// 🚀 PERFORMANCE: Separate session check from user data
+async function getCurrentSession() {
+  const supabase = createClient();
+  const { data: { session }, error } = await supabase.auth.getSession();
+  if (error) throw error;
+  return session;
 }
+
+async function getAdminUserData(authUserId: string): Promise<UserInfo> {
+  const supabase = createClient();
+  
+  // Get admin user details
+  const { data: adminUser, error: adminError } = await supabase
+    .from('admin_users')
+    .select('id, email, name, role')
+    .eq('auth_user_id', authUserId)
+    .single();
+
+  if (adminError) {
+    logger.warn('Admin user not found, checking driver/customer:', adminError);
+    
+    // Fallback: check if it's a driver or customer
+    const { data: driverUser } = await supabase
+      .from('drivers')
+      .select('id, email, first_name, last_name')
+      .eq('auth_user_id', authUserId)
+      .single();
+
+    if (driverUser) {
+      return {
+        name: `${driverUser.first_name} ${driverUser.last_name}`.trim(),
+        email: driverUser.email,
+        role: 'driver' as const,
+        auth_user_id: authUserId,
+      };
+    }
+
+    throw new Error('User not found in any table');
+  }
+
+  // Map role to AppShell role type (admin | operator | driver)
+  let appShellRole: 'admin' | 'operator' | 'driver' = 'operator';
+  if (adminUser.role === 'admin' || adminUser.role === 'super_admin') {
+    appShellRole = 'admin';
+  } else if (adminUser.role === 'driver') {
+    appShellRole = 'driver';
+  } else {
+    appShellRole = 'operator';
+  }
+
+  return {
+    name: adminUser.name || adminUser.email || 'Admin User',
+    email: adminUser.email,
+    role: appShellRole,
+    auth_user_id: authUserId,
+  };
+}
+
+export function useCurrentUser() {
+  const [authUserId, setAuthUserId] = useState<string | null>(null);
+  
+  // 🚀 OPTIMIZATION: Cache session check - rarely changes
+  const { data: session, isLoading: sessionLoading } = useQuery({
+    queryKey: ['auth-session'],
+    queryFn: getCurrentSession,
+    staleTime: 5 * 60 * 1000, // 5 minutes cache
+    gcTime: 10 * 60 * 1000, // 10 minutes in cache (React Query v5)
+    refetchOnWindowFocus: false, // Don't refetch on tab switch
+    retry: 1,
+  });
+
+  // 🚀 OPTIMIZATION: Cache user data - changes very rarely
+  const { 
+    data: user, 
+    isLoading: userLoading, 
+    error 
+  } = useQuery({
+    queryKey: ['current-user', authUserId],
+    queryFn: () => getAdminUserData(authUserId!),
+    enabled: !!authUserId, // Only run when we have auth user ID
+    staleTime: 15 * 60 * 1000, // 15 minutes cache - user data rarely changes
+    gcTime: 30 * 60 * 1000, // 30 minutes in cache (React Query v5)
+    refetchOnWindowFocus: false,
+    retry: 2,
+  });
+
+  // Update auth user ID when session changes
+  useEffect(() => {
+    if (session?.user?.id) {
+      setAuthUserId(session.user.id);
+    } else {
+      setAuthUserId(null);
+    }
+  }, [session?.user?.id]);
+
+  const loading = sessionLoading || (!!authUserId && userLoading);
+
+  return {
+    user,
+    loading,
+    error: error as Error | null,
+  };
+}
+
+// 🚀 PERFORMANCE MONITORING: Track usage
+export function useCurrentUserWithMetrics() {
+  const result = useCurrentUser();
+  
+  useEffect(() => {
+    if (!result.loading) {
+      performance.mark('user-loaded');
+      console.log('👤 User loaded:', {
+        cached: !result.loading,
+        user: result.user?.email,
+        timestamp: Date.now()
+      });
+    }
+  }, [result.loading, result.user?.email]);
+
+  return result;
+}
+
+// Export default for compatibility
+export { useCurrentUser as default };

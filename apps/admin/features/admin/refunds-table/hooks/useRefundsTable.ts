@@ -29,12 +29,12 @@ export function useRefundsTable({ page, limit, status }: UseRefundsTableProps) {
         const filters: RefundListRequest = {
           page,
           limit,
-          ...(status && { status: status as any })
+          ...(status && { status: status as 'pending' | 'succeeded' | 'failed' | 'cancelled' })
         };
         
         // TODO: Update when API returns { items, totalCount }
         const result = await listRefunds(filters);
-        setData(result as any);
+        setData(result);
         setTotalCount(100); // Mock - replace with result.totalCount
         setError(null);
       } catch (err) {

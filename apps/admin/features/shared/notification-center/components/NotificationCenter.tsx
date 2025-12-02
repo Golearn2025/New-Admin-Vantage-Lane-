@@ -9,7 +9,7 @@
 
 import { formatRelativeTime } from '@admin-shared/utils/formatDate';
 import { Bell } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { NotificationIcon } from '@vantage-lane/ui-core';
 import { useNotificationCenter } from '../hooks/useNotificationCenter';
 import styles from './NotificationCenter.module.css';

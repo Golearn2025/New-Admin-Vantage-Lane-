@@ -62,7 +62,7 @@
 .detailValue {
   color: var(--color-text-primary);
   font-weight: var(--font-weight-semibold);
-  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+  font-family: 'SF Mono', Monaco, 'Courier New', monospace;
 }
 
 .surgeBadge {

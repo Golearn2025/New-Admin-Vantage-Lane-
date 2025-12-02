@@ -12,7 +12,7 @@ import { BrandName } from '@admin-shared/ui/composed/BrandName';
 import { Icon } from '@vantage-lane/ui-icons';
 import Image from 'next/image';
 import { useSidebarNavigation } from './hooks';
-import { NavItem } from './NavItem';
+import { SidebarNavItem } from './SidebarNavItem';
 import styles from './SidebarNav.module.css';
 import { SidebarNavProps } from './types';
 
@@ -97,28 +97,19 @@ export function SidebarNav({
       {/* Navigation Menu */}
       <div className={styles.menuSection}>
         <div className={styles.menuList} role="menu">
-          {menuItems.map((item) => {
-            const isActive = isMenuItemActive(item, currentPath);
-            const isExpanded = expandable
-              ? expandedItems.includes(item.href)
-              : isMenuItemExpanded(item, currentPath);
-
-            return (
-              <NavItem
-                key={item.href}
-                href={item.href}
-                icon={item.icon}
-                label={item.label}
-                {...(item.badgeCount && { badgeCount: item.badgeCount })}
-                isActive={isActive}
-                hasChildren={!!item.children}
-                isExpanded={isExpanded}
-                subpages={item.children}
-                onNavigate={onNavigate}
-                {...(expandable && { onToggleExpand: onToggleExpandHandler })}
-              />
-            );
-          })}
+          {menuItems.map((item) => (
+            <SidebarNavItem
+              key={item.href}
+              item={item}
+              currentPath={currentPath}
+              expandable={expandable}
+              expandedItems={expandedItems}
+              onNavigate={onNavigate}
+              onToggleExpandHandler={onToggleExpandHandler}
+              isMenuItemActive={isMenuItemActive}
+              isMenuItemExpanded={isMenuItemExpanded}
+            />
+          ))}
         </div>
       </div>
 

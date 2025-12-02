@@ -1,0 +1,93 @@
+name: Quality Gates
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  quality-checks:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: 🔍 TypeScript Check
+        run: pnpm check:ts
+        
+      - name: 🔍 ESLint Check (zero warnings)
+        run: pnpm lint -- --max-warnings=0
+        
+      - name: 🔍 Build Check
+        run: pnpm build
+        
+      - name: 🔍 Code Quality Scan
+        run: node scripts/audit/audit-scan.mjs
+        continue-on-error: true
+        
+      - name: Upload audit results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: audit-results-${{ github.sha }}
+          path: |
+            docs/audit/outputs/
+            !docs/audit/outputs/**/*.png
+          retention-days: 30
+
+  # Only run on main branch for full audit
+  full-audit:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+        
+      - name: 🚀 Full Audit Pipeline
+        run: node scripts/audit/audit-all.mjs
+        env:
+          # Skip UI tests in CI (no test credentials)
+          SKIP_UI_TESTS: true
+        continue-on-error: true
+        
+      - name: Upload full audit results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-audit-${{ github.sha }}
+          path: docs/audit/outputs/
+          retention-days: 7

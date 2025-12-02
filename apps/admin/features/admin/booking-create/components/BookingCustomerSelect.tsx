@@ -3,6 +3,7 @@
  * Searchable customer dropdown with real-time search
  */
 
+import { useMemo } from 'react';
 import { useCustomerSearch } from '../hooks/useCustomerSearch';
 import type { Customer } from '../types';
 import styles from './BookingCustomerSelect.module.css';
@@ -17,6 +18,27 @@ export function BookingCustomerSelect({
   onSelectCustomer,
 }: BookingCustomerSelectProps) {
   const { customers, loading, searchQuery, setSearchQuery } = useCustomerSearch();
+
+  // Memoize customer results to prevent re-creation on every render
+  const customerResults = useMemo(() => 
+    customers.map(customer => (
+      <button
+        key={customer.id}
+        type="button"
+        className={styles.resultItem}
+        onClick={() => {
+          onSelectCustomer(customer);
+          setSearchQuery('');
+        }}
+      >
+        <div className={styles.resultName}>
+          {customer.first_name} {customer.last_name}
+        </div>
+        <div className={styles.resultEmail}>{customer.email}</div>
+      </button>
+    )), 
+    [customers, onSelectCustomer, setSearchQuery]
+  );
 
   return (
     <div className={styles.container}>
@@ -55,22 +77,7 @@ export function BookingCustomerSelect({
           
           {customers.length > 0 && (
             <div className={styles.results}>
-              {customers.map(customer => (
-                <button
-                  key={customer.id}
-                  type="button"
-                  className={styles.resultItem}
-                  onClick={() => {
-                    onSelectCustomer(customer);
-                    setSearchQuery('');
-                  }}
-                >
-                  <div className={styles.resultName}>
-                    {customer.first_name} {customer.last_name}
-                  </div>
-                  <div className={styles.resultEmail}>{customer.email}</div>
-                </button>
-              ))}
+              {customerResults}
             </div>
           )}
         </div>

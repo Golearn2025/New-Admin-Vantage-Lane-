@@ -6,7 +6,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { MiniMetricCard } from '@vantage-lane/ui-core';
 import styles from './PayoutsTable.module.css';
 

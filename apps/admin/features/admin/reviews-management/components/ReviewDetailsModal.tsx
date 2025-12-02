@@ -7,7 +7,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { 
   Modal,
   RatingDisplay,
@@ -29,6 +29,23 @@ export function ReviewDetailsModal({
   onClose,
   review
 }: ReviewDetailsModalProps) {
+  const handleClose = () => {
+    onClose();
+  };
+
+  // Memoize category items to prevent re-creation on every render  
+  const categoryItems = useMemo(() => 
+    review?.categories ? Object.entries(review.categories).map(([category, rating]) => (
+      <div key={category} className={styles.categoryItem}>
+        <span className={styles.categoryName}>
+          {category.replace(/([A-Z])/g, ' $1').trim()}
+        </span>
+        <RatingDisplay rating={rating as number} size="sm" />
+      </div>
+    )) : [],
+    [review?.categories]
+  );
+
   if (!review) return null;
 
   const formatDate = (dateString: string) => {
@@ -131,14 +148,7 @@ export function ReviewDetailsModal({
               <span>Rating Categories</span>
             </div>
             <div className={styles.categoriesGrid}>
-              {Object.entries(review.categories).map(([category, rating]) => (
-                <div key={category} className={styles.categoryItem}>
-                  <span className={styles.categoryName}>
-                    {category.replace(/([A-Z])/g, ' $1').trim()}
-                  </span>
-                  <RatingDisplay rating={rating as number} size="sm" />
-                </div>
-              ))}
+              {categoryItems}
             </div>
           </div>
         )}

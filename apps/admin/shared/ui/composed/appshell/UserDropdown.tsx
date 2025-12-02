@@ -9,6 +9,7 @@
 'use client';
 
 import { useUserDropdown } from './hooks/useUserDropdown';
+import { DropdownMenuItem } from './DropdownMenuItem';
 import styles from './UserDropdown.module.css';
 
 export interface UserDropdownProps {
@@ -27,43 +28,15 @@ export function UserDropdown({ isOpen, onClose, onNavigate }: UserDropdownProps)
 
   return (
     <div className={styles.dropdown} role="menu" aria-label="User menu">
-      {menuItems.map((item) => {
-        if (item.type === 'link') {
-          return (
-            <a
-              key={item.id}
-              href={item.href}
-              data-id={item.id}
-              className={styles.dropdownItem}
-              role="menuitem"
-              onClick={handleLinkClick}
-              aria-label={item.label}
-            >
-              {item.icon}
-              <span>{item.label}</span>
-            </a>
-          );
-        }
-
-        if (item.type === 'action') {
-          return (
-            <button
-              key={item.id}
-              type="button"
-              className={styles.dropdownItem}
-              role="menuitem"
-              aria-label={item.label}
-              onClick={handleLogout}
-              disabled={isLoggingOut}
-            >
-              {item.icon}
-              <span>{isLoggingOut ? 'Logging out...' : item.label}</span>
-            </button>
-          );
-        }
-
-        return null;
-      })}
+      {menuItems.map((item) => (
+        <DropdownMenuItem
+          key={item.id}
+          item={item}
+          handleLinkClick={handleLinkClick}
+          handleLogout={handleLogout}
+          isLoggingOut={isLoggingOut}
+        />
+      ))}
     </div>
   );
 }

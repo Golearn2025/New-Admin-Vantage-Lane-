@@ -19,7 +19,7 @@
 .card:hover {
   border-color: var(--color-border-default);
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-4px);
+  /* DISABLED: hover loop fix */
 }
 
 /* Variants */
@@ -57,7 +57,7 @@
     var(--color-accent-400),
     var(--color-purple)
   );
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin: 0;
@@ -153,7 +153,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .card {
     padding: var(--spacing-6);
   }

@@ -10,7 +10,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { DollarSign } from 'lucide-react';
 import { InfoSection } from './InfoSection';
 import styles from './PricingBreakdownCard.module.css';
@@ -50,6 +50,22 @@ export function PricingBreakdownCard({
   const servicesTotal = premiumServices.reduce(
     (sum, service) => sum + service.price * (service.quantity || 1),
     0
+  );
+
+  // Memoize premium services list to prevent re-creation on every render
+  const premiumServiceItems = useMemo(() => 
+    premiumServices.map((service, idx) => (
+      <div key={idx} className={styles.row}>
+        <span className={styles.labelIndent}>
+          {service.name}
+          {service.quantity && service.quantity > 1 && ` × ${service.quantity}`}
+        </span>
+        <span className={styles.value}>
+          {formatPrice(service.price * (service.quantity || 1))}
+        </span>
+      </div>
+    )), 
+    [premiumServices]
   );
 
   return (
@@ -96,17 +112,7 @@ export function PricingBreakdownCard({
           <>
             <div className={styles.divider} />
             <div className={styles.sectionTitle}>Premium Services:</div>
-            {premiumServices.map((service, idx) => (
-              <div key={idx} className={styles.row}>
-                <span className={styles.labelIndent}>
-                  {service.name}
-                  {service.quantity && service.quantity > 1 && ` × ${service.quantity}`}
-                </span>
-                <span className={styles.value}>
-                  {formatPrice(service.price * (service.quantity || 1))}
-                </span>
-              </div>
-            ))}
+            {premiumServiceItems}
             <div className={styles.row}>
               <span className={styles.label}>Services Total:</span>
               <span className={styles.value}>{formatPrice(servicesTotal)}</span>

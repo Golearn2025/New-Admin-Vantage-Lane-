@@ -6,7 +6,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { DataTable } from '@vantage-lane/ui-core';
 import type { Column } from '@vantage-lane/ui-core';
 import type { PricingConfig, PremiumServiceOption } from '@entities/pricing';
@@ -19,6 +19,47 @@ interface Props {
 export function PremiumServicesTab({ config }: Props) {
   const services = Object.entries(config.premium_services);
 
+  // Memoize service cards to prevent re-creation on every render
+  const servicesCards = useMemo(() => 
+    services.map(([key, service]) => {
+      const options = Object.entries(service).filter(
+        ([k, v]) => k !== 'name' && typeof v === 'object'
+      ) as [string, PremiumServiceOption][];
+
+      const columns: Column<{ id: string; label: string; price: number }>[] = [
+        {
+          id: 'label',
+          header: 'Option',
+          accessor: (row) => row.label,
+        },
+        {
+          id: 'price',
+          header: 'Price',
+          accessor: (row) => row.price,
+          cell: (row) => `£${row.price.toFixed(2)}`,
+        },
+      ];
+
+      // Memoized data transformation for table
+      const data = options.map(([optionKey, option]) => ({
+        id: optionKey,
+        label: option.label,
+        price: option.price,
+      }));
+
+      return (
+        <div key={key} className={styles.section}>
+          <h3 className={styles.sectionTitle}>{service.name}</h3>
+          <DataTable
+            columns={columns}
+            data={data}
+          />
+        </div>
+      );
+    }), 
+    [services]
+  );
+
   return (
     <div className={styles.section}>
       <h2 className={styles.sectionTitle}>Premium Services</h2>
@@ -27,41 +68,7 @@ export function PremiumServicesTab({ config }: Props) {
       </p>
 
       <div className={styles.grid}>
-        {services.map(([key, service]) => {
-          const options = Object.entries(service).filter(
-            ([k, v]) => k !== 'name' && typeof v === 'object'
-          ) as [string, PremiumServiceOption][];
-
-          const columns: Column<{ id: string; label: string; price: number }>[] = [
-            {
-              id: 'label',
-              header: 'Option',
-              accessor: (row) => row.label,
-            },
-            {
-              id: 'price',
-              header: 'Price',
-              accessor: (row) => row.price,
-              cell: (row) => `£${row.price.toFixed(2)}`,
-            },
-          ];
-
-          const data = options.map(([optionKey, option]) => ({
-            id: optionKey,
-            label: option.label,
-            price: option.price,
-          }));
-
-          return (
-            <div key={key} className={styles.section}>
-              <h3 className={styles.sectionTitle}>{service.name}</h3>
-              <DataTable
-                columns={columns}
-                data={data}
-              />
-            </div>
-          );
-        })}
+        {servicesCards}
       </div>
 
       {/* Example */}

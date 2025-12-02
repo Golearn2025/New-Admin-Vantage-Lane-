@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Avatar,
   Card,
@@ -29,6 +29,67 @@ export function DriverVerification({ driverId }: DriverVerificationProps) {
   const { driver, loading, error, verifyDriver, rejectDriver, approveDocument, rejectDocument } = useDriverVerification(driverId);
   const [selectedDoc, setSelectedDoc] = useState<DriverDoc | null>(null);
   const [selectedServiceTypes, setSelectedServiceTypes] = useState<VehicleServiceType[]>([]);
+
+  // Memoize documents list to prevent re-creation on every render
+  const documentsCards = useMemo(() => 
+    driver?.documents.map((doc) => (
+      <div key={doc.id} className={styles.docCard}>
+        <div className={styles.docHeader}>
+          <Badge color="neutral" size="sm">{doc.type.toUpperCase()}</Badge>
+          {doc.verified ? (
+            <Badge color="success" icon="check" size="sm">Verified</Badge>
+          ) : (
+            <Badge color="warning" icon="clock" size="sm">Pending</Badge>
+          )}
+        </div>
+        <div className={styles.docPreview}>
+          {doc.type === 'photo' ? (
+            <img src={doc.url} alt={doc.type} className={styles.docImage} />
+          ) : (
+            <div className={styles.pdfIcon}>📄</div>
+          )}
+        </div>
+        <Button size="sm" variant="secondary" onClick={() => setSelectedDoc(doc)}>
+          View Full
+        </Button>
+      </div>
+    )) || [], 
+    [driver?.documents]
+  );
+
+  // Memoize vehicle service types selection
+  const serviceTypesCards = useMemo(() => {
+    const serviceLabels = {
+      exec: 'EXEC - Executive (BMW 5, Mercedes E-Class)',
+      lux: 'LUX - Luxury (S-Class, 7 Series)',
+      suv: 'SUV - Premium SUV (Range Rover)',
+      van: 'VAN - Large Group Transport'
+    };
+
+    return (['exec', 'lux', 'suv', 'van'] as const).map((type) => (
+      <div key={type} className={styles.categoryCard}>
+        <Checkbox
+          id={`service-${type}`}
+          checked={selectedServiceTypes.includes(type)}
+          onChange={(checked) => {
+            if (checked) {
+              setSelectedServiceTypes(prev => [...prev, type]);
+            } else {
+              setSelectedServiceTypes(prev => prev.filter(t => t !== type));
+            }
+          }}
+        />
+        <div className={styles.categoryInfo}>
+          <label htmlFor={`service-${type}`} className={styles.categoryLabel}>
+            {serviceLabels[type]}
+          </label>
+          <div className={styles.categoryIcon}>
+            <Car size={24} />
+          </div>
+        </div>
+      </div>
+    ));
+  }, [selectedServiceTypes]);
 
   if (loading) {
     return <div className={styles.loading}>Loading driver data...</div>;
@@ -102,28 +163,7 @@ export function DriverVerification({ driverId }: DriverVerificationProps) {
       <Card padding="lg">
         <h3>Documents ({driver.documents.filter(d => d.verified).length}/{driver.documents.length} verified)</h3>
         <div className={styles.docsGrid}>
-          {driver.documents.map((doc) => (
-            <div key={doc.id} className={styles.docCard}>
-              <div className={styles.docHeader}>
-                <Badge color="neutral" size="sm">{doc.type.toUpperCase()}</Badge>
-                {doc.verified ? (
-                  <Badge color="success" icon="check" size="sm">Verified</Badge>
-                ) : (
-                  <Badge color="warning" icon="clock" size="sm">Pending</Badge>
-                )}
-              </div>
-              <div className={styles.docPreview}>
-                {doc.type === 'photo' ? (
-                  <img src={doc.url} alt={doc.type} className={styles.docImage} />
-                ) : (
-                  <div className={styles.pdfIcon}>📄</div>
-                )}
-              </div>
-              <Button size="sm" variant="secondary" onClick={() => setSelectedDoc(doc)}>
-                View Full
-              </Button>
-            </div>
-          ))}
+          {documentsCards}
         </div>
       </Card>
 
@@ -132,35 +172,7 @@ export function DriverVerification({ driverId }: DriverVerificationProps) {
         <h3>Vehicle Categories</h3>
         <p className={styles.sectionDesc}>Select categories this driver can accept</p>
         <div className={styles.categoriesGrid}>
-          {(['exec', 'lux', 'suv', 'van'] as const).map((type) => {
-            const serviceLabels = {
-              exec: 'EXEC - Executive (BMW 5, Mercedes E-Class)',
-              lux: 'LUX - Luxury (S-Class, 7 Series)',
-              suv: 'SUV - Premium SUV (Range Rover)',
-              van: 'VAN - Group Transport (V-Class)'
-            };
-            const serviceIcons = {
-              exec: '🎩',
-              lux: '💎',
-              suv: '🚙',
-              van: '🚐'
-            };
-            
-            return (
-              <label key={type} className={styles.categoryCard}>
-                <Checkbox
-                  id={`service-${type}`}
-                  checked={selectedServiceTypes.includes(type)}
-                  onChange={() => toggleServiceType(type)}
-                  className={styles.categoryCheckbox}
-                />
-                <div className={styles.categoryContent}>
-                  <span className={styles.categoryIcon}>{serviceIcons[type]}</span>
-                  <span className={styles.categoryName}>{serviceLabels[type]}</span>
-                </div>
-              </label>
-            );
-          })}
+          {serviceTypesCards}
         </div>
         <p className={styles.categoryNote}>
           Driver will see ONLY bookings matching selected categories

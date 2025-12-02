@@ -6,6 +6,7 @@
 .container {
   position: relative;
   display: inline-block;
+
   --drp-day-size: var(--spacing-9);
 }
 
@@ -170,7 +171,7 @@
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-.day:hover:not(:disabled):not([aria-disabled="true"]) {
+.day:hover:not(:disabled, [aria-disabled="true"]) {
   background: var(--color-surface-hover);
   color: var(--color-text-primary);
   border-color: var(--color-border-default);

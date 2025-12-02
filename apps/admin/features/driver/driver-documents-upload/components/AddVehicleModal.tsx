@@ -7,7 +7,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Modal, Button, Input, Select } from '@vantage-lane/ui-core';
 import { VEHICLE_YEARS, VEHICLE_COLORS, VEHICLE_MAKES, getModelsForMake } from '@entities/vehicle';
 import styles from './AddVehicleModal.module.css';
@@ -60,6 +60,12 @@ export function AddVehicleModal({ isOpen, onClose, onAdd }: AddVehicleModalProps
     }
   }, [formData.make]);
 
+  // Memoize year options to prevent re-creation on every render
+  const yearOptions = useMemo(() => 
+    VEHICLE_YEARS.map(y => ({ value: y.toString(), label: y.toString() })),
+    []
+  );
+
   const validateForm = (): string | null => {
     if (!formData.licensePlate.trim()) return 'License plate is required';
     if (!formData.make.trim()) return 'Make is required';
@@ -69,12 +75,9 @@ export function AddVehicleModal({ isOpen, onClose, onAdd }: AddVehicleModalProps
   };
 
   const handleSubmit = async () => {
-    console.log('📦 [AddVehicleModal] handleSubmit called');
-    console.log('📦 [AddVehicleModal] formData:', formData);
     
     const validationError = validateForm();
     if (validationError) {
-      console.error('❌ [AddVehicleModal] Validation error:', validationError);
       setError(validationError);
       return;
     }
@@ -83,14 +86,11 @@ export function AddVehicleModal({ isOpen, onClose, onAdd }: AddVehicleModalProps
       setIsSubmitting(true);
       setError('');
       
-      console.log('🚀 [AddVehicleModal] Calling onAdd...');
       await onAdd(formData);
       
-      console.log('✅ [AddVehicleModal] Vehicle added successfully!');
       resetForm();
       onClose();
     } catch (err) {
-      console.error('❌ [AddVehicleModal] Error:', err);
       setError(err instanceof Error ? err.message : 'Failed to add vehicle');
     } finally {
       setIsSubmitting(false);
@@ -166,7 +166,7 @@ export function AddVehicleModal({ isOpen, onClose, onAdd }: AddVehicleModalProps
             <Select
               value={formData.year.toString()}
               onChange={(value) => handleChange('year', parseInt(value.toString()))}
-              options={VEHICLE_YEARS.map(y => ({ value: y.toString(), label: y.toString() }))}
+              options={yearOptions}
               disabled={isSubmitting}
               fullWidth
             />

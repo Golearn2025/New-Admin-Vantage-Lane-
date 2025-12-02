@@ -61,8 +61,11 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // RBAC check - verify user is admin OR operator
-    const { data: adminUser } = await supabase
+    // RBAC check - verify user is admin OR operator (using service role to bypass RLS)
+    const { createAdminClient } = await import('@/lib/supabase/admin');
+    const supabaseAdmin = createAdminClient();
+    
+    const { data: adminUser } = await supabaseAdmin
       .from('admin_users')
       .select('role, is_active')
       .eq('auth_user_id', user.id)

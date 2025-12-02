@@ -1,7 +1,13 @@
 /**
- * Bookings List API - Query Builder
- * Fetch data SEPARATE (nu nested) - funcționează 100%
- * Compliant: <150 lines
+ * DEPRECATED: Bookings List API - Query Builder
+ * 
+ * ❌ THIS FILE IS DEPRECATED - DO NOT USE!
+ * ✅ REPLACED BY: RPC get_bookings_list in Supabase
+ * 
+ * PERFORMANCE ISSUE: This file used 9 separate Promise.all queries
+ * NEW SOLUTION: Single RPC call with joins
+ * 
+ * @deprecated Use app/api/bookings/list/route.ts which calls RPC instead
  */
 
 import type { SupabaseClient } from '@supabase/supabase-js';

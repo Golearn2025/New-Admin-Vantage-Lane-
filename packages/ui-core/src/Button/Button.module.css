@@ -67,21 +67,18 @@
 .primary::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: var(--theme-gradient-hover);
   opacity: 0;
   transition: opacity var(--motion-duration-normal);
 }
 
-.primary:hover:not(.disabled):not(.loading) {
+.primary:hover:not(.disabled, .loading) {
   box-shadow: var(--shadow-2xl), var(--theme-shadow-button-hover), var(--theme-glow);
-  transform: translateY(-2px);
+  /* transform: translateY(0); */ /* DISABLED: hover loop fix */
 }
 
-.primary:hover:not(.disabled):not(.loading)::before {
+.primary:hover:not(.disabled, .loading)::before {
   opacity: 1;
 }
 
@@ -89,8 +86,8 @@
   box-shadow: var(--theme-shadow-focus);
 }
 
-.primary:active:not(.disabled):not(.loading) {
-  transform: translateY(0);
+.primary:active:not(.disabled, .loading) {
+  /* transform: translateY(0); */ /* DISABLED: hover loop fix */
   box-shadow: var(--theme-shadow-button);
 }
 
@@ -109,14 +106,14 @@
   border-color: var(--color-border-default);
   box-shadow: var(--shadow-lg);
   
-  &:hover:not(.disabled):not(.loading) {
+  &:hover:not(.disabled, .loading) {
     background: var(--color-surface-elevated);
     box-shadow: var(--shadow-xl);
-    transform: translateY(-1px);
+    /* transform: translateY(0); */ /* DISABLED: hover loop fix */
   }
   
-  &:active:not(.disabled):not(.loading) {
-    transform: translateY(0);
+  &:active:not(.disabled, .loading) {
+    /* transform: translateY(0); */ /* DISABLED: hover loop fix */
     box-shadow: var(--shadow-lg);
   }
 }
@@ -126,18 +123,18 @@
   color: var(--theme-primary);
   border-color: var(--theme-primary);
   
-  &:hover:not(.disabled):not(.loading) {
+  &:hover:not(.disabled, .loading) {
     background-color: var(--theme-primary-alpha-10);
     box-shadow: var(--theme-glow);
-    transform: translateY(-1px);
+    /* transform: translateY(0); */ /* DISABLED: hover loop fix */
   }
   
   &:focus-visible {
     box-shadow: var(--theme-shadow-focus);
   }
   
-  &:active:not(.disabled):not(.loading) {
-    transform: translateY(0);
+  &:active:not(.disabled, .loading) {
+    /* transform: translateY(0); */ /* DISABLED: hover loop fix */
   }
 }
 
@@ -146,7 +143,7 @@
   color: var(--color-text-primary);
   border-color: transparent;
   
-  &:hover:not(.disabled):not(.loading) {
+  &:hover:not(.disabled, .loading) {
     background-color: var(--color-bg-tertiary);
   }
 }
@@ -156,7 +153,7 @@
   color: var(--color-text-inverse);
   border-color: var(--color-danger-default);
   
-  &:hover:not(.disabled):not(.loading) {
+  &:hover:not(.disabled, .loading) {
     background-color: var(--color-danger-dark);
     border-color: var(--color-danger-dark);
   }
@@ -178,7 +175,7 @@
 .spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid currentColor;
+  border: 2px solid currentcolor;
   border-right-color: transparent;
   border-radius: 50%;
   animation: spin 1s linear infinite;

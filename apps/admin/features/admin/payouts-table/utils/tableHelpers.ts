@@ -27,7 +27,6 @@ export function handleExportAll(format: 'excel' | 'csv', count: number) {
 }
 
 export function handleExportSelected(format: 'excel' | 'csv', count: number) {
-  console.log(`Exporting ${count} selected payouts to ${format}`);
   alert(`Exporting ${count} selected payouts to ${format.toUpperCase()}`);
   // TODO: Implement actual export logic
 }

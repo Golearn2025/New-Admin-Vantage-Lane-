@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { User, Building2, Car, Users, Inbox } from 'lucide-react';
 
 /**
@@ -36,7 +36,6 @@ export function NotificationHistoryTab() {
       const data = await listSentNotifications(100);
       setNotifications(data);
     } catch (error) {
-      console.error('Failed to fetch history:', error);
     } finally {
       setLoading(false);
     }
@@ -59,7 +58,7 @@ export function NotificationHistoryTab() {
         count: 0,
       };
     }
-    acc[key].count++;
+    acc[key]!.count++;
     return acc;
   }, {} as Record<string, GroupedNotification>);
 

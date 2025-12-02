@@ -1,9 +1,12 @@
 import { invalidatePricingCache, updateAirportFee, updateFleetSettings, updateGeneralPolicies, updateHourlySettings, updateReturnSettings, updateServicePolicies, updateVehicleType, updateZoneFee, updateTimeMultipliers, type FleetSettings, type GeneralPolicies, type HourlySettings, type ReturnSettings, type ServicePolicies, type UpdateAirportFeePayload, type UpdateVehicleTypePayload, type PricingConfig, type ZoneFee, type PricingConfig as PC } from '@entities/pricing';
 
+// Mutate function type definition
+type MutateFunction<T = PricingConfig> = (data?: T, opts?: { revalidate?: boolean }) => Promise<T | undefined>;
+
 /** Shared helper to standardize update flows */
 async function performUpdate<T>(opts: {
   action: () => Promise<T>;
-  mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>;
+  mutate: MutateFunction;
   setIsSaving: (v: boolean) => void;
   setSaveError: (v: string | null) => void;
   successMessage: string;
@@ -27,7 +30,7 @@ async function performUpdate<T>(opts: {
   }
 }
 
-export async function handleUpdateVehicleType(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, payload: UpdateVehicleTypePayload) {
+export async function handleUpdateVehicleType(config: PricingConfig, mutate: MutateFunction, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, payload: UpdateVehicleTypePayload) {
   await performUpdate({
     action: () => updateVehicleType(config.id, payload),
     mutate,
@@ -37,7 +40,7 @@ export async function handleUpdateVehicleType(config: PricingConfig, mutate: (da
   });
 }
 
-export async function handleUpdateAirportFee(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, payload: UpdateAirportFeePayload) {
+export async function handleUpdateAirportFee(config: PricingConfig, mutate: MutateFunction, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, payload: UpdateAirportFeePayload) {
   await performUpdate({
     action: () => updateAirportFee(config.id, payload),
     mutate,
@@ -47,7 +50,7 @@ export async function handleUpdateAirportFee(config: PricingConfig, mutate: (dat
   });
 }
 
-export async function handleUpdateZoneFee(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, payload: { zoneCode: string; fee: Partial<ZoneFee> }) {
+export async function handleUpdateZoneFee(config: PricingConfig, mutate: MutateFunction, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, payload: { zoneCode: string; fee: Partial<ZoneFee> }) {
   await performUpdate({
     action: () => updateZoneFee(config.id, payload),
     mutate,
@@ -57,7 +60,7 @@ export async function handleUpdateZoneFee(config: PricingConfig, mutate: (data?:
   });
 }
 
-export async function handleUpdateServicePolicies(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, policies: ServicePolicies) {
+export async function handleUpdateServicePolicies(config: PricingConfig, mutate: MutateFunction, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, policies: ServicePolicies) {
   await performUpdate({
     action: () => updateServicePolicies(config.id, policies),
     mutate,
@@ -67,7 +70,7 @@ export async function handleUpdateServicePolicies(config: PricingConfig, mutate:
   });
 }
 
-export async function handleUpdateGeneralPolicies(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, policies: GeneralPolicies) {
+export async function handleUpdateGeneralPolicies(config: PricingConfig, mutate: MutateFunction, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, policies: GeneralPolicies) {
   await performUpdate({
     action: () => updateGeneralPolicies(config.id, policies),
     mutate,
@@ -77,7 +80,7 @@ export async function handleUpdateGeneralPolicies(config: PricingConfig, mutate:
   });
 }
 
-export async function handleUpdateReturnSettings(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, settings: ReturnSettings) {
+export async function handleUpdateReturnSettings(config: PricingConfig, mutate: MutateFunction, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, settings: ReturnSettings) {
   await performUpdate({
     action: () => updateReturnSettings(config.id, settings),
     mutate,
@@ -87,7 +90,7 @@ export async function handleUpdateReturnSettings(config: PricingConfig, mutate: 
   });
 }
 
-export async function handleUpdateHourlySettings(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, settings: HourlySettings) {
+export async function handleUpdateHourlySettings(config: PricingConfig, mutate: MutateFunction, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, settings: HourlySettings) {
   await performUpdate({
     action: () => updateHourlySettings(config.id, settings),
     mutate,
@@ -97,7 +100,7 @@ export async function handleUpdateHourlySettings(config: PricingConfig, mutate: 
   });
 }
 
-export async function handleUpdateFleetSettings(config: PricingConfig, mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, settings: FleetSettings) {
+export async function handleUpdateFleetSettings(config: PricingConfig, mutate: MutateFunction, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, settings: FleetSettings) {
   await performUpdate({
     action: () => updateFleetSettings(config.id, settings),
     mutate,
@@ -109,7 +112,7 @@ export async function handleUpdateFleetSettings(config: PricingConfig, mutate: (
 
 export async function handleUpdateTimeMultipliers(
   config: PricingConfig,
-  mutate: (data?: any, opts?: { revalidate?: boolean }) => Promise<any>,
+  mutate: MutateFunction,
   setIsSaving: (v: boolean) => void,
   setSaveError: (v: string | null) => void,
   multipliers: PC['time_multipliers']

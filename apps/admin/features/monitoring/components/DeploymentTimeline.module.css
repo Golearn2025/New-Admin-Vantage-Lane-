@@ -1,0 +1,32 @@
+/* DeploymentTimeline.module.css - 100% design tokens */
+
+.timelineCard {
+  padding: var(--spacing-6);
+}
+
+.cardTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.timelineItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  background: var(--color-background-elevated);
+  border-radius: var(--border-radius-md);
+}
+
+.timelineItem span {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}

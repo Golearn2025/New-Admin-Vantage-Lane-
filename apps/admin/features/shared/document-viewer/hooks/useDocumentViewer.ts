@@ -8,14 +8,26 @@
 
 import { useState, useEffect } from 'react';
 
+// Document interface for viewer
+interface DocumentViewerData {
+  id: string;
+  fileName: string;
+  fileUrl: string;
+  fileType: 'image' | 'pdf' | 'document';
+  uploadDate: string;
+  size: number;
+  category: 'driver' | 'vehicle' | 'booking';
+  approvalStatus?: 'pending' | 'approved' | 'rejected';
+}
+
 export interface UseDocumentViewerReturn {
-  data: any[];
+  data: DocumentViewerData[];
   loading: boolean;
   error: string | null;
 }
 
 export function useDocumentViewer(): UseDocumentViewerReturn {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<DocumentViewerData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

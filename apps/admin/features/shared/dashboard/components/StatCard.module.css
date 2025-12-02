@@ -22,7 +22,6 @@
 
 .card:hover {
   border-color: var(--color-border-hover);
-  box-shadow: var(--shadow-md);
   background: var(--color-bg-surface-elevated);
   transform: var(--transform-hover-raise);
   box-shadow: var(--shadow-lg);
@@ -145,6 +144,7 @@
   0%, 100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }

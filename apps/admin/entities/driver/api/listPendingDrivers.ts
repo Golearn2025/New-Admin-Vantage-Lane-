@@ -7,7 +7,6 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
 import { unstable_noStore as noStore } from 'next/cache';
 
 export interface PendingDriverData {
@@ -75,16 +74,15 @@ export async function listPendingDrivers(): Promise<PendingDriverData[]> {
       console.error('Failed to fetch driver documents:', docsError);
     }
     
-    // 2. Fetch vehicle documents for these drivers (use admin client to bypass RLS)
-    const adminClient = createAdminClient();
-    const { data: vehicles, error: vehiclesError } = await adminClient
+    // 2. Fetch vehicle documents for these drivers using normal client
+    // Note: RLS should be configured to allow access to vehicles based on user permissions
+    const { data: vehicles, error: vehiclesError } = await supabase
       .from('vehicles')
       .select('id, driver_id')
       .in('driver_id', driverIds);
 
     console.log('==========================================');
-    console.log('[DEBUG] Admin client created');
-    console.log('[DEBUG] Vehicles fetch:', { 
+    console.log('[DEBUG] Vehicles fetch with authenticated client:', { 
       error: vehiclesError, 
       count: vehicles?.length,
       driverIds,
@@ -94,7 +92,7 @@ export async function listPendingDrivers(): Promise<PendingDriverData[]> {
     let vehicleDocuments: any[] = [];
     if (!vehiclesError && vehicles && vehicles.length > 0) {
       const vehicleIds = vehicles.map(v => v.id);
-      const { data: vDocs, error: vDocsError } = await adminClient
+      const { data: vDocs, error: vDocsError } = await supabase
         .from('vehicle_documents')
         .select('vehicle_id, document_type, status, upload_date')
         .in('vehicle_id', vehicleIds)

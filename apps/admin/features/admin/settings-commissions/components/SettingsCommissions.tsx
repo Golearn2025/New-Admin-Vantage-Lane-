@@ -8,8 +8,9 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button, Input } from '@vantage-lane/ui-core';
+import { formatCurrency } from '@/shared/utils/formatters';
 import { useSettingsCommissions } from '../hooks/useSettingsCommissions';
 import styles from './SettingsCommissions.module.css';
 
@@ -127,23 +128,23 @@ export function SettingsCommissions() {
             <div className={styles.calc}>
               <div className={styles.calcRow}>
                 <span>Customer Pays:</span>
-                <strong>£{example.customerPrice.toFixed(2)}</strong>
+                <strong>{formatCurrency(example.customerPrice)}</strong>
               </div>
               <div className={styles.calcRow}>
                 <span>Platform Commission ({platformCommission}%):</span>
-                <strong className={styles.deduct}>-£{example.platformAmount.toFixed(2)}</strong>
+                <strong className={styles.deduct}>-{formatCurrency(example.platformAmount)}</strong>
               </div>
               <div className={`${styles.calcRow} ${styles.highlight}`}>
                 <span>After Platform:</span>
-                <strong>£{example.afterPlatform.toFixed(2)}</strong>
+                <strong>{formatCurrency(example.afterPlatform)}</strong>
               </div>
               <div className={styles.calcRow}>
                 <span>Operator Commission ({operatorCommission}%):</span>
-                <strong className={styles.add}>+£{example.operatorAmount.toFixed(2)}</strong>
+                <strong className={styles.add}>+{formatCurrency(example.operatorAmount)}</strong>
               </div>
               <div className={`${styles.calcRow} ${styles.highlight}`}>
                 <span>Driver Gets:</span>
-                <strong>£{example.driverAmount.toFixed(2)}</strong>
+                <strong>{formatCurrency(example.driverAmount)}</strong>
               </div>
             </div>
           </div>

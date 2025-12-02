@@ -11,6 +11,24 @@ import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import type { DriverAssignment, DriverAssignmentCounts, TabId } from '../types';
 
+interface OperatorData {
+  id: string;
+  name: string;
+  code?: string;
+  contact_email?: string;
+  organization_id?: string;
+}
+
+interface DriverData {
+  id: string;
+  first_name: string | null;
+  last_name: string | null;
+  email: string;
+  organization_id: string | null;
+  created_at: string;
+  is_active: boolean;
+}
+
 export function useDriverAssignment(activeTab: TabId = 'all') {
   const [drivers, setDrivers] = useState<DriverAssignment[]>([]);
   const [counts, setCounts] = useState<DriverAssignmentCounts>({
@@ -35,7 +53,6 @@ export function useDriverAssignment(activeTab: TabId = 'all') {
         .select('id, first_name, last_name, email, organization_id, created_at, is_active')
         .order('created_at', { ascending: false });
 
-      console.log('🚗 Drivers query:', { driversData, driversError });
 
       if (driversError) throw driversError;
 
@@ -45,15 +62,14 @@ export function useDriverAssignment(activeTab: TabId = 'all') {
         .select('id, name, code, contact_email')
         .eq('org_type', 'operator');
 
-      console.log('🏢 Operators query:', { operatorsData, operatorsError });
 
       // Create operator lookup map
       const operatorMap = new Map(
-        (operatorsData || []).map((op: any) => [op.id, op])
+        (operatorsData || []).map((op: OperatorData) => [op.id, op])
       );
 
       // Transform data
-      const transformedDrivers: DriverAssignment[] = (driversData || []).map((driver: any) => {
+      const transformedDrivers: DriverAssignment[] = (driversData || []).map((driver: DriverData) => {
         const operator = driver.organization_id ? operatorMap.get(driver.organization_id) : null;
         const driverName = driver.first_name && driver.last_name 
           ? `${driver.first_name} ${driver.last_name}` 
@@ -74,7 +90,6 @@ export function useDriverAssignment(activeTab: TabId = 'all') {
         };
       });
 
-      console.log('✅ Transformed drivers:', transformedDrivers);
 
       // Filter based on active tab
       let filteredDrivers = transformedDrivers;
@@ -94,7 +109,6 @@ export function useDriverAssignment(activeTab: TabId = 'all') {
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch drivers');
-      console.error('Error fetching drivers:', err);
     } finally {
       setLoading(false);
     }
@@ -118,7 +132,6 @@ export function useDriverAssignment(activeTab: TabId = 'all') {
         await fetchDrivers();
         return { success: true };
       } catch (err) {
-        console.error('Error assigning driver:', err);
         return {
           success: false,
           error: err instanceof Error ? err.message : 'Failed to assign driver',
@@ -146,7 +159,6 @@ export function useDriverAssignment(activeTab: TabId = 'all') {
         await fetchDrivers();
         return { success: true };
       } catch (err) {
-        console.error('Error unassigning driver:', err);
         return {
           success: false,
           error: err instanceof Error ? err.message : 'Failed to unassign driver',

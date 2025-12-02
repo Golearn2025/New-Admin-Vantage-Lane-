@@ -55,7 +55,6 @@ export function useSafetyIncidents(params: SafetyIncidentsParams = {}): UseSafet
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch safety incidents';
       setError(errorMessage);
-      console.error('Error fetching safety incidents:', err);
     } finally {
       setLoading(false);
     }
@@ -95,7 +94,6 @@ export function useSafetyIncidents(params: SafetyIncidentsParams = {}): UseSafet
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to update incident status';
       setError(errorMessage);
-      console.error('Error updating incident status:', err);
     } finally {
       setUpdating(false);
     }

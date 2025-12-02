@@ -12,6 +12,7 @@
 
 'use client';
 
+import { useMemo } from 'react';
 import { type CardSpec } from '@admin-shared/config/dashboard.types';
 import { useCurrentUser } from '@admin-shared/hooks/useCurrentUser';
 import { MetricCard } from '@vantage-lane/ui-dashboard';
@@ -53,25 +54,31 @@ export function DashboardMetrics({ specs, startDate, endDate }: DashboardMetrics
   // Map metrics to card values (or null if loading)
   const cardValues = metrics ? getCardValues(metrics, user?.role || 'admin') : {};
 
+  // Memoize metric cards to prevent re-creation on every render
+  const metricCards = useMemo(() => 
+    filteredSpecs.map((spec, index) => {
+      // Use spec.field to lookup value (not spec.key!)
+      const value = cardValues[spec.field] ?? null;
+      const delta = getDeltaForMetric(spec.key); // TODO: Calculate from historical data
+
+      return (
+        <MetricCard
+          key={spec.key}
+          spec={spec}
+          value={value}
+          delta={delta}
+          loading={isLoading}
+          variant="gradient"
+          gradient={getGradientForIndex(index)}
+        />
+      );
+    }), 
+    [filteredSpecs, cardValues, isLoading]
+  );
+
   return (
     <div className={styles.metricsGrid}>
-      {filteredSpecs.map((spec, index) => {
-        // Use spec.field to lookup value (not spec.key!)
-        const value = cardValues[spec.field] ?? null;
-        const delta = getDeltaForMetric(spec.key); // TODO: Calculate from historical data
-
-        return (
-          <MetricCard
-            key={spec.key}
-            spec={spec}
-            value={value}
-            delta={delta}
-            loading={isLoading}
-            variant="gradient"
-            gradient={getGradientForIndex(index)}
-          />
-        );
-      })}
+      {metricCards}
     </div>
   );
 }

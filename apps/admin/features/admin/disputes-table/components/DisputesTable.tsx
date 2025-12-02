@@ -76,13 +76,11 @@ export function DisputesTable() {
 
   // Export functions
   const handleExportAll = (format: 'excel' | 'csv') => {
-    console.log(`Exporting all ${data.length} disputes to ${format}`);
     alert(`Exporting all ${data.length} disputes to ${format.toUpperCase()}`);
     // TODO: Implement actual export logic
   };
 
   const handleExportSelected = (format: 'excel' | 'csv') => {
-    console.log(`Exporting ${selection.selectedCount} selected disputes to ${format}`);
     alert(`Exporting ${selection.selectedCount} selected disputes to ${format.toUpperCase()}`);
     // TODO: Implement actual export logic
   };
@@ -144,7 +142,6 @@ export function DisputesTable() {
       label: 'Delete Selected',
       onClick: () => {
         if (confirm(`Delete ${selection.selectedCount} disputes?`)) {
-          console.log('Deleting:', selection.selectedRows);
         }
       },
       destructive: true,

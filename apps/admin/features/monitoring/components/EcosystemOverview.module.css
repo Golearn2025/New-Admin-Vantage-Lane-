@@ -1,0 +1,8 @@
+/* EcosystemOverview.module.css - 100% design tokens */
+
+.overviewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+}

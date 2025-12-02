@@ -63,6 +63,7 @@ export interface NavItemProps {
 export interface TopbarProps {
   role: UserRole;
   onMenuToggle: () => void;
+  onNavigate: (href: string) => void;
   sidebarCollapsed?: boolean;
   user?: UserInfo;
 }

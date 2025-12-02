@@ -35,7 +35,7 @@
   background: var(--color-bg-elevated);
   margin: 0;
   white-space: pre-wrap;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   max-height: var(--size-100);
   overflow-y: auto;
 }

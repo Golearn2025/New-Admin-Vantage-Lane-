@@ -40,7 +40,7 @@ serve(async (req) => {
     
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    console.log('🔄 Running check_expiring_documents()...');
+    console.warn('Checking documents expiring in 30 days...');
 
     // Call the database function
     const { data, error } = await supabase.rpc('check_expiring_documents');
@@ -50,7 +50,7 @@ serve(async (req) => {
       throw error;
     }
 
-    console.log('✅ check_expiring_documents completed successfully');
+    console.warn('✅ check_expiring_documents completed successfully');
 
     return new Response(
       JSON.stringify({

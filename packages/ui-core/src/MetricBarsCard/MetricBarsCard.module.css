@@ -84,6 +84,7 @@
     height: 0 !important;
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -92,7 +93,7 @@
 /* Premium glow effect on hover */
 .barWrapper:hover .bar {
   filter: brightness(1.2);
-  box-shadow: 0 -2px 12px currentColor !important;
+  box-shadow: 0 -2px 12px currentcolor !important;
 }
 
 /* Shimmer effect */
@@ -106,7 +107,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.3),
+    var(--color-white-alpha-30),
     transparent
   );
   animation: shimmer 2s infinite;
@@ -117,6 +118,7 @@
   0%, 100% {
     left: -100%;
   }
+
   50% {
     left: 100%;
   }
@@ -171,7 +173,7 @@
   font-size: var(--font-2xl);
   font-weight: var(--font-bold);
   background: var(--theme-gradient);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
@@ -196,11 +198,11 @@
 .actionButton:hover {
   background: var(--theme-primary-alpha-10);
   box-shadow: var(--theme-glow);
-  transform: translateX(2px);
+  /* DISABLED: hover loop fix */
 }
 
 .actionButton:active {
-  transform: translateX(0);
+  /* DISABLED: hover loop fix */
 }
 
 .actionIcon {
@@ -208,14 +210,14 @@
 }
 
 .actionButton:hover .actionIcon {
-  transform: translateX(2px);
+  /* DISABLED: hover loop fix */
 }
 
 /* ============================================ */
 /* RESPONSIVE                                   */
 /* ============================================ */
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .card {
     min-height: 240px;
   }

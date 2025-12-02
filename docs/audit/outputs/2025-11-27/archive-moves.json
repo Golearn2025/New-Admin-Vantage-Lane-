@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-11-27T04:08:32.890Z",
+  "archiveDate": "2025-11-27",
+  "totalFiles": 3,
+  "movedFiles": 3,
+  "errors": [],
+  "moved": [
+    {
+      "from": "docs/00_RULES.md",
+      "to": "docs/_archive/2025-11-27/docs/00_RULES.md",
+      "size": 7261
+    },
+    {
+      "from": "docs/01_AUDIT_PROCESS.md",
+      "to": "docs/_archive/2025-11-27/docs/01_AUDIT_PROCESS.md",
+      "size": 2585
+    },
+    {
+      "from": "docs/02_CHECKLIST.md",
+      "to": "docs/_archive/2025-11-27/docs/02_CHECKLIST.md",
+      "size": 3675
+    }
+  ]
+}

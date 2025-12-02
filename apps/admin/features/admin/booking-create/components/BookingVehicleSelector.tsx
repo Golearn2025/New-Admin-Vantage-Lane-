@@ -3,7 +3,7 @@
  * Select vehicle category: Executive, Luxury, SUV, Van
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Car, Sparkles, Truck, Bus } from 'lucide-react';
 import { BookingVehicleModelSelector } from './BookingVehicleModelSelector';
 import type { VehicleCategory } from '../types';
@@ -24,23 +24,29 @@ const VEHICLE_CATEGORIES: { value: VehicleCategory; label: string; icon: React.R
 ];
 
 export function BookingVehicleSelector({ value, vehicleModel, onChange, onModelChange }: BookingVehicleSelectorProps) {
+  // Memoize category cards to prevent re-creation on every render
+  const categoryCards = useMemo(() => 
+    VEHICLE_CATEGORIES.map(cat => (
+      <button
+        key={cat.value}
+        type="button"
+        className={`${styles.card} ${value === cat.value ? styles.active : ''}`}
+        onClick={() => onChange(cat.value)}
+      >
+        <div className={styles.icon}>{cat.icon}</div>
+        <div className={styles.label}>{cat.label}</div>
+        <div className={styles.desc}>{cat.desc}</div>
+        {value === cat.value && <div className={styles.check}>✓</div>}
+      </button>
+    )), 
+    [value, onChange]
+  );
+
   return (
     <div className={styles.container}>
       <h3 className={styles.title}>Vehicle Category</h3>
       <div className={styles.grid}>
-        {VEHICLE_CATEGORIES.map(cat => (
-          <button
-            key={cat.value}
-            type="button"
-            className={`${styles.card} ${value === cat.value ? styles.active : ''}`}
-            onClick={() => onChange(cat.value)}
-          >
-            <div className={styles.icon}>{cat.icon}</div>
-            <div className={styles.label}>{cat.label}</div>
-            <div className={styles.desc}>{cat.desc}</div>
-            {value === cat.value && <div className={styles.check}>✓</div>}
-          </button>
-        ))}
+        {categoryCards}
       </div>
       
       {/* Model selector appears after category selection */}

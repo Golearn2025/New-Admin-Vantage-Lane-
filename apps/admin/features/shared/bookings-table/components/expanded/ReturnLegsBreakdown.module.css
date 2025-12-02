@@ -120,7 +120,7 @@
   color: var(--color-text-primary);
   font-weight: var(--font-weight-semibold);
   text-align: right;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   overflow-wrap: break-word;
 }
 

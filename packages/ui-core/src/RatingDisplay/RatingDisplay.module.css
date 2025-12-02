@@ -84,7 +84,7 @@
 }
 
 /* Mobile responsive */
-@media (max-width: 375px) {
+@media (width <= 375px) {
   .size-lg {
     gap: var(--spacing-1);
   }
@@ -98,7 +98,7 @@
   }
 }
 
-@media (max-width: 320px) {
+@media (width <= 320px) {
   .container {
     gap: var(--spacing-half);
   }

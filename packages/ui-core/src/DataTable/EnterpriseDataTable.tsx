@@ -1,6 +1,6 @@
 /**
  * EnterpriseDataTable Component
- * 
+ *
  * Complete enterprise table with all features integrated:
  * - Selection (multi-select with checkboxes)
  * - Sorting (column-based with visual indicators)
@@ -8,22 +8,18 @@
  * - Performance optimized with React.memo
  * - Zero inline functions
  * - Zero TypeScript 'any'
- * 
+ *
  * Ver 2.5 - PAS 4: Performance Optimization & Architecture Refactor
  */
 
 'use client';
 
 import React from 'react';
-import { EnterpriseTableHeader } from './components/EnterpriseTableHeader';
 import { EnterpriseTableBody } from './components/EnterpriseTableBody';
-import type { 
-  UseSelectionReturn,
-  UseSortingReturn,
-  UseColumnResizeReturn,
-} from './hooks';
-import type { Column } from './types/index';
+import { EnterpriseTableHeader } from './components/EnterpriseTableHeader';
 import styles from './DataTable.module.css';
+import type { UseColumnResizeReturn, UseSelectionReturn, UseSortingReturn } from './hooks';
+import type { Column } from './types/index';
 
 export interface EnterpriseDataTableProps<T = object> {
   /** Table data */
@@ -81,62 +77,67 @@ export function EnterpriseDataTable<T = object>({
   getRowId,
   getRowClassName,
 }: EnterpriseDataTableProps<T>): React.ReactElement {
-  
   // Handle column sort - memoized to prevent recreation
-  const handleSort = React.useCallback((columnId: string) => {
-    if (sorting) {
-      sorting.toggleSort(columnId);
-    }
-  }, [sorting]);
+  const handleSort = React.useCallback(
+    (columnId: string) => {
+      if (sorting) {
+        sorting.toggleSort(columnId);
+      }
+    },
+    [sorting]
+  );
 
   // Handle column resize start - memoized to prevent recreation
-  const handleResizeStart = React.useCallback((e: React.MouseEvent, columnId: string) => {
-    if (!resize) return;
-    
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // Use state width instead of DOM offsetWidth to prevent jump
-    const startWidth = resize.columnWidths[columnId] || 150;
-    const startX = e.clientX;
+  const handleResizeStart = React.useCallback(
+    (e: React.MouseEvent, columnId: string) => {
+      if (!resize) return;
 
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      const diff = moveEvent.clientX - startX;
-      const newWidth = Math.max(80, startWidth + diff);
-      resize.setColumnWidth(columnId, newWidth);
-    };
+      e.preventDefault();
+      e.stopPropagation();
 
-    const handleMouseUp = () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.body.style.cursor = '';
-      document.body.style.userSelect = '';
-    };
+      // Use state width instead of DOM offsetWidth to prevent jump
+      const startWidth = resize.columnWidths[columnId] || 150;
+      const startX = e.clientX;
 
-    document.body.style.cursor = 'col-resize';
-    document.body.style.userSelect = 'none';
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  }, [resize]);
+      const handleMouseMove = (moveEvent: MouseEvent) => {
+        const diff = moveEvent.clientX - startX;
+        const newWidth = Math.max(80, startWidth + diff);
+        resize.setColumnWidth(columnId, newWidth);
+      };
+
+      const handleMouseUp = () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      };
+
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    },
+    [resize]
+  );
 
   // Handle row click - memoized to prevent recreation
-  const handleRowClick = React.useCallback((row: T) => {
-    if (onRowClick) {
-      onRowClick(row);
-    }
-  }, [onRowClick]);
+  const handleRowClick = React.useCallback(
+    (row: T) => {
+      if (onRowClick) {
+        onRowClick(row);
+      }
+    },
+    [onRowClick]
+  );
 
   // Build CSS classes
-  const tableClasses = [
-    styles.table,
-    striped && styles.striped,
-    bordered && styles.bordered,
-  ].filter(Boolean).join(' ');
+  const tableClasses = [styles.table, striped && styles.striped, bordered && styles.bordered]
+    .filter(Boolean)
+    .join(' ');
 
-  const containerClasses = [
-    styles.container,
-    stickyHeader && styles.stickyHeader,
-  ].filter(Boolean).join(' ');
+  const containerClasses = [styles.container, stickyHeader && styles.stickyHeader]
+    .filter(Boolean)
+    .join(' ');
 
   // Loading state
   if (loading) {
@@ -162,18 +163,12 @@ export function EnterpriseDataTable<T = object>({
         <table className={tableClasses} aria-label={ariaLabel}>
           {/* COLGROUP - Apply widths here for consistent column sizing */}
           <colgroup>
-            {selection && (
-              <col className={styles.checkboxColumnWidth} />
-            )}
+            {selection && <col className={styles.checkboxColumnWidth} />}
             {columns.map((column) => {
-              const width = resize?.columnWidths[column.id] 
-                ?? (column.width ? parseFloat(column.width as string) : 150);
-              return (
-                <col
-                  key={column.id}
-                  style={{ width: `${width}px` }}
-                />
-              );
+              const width =
+                resize?.columnWidths[column.id] ??
+                (column.width ? parseFloat(column.width as string) : 150);
+              return <col key={column.id} style={{ width: `${width}px` }} />;
             })}
           </colgroup>
 

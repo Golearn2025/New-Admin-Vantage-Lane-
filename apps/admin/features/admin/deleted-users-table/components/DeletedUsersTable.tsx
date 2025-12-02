@@ -6,7 +6,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { EnterpriseDataTable, Button, useSelection } from '@vantage-lane/ui-core';
 import { Trash2, RotateCcw } from 'lucide-react';
 import { useDeletedUsersTable } from '../hooks/useDeletedUsersTable';
@@ -23,14 +23,30 @@ export function DeletedUsersTable() {
   
   const selection = useSelection<typeof users[0]>({ data: users, getRowId: (user) => user.id });
 
-  const columns = getDeletedUsersColumns({
+  // Memoize columns to prevent re-creation on every render
+  const columns = useMemo(() => getDeletedUsersColumns({
     onRestore: handleRestore,
     onHardDelete: handleHardDelete,
-  });
+  }), [handleRestore, handleHardDelete]);
 
+  // Memoize selection calculations
   const selectedCount = selection.selectedRows.length;
   const hasSelection = selectedCount > 0;
-  const selectedIds = selection.selectedRows.map(user => user.id);
+  const selectedIds = useMemo(() => 
+    selection.selectedRows.map(user => user.id), 
+    [selection.selectedRows]
+  );
+
+  // Optimized handlers with useCallback
+  const handleBulkRestore = useCallback(() => {
+    handleRestore(selectedIds);
+    selection.clearSelection();
+  }, [selectedIds, handleRestore, selection.clearSelection]);
+
+  const handleBulkDelete = useCallback(() => {
+    handleHardDelete(selectedIds);
+    selection.clearSelection();
+  }, [selectedIds, handleHardDelete, selection.clearSelection]);
 
   return (
     <div className={styles.container}>
@@ -50,22 +66,14 @@ export function DeletedUsersTable() {
             <div className={styles.bulkActions}>
               <Button
                 variant="secondary"
-                onClick={() => {
-                  const ids = selection.selectedRows.map(u => u.id);
-                  handleRestore(ids);
-                  selection.clearSelection();
-                }}
+                onClick={handleBulkRestore}
                 leftIcon={<RotateCcw size={16} />}
               >
                 Restore ({selectedCount})
               </Button>
               <Button
                 variant="danger"
-                onClick={() => {
-                  const ids = selection.selectedRows.map(u => u.id);
-                  handleHardDelete(ids);
-                  selection.clearSelection();
-                }}
+                onClick={handleBulkDelete}
                 leftIcon={<Trash2 size={16} />}
               >
                 Delete Forever ({selectedCount})

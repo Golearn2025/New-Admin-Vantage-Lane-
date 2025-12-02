@@ -25,8 +25,14 @@ export function useLogout(): UseLogoutReturn {
     setIsLoggingOut(true);
 
     try {
-      await signOutAction();
-      // signOutAction will redirect, so this won't execute
+      // Quick visual feedback - don't wait for all cleanup
+      setTimeout(() => {
+        // Immediate redirect without waiting for cleanup
+        window.location.href = '/login';
+      }, 100);
+      
+      // Let signOut happen in background
+      signOutAction();
     } catch (error) {
       // Reset state if logout fails
       setIsLoggingOut(false);

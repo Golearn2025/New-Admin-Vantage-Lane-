@@ -5,6 +5,7 @@ import { useState } from 'react';
  * Price breakdown with real-time calculation
  */
 
+import { formatCurrency } from '@/shared/utils/formatters';
 import styles from './BookingPriceSummary.module.css';
 import { BookingPriceBreakdown } from './BookingPriceBreakdown';
 import type { PriceDetail, PriceBreakdown } from './BookingPriceBreakdown';
@@ -45,13 +46,13 @@ export function BookingPriceSummary({
       <div className={styles.breakdown}>
         <div className={styles.row}>
           <span className={styles.label}>Base Price:</span>
-          <span className={styles.value}>£{basePrice.toFixed(2)}</span>
+          <span className={styles.value}>{formatCurrency(basePrice)}</span>
         </div>
         
         {servicesTotal > 0 && (
           <div className={styles.row}>
             <span className={styles.label}>Services:</span>
-            <span className={styles.value}>£{servicesTotal.toFixed(2)}</span>
+            <span className={styles.value}>{formatCurrency(servicesTotal)}</span>
           </div>
         )}
         
@@ -75,7 +76,7 @@ export function BookingPriceSummary({
         {discountAmount > 0 && (
           <div className={styles.row}>
             <span className={styles.discountText}>Discount ({discountPercent}%):</span>
-            <span className={styles.discountValue}>-£{discountAmount.toFixed(2)}</span>
+            <span className={styles.discountValue}>-{formatCurrency(discountAmount)}</span>
           </div>
         )}
         
@@ -83,7 +84,7 @@ export function BookingPriceSummary({
         
         <div className={styles.total}>
           <span className={styles.totalLabel}>Total:</span>
-          <span className={styles.totalValue}>£{finalTotal.toFixed(2)}</span>
+          <span className={styles.totalValue}>{formatCurrency(finalTotal)}</span>
         </div>
       </div>
       

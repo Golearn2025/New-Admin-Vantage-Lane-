@@ -12,7 +12,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { MapPin, User, Sparkles, FileText, Plane, Map, Star, Phone, CheckCircle, DollarSign, Clipboard, Mail, Ticket } from 'lucide-react';
 import type { BookingListItem } from '@vantage-lane/contracts';
 import { InfoSection } from './InfoSection';
@@ -33,8 +33,30 @@ export function OverviewTab({ booking }: OverviewTabProps) {
     window.open(`https://www.google.com/maps/search/?api=1&query=${encoded}`, '_blank');
   };
 
-  const freeServices = booking.free_services || [];
-  const paidServices = booking.paid_services || [];
+  // Type-safe services access - use any if BookingListItem doesn't have services property
+  const services = (booking as any).services || [];
+  const freeServices = services.filter((s: any) => (s.unit_price || 0) === 0);
+  const paidServices = services.filter((s: any) => (s.unit_price || 0) > 0);
+
+  // Memoize free services items to prevent re-creation on every render
+  const freeServiceItems = useMemo(() => 
+    freeServices.map((service: any, idx: number) => (
+      <span key={idx} className={styles.serviceItem}>
+        <CheckCircle size={14} /> {service.service_code}
+      </span>
+    )), 
+    [freeServices]
+  );
+
+  // Memoize paid services items to prevent re-creation on every render
+  const paidServiceItems = useMemo(() => 
+    paidServices.map((service: any, idx: number) => (
+      <span key={idx} className={styles.serviceItemPaid}>
+        <DollarSign size={14} /> {service.service_code} (+£{service.unit_price.toFixed(2)})
+      </span>
+    )), 
+    [paidServices]
+  );
 
   return (
     <div className={styles.container}>
@@ -148,11 +170,7 @@ export function OverviewTab({ booking }: OverviewTabProps) {
               <div className={styles.serviceGroup}>
                 <div className={styles.serviceGroupTitle}>FREE</div>
                 <div className={styles.serviceList}>
-                  {freeServices.map((service, idx) => (
-                    <span key={idx} className={styles.serviceItem}>
-                      <CheckCircle size={14} /> {service.service_code}
-                    </span>
-                  ))}
+                  {freeServiceItems}
                 </div>
               </div>
             )}
@@ -161,11 +179,7 @@ export function OverviewTab({ booking }: OverviewTabProps) {
               <div className={styles.serviceGroup}>
                 <div className={styles.serviceGroupTitle}>PAID</div>
                 <div className={styles.serviceList}>
-                  {paidServices.map((service, idx) => (
-                    <span key={idx} className={styles.serviceItemPaid}>
-                      <DollarSign size={14} /> {service.service_code} (+£{service.unit_price.toFixed(2)})
-                    </span>
-                  ))}
+                  {paidServiceItems}
                 </div>
               </div>
             )}

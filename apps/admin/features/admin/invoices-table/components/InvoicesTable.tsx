@@ -75,13 +75,11 @@ export function InvoicesTable() {
 
   // Export functions
   const handleExportAll = (format: 'excel' | 'csv') => {
-    console.log(`Exporting all ${data.length} invoices to ${format}`);
     alert(`Exporting all ${data.length} invoices to ${format.toUpperCase()}`);
     // TODO: Implement actual export logic
   };
 
   const handleExportSelected = (format: 'excel' | 'csv') => {
-    console.log(`Exporting ${selection.selectedCount} selected invoices to ${format}`);
     alert(`Exporting ${selection.selectedCount} selected invoices to ${format.toUpperCase()}`);
     // TODO: Implement actual export logic
   };
@@ -157,7 +155,6 @@ export function InvoicesTable() {
       label: 'Delete Selected',
       onClick: () => {
         if (confirm(`Delete ${selection.selectedCount} invoices?`)) {
-          console.log('Deleting:', selection.selectedRows);
         }
       },
       destructive: true,

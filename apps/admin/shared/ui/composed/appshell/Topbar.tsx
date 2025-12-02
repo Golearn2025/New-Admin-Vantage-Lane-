@@ -19,7 +19,7 @@ import { TopbarProps } from './types';
 import { Icon } from '@vantage-lane/ui-icons';
 import { UserDropdown } from './UserDropdown';
 
-export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: TopbarProps) {
+export function Topbar({ role, onMenuToggle, onNavigate, sidebarCollapsed = false, user }: TopbarProps) {
   const { 
     notifications, 
     unreadCount, 
@@ -188,7 +188,7 @@ export function Topbar({ role, onMenuToggle, sidebarCollapsed = false, user }: T
           </button>
 
           {/* User dropdown component */}
-          <UserDropdown isOpen={isUserDropdownOpen} onClose={handleUserMenuClose} />
+          <UserDropdown isOpen={isUserDropdownOpen} onClose={handleUserMenuClose} onNavigate={onNavigate} />
         </div>
       </div>
     </header>

@@ -5,7 +5,7 @@
  * Displays customer information
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { CustomerData } from '@entities/customer';
 import type { Column, RowAction } from '@vantage-lane/ui-core';
 import { RowActions } from '@vantage-lane/ui-core';

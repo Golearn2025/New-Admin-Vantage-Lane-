@@ -22,7 +22,7 @@
   font-weight: var(--font-bold);
   color: var(--color-text-primary);
   background: var(--theme-gradient);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
@@ -38,7 +38,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .container {
     padding: var(--spacing-4);
   }
@@ -48,13 +48,13 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (width <= 375px) {
   .container {
     padding: var(--spacing-3);
   }
 }
 
-@media (max-width: 320px) {
+@media (width <= 320px) {
   .header {
     flex-direction: column;
     align-items: flex-start;

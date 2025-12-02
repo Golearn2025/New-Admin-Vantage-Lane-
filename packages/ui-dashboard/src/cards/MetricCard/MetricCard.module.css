@@ -23,17 +23,14 @@
 .card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  -webkit-mask:
+  background: linear-gradient(135deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 5%));
+  mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
+  mask-composite: xor;
   mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
@@ -46,9 +43,9 @@
 /* Gradient Variant - DARK PREMIUM with COLORED SHADOWS */
 .card--gradient {
   position: relative;
-  color: var(--vl-color-white, #ffffff);
+  color: var(--vl-color-white, #fff);
   border: 1px solid transparent;
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgb(255 255 255 / 15%);
 }
 
 /* Gradient background - ONLY when NOT loading */
@@ -65,11 +62,8 @@
 .card--gradient:not(.loading)::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 100%);
+  inset: 0;
+  background: linear-gradient(135deg, rgb(0 0 0 / 30%) 0%, rgb(0 0 0 / 10%) 100%);
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
@@ -82,38 +76,38 @@
 
 .card--gradient:not(.loading):hover {
   box-shadow: var(--vl-shadow-card-hover), var(--glow-hover);
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: rgb(255 255 255 / 25%);
 }
 
 /* ULTRA CONTRAST - Text POP OUT (subtle glow) */
 .card--gradient .title {
-  color: var(--vl-color-white, #ffffff);
+  color: var(--vl-color-white, #fff);
   font-weight: 700;
   text-shadow:
-    0 0 10px rgba(255, 255, 255, 0.2),
-    0 2px 6px rgba(0, 0, 0, 0.6),
-    0 0 1px rgba(255, 255, 255, 0.5);
+    0 0 10px rgb(255 255 255 / 20%),
+    0 2px 6px rgb(0 0 0 / 60%),
+    0 0 1px rgb(255 255 255 / 50%);
   letter-spacing: 0.01em;
 }
 
 .card--gradient .subtitle {
-  color: rgba(255, 255, 255, 0.95);
+  color: rgb(255 255 255 / 95%);
   text-shadow:
-    0 0 8px rgba(255, 255, 255, 0.15),
-    0 1px 4px rgba(0, 0, 0, 0.5);
+    0 0 8px rgb(255 255 255 / 15%),
+    0 1px 4px rgb(0 0 0 / 50%);
 }
 
 /* VALUE - HUGE EMPHASIS with subtle colored glow */
 .card--gradient .value {
-  color: var(--vl-color-white, #ffffff);
+  color: var(--vl-color-white, #fff);
   font-weight: 900;
   letter-spacing: -0.03em;
   text-shadow:
-    0 0 20px var(--value-glow, rgba(255, 255, 255, 0.3)),
-    0 0 10px var(--value-glow, rgba(255, 255, 255, 0.2)),
-    0 2px 10px rgba(0, 0, 0, 0.8),
-    0 0 2px rgba(255, 255, 255, 0.6);
-  filter: drop-shadow(0 0 12px var(--value-glow, rgba(255, 255, 255, 0.25)));
+    0 0 20px var(--value-glow, rgb(255 255 255 / 30%)),
+    0 0 10px var(--value-glow, rgb(255 255 255 / 20%)),
+    0 2px 10px rgb(0 0 0 / 80%),
+    0 0 2px rgb(255 255 255 / 60%);
+  filter: drop-shadow(0 0 12px var(--value-glow, rgb(255 255 255 / 25%)));
 }
 
 /* TREND - Clean with minimal shadow for depth */
@@ -121,8 +115,8 @@
   font-weight: 800;
   font-size: 15px;
   text-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.8),
-    0 0 1px rgba(255, 255, 255, 0.3);
+    0 2px 6px rgb(0 0 0 / 80%),
+    0 0 1px rgb(255 255 255 / 30%);
   opacity: 1 !important;
 }
 
@@ -131,43 +125,43 @@
   --gradient-from: var(--vl-grad-purple-from, #667eea);
   --gradient-to: var(--vl-grad-purple-to, #764ba2);
   --glow: var(--vl-glow-purple);
-  --glow-hover: 0 0 30px rgba(102, 126, 234, 0.5), 0 0 60px rgba(102, 126, 234, 0.25);
+  --glow-hover: 0 0 30px rgb(102 126 234 / 50%), 0 0 60px rgb(102 126 234 / 25%);
 }
 
 .gradient--pink {
   --gradient-from: var(--vl-grad-pink-from, #f093fb);
   --gradient-to: var(--vl-grad-pink-to, #f5576c);
   --glow: var(--vl-glow-pink);
-  --glow-hover: 0 0 30px rgba(240, 147, 251, 0.5), 0 0 60px rgba(240, 147, 251, 0.25);
+  --glow-hover: 0 0 30px rgb(240 147 251 / 50%), 0 0 60px rgb(240 147 251 / 25%);
 }
 
 .gradient--blue {
   --gradient-from: var(--vl-grad-blue-from, #4facfe);
   --gradient-to: var(--vl-grad-blue-to, #00f2fe);
   --glow: var(--vl-glow-blue);
-  --glow-hover: 0 0 30px rgba(79, 172, 254, 0.5), 0 0 60px rgba(79, 172, 254, 0.25);
+  --glow-hover: 0 0 30px rgb(79 172 254 / 50%), 0 0 60px rgb(79 172 254 / 25%);
 }
 
 .gradient--green {
   --gradient-from: var(--vl-grad-green-from, #43e97b);
   --gradient-to: var(--vl-grad-green-to, #38f9d7);
   --glow: var(--vl-glow-green);
-  --glow-hover: 0 0 30px rgba(67, 233, 123, 0.5), 0 0 60px rgba(67, 233, 123, 0.25);
+  --glow-hover: 0 0 30px rgb(67 233 123 / 50%), 0 0 60px rgb(67 233 123 / 25%);
 }
 
 .gradient--orange {
   --gradient-from: var(--vl-grad-orange-from, #fa709a);
   --gradient-to: var(--vl-grad-orange-to, #fee140);
-  --glow: 0 0 20px rgba(250, 112, 154, 0.3), 0 0 40px rgba(254, 225, 64, 0.15);
-  --glow-hover: 0 0 30px rgba(250, 112, 154, 0.5), 0 0 60px rgba(254, 225, 64, 0.25);
+  --glow: 0 0 20px rgb(250 112 154 / 30%), 0 0 40px rgb(254 225 64 / 15%);
+  --glow-hover: 0 0 30px rgb(250 112 154 / 50%), 0 0 60px rgb(254 225 64 / 25%);
 }
 
 /* Glass Variant - Modern */
 .card--glass {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgb(255 255 255 / 70%);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgb(255 255 255 / 30%);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 10%);
   color: var(--vl-text, #111827);
 }
 
@@ -175,7 +169,7 @@
 .card--minimal {
   background: var(--vl-bg-card, white);
   border: 1px solid var(--vl-border, #e5e7eb);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 10%);
   color: var(--vl-text, #111827);
 }
 
@@ -211,6 +205,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -273,6 +268,7 @@
   from {
     transform: translateX(-100%);
   }
+
   to {
     transform: translateX(100%);
   }
@@ -281,7 +277,7 @@
 .skeletonTitle,
 .skeletonValue,
 .skeletonDelta {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgb(255 255 255 / 20%);
   border-radius: var(--radius-md);
   animation: pulse 1.5s ease-in-out infinite;
 }
@@ -306,6 +302,7 @@
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
@@ -313,8 +310,8 @@
 
 /* Dark Mode Support */
 :global(.dark) .card--glass {
-  background: rgba(17, 24, 39, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgb(17 24 39 / 80%);
+  border: 1px solid rgb(255 255 255 / 10%);
   color: white;
 }
 

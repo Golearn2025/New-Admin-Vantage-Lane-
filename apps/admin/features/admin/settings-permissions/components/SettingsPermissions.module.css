@@ -294,7 +294,7 @@
   transition: background var(--duration-fast) var(--easing-standard);
 }
 
-.toggleSlider:before {
+.toggleSlider::before {
   content: '';
   position: absolute;
   height: 20px;
@@ -310,7 +310,7 @@
   background: var(--color-success);
 }
 
-.toggleSwitch input:checked + .toggleSlider:before {
+.toggleSwitch input:checked + .toggleSlider::before {
   transform: translateX(24px);
 }
 

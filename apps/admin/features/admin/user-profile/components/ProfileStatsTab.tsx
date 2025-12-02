@@ -7,10 +7,12 @@
  * MODERN & PREMIUM Design with glass morphism
  */
 
-import React, { useState, useEffect } from 'react';
-import { Car, CheckCircle, Hourglass } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Car, CheckCircle, Hourglass, BarChart3, TrendingUp, Users, DollarSign } from 'lucide-react';
 import { getDriverStats } from '@entities/driver/api/driverApi';
 import { getCustomerStats } from '@entities/customer/api/customerApi';
+import { StatCard } from '@vantage-lane/ui-core';
+import { formatCurrency } from '@/shared/utils/formatters';
 import { getOperatorStats } from '@entities/operator/api/operatorApi';
 import type { UserType } from '../types';
 import styles from './ProfileStatsTab.module.css';
@@ -29,8 +31,34 @@ interface Stats {
   rating: number;
 }
 
+interface UserStats {
+  // Driver stats
+  totalJobs?: number;
+  completedJobs?: number;
+  pendingJobs?: number;
+  totalEarnings?: number;
+  rating?: number;
+  
+  // Customer stats
+  totalBookings?: number;
+  completedBookings?: number;
+  pendingBookings?: number;
+  cancelledBookings?: number;
+  totalSpent?: number;
+  
+  // Operator stats
+  totalDrivers?: number;
+  totalVehicles?: number;
+  activeDrivers?: number;
+  
+  // Common
+  averageRating?: number;
+  lastActive?: string;
+}
+
 export function ProfileStatsTab({ userId, userType, className }: ProfileStatsTabProps) {
-  const [stats, setStats] = useState<any>(null);
+
+  const [stats, setStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -51,7 +79,6 @@ export function ProfileStatsTab({ userId, userType, className }: ProfileStatsTab
         
         setStats(data);
       } catch (error) {
-        console.error('Failed to fetch stats:', error);
       } finally {
         setLoading(false);
       }
@@ -165,8 +192,7 @@ export function ProfileStatsTab({ userId, userType, className }: ProfileStatsTab
           <h3 className={styles.sectionTitle}>Earnings Overview</h3>
           <div className={styles.earningsCard}>
             <div className={styles.earningsAmount}>
-              <span className={styles.currency}>£</span>
-              <span className={styles.amount}>{(stats.totalEarnings || 0).toFixed(2)}</span>
+              <span className={styles.amount}>{formatCurrency(stats.totalEarnings || 0)}</span>
             </div>
             <p className={styles.earningsLabel}>Total Earnings</p>
             <p className={styles.earningsNote}>Calculated from completed jobs</p>

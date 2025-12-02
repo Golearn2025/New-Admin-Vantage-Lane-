@@ -111,5 +111,5 @@
 }
 
 .clearButton:active {
-  transform: translateY(1px);
+  /* DISABLED: hover loop fix */
 }

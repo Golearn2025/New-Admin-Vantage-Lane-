@@ -1,0 +1,44 @@
+/* LoadingState.module.css - 100% design tokens */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-12);
+  color: var(--color-text-secondary);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-3);
+  color: var(--color-primary);
+}
+
+.small {
+  width: var(--spacing-4);
+  height: var(--spacing-4);
+}
+
+.medium {
+  width: var(--spacing-6);
+  height: var(--spacing-6);
+}
+
+.large {
+  width: var(--spacing-8);
+  height: var(--spacing-8);
+}
+
+.message {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+  text-align: center;
+}
+
+@keyframes spin {
+  to { 
+    transform: rotate(360deg); 
+  }
+}

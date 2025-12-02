@@ -27,6 +27,7 @@
     opacity: 0;
     transform: translateY(calc(-1 * var(--spacing-3)));
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -205,42 +206,52 @@
     background-color: var(--color-success-alpha-30);
     box-shadow: 0 0 0 var(--spacing-1) var(--color-success);
   }
+
   0.8% {
     background-color: var(--color-success-alpha-20);
     box-shadow: 0 0 0 var(--spacing-xs) var(--color-success-light);
   }
+
   1.6% {
     background-color: var(--color-success-alpha-30);
     box-shadow: 0 0 0 var(--spacing-1) var(--color-success);
   }
+
   2.4% {
     background-color: var(--color-success-alpha-20);
     box-shadow: 0 0 0 var(--spacing-xs) var(--color-success-light);
   }
+
   3.2% {
     background-color: var(--color-success-alpha-30);
     box-shadow: 0 0 0 var(--spacing-1) var(--color-success);
   }
+
   4% {
     background-color: var(--color-success-alpha-20);
     box-shadow: 0 0 0 var(--spacing-xs) var(--color-success-light);
   }
+
   4.8% {
     background-color: var(--color-success-alpha-30);
     box-shadow: 0 0 0 var(--spacing-1) var(--color-success);
   }
+
   5.6% {
     background-color: var(--color-success-alpha-20);
     box-shadow: 0 0 0 var(--spacing-xs) var(--color-success-light);
   }
+
   6.4% {
     background-color: var(--color-success-alpha-30);
     box-shadow: 0 0 0 var(--spacing-1) var(--color-success);
   }
+
   7.2% {
     background-color: var(--color-success-alpha-20);
     box-shadow: 0 0 0 var(--spacing-xs) var(--color-success-light);
   }
+
   8% {
     background-color: var(--color-success-alpha-30);
     box-shadow: 0 0 0 var(--spacing-1) var(--color-success);
@@ -250,18 +261,22 @@
     background-color: var(--color-success-alpha-20);
     box-shadow: none;
   }
+
   20% {
     background-color: var(--color-success-alpha-15);
     box-shadow: none;
   }
+
   40% {
     background-color: var(--color-success-alpha-10);
     box-shadow: none;
   }
+
   70% {
     background-color: var(--color-success-alpha-5);
     box-shadow: none;
   }
+
   100% {
     background-color: transparent;
     box-shadow: none;

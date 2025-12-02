@@ -19,11 +19,11 @@
   padding: var(--spacing-6);
   min-height: 400px;
   background: linear-gradient(135deg, 
-    rgba(18, 20, 22, 0.6) 0%, 
-    rgba(26, 29, 33, 0.6) 100%
+    rgb(18 20 22 / 60%) 0%, 
+    rgb(26 29 33 / 60%) 100%
   );
   border-radius: var(--border-radius-lg);
-  border: 1px solid rgba(211, 170, 49, 0.2);
+  border: 1px solid rgb(211 170 49 / 20%);
   backdrop-filter: blur(10px);
 }
 
@@ -33,7 +33,7 @@
   gap: var(--spacing-3);
   padding-bottom: var(--spacing-4);
   margin-bottom: var(--spacing-2);
-  border-bottom: 1px solid rgba(211, 170, 49, 0.2);
+  border-bottom: 1px solid rgb(211 170 49 / 20%);
 }
 
 .sectionTitle {
@@ -41,15 +41,15 @@
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   margin: 0;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 8px rgb(0 0 0 / 30%);
 }
 
 .count {
   font-size: var(--font-size-sm);
   color: var(--theme-primary);
   padding: var(--spacing-2) var(--spacing-3);
-  background: rgba(211, 170, 49, 0.1);
-  border: 1px solid rgba(211, 170, 49, 0.3);
+  background: rgb(211 170 49 / 10%);
+  border: 1px solid rgb(211 170 49 / 30%);
   border-radius: var(--border-radius-full);
   font-weight: var(--font-weight-semibold);
 }
@@ -71,10 +71,10 @@
 /* Document Card */
 .docCard {
   background: linear-gradient(135deg, 
-    rgba(211, 170, 49, 0.05) 0%, 
-    rgba(211, 170, 49, 0.02) 100%
+    rgb(211 170 49 / 5%) 0%, 
+    rgb(211 170 49 / 2%) 100%
   );
-  border: 1px solid rgba(211, 170, 49, 0.2);
+  border: 1px solid rgb(211 170 49 / 20%);
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-4);
   display: flex;
@@ -86,11 +86,11 @@
 
 .docCard:hover {
   background: linear-gradient(135deg, 
-    rgba(211, 170, 49, 0.1) 0%, 
-    rgba(211, 170, 49, 0.05) 100%
+    rgb(211 170 49 / 10%) 0%, 
+    rgb(211 170 49 / 5%) 100%
   );
-  border-color: rgba(211, 170, 49, 0.4);
-  box-shadow: 0 4px 20px rgba(211, 170, 49, 0.2);
+  border-color: rgb(211 170 49 / 40%);
+  box-shadow: 0 4px 20px rgb(211 170 49 / 20%);
   transform: translateY(-2px);
 }
 

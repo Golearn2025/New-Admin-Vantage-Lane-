@@ -40,7 +40,7 @@ export function FleetSettingsTab({ config }: Props) {
       await updateFleetSettings(editedSettings);
       setIsEditing(false);
     } catch (error) {
-      console.error('Failed to save:', error);
+      // Failed to save fleet settings
     }
   };
 

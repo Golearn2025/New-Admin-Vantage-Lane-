@@ -10,9 +10,11 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Smartphone, CheckCircle, Clipboard } from 'lucide-react';
 import type { BookingListItem } from '@vantage-lane/contracts';
+import { Button } from '@vantage-lane/ui-core';
+import { formatCurrency } from '@/shared/utils/formatters';
 import styles from './WhatsAppShare.module.css';
 
 interface WhatsAppShareProps {
@@ -65,11 +67,14 @@ ${dropoffPostcode}${dropoffArea ? ` (${dropoffArea})` : ''}
 ✅ Reply "YES" to accept this job`;
   };
 
-  const generateFullMessage = (): string => {
+  // Memoize services text to prevent re-creation on every render
+  const servicesText = useMemo(() => {
     const services = [...(booking.free_services || []), ...(booking.paid_services || [])];
-    const servicesText = services.length > 0 
-      ? `\n✨ *SERVICES*\n${services.map(s => 'service_code' in s ? s.service_code : s).join(', ')}\n` 
-      : '';
+    const servicesList = services.map(s => 'service_code' in s ? s.service_code : s).join(', ');
+    return services.length > 0 ? `\n✨ *SERVICES*\n${servicesList}\n` : '';
+  }, [booking.free_services, booking.paid_services]);
+
+  const generateFullMessage = (): string => {
     
     const scheduledDate = booking.scheduled_at 
       ? new Date(booking.scheduled_at).toLocaleString('en-GB')

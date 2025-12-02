@@ -9,8 +9,9 @@
  */
 
 'use client';
-
-import { type LucideIcon } from 'lucide-react';
+import React from 'react';
+import type { LucideIcon } from 'lucide-react';
+import { formatCurrency, formatNumber } from '@/shared/utils/formatters';
 import styles from './StatCard.module.css';
 
 export interface StatCardProps {

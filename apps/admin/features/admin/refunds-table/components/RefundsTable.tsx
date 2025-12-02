@@ -73,13 +73,11 @@ export function RefundsTable() {
 
   // Export functions
   const handleExportAll = (format: 'excel' | 'csv') => {
-    console.log(`Exporting all ${data.length} refunds to ${format}`);
     alert(`Exporting all ${data.length} refunds to ${format.toUpperCase()}`);
     // TODO: Implement actual export logic
   };
 
   const handleExportSelected = (format: 'excel' | 'csv') => {
-    console.log(`Exporting ${selection.selectedCount} selected refunds to ${format}`);
     alert(`Exporting ${selection.selectedCount} selected refunds to ${format.toUpperCase()}`);
     // TODO: Implement actual export logic
   };
@@ -148,7 +146,6 @@ export function RefundsTable() {
       label: 'Delete Selected',
       onClick: () => {
         if (confirm(`Delete ${selection.selectedCount} refunds?`)) {
-          console.log('Deleting:', selection.selectedRows);
         }
       },
       destructive: true,

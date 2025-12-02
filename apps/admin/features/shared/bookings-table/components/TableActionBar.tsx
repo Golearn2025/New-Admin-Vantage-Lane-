@@ -2,6 +2,7 @@
 
 import { Button } from '@vantage-lane/ui-core';
 import { RefreshCw, Download, Filter } from 'lucide-react';
+import React, { useMemo } from 'react';
 import styles from './BookingsTable.module.css';
 
 interface TableActionBarProps {
@@ -21,7 +22,7 @@ export function TableActionBar({
   onStatusChange,
   statusFilterOptions,
 }: TableActionBarProps) {
-  // Default status options (all statuses)
+  const STATUS_OPTIONS = ['all', 'pending', 'assigned', 'en_route', 'arrived', 'in_progress', 'completed', 'cancelled'];
   const defaultStatusOptions = [
     { value: 'all', label: 'All Status' },
     { value: 'pending', label: 'Pending' },
@@ -33,15 +34,21 @@ export function TableActionBar({
     { value: 'cancelled', label: 'Cancelled' },
   ];
 
-  // If statusFilterOptions provided, filter to only those options
+  // If statusFilterOptions provided, convert to proper format
   const availableOptions = statusFilterOptions 
-    ? [
-        { value: 'all', label: 'All Status' },
-        ...defaultStatusOptions.filter(option => 
-          statusFilterOptions.includes(option.value)
-        )
-      ]
+    ? statusFilterOptions.map(status => ({ value: status, label: status }))
     : defaultStatusOptions;
+
+  // Memoize option elements to prevent re-creation on every render
+  const optionElements = useMemo(() => 
+    availableOptions.map((option) => (
+      <option key={option.value} value={option.value}>
+        {option.label}
+      </option>
+    )), 
+    [availableOptions]
+  );
+
   return (
     <div className={styles.actionBar}>
       <div className={styles.actionBarLeft}>
@@ -81,11 +88,7 @@ export function TableActionBar({
             onChange={(e) => onStatusChange(e.target.value)}
             className={styles.select}
           >
-            {availableOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
+            {optionElements}
           </select>
         </div>
       )}

@@ -1,0 +1,148 @@
+/**
+ * BusinessIntelligencePage Styles
+ *
+ * 100% Design tokens - zero hardcoded values.
+ */
+
+.pageContainer {
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+.pageHeader {
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--spacing-6) var(--spacing-4);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+}
+
+.headerInfo {
+  flex: 1;
+}
+
+.pageTitle {
+  font-size: var(--font-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-1) 0;
+}
+
+.pageDescription {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.tabsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-4);
+}
+
+.tabs {
+  margin-top: var(--spacing-6);
+}
+
+.loadingContainer {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-8);
+}
+
+.loadingContent {
+  text-align: center;
+  max-width: 400px;
+}
+
+.loadingContent svg {
+  animation: spin var(--motion-duration-slow) linear infinite;
+  color: var(--color-theme-500);
+  margin-bottom: var(--spacing-4);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loadingTitle {
+  font-size: var(--font-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.loadingDescription {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (width <= 768px) {
+  .pageHeader {
+    padding: var(--spacing-4) var(--spacing-3);
+  }
+
+  .headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-3);
+  }
+
+  .headerActions {
+    align-self: stretch;
+    justify-content: flex-end;
+  }
+
+  .pageTitle {
+    font-size: var(--font-xl);
+  }
+
+  .tabsContainer {
+    padding: 0 var(--spacing-3);
+  }
+
+  .tabs {
+    margin-top: var(--spacing-4);
+  }
+}
+
+@media (width <= 375px) {
+  .pageHeader {
+    padding: var(--spacing-3) var(--spacing-2);
+  }
+
+  .headerActions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
+
+  .tabsContainer {
+    padding: 0 var(--spacing-2);
+  }
+
+  .loadingContainer {
+    padding: var(--spacing-6);
+  }
+}

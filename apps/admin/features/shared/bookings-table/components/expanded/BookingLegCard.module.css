@@ -53,7 +53,7 @@
 .locationText {
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   overflow-wrap: break-word;
 }
 

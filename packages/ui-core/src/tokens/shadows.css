@@ -6,33 +6,38 @@
 
 :root {
   /* Standard Shadows */
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 8px 10px -6px rgb(0 0 0 / 10%);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 25%);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 5%);
   --shadow-none: 0 0 #0000;
 
   /* Premium Shadows - Gold */
-  --shadow-gold-sm: 0 0 10px rgba(203, 178, 106, 0.2);
-  --shadow-gold-md: 0 0 20px rgba(203, 178, 106, 0.3);
-  --shadow-gold-lg: 0 0 40px rgba(203, 178, 106, 0.4);
+  --shadow-gold-sm: 0 0 10px rgb(203 178 106 / 20%);
+  --shadow-gold-md: 0 0 20px rgb(203 178 106 / 30%);
+  --shadow-gold-lg: 0 0 40px rgb(203 178 106 / 40%);
 
   /* Premium Shadows - Purple */
-  --shadow-purple-sm: 0 0 10px rgba(118, 75, 162, 0.2);
-  --shadow-purple-md: 0 0 20px rgba(118, 75, 162, 0.3);
-  --shadow-purple-lg: 0 0 40px rgba(118, 75, 162, 0.4);
+  --shadow-purple-sm: 0 0 10px rgb(118 75 162 / 20%);
+  --shadow-purple-md: 0 0 20px rgb(118 75 162 / 30%);
+  --shadow-purple-lg: 0 0 40px rgb(118 75 162 / 40%);
 
   /* Card Shadows */
-  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
-  --shadow-elevated: 0 12px 32px rgba(0, 0, 0, 0.15);
+  --shadow-card: 0 4px 12px rgb(0 0 0 / 8%);
+  --shadow-card-hover: 0 8px 24px rgb(0 0 0 / 12%);
+  --shadow-elevated: 0 12px 32px rgb(0 0 0 / 15%);
 
   /* Text Shadows */
-  --text-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
-  --text-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.2);
-  --text-shadow-gold: 0 0 10px rgba(203, 178, 106, 0.3);
-  --text-shadow-purple: 0 0 10px rgba(118, 75, 162, 0.3);
+  --text-shadow-sm: 0 1px 2px rgb(0 0 0 / 10%);
+  --text-shadow-md: 0 2px 4px rgb(0 0 0 / 20%);
+  --text-shadow-gold: 0 0 10px rgb(203 178 106 / 30%);
+  --text-shadow-purple: 0 0 10px rgb(118 75 162 / 30%);
+
+  /* Backdrop Filters & Blur Effects */
+  --blur-sm: blur(2px);   /* Light blur for overlays */
+  --blur-md: blur(4px);   /* Medium blur for navigation */
+  --blur-lg: blur(12px);  /* Strong blur for topbar */
 }

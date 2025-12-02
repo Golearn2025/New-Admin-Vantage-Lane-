@@ -136,9 +136,11 @@
   0% {
     box-shadow: 0 0 0 0 var(--color-warning-200);
   }
+
   50% {
     box-shadow: 0 0 0 8px var(--color-warning-100);
   }
+
   100% {
     box-shadow: 0 0 0 3px var(--color-warning-100);
   }

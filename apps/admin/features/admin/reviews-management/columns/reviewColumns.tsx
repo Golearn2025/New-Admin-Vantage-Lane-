@@ -156,7 +156,6 @@ export const driverReviewColumns: Column<DriverReview>[] = [
       }} 
       onClick={() => {
         // This will be handled by onRowClick
-        console.log('Review text clicked:', row.id);
       }}
       title="Click to view full review">
         <MessageSquare size={14} />

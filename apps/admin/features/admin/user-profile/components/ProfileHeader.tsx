@@ -8,7 +8,7 @@
  * File: < 200 lines (RULES.md compliant)
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { CheckCircle, Circle, Car } from 'lucide-react';
 import { Button } from '@vantage-lane/ui-core';
 import type { UserProfileData } from '../types';

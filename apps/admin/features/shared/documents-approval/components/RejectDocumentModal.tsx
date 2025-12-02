@@ -7,7 +7,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Modal, Button, Textarea } from '@vantage-lane/ui-core';
 import { XCircle } from 'lucide-react';
 import type { Document } from '@entities/document';
@@ -61,13 +61,23 @@ export function RejectDocumentModal({
     onConfirm(finalReason);
   };
 
-  const handleReasonSelect = (value: string) => {
-    setSelectedReason(value);
+  // Memoize reason options to prevent re-creation on every render
+  const reasonOptions = useMemo(() => 
+    REJECTION_REASONS.map((reason) => (
+      <option key={reason} value={reason}>
+        {reason}
+      </option>
+    )), 
+    []
+  );
+
+  const handleReasonSelect = (reason: string) => {
+    setSelectedReason(reason);
     if (error) setError('');
   };
 
-  const handleCustomReasonChange = (value: string) => {
-    setCustomReason(value);
+  const handleCustomReasonChange = (customReason: string) => {
+    setCustomReason(customReason);
     if (error) setError('');
   };
 
@@ -108,11 +118,7 @@ export function RejectDocumentModal({
               required
             >
               <option value="">Select a reason...</option>
-              {REJECTION_REASONS.map((reason) => (
-                <option key={reason} value={reason}>
-                  {reason}
-                </option>
-              ))}
+              {reasonOptions}
             </select>
           </div>
 

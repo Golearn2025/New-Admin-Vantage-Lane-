@@ -65,8 +65,8 @@ export const formatLocation = (address: string): string => {
     // Get last part before postcode (usually city name)
     const parts = beforePostcode
       .split(',')
-      .map((p) => p.trim())
-      .filter((p) => p);
+      .map((p: string) => p.trim())
+      .filter((p: string) => p);
     const city = parts[parts.length - 1] || parts[0] || 'Unknown';
 
     return `${postcode} - ${city}`;

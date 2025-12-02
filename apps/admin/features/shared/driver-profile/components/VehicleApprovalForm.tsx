@@ -8,7 +8,7 @@
  * ✅ lucide-react: Check, X
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Select, Button, Input } from '@vantage-lane/ui-core';
 import { Check, X } from 'lucide-react';
 import { approveVehicle, rejectVehicle, listJobCategories } from '@entities/vehicle';
@@ -85,10 +85,14 @@ export function VehicleApprovalForm({ vehicleId, adminId, onSuccess }: VehicleAp
     }
   };
 
-  const categoryOptions: Array<{ value: string; label: string }> = categories.map(cat => ({
-    value: cat.name.toLowerCase(),
-    label: cat.name,
-  }));
+  // Memoize category options to prevent re-creation on every render
+  const categoryOptions: Array<{ value: string; label: string }> = useMemo(() => 
+    categories.map(cat => ({
+      value: cat.name.toLowerCase(),
+      label: cat.name,
+    })), 
+    [categories]
+  );
 
   return (
     <div className={styles.form}>

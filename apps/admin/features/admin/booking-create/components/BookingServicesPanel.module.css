@@ -93,7 +93,7 @@
 }
 
 .selected .check {
-  background: currentColor;
+  background: currentcolor;
   color: var(--color-bg-primary);
 }
 

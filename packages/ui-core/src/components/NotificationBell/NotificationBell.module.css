@@ -45,15 +45,19 @@
   20% { 
     transform: rotate(15deg); 
   }
+
   40% { 
     transform: rotate(-15deg) scale(1.1); 
   }
+
   60% { 
     transform: rotate(10deg) scale(1.1); 
   }
+
   80% { 
     transform: rotate(-10deg); 
   }
+
   0%, 100% { 
     transform: rotate(0deg); 
   }
@@ -225,12 +229,12 @@
 .item:hover {
   background: var(--theme-primary-alpha-10);
   border-color: var(--theme-primary-muted);
-  transform: translateY(-1px);
+  /* DISABLED: hover loop fix */
   box-shadow: var(--shadow-lg);
 }
 
 .item:active {
-  transform: translateY(0);
+  /* DISABLED: hover loop fix */
   transition: var(--transition-fast);
 }
 
@@ -464,6 +468,7 @@
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.7;
     transform: scale(1.1);
@@ -525,7 +530,7 @@
 }
 
 /* Desktop responsive - keep absolute positioning to respect sidebar */
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .dropdown {
     /* Keep original absolute positioning on desktop to respect sidebar layout */
     position: absolute;
@@ -538,7 +543,7 @@
 }
 
 /* Mobile responsive - use fixed positioning (sidebar is overlay) */
-@media (max-width: 767px) {
+@media (width <= 767px) {
   /* Mobile positioning - center dropdown beautifully */
   .dropdown {
     position: fixed !important; /* Fixed only on mobile (sidebar is overlay) */
@@ -595,13 +600,13 @@
   
   .notifTitle {
     font-size: var(--font-xs);
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     overflow-wrap: break-word;
   }
   
   .message {
     font-size: var(--font-xs);
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     overflow-wrap: break-word;
     line-height: 1.3;
   }
@@ -635,7 +640,7 @@
 }
 
 /* Small mobile - 320px to 374px */
-@media (max-width: 374px) {
+@media (width <= 374px) {
   .dropdown {
     width: calc(100vw - var(--spacing-6)) !important; /* Smaller padding on tiny screens */
     max-width: 350px !important; /* Smaller max width */
@@ -683,7 +688,7 @@
 }
 
 /* Ultra-small mobile - 280px to 320px (Galaxy Fold, very narrow screens) */
-@media (max-width: 320px) {
+@media (width <= 320px) {
   .dropdown {
     width: calc(100vw - var(--spacing-4)) !important; /* Even smaller padding */
     max-width: 300px !important; /* Smaller max width for very narrow screens */
@@ -764,7 +769,7 @@
 }
 
 /* Ultra-narrow screens - 280px and below (Galaxy Fold inner screen) */
-@media (max-width: 280px) {
+@media (width <= 280px) {
   .dropdown {
     width: calc(100vw - 8px) !important; /* Minimal padding */
     max-width: 270px !important; /* Very small max width */
@@ -806,7 +811,7 @@
 }
 
 /* Landscape mobile - specific fix for landscape orientation */
-@media (max-width: 767px) and (orientation: landscape) {
+@media (width <= 767px) and (orientation: landscape) {
   .dropdown {
     max-height: calc(100vh - 80px) !important;
     top: 50px !important;
@@ -818,7 +823,7 @@
 }
 
 /* Tablet responsive - 768px to 1024px */
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (width >= 768px) and (width <= 1024px) {
   .dropdown {
     width: 340px; /* Slightly smaller on tablet */
     right: -10px; /* Adjust positioning */

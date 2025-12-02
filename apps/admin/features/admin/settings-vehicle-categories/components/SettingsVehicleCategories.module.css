@@ -42,16 +42,16 @@
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgb(255 255 255 / 2%);
+  border: 1px solid rgb(255 255 255 / 10%);
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-5);
   transition: var(--transition-fast);
 }
 
 .card:hover {
-  border-color: rgba(211, 170, 49, 0.3);
-  background: rgba(255, 255, 255, 0.03);
+  border-color: rgb(211 170 49 / 30%);
+  background: rgb(255 255 255 / 3%);
 }
 
 .cardHeader {
@@ -124,7 +124,7 @@
 
 .multiplier {
   font-size: var(--font-size-sm);
-  color: rgba(211, 170, 49, 1);
+  color: rgb(211 170 49 / 100%);
   font-weight: var(--font-weight-medium);
 }
 
@@ -151,12 +151,12 @@
   gap: var(--spacing-2);
   justify-content: flex-end;
   padding-top: var(--spacing-4);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgb(255 255 255 / 5%);
 }
 
 .info {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgb(255 255 255 / 2%);
+  border: 1px solid rgb(255 255 255 / 10%);
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-6);
 }
@@ -181,14 +181,14 @@
 }
 
 .info li strong {
-  color: rgba(211, 170, 49, 1);
+  color: rgb(211 170 49 / 100%);
   font-weight: var(--font-weight-semibold);
 }
 
 .note {
   padding: var(--spacing-3);
-  background: rgba(211, 170, 49, 0.1);
-  border-left: 3px solid rgba(211, 170, 49, 1);
+  background: rgb(211 170 49 / 10%);
+  border-left: 3px solid rgb(211 170 49 / 100%);
   border-radius: var(--border-radius-sm);
   color: var(--color-text-secondary);
   font-size: var(--font-size-sm);

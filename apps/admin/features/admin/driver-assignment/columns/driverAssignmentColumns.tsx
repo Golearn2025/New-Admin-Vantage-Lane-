@@ -5,7 +5,7 @@
  * 100% reusable, type-safe
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { Column } from '@vantage-lane/ui-core';
 import { Badge, Button } from '@vantage-lane/ui-core';
 import { UserPlus, UserMinus } from 'lucide-react';

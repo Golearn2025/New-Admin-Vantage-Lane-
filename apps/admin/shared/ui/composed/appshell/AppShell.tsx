@@ -7,7 +7,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { SidebarNav } from './SidebarNav';
 import { Topbar } from './Topbar';
@@ -21,16 +21,24 @@ export function AppShell({ role, currentPath, children, user }: AppShellProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  // Detect mobile viewport
+  // Detect mobile viewport - OPTIMIZED with debounce
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    let timeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        setIsMobile(window.innerWidth < 768);
+      }, 250); // Debounce 250ms
     };
 
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
+    // Initial check
+    setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize, { passive: true });
 
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // Close drawer when path changes (navigation)
@@ -40,22 +48,22 @@ export function AppShell({ role, currentPath, children, user }: AppShellProps) {
 
   const router = useRouter();
 
-  // Handle navigation - CLIENT-SIDE (no full reload!)
-  const handleNavigate = (href: string) => {
+  // Handle navigation - MEMOIZED for performance
+  const handleNavigate = useCallback((href: string) => {
     router.push(href);
-  };
+  }, [router]);
 
-  const handleMenuToggle = () => {
+  const handleMenuToggle = useCallback(() => {
     setIsMobileDrawerOpen(true);
-  };
+  }, []);
 
-  const handleDrawerClose = () => {
+  const handleCloseDrawer = useCallback(() => {
     setIsMobileDrawerOpen(false);
-  };
+  }, []);
 
-  const handleSidebarCollapse = (collapsed: boolean) => {
+  const handleSidebarCollapse = useCallback((collapsed: boolean) => {
     setIsSidebarCollapsed(collapsed);
-  };
+  }, []);
 
   return (
     <BrandBackground variant="shell" className={styles.appShell}>
@@ -73,7 +81,7 @@ export function AppShell({ role, currentPath, children, user }: AppShellProps) {
 
       {/* Mobile Drawer - overlay */}
       {isMobile && (
-        <Drawer isOpen={isMobileDrawerOpen} onClose={handleDrawerClose}>
+        <Drawer isOpen={isMobileDrawerOpen} onClose={handleCloseDrawer}>
           <SidebarNav role={role} currentPath={currentPath} onNavigate={handleNavigate} />
         </Drawer>
       )}
@@ -84,6 +92,7 @@ export function AppShell({ role, currentPath, children, user }: AppShellProps) {
         <Topbar
           role={role}
           onMenuToggle={handleMenuToggle}
+          onNavigate={handleNavigate}
           sidebarCollapsed={isSidebarCollapsed}
           {...(user && { user })}
         />
@@ -96,7 +105,7 @@ export function AppShell({ role, currentPath, children, user }: AppShellProps) {
 
       {/* Mobile drawer overlay */}
       {isMobile && isMobileDrawerOpen && (
-        <div className={styles.drawerOverlay} onClick={handleDrawerClose} aria-hidden="true" />
+        <div className={styles.drawerOverlay} onClick={handleCloseDrawer} aria-hidden="true" />
       )}
     </BrandBackground>
   );

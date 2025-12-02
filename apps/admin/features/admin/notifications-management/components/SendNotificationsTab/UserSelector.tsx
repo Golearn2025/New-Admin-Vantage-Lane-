@@ -7,6 +7,7 @@
 
 'use client';
 
+import React, { useEffect, useMemo } from 'react';
 import { Select } from '@vantage-lane/ui-core';
 import type { UserOption, TargetType, SelectOption } from './types';
 import styles from './UserSelector.module.css';
@@ -32,13 +33,14 @@ export function UserSelector({
 
   const label = target === 'individual-driver' ? 'Driver' : 'Operator';
   
-  const options: SelectOption[] = [
+  // Memoize user options to prevent re-creation on every render
+  const options: SelectOption[] = useMemo(() => [
     { value: '', label: '-- Select --' },
     ...users.map((user) => ({
       value: user.id,
       label: user.name,
     })),
-  ];
+  ], [users]);
 
   return (
     <div className={styles.container}>

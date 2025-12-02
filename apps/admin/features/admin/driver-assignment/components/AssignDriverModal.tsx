@@ -7,7 +7,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Modal, Select, Button } from '@vantage-lane/ui-core';
 import { UserPlus } from 'lucide-react';
 import type { DriverAssignment } from '../types';
@@ -48,10 +48,14 @@ export function AssignDriverModal({
     onClose();
   };
 
-  const operatorOptions = operators.map((op) => ({
-    value: op.id,
-    label: `${op.name} (${op.email})`,
-  }));
+  // Memoize operator options to prevent re-creation on every render
+  const operatorOptions = useMemo(() => 
+    operators.map((op) => ({
+      value: op.id,
+      label: `${op.name} (${op.email})`,
+    })), 
+    [operators]
+  );
 
   return (
     <Modal

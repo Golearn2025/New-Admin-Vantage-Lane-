@@ -41,7 +41,7 @@
 }
 
 /* Mobile responsive */
-@media (max-width: 375px) {
+@media (width <= 375px) {
   .container {
     gap: var(--spacing-half);
   }
@@ -51,7 +51,7 @@
   }
 }
 
-@media (max-width: 320px) {
+@media (width <= 320px) {
   .penaltyText {
     display: none; /* Hide penalty text on very small screens */
   }

@@ -59,8 +59,9 @@
 
 @keyframes float {
   0%, 100% {
-    transform: translate(0, 0);
+    /* DISABLED: hover loop fix */
   }
+
   50% {
     transform: translate(10%, 10%);
   }
@@ -89,7 +90,7 @@
   max-width: 440px;
   background: var(--color-surface-glass);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-2xl);
   box-shadow: 
@@ -104,11 +105,12 @@
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    /* DISABLED: hover loop fix */
   }
+
   to {
     opacity: 1;
-    transform: translateY(0);
+    /* DISABLED: hover loop fix */
   }
 }
 
@@ -116,10 +118,7 @@
 .formCard::before {
   content: '';
   position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  bottom: -1px;
+  inset: -1px;
   background: var(--theme-gradient);
   border-radius: var(--radius-2xl);
   opacity: 0;
@@ -155,6 +154,7 @@
   0%, 100% {
     filter: drop-shadow(var(--theme-glow));
   }
+
   50% {
     filter: drop-shadow(var(--theme-glow-strong));
   }
@@ -177,7 +177,7 @@
   font-weight: var(--font-bold);
   margin: 0 0 var(--spacing-2);
   background: var(--theme-gradient);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
@@ -197,7 +197,7 @@
   align-items: center;
   gap: var(--spacing-3);
   padding: var(--spacing-3) var(--spacing-4);
-  background: rgba(220, 38, 38, 0.1);
+  background: var(--color-danger-alpha-10);
   border: 1px solid var(--color-danger-default);
   border-radius: var(--radius-md);
   color: var(--color-danger-default);
@@ -207,9 +207,9 @@
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  0%, 100% { /* DISABLED: hover loop fix */ }
+  25% { /* DISABLED: hover loop fix */ }
+  75% { /* DISABLED: hover loop fix */ }
 }
 
 .errorIcon {
@@ -347,12 +347,12 @@
   background: var(--theme-primary-alpha-10);
   border-color: var(--theme-primary);
   color: var(--theme-primary);
-  transform: translateY(-2px);
+  /* DISABLED: hover loop fix */
   box-shadow: var(--theme-shadow-button);
 }
 
 .socialButton:active:not(:disabled) {
-  transform: translateY(0);
+  /* DISABLED: hover loop fix */
 }
 
 .socialButton:focus-visible {
@@ -408,7 +408,7 @@
 /* RESPONSIVE                                   */
 /* ============================================ */
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .container {
     padding: var(--spacing-4);
   }

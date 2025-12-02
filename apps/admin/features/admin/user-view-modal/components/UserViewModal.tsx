@@ -7,7 +7,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Modal } from '@vantage-lane/ui-core';
 import type { UserViewModalProps } from '../types';
 import styles from './UserViewModal.module.css';

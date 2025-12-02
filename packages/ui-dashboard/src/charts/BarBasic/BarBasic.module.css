@@ -6,19 +6,19 @@
 .container {
   width: 100%;
   position: relative;
-  background: var(--vl-glass-bg, rgba(26, 29, 33, 0.4));
+  background: var(--vl-glass-bg, rgb(26 29 33 / 40%));
   backdrop-filter: var(--vl-blur-amount, blur(24px));
   border-radius: var(--radius-lg);
   padding: var(--spacing-5);
-  border: 1px solid var(--vl-glass-border, rgba(255, 255, 255, 0.08));
-  box-shadow: var(--vl-shadow-card, 0 4px 24px rgba(0, 0, 0, 0.4));
+  border: 1px solid var(--vl-glass-border, rgb(255 255 255 / 8%));
+  box-shadow: var(--vl-shadow-card, 0 4px 24px rgb(0 0 0 / 40%));
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   contain: paint;
 }
 
 .container:hover {
-  border-color: var(--vl-border-strong, rgba(255, 255, 255, 0.12));
-  box-shadow: var(--vl-glass-shadow, 0 8px 32px rgba(0, 0, 0, 0.5));
+  border-color: var(--vl-border-strong, rgb(255 255 255 / 12%));
+  box-shadow: var(--vl-glass-shadow, 0 8px 32px rgb(0 0 0 / 50%));
 }
 
 /* Empty State */
@@ -35,14 +35,14 @@
 
 /* Tooltip */
 .tooltip {
-  background: rgba(0, 0, 0, 0.9);
+  background: rgb(0 0 0 / 90%);
   border-radius: var(--radius-md);
   padding: var(--spacing-3) var(--spacing-4);
   border: none;
 }
 
 .tooltipLabel {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgb(255 255 255 / 70%);
   font-size: var(--font-xs);
   margin: 0 0 var(--spacing-1);
 }
@@ -77,6 +77,7 @@
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }

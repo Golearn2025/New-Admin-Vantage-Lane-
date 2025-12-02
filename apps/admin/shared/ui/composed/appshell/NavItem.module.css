@@ -12,11 +12,11 @@
   text-decoration: none;
   color: var(--color-text-muted);
   border-radius: var(--radius-md);
-  transition: var(--motion-hover);
-  cursor: pointer;
-  min-height: 44px; /* A11y touch target */
+  /* transition: var(--motion-hover); */ /* DISABLED: causing infinite loop */
+  cursor: pointer; /* Safe now - no hover transform */
+  min-height: var(--touch-target-min); /* A11y touch target */
   position: relative;
-  border: 1px solid transparent;
+  border: var(--border-width-default) solid transparent;
 }
 
 /* Premium: Left accent bar for active/hover */
@@ -26,32 +26,31 @@
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 3px;
+  width: var(--spacing-1);
   height: 0;
   background: var(--theme-gradient);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  transition: height var(--motion-duration-normal) var(--motion-easing-ease-out);
+  /* transition: height var(--motion-duration-normal) var(--motion-easing-ease-out); */ /* DISABLED: causing infinite loop */
   box-shadow: var(--theme-glow);
 }
 
 /* NavLink Hover & Focus States */
-.navLink:hover {
+/* .navLink:hover {
   color: var(--color-text-primary);
   background: var(--theme-primary-alpha-10);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
   border: 1px solid var(--theme-primary-alpha-20);
-  transform: translateX(2px);
-}
+} */ /* DISABLED: causing hover loop between elements */
 
 /* Premium: Show accent bar on hover */
-.navLink:hover::before {
+/* .navLink:hover::before {
   height: 60%;
-}
+} */ /* DISABLED: causing hover loop between elements */
 
 .navLink:focus-visible {
-  outline: 2px solid var(--theme-primary);
-  outline-offset: 2px;
+  outline: var(--outline-width-default) solid var(--theme-primary);
+  outline-offset: var(--outline-offset-default);
   color: var(--theme-primary);
   box-shadow: var(--theme-shadow-focus);
 }
@@ -91,7 +90,7 @@
 
 .navIcon {
   flex-shrink: 0;
-  transition: var(--motion-hover);
+  /* transition: var(--motion-hover); */ /* DISABLED: causing infinite loop */
 }
 
 .navLabel {
@@ -112,8 +111,8 @@
   font-weight: var(--font-semibold);
   padding: var(--spacing-1) var(--spacing-2);
   border-radius: var(--radius-full);
-  min-width: 20px;
-  height: 20px;
+  min-width: var(--size-icon-md);
+  height: var(--size-icon-md);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -124,7 +123,7 @@
 /* Chevron for expandable items */
 .chevron {
   flex-shrink: 0;
-  transition: transform var(--motion-hover);
+  /* transition: transform var(--motion-hover); */ /* DISABLED: causing infinite loop */
   color: var(--color-text-muted);
 }
 
@@ -143,33 +142,32 @@
 }
 
 .submenuItem {
-  display: block;
   padding: var(--spacing-2) var(--spacing-3);
   color: var(--color-text-muted);
   text-decoration: none;
   font-size: var(--font-sm);
   border-radius: var(--radius-sm);
-  transition: var(--motion-hover);
-  min-height: 36px;
+  /* transition: var(--motion-hover); */ /* DISABLED: causing infinite loop */
+  min-height: var(--touch-target-sm);
   display: flex;
   align-items: center;
 
-  &:hover {
+  /* &:hover {
     color: var(--color-text-secondary);
     background: var(--color-surface-elevated);
-  }
+  } */ /* DISABLED: causing hover loop between elements */
 
   &:focus-visible {
-    outline: 2px solid var(--color-border-focus);
-    outline-offset: 1px;
+    outline: var(--outline-width-default) solid var(--color-border-focus);
+    outline-offset: var(--outline-offset-sm);
   }
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .navLink {
     padding: var(--spacing-4);
-    min-height: 48px; /* Larger touch targets on mobile */
+    min-height: var(--touch-target-lg); /* Larger touch targets on mobile */
   }
 
   .navLabel {
@@ -183,7 +181,7 @@
 
   .submenuItem {
     padding: var(--spacing-3);
-    min-height: 44px;
+    min-height: var(--touch-target-min);
     font-size: var(--font-sm);
   }
 }

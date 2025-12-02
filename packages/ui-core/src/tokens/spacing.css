@@ -32,6 +32,10 @@
   --spacing-2xl: var(--spacing-10); /* 40px */
   --spacing-3xl: var(--spacing-12); /* 48px */
 
+  /* Large Spacing Values */
+  --spacing-25: 100px;  /* For max-width constraints */
+  --spacing-70: 280px;  /* For drawer/sidebar widths */
+
   /* Container Spacing */
   --container-padding: 40px;
   --container-padding-mobile: 20px;
@@ -45,4 +49,18 @@
   --input-padding-y: 18px;
   --button-padding-x: 40px;
   --button-padding-y: 16px;
+
+  /* Layout Component Sizes */
+  --drawer-width: var(--spacing-70); /* 280px */
+  --logo-size: var(--spacing-8); /* 32px */
+  --logo-size-small: var(--spacing-20); /* 80px */
+  --logo-size-medium: var(--spacing-25); /* 100px */
+  --touch-target-min: var(--spacing-11); /* 44px - minimum touch target */
+  
+  /* Modal Sizes */
+  --modal-width-sm: 400px;  /* Small modals like change password */
+  
+  /* Grid Card Sizes */
+  --card-width-sm: 300px;  /* Small dashboard cards */
+  --card-width-md: 400px;  /* Medium dashboard cards */
 }

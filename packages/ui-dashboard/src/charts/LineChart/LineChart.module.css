@@ -83,6 +83,7 @@
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
@@ -100,6 +101,7 @@
   .container {
     transition: none;
   }
+
   .skeletonLine {
     animation: none;
   }

@@ -1,13 +1,14 @@
 /**
- * Middleware - Auth Protection
+ * Middleware - Auth & Role-Based Protection
  *
- * Protects admin routes și prevents back button after logout.
- * Redirect to login for unauthenticated users.
+ * Protects routes based on EFFECTIVE_ACCESS_MATRIX.md
+ * Prevents unauthorized access while maintaining UI visibility unchanged.
  */
 
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
 import './lib/config/env'; // Validate environment variables at startup
+import { getServerRole, requiresAuth, isAllowed } from './apps/admin/lib/auth/server-role';
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -62,36 +63,22 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // Check auth for protected routes
-  // TEMPORARY: /operator and /driver are NOT protected (for development)
-  const isProtectedRoute =
-    (request.nextUrl.pathname.startsWith('/dashboard') ||
-      request.nextUrl.pathname.startsWith('/bookings') ||
-      request.nextUrl.pathname.startsWith('/users') ||
-      request.nextUrl.pathname.startsWith('/payments') ||
-      request.nextUrl.pathname.startsWith('/invoices') ||
-      request.nextUrl.pathname.startsWith('/refunds') ||
-      request.nextUrl.pathname.startsWith('/disputes') ||
-      request.nextUrl.pathname.startsWith('/payouts') ||
-      request.nextUrl.pathname.startsWith('/documents') ||
-      request.nextUrl.pathname.startsWith('/notifications') ||
-      request.nextUrl.pathname.startsWith('/support-tickets') ||
-      request.nextUrl.pathname.startsWith('/prices') ||
-      request.nextUrl.pathname.startsWith('/monitoring') ||
-      request.nextUrl.pathname.startsWith('/project-health') ||
-      request.nextUrl.pathname.startsWith('/audit-history') ||
-      request.nextUrl.pathname.startsWith('/settings')) &&
-    !request.nextUrl.pathname.startsWith('/ui-dashboard-demo');
-
-  if (isProtectedRoute) {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    // No user found, redirect to login
-    if (!user) {
-      // Use replace to prevent back button issues
+  // Check auth and role-based access for protected routes
+  const pathname = request.nextUrl.pathname;
+  
+  if (requiresAuth(pathname)) {
+    // Determină rolul user-ului curent
+    const role = await getServerRole(request);
+    
+    // User neautentificat - redirect la login
+    if (role === 'unknown') {
       const redirectUrl = new URL('/login', request.url);
+      return NextResponse.redirect(redirectUrl);
+    }
+    
+    // User autentificat dar fără acces la această rută - redirect la root
+    if (!isAllowed(pathname, role)) {
+      const redirectUrl = new URL('/', request.url);
       return NextResponse.redirect(redirectUrl);
     }
   }

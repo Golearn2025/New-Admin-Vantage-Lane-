@@ -7,7 +7,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { DocumentCard } from './DocumentCard';
 import { DocumentUploadModal } from './DocumentUploadModal';
 import { usePersonalDocuments } from '../hooks/usePersonalDocuments';
@@ -24,7 +24,6 @@ const PERSONAL_DOCUMENTS = [
 export function PersonalDocumentsTab() {
   const {
     documents,
-    isLoading,
     uploadModalOpen,
     selectedDocumentType,
     handleUpload,
@@ -32,18 +31,24 @@ export function PersonalDocumentsTab() {
     handleUploadFile,
   } = usePersonalDocuments();
 
+  // Memoize document cards to prevent re-creation on every render
+  const documentCards = useMemo(() => 
+    PERSONAL_DOCUMENTS.map((docType) => (
+      <DocumentCard
+        key={docType}
+        documentType={docType}
+        document={documents[docType]}
+        onUpload={() => handleUpload(docType)}
+      />
+    )), 
+    [documents, handleUpload]
+  );
+
   return (
     <div className={styles.container}>
       
       <div className={styles.grid}>
-        {PERSONAL_DOCUMENTS.map((docType) => (
-          <DocumentCard
-            key={docType}
-            documentType={docType}
-            document={documents[docType]}
-            onUpload={handleUpload}
-          />
-        ))}
+        {documentCards}
       </div>
 
       <DocumentUploadModal

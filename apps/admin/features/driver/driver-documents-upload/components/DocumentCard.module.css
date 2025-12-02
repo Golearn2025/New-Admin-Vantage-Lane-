@@ -94,7 +94,7 @@
 }
 
 /* Responsive */
-@media (max-width: 375px) {
+@media (width <= 375px) {
   .card {
     padding: var(--spacing-4);
   }

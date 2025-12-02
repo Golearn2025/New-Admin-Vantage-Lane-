@@ -31,7 +31,7 @@ export function ServicePoliciesTab({ config }: Props) {
       await updateServicePolicies(editedPolicies);
       setIsEditing(false);
     } catch (error) {
-      console.error('Failed to save:', error);
+      // Failed to save service policies
     }
   };
 

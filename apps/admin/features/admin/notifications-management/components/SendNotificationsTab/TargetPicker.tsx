@@ -9,6 +9,7 @@
 
 import { User, Car } from 'lucide-react';
 import type { TargetType } from './types';
+import React, { useMemo } from 'react';
 import styles from './TargetPicker.module.css';
 
 interface TargetPickerProps {
@@ -56,11 +57,9 @@ const TARGET_OPTIONS: TargetOption[] = [
 ];
 
 export function TargetPicker({ selected, onChange }: TargetPickerProps) {
-  return (
-    <div className={styles.container}>
-      <h3 className={styles.title}>Target Audience</h3>
-      <div className={styles.grid}>
-        {TARGET_OPTIONS.map((option) => (
+  // Memoize target option buttons to prevent re-creation on every render
+  const targetButtons = useMemo(() => 
+    TARGET_OPTIONS.map((option) => (
           <button
             key={option.value}
             type="button"
@@ -70,7 +69,15 @@ export function TargetPicker({ selected, onChange }: TargetPickerProps) {
             <div className={styles.icon}>{option.icon}</div>
             <div className={styles.label}>{option.label}</div>
           </button>
-        ))}
+        )), 
+    [selected, onChange]
+  );
+
+  return (
+    <div className={styles.container}>
+      <h3 className={styles.title}>Target Audience</h3>
+      <div className={styles.grid}>
+        {targetButtons}
       </div>
     </div>
   );

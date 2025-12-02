@@ -35,7 +35,6 @@ export function ReviewsManagementPage() {
   };
 
   const handleIncidentClick = (incident: SafetyIncident) => {
-    console.log('Incident clicked:', incident);
     // TODO: Implement safety incident modal
   };
 

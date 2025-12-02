@@ -7,8 +7,10 @@
 
 import React from 'react';
 import { Icon } from '@vantage-lane/ui-icons';
-import { NavItemProps } from './types';
+import { SubMenuItem } from './SubMenuItem';
+import { formatPathToLabel } from './utils/pathFormatting';
 import styles from './NavItem.module.css';
+import { NavItemProps } from './types';
 
 export function NavItem({
   href,
@@ -71,19 +73,12 @@ export function NavItem({
       {hasChildren && subpages && isExpanded && (
         <div className={styles.submenu} role="menu">
           {subpages.map((childPath: string) => (
-            <a
+            <SubMenuItem
               key={childPath}
-              href={childPath}
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate(childPath);
-              }}
-              className={styles.submenuItem}
-              role="menuitem"
-              tabIndex={0}
-            >
-              {getPathLabel(childPath)}
-            </a>
+              childPath={childPath}
+              onNavigate={onNavigate}
+              formatPathToLabel={formatPathToLabel}
+            />
           ))}
         </div>
       )}
@@ -91,20 +86,3 @@ export function NavItem({
   );
 }
 
-/**
- * Helper pentru a obține label-ul din path
- */
-function getPathLabel(path: string): string {
-  const segments = path.split('/');
-  const lastSegment = segments[segments.length - 1];
-
-  if (!lastSegment) {
-    return 'Home';
-  }
-
-  // Transformă path-ul în label readable
-  return lastSegment
-    .split('-')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}

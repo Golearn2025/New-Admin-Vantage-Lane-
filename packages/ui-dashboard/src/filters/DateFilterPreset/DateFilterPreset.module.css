@@ -27,7 +27,7 @@
 }
 
 .button:hover {
-  color: var(--vl-text-primary, #ffffff);
+  color: var(--vl-text-primary, #fff);
   background: var(--vl-bg-hover, #2a2a2a);
   border-color: var(--vl-border-hover, #3a3a3a);
 }
@@ -38,7 +38,7 @@
 }
 
 .button.active {
-  color: var(--vl-text-inverse, #ffffff);
+  color: var(--vl-text-inverse, #fff);
   background: var(--vl-primary, #4a9eff);
   border-color: var(--vl-primary, #4a9eff);
 }
@@ -68,7 +68,7 @@
 
 /* Responsive */
 /* iPhone SE / Small mobile (320px-374px) */
-@media (max-width: 374px) {
+@media (width <= 374px) {
   .container {
     padding: var(--vl-spacing-xs, 4px);
     gap: var(--vl-spacing-xs, 4px);
@@ -83,7 +83,7 @@
 }
 
 /* iPhone Standard / Medium mobile (375px-480px) */
-@media (min-width: 375px) and (max-width: 480px) {
+@media (width >= 375px) and (width <= 480px) {
   .container {
     gap: var(--vl-spacing-xs, 6px);
   }

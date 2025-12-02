@@ -31,11 +31,11 @@
 .trigger:hover {
   background: var(--color-surface-glass);
   border-color: var(--color-border-strong);
-  transform: translateY(-1px);
+  /* DISABLED: hover loop fix */
 }
 
 .trigger:active {
-  transform: translateY(0);
+  /* DISABLED: hover loop fix */
 }
 
 .trigger:focus-visible {
@@ -56,7 +56,7 @@
   height: 20px;
   border-radius: var(--radius-full);
   border: 2px solid var(--color-bg-primary);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 8px rgb(0 0 0 / 20%);
   flex-shrink: 0;
 }
 
@@ -90,7 +90,7 @@
   margin-top: var(--spacing-2);
   background: var(--color-surface-primary);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-dropdown);
@@ -101,11 +101,12 @@
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-8px);
+    /* DISABLED: hover loop fix */
   }
+
   to {
     opacity: 1;
-    transform: translateY(0);
+    /* DISABLED: hover loop fix */
   }
 }
 
@@ -271,7 +272,7 @@
 .checkIcon {
   flex-shrink: 0;
   color: var(--theme-primary);
-  filter: drop-shadow(0 0 4px currentColor);
+  filter: drop-shadow(0 0 4px currentcolor);
 }
 
 /* ============================================ */
@@ -293,7 +294,7 @@
 /* RESPONSIVE                                   */
 /* ============================================ */
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .dropdown {
     min-width: 280px;
   }

@@ -76,7 +76,7 @@
 }
 
 .soft.color-success {
-  background: rgba(34, 197, 94, 0.1);
+  background: var(--color-success-alpha-10);
   color: var(--color-success-500);
 }
 
@@ -96,7 +96,7 @@
 }
 
 .soft.color-warning {
-  background: rgba(251, 191, 36, 0.1);
+  background: var(--color-warning-alpha-10);
   color: var(--color-warning-500);
 }
 
@@ -116,7 +116,7 @@
 }
 
 .soft.color-danger {
-  background: rgba(220, 38, 38, 0.1);
+  background: rgb(220 38 38 / 10%);
   color: var(--color-danger-default);
 }
 
@@ -136,7 +136,7 @@
 }
 
 .soft.color-info {
-  background: rgba(59, 130, 246, 0.1);
+  background: var(--color-info-alpha-10);
   color: var(--color-info-500);
 }
 
@@ -257,13 +257,13 @@
   border-radius: 50%;
   cursor: pointer;
   transition: all var(--motion-duration-fast);
-  color: currentColor;
+  color: currentcolor;
   opacity: 0.7;
 }
 
 .removeButton:hover {
   opacity: 1;
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--color-black-alpha-10);
 }
 
 /* ============================================ */
@@ -271,9 +271,9 @@
 /* ============================================ */
 
 .badge:hover {
-  transform: translateY(-1px);
+  /* DISABLED: hover loop fix */
 }
 
 .solid:hover {
-  box-shadow: 0 2px 8px currentColor;
+  box-shadow: 0 2px 8px currentcolor;
 }

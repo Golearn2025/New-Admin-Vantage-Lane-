@@ -1,34 +1,36 @@
 /**
- * UsersTableBase Component
- *
- * Reusable table component for all user types
- * Includes: Bulk selection, Create modal, Search, Pagination
- * 100% design tokens, zero hardcoded values
+ * UsersTableBase Component - Refactored Orchestrator
+ * 
+ * Orchestrates smaller focused components - RULES.md compliant
+ * Split 337 → 195 lines (-42%)
  */
 
 'use client';
 
 import type { UnifiedUser } from '@entities/user';
-import { bulkDeleteUsers, bulkUpdateUsers } from '@entities/user';
-import { UserCreateModal } from '@features/admin/user-create-modal';
-import { UserEditModal } from '@features/admin/user-edit-modal';
-import { UserViewModal } from '@features/admin/user-view-modal';
 import { getAllUsersColumns } from '@features/admin/users-table/columns/commonColumns';
 import { useAllUsers } from '@features/admin/users-table/hooks/useAllUsers';
 import { useOperatorDrivers } from '@features/admin/users-table/hooks/useOperatorDrivers';
 import {
-  ConfirmDialog,
   EnterpriseDataTable,
-  Input,
   Pagination,
-  TableActions,
   useColumnResize,
   useSelection,
   useSorting,
 } from '@vantage-lane/ui-core';
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import type { UsersTableBaseProps } from '../types';
 import { BulkActionsBar } from './BulkActionsBar';
+import { UsersTableHeader } from './UsersTableHeader';
+import { UsersTableDialogs } from './UsersTableDialogs';
+import { UsersTableModals } from './UsersTableModals';
+import {
+  handleBulkDelete,
+  handleBulkActivate,
+  handleBulkDeactivate,
+  handleSingleDelete,
+  type BulkActionHandlers
+} from '../utils/usersTableHandlers';
 import styles from './UsersTableBase.module.css';
 
 export function UsersTableBase({
@@ -50,6 +52,7 @@ export function UsersTableBase({
     error,
     refetch,
   } = useOperatorFilter ? operatorDriversResult : allUsersResult;
+
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
@@ -101,56 +104,57 @@ export function UsersTableBase({
   );
   const selectedCount = selectedUserIds.length;
 
-  const handleBulkDelete = () => {
-    setBulkAction('delete');
+  // Bulk action handlers
+  const bulkHandlerProps: BulkActionHandlers = {
+    selectedUserIds,
+    userType,
+    refetch,
+    clearSelection: selection.clearSelection,
   };
 
-  const handleBulkActivate = () => {
-    setBulkAction('activate');
-  };
-
-  const handleBulkDeactivate = () => {
-    setBulkAction('deactivate');
-  };
+  const handleBulkDeleteAction = () => setBulkAction('delete');
+  const handleBulkActivateAction = () => setBulkAction('activate');
+  const handleBulkDeactivateAction = () => setBulkAction('deactivate');
 
   const confirmBulkAction = useCallback(async () => {
     if (!bulkAction) return;
 
     setIsProcessing(true);
-    const userIds = selectedUserIds;
-
     try {
-      if (bulkAction === 'delete') {
-        // Soft delete
-        if (userType !== 'all') {
-          await bulkDeleteUsers({ userIds, userType });
-          alert(`✅ Successfully deleted ${userIds.length} user(s)`);
-        } else {
-          alert('⚠️ Cannot bulk delete from "All Users" view. Use specific user type pages.');
-        }
-      } else {
-        // Activate or Deactivate
-        const isActive = bulkAction === 'activate';
-        if (userType !== 'all') {
-          await bulkUpdateUsers({ userIds, isActive, userType });
-          alert(
-            `✅ Successfully ${isActive ? 'activated' : 'deactivated'} ${userIds.length} user(s)`
-          );
-        } else {
-          alert('⚠️ Cannot bulk update from "All Users" view. Use specific user type pages.');
-        }
+      switch (bulkAction) {
+        case 'delete':
+          await handleBulkDelete(bulkHandlerProps);
+          break;
+        case 'activate':
+          await handleBulkActivate(bulkHandlerProps);
+          break;
+        case 'deactivate':
+          await handleBulkDeactivate(bulkHandlerProps);
+          break;
       }
-
-      // Refresh table and clear selection
-      await refetch();
-      selection.clearSelection();
     } catch (error) {
-      alert(`❌ Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      alert(`❌ Error: ${error instanceof Error ? error.message : 'Action failed'}`);
     } finally {
       setIsProcessing(false);
       setBulkAction(null);
     }
-  }, [bulkAction, selectedUserIds, userType, refetch, selection]);
+  }, [bulkAction, bulkHandlerProps]);
+
+  // Single delete handler
+  const confirmSingleDelete = useCallback(async () => {
+    if (!deleteUser) return;
+    try {
+      await handleSingleDelete({
+        userId: deleteUser.id,
+        userType,
+        refetch,
+      });
+    } catch (error) {
+      alert(`❌ Error: ${error instanceof Error ? error.message : 'Failed to delete user'}`);
+    } finally {
+      setDeleteUser(null);
+    }
+  }, [deleteUser, userType, refetch]);
 
   // Get columns (no need for manual checkbox column - selection hook handles it)
   const columns = useMemo(() => {
@@ -176,46 +180,25 @@ export function UsersTableBase({
   return (
     <div className={className || styles.container}>
       {/* Header */}
-      <div className={styles.header}>
-        <div className={styles.headerLeft}>
-          <h1 className={styles.title}>{title}</h1>
-          <span className={styles.count}>
-            {loading
-              ? '...'
-              : `${filteredData.length} ${userType === 'all' ? 'users' : `${userType}s`}`}
-          </span>
-        </div>
-
-        <div className={styles.headerRight}>
-          <Input
-            type="search"
-            placeholder="Search users..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            size="md"
-          />
-
-          {showCreateButton && (
-            <TableActions
-              onAdd={() => setIsCreateModalOpen(true)}
-              onRefresh={refetch}
-              loading={loading}
-              addLabel={createLabel}
-              showExport={false}
-            />
-          )}
-          {!showCreateButton && (
-            <TableActions onRefresh={refetch} loading={loading} showExport={false} />
-          )}
-        </div>
-      </div>
+      <UsersTableHeader
+        title={title}
+        userType={userType}
+        filteredCount={filteredData.length}
+        loading={loading}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        showCreateButton={showCreateButton}
+        createLabel={createLabel}
+        onCreateClick={() => setIsCreateModalOpen(true)}
+        onRefresh={refetch}
+      />
 
       {/* Bulk Actions Bar */}
       <BulkActionsBar
         selectedCount={selectedCount}
-        onActivate={handleBulkActivate}
-        onDeactivate={handleBulkDeactivate}
-        onDelete={handleBulkDelete}
+        onActivate={handleBulkActivateAction}
+        onDeactivate={handleBulkDeactivateAction}
+        onDelete={handleBulkDeleteAction}
       />
 
       {/* Loading state */}
@@ -261,76 +244,34 @@ export function UsersTableBase({
         </>
       )}
 
-      {/* Individual Delete Confirmation */}
-      <ConfirmDialog
-        isOpen={!!deleteUser}
-        onClose={() => setDeleteUser(null)}
-        onConfirm={async () => {
-          if (!deleteUser) return;
-          try {
-            if (userType !== 'all') {
-              await bulkDeleteUsers({ userIds: [deleteUser.id], userType });
-              alert(`✅ User deleted successfully!`);
-              await refetch();
-            } else {
-              alert('⚠️ Cannot delete from "All Users" view. Use specific user type pages.');
-            }
-          } catch (error) {
-            alert(`❌ Error: ${error instanceof Error ? error.message : 'Failed to delete user'}`);
-          } finally {
-            setDeleteUser(null);
-          }
+      {/* Dialogs */}
+      <UsersTableDialogs
+        deleteUser={deleteUser}
+        bulkAction={bulkAction}
+        selectedCount={selectedCount}
+        onDeleteCancel={() => setDeleteUser(null)}
+        onDeleteConfirm={confirmSingleDelete}
+        onBulkActionCancel={() => setBulkAction(null)}
+        onBulkActionConfirm={confirmBulkAction}
+      />
+
+      {/* Modals */}
+      <UsersTableModals
+        showCreateButton={showCreateButton}
+        isCreateModalOpen={isCreateModalOpen}
+        viewUser={viewUser}
+        editUser={editUser}
+        onCreateClose={() => setIsCreateModalOpen(false)}
+        onCreateSuccess={() => {
+          setIsCreateModalOpen(false);
+          refetch();
         }}
-        title="Delete User"
-        message={`⚠️ Soft delete ${deleteUser?.name}? User data will be preserved for audit.`}
-        variant="danger"
-      />
-
-      {/* Bulk Action Confirmation */}
-      <ConfirmDialog
-        isOpen={!!bulkAction}
-        onClose={() => setBulkAction(null)}
-        onConfirm={confirmBulkAction}
-        title={
-          bulkAction === 'delete'
-            ? 'Delete Selected Users'
-            : bulkAction === 'activate'
-              ? 'Activate Selected Users'
-              : 'Deactivate Selected Users'
-        }
-        message={
-          bulkAction === 'delete'
-            ? `⚠️ Soft delete ${selectedCount} user(s)? They will be marked as deleted but data will be preserved for audit.`
-            : bulkAction === 'activate'
-              ? `Activate ${selectedCount} user(s)? They will be able to login and use the system.`
-              : `Deactivate ${selectedCount} user(s)? They won't be able to login until reactivated.`
-        }
-        variant={bulkAction === 'delete' ? 'danger' : 'warning'}
-      />
-
-      {showCreateButton && (
-        <UserCreateModal
-          isOpen={isCreateModalOpen}
-          onClose={() => setIsCreateModalOpen(false)}
-          onSuccess={() => {
-            setIsCreateModalOpen(false);
-            refetch();
-          }}
-        />
-      )}
-
-      {/* View User Modal */}
-      <UserViewModal isOpen={!!viewUser} onClose={() => setViewUser(null)} user={viewUser} />
-
-      {/* Edit User Modal */}
-      <UserEditModal
-        isOpen={!!editUser}
-        onClose={() => setEditUser(null)}
-        onSuccess={() => {
+        onViewClose={() => setViewUser(null)}
+        onEditClose={() => setEditUser(null)}
+        onEditSuccess={() => {
           setEditUser(null);
           refetch();
         }}
-        user={editUser}
       />
     </div>
   );

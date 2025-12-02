@@ -1,0 +1,95 @@
+name: 🚧 CI Gates - RULES.md Compliance
+
+on:
+  push:
+    branches: [ main, develop, Ver-* ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # 🔥 BLOCKERS - Must pass for CI success
+  ci-blockers:
+    name: 🚫 Blockers (Must Pass)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: 🔍 TypeScript Check
+        run: pnpm check:ts
+        
+      - name: 🛡️ ESLint Blockers (any, console, hooks, cycles)
+        run: pnpm lint:blockers
+        
+      - name: 🎨 CSS Tokens Check (hardcoded colors/px)
+        run: pnpm lint:css:blockers
+        continue-on-error: true # Allow CSS failures for now (gradual migration)
+        
+      - name: 🏗️ Build Check
+        run: pnpm build
+        
+      # TODO: Add when implemented
+      # - name: 🧪 Test Coverage >80%
+      #   run: pnpm test:coverage
+        
+      # - name: 📦 Bundle Size <300KB
+      #   run: pnpm bundle:check
+        
+      # - name: ♿ Accessibility Tests
+      #   run: pnpm a11y:check
+
+  # 🟡 WARNINGS - Tracking only, don't fail CI
+  ci-tracking:
+    name: 🟡 Quality Tracking (Warnings)
+    runs-on: ubuntu-latest
+    continue-on-error: true # Don't fail CI on warnings
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          
+      - name: Setup Node.js  
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: 📊 Quality Warnings (file size, complexity)
+        run: pnpm lint:warnings
+        
+      - name: 📈 RULES.md Compliance Summary
+        run: pnpm rules:tracking-summary
+        
+      - name: 💀 Dead Code Detection  
+        run: pnpm rules:dead-code
+        
+      - name: 📝 Audit Report
+        run: |
+          echo "## 📊 RULES.md Compliance Report" >> $GITHUB_STEP_SUMMARY
+          echo "| Rule | Violations | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Any types | $(pnpm rules:any-types 2>/dev/null | wc -l) | 🟡 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Large files | $(pnpm rules:file-sizes 2>/dev/null | wc -l) | 🟡 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Console logs | $(pnpm rules:console-logs 2>/dev/null) | 🟡 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Hardcoded colors | $(pnpm rules:hardcoded-colors 2>/dev/null) | 🟡 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Hardcoded px | $(pnpm rules:hardcoded-px 2>/dev/null) | 🟡 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Inline functions | $(pnpm rules:inline-functions 2>/dev/null) | 🟡 |" >> $GITHUB_STEP_SUMMARY

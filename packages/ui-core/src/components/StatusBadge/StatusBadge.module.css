@@ -109,6 +109,7 @@
       0 2px 8px var(--badge-shadow),
       0 0 12px var(--badge-shadow);
   }
+
   50% {
     box-shadow: 
       0 4px 16px var(--badge-shadow),
@@ -123,7 +124,7 @@
   align-items: center;
   animation: bellShake 1.5s ease-in-out infinite;
   transform-origin: top center;
-  color: currentColor;
+  color: currentcolor;
   font-size: 1em;
   margin-bottom: 2px;
 }
@@ -134,27 +135,35 @@
   100% {
     transform: rotate(0deg);
   }
+
   5% {
     transform: rotate(15deg);
   }
+
   10% {
     transform: rotate(-15deg);
   }
+
   15% {
     transform: rotate(12deg);
   }
+
   20% {
     transform: rotate(-12deg);
   }
+
   25% {
     transform: rotate(8deg);
   }
+
   30% {
     transform: rotate(-8deg);
   }
+
   35% {
     transform: rotate(4deg);
   }
+
   40% {
     transform: rotate(0deg);
   }
@@ -179,6 +188,7 @@
       0 var(--spacing-1) var(--spacing-3) var(--color-error-alpha-30),
       0 0 var(--spacing-4) var(--badge-shadow);
   }
+
   50% {
     box-shadow: 
       0 var(--spacing-2) var(--spacing-5) var(--status-cancelled-shadow),

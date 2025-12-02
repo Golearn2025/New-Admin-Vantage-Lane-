@@ -18,10 +18,7 @@ export const getActionsColumn = (): BookingColumn => ({
         variant="primary"
         size="sm"
         onClick={() => {
-          if (__DEV__) {
-            // eslint-disable-next-line no-console
-            console.debug('Assign driver:', row.id);
-          }
+          // TODO: Implement assign driver
         }}
         aria-label="Assign Driver"
       >
@@ -32,10 +29,7 @@ export const getActionsColumn = (): BookingColumn => ({
         variant="secondary"
         size="sm"
         onClick={() => {
-          if (__DEV__) {
-            // eslint-disable-next-line no-console
-            console.debug('Edit booking:', row.id);
-          }
+          // TODO: Implement edit booking
         }}
         aria-label="Edit Booking"
       >
@@ -59,20 +53,14 @@ export const getActionsColumn = (): BookingColumn => ({
             icon: <Eye size={14} strokeWidth={2} />,
             label: 'View Details',
             onClick: () => {
-              if (__DEV__) {
-                // eslint-disable-next-line no-console
-                console.debug('View details:', row.id);
-              }
+              // TODO: Implement view details
             },
           },
           {
             icon: <Calendar size={14} strokeWidth={2} />,
             label: 'View Timeline',
             onClick: () => {
-              if (__DEV__) {
-                // eslint-disable-next-line no-console
-                console.debug('View timeline:', row.id);
-              }
+              // TODO: Implement view timeline
             },
           },
           { separator: true },
@@ -82,20 +70,14 @@ export const getActionsColumn = (): BookingColumn => ({
             icon: <Mail size={14} strokeWidth={2} />,
             label: 'Send Email',
             onClick: () => {
-              if (__DEV__) {
-                // eslint-disable-next-line no-console
-                console.debug('Send email:', row.id);
-              }
+              // TODO: Implement send email
             },
           },
           {
             icon: <Phone size={14} strokeWidth={2} />,
             label: 'Call Customer',
             onClick: () => {
-              if (__DEV__) {
-                // eslint-disable-next-line no-console
-                console.debug('Call:', row.id);
-              }
+              // TODO: Implement call customer
             },
           },
           { separator: true },
@@ -105,20 +87,14 @@ export const getActionsColumn = (): BookingColumn => ({
             icon: <Download size={14} strokeWidth={2} />,
             label: 'Download Invoice',
             onClick: () => {
-              if (__DEV__) {
-                // eslint-disable-next-line no-console
-                console.debug('Download invoice:', row.id);
-              }
+              // TODO: Implement download invoice
             },
           },
           {
             icon: <Download size={14} strokeWidth={2} />,
             label: 'Export PDF',
             onClick: () => {
-              if (__DEV__) {
-                // eslint-disable-next-line no-console
-                console.debug('Export PDF:', row.id);
-              }
+              // TODO: Implement export PDF
             },
           },
           { separator: true },
@@ -128,50 +104,35 @@ export const getActionsColumn = (): BookingColumn => ({
             icon: <Copy size={14} strokeWidth={2} />,
             label: 'Duplicate Booking',
             onClick: () => {
-              if (__DEV__) {
-                // eslint-disable-next-line no-console
-                console.debug('Duplicate:', row.id);
-              }
+              // TODO: Implement duplicate booking
             },
           },
           {
             icon: <Pencil size={14} strokeWidth={2} />,
             label: 'Edit Booking',
             onClick: () => {
-              if (__DEV__) {
-                // eslint-disable-next-line no-console
-                console.debug('Edit:', row.id);
-              }
+              // TODO: Implement edit booking
             },
           },
           {
             icon: <UserPlus size={14} strokeWidth={2} />,
             label: 'Reassign Driver',
             onClick: () => {
-              if (__DEV__) {
-                // eslint-disable-next-line no-console
-                console.debug('Reassign driver:', row.id);
-              }
+              // TODO: Implement reassign driver
             },
           },
           {
             icon: <Clock size={14} strokeWidth={2} />,
             label: 'Reschedule',
             onClick: () => {
-              if (__DEV__) {
-                // eslint-disable-next-line no-console
-                console.debug('Reschedule:', row.id);
-              }
+              // TODO: Implement reschedule
             },
           },
           {
             icon: <CreditCard size={14} strokeWidth={2} />,
             label: 'Update Payment',
             onClick: () => {
-              if (__DEV__) {
-                // eslint-disable-next-line no-console
-                console.debug('Update payment:', row.id);
-              }
+              // TODO: Implement update payment
             },
           },
           { separator: true },
@@ -181,10 +142,7 @@ export const getActionsColumn = (): BookingColumn => ({
             icon: <X size={14} strokeWidth={2} />,
             label: 'Cancel Booking',
             onClick: () => {
-              if (__DEV__) {
-                // eslint-disable-next-line no-console
-                console.debug('Cancel:', row.id);
-              }
+              // TODO: Implement cancel booking
             },
             danger: true,
           },

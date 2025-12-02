@@ -26,10 +26,10 @@
   --color-bg-elevated: #1e2124;
 
   /* Text Colors */
-  --color-text-primary: #ffffff;
-  --color-text-secondary: rgba(255, 255, 255, 0.8);
-  --color-text-tertiary: rgba(255, 255, 255, 0.6);
-  --color-text-disabled: rgba(255, 255, 255, 0.4);
+  --color-text-primary: #fff;
+  --color-text-secondary: rgb(255 255 255 / 80%);
+  --color-text-tertiary: rgb(255 255 255 / 60%);
+  --color-text-disabled: rgb(255 255 255 / 40%);
 
   /* Status Colors */
   --color-success: #43e97b;
@@ -40,56 +40,62 @@
   --color-info: #3b82f6;
 
   /* Border Colors */
-  --color-border-primary: rgba(241, 209, 106, 0.25);
-  --color-border-secondary: rgba(241, 209, 106, 0.15);
-  --color-border-hover: rgba(241, 209, 106, 0.4);
-  --color-border-focus: rgba(241, 209, 106, 0.8);
+  --color-border-primary: rgb(241 209 106 / 25%);
+  --color-border-secondary: rgb(241 209 106 / 15%);
+  --color-border-hover: rgb(241 209 106 / 40%);
+  --color-border-focus: rgb(241 209 106 / 80%);
 
   /* White Opacity Variations */
-  --color-white-alpha-3: rgba(255, 255, 255, 0.03);
-  --color-white-alpha-5: rgba(255, 255, 255, 0.05);
-  --color-white-alpha-8: rgba(255, 255, 255, 0.08);
-  --color-white-alpha-10: rgba(255, 255, 255, 0.1);
-  --color-white-alpha-20: rgba(255, 255, 255, 0.2);
-  --color-white-alpha-30: rgba(255, 255, 255, 0.3);
-  --color-white-alpha-80: rgba(255, 255, 255, 0.8);
+  --color-white-alpha-3: rgb(255 255 255 / 3%);
+  --color-white-alpha-5: rgb(255 255 255 / 5%);
+  --color-white-alpha-8: rgb(255 255 255 / 8%);
+  --color-white-alpha-10: rgb(255 255 255 / 10%);
+  --color-white-alpha-20: rgb(255 255 255 / 20%);
+  --color-white-alpha-30: rgb(255 255 255 / 30%);
+  --color-white-alpha-40: rgb(255 255 255 / 40%);
+  --color-white-alpha-80: rgb(255 255 255 / 80%);
 
   /* Black/Shadow Opacity Variations */
-  --color-black-alpha-30: rgba(0, 0, 0, 0.3);
-  --color-black-alpha-50: rgba(17, 24, 39, 0.5);
-  --color-black-alpha-60: rgba(17, 24, 39, 0.6);
-  --color-black-alpha-80: rgba(17, 24, 39, 0.8);
-  --color-black-alpha-95: rgba(17, 24, 39, 0.95);
+  --color-black-alpha-10: rgb(0 0 0 / 10%);
+  --color-black-alpha-30: rgb(0 0 0 / 30%);
+  --color-black-alpha-50: rgb(17 24 39 / 50%);
+  --color-black-alpha-60: rgb(0 0 0 / 60%);
+  --color-black-alpha-80: rgb(17 24 39 / 80%);
+  --color-black-alpha-95: rgb(17 24 39 / 95%);
 
   /* Opacity Variations */
-  --color-primary-alpha-5: rgba(241, 209, 106, 0.05);
-  --color-primary-alpha-8: rgba(241, 209, 106, 0.08);
-  --color-primary-alpha-10: rgba(241, 209, 106, 0.1);
-  --color-primary-alpha-15: rgba(241, 209, 106, 0.15);
-  --color-primary-alpha-20: rgba(241, 209, 106, 0.2);
-  --color-primary-alpha-30: rgba(241, 209, 106, 0.3);
-  --color-primary-alpha-40: rgba(241, 209, 106, 0.4);
-  --color-primary-alpha-60: rgba(241, 209, 106, 0.6);
-  --color-primary-alpha-80: rgba(241, 209, 106, 0.8);
-  --color-primary-alpha-95: rgba(241, 209, 106, 0.95);
+  --color-primary-alpha-5: rgb(241 209 106 / 5%);
+  --color-primary-alpha-8: rgb(241 209 106 / 8%);
+  --color-primary-alpha-10: rgb(241 209 106 / 10%);
+  --color-primary-alpha-15: rgb(241 209 106 / 15%);
+  --color-primary-alpha-20: rgb(241 209 106 / 20%);
+  --color-primary-alpha-30: rgb(241 209 106 / 30%);
+  --color-primary-alpha-40: rgb(241 209 106 / 40%);
+  --color-primary-alpha-60: rgb(241 209 106 / 60%);
+  --color-primary-alpha-80: rgb(241 209 106 / 80%);
+  --color-primary-alpha-95: rgb(241 209 106 / 95%);
 
   /* Blue/Info Opacity Variations */
-  --color-info-alpha-10: rgba(59, 130, 246, 0.1);
-  --color-info-alpha-30: rgba(59, 130, 246, 0.3);
-  --color-info-solid: rgba(147, 197, 253, 1);
+  --color-info-alpha-10: rgb(59 130 246 / 10%);
+  --color-info-alpha-30: rgb(59 130 246 / 30%);
+  --color-info-solid: rgb(147 197 253 / 100%);
+
+  /* Yellow/Warning Opacity Variations */
+  --color-warning-alpha-10: rgb(251 191 36 / 10%);
 
   /* Green/Success Opacity Variations */
-  --color-success-alpha-20: rgba(34, 197, 94, 0.2);
-  --color-success-alpha-30: rgba(34, 197, 94, 0.3);
-  --color-success-light-alpha-30: rgba(74, 222, 128, 0.3);
-  --color-success-light-alpha-40: rgba(74, 222, 128, 0.4);
-  --color-success-light-alpha-50: rgba(74, 222, 128, 0.5);
+  --color-success-alpha-10: rgb(34 197 94 / 10%);
+  --color-success-alpha-20: rgb(34 197 94 / 20%);
+  --color-success-alpha-30: rgb(34 197 94 / 30%);
+  --color-success-light-alpha-30: rgb(74 222 128 / 30%);
+  --color-success-light-alpha-40: rgb(74 222 128 / 40%);
+  --color-success-light-alpha-50: rgb(74 222 128 / 50%);
 
   /* Red/Error Opacity Variations */
-  --color-error-alpha-10: rgba(239, 68, 68, 0.1);
-  --color-error-alpha-30: rgba(239, 68, 68, 0.3);
-  --color-error-solid: rgba(239, 68, 68, 1);
-  --color-error-light-solid: rgba(252, 165, 165, 1);
+  --color-error-alpha-10: rgb(239 68 68 / 10%);
+  --color-error-alpha-30: rgb(239 68 68 / 30%);
+  --color-error-solid: rgb(239 68 68 / 100%);
+  --color-error-light-solid: rgb(252 165 165 / 100%);
 
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
@@ -98,8 +104,8 @@
     var(--color-secondary),
     var(--color-secondary-light)
   );
-  --gradient-surface: linear-gradient(135deg, rgba(0, 0, 0, 0.6), var(--color-primary-alpha-8));
-  --gradient-hover: linear-gradient(135deg, rgba(0, 0, 0, 0.7), var(--color-primary-alpha-15));
+  --gradient-surface: linear-gradient(135deg, rgb(0 0 0 / 60%), var(--color-primary-alpha-8));
+  --gradient-hover: linear-gradient(135deg, rgb(0 0 0 / 70%), var(--color-primary-alpha-15));
 
   /* ========================================
      BADGE COLORS - Status, Trip Type, Category, Service
@@ -110,53 +116,53 @@
 
   /* PENDING/NEW - Orange (warm, attention) */
   --status-pending-bg: #ff6b00;
-  --status-pending-text: #ffffff;
-  --status-pending-shadow: rgba(255, 107, 0, 0.25);
+  --status-pending-text: #fff;
+  --status-pending-shadow: rgb(255 107 0 / 25%);
 
   /* ASSIGNED - Blue (calm, delegated) */
-  --status-assigned-bg: #0066ff;
-  --status-assigned-text: #ffffff;
-  --status-assigned-shadow: rgba(0, 102, 255, 0.25);
+  --status-assigned-bg: #06f;
+  --status-assigned-text: #fff;
+  --status-assigned-shadow: rgb(0 102 255 / 25%);
 
   /* EN ROUTE - Dark Green (moving, active) */
   --status-en-route-bg: #047857;
-  --status-en-route-text: #ffffff;
-  --status-en-route-shadow: rgba(4, 120, 87, 0.25);
+  --status-en-route-text: #fff;
+  --status-en-route-shadow: rgb(4 120 87 / 25%);
 
   /* ARRIVED - Purple (milestone reached) */
   --status-arrived-bg: #b621fe;
-  --status-arrived-text: #ffffff;
-  --status-arrived-shadow: rgba(182, 33, 254, 0.25);
+  --status-arrived-text: #fff;
+  --status-arrived-shadow: rgb(182 33 254 / 25%);
 
   /* IN PROGRESS - Gold (active work) */
   --status-in-progress-bg: #ffd700;
   --status-in-progress-text: #664d00;
-  --status-in-progress-shadow: rgba(255, 215, 0, 0.25);
+  --status-in-progress-shadow: rgb(255 215 0 / 25%);
 
   /* COMPLETED - Light Green (success) */
   --status-completed-bg: #10b981;
-  --status-completed-text: #ffffff;
-  --status-completed-shadow: rgba(16, 185, 129, 0.25);
+  --status-completed-text: #fff;
+  --status-completed-shadow: rgb(16 185 129 / 25%);
 
   /* CANCELLED - Red (error, stopped) */
-  --status-cancelled-bg: #ff0033;
-  --status-cancelled-text: #ffffff;
-  --status-cancelled-shadow: rgba(255, 0, 51, 0.25);
+  --status-cancelled-bg: #f03;
+  --status-cancelled-text: #fff;
+  --status-cancelled-shadow: rgb(255 0 51 / 25%);
 
   /* Vehicle/Category Colors */
-  --color-vehicle-gold: rgba(211, 170, 49, 1); /* Gold for vehicle badges */
-  --color-vehicle-gold-solid: rgba(211, 170, 49, 1);
-  --color-vehicle-gold-alpha-5: rgba(211, 170, 49, 0.05);
-  --color-vehicle-gold-alpha-10: rgba(211, 170, 49, 0.1);
-  --color-vehicle-gold-alpha-15: rgba(211, 170, 49, 0.15);
-  --color-vehicle-gold-alpha-20: rgba(211, 170, 49, 0.2);
-  --color-vehicle-gold-alpha-30: rgba(211, 170, 49, 0.3);
-  --color-vehicle-gold-alpha-40: rgba(211, 170, 49, 0.4);
-  --color-vehicle-gold-alpha-50: rgba(211, 170, 49, 0.5);
-  --color-vehicle-gold-alpha-60: rgba(211, 170, 49, 0.6);
-  --color-vehicle-gold-alpha-80: rgba(211, 170, 49, 0.8);
-  --color-vehicle-gold-alpha-90: rgba(211, 170, 49, 0.9);
-  --color-vehicle-gold-alpha-95: rgba(211, 170, 49, 0.95);
+  --color-vehicle-gold: rgb(211 170 49 / 100%); /* Gold for vehicle badges */
+  --color-vehicle-gold-solid: rgb(211 170 49 / 100%);
+  --color-vehicle-gold-alpha-5: rgb(211 170 49 / 5%);
+  --color-vehicle-gold-alpha-10: rgb(211 170 49 / 10%);
+  --color-vehicle-gold-alpha-15: rgb(211 170 49 / 15%);
+  --color-vehicle-gold-alpha-20: rgb(211 170 49 / 20%);
+  --color-vehicle-gold-alpha-30: rgb(211 170 49 / 30%);
+  --color-vehicle-gold-alpha-40: rgb(211 170 49 / 40%);
+  --color-vehicle-gold-alpha-50: rgb(211 170 49 / 50%);
+  --color-vehicle-gold-alpha-60: rgb(211 170 49 / 60%);
+  --color-vehicle-gold-alpha-80: rgb(211 170 49 / 80%);
+  --color-vehicle-gold-alpha-90: rgb(211 170 49 / 90%);
+  --color-vehicle-gold-alpha-95: rgb(211 170 49 / 95%);
 
   /* Booking Leg Type Colors */
   --color-leg-outbound: #10b981; /* Green - outbound leg */
@@ -164,38 +170,33 @@
 
   /* Booking Status Colors (Lifecycle) */
   --color-booking-draft: #6b7280; /* Gray - draft */
-  --color-booking-draft-alpha-10: rgba(107, 114, 128, 0.1);
-  --color-booking-draft-alpha-30: rgba(107, 114, 128, 0.3);
-
+  --color-booking-draft-alpha-10: rgb(107 114 128 / 10%);
+  --color-booking-draft-alpha-30: rgb(107 114 128 / 30%);
   --color-booking-confirmed: #3b82f6; /* Blue - confirmed */
-  --color-booking-confirmed-alpha-10: rgba(59, 130, 246, 0.1);
-  --color-booking-confirmed-alpha-30: rgba(59, 130, 246, 0.3);
-
+  --color-booking-confirmed-alpha-10: rgb(59 130 246 / 10%);
+  --color-booking-confirmed-alpha-30: rgb(59 130 246 / 30%);
   --color-booking-active: #10b981; /* Green - active */
-  --color-booking-active-alpha-10: rgba(16, 185, 129, 0.1);
-  --color-booking-active-alpha-30: rgba(16, 185, 129, 0.3);
+  --color-booking-active-alpha-10: rgb(16 185 129 / 10%);
+  --color-booking-active-alpha-30: rgb(16 185 129 / 30%);
 
   /* Trip Type Colors */
   --color-trip-oneway: var(--color-primary); /* Gold - ONE WAY */
-  --color-trip-oneway-alpha-10: rgba(241, 209, 106, 0.1);
-  --color-trip-oneway-alpha-30: rgba(241, 209, 106, 0.3);
-
+  --color-trip-oneway-alpha-10: rgb(241 209 106 / 10%);
+  --color-trip-oneway-alpha-30: rgb(241 209 106 / 30%);
   --color-trip-return: #8b5cf6; /* Purple - RETURN */
-  --color-trip-return-alpha-10: rgba(139, 92, 246, 0.1);
-  --color-trip-return-alpha-30: rgba(139, 92, 246, 0.3);
-
+  --color-trip-return-alpha-10: rgb(139 92 246 / 10%);
+  --color-trip-return-alpha-30: rgb(139 92 246 / 30%);
   --color-trip-hourly: #3b82f6; /* Blue - HOURLY */
-  --color-trip-hourly-alpha-10: rgba(59, 130, 246, 0.1);
-  --color-trip-hourly-alpha-30: rgba(59, 130, 246, 0.3);
-
+  --color-trip-hourly-alpha-10: rgb(59 130 246 / 10%);
+  --color-trip-hourly-alpha-30: rgb(59 130 246 / 30%);
   --color-trip-fleet: #6366f1; /* Indigo - FLEET */
-  --color-trip-fleet-alpha-10: rgba(99, 102, 241, 0.1);
-  --color-trip-fleet-alpha-30: rgba(99, 102, 241, 0.3);
+  --color-trip-fleet-alpha-10: rgb(99 102 241 / 10%);
+  --color-trip-fleet-alpha-30: rgb(99 102 241 / 30%);
 
   /* Category Colors (Service Type) */
   --color-category-exec: var(--color-primary); /* Gold - EXECUTIVE */
-  --color-category-exec-alpha-10: rgba(241, 209, 106, 0.1);
-  --color-category-exec-alpha-30: rgba(241, 209, 106, 0.3);
+  --color-category-exec-alpha-10: rgb(241 209 106 / 10%);
+  --color-category-exec-alpha-30: rgb(241 209 106 / 30%);
 
   /* ========================================
      STANDARD COLORS FOR TABS & BADGES (MISSING)
@@ -270,54 +271,44 @@
   --color-burnred-500: #f56565;
   --color-burnred-600: #7c2d12;
   --color-burnred-900: #3c1010;
-
   --color-category-lux: #8b5cf6; /* Purple - LUXURY S-Class */
-  --color-category-lux-alpha-10: rgba(139, 92, 246, 0.1);
-  --color-category-lux-alpha-30: rgba(139, 92, 246, 0.3);
-
+  --color-category-lux-alpha-10: rgb(139 92 246 / 10%);
+  --color-category-lux-alpha-30: rgb(139 92 246 / 30%);
   --color-category-suv: #3b82f6; /* Blue - SUV */
-  --color-category-suv-alpha-10: rgba(59, 130, 246, 0.1);
-  --color-category-suv-alpha-30: rgba(59, 130, 246, 0.3);
-
+  --color-category-suv-alpha-10: rgb(59 130 246 / 10%);
+  --color-category-suv-alpha-30: rgb(59 130 246 / 30%);
   --color-category-van: #6366f1; /* Indigo - V-Class Van */
-  --color-category-van-alpha-10: rgba(99, 102, 241, 0.1);
-  --color-category-van-alpha-30: rgba(99, 102, 241, 0.3);
+  --color-category-van-alpha-10: rgb(99 102 241 / 10%);
+  --color-category-van-alpha-30: rgb(99 102 241 / 30%);
 
   /* Service Colors (Extra Services) */
   --color-service-paid: var(--color-primary); /* Gold - Paid services */
-  --color-service-paid-alpha-10: rgba(241, 209, 106, 0.1);
-  --color-service-paid-alpha-30: rgba(241, 209, 106, 0.3);
-
+  --color-service-paid-alpha-10: rgb(241 209 106 / 10%);
+  --color-service-paid-alpha-30: rgb(241 209 106 / 30%);
   --color-service-free: #10b981; /* Green - Free services */
-  --color-service-free-alpha-10: rgba(16, 185, 129, 0.1);
-  --color-service-free-alpha-30: rgba(16, 185, 129, 0.3);
-
+  --color-service-free-alpha-10: rgb(16 185 129 / 10%);
+  --color-service-free-alpha-30: rgb(16 185 129 / 30%);
   --color-service-security: #ef4444; /* Red - Security escort */
-  --color-service-security-alpha-10: rgba(239, 68, 68, 0.1);
-  --color-service-security-alpha-30: rgba(239, 68, 68, 0.3);
-
+  --color-service-security-alpha-10: rgb(239 68 68 / 10%);
+  --color-service-security-alpha-30: rgb(239 68 68 / 30%);
   --color-service-luxury: #8b5cf6; /* Purple - Champagne/Flowers */
-  --color-service-luxury-alpha-10: rgba(139, 92, 246, 0.1);
-  --color-service-luxury-alpha-30: rgba(139, 92, 246, 0.3);
+  --color-service-luxury-alpha-10: rgb(139 92 246 / 10%);
+  --color-service-luxury-alpha-30: rgb(139 92 246 / 30%);
 
   /* Payment Status Colors */
   --color-payment-pending: #f59e0b; /* Amber - pending */
-  --color-payment-pending-alpha-10: rgba(245, 158, 11, 0.1);
-  --color-payment-pending-alpha-30: rgba(245, 158, 11, 0.3);
-
+  --color-payment-pending-alpha-10: rgb(245 158 11 / 10%);
+  --color-payment-pending-alpha-30: rgb(245 158 11 / 30%);
   --color-payment-authorized: #3b82f6; /* Blue - authorized */
-  --color-payment-authorized-alpha-10: rgba(59, 130, 246, 0.1);
-  --color-payment-authorized-alpha-30: rgba(59, 130, 246, 0.3);
-
+  --color-payment-authorized-alpha-10: rgb(59 130 246 / 10%);
+  --color-payment-authorized-alpha-30: rgb(59 130 246 / 30%);
   --color-payment-captured: #10b981; /* Green - captured */
-  --color-payment-captured-alpha-10: rgba(16, 185, 129, 0.1);
-  --color-payment-captured-alpha-30: rgba(16, 185, 129, 0.3);
-
+  --color-payment-captured-alpha-10: rgb(16 185 129 / 10%);
+  --color-payment-captured-alpha-30: rgb(16 185 129 / 30%);
   --color-payment-refunded: #6b7280; /* Gray - refunded */
-  --color-payment-refunded-alpha-10: rgba(107, 114, 128, 0.1);
-  --color-payment-refunded-alpha-30: rgba(107, 114, 128, 0.3);
-
+  --color-payment-refunded-alpha-10: rgb(107 114 128 / 10%);
+  --color-payment-refunded-alpha-30: rgb(107 114 128 / 30%);
   --color-payment-failed: #ef4444; /* Red - failed */
-  --color-payment-failed-alpha-10: rgba(239, 68, 68, 0.1);
-  --color-payment-failed-alpha-30: rgba(239, 68, 68, 0.3);
+  --color-payment-failed-alpha-10: rgb(239 68 68 / 10%);
+  --color-payment-failed-alpha-30: rgb(239 68 68 / 30%);
 }

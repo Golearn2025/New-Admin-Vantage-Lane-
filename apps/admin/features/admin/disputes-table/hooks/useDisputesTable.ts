@@ -29,11 +29,11 @@ export function useDisputesTable({ page, limit, status }: UseDisputesTableProps)
         const filters: DisputeListRequest = {
           page,
           limit,
-          ...(status && { status: status as any })
+          ...(status && { status: status as 'warning_needs_response' | 'warning_under_review' | 'warning_closed' })
         };
         
         const result = await listDisputes(filters);
-        setData(result as any);
+        setData(result);
         setTotalCount(75); // Mock - replace with result.totalCount
         setError(null);
       } catch (err) {

@@ -52,7 +52,6 @@ export function useDriverReviews(params: UseDriverReviewsParams = {}): UseDriver
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch reviews';
       setError(errorMessage);
-      console.error('Error fetching driver reviews:', err);
     } finally {
       setLoading(false);
     }

@@ -64,7 +64,7 @@
 }
 
 .valueCode {
-  font-family: 'Monaco', 'Courier New', monospace;
+  font-family: Monaco, 'Courier New', monospace;
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   background: var(--color-bg-subtle);

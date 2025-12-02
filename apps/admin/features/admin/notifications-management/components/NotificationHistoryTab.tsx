@@ -36,7 +36,6 @@ export function NotificationHistoryTab() {
       const data = await listSentNotifications(100);
       setNotifications(data);
     } catch (error) {
-      console.error('Failed to fetch history:', error);
     } finally {
       setLoading(false);
     }

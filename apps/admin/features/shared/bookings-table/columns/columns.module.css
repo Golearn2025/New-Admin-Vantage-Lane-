@@ -60,7 +60,7 @@
 
 .customerContact svg {
   flex-shrink: 0;
-  color: currentColor;
+  color: currentcolor;
 }
 
 .customerContact span {
@@ -86,7 +86,7 @@
 
 .customerEmail svg {
   flex-shrink: 0;
-  color: currentColor;
+  color: currentcolor;
 }
 
 .customerEmail span {

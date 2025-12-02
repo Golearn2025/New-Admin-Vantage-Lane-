@@ -145,13 +145,13 @@ export function createVehicleColumns(params: {
             variant="ghost"
             size="sm"
             onClick={() => {
-              console.log('🔥 EDIT BUTTON CLICKED!', row.id);
+              // Edit button clicked
               const vehicleType = vehicleTypes.find(([type]) => type === row.id);
               if (vehicleType) {
-                console.log('✅ Found vehicle type:', vehicleType);
+                // Vehicle type found - proceed with edit
                 onStartEdit(row.id, vehicleType[1]);
               } else {
-                console.error('❌ Vehicle type not found:', row.id);
+                // Vehicle type not found - skip edit
               }
             }}
           >

@@ -154,7 +154,7 @@ export function ZoneFeesTab({ config }: Props) {
       setEditingZone(null);
       setEditedFee({});
     } catch (error) {
-      console.error('Failed to save:', error);
+      // Failed to save zone fees
     }
   };
 

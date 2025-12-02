@@ -13,6 +13,30 @@ export default defineConfig({
       '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*',
       '**/e2e/**' // Exclude Playwright E2E tests
     ],
+    
+    // REGULA 16: >80% TEST COVERAGE - Enterprise gate
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/**',
+        'dist/**',
+        '**/*.config.*',
+        '**/*.d.ts',
+        'e2e/**',
+        'tests/**',
+        '**/{test,tests,__tests__,__mocks__}/**',
+        '**/*.{test,spec}.{js,ts,jsx,tsx}'
+      ],
+      thresholds: {
+        global: {
+          branches: 80,
+          functions: 80,
+          lines: 80,
+          statements: 80
+        }
+      }
+    }
   },
   resolve: {
     alias: {

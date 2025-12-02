@@ -88,22 +88,22 @@
 }
 
 .icon-success {
-  background: rgba(34, 197, 94, 0.1);
+  background: var(--color-success-alpha-10);
   border: 2px solid var(--color-success-500);
 }
 
 .icon-warning {
-  background: rgba(251, 191, 36, 0.1);
+  background: var(--color-warning-alpha-10);
   border: 2px solid var(--color-warning-500);
 }
 
 .icon-danger {
-  background: rgba(220, 38, 38, 0.1);
+  background: rgb(220 38 38 / 10%);
   border: 2px solid var(--color-danger-default);
 }
 
 .icon-info {
-  background: rgba(59, 130, 246, 0.1);
+  background: var(--color-info-alpha-10);
   border: 2px solid var(--color-info-500);
 }
 
@@ -200,7 +200,7 @@
 /* RESPONSIVE                                   */
 /* ============================================ */
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .card {
     min-height: 260px;
   }

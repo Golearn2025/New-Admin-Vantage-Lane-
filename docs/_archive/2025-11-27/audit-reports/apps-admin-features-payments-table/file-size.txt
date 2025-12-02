@@ -1,1 +1,0 @@
-apps/admin/features/payments-table/components/PaymentsTable.tsx: 422

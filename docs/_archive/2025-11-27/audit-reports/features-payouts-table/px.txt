@@ -1,2 +1,0 @@
-apps/admin/features/payouts-table/components/PayoutsTable.module.css:83:  transform: translateY(-1px);
-apps/admin/features/payouts-table/components/PayoutsTable.module.css:130:  max-height: 600px;

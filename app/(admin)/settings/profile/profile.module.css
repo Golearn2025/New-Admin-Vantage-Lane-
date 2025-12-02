@@ -17,6 +17,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -36,17 +37,17 @@
   width: 120px;
   height: 2px;
   background: linear-gradient(90deg, #cbb26a 0%, #764ba2 100%);
-  box-shadow: 0 0 10px rgba(203, 178, 106, 0.5);
+  box-shadow: 0 0 10px rgb(203 178 106 / 50%);
 }
 
 .title {
   font-size: 36px; /* ✅ CA DASHBOARD */
   font-weight: 800; /* ✅ CA DASHBOARD */
   color: var(--color-primary);
-  margin: 0 0 8px 0; /* ✅ CA DASHBOARD */
+  margin: 0 0 8px; /* ✅ CA DASHBOARD */
   letter-spacing: -0.03em; /* ✅ CA DASHBOARD */
   line-height: 1.2; /* ✅ CA DASHBOARD */
-  text-shadow: 0 0 40px rgba(241, 209, 106, 0.5);
+  text-shadow: 0 0 40px rgb(241 209 106 / 50%);
 }
 
 @keyframes shimmer {
@@ -62,21 +63,21 @@
 
 .subtitle {
   font-size: 15px; /* ✅ CA DASHBOARD */
-  color: rgba(241, 209, 106, 0.8);
+  color: rgb(241 209 106 / 80%);
   margin: 0;
   font-weight: 400; /* ✅ CA DASHBOARD */
-  text-shadow: 0 0 10px rgba(203, 178, 106, 0.2);
+  text-shadow: 0 0 10px rgb(203 178 106 / 20%);
 }
 
 .loading {
   padding: var(--vl-spacing-12);
   text-align: center;
   font-size: var(--vl-font-size-lg);
-  background: linear-gradient(135deg, rgba(203, 178, 106, 0.05), rgba(118, 75, 162, 0.05));
+  background: linear-gradient(135deg, rgb(203 178 106 / 5%), rgb(118 75 162 / 5%));
   border-radius: var(--vl-radius-xl);
-  border: 1px solid rgba(203, 178, 106, 0.2);
-  color: rgba(203, 178, 106, 0.9);
-  box-shadow: 0 0 40px rgba(203, 178, 106, 0.1);
+  border: 1px solid rgb(203 178 106 / 20%);
+  color: rgb(203 178 106 / 90%);
+  box-shadow: 0 0 40px rgb(203 178 106 / 10%);
 }
 
 .error {
@@ -164,28 +165,31 @@
 }
 
 /* Responsive - CA DASHBOARD */
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .container {
     padding: 20px;
   }
+
   .title {
     font-size: 28px;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .container {
     padding: 16px;
   }
+
   .title {
     font-size: 24px;
   }
+
   .subtitle {
     font-size: 13px;
   }
 }
 
-@media (min-width: 1600px) {
+@media (width >= 1600px) {
   .container {
     padding: 32px;
   }

@@ -103,8 +103,7 @@ export async function testSingleRoute(
   outputDir: string
 ): Promise<UIIssue[]> {
   const issues: UIIssue[] = [];
-  
-  console.log(`Testing ${role} route: ${route.route}`);
+  console.warn(`🔍 Testing route: ${route.route} (${viewport.name})`);
   
   try {
     // Navigate to route
@@ -198,7 +197,7 @@ export function saveIssues(
 }
 
 export function generateRBACForbiddenRoutes(
-  routesData: any, 
+  routesData: Record<string, RouteInfo[]>, 
   role: string
 ): string[] {
   const adminRoutes = (routesData.admin as RouteInfo[])?.map((route: RouteInfo) => route.route).filter(Boolean) || [];

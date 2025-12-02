@@ -63,7 +63,6 @@ export function useDriverVerification(driverId: string) {
         
         setDriver(driverData);
       } catch (err) {
-        console.error('Failed to load driver data:', err);
         setError(err instanceof Error ? err.message : 'Failed to load driver data');
       } finally {
         setLoading(false);
@@ -98,7 +97,6 @@ export function useDriverVerification(driverId: string) {
       // Redirect to pending drivers list
       window.location.href = '/users/drivers/pending';
     } catch (err) {
-      console.error('Failed to activate driver:', err);
       alert(`❌ Failed to activate driver: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setLoading(false);
@@ -120,7 +118,6 @@ export function useDriverVerification(driverId: string) {
       // Redirect to pending drivers list
       window.location.href = '/users/drivers/pending';
     } catch (err) {
-      console.error('Failed to reject driver:', err);
       alert(`❌ Failed to reject driver: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setLoading(false);
@@ -151,7 +148,6 @@ export function useDriverVerification(driverId: string) {
         };
       });
     } catch (err) {
-      console.error('Failed to approve document:', err);
       alert(`❌ Failed to approve document: ${err instanceof Error ? err.message : 'Unknown error'}`);
     }
   };
@@ -180,7 +176,6 @@ export function useDriverVerification(driverId: string) {
         };
       });
     } catch (err) {
-      console.error('Failed to reject document:', err);
       alert(`❌ Failed to reject document: ${err instanceof Error ? err.message : 'Unknown error'}`);
     }
   };

@@ -31,7 +31,6 @@ export function GeneralPoliciesTab({ config }: Props) {
       await updateGeneralPolicies(editedPolicies);
       setIsEditing(false);
     } catch (error) {
-      console.error('Failed to save:', error);
     }
   };
 

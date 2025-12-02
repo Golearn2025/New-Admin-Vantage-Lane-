@@ -127,14 +127,14 @@
   font-size: var(--font-size-base); 
   font-weight: var(--font-weight-medium); 
   color: var(--color-text-primary); 
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   overflow-wrap: break-word;
 }
 
 .driverEmail { 
   font-size: var(--font-size-sm); 
   color: var(--color-text-secondary); 
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   overflow-wrap: break-word;
 }
 
@@ -199,7 +199,7 @@
   font-weight: var(--font-medium); 
   color: var(--color-text-primary); 
   margin: 0 0 var(--spacing-1) 0; 
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   overflow-wrap: break-word;
 }
 
@@ -207,7 +207,7 @@
   font-size: var(--font-xs); 
   color: var(--color-text-secondary); 
   line-height: 1.4; 
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   overflow-wrap: break-word;
 }
 
@@ -228,7 +228,7 @@
 }
 
 /* Mobile Responsive - 320px to 767px */
-@media (max-width: 767px) {
+@media (width <= 767px) {
   .container { 
     padding: var(--spacing-4); 
   }
@@ -287,7 +287,7 @@
 }
 
 /* Small Mobile - 320px to 374px */
-@media (max-width: 374px) {
+@media (width <= 374px) {
   .container { 
     padding: var(--spacing-3); 
   }

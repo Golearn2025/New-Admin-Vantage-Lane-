@@ -17,13 +17,13 @@
 }
 
 /* Mobile responsive adjustments */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .container {
     gap: var(--spacing-3);
   }
 }
 
-@media (max-width: 375px) {
+@media (width <= 375px) {
   .container {
     gap: var(--spacing-2);
   }
@@ -73,7 +73,7 @@
   z-index: 20;
   background: var(--color-bg-secondary);
   border-bottom: var(--border-width-2) solid var(--color-border-primary);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* ✅ Shadow pentru claritate */
+  box-shadow: 0 2px 4px var(--color-black-alpha-10); /* ✅ Shadow pentru claritate */
 }
 
 /* Sticky header container */

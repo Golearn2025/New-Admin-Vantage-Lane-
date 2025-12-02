@@ -30,7 +30,6 @@ export function DriverAssignmentTable() {
   const { operators } = useOperators();
 
   // Debug
-  console.log('DriverAssignmentTable:', { drivers, counts, loading, error, operators });
 
   // Create tabs with counts
   const tabs = useMemo(

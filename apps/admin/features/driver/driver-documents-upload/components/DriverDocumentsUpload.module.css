@@ -34,7 +34,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .container {
     padding: var(--spacing-4);
   }
@@ -48,7 +48,7 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (width <= 375px) {
   .container {
     padding: var(--spacing-3);
   }

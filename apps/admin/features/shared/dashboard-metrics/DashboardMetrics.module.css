@@ -65,14 +65,14 @@
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .metricsGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-3);
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .metricsGrid {
     grid-template-columns: 1fr;
     gap: var(--spacing-3);

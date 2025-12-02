@@ -46,8 +46,8 @@ export function SafetyIncidentsTab({ onIncidentClick }: SafetyIncidentsTabProps)
   } = useSafetyIncidents({
     page: filters.page,
     limit: filters.pageSize,
-    status: filters.status as any,
-    severity: filters.severity ? parseInt(filters.severity) as any : undefined
+    ...(filters.status && { status: filters.status as 'pending' | 'investigating' | 'resolved' | 'dismissed' }),
+    ...(filters.severity && { severity: parseInt(filters.severity) as 1 | 2 | 3 | 4 })
   });
 
   // Filter handlers

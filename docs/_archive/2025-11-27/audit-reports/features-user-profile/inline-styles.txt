@@ -1,1 +1,0 @@
-apps/admin/features/user-profile/components/ProfileStatsTab.tsx:157:            style={{ width: `${completionRate}%` }}

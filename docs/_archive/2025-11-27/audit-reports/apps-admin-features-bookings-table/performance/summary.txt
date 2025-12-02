@@ -1,8 +1,0 @@
-missing-useCallback: 0
-missing-useMemo: 0
-missing-react-memo: 0
-heavy-imports: 0
-console-log: 0
-img-tag: 0
-missing-keys: 0
-unused-imports: 5

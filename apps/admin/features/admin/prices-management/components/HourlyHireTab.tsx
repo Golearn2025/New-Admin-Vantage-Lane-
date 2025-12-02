@@ -43,7 +43,7 @@ export function HourlyHireTab({ config }: Props) {
       await updateHourlySettings(editedSettings);
       setIsEditing(false);
     } catch (error) {
-      console.error('Failed to save:', error);
+      // Failed to save hourly hire settings
     }
   };
 

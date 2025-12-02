@@ -49,13 +49,14 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 /* Responsive - stack pe mobile */
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .actions {
     width: 100%;
     flex-direction: column;

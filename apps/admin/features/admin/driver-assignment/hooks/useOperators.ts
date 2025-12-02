@@ -52,7 +52,6 @@ export function useOperators() {
         setOperators(transformedOperators);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch operators');
-        console.error('Error fetching operators:', err);
       } finally {
         setLoading(false);
       }

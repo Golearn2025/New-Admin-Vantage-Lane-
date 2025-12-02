@@ -85,7 +85,7 @@
   color: var(--color-text-primary);
   font-weight: var(--font-weight-semibold);
   text-align: right;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   overflow-wrap: break-word;
   max-width: 100%;
 }
@@ -161,7 +161,7 @@
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
   line-height: 1.4;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   overflow-wrap: break-word;
   max-width: 100%;
 }

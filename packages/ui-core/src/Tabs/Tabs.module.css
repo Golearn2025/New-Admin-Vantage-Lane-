@@ -72,7 +72,7 @@
   position: relative;
 }
 
-.tab:hover:not(.tabDisabled):not(.tabActive) {
+.tab:hover:not(.tabDisabled, .tabActive) {
   color: var(--color-text-primary);
   background: var(--color-surface-hover);
   box-shadow: var(--shadow-xs);
@@ -126,7 +126,7 @@
   padding: var(--spacing-1) var(--spacing-3);
 }
 
-.variant-pills .tab:hover:not(.tabDisabled):not(.tabActive) {
+.variant-pills .tab:hover:not(.tabDisabled, .tabActive) {
   background: var(--color-gray-100);
   border-color: var(--color-gray-200);
   box-shadow: var(--shadow-sm);
@@ -394,6 +394,7 @@
     opacity: 0;
     /* DISABLED: hover loop fix */
   }
+
   to {
     opacity: 1;
     /* DISABLED: hover loop fix */
@@ -404,7 +405,7 @@
 /* RESPONSIVE                                   */
 /* ============================================ */
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .orientation-vertical {
     flex-direction: column;
   }
@@ -419,11 +420,7 @@
   }
 
   .orientation-vertical .variant-underline .tabActive::after {
-    bottom: -2px;
-    right: auto;
-    top: auto;
-    left: 0;
-    right: 0;
+    inset: auto 0 -2px;
     width: auto;
     height: 2px;
   }
@@ -439,7 +436,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .tab {
     padding: var(--spacing-2);
     font-size: var(--font-xs);
@@ -467,11 +464,11 @@
 
 @media (forced-colors: active) {
   .tab:focus-visible {
-    outline: 2px solid currentColor;
+    outline: 2px solid currentcolor;
   }
 
   .tabActive {
-    outline: 2px solid currentColor;
+    outline: 2px solid currentcolor;
     outline-offset: -2px;
   }
 }

@@ -1,3 +1,0 @@
-apps/admin/features/payments-table/components/PaymentsTable.module.css:131:  transform: translateY(-1px);
-apps/admin/features/payments-table/components/PaymentsTable.module.css:151:  /* ~10 rows = ~500px (each row ~50px) */
-apps/admin/features/payments-table/components/PaymentsTable.module.css:152:  max-height: 600px;

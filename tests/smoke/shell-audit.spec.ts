@@ -126,7 +126,7 @@ test.describe('Shell Audit - All Roles', () => {
             const routesToTest = (routes as RouteInfo[]).filter((route: RouteInfo) => !route.route?.includes('['));
             let allIssues: UIIssue[] = [];
             
-            console.log(`Testing ${routesToTest.length} routes for ${role} on ${viewport.name}`);
+            console.warn(`Testing ${routesToTest.length} routes for ${role} on ${viewport.name}`);
             
             for (const route of routesToTest) {
               const routeIssues = await testSingleRoute(page, route, role, viewport, outputDir);
@@ -141,7 +141,7 @@ test.describe('Shell Audit - All Roles', () => {
               expect.soft(false, `${issue.type} in ${issue.route}: ${issue.details}`).toBeTruthy();
             }
             
-            console.log(`📊 ${role}/${viewport.name}: ${allIssues.length} issues found in ${routesToTest.length} routes`);
+            console.warn(`📊 ${role}/${viewport.name}: ${allIssues.length} issues found in ${routesToTest.length} routes`);
           });
         });
       }
@@ -192,7 +192,7 @@ test.describe('Performance checks', () => {
     // Verify load time is reasonable (< 5 seconds)
     expect(loadTime).toBeLessThan(5000);
     
-    console.log(`Shell load time: ${loadTime}ms`);
+    console.warn(`Shell load time: ${loadTime}ms`);
   });
 
   test('No JavaScript errors', async ({ page }) => {

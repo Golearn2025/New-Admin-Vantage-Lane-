@@ -1,2 +1,0 @@
-apps/admin/features/invoices-table/components/InvoicesTable.module.css:84:  transform: translateY(-1px);
-apps/admin/features/invoices-table/components/InvoicesTable.module.css:104:  max-height: 600px;

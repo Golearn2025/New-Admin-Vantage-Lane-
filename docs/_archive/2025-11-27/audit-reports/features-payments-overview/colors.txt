@@ -1,4 +1,0 @@
-apps/admin/features/payments-overview/components/PaymentsOverview.module.css:71:  --accent-color: #3b82f6;
-apps/admin/features/payments-overview/components/PaymentsOverview.module.css:75:  --accent-color: #10b981;
-apps/admin/features/payments-overview/components/PaymentsOverview.module.css:79:  --accent-color: #f59e0b;
-apps/admin/features/payments-overview/components/PaymentsOverview.module.css:83:  --accent-color: #8b5cf6;

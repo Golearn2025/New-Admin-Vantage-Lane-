@@ -60,7 +60,6 @@ export function useSettingsCommissions() {
           );
         }
       } catch (error) {
-        console.error('Failed to fetch commission data:', error);
       } finally {
         setLoading(false);
       }
@@ -111,7 +110,6 @@ export function useSettingsCommissions() {
 
       alert('✅ Commissions saved successfully!');
     } catch (error) {
-      console.error('Failed to save commissions:', error);
       alert('❌ Failed to save commissions');
     }
   };

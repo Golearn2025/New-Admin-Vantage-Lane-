@@ -188,7 +188,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .testButtons {
     grid-template-columns: 1fr;
   }

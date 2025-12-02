@@ -2,7 +2,7 @@
  * ProfileSection Styles - PREMIUM GOLD
  * 
  * Secțiuni premium cu design modern gold.
- * Color: #F1D16A (gold primary)
+ * Gold primary color token
  */
 
 .section {
@@ -67,7 +67,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .section {
     padding: var(--spacing-6);
   }

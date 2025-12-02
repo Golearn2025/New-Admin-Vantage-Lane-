@@ -40,8 +40,7 @@
 /* Filters - No overflow to allow dropdown/calendar to escape */
 .filtersContainer {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   gap: var(--spacing-3);
   overflow: visible;
   position: relative;

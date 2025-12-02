@@ -14,21 +14,21 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(211, 170, 49, 0.3);
+  border: 2px solid rgb(211 170 49 / 30%);
 }
 
 .avatarPlaceholder {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(211, 170, 49, 0.2);
-  border: 2px solid rgba(211, 170, 49, 0.3);
+  background: rgb(211 170 49 / 20%);
+  border: 2px solid rgb(211 170 49 / 30%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
-  color: rgba(211, 170, 49, 1);
+  color: rgb(211 170 49 / 100%);
 }
 
 .name {
@@ -95,10 +95,10 @@
 .statusReview {
   display: inline-block;
   padding: var(--spacing-1) var(--spacing-3);
-  background: rgba(211, 170, 49, 0.2);
-  border: 1px solid rgba(211, 170, 49, 0.5);
+  background: rgb(211 170 49 / 20%);
+  border: 1px solid rgb(211 170 49 / 50%);
   border-radius: var(--border-radius-sm);
-  color: rgba(211, 170, 49, 1);
+  color: rgb(211 170 49 / 100%);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
 }

@@ -13,8 +13,7 @@
 }
 
 .tableWrapper {
-  overflow-x: auto;
-  overflow-y: auto;
+  overflow: auto;
 }
 
 /* Fixed Layout - Headers ALWAYS align with body */

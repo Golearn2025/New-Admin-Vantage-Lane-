@@ -75,12 +75,9 @@ export function AddVehicleModal({ isOpen, onClose, onAdd }: AddVehicleModalProps
   };
 
   const handleSubmit = async () => {
-    console.log('📦 [AddVehicleModal] handleSubmit called');
-    console.log('📦 [AddVehicleModal] formData:', formData);
     
     const validationError = validateForm();
     if (validationError) {
-      console.error('❌ [AddVehicleModal] Validation error:', validationError);
       setError(validationError);
       return;
     }
@@ -89,14 +86,11 @@ export function AddVehicleModal({ isOpen, onClose, onAdd }: AddVehicleModalProps
       setIsSubmitting(true);
       setError('');
       
-      console.log('🚀 [AddVehicleModal] Calling onAdd...');
       await onAdd(formData);
       
-      console.log('✅ [AddVehicleModal] Vehicle added successfully!');
       resetForm();
       onClose();
     } catch (err) {
-      console.error('❌ [AddVehicleModal] Error:', err);
       setError(err instanceof Error ? err.message : 'Failed to add vehicle');
     } finally {
       setIsSubmitting(false);

@@ -1,4 +1,0 @@
-apps/admin/features/payments-overview/components/PaymentsOverview.module.css:39:  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-apps/admin/features/payments-overview/components/PaymentsOverview.module.css:58:  width: 4px;
-apps/admin/features/payments-overview/components/PaymentsOverview.module.css:66:  transform: translateY(-2px);
-apps/admin/features/payments-overview/components/PaymentsOverview.module.css:91:  letter-spacing: 0.5px;

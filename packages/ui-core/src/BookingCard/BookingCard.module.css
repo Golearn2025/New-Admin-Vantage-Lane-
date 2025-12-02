@@ -167,12 +167,15 @@
 .paymentStatus.pending {
   color: var(--color-warning);
 }
+
 .paymentStatus.authorized {
   color: var(--color-info);
 }
+
 .paymentStatus.captured {
   color: var(--color-success);
 }
+
 .paymentStatus.refunded {
   color: var(--color-error);
 }

@@ -5,10 +5,10 @@
  * Folosește în globals.css: @import '@ui-core/tokens/index.css';
  */
 
-@import './colors.css';
-@import './spacing.css';
-@import './typography.css';
-@import './borders.css';
-@import './shadows.css';
-@import './animations.css';
-@import './breakpoints.css';
+@import url('./colors.css');
+@import url('./spacing.css');
+@import url('./typography.css');
+@import url('./borders.css');
+@import url('./shadows.css');
+@import url('./animations.css');
+@import url('./breakpoints.css');

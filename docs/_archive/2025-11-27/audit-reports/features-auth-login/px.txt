@@ -1,2 +1,0 @@
-apps/admin/features/auth-login/components/LoginForm.module.css:47:  outline-offset: 2px;
-apps/admin/features/auth-login/components/LoginForm.module.css:82:  outline-offset: 2px;

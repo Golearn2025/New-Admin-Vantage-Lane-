@@ -10,8 +10,8 @@
 .badge {
   display: inline-block;
   padding: var(--spacing-2) var(--spacing-4);
-  background: rgba(211, 170, 49, 0.2);
-  border: 1px solid rgba(211, 170, 49, 0.5);
+  background: rgb(211 170 49 / 20%);
+  border: 1px solid rgb(211 170 49 / 50%);
   border-radius: var(--border-radius-md);
   color: var(--color-text-primary);
   font-size: var(--font-size-sm);
@@ -44,8 +44,8 @@
 
 .select {
   padding: var(--spacing-3);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgb(255 255 255 / 5%);
+  border: 1px solid rgb(255 255 255 / 10%);
   border-radius: var(--border-radius-md);
   color: var(--color-text-primary);
   font-size: var(--font-size-base);
@@ -55,19 +55,19 @@
 }
 
 .select:hover {
-  border-color: rgba(211, 170, 49, 0.5);
+  border-color: rgb(211 170 49 / 50%);
 }
 
 .select:focus {
   outline: none;
-  border-color: rgba(211, 170, 49, 0.8);
-  box-shadow: 0 0 0 3px rgba(211, 170, 49, 0.1);
+  border-color: rgb(211 170 49 / 80%);
+  box-shadow: 0 0 0 3px rgb(211 170 49 / 10%);
 }
 
 .error {
   padding: var(--spacing-3);
-  background: rgba(255, 59, 48, 0.1);
-  border: 1px solid rgba(255, 59, 48, 0.3);
+  background: rgb(255 59 48 / 10%);
+  border: 1px solid rgb(255 59 48 / 30%);
   border-radius: var(--border-radius-md);
   color: var(--color-error);
   font-size: var(--font-size-sm);
@@ -79,6 +79,6 @@
   justify-content: flex-end;
   gap: var(--spacing-3);
   padding-top: var(--spacing-4);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgb(255 255 255 / 10%);
   margin-top: var(--spacing-4);
 }

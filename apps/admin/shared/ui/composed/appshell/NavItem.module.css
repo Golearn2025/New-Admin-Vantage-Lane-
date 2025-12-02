@@ -142,7 +142,6 @@
 }
 
 .submenuItem {
-  display: block;
   padding: var(--spacing-2) var(--spacing-3);
   color: var(--color-text-muted);
   text-decoration: none;
@@ -165,7 +164,7 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .navLink {
     padding: var(--spacing-4);
     min-height: var(--touch-target-lg); /* Larger touch targets on mobile */

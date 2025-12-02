@@ -59,7 +59,7 @@
   border: none;
   font-size: var(--font-lg);
   font-weight: var(--font-semibold);
-  color: currentColor;
+  color: currentcolor;
   cursor: pointer;
   padding: var(--spacing-1);
   border-radius: var(--radius-sm);
@@ -72,7 +72,7 @@
 }
 
 .closeButton:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--color-black-alpha-10);
 }
 
 .closeButton:focus-visible {
@@ -81,7 +81,7 @@
 }
 
 /* Mobile adjustments */
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .banner {
     flex-direction: column;
     align-items: stretch;

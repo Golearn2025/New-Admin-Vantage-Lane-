@@ -1,7 +1,0 @@
-ANY types: 10
-Hardcoded colors: 0
-Hardcoded px: 3
-Inline styles: 0
-!important: 0
-Files > 200 lines: 1
-Raw <table> tags: 0

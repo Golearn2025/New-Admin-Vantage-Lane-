@@ -81,7 +81,7 @@
   font-weight: var(--font-weight-bold);
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .grid {
     grid-template-columns: 1fr;
   }

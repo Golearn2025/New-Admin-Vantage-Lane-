@@ -30,7 +30,7 @@
     var(--theme-primary-alpha-10)
   );
   backdrop-filter: var(--blur-lg);
-  -webkit-backdrop-filter: var(--blur-lg);
+  backdrop-filter: var(--blur-lg);
   border-bottom: 1px solid var(--color-border-strong);
   box-shadow: var(--shadow-sm);
 }
@@ -147,6 +147,7 @@
   0%, 100% {
     box-shadow: var(--theme-glow);
   }
+
   50% {
     box-shadow: var(--theme-glow-strong);
   }
@@ -243,7 +244,7 @@
 
 /* Mobile Responsive */
 /* iPhone SE / Small mobile (up to xs-plus) */
-@media (max-width: 375px) {
+@media (width <= 375px) {
   .userName,
   .userRole {
     max-width: var(--logo-size-small);
@@ -251,14 +252,14 @@
 }
 
 /* iPhone Standard / Medium mobile (xs-plus to sm) */
-@media (min-width: 375px) and (max-width: 480px) {
+@media (width >= 375px) and (width <= 480px) {
   .userName,
   .userRole {
     max-width: var(--logo-size-medium);
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .topbar,
   .topbar.topbarCollapsed {
     left: 0; /* Full width pe mobile - higher specificity override */
@@ -279,7 +280,7 @@
 }
 
 /* Hide brand name text on small screens to preserve space for avatar */
-@media (max-width: 480px) {
+@media (width <= 480px) {
   /* Hide the BrandName component completely on small screens - higher specificity */
   .topbar .mobileLogo > span:last-child {
     display: none; /* This hides the BrandName component */
@@ -287,7 +288,7 @@
 }
 
 /* For ultra-small screens, make even more space */
-@media (max-width: 375px) {
+@media (width <= 375px) {
   .rightSection {
     gap: var(--spacing-2); /* Reduce gap between notifications and user */
   }
@@ -303,7 +304,7 @@
 }
 
 /* For very small screens like 300px */
-@media (max-width: 320px) {
+@media (width <= 320px) {
   .topbar {
     padding: 0 var(--spacing-2); /* Reduce overall padding */
   }
@@ -331,7 +332,7 @@
 @media (prefers-reduced-motion: reduce) {
   .topbar.luxe {
     backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   .userChevron {

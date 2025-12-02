@@ -15,8 +15,7 @@
 
 /* Tabs wrapper - responsive horizontal scroll */
 .tabsWrapper {
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
   margin-bottom: var(--spacing-md);
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;

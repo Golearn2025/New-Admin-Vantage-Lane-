@@ -79,7 +79,6 @@ export function ProfileStatsTab({ userId, userType, className }: ProfileStatsTab
         
         setStats(data);
       } catch (error) {
-        console.error('Failed to fetch stats:', error);
       } finally {
         setLoading(false);
       }

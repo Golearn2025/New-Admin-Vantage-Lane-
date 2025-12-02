@@ -92,6 +92,7 @@
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.4;
   }
@@ -101,7 +102,7 @@
    RESPONSIVE
    ======================================== */
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .headerCell,
   .cell {
     padding: var(--spacing-3) var(--spacing-4);
@@ -119,7 +120,7 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (width <= 375px) {
   .headerCell,
   .cell {
     padding: var(--spacing-2) var(--spacing-3);
@@ -137,7 +138,7 @@
   }
 }
 
-@media (max-width: 320px) {
+@media (width <= 320px) {
   .headerCell,
   .cell {
     padding: var(--spacing-1) var(--spacing-2);

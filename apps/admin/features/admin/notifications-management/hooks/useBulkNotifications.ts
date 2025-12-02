@@ -95,7 +95,6 @@ export function useBulkNotifications(): UseBulkNotificationsReturn {
       await providerMarkAsUnread(id);
       // Provider handles both API call and state update
     } catch (error) {
-      console.error('Mark unread error:', error);
     } finally {
       setLoadingAction(null);
     }
@@ -106,9 +105,7 @@ export function useBulkNotifications(): UseBulkNotificationsReturn {
     try {
       await providerDelete(id);
       // Provider handles both API call and state update
-      console.log('✅ HOOK: Delete successful for:', id);
     } catch (error) {
-      console.error('❌ HOOK: Delete notification error:', error);
       // You could also show a toast notification here
       alert(`Failed to delete notification: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
@@ -125,9 +122,7 @@ export function useBulkNotifications(): UseBulkNotificationsReturn {
       await providerBulkDelete(Array.from(selectedIds));
       setSelectedIds(new Set());
       // Provider handles both API call and state update
-      console.log('✅ HOOK: Bulk delete successful for:', Array.from(selectedIds));
     } catch (error) {
-      console.error('❌ HOOK: Bulk delete error:', error);
       // You could also show a toast notification here
       alert(`Failed to delete notifications: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
@@ -144,7 +139,6 @@ export function useBulkNotifications(): UseBulkNotificationsReturn {
       setSelectedIds(new Set());
       // Provider handles both API call and state update
     } catch (error) {
-      console.error('Bulk mark read error:', error);
     } finally {
       setLoading(false);
     }
@@ -159,7 +153,6 @@ export function useBulkNotifications(): UseBulkNotificationsReturn {
       setSelectedIds(new Set());
       // Provider handles both API call and state update
     } catch (error) {
-      console.error('Bulk mark unread error:', error);
     } finally {
       setLoading(false);
     }

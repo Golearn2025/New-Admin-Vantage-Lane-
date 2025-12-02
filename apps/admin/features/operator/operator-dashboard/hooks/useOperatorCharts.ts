@@ -1,6 +1,6 @@
 /**
  * Operator Charts Hook
- * 
+ *
  * Fetch chart data cu organization_id pentru operator.
  * Wrapper around dashboard charts cu filtrare automată.
  */
@@ -29,19 +29,15 @@ export function useOperatorCharts(searchParams: URLSearchParams) {
   // Build API URL cu params pentru operator
   const apiUrl = useMemo(() => {
     if (!user || user.role !== 'operator') return null;
-    
+
     return `/api/dashboard/charts?${searchParams.toString()}`;
   }, [user, searchParams]);
 
-  const { data, error, isLoading, mutate } = useSWR<OperatorChartsResponse>(
-    apiUrl,
-    fetcher,
-    {
-      refreshInterval: 60000, // Refresh every 60 seconds
-      dedupingInterval: 30000, // Dedupe requests for 30 seconds
-      revalidateOnFocus: false, // Don't revalidate on window focus
-    }
-  );
+  const { data, error, isLoading, mutate } = useSWR<OperatorChartsResponse>(apiUrl, fetcher, {
+    refreshInterval: 60000, // Refresh every 60 seconds
+    dedupingInterval: 30000, // Dedupe requests for 30 seconds
+    revalidateOnFocus: false, // Don't revalidate on window focus
+  });
 
   return {
     data,

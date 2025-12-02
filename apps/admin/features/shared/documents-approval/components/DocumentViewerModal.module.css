@@ -159,7 +159,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .container {
     grid-template-columns: 1fr;
     min-height: auto;

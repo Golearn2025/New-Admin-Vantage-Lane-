@@ -57,7 +57,7 @@
   transition: all var(--transition-fast);
 }
 
-.button:hover:not(.disabled):not(.ellipsis) {
+.button:hover:not(.disabled, .ellipsis) {
   color: var(--color-accent-primary);
   background-color: var(--color-bg-hover);
   border-color: var(--color-accent-primary);
@@ -69,7 +69,7 @@
   z-index: 1;
 }
 
-.button:active:not(.disabled):not(.ellipsis) {
+.button:active:not(.disabled, .ellipsis) {
   transform: scale(0.95);
 }
 
@@ -193,7 +193,7 @@
 }
 
 /* Responsive */
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .pagination {
     flex-direction: column;
     align-items: stretch;

@@ -57,9 +57,6 @@ export function UserProfile({ userId, userType, className }: UserProfileProps) {
     <div className={`${styles.container} ${className || ''}`}>
       <ProfileHeader
         profile={profile}
-        onEdit={() => console.log('Edit profile')}
-        onToggleActive={() => console.log('Toggle active')}
-        onDelete={() => console.log('Delete profile')}
       />
       
       {/* Tabs for Drivers, Customers, and Operators */}
@@ -96,9 +93,6 @@ export function UserProfile({ userId, userType, className }: UserProfileProps) {
             {activeTab === 'documents' && profile.documents && (
               <ProfileDocumentsTab
                 documents={profile.documents}
-                onViewDocument={(doc) => console.log('View doc:', doc)}
-                onApprove={(doc) => console.log('Approve:', doc)}
-                onReject={(doc) => console.log('Reject:', doc)}
               />
             )}
           </div>

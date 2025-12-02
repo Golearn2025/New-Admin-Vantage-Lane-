@@ -106,18 +106,12 @@ export function useMyVehicles() {
   }, []);
 
   const handleAddVehicleSubmit = useCallback(async (vehicleData: VehicleFormData) => {
-    console.log('🚗 handleAddVehicleSubmit called');
-    console.log('📍 driverId:', driverId);
-    console.log('📍 organizationId:', organizationId);
-    console.log('📍 vehicleData:', vehicleData);
     
     if (!driverId || !organizationId) {
-      console.error('❌ Missing driverId or organizationId!');
       throw new Error('Driver ID or Organization ID is missing');
     }
 
     try {
-      console.log('✅ Calling createVehicle API...');
       const result = await createVehicle({
         driverId,
         organizationId,
@@ -128,16 +122,13 @@ export function useMyVehicles() {
         color: vehicleData.color,
       });
 
-      console.log('📊 Result:', result);
 
       if (!result.success) {
         throw new Error(result.error || 'Failed to create vehicle');
       }
 
-      console.log('✅ Vehicle created successfully! Reloading...');
       await loadVehicles();
     } catch (error) {
-      console.error('❌ Error in handleAddVehicleSubmit:', error);
       throw error;
     }
   }, [driverId, organizationId, loadVehicles]);

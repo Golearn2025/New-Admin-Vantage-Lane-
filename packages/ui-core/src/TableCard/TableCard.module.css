@@ -333,7 +333,7 @@
 /* RESPONSIVE                                   */
 /* ============================================ */
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .header {
     flex-direction: column;
     align-items: flex-start;
@@ -390,7 +390,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .th,
   .td {
     padding: var(--spacing-2);

@@ -8,7 +8,7 @@
 }
 
 /* Responsive breakpoints */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-3);
@@ -16,7 +16,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-2);

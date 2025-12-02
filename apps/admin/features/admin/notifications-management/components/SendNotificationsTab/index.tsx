@@ -86,7 +86,6 @@ export function SendNotificationsTab() {
         }
       }
     } catch (error) {
-      console.error('Fetch users error:', error);
     } finally {
       setLoading(false);
     }
@@ -141,7 +140,6 @@ export function SendNotificationsTab() {
       setSelectedUserId('');
       alert(`✅ Notification sent${response.count ? ` to ${response.count} user(s)` : ''}!`);
     } catch (error) {
-      console.error('Send notification error:', error);
       alert('❌ Failed to send notification');
     } finally {
       setSending(false);

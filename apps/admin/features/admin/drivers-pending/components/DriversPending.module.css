@@ -39,8 +39,8 @@
 .spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(255, 255, 255, 0.1);
-  border-top-color: rgba(211, 170, 49, 1);
+  border: 3px solid rgb(255 255 255 / 10%);
+  border-top-color: rgb(211 170 49 / 100%);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -56,8 +56,8 @@
   justify-content: center;
   padding: var(--spacing-12);
   text-align: center;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgb(255 255 255 / 2%);
+  border: 1px solid rgb(255 255 255 / 5%);
   border-radius: var(--border-radius-lg);
 }
 
@@ -80,8 +80,8 @@
   justify-content: center;
   padding: var(--spacing-8);
   gap: var(--spacing-4);
-  background: rgba(255, 59, 48, 0.1);
-  border: 1px solid rgba(255, 59, 48, 0.3);
+  background: rgb(255 59 48 / 10%);
+  border: 1px solid rgb(255 59 48 / 30%);
   border-radius: var(--border-radius-lg);
 }
 

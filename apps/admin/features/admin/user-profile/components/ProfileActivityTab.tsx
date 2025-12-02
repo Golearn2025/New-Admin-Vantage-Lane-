@@ -38,6 +38,11 @@ interface BookingService {
   unit_price: number;
 }
 
+interface Service {
+  service_code: string;
+  unit_price?: number;
+}
+
 interface Booking {
   id: string;
   reference: string;
@@ -61,7 +66,7 @@ export function ProfileActivityTab({ userId, userType, className }: ProfileActiv
 
   // Memoize service badges to prevent re-creation on every render
   const getServiceBadges = useMemo(() => {
-    const createServiceBadges = (services: any[]) => 
+    const createServiceBadges = (services: Service[]) => 
       services.map((service, idx) => {
         const isFree = (service.unit_price || 0) === 0;
         const serviceName = service.service_code.replace(/_/g, ' ');
@@ -170,7 +175,6 @@ export function ProfileActivityTab({ userId, userType, className }: ProfileActiv
         
         setBookings(data);
       } catch (error) {
-        console.error('Failed to fetch bookings:', error);
       } finally {
         setLoading(false);
       }

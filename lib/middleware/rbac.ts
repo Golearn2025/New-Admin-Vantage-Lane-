@@ -54,8 +54,11 @@ export async function checkAdminAccess(options: RBACOptions = {}): Promise<RBACR
       };
     }
 
-    // Get admin user details
-    const { data: adminUser, error: rbacError } = await supabase
+    // Get admin user details (using service role to bypass RLS)
+    const { createAdminClient } = await import('@/lib/supabase/admin');
+    const supabaseAdmin = createAdminClient();
+    
+    const { data: adminUser, error: rbacError } = await supabaseAdmin
       .from('admin_users')
       .select('role, is_active')
       .eq('auth_user_id', user.id)

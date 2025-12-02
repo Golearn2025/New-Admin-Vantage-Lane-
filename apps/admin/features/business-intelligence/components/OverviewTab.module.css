@@ -128,7 +128,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .overviewContainer {
     padding: var(--spacing-3);
     gap: var(--spacing-4);
@@ -149,7 +149,7 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (width <= 375px) {
   .overviewContainer {
     padding: var(--spacing-2);
   }

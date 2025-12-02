@@ -30,7 +30,6 @@ export function formatCurrency(
   
   // Handle invalid numbers
   if (isNaN(numAmount)) {
-    console.warn('Invalid currency amount:', amount);
     return currency === 'GBP' ? '£0.00' : currency === 'USD' ? '$0.00' : '€0.00';
   }
 
@@ -64,7 +63,6 @@ export function formatPenceToPounds(pence: number | string | null | undefined): 
   const numPence = typeof pence === 'string' ? parseFloat(pence) : pence;
   
   if (isNaN(numPence)) {
-    console.warn('Invalid pence amount:', pence);
     return '£0.00';
   }
 
@@ -87,7 +85,6 @@ export function formatPercentage(
   const numValue = typeof value === 'string' ? parseFloat(value) : value;
   
   if (isNaN(numValue)) {
-    console.warn('Invalid percentage value:', value);
     return '0%';
   }
 
@@ -109,7 +106,6 @@ export function formatDistance(
   const numMeters = typeof meters === 'string' ? parseFloat(meters) : meters;
   
   if (isNaN(numMeters)) {
-    console.warn('Invalid distance value:', meters);
     return unit === 'km' ? '0 km' : '0 miles';
   }
 
@@ -169,7 +165,6 @@ export function formatDate(date: string | Date | null | undefined): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   
   if (isNaN(dateObj.getTime())) {
-    console.warn('Invalid date in formatDate:', date);
     return 'Invalid Date';
   }
   
@@ -187,7 +182,6 @@ export function formatDateTime(date: string | Date | null | undefined): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   
   if (isNaN(dateObj.getTime())) {
-    console.warn('Invalid date in formatDateTime:', date);
     return 'Invalid Date';
   }
   
@@ -211,7 +205,6 @@ export function formatTime(date: string | Date | null | undefined): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   
   if (isNaN(dateObj.getTime())) {
-    console.warn('Invalid date in formatTime:', date);
     return 'Invalid Time';
   }
   
@@ -233,7 +226,6 @@ export function formatRelativeTime(date: string | Date | null | undefined): stri
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   
   if (isNaN(dateObj.getTime())) {
-    console.warn('Invalid date in formatRelativeTime:', date);
     return 'Invalid Date';
   }
   
@@ -264,7 +256,6 @@ export function formatDuration(minutes: number | string | null | undefined): str
   const numMinutes = typeof minutes === 'string' ? parseFloat(minutes) : minutes;
   
   if (isNaN(numMinutes)) {
-    console.warn('Invalid duration value:', minutes);
     return '0 min';
   }
 
@@ -294,7 +285,6 @@ export function formatNumber(num: number | string | null | undefined): string {
   const numValue = typeof num === 'string' ? parseFloat(num) : num;
   
   if (isNaN(numValue)) {
-    console.warn('Invalid number value:', num);
     return '0';
   }
 

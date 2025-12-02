@@ -38,7 +38,7 @@
 
 /* Responsive adjustments */
 /* iPhone SE / Small mobile (320px-374px) */
-@media (max-width: 374px) {
+@media (width <= 374px) {
   .content {
     padding: var(--spacing-4) 0;
     gap: var(--spacing-3);
@@ -51,7 +51,7 @@
 }
 
 /* iPhone Standard / Medium mobile (375px-480px) */
-@media (min-width: 375px) and (max-width: 480px) {
+@media (width >= 375px) and (width <= 480px) {
   .content {
     padding: var(--spacing-6) 0;
     gap: var(--spacing-4);
@@ -63,7 +63,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .content {
     padding: var(--spacing-6) 0;
     gap: var(--spacing-4);

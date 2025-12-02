@@ -29,11 +29,11 @@ export function useInvoicesTable({ page, limit, status }: UseInvoicesTableProps)
         const filters: InvoiceListRequest = {
           page,
           limit,
-          ...(status && { status: status as any })
+          ...(status && { status: status as 'draft' | 'sent' | 'paid' | 'overdue' })
         };
         
         const result = await listInvoices(filters);
-        setData(result as any);
+        setData(result);
         setTotalCount(120); // Mock - replace with result.totalCount
         setError(null);
       } catch (err) {

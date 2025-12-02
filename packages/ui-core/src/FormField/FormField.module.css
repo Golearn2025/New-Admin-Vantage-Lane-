@@ -2,7 +2,7 @@
  * FormField Styles - PREMIUM GOLD
  * 
  * Design modern premium folosind culoarea gold din proiect.
- * Color: #F1D16A (gold primary)
+ * Gold primary color token
  */
 
 .field {
@@ -61,8 +61,8 @@
   font-style: italic;
 }
 
-.input:hover:not(:disabled):not(:read-only),
-.textarea:hover:not(:disabled):not(:read-only) {
+.input:hover:not(:disabled, :read-only),
+.textarea:hover:not(:disabled, :read-only) {
   border-color: var(--color-border-strong);
   background: var(--color-bg-tertiary);
   box-shadow: var(--shadow-gold-sm);
@@ -108,7 +108,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .input,
   .textarea {
     padding: var(--spacing-3) var(--spacing-4);

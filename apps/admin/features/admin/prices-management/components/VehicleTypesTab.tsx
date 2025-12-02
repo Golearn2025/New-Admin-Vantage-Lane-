@@ -54,22 +54,20 @@ export function VehicleTypesTab({ config }: Props) {
   );
 
   const handleEdit = (type: string, rates: VehicleTypeRates) => {
-    console.log('🎯 Edit clicked:', type);
+    // Edit vehicle type clicked
     setEditingType(type);
     setEditedRates(rates);
   };
 
   const handleSave = async (type: string) => {
-    console.log('🔵 VehicleTypesTab: handleSave called');
-    console.log('🔵 Vehicle type:', type);
-    console.log('🔵 Edited rates:', editedRates);
+    // Save vehicle type rates
     
     await updateVehicleType({
       vehicleType: type,
       rates: editedRates as VehicleTypeRates,
     });
     
-    console.log('✅ Save successful!');
+    // Save successful
     setEditingType(null);
     setEditedRates({});
   };

@@ -1,0 +1,37 @@
+# Ignore scripts and CI tools (allow console.log)
+scripts/
+tests/
+supabase/
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# Ignore packages (design system components)
+packages/
+
+# Ignore development and testing files
+e2e/
+lib/
+middleware.ts
+debug-*.js
+*.backup.*
+
+# Development files
+*.config.js
+*.config.ts
+.env*
+cookies.txt
+
+# Generated files
+coverage/
+reports/
+.turbo/
+
+# Focus ESLint ONLY on business logic features
+# Ignore shared infrastructure, monitoring, and dev tools
+apps/admin/shared/
+apps/admin/features/shared/
+apps/admin/features/monitoring/
+apps/admin/features/project-health/

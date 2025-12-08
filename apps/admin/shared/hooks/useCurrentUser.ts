@@ -40,9 +40,31 @@ async function getAdminUserData(authUserId: string): Promise<UserInfo> {
     .single();
 
   if (adminError) {
-    logger.warn('Admin user not found, checking driver/customer:', adminError);
+    logger.warn('Admin user not found, checking operator/driver:', adminError);
     
-    // Fallback: check if it's a driver or customer
+    // Check if it's an operator
+    const { data: operatorUser } = await supabase
+      .from('user_organization_roles')
+      .select('organization_id, role, is_active')
+      .eq('user_id', authUserId)
+      .eq('is_active', true)
+      .single();
+
+    if (operatorUser) {
+      // Get user data from Supabase auth.users 
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      const email = authUser?.email || 'operator@example.com';
+      
+      return {
+        name: email.split('@')[0] || 'Operator',
+        email: email,
+        role: 'operator' as const,
+        auth_user_id: authUserId,
+        organization_id: operatorUser.organization_id,
+      };
+    }
+    
+    // Fallback: check if it's a driver
     const { data: driverUser } = await supabase
       .from('drivers')
       .select('id, email, first_name, last_name')
@@ -82,17 +104,17 @@ async function getAdminUserData(authUserId: string): Promise<UserInfo> {
 export function useCurrentUser() {
   const [authUserId, setAuthUserId] = useState<string | null>(null);
   
-  // 🚀 OPTIMIZATION: Cache session check - rarely changes
+  // 🚧 DEVELOPMENT: Cache DISABLED pentru fresh auth state
   const { data: session, isLoading: sessionLoading } = useQuery({
     queryKey: ['auth-session'],
     queryFn: getCurrentSession,
-    staleTime: 5 * 60 * 1000, // 5 minutes cache
-    gcTime: 10 * 60 * 1000, // 10 minutes in cache (React Query v5)
-    refetchOnWindowFocus: false, // Don't refetch on tab switch
+    staleTime: 0, // No cache - sempre fetch fresh
+    gcTime: 0, // No cache storage 
+    refetchOnWindowFocus: true, // Refetch pe tab switch
     retry: 1,
   });
 
-  // 🚀 OPTIMIZATION: Cache user data - changes very rarely
+  // 🚧 DEVELOPMENT: Cache DISABLED pentru fresh user data  
   const { 
     data: user, 
     isLoading: userLoading, 
@@ -101,9 +123,9 @@ export function useCurrentUser() {
     queryKey: ['current-user', authUserId],
     queryFn: () => getAdminUserData(authUserId!),
     enabled: !!authUserId, // Only run when we have auth user ID
-    staleTime: 15 * 60 * 1000, // 15 minutes cache - user data rarely changes
-    gcTime: 30 * 60 * 1000, // 30 minutes in cache (React Query v5)
-    refetchOnWindowFocus: false,
+    staleTime: 0, // No cache - sempre fetch fresh
+    gcTime: 0, // No cache storage
+    refetchOnWindowFocus: true, // Refetch pe tab switch
     retry: 2,
   });
 

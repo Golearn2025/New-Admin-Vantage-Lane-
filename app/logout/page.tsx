@@ -12,15 +12,30 @@
 
 import { useEffect } from 'react';
 import { BrandBackground, AuthCard } from '@vantage-lane/ui-core';
-import { signOut } from '@admin-shared/api/auth/actions';
 import styles from './logout.module.css';
 
 export default function LogoutPage() {
   useEffect(() => {
     // Auto-execute logout on mount
     async function handleLogout() {
-      // signOut() will redirect to /login automatically
-      await signOut();
+      try {
+        // Call our new logout API endpoint
+        const response = await fetch('/api/auth/logout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        
+        if (response.ok) {
+          // Force reload to clear all client-side state
+          window.location.href = '/login';
+        } else {
+          console.error('Logout failed');
+          window.location.href = '/login'; // Fallback
+        }
+      } catch (error) {
+        console.error('Logout error:', error);
+        window.location.href = '/login'; // Fallback
+      }
     }
     handleLogout();
   }, []);

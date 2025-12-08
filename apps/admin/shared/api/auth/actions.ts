@@ -66,7 +66,7 @@ export async function signInWithPassword(email: string, password: string, rememb
       redirectTo = '/dashboard';
       break;
     case 'operator':
-      redirectTo = '/dashboard';
+      redirectTo = '/operator';
       break;
     case 'driver':
       redirectTo = '/bookings';
@@ -91,7 +91,7 @@ export async function signInWithPassword(email: string, password: string, rememb
 export async function signOut() {
   const supabase = supaServer(cookies());
 
-  const { error } = await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut({ scope: 'global' });
 
   if (error) {
     return {
@@ -109,7 +109,7 @@ export async function signOut() {
  */
 export async function signOutAction() {
   const supabase = supaServer(cookies());
-  await supabase.auth.signOut();
+  await supabase.auth.signOut({ scope: 'global' });
 
   // Force redirect to login and replace history
   redirect('/login');

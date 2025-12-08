@@ -11,6 +11,7 @@ import { useOperatorDashboard } from '../hooks/useOperatorDashboard';
 import styles from './OperatorDashboard.module.css';
 
 export function OperatorDashboard() {
+  // ✅ ALL HOOKS FIRST - before any conditional returns
   const { stats, recentDrivers, notifications, loading } = useOperatorDashboard();
 
   // Memoize driver cards to prevent re-creation on every render
@@ -47,6 +48,7 @@ export function OperatorDashboard() {
     [notifications]
   );
 
+  // ✅ Conditional rendering AFTER all hooks
   if (loading) {
     return <div className={styles.loading}>Loading your dashboard...</div>;
   }

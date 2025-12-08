@@ -58,7 +58,7 @@ const adminMenu: NavMenuItem[] = [
 
 // Operator - Acces limitat (folosește aceleași pagini ca admin, doar meniul e filtrat)
 const operatorMenu: NavMenuItem[] = [
-  { icon: 'dashboard', label: 'Dashboard', href: '/dashboard' },
+  { icon: 'dashboard', label: 'Dashboard', href: '/operator' },
   {
     icon: 'calendar',
     label: 'Bookings',

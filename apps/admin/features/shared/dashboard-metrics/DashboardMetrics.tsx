@@ -29,24 +29,11 @@ interface DashboardMetricsProps {
 }
 
 export function DashboardMetrics({ specs, startDate, endDate }: DashboardMetricsProps) {
+  // ✅ ALL HOOKS FIRST - before any conditional returns
   const { user } = useCurrentUser();
   const { metrics, isLoading, isError, refresh } = useDashboardMetrics(
     startDate && endDate ? { startDate, endDate } : undefined
   );
-
-  // Error state
-  if (isError) {
-    return (
-      <div className={styles.errorState}>
-        <div className={styles.errorIcon}>⚠️</div>
-        <h3 className={styles.errorTitle}>Failed to load metrics</h3>
-        <p className={styles.errorMessage}>Unable to fetch dashboard data. Please try again.</p>
-        <button onClick={refresh} className={styles.retryButton}>
-          Retry
-        </button>
-      </div>
-    );
-  }
 
   // Filter specs based on user role
   const filteredSpecs = getSpecsForRole(specs, user?.role || 'admin');

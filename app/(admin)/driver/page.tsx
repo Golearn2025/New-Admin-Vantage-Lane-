@@ -1,11 +1,10 @@
 /**
- * Driver Page - Redirects to bookings
- * 
- * Driver functionality has been consolidated into the main admin dashboard.
+ * Driver Dashboard Route - Enterprise Dashboard with Driver Data
+ * Uses same DashboardPage component as admin/operator but with driver-filtered data
  */
 
-import { redirect } from 'next/navigation';
+import { DriverDashboard } from '@features/driver/driver-dashboard';
 
-export default function DriverPage() {
-  redirect('/bookings');
+export default function DriverRoute() {
+  return <DriverDashboard />;
 }

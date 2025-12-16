@@ -82,7 +82,7 @@ const operatorMenu: NavMenuItem[] = [
 
 // Driver - Portal dedicat pentru șoferi
 const driverMenu: NavMenuItem[] = [
-  { icon: 'dashboard', label: 'Dashboard', href: '/dashboard' },
+  { icon: 'dashboard', label: 'Dashboard', href: '/driver' },
   {
     icon: 'calendar',
     label: 'My Trips',

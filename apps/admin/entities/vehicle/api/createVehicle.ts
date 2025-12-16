@@ -6,6 +6,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/service';
 
 interface CreateVehicleParams {
   driverId: string;
@@ -27,7 +28,8 @@ export async function createVehicle(params: CreateVehicleParams): Promise<Create
   console.log('🔧 [createVehicle API] Called with params:', params);
   
   try {
-    const supabase = createClient();
+    // Use service client to bypass RLS for vehicle creation
+    const supabase = createServiceClient();
 
     const insuranceExpiry = new Date();
     insuranceExpiry.setFullYear(insuranceExpiry.getFullYear() + 1);

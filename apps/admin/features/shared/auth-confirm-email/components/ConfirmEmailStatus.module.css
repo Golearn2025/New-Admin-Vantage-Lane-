@@ -1,0 +1,120 @@
+/**
+ * ConfirmEmailStatus Styles
+ * Uses design tokens + utility classes
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--spacing-8) 0;
+  gap: var(--spacing-4);
+}
+
+.iconWrapper,
+.iconWrapperSuccess,
+.iconWrapperError {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--spacing-2);
+}
+
+.iconWrapperSuccess {
+  background: var(--color-success-alpha-10);
+}
+
+.iconWrapperError {
+  background: var(--color-error-alpha-10);
+}
+
+.iconWrapper {
+  background: var(--color-bg-secondary);
+}
+
+.loadingIcon {
+  color: var(--color-accent-600);
+  animation: spin 1s linear infinite;
+}
+
+.successIcon {
+  color: var(--color-success);
+}
+
+.errorIcon {
+  color: var(--color-error);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.title {
+  font-size: var(--font-2xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.email {
+  font-size: var(--font-lg);
+  font-weight: var(--font-medium);
+  color: var(--color-accent-600);
+  word-break: break-word;
+}
+
+.message {
+  font-size: var(--font-base);
+  color: var(--color-text-secondary);
+  max-width: 400px;
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.hint {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  max-width: 400px;
+  margin: 0;
+}
+
+.actions {
+  margin-top: var(--spacing-4);
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+.appHint {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin-top: var(--spacing-4);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3) var(--spacing-6);
+  background: var(--color-accent-600);
+  color: white;
+  font-size: var(--font-base);
+  font-weight: var(--font-semibold);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: background 0.2s ease;
+  min-width: 160px;
+}
+
+.button:hover {
+  background: var(--color-accent-700);
+}

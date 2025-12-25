@@ -8,7 +8,7 @@ import { createClient } from '@/lib/supabase/server';
 import type { DriverLocationData, OnlineDriversResponse } from '../model/types';
 
 interface GetOnlineDriversOptions {
-  organizationId?: string;  // Filter by organization (for operators)
+  organizationId?: string | undefined;  // Filter by organization (for operators)
   includeOffline?: boolean; // Include offline drivers in response
   limit?: number;          // Max number of drivers to return
 }
@@ -75,7 +75,7 @@ export async function getOnlineDrivers(
     locationAccuracy: driver.location_accuracy,
     lastOnlineAt: driver.last_online_at,
     organizationId: driver.organization_id,
-    organizationName: driver.organizations?.name || null,
+    organizationName: (driver.organizations as any)?.name || null,
   }));
 
   // Calculate counts

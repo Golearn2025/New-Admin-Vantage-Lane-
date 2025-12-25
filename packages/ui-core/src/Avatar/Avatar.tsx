@@ -24,19 +24,19 @@ export type AvatarStatus = 'online' | 'offline' | 'away' | 'busy';
 
 export interface AvatarProps {
   /** Image source URL */
-  src?: string;
+  src?: string | undefined;
   /** Alt text for image */
-  alt?: string;
+  alt?: string | undefined;
   /** Name to generate initials from */
-  name?: string;
+  name?: string | undefined;
   /** Icon to display (fallback if no src/name) */
-  icon?: IconName;
+  icon?: IconName | undefined;
   /** Avatar size */
-  size?: AvatarSize;
+  size?: AvatarSize | undefined;
   /** Status indicator */
-  status?: AvatarStatus;
+  status?: AvatarStatus | undefined;
   /** Custom className */
-  className?: string;
+  className?: string | undefined;
 }
 
 export function Avatar({

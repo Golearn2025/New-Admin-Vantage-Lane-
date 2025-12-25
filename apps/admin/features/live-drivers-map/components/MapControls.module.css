@@ -1,0 +1,96 @@
+/**
+ * MapControls - Premium Filter and Control Styles
+ */
+
+.mapControls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.mapControlsCompact {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-2);
+  align-items: center;
+}
+
+.controlsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.controlsSectionCompact {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-2);
+  align-items: center;
+}
+
+.sectionTitle {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.sectionTitleCompact {
+  display: none; /* Hide titles in compact mode */
+}
+
+.filterOptions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.filterOptionsCompact {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-3);
+}
+
+.refreshControls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.refreshControlsCompact {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-2);
+}
+
+.refreshInfo {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  margin-top: var(--spacing-1);
+}
+
+.refreshInfoCompact {
+  display: none; /* Hide info text in compact mode */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .mapControls {
+    gap: var(--spacing-2);
+  }
+  
+  .controlsSection {
+    gap: var(--spacing-1);
+  }
+  
+  .filterOptions {
+    gap: var(--spacing-1);
+  }
+  
+  .refreshControls {
+    flex-direction: row;
+    gap: var(--spacing-2);
+  }
+}

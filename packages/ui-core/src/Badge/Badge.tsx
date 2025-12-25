@@ -36,7 +36,7 @@ export interface BadgeProps {
   /** Removable badge */
   onRemove?: () => void;
   /** Custom className */
-  className?: string;
+  className?: string | undefined;
 }
 
 export function Badge({

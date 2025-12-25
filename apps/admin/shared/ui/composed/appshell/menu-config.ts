@@ -45,6 +45,7 @@ const adminMenu: NavMenuItem[] = [
   },
   { icon: 'fileText', label: 'Invoices', href: '/invoices' },
   { icon: 'banknote', label: 'Payouts', href: '/payouts' },
+  { icon: 'eye', label: 'Live Drivers Map', href: '/drivers-map' },
   { icon: 'monitoring', label: 'Monitoring', href: '/monitoring' },
   { icon: 'projectHealth', label: 'Project Health', href: '/project-health' },
   { icon: 'auditHistory', label: 'Audit History', href: '/audit-history' },

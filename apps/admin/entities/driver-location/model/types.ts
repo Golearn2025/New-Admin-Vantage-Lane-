@@ -49,9 +49,9 @@ export interface DriverLocationData {
 export interface UpdateLocationPayload {
   latitude: number;
   longitude: number;
-  accuracy?: number;
-  speed?: number;     // km/h (optional for future use)
-  heading?: number;   // degrees 0-360 (optional for future use)
+  accuracy?: number | undefined;
+  speed?: number | undefined;     // km/h (optional for future use)
+  heading?: number | undefined;   // degrees 0-360 (optional for future use)
 }
 
 /**
@@ -59,9 +59,9 @@ export interface UpdateLocationPayload {
  */
 export interface UpdateStatusPayload {
   status: DriverOnlineStatus;
-  latitude?: number;  // Include location when going online
-  longitude?: number;
-  accuracy?: number;
+  latitude?: number | undefined;  // Include location when going online
+  longitude?: number | undefined;
+  accuracy?: number | undefined;
 }
 
 /**

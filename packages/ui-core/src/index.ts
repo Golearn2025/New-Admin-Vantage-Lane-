@@ -43,6 +43,7 @@ export * from './AuthCard';
 export * from './BrandBackground';
 export * from './BrandName';
 export * from './ErrorBanner';
+export * from './LoadingState';
 export * from './FormRow';
 
 // Dashboard Cards

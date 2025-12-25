@@ -8,7 +8,7 @@ export interface CardProps {
   shadow?: 'none' | 'sm' | 'md' | 'lg';
   border?: boolean;
   children: ReactNode;
-  className?: string;
+  className?: string | undefined;
 }
 
 export function Card({

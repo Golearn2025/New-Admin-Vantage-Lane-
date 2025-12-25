@@ -5,8 +5,25 @@
  */
 
 // Types
-export * from './model/types';
-export * from './model/schema';
+export type {
+  DriverOnlineStatus,
+  LocationCoordinates,
+  DriverLocationData,
+  UpdateLocationPayload,
+  UpdateStatusPayload,
+  OnlineDriversResponse,
+  MapFilters,
+  DriverLocationUpdate
+} from './model/types';
+
+export {
+  DriverOnlineStatusSchema,
+  LocationCoordinatesSchema,
+  UpdateLocationPayloadSchema,
+  UpdateStatusPayloadSchema,
+  MapFiltersSchema,
+  OnlineDriversQuerySchema
+} from './model/schema';
 
 // API Functions
 export { getOnlineDrivers } from './api/getOnlineDrivers';

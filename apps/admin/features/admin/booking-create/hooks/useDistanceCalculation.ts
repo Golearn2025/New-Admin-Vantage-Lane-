@@ -126,7 +126,8 @@ export function useDistanceCalculation(
           });
         }
       }, 500);
-
+      
+      // Cleanup interval on unmount to prevent memory leak
       return () => clearInterval(interval);
     }
     return undefined;

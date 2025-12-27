@@ -12,8 +12,9 @@ Sentry.init({
   // Enable logging for structured logs
   enableLogs: true,
   
-  // Performance Monitoring
-  tracesSampleRate: 1.0,
+  // Performance Monitoring - OPTIMIZED for cost
+  // Track only 10% of API requests to stay within free tier
+  tracesSampleRate: 0.1,
   
   integrations: [
     // Console logging integration for server-side logs

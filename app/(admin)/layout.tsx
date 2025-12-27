@@ -77,10 +77,18 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   // 🚀 OPTIMIZATION: Move realtime hook here to prevent recreation
   useNewBookingRealtime();
 
-  // 🚀 PERFORMANCE: Start monitoring on mount
+  // 🚀 PERFORMANCE: Start monitoring on mount with cleanup
   useEffect(() => {
     startPerformanceMonitoring();
     console.log('⚡ Performance optimization active - navigation should be faster!');
+    
+    // Cleanup on unmount to prevent memory leak
+    return () => {
+      if (typeof window !== 'undefined') {
+        const { performanceManager } = require('../../apps/admin/shared/lib/performance-monitoring');
+        performanceManager.stopMonitoring();
+      }
+    };
   }, []);
 
   return (

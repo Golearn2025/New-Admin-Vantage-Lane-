@@ -12,12 +12,13 @@ Sentry.init({
   // Enable logging for structured logs
   enableLogs: true,
   
-  // Performance Monitoring
-  tracesSampleRate: 1.0,
+  // Performance Monitoring - OPTIMIZED for cost
+  // Track only 10% of transactions to stay within free tier
+  tracesSampleRate: 0.1,
   
-  // Session Replay
-  replaysSessionSampleRate: 0.1, // 10% of sessions
-  replaysOnErrorSampleRate: 1.0, // 100% of sessions with errors
+  // Session Replay - OPTIMIZED for cost
+  replaysSessionSampleRate: 0.05, // 5% of sessions (reduced from 10%)
+  replaysOnErrorSampleRate: 0.5, // 50% of error sessions (reduced from 100%)
   
   integrations: [
     // Console logging integration

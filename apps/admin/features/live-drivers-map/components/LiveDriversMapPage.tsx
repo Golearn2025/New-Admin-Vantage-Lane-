@@ -1,218 +1,428 @@
 /**
- * Live Drivers Map Page - Main Orchestrator Component
- * 
- * Real-time map view of all online drivers with their current locations
+ * Live Drivers Map Page - Mapbox Implementation
+ * Real-time map view with Mapbox GL
  */
 
 'use client';
 
-import { useState, useCallback } from 'react';
-import { Card, Badge, Button, Icon } from '@vantage-lane/ui-core';
-import { MapPin, Users, Activity, RefreshCw, CheckCircle, Clock, Car } from 'lucide-react';
-import { DriversMapView } from './DriversMapView';
-import { DriverInfoPanel } from './DriverInfoPanel';
-import { MapControls } from './MapControls';
-import { DriverDetailsModal } from './DriverDetailsModal';
-import { useOnlineDrivers } from '../hooks/useOnlineDrivers';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import { useEffect, useRef, useState } from 'react';
 import { useRealtimeDrivers } from '../hooks/useRealtimeDrivers';
-import type { DriverLocationData, MapFilters } from '@entities/driver-location';
-import styles from './LiveDriversMapPage.module.css';
+
+// Set Mapbox token
+mapboxgl.accessToken = 'pk.eyJ1IjoidmFudGFnZWxhbmUiLCJhIjoiY21peGw4NTIxMDR5YjNkcXp3eGN0OTc3YyJ9.S1VwkfoU1jU97dOF4Nayjw';
 
 export function LiveDriversMapPage() {
-  // State management
-  const [filters, setFilters] = useState<MapFilters>({
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
+  const markers = useRef<Map<string, mapboxgl.Marker>>(new Map());
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [selectedDriverId, setSelectedDriverId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Get real driver data from Supabase
+  const { drivers, loading: driversLoading } = useRealtimeDrivers({
     showOnline: true,
     showBusy: true,
   });
-  const [selectedDriver, setSelectedDriver] = useState<DriverLocationData | null>(null);
-  const [autoRefresh, setAutoRefresh] = useState(true);
 
-  // Fetch online drivers with filters
-  const { 
-    drivers, 
-    loading, 
-    error,
-    isConnected,
-    lastUpdate: lastUpdated
-  } = useRealtimeDrivers(filters);
+  // Debug: Check what data we have
+  useEffect(() => {
+    if (drivers.length > 0) {
+      console.log('🔍 First driver data:', drivers[0]);
+      console.log('🔍 Address field:', (drivers[0] as any).address);
+      console.log('🔍 Vehicles field:', (drivers[0] as any).vehicles);
+    }
+  }, [drivers]);
 
-  // Manual refresh for realtime (will refetch initial data)
-  const handleManualRefresh = () => {
-    window.location.reload(); // Simple approach for now
+  // Filter and sort drivers
+  const filteredDrivers = drivers
+    .filter(driver => {
+      if (!searchQuery) return true;
+      const query = searchQuery.toLowerCase();
+      const fullName = `${driver.firstName} ${driver.lastName}`.toLowerCase();
+      const vehicle = (driver as any).vehicles?.[0];
+      const licensePlate = vehicle?.license_plate?.toLowerCase() || '';
+      return fullName.includes(query) || licensePlate.includes(query);
+    })
+    .sort((a, b) => {
+      // Sort busy drivers first
+      const aIsBusy = a.onlineStatus !== 'online';
+      const bIsBusy = b.onlineStatus !== 'online';
+      if (aIsBusy && !bIsBusy) return -1;
+      if (!aIsBusy && bIsBusy) return 1;
+      return 0;
+    });
+
+  // Initialize Mapbox map
+  useEffect(() => {
+    if (!mapContainer.current || map.current) return;
+
+    console.log('🚀 Initializing Mapbox...');
+
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/dark-v11',
+      center: [26.1025, 44.4268],
+      zoom: 12,
+    });
+
+    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+    map.current.addControl(new mapboxgl.ScaleControl(), 'bottom-left');
+
+    map.current.on('load', () => {
+      console.log('✅ Mapbox loaded!');
+      setIsLoaded(true);
+    });
+
+    return () => {
+      if (map.current) map.current.remove();
+    };
+  }, []);
+
+  // Update driver markers
+  useEffect(() => {
+    if (!map.current || !isLoaded || driversLoading) return;
+
+    console.log('🔄 Updating', drivers.length, 'driver markers');
+
+    // Remove old markers
+    markers.current.forEach((marker) => marker.remove());
+    markers.current.clear();
+
+    // Add new markers with car icon
+    drivers.forEach((driver) => {
+      if (!driver.currentLatitude || !driver.currentLongitude) return;
+
+      const color = driver.onlineStatus === 'online' ? '#22C55E' : '#FCD34D';
+      const heading = 0; // TODO: get from driver data when available
+
+      // Create container for marker + labels
+      const container = document.createElement('div');
+      container.style.display = 'flex';
+      container.style.flexDirection = 'column';
+      container.style.alignItems = 'center';
+      container.style.cursor = 'pointer';
+
+      // Name label
+      const nameLabel = document.createElement('div');
+      nameLabel.textContent = `${driver.firstName} ${driver.lastName}`;
+      nameLabel.style.background = 'rgba(0, 0, 0, 0.8)';
+      nameLabel.style.color = 'white';
+      nameLabel.style.padding = '2px 6px';
+      nameLabel.style.borderRadius = '4px';
+      nameLabel.style.fontSize = '11px';
+      nameLabel.style.fontWeight = '600';
+      nameLabel.style.whiteSpace = 'nowrap';
+      nameLabel.style.marginBottom = '2px';
+      container.appendChild(nameLabel);
+
+      // Realistic car icon (top-down view like Uber/Bolt)
+      const carIcon = document.createElement('div');
+      carIcon.innerHTML = `
+        <svg width="40" height="40" viewBox="0 0 40 40" style="transform: rotate(${heading}deg);">
+          <!-- Car body -->
+          <rect x="12" y="8" width="16" height="24" rx="3" fill="${color}" stroke="white" stroke-width="2"/>
+          
+          <!-- Windshield (front) -->
+          <rect x="14" y="10" width="12" height="4" rx="1" fill="rgba(255,255,255,0.3)"/>
+          
+          <!-- Rear window -->
+          <rect x="14" y="26" width="12" height="4" rx="1" fill="rgba(255,255,255,0.3)"/>
+          
+          <!-- Side mirrors -->
+          <circle cx="10" cy="16" r="2" fill="${color}" stroke="white" stroke-width="1"/>
+          <circle cx="30" cy="16" r="2" fill="${color}" stroke="white" stroke-width="1"/>
+          
+          <!-- Direction indicator (arrow at front) -->
+          <path d="M 20 4 L 24 8 L 16 8 Z" fill="white" stroke="white" stroke-width="1"/>
+          
+          <!-- Wheels -->
+          <rect x="10" y="12" width="3" height="6" rx="1" fill="#333"/>
+          <rect x="27" y="12" width="3" height="6" rx="1" fill="#333"/>
+          <rect x="10" y="22" width="3" height="6" rx="1" fill="#333"/>
+          <rect x="27" y="22" width="3" height="6" rx="1" fill="#333"/>
+        </svg>
+      `;
+      carIcon.style.filter = 'drop-shadow(0 3px 6px rgba(0,0,0,0.4))';
+      container.appendChild(carIcon);
+
+      // License plate label (from vehicle data)
+      const plateLabel = document.createElement('div');
+      const vehicle = (driver as any).vehicles?.[0]; // Get first vehicle
+      plateLabel.textContent = vehicle?.license_plate || 'N/A';
+      plateLabel.style.background = 'white';
+      plateLabel.style.color = 'black';
+      plateLabel.style.padding = '2px 6px';
+      plateLabel.style.borderRadius = '4px';
+      plateLabel.style.fontSize = '10px';
+      plateLabel.style.fontWeight = 'bold';
+      plateLabel.style.marginTop = '2px';
+      plateLabel.style.border = '1px solid #000';
+      container.appendChild(plateLabel);
+
+      // Enhanced popup with more details
+      const vehicleInfo = vehicle ? `${vehicle.make} ${vehicle.model} ${vehicle.year || ''}` : 'N/A';
+      const address = (driver as any).address || `Lat: ${driver.currentLatitude?.toFixed(4)}, Lng: ${driver.currentLongitude?.toFixed(4)}`;
+      const popupHTML = `
+        <div style="padding: 16px; min-width: 280px; font-family: system-ui;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <div style="font-weight: bold; font-size: 16px;">
+              ${driver.firstName} ${driver.lastName}
+            </div>
+          </div>
+          <div style="color: ${color}; font-weight: 600; margin-bottom: 12px; font-size: 14px;">
+            ● ${driver.onlineStatus.toUpperCase()}
+          </div>
+          <div style="border-top: 1px solid #e5e7eb; padding-top: 12px; margin-bottom: 12px;">
+            <div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">📍 LOCATION</div>
+            <div style="font-size: 13px; color: #374151; font-weight: 500;">
+              ${address}
+            </div>
+          </div>
+          <div style="border-top: 1px solid #e5e7eb; padding-top: 12px; margin-bottom: 12px;">
+            <div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">🚗 VEHICLE</div>
+            <div style="font-size: 13px; color: #374151; font-weight: 500;">
+              ${vehicleInfo}
+            </div>
+            <div style="font-size: 12px; color: #6b7280;">
+              ${vehicle?.license_plate || 'N/A'} • ${vehicle?.color || 'N/A'} • ${vehicle?.category?.toUpperCase() || 'N/A'}
+            </div>
+          </div>
+          ${(driver as any).phone ? `
+          <div style="border-top: 1px solid #e5e7eb; padding-top: 12px;">
+            <a href="tel:${(driver as any).phone}" style="display: inline-block; background: #22C55E; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;">
+              📞 Call Driver
+            </a>
+          </div>
+          ` : ''}
+        </div>
+      `;
+
+      const marker = new mapboxgl.Marker(container)
+        .setLngLat([driver.currentLongitude, driver.currentLatitude])
+        .setPopup(new mapboxgl.Popup({ offset: 25, maxWidth: '320px' }).setHTML(popupHTML))
+        .addTo(map.current!);
+
+      // Click handler for marker selection
+      container.addEventListener('click', () => {
+        setSelectedDriverId(driver.id);
+      });
+
+      markers.current.set(driver.id, marker);
+    });
+
+    // Auto-fit bounds to show all drivers
+    if (drivers.length > 0) {
+      const bounds = new mapboxgl.LngLatBounds();
+      drivers.forEach((driver) => {
+        if (driver.currentLatitude && driver.currentLongitude) {
+          bounds.extend([driver.currentLongitude, driver.currentLatitude]);
+        }
+      });
+      map.current.fitBounds(bounds, { padding: 50, maxZoom: 15 });
+    }
+  }, [isLoaded, drivers, driversLoading]);
+
+  const onlineCount = drivers.filter(d => d.onlineStatus === 'online').length;
+  const busyCount = drivers.filter(d => d.onlineStatus !== 'online' && d.onlineStatus !== 'offline').length;
+
+  // Zoom to driver on map
+  const zoomToDriver = (driver: any) => {
+    if (!map.current || !driver.currentLatitude || !driver.currentLongitude) return;
+    map.current.flyTo({
+      center: [driver.currentLongitude, driver.currentLatitude],
+      zoom: 15,
+      duration: 1000
+    });
+    setSelectedDriverId(driver.id);
   };
 
-  // Event handlers
-  const handleDriverClick = useCallback((driver: DriverLocationData) => {
-    setSelectedDriver(driver);
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setSelectedDriver(null);
-  }, []);
-
-  const handleFiltersChange = useCallback((newFilters: Partial<MapFilters>) => {
-    setFilters(prev => ({ ...prev, ...newFilters }));
-  }, []);
-
-  const handleRefreshToggle = useCallback(() => {
-    setAutoRefresh(prev => !prev);
-  }, []);
-
-  // Calculate stats from realtime drivers
-  const onlineCount = drivers.filter(d => d.onlineStatus === 'online').length;
-  const busyCount = drivers.filter(d => d.onlineStatus === 'busy').length;  
-  const totalCount = drivers.length;
-
   return (
-    <div className={styles.premiumMapPage}>
-      {/* Premium Header with Proper Spacing */}
-      <div className={styles.premiumHeader}>
-        <div className={styles.headerMain}>
-          <div className={styles.titleSection}>
-            <div className={styles.iconWrapper}>
-              <MapPin className={styles.pageIcon} size={28} />
-            </div>
-            <div className={styles.titleContent}>
-              <h1 className={styles.premiumTitle}>Live Drivers Map - DEBUG VERSION</h1>
-              <p className={styles.premiumSubtitle}>Real-time driver locations and status tracking</p>
-            </div>
+    <div style={{ width: '100%', height: 'calc(100vh - 80px)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      {/* Header with stats */}
+      <div style={{ 
+        padding: '20px', 
+        background: '#1a1a1a', 
+        color: 'white',
+        display: 'flex',
+        gap: '20px',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        flexShrink: 0
+      }}>
+        <h1 style={{ margin: 0, fontSize: '24px', whiteSpace: 'nowrap' }}>🗺️ Live Drivers Map</h1>
+        <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+          <div style={{ 
+            padding: '12px 24px', 
+            background: '#22C55E', 
+            borderRadius: '8px', 
+            fontWeight: 'bold',
+            fontSize: '16px',
+            whiteSpace: 'nowrap'
+          }}>
+            🟢 Online: {onlineCount}
           </div>
-          
-          <div className={styles.headerActions}>
-            {/* Realtime Status Indicator */}
-            <Badge 
-              variant={isConnected ? 'solid' : 'outline'} 
-              color={isConnected ? 'success' : 'neutral'}
-              size="sm"
-            >
-              {isConnected ? '🔴 LIVE' : '⚫ Offline'}
-            </Badge>
-            
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={handleManualRefresh}
-              disabled={loading}
-              className={styles.refreshButton}
-            >
-              <RefreshCw size={16} className={loading ? 'spin' : ''} />
-              Refresh
-            </Button>
+          <div style={{ 
+            padding: '12px 24px', 
+            background: '#FCD34D', 
+            color: '#000',
+            borderRadius: '8px', 
+            fontWeight: 'bold',
+            fontSize: '16px',
+            whiteSpace: 'nowrap'
+          }}>
+            🟡 Busy: {busyCount}
           </div>
-        </div>
-
-        {/* Premium Stats Cards */}
-        <div className={styles.statsGrid}>
-          <div className={`${styles.statCard} ${styles.online}`}>
-            <div className={styles.statIcon}>
-              <CheckCircle size={20} />
-            </div>
-            <div className={styles.statContent}>
-              <div className={styles.statValue}>{onlineCount}</div>
-              <div className={styles.statLabel}>Online</div>
-            </div>
+          <div style={{ 
+            padding: '12px 24px', 
+            background: '#3b82f6', 
+            borderRadius: '8px', 
+            fontWeight: 'bold',
+            fontSize: '16px',
+            whiteSpace: 'nowrap'
+          }}>
+            📍 Total: {drivers.length}
           </div>
-          
-          <div className={`${styles.statCard} ${styles.busy}`}>
-            <div className={styles.statIcon}>
-              <Car size={20} />
-            </div>
-            <div className={styles.statContent}>
-              <div className={styles.statValue}>{busyCount}</div>
-              <div className={styles.statLabel}>Busy</div>
-            </div>
-          </div>
-          
-          <div className={`${styles.statCard} ${styles.total}`}>
-            <div className={styles.statIcon}>
-              <Activity size={20} />
-            </div>
-            <div className={styles.statContent}>
-              <div className={styles.statValue}>{totalCount}</div>
-              <div className={styles.statLabel}>Total Active</div>
-            </div>
-          </div>
-          
-          {lastUpdated && (
-            <div className={`${styles.statCard} ${styles.lastUpdated}`}>
-              <div className={styles.statIcon}>
-                <Clock size={20} />
-              </div>
-              <div className={styles.statContent}>
-                <div className={styles.statValue}>
-                  {lastUpdated.toLocaleTimeString('en-GB', { 
-                    hour: '2-digit', 
-                    minute: '2-digit',
-                    second: '2-digit'
-                  })}
-                </div>
-                <div className={styles.statLabel}>Last Update</div>
-              </div>
+          {driversLoading && (
+            <div style={{ 
+              padding: '12px 24px', 
+              background: '#8b5cf6', 
+              borderRadius: '8px', 
+              fontSize: '15px',
+              whiteSpace: 'nowrap'
+            }}>
+              ⏳ Loading...
             </div>
           )}
         </div>
       </div>
 
-      {/* Premium Map Layout - Mobile Responsive */}
-      <div className={styles.premiumMapLayout}>
-        {/* Main Map Container - Dark Theme */}
-        <div className={styles.mapSection}>
-          <Card className={styles.premiumMapCard}>
-            <div className={styles.mapHeader}>
-              <h3 className={styles.mapTitle}>Driver Locations</h3>
-              <div className={styles.mapControlsMini}>
-                <MapControls
-                  filters={filters}
-                  onFiltersChange={handleFiltersChange}
-                  autoRefresh={autoRefresh}
-                  onRefreshToggle={handleRefreshToggle}
-                  onManualRefresh={handleManualRefresh}
-                  loading={loading}
-                  compact={true}
-                />
-              </div>
-            </div>
-            <div className={styles.darkMapContainer}>
-              <DriversMapView
-                drivers={drivers}
-                loading={loading}
-                error={error}
-                onDriverClick={handleDriverClick}
-                darkMode={true}
-              />
-            </div>
-          </Card>
-        </div>
+      {/* Main content area with map and sidebar */}
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        {/* Mapbox Map */}
+        <div ref={mapContainer} style={{ flex: 1 }} />
 
-        {/* Side Panel - Collapsible on Mobile */}
-        <div className={styles.infoSection}>
-          <Card className={styles.premiumInfoCard}>
-            <div className={styles.infoHeader}>
-              <h3 className={styles.infoTitle}>Active Drivers</h3>
-              <Badge variant="outline" className={styles.driverCountBadge}>
-                {drivers.length} visible
-              </Badge>
-            </div>
-            <div className={styles.infoContent}>
-              <DriverInfoPanel
-                drivers={drivers}
-                loading={loading}
-                onDriverClick={handleDriverClick}
-                selectedDriverId={selectedDriver?.id || null}
-              />
-            </div>
-          </Card>
+        {/* Sidebar with driver list */}
+        <div style={{
+          width: '350px',
+          background: '#1a1a1a',
+          color: 'white',
+          display: 'flex',
+          flexDirection: 'column',
+          borderLeft: '1px solid #333',
+          overflow: 'hidden'
+        }}>
+          {/* Search box */}
+          <div style={{ padding: '16px', borderBottom: '1px solid #333' }}>
+            <input
+              type="text"
+              placeholder="🔍 Search driver or license plate..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '10px 12px',
+                background: '#2a2a2a',
+                border: '1px solid #444',
+                borderRadius: '6px',
+                color: 'white',
+                fontSize: '14px',
+                outline: 'none'
+              }}
+            />
+          </div>
+
+          {/* Driver count */}
+          <div style={{
+            padding: '12px 16px',
+            background: '#252525',
+            borderBottom: '1px solid #333',
+            fontSize: '13px',
+            fontWeight: '600'
+          }}>
+            📋 DRIVERS ({filteredDrivers.length})
+            <span style={{ marginLeft: '12px', fontSize: '12px', color: '#888' }}>
+              🟡 Busy: {filteredDrivers.filter(d => d.onlineStatus !== 'online').length} • 
+              🟢 Online: {filteredDrivers.filter(d => d.onlineStatus === 'online').length}
+            </span>
+          </div>
+
+          {/* Driver list */}
+          <div style={{ flex: 1, overflow: 'auto' }}>
+            {filteredDrivers.map((driver) => {
+              const vehicle = (driver as any).vehicles?.[0];
+              const isBusy = driver.onlineStatus !== 'online';
+              const isSelected = driver.id === selectedDriverId;
+
+              return (
+                <div
+                  key={driver.id}
+                  onClick={() => zoomToDriver(driver)}
+                  style={{
+                    padding: '12px 16px',
+                    borderBottom: '1px solid #333',
+                    cursor: 'pointer',
+                    background: isSelected ? '#2a4a2a' : 'transparent',
+                    transition: 'background 0.2s',
+                    borderLeft: isSelected ? '3px solid #22C55E' : '3px solid transparent'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isSelected) e.currentTarget.style.background = '#252525';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isSelected) e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '6px' }}>
+                    <div style={{ fontWeight: '600', fontSize: '14px' }}>
+                      {isBusy ? '🟡' : '🟢'} {driver.firstName} {driver.lastName}
+                    </div>
+                    {isBusy && (
+                      <span style={{
+                        background: '#FCD34D',
+                        color: '#000',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                        fontSize: '10px',
+                        fontWeight: 'bold'
+                      }}>
+                        JOB
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#999', marginBottom: '4px' }}>
+                    📍 {(driver as any).address || `${driver.currentLatitude?.toFixed(4)}, ${driver.currentLongitude?.toFixed(4)}`}
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#999' }}>
+                    🚗 {vehicle?.license_plate || 'N/A'} • {vehicle?.make || 'No vehicle'}
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      zoomToDriver(driver);
+                    }}
+                    style={{
+                      marginTop: '8px',
+                      padding: '6px 12px',
+                      background: '#22C55E',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    📍 Zoom to Driver
+                  </button>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-
-      {/* Driver Details Modal */}
-      {selectedDriver && (
-        <DriverDetailsModal
-          driver={selectedDriver}
-          isOpen={!!selectedDriver}
-          onClose={handleCloseModal}
-        />
-      )}
     </div>
   );
 }

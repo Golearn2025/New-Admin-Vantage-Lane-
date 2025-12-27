@@ -5,10 +5,9 @@
  * Called from mobile app when driver goes online/offline/busy
  */
 
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { updateDriverStatus } from '@entities/driver-location';
-import { UpdateStatusPayloadSchema } from '@entities/driver-location';
+import { updateDriverStatus, UpdateStatusPayloadSchema } from '@entities/driver-location';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
@@ -68,7 +67,7 @@ export async function POST(request: NextRequest) {
     const locationData = (latitude && longitude) ? {
       latitude,
       longitude, 
-      accuracy
+      ...(accuracy !== undefined && { accuracy })
     } : undefined;
 
     // Update driver status

@@ -1,0 +1,103 @@
+/**
+ * Driver Marker Styles - Premium Google Maps Markers
+ * 
+ * Pin-shaped markers with status ring + pulse animation
+ * No emoji - pure SVG/CSS
+ */
+
+.driverMarker {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -100%); /* anchor at bottom point */
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+/* Pulse animation (only when BUSY) */
+.pulse {
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  opacity: 0.45;
+  animation: pulse 1.2s infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.40;
+  }
+  70% {
+    transform: scale(1.25);
+    opacity: 0.05;
+  }
+  100% {
+    transform: scale(1.25);
+    opacity: 0.00;
+  }
+}
+
+/* Pin body (dark background) */
+.pin {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px 18px 18px 0;
+  transform: rotate(-45deg);
+  background: #0B1220;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+/* Status ring (colored border) */
+.ring {
+  position: absolute;
+  inset: 2px;
+  border-radius: 14px 14px 14px 0;
+  transform: rotate(-45deg);
+  border: 3px solid transparent;
+}
+
+/* Car icon (white SVG) */
+.icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  transform: translate(-50%, -65%);
+  pointer-events: none;
+}
+
+/* Selected state (enlarged + halo) */
+.driverMarker.selected {
+  transform: translate(-50%, -100%) scale(1.15);
+  z-index: 1000;
+}
+
+.driverMarker.selected .pin {
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.35),
+    0 0 0 4px rgba(59, 130, 246, 0.3),
+    0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Hover effect */
+.driverMarker:hover {
+  transform: translate(-50%, -100%) scale(1.08);
+}
+
+.driverMarker.selected:hover {
+  transform: translate(-50%, -100%) scale(1.15);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+  }
+  
+  .driverMarker {
+    transition: none;
+  }
+}

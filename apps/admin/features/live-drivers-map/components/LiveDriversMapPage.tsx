@@ -9,6 +9,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
 import { useRealtimeDrivers } from '../hooks/useRealtimeDrivers';
+import { animateMarkerSmooth } from '../utils/smoothMarkerAnimation';
 
 // Set Mapbox token
 mapboxgl.accessToken = 'pk.eyJ1IjoidmFudGFnZWxhbmUiLCJhIjoiY21peGw4NTIxMDR5YjNkcXp3eGN0OTc3YyJ9.S1VwkfoU1jU97dOF4Nayjw';
@@ -17,6 +18,8 @@ export function LiveDriversMapPage() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const markers = useRef<Map<string, mapboxgl.Marker>>(new Map());
+  const markerElements = useRef<Map<string, HTMLDivElement>>(new Map());
+  const lastPositions = useRef<Map<string, { lat: number; lng: number }>>(new Map());
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedDriverId, setSelectedDriverId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -81,22 +84,61 @@ export function LiveDriversMapPage() {
     };
   }, []);
 
-  // Update driver markers
+  // Update driver markers with smooth animation
   useEffect(() => {
     if (!map.current || !isLoaded || driversLoading) return;
 
     console.log('🔄 Updating', drivers.length, 'driver markers');
 
-    // Remove old markers
-    markers.current.forEach((marker) => marker.remove());
-    markers.current.clear();
-
-    // Add new markers with car icon
+    // Process each driver
     drivers.forEach((driver) => {
       if (!driver.currentLatitude || !driver.currentLongitude) return;
 
+      const currentPos = { lat: driver.currentLatitude, lng: driver.currentLongitude };
+      const existingMarker = markers.current.get(driver.id);
+      const lastPos = lastPositions.current.get(driver.id);
+
+      // If marker exists and position changed, animate it smoothly
+      if (existingMarker && lastPos && 
+          (Math.abs(lastPos.lat - currentPos.lat) > 0.00001 || 
+           Math.abs(lastPos.lng - currentPos.lng) > 0.00001)) {
+        
+        console.log(`🚗 Animating ${driver.firstName} from`, lastPos, 'to', currentPos);
+
+        // Animate over 5 seconds (typical GPS update interval)
+        animateMarkerSmooth(
+          driver.id,
+          lastPos,
+          currentPos,
+          5000, // 5 seconds - smooth movement between GPS updates
+          (pos, heading) => {
+            // Update marker position and rotation
+            existingMarker.setLngLat([pos.lng, pos.lat]);
+            
+            // Update car icon rotation
+            const carIcon = markerElements.current.get(driver.id)?.querySelector('svg');
+            if (carIcon) {
+              carIcon.style.transform = `rotate(${heading}deg)`;
+            }
+          },
+          () => {
+            // Animation complete - update last position
+            lastPositions.current.set(driver.id, currentPos);
+            console.log(`✅ Animation complete for ${driver.firstName}`);
+          }
+        );
+
+        return; // Skip recreating marker
+      }
+
+      // If marker exists but position hasn't changed, skip
+      if (existingMarker) {
+        return;
+      }
+
+      // Create new marker for first time
       const color = driver.onlineStatus === 'online' ? '#22C55E' : '#FCD34D';
-      const heading = 0; // TODO: get from driver data when available
+      const heading = 0;
 
       // Create container for marker + labels
       const container = document.createElement('div');
@@ -148,23 +190,24 @@ export function LiveDriversMapPage() {
       carIcon.style.filter = 'drop-shadow(0 3px 6px rgba(0,0,0,0.4))';
       container.appendChild(carIcon);
 
-      // License plate label (from vehicle data)
-      const plateLabel = document.createElement('div');
-      const vehicle = (driver as any).vehicles?.[0]; // Get first vehicle
-      plateLabel.textContent = vehicle?.license_plate || 'N/A';
-      plateLabel.style.background = 'white';
-      plateLabel.style.color = 'black';
-      plateLabel.style.padding = '2px 6px';
-      plateLabel.style.borderRadius = '4px';
-      plateLabel.style.fontSize = '10px';
-      plateLabel.style.fontWeight = 'bold';
-      plateLabel.style.marginTop = '2px';
-      plateLabel.style.border = '1px solid #000';
-      container.appendChild(plateLabel);
+      // Vehicle label (license plate) - NO ADDRESS NEEDED
+      const vehicle = (driver as any).vehicles?.[0];
+      if (vehicle?.license_plate) {
+        const plateLabel = document.createElement('div');
+        plateLabel.textContent = vehicle.license_plate;
+        plateLabel.style.background = 'white';
+        plateLabel.style.color = '#1F2937';
+        plateLabel.style.padding = '2px 6px';
+        plateLabel.style.borderRadius = '4px';
+        plateLabel.style.fontSize = '10px';
+        plateLabel.style.fontWeight = '700';
+        plateLabel.style.border = '1px solid #E5E7EB';
+        plateLabel.style.marginTop = '2px';
+        container.appendChild(plateLabel);
+      }
 
-      // Enhanced popup with more details
+      // Enhanced popup with more details (NO ADDRESS - just coordinates)
       const vehicleInfo = vehicle ? `${vehicle.make} ${vehicle.model} ${vehicle.year || ''}` : 'N/A';
-      const address = (driver as any).address || `Lat: ${driver.currentLatitude?.toFixed(4)}, Lng: ${driver.currentLongitude?.toFixed(4)}`;
       const popupHTML = `
         <div style="padding: 16px; min-width: 280px; font-family: system-ui;">
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
@@ -176,9 +219,9 @@ export function LiveDriversMapPage() {
             ● ${driver.onlineStatus.toUpperCase()}
           </div>
           <div style="border-top: 1px solid #e5e7eb; padding-top: 12px; margin-bottom: 12px;">
-            <div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">📍 LOCATION</div>
-            <div style="font-size: 13px; color: #374151; font-weight: 500;">
-              ${address}
+            <div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">📍 COORDINATES</div>
+            <div style="font-size: 13px; color: #374151; font-weight: 500; font-family: monospace;">
+              ${driver.currentLatitude?.toFixed(6)}, ${driver.currentLongitude?.toFixed(6)}
             </div>
           </div>
           <div style="border-top: 1px solid #e5e7eb; padding-top: 12px; margin-bottom: 12px;">
@@ -210,7 +253,21 @@ export function LiveDriversMapPage() {
         setSelectedDriverId(driver.id);
       });
 
+      // Store marker and container for animation
       markers.current.set(driver.id, marker);
+      markerElements.current.set(driver.id, container);
+      lastPositions.current.set(driver.id, currentPos);
+    });
+
+    // Remove markers for drivers no longer in list
+    const driverIds = new Set(drivers.map(d => d.id));
+    markers.current.forEach((marker, id) => {
+      if (!driverIds.has(id)) {
+        marker.remove();
+        markers.current.delete(id);
+        markerElements.current.delete(id);
+        lastPositions.current.delete(id);
+      }
     });
 
     // Auto-fit bounds to show all drivers

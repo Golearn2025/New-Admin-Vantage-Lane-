@@ -178,11 +178,15 @@ export function useRealtimeDrivers(filters: { showOnline: boolean; showBusy: boo
         {
           event: '*', // Listen to all events: INSERT, UPDATE, DELETE
           schema: 'public',
-          table: 'drivers',
-          filter: 'deleted_at=is.null' // Only active drivers
+          table: 'drivers'
+          // NO FILTER - filters can block realtime events
         },
         (payload) => {
-          console.log('🔴 Realtime update received:', payload);
+          console.log('🔴🔴🔴 REALTIME EVENT RECEIVED! 🔴🔴🔴');
+          console.log('Event type:', payload.eventType);
+          console.log('Table:', payload.table);
+          console.log('New data:', payload.new);
+          console.log('Old data:', payload.old);
           handleRealtimeUpdate(payload);
         }
       )
@@ -190,9 +194,13 @@ export function useRealtimeDrivers(filters: { showOnline: boolean; showBusy: boo
         console.log('📡 Realtime status:', status);
         setIsConnected(status === 'SUBSCRIBED');
         
-        if (status === 'CHANNEL_ERROR') {
+        if (status === 'SUBSCRIBED') {
+          console.log('✅ Successfully subscribed to realtime updates!');
+        } else if (status === 'CHANNEL_ERROR') {
+          console.error('❌ Realtime connection failed');
           setError('Realtime connection failed');
         } else if (status === 'CLOSED') {
+          console.warn('⚠️ Realtime connection closed');
           setIsConnected(false);
         }
       });

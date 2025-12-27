@@ -5,8 +5,8 @@
  * Conform RULES.md: TypeScript strict, business logic în entities
  */
 
-import { useState, useEffect } from 'react';
 import { PerformanceMetrics, SlowRequest } from '@entities/health';
+import { useEffect, useState } from 'react';
 
 interface UsePerformanceMetricsReturn {
   metrics: PerformanceMetrics;
@@ -96,9 +96,10 @@ export function usePerformanceMetrics(): UsePerformanceMetricsReturn {
 
     fetchPerformanceData();
 
-    // Auto-refresh every 60 seconds
-    const interval = setInterval(fetchPerformanceData, 60000);
-    return () => clearInterval(interval);
+    // ⚠️ POLLING DISABLED - Use manual refresh or implement Supabase Realtime
+    // Auto-refresh was causing 502 errors on Render due to excessive API calls
+    // const interval = setInterval(fetchPerformanceData, 60000);
+    // return () => clearInterval(interval);
   }, []);
 
   return {

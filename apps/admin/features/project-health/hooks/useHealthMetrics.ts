@@ -5,8 +5,8 @@
  * Conform RULES.md: TypeScript strict, <200 linii
  */
 
-import { useState, useEffect } from 'react';
 import { HealthData, PerformanceMetrics } from '@entities/health';
+import { useEffect, useState } from 'react';
 
 interface UseHealthMetricsReturn {
   health: HealthData | null;
@@ -67,10 +67,10 @@ export function useHealthMetrics(): UseHealthMetricsReturn {
     // Initial fetch
     fetchHealthData();
 
-    // Auto-refresh every 30 seconds
-    const interval = setInterval(fetchHealthData, 30000);
-
-    return () => clearInterval(interval);
+    // ⚠️ POLLING DISABLED - Use manual refresh or implement Supabase Realtime
+    // Auto-refresh was causing 502 errors on Render due to excessive API calls
+    // const interval = setInterval(fetchHealthData, 30000);
+    // return () => clearInterval(interval);
   }, []);
 
   return {

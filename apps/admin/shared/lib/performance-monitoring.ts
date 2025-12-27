@@ -191,15 +191,27 @@ class PerformanceManager {
   public supabase = new SupabaseCostMonitor();
   public react = new ReactPerformanceMonitor();
   public render = new RenderComMonitor();
+  private memoryInterval: NodeJS.Timeout | null = null;
   
   startMonitoring() {
     console.log('🚀 Performance monitoring started');
     
+    // Clear existing interval to prevent memory leak
+    this.stopMonitoring();
+    
     // Track memory usage every 30 seconds
     if (typeof window !== 'undefined') {
-      setInterval(() => {
+      this.memoryInterval = setInterval(() => {
         this.render.trackMemoryUsage();
       }, 30000);
+    }
+  }
+  
+  stopMonitoring() {
+    if (this.memoryInterval) {
+      clearInterval(this.memoryInterval);
+      this.memoryInterval = null;
+      console.log('🛑 Performance monitoring stopped');
     }
   }
   

@@ -1,14 +1,24 @@
 /**
  * Drivers Map View - Google Maps Integration
  * 
- * Displays online drivers on Google Maps with real-time markers
+ * Premium driver markers with:
+ * - SVG pin markers with status colors
+ * - Status-based colors (ONLINE/EN_ROUTE/ARRIVED/IN_PROGRESS)
+ * - Selected state (enlarged marker)
+ * - Accuracy circle on click
+ * - Real-time position updates
  */
 
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { LoadingState, ErrorBanner } from '@vantage-lane/ui-core';
 import type { DriverLocationData } from '@entities/driver-location';
+import { ErrorBanner, LoadingState } from '@vantage-lane/ui-core';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+    getDriverColor,
+    getStatusLabel,
+    mapDriverStatus
+} from '../utils/markerHelpers';
 
 interface DriversMapViewProps {
   drivers: DriverLocationData[];
@@ -20,13 +30,15 @@ interface DriversMapViewProps {
 
 // Default map center (Bucharest, Romania)
 const DEFAULT_CENTER = { lat: 44.4268, lng: 26.1025 };
-const DEFAULT_ZOOM = 12;
+const DEFAULT_ZOOM = 13;
 
 export function DriversMapView({ drivers, loading, error, onDriverClick, darkMode = false }: DriversMapViewProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<Map<string, google.maps.Marker>>(new Map());
+  const accuracyCircleRef = useRef<google.maps.Circle | null>(null);
   const [isGoogleMapsLoaded, setIsGoogleMapsLoaded] = useState(false);
+  const [selectedDriverId, setSelectedDriverId] = useState<string | null>(null);
 
   // Load Google Maps script
   useEffect(() => {
@@ -135,14 +147,22 @@ export function DriversMapView({ drivers, loading, error, onDriverClick, darkMod
       }
     ];
 
-    // Light theme styles
+    // Light theme styles - Hide POIs for better driver visibility
     const lightMapStyles = [
       {
         featureType: 'poi',
-        stylers: [{ visibility: 'simplified' }]
+        stylers: [{ visibility: 'off' }]
+      },
+      {
+        featureType: 'poi.business',
+        stylers: [{ visibility: 'off' }]
       },
       {
         featureType: 'transit',
+        stylers: [{ visibility: 'off' }]
+      },
+      {
+        featureType: 'transit.station',
         stylers: [{ visibility: 'off' }]
       }
     ];
@@ -161,7 +181,7 @@ export function DriversMapView({ drivers, loading, error, onDriverClick, darkMod
     mapInstanceRef.current = new google.maps.Map(mapRef.current, mapOptions);
   }, [isGoogleMapsLoaded]);
 
-  // Create marker for driver
+  // Create marker for driver with premium SVG icon
   const createDriverMarker = useCallback((driver: DriverLocationData) => {
     if (!mapInstanceRef.current || !driver.currentLatitude || !driver.currentLongitude) {
       return null;
@@ -172,38 +192,58 @@ export function DriversMapView({ drivers, loading, error, onDriverClick, darkMod
       lng: driver.currentLongitude
     };
 
-    // Color-coded marker based on status
-    const getMarkerColor = (status: string) => {
-      switch (status) {
-        case 'online': return '#22c55e'; // Green
-        case 'busy': return '#3b82f6';   // Blue  
-        case 'break': return '#f59e0b';  // Yellow
-        default: return '#6b7280';       // Gray
-      }
+    // Map driver status to our status format
+    const status = mapDriverStatus(driver.onlineStatus, null);
+    const color = getDriverColor(status);
+    const isSelected = selectedDriverId === driver.id;
+
+    // Create SVG icon with status color
+    const svgIcon = {
+      path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
+      fillColor: color,
+      fillOpacity: 1,
+      strokeColor: '#ffffff',
+      strokeWeight: 3,
+      scale: isSelected ? 3.0 : 2.5,
+      anchor: new google.maps.Point(12, 22),
+      labelOrigin: new google.maps.Point(12, 9)
     };
 
     const marker = new google.maps.Marker({
       position,
       map: mapInstanceRef.current,
-      title: `${driver.firstName || ''} ${driver.lastName || ''} (${driver.onlineStatus})`,
-      icon: {
-        path: google.maps.SymbolPath.CIRCLE,
-        scale: 8,
-        fillColor: getMarkerColor(driver.onlineStatus),
-        fillOpacity: 0.8,
-        strokeColor: '#ffffff',
-        strokeWeight: 2,
-      },
+      title: `${driver.firstName || ''} ${driver.lastName || ''} - ${getStatusLabel(status)}`,
+      icon: svgIcon,
       animation: google.maps.Animation.DROP,
+      zIndex: isSelected ? 2000 : 1000,
     });
 
     // Add click handler
     marker.addListener('click', () => {
+      setSelectedDriverId(driver.id);
       onDriverClick(driver);
+      
+      // Show accuracy circle
+      if (accuracyCircleRef.current) {
+        accuracyCircleRef.current.setMap(null);
+      }
+      
+      const accuracyCircle = new google.maps.Circle({
+        map: mapInstanceRef.current,
+        center: position,
+        radius: 50,
+        strokeColor: color,
+        strokeOpacity: 0.3,
+        strokeWeight: 2,
+        fillColor: color,
+        fillOpacity: 0.12,
+      });
+      
+      accuracyCircleRef.current = accuracyCircle;
     });
 
     return marker;
-  }, [onDriverClick]);
+  }, [onDriverClick, selectedDriverId]);
 
   // Update markers when drivers change
   useEffect(() => {
@@ -241,6 +281,24 @@ export function DriversMapView({ drivers, loading, error, onDriverClick, darkMod
           lng: driver.currentLongitude
         };
         marker.setPosition(newPosition);
+        
+        // Update icon if selected state changed
+        const status = mapDriverStatus(driver.onlineStatus, null);
+        const color = getDriverColor(status);
+        const isSelected = selectedDriverId === driver.id;
+        
+        const svgIcon = {
+          path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
+          fillColor: color,
+          fillOpacity: 1,
+          strokeColor: '#ffffff',
+          strokeWeight: 3,
+          scale: isSelected ? 3.0 : 2.5,
+          anchor: new google.maps.Point(12, 22),
+          labelOrigin: new google.maps.Point(12, 9)
+        };
+        marker.setIcon(svgIcon);
+        marker.setZIndex(isSelected ? 2000 : 1000);
       }
     });
 
@@ -259,15 +317,19 @@ export function DriversMapView({ drivers, loading, error, onDriverClick, darkMod
       });
       mapInstanceRef.current.fitBounds(bounds, 50);
     }
-  }, [drivers, createDriverMarker]);
+  }, [drivers, createDriverMarker, selectedDriverId]);
 
-  // Cleanup markers on unmount
+  // Cleanup markers and accuracy circle on unmount
   useEffect(() => {
     return () => {
       markersRef.current.forEach(marker => {
         marker.setMap(null);
       });
       markersRef.current.clear();
+      
+      if (accuracyCircleRef.current) {
+        accuracyCircleRef.current.setMap(null);
+      }
     };
   }, []);
 
@@ -290,11 +352,11 @@ export function DriversMapView({ drivers, loading, error, onDriverClick, darkMod
   }
 
   return (
-    <div className="drivers-map-view">
+    <div className="drivers-map-view" style={{ width: '100%', height: '100%' }}>
       <div
         ref={mapRef}
         className="google-map"
-        style={{ width: '100%', height: '500px' }}
+        style={{ width: '100%', height: '100%' }}
       />
       
       {loading && (

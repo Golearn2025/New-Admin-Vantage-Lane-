@@ -7,32 +7,34 @@
 
 .premiumMapPage {
   min-height: 100vh;
+  height: 100vh;
   background: linear-gradient(135deg, 
     var(--background-primary) 0%, 
     var(--background-secondary) 100%
   );
-  padding: var(--spacing-6) var(--spacing-4);
+  padding: var(--spacing-2) var(--spacing-2);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-6);
+  gap: var(--spacing-2);
+  overflow: hidden;
 }
 
 /* ===== PREMIUM HEADER ===== */
 .premiumHeader {
   background: var(--surface-primary);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-elevation-3);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elevation-2);
   border: 1px solid var(--border-subtle);
   backdrop-filter: blur(12px);
-  padding: var(--spacing-6);
-  margin-bottom: var(--spacing-4);
+  padding: var(--spacing-3);
+  flex-shrink: 0;
 }
 
 .headerMain {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--spacing-5);
+  margin-bottom: var(--spacing-3);
 }
 
 .titleSection {
@@ -98,19 +100,19 @@
 /* ===== PREMIUM STATS GRID ===== */
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: var(--spacing-4);
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--spacing-2);
 }
 
 .statCard {
   background: var(--surface-secondary);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3);
   border: 1px solid var(--border-subtle);
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: var(--spacing-3);
+  gap: var(--spacing-2);
   position: relative;
   overflow: hidden;
 }
@@ -276,10 +278,11 @@
 /* ===== PREMIUM MAP LAYOUT ===== */
 .premiumMapLayout {
   display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: var(--spacing-6);
+  grid-template-columns: 1fr 320px;
+  gap: var(--spacing-2);
   flex: 1;
-  min-height: 600px;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .mapSection {
@@ -325,6 +328,8 @@
   background: #1a1a1a;
   border-radius: 0 0 var(--radius-xl) var(--radius-xl);
   overflow: hidden;
+  min-height: 500px;
+  height: 100%;
 }
 
 /* ===== INFO SECTION ===== */

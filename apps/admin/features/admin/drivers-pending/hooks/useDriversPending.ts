@@ -6,9 +6,9 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
-import { listPendingDrivers } from '@entities/driver';
 import { createClient } from '@/lib/supabase/client';
+import { listPendingDrivers } from '@entities/driver';
+import { useEffect, useState } from 'react';
 import type { PendingDriver } from '../types';
 
 export interface UseDriversPendingReturn {
@@ -71,10 +71,11 @@ export function useDriversPending(): UseDriversPendingReturn {
   useEffect(() => {
     fetchDrivers();
     
-    // Poll every 30 seconds for updates
-    const interval = setInterval(() => {
-      fetchDrivers();
-    }, 30000);
+    // ⚠️ POLLING DISABLED - Realtime subscription below handles updates
+    // Polling was causing 502 errors on Render due to excessive API calls
+    // const interval = setInterval(() => {
+    //   fetchDrivers();
+    // }, 30000);
     
     // REAL-TIME: Listen for document changes
     const supabase = createClient();
@@ -107,7 +108,7 @@ export function useDriversPending(): UseDriversPendingReturn {
       .subscribe();
     
     return () => {
-      clearInterval(interval);
+      // Cleanup realtime subscription
       supabase.removeChannel(channel);
     };
   }, []);

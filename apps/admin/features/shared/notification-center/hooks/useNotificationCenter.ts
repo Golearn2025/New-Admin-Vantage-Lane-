@@ -7,11 +7,11 @@
 'use client';
 
 import {
-  deleteNotification as apiDeleteNotification,
-  markAllAsRead as apiMarkAllAsRead,
-  markAsRead as apiMarkAsRead,
-  getUnreadCount,
-  listNotifications,
+    deleteNotification as apiDeleteNotification,
+    markAllAsRead as apiMarkAllAsRead,
+    markAsRead as apiMarkAsRead,
+    getUnreadCount,
+    listNotifications,
 } from '@entities/notification';
 import type { NotificationData } from '@entities/notification/model/types';
 import { useEffect, useState } from 'react';
@@ -59,10 +59,10 @@ export function useNotificationCenter(): UseNotificationCenterReturn {
   useEffect(() => {
     fetchNotifications();
 
-    // Poll every 30 seconds for new notifications
-    const interval = setInterval(fetchNotifications, 30000);
-
-    return () => clearInterval(interval);
+    // ⚠️ POLLING DISABLED - Use NotificationsProvider realtime subscription instead
+    // Polling was causing 502 errors on Render due to excessive API calls
+    // const interval = setInterval(fetchNotifications, 30000);
+    // return () => clearInterval(interval);
   }, []);
 
   const markAsRead = async (id: string) => {

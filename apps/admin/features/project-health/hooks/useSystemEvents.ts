@@ -5,8 +5,8 @@
  * Conform RULES.md: <200 linii, TypeScript strict
  */
 
-import { useState, useEffect } from 'react';
-import { SystemEvent, MonitoringAlert } from '@entities/health';
+import { MonitoringAlert, SystemEvent } from '@entities/health';
+import { useEffect, useState } from 'react';
 
 interface UseSystemEventsReturn {
   events: SystemEvent[];
@@ -80,9 +80,10 @@ export function useSystemEvents(): UseSystemEventsReturn {
 
     fetchSystemEvents();
 
-    // Auto-refresh every 2 minutes
-    const interval = setInterval(fetchSystemEvents, 120000);
-    return () => clearInterval(interval);
+    // ⚠️ POLLING DISABLED - Use manual refresh or implement Supabase Realtime
+    // Auto-refresh was causing 502 errors on Render due to excessive API calls
+    // const interval = setInterval(fetchSystemEvents, 120000);
+    // return () => clearInterval(interval);
   }, []);
 
   return {

@@ -34,7 +34,7 @@ export function useRealtimeDrivers(filters: { showOnline: boolean; showBusy: boo
       setLoading(true);
       setError(null);
 
-      console.log('🗺️ [UPDATED] Fetching initial drivers data with NEW DEBUG...');
+      console.log('🗺️ Fetching initial drivers data...');
 
       // Get current session to ensure auth
       const { data: { session } } = await supabase.auth.getSession();
@@ -58,30 +58,9 @@ export function useRealtimeDrivers(filters: { showOnline: boolean; showBusy: boo
         return;
       }
 
-      console.log('✅ Admin access confirmed, continuing with full query...');
+      console.log('✅ Admin access confirmed, fetching drivers...');
 
-      // Debug query step by step
-      console.log('🔍 Testing query without filters...');
-      const { data: allData, error: allError } = await supabase
-        .from('drivers')
-        .select(`
-          id,
-          first_name,
-          last_name,
-          online_status,
-          current_latitude,
-          current_longitude,
-          location_updated_at
-        `)
-        .is('deleted_at', null);
-
-      console.log('📊 All drivers (no location filter):', allData?.length || 0);
-      
-      if (allData && allData.length > 0) {
-        console.log('📍 Sample driver data:', allData[0]);
-      }
-
-      // Now apply location filters and include vehicle data
+      // Fetch drivers with location and vehicle data
       const { data, error: fetchError } = await supabase
         .from('drivers')
         .select(`
@@ -109,15 +88,13 @@ export function useRealtimeDrivers(filters: { showOnline: boolean; showBusy: boo
         .not('current_latitude', 'is', null)
         .not('current_longitude', 'is', null);
 
-      console.log('📍 Drivers with location filters:', data?.length || 0);
-
       if (fetchError) {
         console.error('❌ Drivers fetch error:', fetchError);
         setError(fetchError.message);
         return;
       }
 
-      console.log('✅ Fetched drivers:', data?.length || 0);
+      console.log('✅ Fetched drivers with location:', data?.length || 0);
 
       // Transform data to match our interface
       const transformedDrivers: DriverLocationData[] = (data || []).map(driver => ({
@@ -139,16 +116,27 @@ export function useRealtimeDrivers(filters: { showOnline: boolean; showBusy: boo
         vehicles: (driver as any).vehicles // Add vehicles array
       }));
 
-      // TEMPORARILY show ALL drivers (no filters)
-      console.log('🔥 SHOWING ALL DRIVERS - NO FILTERS FOR DEBUG');
-      const filteredDrivers = transformedDrivers; // Show all for now
-      
-      // Apply filters (commented out for debug)
-      // const filteredDrivers = transformedDrivers.filter(driver => {
-      //   if (driver.onlineStatus === 'online' && filters.showOnline) return true;
-      //   if (driver.onlineStatus === 'busy' && filters.showBusy) return true;
-      //   return false;
-      // });
+      // Debug: Log all drivers before filtering
+      console.log('🔍 All drivers before filtering:', transformedDrivers.map(d => ({
+        name: `${d.firstName} ${d.lastName}`,
+        status: d.onlineStatus,
+        hasLocation: !!(d.currentLatitude && d.currentLongitude)
+      })));
+
+      // Apply filters - show only ONLINE and BUSY drivers (hide OFFLINE)
+      const filteredDrivers = transformedDrivers.filter(driver => {
+        const shouldShow = (driver.onlineStatus === 'online' && filters.showOnline) || 
+                          (driver.onlineStatus === 'busy' && filters.showBusy);
+        
+        if (!shouldShow) {
+          console.log(`❌ Filtering out ${driver.firstName} ${driver.lastName} - status: ${driver.onlineStatus}`);
+        }
+        
+        return shouldShow;
+      });
+
+      console.log(`✅ Filtered drivers: ${filteredDrivers.length} online/busy out of ${transformedDrivers.length} total`);
+      console.log('✅ Drivers to show:', filteredDrivers.map(d => `${d.firstName} ${d.lastName} (${d.onlineStatus})`));
 
       setDrivers(filteredDrivers);
       setLastUpdate(new Date());
@@ -182,11 +170,8 @@ export function useRealtimeDrivers(filters: { showOnline: boolean; showBusy: boo
           // NO FILTER - filters can block realtime events
         },
         (payload) => {
-          console.log('🔴🔴🔴 REALTIME EVENT RECEIVED! 🔴🔴🔴');
-          console.log('Event type:', payload.eventType);
-          console.log('Table:', payload.table);
-          console.log('New data:', payload.new);
-          console.log('Old data:', payload.old);
+          const driverId = (payload.new as any)?.id || (payload.old as any)?.id;
+          console.log('📡 Realtime event:', payload.eventType, 'for driver:', driverId);
           handleRealtimeUpdate(payload);
         }
       )

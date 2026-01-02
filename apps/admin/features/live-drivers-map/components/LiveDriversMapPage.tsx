@@ -190,8 +190,9 @@ export function LiveDriversMapPage() {
       carIcon.style.filter = 'drop-shadow(0 3px 6px rgba(0,0,0,0.4))';
       container.appendChild(carIcon);
 
-      // Vehicle label (license plate) - NO ADDRESS NEEDED
-      const vehicle = (driver as any).vehicles?.[0];
+      // Vehicle label (license plate) - Find first vehicle with license plate
+      const vehicles = (driver as any).vehicles || [];
+      const vehicle = vehicles.find((v: any) => v?.license_plate) || vehicles[0];
       if (vehicle?.license_plate) {
         const plateLabel = document.createElement('div');
         plateLabel.textContent = vehicle.license_plate;
@@ -207,7 +208,7 @@ export function LiveDriversMapPage() {
       }
 
       // Enhanced popup with more details (NO ADDRESS - just coordinates)
-      const vehicleInfo = vehicle ? `${vehicle.make} ${vehicle.model} ${vehicle.year || ''}` : 'N/A';
+      const vehicleInfo = vehicle ? `${vehicle.make || 'N/A'} ${vehicle.model || ''} ${vehicle.year || ''}` : 'N/A';
       const popupHTML = `
         <div style="padding: 16px; min-width: 280px; font-family: system-ui;">
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
@@ -409,7 +410,8 @@ export function LiveDriversMapPage() {
           {/* Driver list */}
           <div style={{ flex: 1, overflow: 'auto' }}>
             {filteredDrivers.map((driver) => {
-              const vehicle = (driver as any).vehicles?.[0];
+              const vehicles = (driver as any).vehicles || [];
+              const vehicle = vehicles.find((v: any) => v?.license_plate) || vehicles[0];
               const isBusy = driver.onlineStatus !== 'online';
               const isSelected = driver.id === selectedDriverId;
 

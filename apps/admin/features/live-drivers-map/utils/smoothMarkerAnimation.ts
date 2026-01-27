@@ -23,7 +23,7 @@ const activeAnimations = new Map<string, AnimationState>();
 /**
  * Calculate bearing (heading) between two points
  */
-function calculateBearing(start: Position, end: Position): number {
+export function calculateBearing(start: Position, end: Position): number {
   const startLat = start.lat * Math.PI / 180;
   const startLng = start.lng * Math.PI / 180;
   const endLat = end.lat * Math.PI / 180;

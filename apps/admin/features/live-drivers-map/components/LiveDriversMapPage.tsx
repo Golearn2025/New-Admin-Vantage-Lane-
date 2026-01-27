@@ -9,7 +9,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
 import { useRealtimeDrivers } from '../hooks/useRealtimeDrivers';
-import { animateMarkerSmooth } from '../utils/smoothMarkerAnimation';
+import { calculateBearing } from '../utils/smoothMarkerAnimation';
 
 // Set Mapbox token
 mapboxgl.accessToken = 'pk.eyJ1IjoidmFudGFnZWxhbmUiLCJhIjoiY21peGw4NTIxMDR5YjNkcXp3eGN0OTc3YyJ9.S1VwkfoU1jU97dOF4Nayjw';
@@ -23,6 +23,8 @@ export function LiveDriversMapPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedDriverId, setSelectedDriverId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const hasInitializedBounds = useRef(false);
+  const isMapMoving = useRef(false);
 
   // Get real driver data from Supabase
   const { drivers, loading: driversLoading } = useRealtimeDrivers({
@@ -71,6 +73,26 @@ export function LiveDriversMapPage() {
       zoom: 12,
     });
 
+    // Disable transitions când user mută harta (previne marker "floating")
+    map.current.on('movestart', () => {
+      isMapMoving.current = true;
+      console.log('🗺️ Map movestart - disabling transitions for', markers.current.size, 'markers');
+      markers.current.forEach((marker) => {
+        const element = marker.getElement();
+        element.style.transition = 'none';
+      });
+    });
+
+    // Re-enable transitions când user termină de mutat harta
+    map.current.on('moveend', () => {
+      isMapMoving.current = false;
+      console.log('🗺️ Map moveend - re-enabling transitions for', markers.current.size, 'markers');
+      markers.current.forEach((marker) => {
+        const element = marker.getElement();
+        element.style.transition = 'transform 2s linear';
+      });
+    });
+
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
     map.current.addControl(new mapboxgl.ScaleControl(), 'bottom-left');
 
@@ -105,28 +127,32 @@ export function LiveDriversMapPage() {
         
         console.log(`🚗 Animating ${driver.firstName} from`, lastPos, 'to', currentPos);
 
-        // Animate over 5 seconds (typical GPS update interval)
-        animateMarkerSmooth(
-          driver.id,
-          lastPos,
-          currentPos,
-          5000, // 5 seconds - smooth movement between GPS updates
-          (pos, heading) => {
-            // Update marker position and rotation
-            existingMarker.setLngLat([pos.lng, pos.lat]);
-            
-            // Update car icon rotation
-            const carIcon = markerElements.current.get(driver.id)?.querySelector('svg');
-            if (carIcon) {
-              carIcon.style.transform = `rotate(${heading}deg)`;
-            }
-          },
-          () => {
-            // Animation complete - update last position
-            lastPositions.current.set(driver.id, currentPos);
-            console.log(`✅ Animation complete for ${driver.firstName}`);
-          }
-        );
+        // Calculate heading for rotation
+        const heading = calculateBearing(lastPos, currentPos);
+        
+        // Apply CSS transitions for ultra-smooth movement (Uber/Bolt standard)
+        const markerElement = existingMarker.getElement();
+        
+        // Aplică transition DOAR dacă harta NU se mișcă (previne suprascrierea)
+        if (!isMapMoving.current) {
+          markerElement.style.transition = 'transform 2s linear';
+        }
+        
+        // Update position (CSS animates automatically - GPU accelerated)
+        existingMarker.setLngLat([currentPos.lng, currentPos.lat]);
+        
+        // Smooth rotation
+        const carIcon = markerElement.querySelector('svg');
+        if (carIcon && !isMapMoving.current) {
+          carIcon.style.transition = 'transform 2s linear';
+          carIcon.style.transform = `rotate(${heading}deg)`;
+        } else if (carIcon) {
+          carIcon.style.transform = `rotate(${heading}deg)`;
+        }
+        
+        // Update last position
+        lastPositions.current.set(driver.id, currentPos);
+        console.log(`✅ Position updated for ${driver.firstName} with CSS transition`);
 
         return; // Skip recreating marker
       }
@@ -271,8 +297,8 @@ export function LiveDriversMapPage() {
       }
     });
 
-    // Auto-fit bounds to show all drivers
-    if (drivers.length > 0) {
+    // Auto-fit bounds DOAR prima dată când apar șoferi
+    if (drivers.length > 0 && !hasInitializedBounds.current && map.current) {
       const bounds = new mapboxgl.LngLatBounds();
       drivers.forEach((driver) => {
         if (driver.currentLatitude && driver.currentLongitude) {
@@ -280,6 +306,7 @@ export function LiveDriversMapPage() {
         }
       });
       map.current.fitBounds(bounds, { padding: 50, maxZoom: 15 });
+      hasInitializedBounds.current = true;
     }
   }, [isLoaded, drivers, driversLoading]);
 

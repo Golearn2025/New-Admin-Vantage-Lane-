@@ -84,3 +84,7 @@ ultra-audit-*.txt
 
 # Database Backups (contains sensitive data)
 Supabase Database Backups/
+
+# Test directories
+app/api/test/
+app/test/

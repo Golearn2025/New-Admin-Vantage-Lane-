@@ -37,15 +37,25 @@ export function DriverProfile({ driverId }: DriverProfileProps) {
     error: actionError,
   } = useDriverActions();
 
-  // Get admin ID from auth
+  // Get admin ID from admin_users table
   useEffect(() => {
     async function fetchAdminId() {
       const supabase = createClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();
+      
       if (user?.id) {
-        setAdminId(user.id);
+        // Get admin_users.id from auth_user_id
+        const { data: adminUser } = await supabase
+          .from('admin_users')
+          .select('id')
+          .eq('auth_user_id', user.id)
+          .single();
+        
+        if (adminUser?.id) {
+          setAdminId(adminUser.id);
+        }
       }
     }
     fetchAdminId();

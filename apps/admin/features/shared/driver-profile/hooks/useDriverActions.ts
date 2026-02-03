@@ -6,9 +6,9 @@
 
 'use client';
 
-import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { sendNotificationToDriver } from '@entities/notification';
+import { useState } from 'react';
 
 interface UseDriverActionsResult {
   isLoading: boolean;
@@ -84,18 +84,43 @@ export function useDriverActions(): UseDriverActionsResult {
     setError(null);
 
     try {
+      console.log('[approveDriver] Starting approval for driver:', driverId, 'by admin:', adminUserId);
       const supabase = createClient();
+      
+      // Update driver approval status and activate
+      console.log('[approveDriver] Updating driver status...');
       const { error: updateError } = await supabase
         .from('drivers')
         .update({
           is_approved: true,
-          approved_at: new Date().toISOString(),
-          approved_by: adminUserId,
+          is_active: true,
+          status: 'active',
           updated_at: new Date().toISOString(),
         })
         .eq('id', driverId);
 
-      if (updateError) throw updateError;
+      if (updateError) {
+        console.error('[approveDriver] Error updating driver:', updateError);
+        throw updateError;
+      }
+      console.log('[approveDriver] Driver status updated successfully');
+
+      // Record approval event in lifecycle events
+      console.log('[approveDriver] Recording lifecycle event...');
+      const { error: eventError } = await supabase
+        .from('driver_lifecycle_events')
+        .insert({
+          driver_id: driverId,
+          event_type: 'approved',
+          event_at: new Date().toISOString(),
+          event_by: adminUserId,
+        });
+
+      if (eventError) {
+        console.error('[approveDriver] Error recording lifecycle event:', eventError);
+        throw eventError;
+      }
+      console.log('[approveDriver] Lifecycle event recorded successfully');
 
       // Send notification to driver
       try {

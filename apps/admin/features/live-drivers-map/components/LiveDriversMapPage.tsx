@@ -11,8 +11,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useRealtimeDrivers } from '../hooks/useRealtimeDrivers';
 import { calculateBearing } from '../utils/smoothMarkerAnimation';
 
-// Set Mapbox token
-mapboxgl.accessToken = 'pk.eyJ1IjoidmFudGFnZWxhbmUiLCJhIjoiY21peGw4NTIxMDR5YjNkcXp3eGN0OTc3YyJ9.S1VwkfoU1jU97dOF4Nayjw';
+// Set Mapbox token from environment variable
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
 
 export function LiveDriversMapPage() {
   const mapContainer = useRef<HTMLDivElement>(null);

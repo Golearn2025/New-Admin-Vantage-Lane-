@@ -7,10 +7,9 @@
 
 'use client';
 
-import React from 'react';
-import { Modal } from '../Modal';
 import { Button } from '../Button';
 import { Icon } from '../Icon';
+import { Modal } from '../Modal';
 import styles from './ConfirmDialog.module.css';
 
 export interface ConfirmDialogProps {
@@ -63,31 +62,15 @@ export function ConfirmDialog({
           <Button variant="outline" size="md" onClick={onClose} disabled={loading}>
             {cancelLabel}
           </Button>
-          <button
-            type="button"
-            style={{
-              backgroundColor: 'red',
-              color: 'white',
-              padding: '10px 20px',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: 'bold'
-            }}
-            onClick={(e) => {
-              console.log('🔥 RAW BUTTON CLICKED!', e);
-              alert('RAW BUTTON WORKS!');
-              e.preventDefault();
-              e.stopPropagation();
-              console.log('🔥 ABOUT TO CALL onConfirm');
-              onConfirm();
-              console.log('🔥 onConfirm CALLED');
-            }}
+          <Button
+            variant={variant === 'danger' ? 'danger' : 'primary'}
+            size="md"
+            onClick={onConfirm}
             disabled={loading}
+            loading={loading}
           >
-            TEST DELETE (RAW BUTTON)
-          </button>
+            {confirmLabel}
+          </Button>
         </div>
       </div>
     </Modal>

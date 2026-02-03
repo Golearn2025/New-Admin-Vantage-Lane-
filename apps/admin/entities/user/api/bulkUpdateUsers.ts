@@ -39,7 +39,6 @@ export async function bulkUpdateUsers({
       updatePayload.online_status = 'offline';
       updatePayload.current_latitude = null;
       updatePayload.current_longitude = null;
-      updatePayload.location_accuracy = null;
       updatePayload.location_updated_at = null;
       updatePayload.status = 'inactive';
     }

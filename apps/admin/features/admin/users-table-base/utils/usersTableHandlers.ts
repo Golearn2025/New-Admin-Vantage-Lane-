@@ -36,14 +36,17 @@ export async function handleBulkActivate({
   refetch,
   clearSelection
 }: BulkActionHandlers): Promise<void> {
+  console.log('🔍 handleBulkActivate called with:', { selectedUserIds, userType });
   const isActive = true;
   if (userType !== 'all') {
+    console.log('✅ userType is valid:', userType);
     const validUserType = userType as 'customer' | 'driver' | 'admin' | 'operator';
     await bulkUpdateUsers({ userIds: selectedUserIds, isActive, userType: validUserType });
     alert(`✅ ${selectedUserIds.length} user(s) activated successfully!`);
     await refetch();
     clearSelection();
   } else {
+    console.log('❌ userType is "all", blocking activation');
     alert('⚠️ Cannot activate from "All Users" view. Use specific user type pages.');
   }
 }

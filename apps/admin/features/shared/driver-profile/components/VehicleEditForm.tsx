@@ -209,8 +209,8 @@ export function VehicleEditForm({
           }}
         >
           <option value="">Select category...</option>
-          <option value="executive">Executive</option>
-          <option value="luxury">Luxury</option>
+          <option value="exec">Executive</option>
+          <option value="lux">Luxury</option>
           <option value="van">Van</option>
           <option value="suv">SUV</option>
         </select>

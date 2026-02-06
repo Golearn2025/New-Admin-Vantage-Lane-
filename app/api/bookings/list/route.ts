@@ -4,10 +4,10 @@
  * Compliant: <150 lines
  */
 
-import { logger } from '@/lib/utils/logger';
-import type { BookingsListParams, BookingRowDTO } from '@entities/booking/types/bookingsList.types';
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { logger } from '@/lib/utils/logger';
+import type { BookingRowDTO, BookingsListParams } from '@entities/booking/types/bookingsList.types';
+import { NextRequest, NextResponse } from 'next/server';
 import { transformRowsToResponse } from './mappers';
 
 export async function GET(request: NextRequest) {
@@ -23,7 +23,14 @@ export async function GET(request: NextRequest) {
       error: authError,
     } = await supabase.auth.getUser();
 
+    console.log('🔐 Auth check:', { 
+      hasUser: !!user, 
+      userId: user?.id,
+      authError: authError?.message 
+    });
+
     if (authError || !user) {
+      console.error('❌ UNAUTHORIZED - No user or auth error');
       logger.warn('Unauthorized access to bookings list API', { 
         error: authError?.message,
         hasUser: !!user 
@@ -81,6 +88,15 @@ export async function GET(request: NextRequest) {
     });
     
     if (error) {
+      console.error('❌ RPC get_bookings_list FAILED:', {
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint,
+        params: rpcParams,
+        user_id: user?.id
+      });
+      
       logger.error('RPC get_bookings_list failed', { 
         error: error.message, 
         code: error.code,

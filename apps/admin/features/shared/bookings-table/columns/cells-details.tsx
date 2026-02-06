@@ -8,18 +8,18 @@
 import type { BookingStatus } from '@vantage-lane/ui-core';
 import { StatusBadge } from '@vantage-lane/ui-core';
 import { Calendar, Clock, CreditCard, Luggage, MapPin, Plane, Route, User } from 'lucide-react';
-import { VehicleChip, type VehicleCategory } from './VehicleChip';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import styles from './columns.module.css';
 import {
-  formatDate,
-  formatLocation,
-  formatPrice,
-  formatServiceName,
-  formatTime,
-  formatVehicleModel,
+    formatDate,
+    formatLocation,
+    formatPrice,
+    formatServiceName,
+    formatTime,
+    formatVehicleModel,
 } from './helpers';
 import type { BookingColumn } from './schema';
+import { VehicleChip, type VehicleCategory } from './VehicleChip';
 
 export const getRouteColumn = (): BookingColumn => ({
   id: 'route',
@@ -41,10 +41,10 @@ export const getRouteColumn = (): BookingColumn => ({
       </div>
       <div className={styles.routeDetail}>
         <Route size={13} />
-        <span>{row.distance_miles?.toFixed(2)} mi</span>
+        <span>{row.distance_miles?.toFixed(2) || '0.00'} mi</span>
         <span>•</span>
         <Clock size={13} />
-        <span>{row.duration_min} min</span>
+        <span>{row.duration_min || 0} min</span>
       </div>
       {row.scheduled_at && (
         <div className={styles.routeDetailPrimary}>
@@ -110,7 +110,7 @@ export const getPaymentColumn = (): BookingColumn => ({
   cell: (row) => {
     // Memoize service items to prevent re-creation on every render
     const serviceItems = useMemo(() => 
-      row.paid_services.map((service, idx) => (
+      (row.paid_services || []).map((service, idx) => (
         <div key={idx} className={styles.paymentLine}>
           <span className={styles.paymentLabel}>+ {formatServiceName(service.service_code)}:</span>
           <span>{formatPrice(service.unit_price * service.quantity)}</span>
@@ -122,23 +122,23 @@ export const getPaymentColumn = (): BookingColumn => ({
     return (
       <div className={styles.paymentCell}>
         <div className={styles.paymentLine}>
-          <span className={styles.paymentLabel}>Base:</span>
-          <span>{formatPrice(row.base_price)}</span>
+          <span className={styles.paymentLabel}>Total:</span>
+          <span>{formatPrice(row.price_total)}</span>
         </div>
         {serviceItems}
-        {row.paid_services.length > 0 && (
+        {(row.paid_services || []).length > 0 && (
         <div className={styles.paymentTotal}>
-          <span className={styles.paymentLabel}>TOTAL:</span>
-          <span>{formatPrice(row.fare_amount)}</span>
+          <span className={styles.paymentLabel}>+ Extras:</span>
+          <span>{formatPrice(row.extras_total)}</span>
         </div>
       )}
       <div className={styles.paymentMeta}>
         <div className={styles.paymentMetaRow}>
           <CreditCard size={13} />
-          <span>{row.payment_method}</span>
+          <span>{row.payment_method || 'N/A'}</span>
         </div>
         <div className={styles.paymentMetaRow}>
-          <span className={styles.paymentStatusBadge}>{row.payment_status}</span>
+          <span className={styles.paymentStatusBadge}>{row.payment_status || 'pending'}</span>
         </div>
       </div>
     </div>

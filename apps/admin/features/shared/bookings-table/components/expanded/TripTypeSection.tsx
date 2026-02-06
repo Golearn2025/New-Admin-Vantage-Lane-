@@ -14,9 +14,8 @@
 
 'use client';
 
-import React from 'react';
-import { Clock, Car } from 'lucide-react';
 import type { BookingListItem } from '@vantage-lane/contracts';
+import { Car, Clock } from 'lucide-react';
 import { InfoSection } from './InfoSection';
 import styles from './TripTypeSection.module.css';
 
@@ -48,6 +47,46 @@ export function TripTypeSection({ booking }: TripTypeSectionProps) {
                 <div className={styles.dataRow}>
                   <span className={styles.label}>Est. End:</span>
                   <span className={styles.value}>{formatTime(endTime)}</span>
+                </div>
+              )}
+            </>
+          )}
+          {booking.distance_miles && (
+            <div className={styles.dataRow}>
+              <span className={styles.label}>Route:</span>
+              <span className={styles.value}>
+                {booking.distance_miles.toFixed(2)} mi • {booking.duration_min} min
+              </span>
+            </div>
+          )}
+        </div>
+      </InfoSection>
+    );
+  }
+
+  // DAILY booking
+  if (booking.trip_type === 'daily' && booking.days) {
+    const endDate = booking.scheduled_at
+      ? calculateEndDate(booking.scheduled_at, booking.days)
+      : null;
+
+    return (
+      <InfoSection title="Daily Booking" icon={<Clock size={18} />} variant="highlight">
+        <div className={styles.dataList}>
+          <div className={styles.dataRow}>
+            <span className={styles.label}>Duration:</span>
+            <span className={styles.value}>{booking.days} day{booking.days > 1 ? 's' : ''}</span>
+          </div>
+          {booking.scheduled_at && (
+            <>
+              <div className={styles.dataRow}>
+                <span className={styles.label}>Start:</span>
+                <span className={styles.value}>{formatDateTime(booking.scheduled_at)}</span>
+              </div>
+              {endDate && (
+                <div className={styles.dataRow}>
+                  <span className={styles.label}>Est. End:</span>
+                  <span className={styles.value}>{formatDateTime(endDate)}</span>
                 </div>
               )}
             </>
@@ -116,8 +155,24 @@ function calculateEndTime(startTime: string, hours: number): string {
   return start.toISOString();
 }
 
+function calculateEndDate(startTime: string, days: number): string {
+  const start = new Date(startTime);
+  start.setDate(start.getDate() + days);
+  return start.toISOString();
+}
+
 function formatTime(isoString: string): string {
   return new Date(isoString).toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+function formatDateTime(isoString: string): string {
+  return new Date(isoString).toLocaleString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
   });

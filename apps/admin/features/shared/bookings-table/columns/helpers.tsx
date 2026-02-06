@@ -2,7 +2,7 @@
  * Bookings Columns - Helper Functions
  */
 
-import { ArrowRight, Car, RefreshCw, Timer, Calendar, MessageSquare, Star, Building2 } from 'lucide-react';
+import { ArrowRight, Building2, Calendar, Car, MessageSquare, RefreshCw, Star, Timer } from 'lucide-react';
 import React from 'react';
 
 export const formatDate = (dateStr: string | null): string => {
@@ -54,7 +54,9 @@ export const getTripTypeColor = (tripType: string): 'info' | 'success' | 'danger
   }
 };
 
-export const formatLocation = (address: string): string => {
+export const formatLocation = (address: string | null | undefined): string => {
+  if (!address) return 'Unknown';
+  
   // UK Postcode pattern: AA9A 9AA or A9A 9AA or similar
   const postcodeMatch = address.match(/([A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2})/i);
 
@@ -76,7 +78,10 @@ export const formatLocation = (address: string): string => {
   return address;
 };
 
-export const formatPrice = (pounds: number): string => `£${pounds.toFixed(2)}`;
+export const formatPrice = (pounds: number | null | undefined): string => {
+  if (pounds === null || pounds === undefined) return '£0.00';
+  return `£${pounds.toFixed(2)}`;
+};
 
 export const formatServiceName = (code: string): string => {
   const names: Record<string, string> = {
@@ -87,7 +92,7 @@ export const formatServiceName = (code: string): string => {
   return names[code] || code;
 };
 
-export const formatVehicleModel = (model: string | null): string => {
+export const formatVehicleModel = (model: string | null | undefined): string => {
   if (!model) return 'Any Vehicle';
   if (model.toLowerCase().includes('selected')) return 'Any Vehicle';
   if (model.toLowerCase().includes('tbd')) return 'Any Vehicle';

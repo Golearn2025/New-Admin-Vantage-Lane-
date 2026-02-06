@@ -92,19 +92,28 @@ export const formatServiceName = (code: string): string => {
   return names[code] || code;
 };
 
-export const formatVehicleModel = (model: string | null | undefined): string => {
-  if (!model) return 'Any Vehicle';
-  if (model.toLowerCase().includes('selected')) return 'Any Vehicle';
-  if (model.toLowerCase().includes('tbd')) return 'Any Vehicle';
+export const formatCategoryLabel = (category: string | null | undefined): string => {
+  const labels: Record<string, string> = {
+    EXEC: 'Executive',
+    LUX: 'Luxury',
+    SUV: 'SUV',
+    VAN: 'Van',
+  };
+  return labels[(category || '').toUpperCase()] || category || 'Vehicle';
+};
 
-  // Format specific models with FULL brand + model name
+export const formatVehicleModel = (model: string | null | undefined, category?: string | null): string => {
+  if (!model || model.toLowerCase().includes('selected') || model.toLowerCase().includes('tbd')) {
+    return `Any ${formatCategoryLabel(category)}`;
+  }
+
   const modelMap: Record<string, string> = {
-    exec_5_series: 'BMW 5 Series', // Executive
-    exec_e_class: 'Mercedes E-Class', // Executive
-    lux_s_class: 'Mercedes S-Class', // Luxury
-    lux_7_series: 'BMW 7 Series', // Luxury
-    suv_range_rover: 'Range Rover', // SUV
-    van_v_class: 'Mercedes V-Class', // Van
+    exec_5_series: 'BMW 5 Series',
+    exec_e_class: 'Mercedes E-Class',
+    lux_s_class: 'Mercedes S-Class',
+    lux_7_series: 'BMW 7 Series',
+    suv_range_rover: 'Range Rover',
+    van_v_class: 'Mercedes V-Class',
   };
 
   return modelMap[model.toLowerCase()] || model;

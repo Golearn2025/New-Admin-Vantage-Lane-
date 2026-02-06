@@ -120,7 +120,7 @@ async function fetchCustomers(supabase: SupabaseClient, customerIds: string[]) {
   const { data, error } = await supabase
     .from('customers')
     .select(
-      'id, first_name, last_name, phone, email, total_rides, loyalty_tier, status, total_spent'
+      'id, first_name, last_name, phone, email, total_rides, loyalty_tier, status, total_spent, rating_average, rating_count'
     )
     .in('id', customerIds);
 
@@ -149,7 +149,7 @@ async function fetchLegs(supabase: SupabaseClient, bookingIds: string[]) {
   const { data, error } = await supabase
     .from('booking_legs')
     .select(
-      'id, parent_booking_id, leg_number, leg_type, vehicle_category, pickup_location, destination, scheduled_at, distance_miles, duration_min, assigned_driver_id, assigned_vehicle_id, status, leg_price, driver_payout'
+      'id, parent_booking_id, leg_number, leg_type, vehicle_category, pickup_location, destination, scheduled_at, distance_miles, duration_min, assigned_driver_id, assigned_vehicle_id, status, leg_price, driver_payout, assigned_at, arrived_at_pickup, passenger_onboard_at, started_at, completed_at, cancelled_at, cancel_reason'
     )
     .in('parent_booking_id', bookingIds)
     .order('leg_number', { ascending: true });

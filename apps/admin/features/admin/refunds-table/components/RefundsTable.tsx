@@ -7,24 +7,22 @@
 
 'use client';
 
-import React, { useEffect, useMemo } from 'react';
-import { 
-  EnterpriseDataTable,
-  usePagination,
-  useSorting,
-  useSelection,
-  useColumnResize,
-  BulkActionsToolbar,
-  Pagination,
-  TableFilters,
+import {
+    BulkActionsToolbar,
+    Pagination,
+    TableFilters,
+    TanStackDataTable,
+    toTanStackColumns,
+    useSelection,
 } from '@vantage-lane/ui-core';
-import { useRefundsTable } from '../hooks/useRefundsTable';
-import { useRefundsFilters } from '../hooks/useRefundsFilters';
+import { useEffect, useMemo, useState } from 'react';
 import { getRefundsColumns } from '../columns';
+import { useRefundsFilters } from '../hooks/useRefundsFilters';
+import { useRefundsTable } from '../hooks/useRefundsTable';
 import { createRefundsBulkActions } from '../utils/refundsBulkActions';
-import { RefundsMetrics } from './RefundsMetrics';
-import { RefundsExportActions } from './RefundsExportActions';
 import { RefundsActionButtons } from './RefundsActionButtons';
+import { RefundsExportActions } from './RefundsExportActions';
+import { RefundsMetrics } from './RefundsMetrics';
 import styles from './RefundsTable.module.css';
 
 export function RefundsTable() {
@@ -33,30 +31,17 @@ export function RefundsTable() {
     limit: 25
   });
 
-  // Hooks modulare - Enterprise pattern!
-  const pagination = usePagination({ initialPageSize: 25 });
-  const sorting = useSorting({ initialColumnId: 'createdAt', initialDirection: 'desc' });
   const selection = useSelection({ 
     data, 
     getRowId: (row, index) => row.id || String(index) 
   });
-  const resize = useColumnResize({
-    initialWidths: {
-      id: 150,
-      paymentId: 150,
-      amount: 120,
-      status: 120,
-      createdAt: 130,
-    }
-  });
   const filtersHook = useRefundsFilters();
 
-  // Update total count când se încarcă data
-  useEffect(() => {
-    if (data.length > 0) {
-      pagination.setTotalCount(data.length);
-    }
-  }, [data, pagination]);
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 25,
+    totalCount: 0,
+  });
 
   // Export functions
   const handleExportAll = (format: 'excel' | 'csv') => {
@@ -121,15 +106,19 @@ export function RefundsTable() {
 
   // Update total count for filtered data
   useEffect(() => {
-    pagination.setTotalCount(filteredData.length);
-  }, [filteredData, pagination]);
+    setPagination((p) => ({ ...p, totalCount: filteredData.length }));
+  }, [filteredData]);
 
-  // Paginate filtered data - slice based on current page
+  // Paginate filtered data
   const paginatedData = useMemo(() => {
     const start = pagination.pageIndex * pagination.pageSize;
     const end = start + pagination.pageSize;
     return filteredData.slice(start, end);
   }, [filteredData, pagination.pageIndex, pagination.pageSize]);
+
+  // Convert columns to TanStack format
+  const tanStackColumns = useMemo(() => toTanStackColumns(getRefundsColumns()), []);
+  const totalPages = Math.max(1, Math.ceil(pagination.totalCount / pagination.pageSize));
 
   // Bulk actions configuration
   const bulkActions = createRefundsBulkActions(selection.selectedCount, {
@@ -210,32 +199,30 @@ export function RefundsTable() {
 
       {/* Table area - scrollable */}
       <div className={styles.tableArea}>
-        <EnterpriseDataTable
-        data={paginatedData}
-        columns={getRefundsColumns()}
-        selection={selection}
-        sorting={sorting}
-        resize={resize}
-        loading={loading}
-        emptyState="No refunds found"
-        striped={true}
-        bordered={true}
-        stickyHeader={true}
-        ariaLabel="Refunds table"
+        <TanStackDataTable
+          data={paginatedData}
+          columns={tanStackColumns}
+          getRowId={(row) => row.id || ''}
+          loading={loading}
+          emptyState="No refunds found"
+          striped={true}
+          enableResize={true}
+          stickyHeader={true}
+          ariaLabel="Refunds table"
         />
       </div>
 
       {/* Pagination Controls */}
       <div className={styles.paginationWrapper}>
         <Pagination
-        currentPage={pagination.pageIndex + 1}
-        totalPages={pagination.pageCount}
-        totalItems={pagination.totalCount}
-        pageSize={pagination.pageSize}
-        onPageChange={(page) => pagination.setPage(page - 1)}
-        onPageSizeChange={pagination.setPageSize}
-        showInfo={true}
-        showPageSizeSelector={true}
+          currentPage={pagination.pageIndex + 1}
+          totalPages={totalPages}
+          totalItems={pagination.totalCount}
+          pageSize={pagination.pageSize}
+          onPageChange={(page) => setPagination((p) => ({ ...p, pageIndex: page - 1 }))}
+          onPageSizeChange={(size) => setPagination((p) => ({ pageIndex: 0, pageSize: size, totalCount: p.totalCount }))}
+          showInfo={true}
+          showPageSizeSelector={true}
         />
       </div>
     </div>

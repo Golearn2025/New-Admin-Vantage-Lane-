@@ -50,6 +50,8 @@ export interface Customer {
   loyalty_tier: string | null;
   status: string | null;
   total_spent: number | null;
+  rating_average: number | null;
+  rating_count: number | null;
 }
 
 export interface BookingSegment {
@@ -76,6 +78,14 @@ export interface BookingLeg {
   status: string;
   leg_price: string;
   driver_payout: string | null;
+  // Status timestamps
+  assigned_at: string | null;
+  arrived_at_pickup: string | null;
+  passenger_onboard_at: string | null;
+  started_at: string | null;
+  completed_at: string | null;
+  cancelled_at: string | null;
+  cancel_reason: string | null;
 }
 
 export interface BookingPricing {

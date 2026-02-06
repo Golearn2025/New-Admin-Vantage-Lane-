@@ -79,7 +79,24 @@ export async function createTestBooking(
     // Estimate duration: ~30 mph average in London, minimum 15 minutes
     const durationMin = Math.max(15, Math.round(distanceMiles * 2));
 
-    // 1. Create booking
+    // 1. Fetch commission rates FIRST (before creating anything)
+    const { data: commissionRow } = await supabase
+      .from('platform_settings')
+      .select('setting_value')
+      .eq('setting_key', 'commission_rates')
+      .single();
+
+    const platformPct = commissionRow?.setting_value?.platform_commission_pct ?? 20;
+    const operatorPct = commissionRow?.setting_value?.default_operator_commission_pct ?? 10;
+
+    // Calculate pricing breakdown per leg
+    const legPrice = params.leg_price;
+    const legPlatformFee = Math.round((legPrice * platformPct) / 100 * 100) / 100;
+    const legAfterPlatform = Math.round((legPrice - legPlatformFee) * 100) / 100;
+    const legOperatorCut = Math.round((legAfterPlatform * operatorPct) / 100 * 100) / 100;
+    const legDriverPayout = Math.round((legAfterPlatform - legOperatorCut) * 100) / 100;
+
+    // 2. Create booking
     const { data: booking, error: bookingError } = await supabase
       .from('bookings')
       .insert({
@@ -125,7 +142,7 @@ export async function createTestBooking(
         status: 'pending',
         scheduled_at: params.start_at,
         leg_price: params.leg_price,
-        driver_payout: params.driver_payout,
+        driver_payout: legDriverPayout,
         distance_miles: distanceMiles,
         duration_min: durationMin,
       });
@@ -145,7 +162,7 @@ export async function createTestBooking(
         status: 'pending',
         scheduled_at: returnDate,
         leg_price: params.leg_price,
-        driver_payout: params.driver_payout,
+        driver_payout: legDriverPayout,
         distance_miles: distanceMiles,
         duration_min: durationMin,
       });
@@ -169,13 +186,39 @@ export async function createTestBooking(
         status: 'pending',
         scheduled_at: params.start_at,
         leg_price: params.leg_price,
-        driver_payout: params.driver_payout,
+        driver_payout: legDriverPayout,
         distance_miles: distanceMiles,
         duration_min: durationMin,
       });
     }
 
-    // 3. Update booking_metadata with hours/days for hourly/daily bookings
+    // For return trips, total price = 2 legs
+    const totalPrice = params.trip_type === 'return' ? legPrice * 2 : legPrice;
+    const totalPlatformFee = Math.round((totalPrice * platformPct) / 100 * 100) / 100;
+    const totalAfterPlatform = Math.round((totalPrice - totalPlatformFee) * 100) / 100;
+    const totalOperatorCut = Math.round((totalAfterPlatform * operatorPct) / 100 * 100) / 100;
+    const totalDriverPayout = Math.round((totalAfterPlatform - totalOperatorCut) * 100) / 100;
+
+    const { error: pricingError } = await supabase
+      .from('booking_pricing')
+      .insert({
+        booking_id: bookingId,
+        price: totalPrice,
+        currency: params.currency || 'GBP',
+        payment_method: 'CARD',
+        payment_status: 'pending',
+        platform_fee: totalPlatformFee,
+        platform_commission_pct: platformPct,
+        operator_net: totalAfterPlatform,
+        driver_payout: totalDriverPayout,
+        driver_commission_pct: operatorPct,
+      });
+
+    if (pricingError) {
+      console.error('❌ booking_pricing insert error:', pricingError);
+    }
+
+    // 4. Update booking_metadata with hours/days for hourly/daily bookings
     // Note: booking_metadata row is auto-created by sync_bookings_to_modular trigger
     console.log('DEBUG: trip_type =', params.trip_type, 'hours =', params.hours, 'days =', params.days);
     const { error: metadataError } = await supabase

@@ -63,6 +63,7 @@ export async function GET(request: NextRequest) {
         : 'desc',
       search: searchParams.get('search') || null,
       status: searchParams.get('status') || null,
+      trip_type: searchParams.get('trip_type') || null,
       from: searchParams.get('from') || null,
       to: searchParams.get('to') || null,
     };
@@ -85,6 +86,7 @@ export async function GET(request: NextRequest) {
       p_status: rpcParams.status,
       p_from: rpcParams.from,
       p_to: rpcParams.to,
+      p_trip_type: rpcParams.trip_type,
     });
     
     if (error) {

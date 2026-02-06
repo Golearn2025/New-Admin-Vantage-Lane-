@@ -15,6 +15,7 @@ export const TRIP_TYPES = {
   ONEWAY: 'oneway',
   RETURN: 'return',
   HOURLY: 'hourly',
+  DAILY: 'daily',
   FLEET: 'fleet',
 } as const;
 

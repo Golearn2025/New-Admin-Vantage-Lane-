@@ -96,6 +96,8 @@ export function buildBaseData(params: {
       (customer?.loyalty_tier as 'bronze' | 'silver' | 'gold' | 'platinum' | null) || null,
     customer_status: (customer?.status as 'active' | 'inactive' | 'suspended' | null) || null,
     customer_total_spent: customer?.total_spent ? parseFloat(String(customer.total_spent)) : 0,
+    customer_rating_average: customer?.rating_average ? parseFloat(String(customer.rating_average)) : null,
+    customer_rating_count: customer?.rating_count ? Number(customer.rating_count) : null,
 
     scheduled_at: booking.start_at as string,
     created_at: booking.created_at as string,

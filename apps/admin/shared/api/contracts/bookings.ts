@@ -100,7 +100,7 @@ export interface BookingListItem {
   is_new: boolean; // True if created in last 24h
 
   // Trip info
-  trip_type: 'oneway' | 'return' | 'hourly' | 'fleet';
+  trip_type: 'oneway' | 'return' | 'hourly' | 'daily' | 'fleet';
   category: string; // EXEC, LUX, SUV, VAN
   vehicle_model: string | null; // exec_5_series, lux_s_class, etc
 
@@ -112,6 +112,8 @@ export interface BookingListItem {
   customer_loyalty_tier: 'bronze' | 'silver' | 'gold' | 'platinum' | null;
   customer_status: 'active' | 'inactive' | 'suspended' | null;
   customer_total_spent: number; // In pounds (decimal)
+  customer_rating_average: number | null; // 0-5 stars
+  customer_rating_count: number | null;
 
   // Locations
   pickup_location: string;
@@ -176,6 +178,14 @@ export interface BookingListItem {
   vehicle_plate: string | null;
   assigned_at: string | null; // ISO 8601, when job was assigned
   assigned_by_name: string | null; // Admin who assigned
+
+  // Status timestamps (from booking_legs)
+  arrived_at_pickup: string | null; // When driver arrived at pickup
+  passenger_onboard_at: string | null; // When passenger got in
+  started_at: string | null; // When trip started
+  completed_at: string | null; // When trip completed
+  cancelled_at: string | null; // When trip was cancelled
+  cancel_reason: string | null; // Why it was cancelled
 
   // Meta
   operator_name: string | null;

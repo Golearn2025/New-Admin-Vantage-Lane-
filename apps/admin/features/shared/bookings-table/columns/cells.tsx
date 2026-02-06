@@ -5,13 +5,20 @@
 
 'use client';
 
-import React from 'react';
-import { ChevronRight } from 'lucide-react';
-import { Email, Phone } from '@vantage-lane/ui-icons';
 import { Badge } from '@vantage-lane/ui-core';
-import { getTripIcon, getTripTypeColor } from './helpers';
+import { Email, Phone } from '@vantage-lane/ui-icons';
+import { Award, ChevronRight, Crown, Gem, Medal, Star } from 'lucide-react';
+import React from 'react';
 import styles from './columns.module.css';
+import { getTripIcon, getTripTypeColor } from './helpers';
 import type { BookingColumn, BookingsColumnsProps } from './schema';
+
+const TIER_CONFIG: Record<string, { icon: React.ReactNode; color: string; label: string }> = {
+  bronze:   { icon: <Medal size={14} />,  color: '#CD7F32', label: 'Bronze' },
+  silver:   { icon: <Award size={14} />,  color: '#A8A9AD', label: 'Silver' },
+  gold:     { icon: <Crown size={14} />,  color: '#FFD700', label: 'Gold' },
+  platinum: { icon: <Gem size={14} />,    color: '#7B68EE', label: 'Platinum' },
+};
 
 export const getSelectColumn = ({
   onSelectAll,
@@ -82,7 +89,15 @@ export const getCustomerColumn = (): BookingColumn => ({
   sortable: true,
   cell: (row) => (
     <div className={styles.customerCell}>
-      <div className={styles.customerName}>{row.customer_name}</div>
+      <div className={styles.customerNameRow}>
+        <div className={styles.customerName}>{row.customer_name}</div>
+        {row.customer_rating_average != null && (
+          <div className={styles.customerRating}>
+            <Star size={12} fill="#FFD700" stroke="#FFD700" />
+            <span>{Number(row.customer_rating_average).toFixed(1)}</span>
+          </div>
+        )}
+      </div>
       <a
         href={`tel:${row.customer_phone}`}
         className={styles.customerContact}
@@ -106,15 +121,22 @@ export const getCustomerColumn = (): BookingColumn => ({
       <div className={styles.customerStats}>
         <div className={styles.customerStat}>
           <span className={styles.statLabel}>Tier:</span>
-          <span className={styles.statValue}>{row.customer_loyalty_tier || 'bronze'}</span>
+          <span className={styles.statValue} style={{ color: TIER_CONFIG[row.customer_loyalty_tier || 'bronze']?.color, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+            {TIER_CONFIG[row.customer_loyalty_tier || 'bronze']?.icon}
+            {TIER_CONFIG[row.customer_loyalty_tier || 'bronze']?.label}
+          </span>
         </div>
         <div className={styles.customerStat}>
           <span className={styles.statLabel}>Status:</span>
-          <span className={styles.statValue}>{row.customer_status || 'active'}</span>
+          <span className={styles.statValue} style={{ color: (row.customer_status || 'active') === 'active' ? '#22c55e' : (row.customer_status === 'suspended' ? '#ef4444' : '#9ca3af') }}>
+            {(row.customer_status || 'active').charAt(0).toUpperCase() + (row.customer_status || 'active').slice(1)}
+          </span>
         </div>
         <div className={styles.customerStat}>
           <span className={styles.statLabel}>Spent:</span>
-          <span className={styles.statValue}>£{Number(row.customer_total_spent).toFixed(2)}</span>
+          <span className={styles.statValue} style={{ color: '#16a34a', fontSize: '13px', fontWeight: 700 }}>
+            £{Number(row.customer_total_spent).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </span>
         </div>
         <div className={styles.customerStat}>
           <span className={styles.statLabel}>Rides:</span>

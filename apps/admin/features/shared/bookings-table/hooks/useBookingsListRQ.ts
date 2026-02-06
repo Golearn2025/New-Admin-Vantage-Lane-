@@ -7,13 +7,13 @@
  * SAFETY: Feature flag controlled - can switch back to old hook instantly
  */
 
-import { useState, useEffect, useMemo, useRef } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import type { BookingListItem, BookingsListResponse } from '@vantage-lane/contracts';
-import { logger } from '@/lib/utils/logger';
 import { createClient } from '@/lib/supabase/client';
+import { logger } from '@/lib/utils/logger';
 import { fetchAuthedJson } from '@admin-shared/utils/fetchAuthedJson';
 import { playBookingNotificationSound } from '@admin-shared/utils/notificationSound';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import type { BookingListItem, BookingsListResponse } from '@vantage-lane/contracts';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 interface Props {
   statusFilter?: string[];
@@ -186,6 +186,8 @@ export function useBookingsListRQ({
                   customer_loyalty_tier: null,
                   customer_status: null,
                   customer_total_spent: 0,
+                  customer_rating_average: null,
+                  customer_rating_count: null,
                   distance_miles: null,
                   duration_min: null,
                   hours: null,
@@ -222,6 +224,12 @@ export function useBookingsListRQ({
                   vehicle_plate: null,
                   assigned_at: null,
                   assigned_by_name: null,
+                  arrived_at_pickup: null,
+                  passenger_onboard_at: null,
+                  started_at: null,
+                  completed_at: null,
+                  cancelled_at: null,
+                  cancel_reason: null,
                   operator_rating: null,
                   operator_reviews: null,
                   source: 'web' as const,

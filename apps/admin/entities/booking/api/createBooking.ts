@@ -5,13 +5,13 @@
  * Ver 3.4 - Replace console with structured logger
  */
 
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { logger } from '@/lib/utils/logger';
 import type {
-  CreateBookingPayload,
-  BookingSegment,
-  BookingService,
+    BookingSegment,
+    BookingService,
+    CreateBookingPayload,
 } from '@features/admin/booking-create/types';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
 interface CreateBookingResult {
   success: boolean;
@@ -59,13 +59,35 @@ export async function createBooking(
       lng: seg.lng || null,
     }));
 
+    // Fetch commission rates from platform_settings
+    const { data: commissionRow } = await supabase
+      .from('platform_settings')
+      .select('setting_value')
+      .eq('setting_key', 'commission_rates')
+      .single();
+
+    const platformPct = commissionRow?.setting_value?.platform_commission_pct ?? 20;
+    const operatorPct = commissionRow?.setting_value?.default_operator_commission_pct ?? 10;
+
+    // Calculate pricing breakdown
+    const totalPrice = basePrice + servicesTotal;
+    const platformFee = Math.round((totalPrice * platformPct) / 100 * 100) / 100;
+    const afterPlatform = Math.round((totalPrice - platformFee) * 100) / 100;
+    const operatorCut = Math.round((afterPlatform * operatorPct) / 100 * 100) / 100;
+    const driverPayout = Math.round((afterPlatform - operatorCut) * 100) / 100;
+
     // Prepare pricing data
     const pricingData = {
-      price: basePrice,
+      price: totalPrice,
       extras_total: servicesTotal,
       currency: payload.currency,
       payment_method: payload.payment_method,
       payment_status: payload.payment_status,
+      platform_fee: platformFee,
+      platform_commission_pct: platformPct,
+      operator_net: afterPlatform,
+      driver_payout: driverPayout,
+      driver_commission_pct: operatorPct,
     };
 
     // Prepare services data (only selected ones)

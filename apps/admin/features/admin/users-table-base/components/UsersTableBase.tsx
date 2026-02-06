@@ -12,26 +12,25 @@ import { getAllUsersColumns } from '@features/admin/users-table/columns/commonCo
 import { useAllUsers } from '@features/admin/users-table/hooks/useAllUsers';
 import { useOperatorDrivers } from '@features/admin/users-table/hooks/useOperatorDrivers';
 import {
-  EnterpriseDataTable,
-  Pagination,
-  useColumnResize,
-  useSelection,
-  useSorting,
+    Pagination,
+    TanStackDataTable,
+    toTanStackColumns,
+    useSelection,
 } from '@vantage-lane/ui-core';
-import React, { useState, useMemo, useCallback } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { UsersTableBaseProps } from '../types';
-import { BulkActionsBar } from './BulkActionsBar';
-import { UsersTableHeader } from './UsersTableHeader';
-import { UsersTableDialogs } from './UsersTableDialogs';
-import { UsersTableModals } from './UsersTableModals';
 import {
-  handleBulkDelete,
-  handleBulkActivate,
-  handleBulkDeactivate,
-  handleSingleDelete,
-  type BulkActionHandlers
+    handleBulkActivate,
+    handleBulkDeactivate,
+    handleBulkDelete,
+    handleSingleDelete,
+    type BulkActionHandlers
 } from '../utils/usersTableHandlers';
+import { BulkActionsBar } from './BulkActionsBar';
 import styles from './UsersTableBase.module.css';
+import { UsersTableDialogs } from './UsersTableDialogs';
+import { UsersTableHeader } from './UsersTableHeader';
+import { UsersTableModals } from './UsersTableModals';
 
 export function UsersTableBase({
   userType,
@@ -87,13 +86,11 @@ export function UsersTableBase({
     return filteredData.slice(start, start + pageSize);
   }, [filteredData, currentPage, pageSize]);
 
-  // Initialize hooks for EnterpriseDataTable (after paginatedData is defined)
+  // Selection hook for bulk actions
   const selection = useSelection<UnifiedUser>({
     data: paginatedData,
     getRowId: (user) => user.id,
   });
-  const sorting = useSorting();
-  const resize = useColumnResize();
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
@@ -156,14 +153,14 @@ export function UsersTableBase({
     }
   }, [deleteUser, userType, refetch]);
 
-  // Get columns (no need for manual checkbox column - selection hook handles it)
+  // Get columns and convert to TanStack format
   const columns = useMemo(() => {
     const cols = getAllUsersColumns({
       onView: onViewCustom || ((user: UnifiedUser) => setViewUser(user)),
       onEdit: (user: UnifiedUser) => setEditUser(user),
       onDelete: (user: UnifiedUser) => setDeleteUser(user),
     });
-    return cols;
+    return toTanStackColumns(cols);
   }, [onViewCustom]);
 
   if (error) {
@@ -213,15 +210,14 @@ export function UsersTableBase({
       {!loading && (
         <>
           <div className={styles.tableContainer}>
-            <EnterpriseDataTable
+            <TanStackDataTable
               data={paginatedData}
               columns={columns}
-              selection={selection}
-              sorting={sorting}
-              resize={resize}
+              getRowId={(user) => user.id}
               stickyHeader={true}
               maxHeight="calc(100vh - 400px)"
               striped={true}
+              enableResize={true}
               ariaLabel="Users table"
             />
           </div>

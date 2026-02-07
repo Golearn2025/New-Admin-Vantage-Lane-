@@ -22,6 +22,7 @@ export function mapDbStatusToContract(
     case 'PENDING':
       return 'pending';
     case 'ASSIGNED':
+    case 'CONFIRMED':
       return 'assigned';
     case 'EN_ROUTE':
     case 'ENROUTE':
@@ -128,21 +129,21 @@ export function transformRowsToResponse(
       driver_email: row.driver_email || null,
       driver_rating: null,
       vehicle_id: row.vehicle_id || null,
-      vehicle_make: null,
-      vehicle_model_name: row.vehicle_name || null,
-      vehicle_year: null,
-      vehicle_color: null,
-      vehicle_plate: null,
-      assigned_at: null,
+      vehicle_make: row.vehicle_make || null,
+      vehicle_model_name: row.vehicle_model || null,
+      vehicle_year: row.vehicle_year || null,
+      vehicle_color: row.vehicle_color || null,
+      vehicle_plate: row.vehicle_plate || null,
+      assigned_at: row.assigned_at || null,
       assigned_by_name: null,
       
       // Status timestamps
-      arrived_at_pickup: null,
-      passenger_onboard_at: null,
-      started_at: null,
-      completed_at: null,
-      cancelled_at: null,
-      cancel_reason: null,
+      arrived_at_pickup: row.arrived_at_pickup || null,
+      passenger_onboard_at: row.passenger_onboard_at || null,
+      started_at: row.started_at || null,
+      completed_at: row.completed_at || null,
+      cancelled_at: row.cancelled_at || null,
+      cancel_reason: row.cancel_reason || null,
       
       // Meta
       operator_name: row.organization_name || null,

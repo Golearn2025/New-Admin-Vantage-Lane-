@@ -53,6 +53,10 @@ export interface BookingRowDTO {
   vehicle_name: string | null;
   vehicle_category: string | null;
   vehicle_model: string | null;
+  vehicle_make: string | null;
+  vehicle_year: number | null;
+  vehicle_color: string | null;
+  vehicle_plate: string | null;
   // Pricing
   price_total: string | number | null;
   platform_fee: string | number | null;
@@ -75,6 +79,14 @@ export interface BookingRowDTO {
   is_urgent: boolean | null;
   is_new: boolean | null;
   scheduled_at: string | null;
+  // Status timestamps
+  assigned_at: string | null;
+  arrived_at_pickup: string | null;
+  passenger_onboard_at: string | null;
+  started_at: string | null;
+  completed_at: string | null;
+  cancelled_at: string | null;
+  cancel_reason: string | null;
   // Pagination
   total_count: number;
 }

@@ -158,9 +158,20 @@
 
 .routeLocation {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-1);
+  align-items: flex-start;
+  gap: 4px;
   font-weight: var(--font-weight-medium);
+  text-align: left;
+  line-height: 1.3;
+}
+
+.routeLocation svg {
+  margin-top: 2px;
+}
+
+.routeLocation span {
+  flex: 1;
+  min-width: 0;
 }
 
 .pickupIcon {
@@ -512,7 +523,8 @@
 .assignmentCell {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-1);
+  align-items: center;
+  gap: var(--spacing-2);
   font-size: var(--font-size-2xs);
 }
 
@@ -523,9 +535,25 @@
   text-align: center;
 }
 
+.assignmentSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.assignmentSectionLabel {
+  font-size: var(--font-size-2xs);
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .assignmentDriver {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--spacing-1);
   font-weight: 600;
   color: var(--color-text-primary);
@@ -540,30 +568,40 @@
   font-weight: 600;
 }
 
-.assignmentDetail {
+.assignmentPhone {
   display: flex;
   align-items: center;
-  gap: var(--spacing-1);
-  color: var(--color-text-secondary);
-  padding-left: var(--spacing-4);
+  gap: var(--spacing-2);
+  color: var(--color-accent-400);
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.assignmentDetail svg {
+.assignmentPhone:hover span {
+  text-decoration: underline;
+}
+
+.assignmentPhone svg {
   flex-shrink: 0;
-  color: var(--color-text-muted);
 }
 
 .assignmentVehicle {
   display: flex;
   align-items: center;
   gap: var(--spacing-1);
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   font-weight: 500;
 }
 
 .assignmentVehicle svg {
   color: var(--color-vehicle-gold-alpha-90);
   flex-shrink: 0;
+}
+
+.assignmentPlateRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
 }
 
 .assignmentPlate {
@@ -577,6 +615,12 @@
   letter-spacing: 0.05em;
   font-family: monospace;
   display: inline-block;
+}
+
+.assignmentColor {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-secondary);
+  font-style: italic;
 }
 
 .assignmentTime {

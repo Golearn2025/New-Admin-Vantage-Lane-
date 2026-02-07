@@ -3,9 +3,9 @@
  * Switches between old and React Query implementations via feature flag
  */
 
+import { getFeatureFlag } from '@admin-shared/config/featureFlags';
 import { useBookingsList } from './useBookingsList';
 import { useBookingsListRQ } from './useBookingsListRQ';
-import { getFeatureFlag } from '@admin-shared/config/featureFlags';
 
 interface Props {
   statusFilter?: string[];
@@ -21,6 +21,8 @@ interface Return {
   error: string | null;
   totalCount: number;
   fetchBookings: () => Promise<void>;
+  newBookingIds?: Set<string>;
+  dismissNewBooking?: (id: string) => void;
 }
 
 /**

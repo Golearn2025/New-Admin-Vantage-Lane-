@@ -96,7 +96,7 @@ export async function fetchBookingsData(
     fetchOrganizations(supabase, organizationIds),
     fetchAssignments(supabase, bookingIds),
     fetchDrivers(supabase, driverIds),
-    fetchVehicles(supabase, vehicleIds),
+    fetchVehicles(supabase, vehicleIds, driverIds),
   ]);
 
   return {
@@ -233,19 +233,50 @@ async function fetchDrivers(supabase: SupabaseClient, driverIds: string[]) {
   return data || [];
 }
 
-async function fetchVehicles(supabase: SupabaseClient, vehicleIds: string[]) {
-  if (vehicleIds.length === 0) return [];
+async function fetchVehicles(supabase: SupabaseClient, vehicleIds: string[], driverIds: string[]) {
+  // Fetch by vehicle ID (assigned) OR by driver ID (fallback)
+  const allIds = Array.from(new Set([...vehicleIds, ...driverIds]));
+  if (allIds.length === 0) return [];
 
-  const { data, error } = await supabase
-    .from('vehicles')
-    .select('id, make, model, year, color, license_plate')
-    .in('id', vehicleIds);
+  const queries = [];
 
-  if (error) {
-    throw new Error(`Failed to fetch vehicles: ${error.message}`);
+  // Fetch assigned vehicles by ID
+  if (vehicleIds.length > 0) {
+    queries.push(
+      supabase
+        .from('vehicles')
+        .select('id, driver_id, make, model, year, color, license_plate')
+        .in('id', vehicleIds)
+    );
   }
 
-  return data || [];
+  // Fetch driver's vehicles (for fallback when no assigned_vehicle_id)
+  if (driverIds.length > 0) {
+    queries.push(
+      supabase
+        .from('vehicles')
+        .select('id, driver_id, make, model, year, color, license_plate')
+        .in('driver_id', driverIds)
+        .eq('is_active', true)
+    );
+  }
+
+  const results = await Promise.all(queries);
+  const allVehicles: any[] = [];
+  for (const result of results) {
+    if (result.error) {
+      throw new Error(`Failed to fetch vehicles: ${result.error.message}`);
+    }
+    allVehicles.push(...(result.data || []));
+  }
+
+  // Deduplicate by vehicle ID
+  const seen = new Set<string>();
+  return allVehicles.filter((v) => {
+    if (seen.has(v.id)) return false;
+    seen.add(v.id);
+    return true;
+  });
 }
 
 function mapStatusToDb(status: 'pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress' | 'completed' | 'cancelled'): string {

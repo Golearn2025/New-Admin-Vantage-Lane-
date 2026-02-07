@@ -58,4 +58,6 @@ export interface TanStackTableProps<TData> {
   rowNumberOffset?: number | undefined;
   /** Optional: render an expand button inside the first column (below checkbox + row number) */
   renderExpandButton?: ((row: TData) => ReactNode) | undefined;
+  /** Optional: callback when a row is clicked */
+  onRowClick?: ((row: TData) => void) | undefined;
 }

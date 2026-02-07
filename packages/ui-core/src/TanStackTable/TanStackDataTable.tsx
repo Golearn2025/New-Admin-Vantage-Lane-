@@ -95,6 +95,7 @@ export function TanStackDataTable<TData>({
   showRowNumbers = true,
   rowNumberOffset = 0,
   renderExpandButton,
+  onRowClick,
 }: TanStackTableProps<TData>): React.ReactElement {
   // Internal sorting state (used when not controlled)
   const [internalSorting, setInternalSorting] = useState<SortingState>([]);
@@ -185,6 +186,7 @@ export function TanStackDataTable<TData>({
                 getRowClassName={getRowClassName ?? undefined}
                 colSpan={colSpan}
                 striped={striped}
+                onRowClick={onRowClick}
               />
             )}
           </table>

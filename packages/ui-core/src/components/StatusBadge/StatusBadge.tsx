@@ -5,8 +5,8 @@
  * Follows design tokens - 100% reusable
  */
 
+import { Bell, CircleCheck, CircleX, MapPinCheck, Navigation, UserCheck, Users } from 'lucide-react';
 import React from 'react';
-import { Bell, UserCheck, Navigation, MapPinCheck, Users, CircleCheck, CircleX } from 'lucide-react';
 import styles from './StatusBadge.module.css';
 
 export type BookingStatus =
@@ -121,6 +121,10 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
 }) => {
   const config = STATUS_CONFIG[status];
 
+  // Bell + glow only for pending/NEW statuses
+  const isPending = status === 'pending' || status === 'NEW';
+  const showBell = isNew && isPending;
+
   const classes = [
     styles.statusBadge,
     config.className,
@@ -128,7 +132,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     size === 'md' && styles.statusBadgeMd,
     size === 'lg' && styles.statusBadgeLg,
     isUrgent && styles.statusBadgeUrgent,
-    isNew && styles.statusBadgeNew,
+    showBell && styles.statusBadgeNew,
     className,
   ]
     .filter(Boolean)
@@ -136,12 +140,12 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
 
   return (
     <span className={classes}>
-      {isNew && (
+      {showBell && (
         <span className={styles.statusBadgeBellIcon}>
           <Bell size={12} strokeWidth={2} />
         </span>
       )}
-      {showIcon && config.icon && !isNew && (
+      {showIcon && config.icon && !showBell && (
         <span className={styles.statusBadgeIcon}>{config.icon}</span>
       )}
       <span className={styles.statusBadgeLabel}>{config.label}</span>

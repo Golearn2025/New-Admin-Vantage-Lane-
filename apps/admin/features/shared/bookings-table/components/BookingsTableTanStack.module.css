@@ -144,6 +144,23 @@
   background-color: rgb(211 170 49 / 15%);
 }
 
+/* Flash animation for new bookings — continuous gold pulse, stops on click.
+   Large negative delay (-999s) forces all rows into the same animation phase. */
+.flashRow {
+  animation: flashPulse 1.5s ease-in-out infinite;
+  animation-delay: -999s;
+}
+
+@keyframes flashPulse {
+  0%, 100% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgb(211 170 49 / 20%);
+    box-shadow: inset 0 0 0 1px rgb(211 170 49 / 30%);
+  }
+}
+
 /* Booking group colors */
 .groupBlue {
   border-left: 3px solid var(--color-info-500);

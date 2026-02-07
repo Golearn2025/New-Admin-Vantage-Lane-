@@ -133,6 +133,7 @@ export interface Driver {
 
 export interface Vehicle {
   id: string;
+  driver_id: string | null;
   make: string;
   model: string;
   year: number | null;

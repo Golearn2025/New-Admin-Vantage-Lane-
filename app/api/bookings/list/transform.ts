@@ -51,7 +51,8 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
     if (bookingLegs.length === 0) {
       // No legs - use segments as fallback
       const driver = drivers.find((d) => d.id === booking.assigned_driver_id);
-      const vehicle = vehicles.find((v) => v.id === booking.assigned_vehicle_id);
+      const vehicle = vehicles.find((v) => v.id === booking.assigned_vehicle_id)
+        || (booking.assigned_driver_id ? vehicles.find((v) => v.driver_id === booking.assigned_driver_id) : undefined);
       const pickupLocation = pickup?.place_text || pickup?.place_label || 'N/A';
       const dropoffLocation = dropoff?.place_text || dropoff?.place_label || 'N/A';
 
@@ -99,7 +100,8 @@ export function transformBookingsData(queryResult: QueryResult): BookingListItem
     else {
       bookingLegs.forEach((leg) => {
         const legDriver = drivers.find((d) => d.id === leg.assigned_driver_id);
-        const legVehicle = vehicles.find((v) => v.id === leg.assigned_vehicle_id);
+        const legVehicle = vehicles.find((v) => v.id === leg.assigned_vehicle_id)
+          || (leg.assigned_driver_id ? vehicles.find((v) => v.driver_id === leg.assigned_driver_id) : undefined);
 
         const legMappedStatus = mapStatus(leg.status);
         // console.log(`🔍 LEG TRANSFORM DEBUG: ${booking.reference} leg ${leg.leg_number} - DB status: "${leg.status}" → API status: "${legMappedStatus}"`);

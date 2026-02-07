@@ -47,7 +47,7 @@ export function BookingsTableTanStack({
   });
 
   // Fetch bookings data
-  const { bookings, loading, error, totalCount, fetchBookings } = useBookingsListSwitcher({
+  const { bookings, loading, error, totalCount, fetchBookings, newBookingIds, dismissNewBooking } = useBookingsListSwitcher({
     statusFilter,
     selectedStatus: showStatusFilter ? selectedStatus : 'all',
     tripTypeFilter,
@@ -87,14 +87,22 @@ export function BookingsTableTanStack({
     );
   }, [expandedIds, toggleExpand]);
 
-  // Row className — memoized callback (no dependency on expandedIds)
+  // Dismiss flash animation on row click
+  const dismissFlash = useCallback((row: BookingListItem) => {
+    if (newBookingIds?.has(row.id) && dismissNewBooking) {
+      dismissNewBooking(row.id);
+    }
+  }, [newBookingIds, dismissNewBooking]);
+
+  // Row className — includes flash animation for new bookings
   const getRowClassName = useCallback((row: BookingListItem) => {
     const classes: string[] = [];
+    if (newBookingIds?.has(row.id) && styles.flashRow) classes.push(styles.flashRow);
     if (row.isNew && styles.newBookingRow) classes.push(styles.newBookingRow);
     const groupClass = row.id ? getBookingGroupClass(row.id) : null;
     if (groupClass) classes.push(styles[groupClass as keyof typeof styles] || '');
     return classes.filter(Boolean).join(' ');
-  }, []);
+  }, [newBookingIds]);
 
   // Selected count
   const selectedCount = Object.keys(rowSelection).length;
@@ -142,6 +150,7 @@ export function BookingsTableTanStack({
         expandedIds={expandedIds}
         renderExpandedRow={(booking) => <BookingExpandedRow booking={booking} />}
         getRowClassName={getRowClassName}
+        onRowClick={dismissFlash}
         manualPagination={true}
         totalCount={pagination.totalCount}
         rowSelection={rowSelection}

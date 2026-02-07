@@ -41,6 +41,8 @@ export function mapStatus(
       return 'pending';
     case 'ASSIGNED':
     case 'assigned':  // ← Mixed case support
+    case 'CONFIRMED':
+    case 'confirmed':
       return 'assigned';
     case 'ARRIVED':
     case 'arrived':

@@ -70,38 +70,45 @@ export const getAssignmentColumn = (): BookingColumn => ({
 
     return (
       <div className={styles.assignmentCell}>
+        {/* Driver Section */}
         {hasDriver && (
-          <>
+          <div className={styles.assignmentSection}>
+            <div className={styles.assignmentSectionLabel}>Driver</div>
             <div className={styles.assignmentDriver}>
               <User size={13} />
               <span className={styles.assignmentDriverName}>{row.driver_name}</span>
             </div>
             {row.driver_phone && (
-              <div className={styles.assignmentDetail}>
+              <a
+                href={`tel:${row.driver_phone}`}
+                className={styles.assignmentPhone}
+                onClick={(e) => e.stopPropagation()}
+              >
                 <Phone size={12} />
                 <span>{row.driver_phone}</span>
+              </a>
+            )}
+          </div>
+        )}
+        {/* Car Section */}
+        {hasVehicle && (
+          <div className={styles.assignmentSection}>
+            <div className={styles.assignmentSectionLabel}>Car</div>
+            <div className={styles.assignmentVehicle}>
+              <Car size={13} />
+              <span>{[row.vehicle_make, row.vehicle_model_name].filter(Boolean).join(' ')}{row.vehicle_year ? ` (${row.vehicle_year})` : ''}</span>
+            </div>
+            {row.vehicle_plate && (
+              <div className={styles.assignmentPlateRow}>
+                <span className={styles.assignmentPlate}>{row.vehicle_plate}</span>
+                {row.vehicle_color && <span className={styles.assignmentColor}>{row.vehicle_color}</span>}
               </div>
             )}
-          </>
-        )}
-        {hasVehicle && (
-          <div className={styles.assignmentVehicle}>
-            <Car size={13} />
-            <span>{[row.vehicle_make, row.vehicle_model_name].filter(Boolean).join(' ')}</span>
-            {row.vehicle_year && <span>({row.vehicle_year})</span>}
           </div>
-        )}
-        {row.vehicle_color && (
-          <div className={styles.assignmentDetail}>
-            <span>{row.vehicle_color}</span>
-          </div>
-        )}
-        {row.vehicle_plate && (
-          <div className={styles.assignmentPlate}>{row.vehicle_plate}</div>
         )}
         {row.assigned_at && (
           <div className={styles.assignmentTime}>
-            <span>Assigned: {formatDate(row.assigned_at)} {formatTime(row.assigned_at)}</span>
+            Assigned: {formatDate(row.assigned_at)} {formatTime(row.assigned_at)}
           </div>
         )}
       </div>

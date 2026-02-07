@@ -3,9 +3,10 @@
  * Extracted from NotificationsProvider for better separation
  */
 
-import { useEffect, useRef, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { newBookingFlashStore } from '@admin-shared/stores/newBookingFlashStore';
 import { type NotificationData } from '@entities/notification';
+import { useCallback, useRef } from 'react';
 
 // 🛡️ GLOBAL flag to prevent double subscription (survives React Strict Mode remounts)
 let globalIsSubscribed = false;
@@ -32,8 +33,8 @@ export function useNotificationRealtime({
   const playNotificationSound = useCallback(() => {
     try {
       if (!audioRef.current) {
-        audioRef.current = new Audio('/sounds/notification.mp3');
-        audioRef.current.volume = 0.3;
+        audioRef.current = new Audio('/sounds/notification-good-427346.mp3');
+        audioRef.current.volume = 0.7;
       }
       audioRef.current.currentTime = 0;
       audioRef.current.play().catch(() => {
@@ -72,7 +73,7 @@ export function useNotificationRealtime({
           event: 'INSERT',
           schema: 'public',
           table: 'notifications',
-          filter: `recipient_user_id=eq.${userId}`,
+          filter: `user_id=eq.${userId}`,
         },
         (payload) => {
           const newNotification = payload.new as NotificationData;
@@ -92,7 +93,7 @@ export function useNotificationRealtime({
           event: 'UPDATE',
           schema: 'public',
           table: 'notifications',
-          filter: `recipient_user_id=eq.${userId}`,
+          filter: `user_id=eq.${userId}`,
         },
         (payload) => {
           const updatedNotification = payload.new as NotificationData;
@@ -109,6 +110,21 @@ export function useNotificationRealtime({
         (payload) => {
           const deletedNotification = payload.old as NotificationData;
           onNotificationDeleted(deletedNotification.id);
+        }
+      )
+      // Track new bookings for flash animation (persists across pages)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'bookings',
+        },
+        (payload) => {
+          const id = (payload.new as any).id as string;
+          if (id) {
+            newBookingFlashStore.add(id);
+          }
         }
       )
       .subscribe((status) => {

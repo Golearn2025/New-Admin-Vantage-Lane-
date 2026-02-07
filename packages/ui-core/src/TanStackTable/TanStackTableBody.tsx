@@ -25,6 +25,8 @@ interface TanStackTableBodyProps<TData> {
   colSpan: number;
   /** Striped rows */
   striped?: boolean | undefined;
+  /** Optional: callback when a row is clicked */
+  onRowClick?: ((row: TData) => void) | undefined;
 }
 
 export function TanStackTableBody<TData>({
@@ -35,6 +37,7 @@ export function TanStackTableBody<TData>({
   getRowClassName,
   colSpan,
   striped = false,
+  onRowClick,
 }: TanStackTableBodyProps<TData>): React.ReactElement {
   return (
     <tbody className={styles.tbody}>
@@ -51,6 +54,8 @@ export function TanStackTableBody<TData>({
               className={`${styles.tr} ${customClass} ${stripeClass} ${
                 row.getIsSelected() ? styles.selectedRow : ''
               }`}
+              onClick={onRowClick ? () => onRowClick(original) : undefined}
+              style={onRowClick ? { cursor: 'pointer' } : undefined}
             >
               {row.getVisibleCells().map((cell) => (
                 <td

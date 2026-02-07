@@ -65,9 +65,10 @@ export function TripTypeSection({ booking }: TripTypeSectionProps) {
   }
 
   // DAILY booking
-  if (booking.trip_type === 'daily' && booking.days) {
+  const days = (booking as any).days as number | undefined;
+  if (booking.trip_type === 'daily' && days) {
     const endDate = booking.scheduled_at
-      ? calculateEndDate(booking.scheduled_at, booking.days)
+      ? calculateEndDate(booking.scheduled_at, days)
       : null;
 
     return (
@@ -75,7 +76,7 @@ export function TripTypeSection({ booking }: TripTypeSectionProps) {
         <div className={styles.dataList}>
           <div className={styles.dataRow}>
             <span className={styles.label}>Duration:</span>
-            <span className={styles.value}>{booking.days} day{booking.days > 1 ? 's' : ''}</span>
+            <span className={styles.value}>{days} day{days > 1 ? 's' : ''}</span>
           </div>
           {booking.scheduled_at && (
             <>

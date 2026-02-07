@@ -64,7 +64,7 @@ export async function createTestBooking(
   try {
     // Generate reference
     const now = new Date();
-    const dateStr = now.toISOString().split('T')[0].replace(/-/g, '');
+    const dateStr = now.toISOString().split('T')[0]!.replace(/-/g, '');
     const randomNum = Math.floor(Math.random() * 9000) + 1000;
     const reference = `VL-${dateStr}-${randomNum}`;
 

@@ -45,7 +45,7 @@ const LONDON_LOCATIONS = [
 ];
 
 // Random helper functions
-const randomElement = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+const randomElement = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)]!;
 const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 const randomPrice = (category: string) => {
   const ranges: Record<string, [number, number]> = {

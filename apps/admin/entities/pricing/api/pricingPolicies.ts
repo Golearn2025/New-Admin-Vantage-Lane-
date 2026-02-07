@@ -92,6 +92,27 @@ export async function updateHourlySettings(
 }
 
 /**
+ * Update daily settings
+ */
+export async function updateDailySettings(
+  configId: string,
+  settings: any
+): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from('pricing_config')
+    .update({
+      daily_settings: settings,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', configId);
+
+  if (error) {
+    throw new Error(`Failed to update daily settings: ${error.message}`);
+  }
+}
+
+/**
  * Update fleet settings
  */
 export async function updateFleetSettings(

@@ -1,4 +1,4 @@
-import { invalidatePricingCache, updateAirportFee, updateFleetSettings, updateGeneralPolicies, updateHourlySettings, updateReturnSettings, updateServicePolicies, updateVehicleType, updateZoneFee, updateTimeMultipliers, type FleetSettings, type GeneralPolicies, type HourlySettings, type ReturnSettings, type ServicePolicies, type UpdateAirportFeePayload, type UpdateVehicleTypePayload, type PricingConfig, type ZoneFee, type PricingConfig as PC } from '@entities/pricing';
+import { invalidatePricingCache, updateAirportFee, updateDailySettings, updateFleetSettings, updateGeneralPolicies, updateHourlySettings, updateReturnSettings, updateServicePolicies, updateTimeMultipliers, updateVehicleType, updateZoneFee, type DailySettings, type FleetSettings, type GeneralPolicies, type HourlySettings, type PricingConfig as PC, type PricingConfig, type ReturnSettings, type ServicePolicies, type UpdateAirportFeePayload, type UpdateVehicleTypePayload, type ZoneFee } from '@entities/pricing';
 
 // Mutate function type definition
 type MutateFunction<T = PricingConfig> = (data?: T, opts?: { revalidate?: boolean }) => Promise<T | undefined>;
@@ -97,6 +97,16 @@ export async function handleUpdateHourlySettings(config: PricingConfig, mutate: 
     setIsSaving,
     setSaveError,
     successMessage: 'Success: Hourly settings updated successfully!',
+  });
+}
+
+export async function handleUpdateDailySettings(config: PricingConfig, mutate: MutateFunction, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, settings: DailySettings) {
+  await performUpdate({
+    action: () => updateDailySettings(config.id, settings),
+    mutate,
+    setIsSaving,
+    setSaveError,
+    successMessage: 'Success: Daily settings updated successfully!',
   });
 }
 

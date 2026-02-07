@@ -7,23 +7,18 @@
 
 // CRUD Operations
 export {
-  fetchPricingConfig,
-  invalidatePricingCache,
+    fetchPricingConfig,
+    invalidatePricingCache
 } from './pricingCrudOperations';
 
 // Rate Management
 export {
-  updateVehicleType,
-  updateAirportFee,
-  updateZoneFee,
+    updateAirportFee, updateVehicleType, updateZoneFee
 } from './pricingRates';
 
 // Policy Management
 export {
-  updateServicePolicies,
-  updateGeneralPolicies,
-  updateReturnSettings,
-  updateHourlySettings,
-  updateFleetSettings,
-  updateTimeMultipliers,
+    updateDailySettings,
+    updateFleetSettings, updateGeneralPolicies, updateHourlySettings, updateReturnSettings, updateServicePolicies, updateTimeMultipliers
 } from './pricingPolicies';
+

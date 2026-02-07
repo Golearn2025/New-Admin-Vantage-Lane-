@@ -98,6 +98,20 @@ export interface HourlySettings {
   area_restriction: string;
 }
 
+export interface DailySettings {
+  rates: {
+    executive: number;
+    luxury: number;
+    van: number;
+    suv: number;
+  };
+  minimum_days: number;
+  maximum_days: number;
+  hours_per_day: number;
+  distance_limit_per_day: number;
+  area_restriction: string;
+}
+
 export interface ReturnSettings {
   discount_rate: number;
   minimum_hours_between: number;
@@ -117,6 +131,7 @@ export interface PricingConfig {
   general_policies: GeneralPolicies;
   fleet_settings?: FleetSettings;
   hourly_settings?: HourlySettings;
+  daily_settings?: DailySettings;
   return_settings?: ReturnSettings;
   created_at: string;
   updated_at: string;

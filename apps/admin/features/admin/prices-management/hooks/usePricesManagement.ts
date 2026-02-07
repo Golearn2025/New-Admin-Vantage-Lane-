@@ -9,30 +9,32 @@
 
 'use client';
 
+import {
+    fetchPricingConfig,
+    type DailySettings,
+    type FleetSettings,
+    type GeneralPolicies,
+    type HourlySettings,
+    type PricingConfig,
+    type ReturnSettings,
+    type ServicePolicies,
+    type UpdateAirportFeePayload,
+    type UpdateVehicleTypePayload,
+    type ZoneFee
+} from '@entities/pricing';
 import { useState } from 'react';
 import useSWR from 'swr';
 import {
-  fetchPricingConfig,
-  type PricingConfig,
-  type ZoneFee,
-  type ServicePolicies,
-  type GeneralPolicies,
-  type FleetSettings,
-  type HourlySettings,
-  type ReturnSettings,
-  type UpdateVehicleTypePayload,
-  type UpdateAirportFeePayload,
-} from '@entities/pricing';
-import {
-  handleUpdateVehicleType as handleUpdateVehicleTypeDelegate,
-  handleUpdateAirportFee as handleUpdateAirportFeeDelegate,
-  handleUpdateZoneFee as handleUpdateZoneFeeDelegate,
-  handleUpdateServicePolicies as handleUpdateServicePoliciesDelegate,
-  handleUpdateGeneralPolicies as handleUpdateGeneralPoliciesDelegate,
-  handleUpdateReturnSettings as handleUpdateReturnSettingsDelegate,
-  handleUpdateHourlySettings as handleUpdateHourlySettingsDelegate,
-  handleUpdateFleetSettings as handleUpdateFleetSettingsDelegate,
-  handleUpdateTimeMultipliers as handleUpdateTimeMultipliersDelegate,
+    handleUpdateAirportFee as handleUpdateAirportFeeDelegate,
+    handleUpdateDailySettings as handleUpdateDailySettingsDelegate,
+    handleUpdateFleetSettings as handleUpdateFleetSettingsDelegate,
+    handleUpdateGeneralPolicies as handleUpdateGeneralPoliciesDelegate,
+    handleUpdateHourlySettings as handleUpdateHourlySettingsDelegate,
+    handleUpdateReturnSettings as handleUpdateReturnSettingsDelegate,
+    handleUpdateServicePolicies as handleUpdateServicePoliciesDelegate,
+    handleUpdateTimeMultipliers as handleUpdateTimeMultipliersDelegate,
+    handleUpdateVehicleType as handleUpdateVehicleTypeDelegate,
+    handleUpdateZoneFee as handleUpdateZoneFeeDelegate
 } from './handlers';
 
 export function usePricesManagement() {
@@ -83,6 +85,11 @@ export function usePricesManagement() {
     await handleUpdateHourlySettingsDelegate(config, mutate, setIsSaving, setSaveError, settings);
   };
 
+  const handleUpdateDailySettings = async (settings: DailySettings) => {
+    if (!config) return;
+    await handleUpdateDailySettingsDelegate(config, mutate, setIsSaving, setSaveError, settings);
+  };
+
   const handleUpdateFleetSettings = async (settings: FleetSettings) => {
     if (!config) return;
     await handleUpdateFleetSettingsDelegate(config, mutate, setIsSaving, setSaveError, settings);
@@ -107,6 +114,7 @@ export function usePricesManagement() {
     updateGeneralPolicies: handleUpdateGeneralPolicies,
     updateReturnSettings: handleUpdateReturnSettings,
     updateHourlySettings: handleUpdateHourlySettings,
+    updateDailySettings: handleUpdateDailySettings,
     updateFleetSettings: handleUpdateFleetSettings,
     updateTimeMultipliers: handleUpdateTimeMultipliers,
     refresh: mutate,

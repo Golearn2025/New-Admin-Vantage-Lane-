@@ -1,23 +1,18 @@
 /**
  * EnterpriseDataTable Component
  *
- * Complete enterprise table with all features integrated:
- * - Selection (multi-select with checkboxes)
- * - Sorting (column-based with visual indicators)
- * - Resizing (column width adjustment)
- * - Performance optimized with React.memo
- * - Zero inline functions
- * - Zero TypeScript 'any'
+ * Backward-compatible wrapper over TanStackDataTable.
+ * Converts Column<T>[] (ui-core format) to ColumnDef<T>[] (TanStack format).
+ * All existing consumers work without changes — TanStack powers the rendering.
  *
- * Ver 2.5 - PAS 4: Performance Optimization & Architecture Refactor
+ * Ver 3.0 - Unified on TanStack Table engine
  */
 
 'use client';
 
-import React from 'react';
-import { EnterpriseTableBody } from './components/EnterpriseTableBody';
-import { EnterpriseTableHeader } from './components/EnterpriseTableHeader';
-import styles from './DataTable.module.css';
+import React, { useMemo } from 'react';
+import { TanStackDataTable } from '../TanStackTable/TanStackDataTable';
+import { toTanStackColumns } from '../TanStackTable/toTanStackColumns';
 import type { UseColumnResizeReturn, UseSelectionReturn, UseSortingReturn } from './hooks';
 import type { Column } from './types/index';
 
@@ -26,11 +21,11 @@ export interface EnterpriseDataTableProps<T = object> {
   data: T[];
   /** Column definitions */
   columns: Column<T>[];
-  /** Selection hook (optional) */
+  /** Selection hook (optional — kept for backward compat) */
   selection?: UseSelectionReturn<T>;
-  /** Sorting hook (optional) */
+  /** Sorting hook (optional — kept for backward compat) */
   sorting?: UseSortingReturn;
-  /** Column resize hook (optional) */
+  /** Column resize hook (optional — kept for backward compat) */
   resize?: UseColumnResizeReturn;
   /** Loading state */
   loading?: boolean;
@@ -77,122 +72,34 @@ export function EnterpriseDataTable<T = object>({
   getRowId,
   getRowClassName,
 }: EnterpriseDataTableProps<T>): React.ReactElement {
-  // Handle column sort - memoized to prevent recreation
-  const handleSort = React.useCallback(
-    (columnId: string) => {
-      if (sorting) {
-        sorting.toggleSort(columnId);
-      }
-    },
-    [sorting]
-  );
+  // Convert Column<T>[] → ColumnDef<T>[] (bridge)
+  const tanStackColumns = useMemo(() => toTanStackColumns(columns), [columns]);
 
-  // Handle column resize start - memoized to prevent recreation
-  const handleResizeStart = React.useCallback(
-    (e: React.MouseEvent, columnId: string) => {
-      if (!resize) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      // Use state width instead of DOM offsetWidth to prevent jump
-      const startWidth = resize.columnWidths[columnId] || 150;
-      const startX = e.clientX;
-
-      const handleMouseMove = (moveEvent: MouseEvent) => {
-        const diff = moveEvent.clientX - startX;
-        const newWidth = Math.max(80, startWidth + diff);
-        resize.setColumnWidth(columnId, newWidth);
-      };
-
-      const handleMouseUp = () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-        document.body.style.cursor = '';
-        document.body.style.userSelect = '';
-      };
-
-      document.body.style.cursor = 'col-resize';
-      document.body.style.userSelect = 'none';
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-    },
-    [resize]
-  );
-
-  // Handle row click - memoized to prevent recreation
-  const handleRowClick = React.useCallback(
-    (row: T) => {
-      if (onRowClick) {
-        onRowClick(row);
-      }
-    },
-    [onRowClick]
-  );
-
-  // Build CSS classes
-  const tableClasses = [styles.table, striped && styles.striped, bordered && styles.bordered]
-    .filter(Boolean)
-    .join(' ');
-
-  const containerClasses = [styles.container, stickyHeader && styles.stickyHeader]
-    .filter(Boolean)
-    .join(' ');
-
-  // Loading state
-  if (loading) {
-    return (
-      <div className={containerClasses}>
-        <div className={styles.loading}>Loading...</div>
-      </div>
-    );
-  }
-
-  // Empty state
-  if (data.length === 0) {
-    return (
-      <div className={containerClasses}>
-        <div className={styles.empty}>{emptyState}</div>
-      </div>
-    );
-  }
+  // Fallback getRowId: use 'id' field or index
+  const resolvedGetRowId = useMemo(() => {
+    if (getRowId) return getRowId;
+    return (row: T) => {
+      const r = row as Record<string, unknown>;
+      return String(r.id ?? r.ID ?? '');
+    };
+  }, [getRowId]);
 
   return (
-    <div className={containerClasses}>
-      <div className={styles.tableWrapper}>
-        <table className={tableClasses} aria-label={ariaLabel}>
-          {/* COLGROUP - Apply widths here for consistent column sizing */}
-          <colgroup>
-            {selection && <col className={styles.checkboxColumnWidth} />}
-            {columns.map((column) => {
-              const width =
-                resize?.columnWidths[column.id] ??
-                (column.width ? parseFloat(column.width as string) : 150);
-              return <col key={column.id} style={{ width: `${width}px` }} />;
-            })}
-          </colgroup>
-
-          <EnterpriseTableHeader
-            columns={columns}
-            selection={selection}
-            sorting={sorting}
-            resize={resize}
-            onSort={handleSort}
-            onResizeStart={handleResizeStart}
-          />
-
-          <EnterpriseTableBody
-            data={data}
-            columns={columns}
-            selection={selection}
-            onRowClick={onRowClick ? handleRowClick : undefined}
-            expandedIds={expandedIds}
-            renderExpandedRow={renderExpandedRow}
-            getRowId={getRowId}
-            getRowClassName={getRowClassName}
-          />
-        </table>
-      </div>
-    </div>
+    <TanStackDataTable<T>
+      data={data}
+      columns={tanStackColumns}
+      getRowId={resolvedGetRowId}
+      loading={loading}
+      emptyState={emptyState}
+      striped={striped}
+      enableSelection={!!selection}
+      enableResize={!!resize}
+      stickyHeader={stickyHeader}
+      maxHeight={maxHeight}
+      ariaLabel={ariaLabel}
+      expandedIds={expandedIds}
+      renderExpandedRow={renderExpandedRow}
+      getRowClassName={getRowClassName}
+    />
   );
 }

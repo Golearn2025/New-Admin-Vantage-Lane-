@@ -1,0 +1,306 @@
+/**
+ * TanStack Table Styles — Global
+ *
+ * Copied from BookingsTableTanStack.module.css (the version we built
+ * together on the table-comparison page). All tables share this look.
+ */
+
+/* ========================================
+   CONTAINER
+   ======================================== */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  width: 100%;
+  height: 100%;
+}
+
+/* Table wrapper — border + shadow */
+.tableWrapper {
+  overflow: hidden;
+  border: 1px solid var(--vl-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-primary);
+  box-shadow: var(--vl-shadow-card);
+}
+
+/* Scrollable area */
+.tableScroll {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 75vh;
+  -webkit-overflow-scrolling: touch;
+  will-change: scroll-position;
+  contain: layout style;
+}
+
+/* ========================================
+   TABLE
+   ======================================== */
+.table {
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: auto;
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+.thead {
+  background: var(--color-bg-tertiary);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-docked, 10);
+}
+
+.stickyThead {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-docked, 10);
+}
+
+.headerRow {
+  border-bottom: 2px solid var(--vl-border-strong);
+}
+
+.th {
+  padding: var(--spacing-2) var(--spacing-3);
+  text-align: center;
+  font-weight: var(--font-semibold);
+  color: var(--color-text-secondary);
+  border-right: 1px solid var(--vl-border);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.th:last-child {
+  border-right: none;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  cursor: default;
+}
+
+.sortable {
+  cursor: pointer;
+  transition: color var(--motion-duration-fast);
+}
+
+.sortable:hover {
+  color: var(--theme-primary-light);
+}
+
+.sortIcon {
+  display: flex;
+  align-items: center;
+  color: var(--theme-primary);
+}
+
+/* Column Resizer */
+.resizer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  background: transparent;
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+  transition: background var(--motion-duration-fast);
+}
+
+.resizer:hover {
+  background: var(--theme-primary);
+}
+
+.resizer.isResizing {
+  background: var(--theme-primary-light);
+  opacity: 1;
+}
+
+/* ========================================
+   ROW META COLUMN (checkbox + # + expand)
+   ======================================== */
+.rowMetaHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.rowMetaCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--theme-primary);
+  border-radius: var(--radius-sm);
+}
+
+.rowNumHeader {
+  font-weight: var(--font-bold, 700);
+  font-size: var(--font-base);
+  color: var(--color-text-muted);
+}
+
+.rowNum {
+  font-size: var(--font-base);
+  font-weight: var(--font-bold, 700);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ========================================
+   BODY
+   ======================================== */
+.tbody {
+  background: var(--color-surface-primary);
+}
+
+.tr {
+  border-bottom: 1px solid var(--vl-border-strong);
+}
+
+.tr:hover {
+  background-color: var(--color-surface-elevated);
+}
+
+.stripedRow {
+  opacity: 1; /* kept for API compat */
+}
+
+/* Selected row — subtle, not strident */
+.selectedRow {
+  background-color: rgb(211 170 49 / 6%);
+}
+
+.selectedRow:hover {
+  background-color: rgb(211 170 49 / 12%);
+}
+
+/* ========================================
+   CELL
+   ======================================== */
+.td {
+  padding: var(--spacing-2) var(--spacing-3);
+  border-right: 1px solid var(--vl-border);
+  border-bottom: 1px solid var(--vl-border-strong);
+  vertical-align: middle;
+  text-align: center;
+  color: var(--color-text-primary);
+}
+
+.td:last-child {
+  border-right: none;
+}
+
+/* Compact utility column (checkbox / # / expand) */
+.tdCompact {
+  padding: var(--spacing-2) var(--spacing-2);
+  white-space: nowrap;
+  width: 1%;
+}
+
+.thCompact {
+  padding: var(--spacing-2) var(--spacing-2);
+  width: 1%;
+}
+
+/* ========================================
+   EXPAND BUTTON — solid pill
+   ======================================== */
+.expandBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid var(--theme-primary);
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-full, 9999px);
+  transition: all var(--motion-duration-fast);
+  color: var(--theme-primary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.expandBtn:hover {
+  background-color: var(--theme-primary);
+  color: var(--color-bg-primary);
+}
+
+.expandBtnActive {
+  background-color: var(--theme-primary);
+  color: var(--color-bg-primary);
+}
+
+.expandBtnActive:hover {
+  background-color: transparent;
+  color: var(--theme-primary);
+}
+
+.triangle {
+  font-size: 10px;
+  line-height: 1;
+}
+
+/* ========================================
+   EXPANDED ROW
+   ======================================== */
+.expandedRow {
+  background-color: var(--color-bg-secondary);
+}
+
+.expandedCell {
+  padding: 0;
+  border-bottom: 1px solid var(--vl-border-strong);
+}
+
+/* ========================================
+   STATES
+   ======================================== */
+.stateCell {
+  padding: var(--spacing-12, 48px);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.loadingSpinner {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  margin-right: var(--spacing-2);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 1024px) {
+  .th, .td {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--font-xs);
+  }
+}

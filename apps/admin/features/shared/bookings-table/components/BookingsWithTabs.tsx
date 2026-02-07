@@ -14,12 +14,12 @@
 
 'use client';
 
-import React, { useMemo, useState, useCallback } from 'react';
 import { Tabs } from '@vantage-lane/ui-core';
-import { BookingsTable } from './BookingsTable';
+import { useCallback, useMemo, useState } from 'react';
 import { useBookingCounts } from '../hooks/useBookingCounts';
-import styles from './BookingsWithTabs.module.css';
 import { createBookingTabs, ZERO_COUNTS, type TabId } from '../utils/createBookingTabs';
+import { BookingsTableTanStack } from './BookingsTableTanStack';
+import styles from './BookingsWithTabs.module.css';
 
 type BookingStatus = 'pending' | 'assigned' | 'en_route' | 'arrived' | 'in_progress' | 'completed' | 'cancelled';
 
@@ -73,7 +73,7 @@ export function BookingsWithTabs({
         />
       </div>
       
-      <BookingsTable
+      <BookingsTableTanStack
         statusFilter={statusFilter}
         tripTypeFilter={tripTypeFilter}
         title={title}

@@ -29,6 +29,23 @@
   margin-right: var(--spacing-1);
 }
 
+/* Customer Name + Rating Row */
+.customerNameRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.customerRating {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: var(--font-size-2xs);
+  font-weight: 600;
+  color: #FFD700;
+  white-space: nowrap;
+}
+
 /* Customer Column */
 .customerCell {
   display: flex;
@@ -141,9 +158,20 @@
 
 .routeLocation {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-1);
+  align-items: flex-start;
+  gap: 4px;
   font-weight: var(--font-weight-medium);
+  text-align: left;
+  line-height: 1.3;
+}
+
+.routeLocation svg {
+  margin-top: 2px;
+}
+
+.routeLocation span {
+  flex: 1;
+  min-width: 0;
 }
 
 .pickupIcon {
@@ -292,6 +320,38 @@
   color: var(--color-text-secondary);
 }
 
+.vehicleAssigned {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.vehicleAssigned svg {
+  flex-shrink: 0;
+  color: var(--color-vehicle-gold-alpha-90);
+}
+
+.vehiclePlate {
+  font-size: var(--font-size-2xs);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  background: var(--color-surface-secondary);
+  border: var(--border-width-sm) solid var(--color-border-secondary);
+  border-radius: var(--radius-xs);
+  padding: 1px var(--spacing-1);
+  letter-spacing: 0.05em;
+  font-family: monospace;
+}
+
+.vehicleUnassigned {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
 /* Payment Column */
 .paymentCell {
   display: flex;
@@ -374,3 +434,227 @@
 }
 
 /* ✅ Button classes removed - using Button component from @vantage-lane/ui-core */
+
+/* Payment defalcat extras */
+.paymentLineTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xs);
+  padding-bottom: var(--spacing-1);
+  border-bottom: var(--border-width-1) solid var(--color-border-secondary);
+  margin-bottom: var(--spacing-half);
+}
+
+.paymentValue {
+  font-weight: 700;
+}
+
+.paymentPct {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.paymentEarned {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.paymentDriver {
+  color: var(--color-accent-400);
+  font-weight: 700;
+}
+
+/* Services Column */
+.servicesCell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  font-size: var(--font-size-2xs);
+}
+
+.servicesEmpty {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+.servicePaid {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  color: var(--color-text-secondary);
+}
+
+.servicePaid svg {
+  color: var(--color-vehicle-gold-alpha-90);
+  flex-shrink: 0;
+}
+
+.servicePrice {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-left: auto;
+}
+
+.serviceFree {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  color: var(--color-text-muted);
+}
+
+.serviceFree svg {
+  color: var(--color-success);
+  flex-shrink: 0;
+}
+
+.serviceNotes {
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+/* Assignment Column */
+.assignmentCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-2xs);
+}
+
+.assignmentEmpty {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+.assignmentSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.assignmentSectionLabel {
+  font-size: var(--font-size-2xs);
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.assignmentDriver {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-1);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.assignmentDriver svg {
+  color: var(--color-vehicle-gold-alpha-90);
+  flex-shrink: 0;
+}
+
+.assignmentDriverName {
+  font-weight: 600;
+}
+
+.assignmentPhone {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--color-accent-400);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.assignmentPhone:hover span {
+  text-decoration: underline;
+}
+
+.assignmentPhone svg {
+  flex-shrink: 0;
+}
+
+.assignmentVehicle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.assignmentVehicle svg {
+  color: var(--color-vehicle-gold-alpha-90);
+  flex-shrink: 0;
+}
+
+.assignmentPlateRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.assignmentPlate {
+  font-size: var(--font-size-2xs);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  background: var(--color-surface-secondary);
+  border: var(--border-width-sm) solid var(--color-border-secondary);
+  border-radius: var(--radius-xs);
+  padding: 1px var(--spacing-1);
+  letter-spacing: 0.05em;
+  font-family: monospace;
+  display: inline-block;
+}
+
+.assignmentColor {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.assignmentTime {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin-top: var(--spacing-half);
+}
+
+/* Status Column with Timestamps */
+.statusCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.statusTimestamps {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--font-size-2xs);
+  width: 100%;
+}
+
+.timestampRow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-1);
+  color: var(--color-text-secondary);
+}
+
+.timestampLabel {
+  font-weight: 500;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}

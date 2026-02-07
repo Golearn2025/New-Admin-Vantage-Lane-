@@ -7,13 +7,13 @@
  * SAFETY: Feature flag controlled - can switch back to old hook instantly
  */
 
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { logger } from '@/lib/utils/logger';
+import { newBookingFlashStore } from '@admin-shared/stores/newBookingFlashStore';
+import { fetchAuthedJson } from '@admin-shared/utils/fetchAuthedJson';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import type { BookingListItem, BookingsListResponse } from '@vantage-lane/contracts';
-import { logger } from '@/lib/utils/logger';
-import { createClient } from '@/lib/supabase/client';
-import { fetchAuthedJson } from '@admin-shared/utils/fetchAuthedJson';
-import { playBookingNotificationSound } from '@admin-shared/utils/notificationSound';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 
 interface Props {
   statusFilter?: string[];
@@ -29,6 +29,8 @@ interface Return {
   error: string | null;
   totalCount: number;
   fetchBookings: () => Promise<void>;
+  newBookingIds: Set<string>;
+  dismissNewBooking: (id: string) => void;
 }
 
 // STEP 3A.2: Stable query key factory
@@ -58,7 +60,14 @@ export function useBookingsListRQ({
   pageSize,
 }: Props): Return {
   const [error, setError] = useState<string | null>(null);
+  const newBookingIds = useSyncExternalStore<Set<string>>(
+    newBookingFlashStore.subscribe,
+    newBookingFlashStore.getSnapshot,
+    newBookingFlashStore.getSnapshot,
+  );
   const queryClient = useQueryClient();
+  const queryClientRef = useRef(queryClient);
+  queryClientRef.current = queryClient;
   const channelRef = useRef<ReturnType<ReturnType<typeof createClient>['channel']> | null>(null);
 
   // STEP 3A.2: Stable query key
@@ -127,13 +136,18 @@ export function useBookingsListRQ({
 
       logger.info('🔄 Setting up React Query Realtime subscription');
 
+      // Debounce refetch to avoid multiple rapid invalidations
+      let refetchTimer: ReturnType<typeof setTimeout> | null = null;
+      const debouncedRefetch = () => {
+        if (refetchTimer) clearTimeout(refetchTimer);
+        refetchTimer = setTimeout(() => {
+          queryClientRef.current.invalidateQueries({ queryKey: ['bookings', 'list'] });
+        }, 500);
+      };
+
       channelRef.current = supabase
-        .channel(`bookings-list-rq:${Date.now()}`, {
-          config: {
-            broadcast: { self: false },
-            presence: { key: 'bookings-list-rq' },
-          },
-        })
+        .channel('bookings-realtime-v2')
+        // NEW booking → refetch (flash + sound handled by NotificationsProvider)
         .on(
           'postgres_changes',
           {
@@ -142,120 +156,56 @@ export function useBookingsListRQ({
             table: 'bookings',
           },
           (payload) => {
-            logger.info('🆕 NEW BOOKING (React Query Realtime):', payload.new);
-            logger.info('📡 INJECT via queryClient.setQueryData (STEP 3A - NO invalidate)');
-
-            const newBookingRaw = payload.new as any;
-            
-            // Check if we should inject based on current page and filters
-            const shouldInject = currentPage === 1 && (
-              selectedStatus === 'all' || 
-              selectedStatus === 'active' || 
-              selectedStatus === 'pending' ||
-              (selectedStatus === 'new' && ['NEW', 'PENDING'].includes(newBookingRaw.status))
-            );
-
-            if (shouldInject) {
-              // STEP 3A.3: Update cache directly with queryClient.setQueryData
-              queryClient.setQueryData(queryKey, (oldData: BookingsListResponse | undefined) => {
-                if (!oldData) return oldData;
-
-                // Map raw DB row to BookingListItem format (same as useBookingsList)
-                const newBookingItem: BookingListItem = {
-                  id: newBookingRaw.id,
-                  reference: newBookingRaw.reference || 'N/A',
-                  status: 'pending' as const,
-                  customer_name: 'New Customer', // Will be populated by full data later
-                  pickup_location: 'Loading...', // Will be populated by segments
-                  destination: 'Loading...', // Will be populated by segments  
-                  scheduled_at: newBookingRaw.pickup_time || newBookingRaw.start_at,
-                  created_at: newBookingRaw.created_at,
-                  trip_type: 'oneway' as const,
-                  fare_amount: 0, // Will be populated by pricing
-                  currency: newBookingRaw.currency || 'GBP',
-                  operator_name: '',
-                  driver_name: null,
-                  // Minimal required fields
-                  is_urgent: false,
-                  is_new: true,
-                  category: 'EXEC',
-                  vehicle_model: null,
-                  customer_phone: '',
-                  customer_email: null,
-                  customer_total_bookings: 0,
-                  customer_loyalty_tier: null,
-                  customer_status: null,
-                  customer_total_spent: 0,
-                  distance_miles: null,
-                  duration_min: null,
-                  hours: null,
-                  passenger_count: null,
-                  bag_count: null,
-                  flight_number: null,
-                  notes: null,
-                  return_date: null,
-                  return_time: null,
-                  return_flight_number: null,
-                  fleet_executive: null,
-                  fleet_s_class: null,
-                  fleet_v_class: null,
-                  fleet_suv: null,
-                  base_price: 0,
-                  platform_fee: 0,
-                  operator_net: 0,
-                  driver_payout: 0,
-                  platform_commission_pct: null,
-                  driver_commission_pct: null,
-                  paid_services: [],
-                  free_services: [],
-                  payment_method: 'CARD',
-                  payment_status: 'pending',
-                  driver_id: newBookingRaw.driver_id,
-                  driver_phone: null,
-                  driver_email: null,
-                  driver_rating: null,
-                  vehicle_id: newBookingRaw.vehicle_id,
-                  vehicle_make: null,
-                  vehicle_model_name: null,
-                  vehicle_year: null,
-                  vehicle_color: null,
-                  vehicle_plate: null,
-                  assigned_at: null,
-                  assigned_by_name: null,
-                  operator_rating: null,
-                  operator_reviews: null,
-                  source: 'web' as const,
-                  legs: [],
-                };
-
-                // INJECT at top + update total count
-                const updatedData: BookingsListResponse = {
-                  ...oldData,
-                  data: [newBookingItem, ...oldData.data].slice(0, pageSize),
-                  pagination: {
-                    ...oldData.pagination,
-                    total_count: (oldData.pagination?.total_count || 0) + 1,
-                  },
-                };
-
-                return updatedData;
-              });
-              
-              logger.info('✅ NEW BOOKING injected via React Query cache', {
-                id: newBookingRaw.id,
-                reference: newBookingRaw.reference,
-                query_key: queryKey
-              });
-              
-              // 🔊 SINGLE SOUND SOURCE - consistent with useBookingsList
-              playBookingNotificationSound();
-            } else {
-              logger.info('📊 New booking not injected (wrong page/filter)', {
-                current_page: currentPage,
-                selected_status: selectedStatus,
-                booking_status: newBookingRaw.status
-              });
-            }
+            logger.info('🆕 NEW BOOKING (Realtime):', { id: (payload.new as any).id });
+            debouncedRefetch();
+          }
+        )
+        // UPDATED booking → status change, assignment, etc.
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'bookings',
+          },
+          (payload) => {
+            logger.info('📝 BOOKING UPDATED (Realtime):', {
+              id: (payload.new as any).id,
+              old_status: (payload.old as any).status,
+              new_status: (payload.new as any).status,
+            });
+            debouncedRefetch();
+          }
+        )
+        // UPDATED booking_legs → driver accepted, status timestamps, etc.
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'booking_legs',
+          },
+          (payload) => {
+            logger.info('🦵 BOOKING LEG UPDATED (Realtime):', {
+              id: (payload.new as any).id,
+              old_status: (payload.old as any).status,
+              new_status: (payload.new as any).status,
+              driver_id: (payload.new as any).assigned_driver_id,
+            });
+            debouncedRefetch();
+          }
+        )
+        // NEW booking_legs → new leg created (e.g. fleet)
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'booking_legs',
+          },
+          (payload) => {
+            logger.info('🆕 NEW BOOKING LEG (Realtime):', payload.new);
+            debouncedRefetch();
           }
         )
         .subscribe((status, err) => {
@@ -263,7 +213,7 @@ export function useBookingsListRQ({
             logger.error('❌ React Query Realtime error:', err);
           }
           if (status === 'SUBSCRIBED') {
-            logger.info('✅ React Query Realtime connected!');
+            logger.info('✅ React Query Realtime connected (bookings + booking_legs)!');
           }
         });
     };
@@ -278,7 +228,8 @@ export function useBookingsListRQ({
         channelRef.current = null;
       }
     };
-  }, [queryKey, currentPage, selectedStatus, pageSize, queryClient]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Manual refetch function (same interface as useBookingsList)
   const fetchBookings = async () => {
@@ -291,11 +242,17 @@ export function useBookingsListRQ({
     }
   };
 
+  const dismissNewBooking = useCallback((id: string) => {
+    newBookingFlashStore.dismiss(id);
+  }, []);
+
   return { 
     bookings, 
     loading: isLoading, 
     error, 
     totalCount, 
-    fetchBookings 
+    fetchBookings,
+    newBookingIds,
+    dismissNewBooking,
   };
 }

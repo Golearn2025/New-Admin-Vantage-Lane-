@@ -1,0 +1,415 @@
+/**
+ * BookingsTableTanStack Styles - Premium Dark Theme
+ * Uses design tokens from globals.css
+ * Column separators, hover effects, responsive layout
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  width: 100%;
+  height: 100%;
+}
+
+.errorState {
+  padding: var(--spacing-4);
+  background-color: rgb(220 38 38 / 10%);
+  border: 1px solid var(--color-danger-dark);
+  border-radius: var(--radius-md);
+  color: var(--color-danger-default);
+  text-align: center;
+}
+
+/* Table wrapper */
+.tableWrapper {
+  overflow: hidden;
+  border: 1px solid var(--vl-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-primary);
+  box-shadow: var(--vl-shadow-card);
+}
+
+/* Table wrapper - scrollable area */
+.tableScroll {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 75vh;
+  -webkit-overflow-scrolling: touch;
+  will-change: scroll-position;
+  contain: layout style;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: auto;
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+}
+
+/* Table Head */
+.thead {
+  background: var(--color-bg-tertiary);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-docked);
+}
+
+.headerRow {
+  border-bottom: 2px solid var(--vl-border-strong);
+}
+
+.th {
+  padding: var(--spacing-2) var(--spacing-3);
+  text-align: center;
+  font-weight: var(--font-semibold);
+  color: var(--color-text-secondary);
+  border-right: 1px solid var(--vl-border);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.th:last-child {
+  border-right: none;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  cursor: default;
+}
+
+.headerContent.sortable {
+  cursor: pointer;
+  transition: color var(--motion-duration-fast);
+}
+
+.headerContent.sortable:hover {
+  color: var(--theme-primary-light);
+}
+
+.sortIcon {
+  display: flex;
+  align-items: center;
+  color: var(--theme-primary);
+}
+
+/* Column Resizer */
+.resizer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  background: transparent;
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+  transition: background var(--motion-duration-fast);
+}
+
+.resizer:hover {
+  background: var(--theme-primary);
+}
+
+.resizer.isResizing {
+  background: var(--theme-primary-light);
+  opacity: 1;
+}
+
+/* Table Body */
+.tbody {
+  background: var(--color-surface-primary);
+}
+
+.tr {
+  border-bottom: 1px solid var(--vl-border-strong);
+}
+
+.tr:hover {
+  background-color: var(--color-surface-elevated);
+}
+
+.tr.newBookingRow {
+  background-color: rgb(211 170 49 / 8%);
+}
+
+.tr.newBookingRow:hover {
+  background-color: rgb(211 170 49 / 15%);
+}
+
+/* Flash animation for new bookings — continuous gold pulse, stops on click.
+   Large negative delay (-999s) forces all rows into the same animation phase. */
+.flashRow {
+  animation: flashPulse 1.5s ease-in-out infinite;
+  animation-delay: -999s;
+}
+
+@keyframes flashPulse {
+  0%, 100% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgb(211 170 49 / 20%);
+    box-shadow: inset 0 0 0 1px rgb(211 170 49 / 30%);
+  }
+}
+
+/* Booking group colors */
+.groupBlue {
+  border-left: 3px solid var(--color-info-500);
+}
+
+.groupGreen {
+  border-left: 3px solid var(--color-success-default);
+}
+
+.groupRed {
+  border-left: 3px solid var(--color-danger-default);
+}
+
+.groupYellow {
+  border-left: 3px solid var(--color-warning-default);
+}
+
+.groupPurple {
+  border-left: 3px solid #8b5cf6;
+}
+
+.td {
+  padding: var(--spacing-2) var(--spacing-3);
+  border-right: 1px solid var(--vl-border);
+  border-bottom: 1px solid var(--vl-border-strong);
+  vertical-align: middle;
+  text-align: center;
+  color: var(--color-text-primary);
+}
+
+.td:last-child {
+  border-right: none;
+}
+
+/* Compact utility column */
+.tdCompact {
+  padding: var(--spacing-2) var(--spacing-2);
+  white-space: nowrap;
+  width: 1%;
+}
+
+.thCompact {
+  padding: var(--spacing-2) var(--spacing-2);
+  width: 1%;
+}
+
+/* Utility cell: checkbox, #, expand stacked vertically */
+.utilStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Row number */
+.rowNumber {
+  font-size: var(--font-base);
+  font-weight: var(--font-bold);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Checkbox */
+.checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--theme-primary);
+  border-radius: var(--radius-sm);
+}
+
+/* Selected row */
+.tr.selectedRow {
+  background-color: rgb(211 170 49 / 6%);
+}
+
+.tr.selectedRow:hover {
+  background-color: rgb(211 170 49 / 12%);
+}
+
+/* Expand button - solid pill */
+.expandBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid var(--theme-primary);
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-full, 9999px);
+  transition: all var(--motion-duration-fast);
+  color: var(--theme-primary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.expandBtn:hover {
+  background-color: var(--theme-primary);
+  color: var(--color-bg-primary);
+}
+
+.expandBtnActive {
+  background-color: var(--theme-primary);
+  color: var(--color-bg-primary);
+}
+
+.expandBtnActive:hover {
+  background-color: transparent;
+  color: var(--theme-primary);
+}
+
+.triangle {
+  font-size: 10px;
+  line-height: 1;
+}
+
+/* Expanded row */
+.expandedRow {
+  background-color: var(--color-bg-secondary);
+}
+
+.expandedCell {
+  padding: 0;
+  border-bottom: 1px solid var(--vl-border-strong);
+}
+
+/* Loading state */
+.loadingCell {
+  padding: var(--spacing-12);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  margin-right: var(--spacing-2);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Empty state */
+.emptyCell {
+  padding: var(--spacing-12);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-4);
+  background: var(--color-surface-primary);
+  border: 1px solid var(--vl-border);
+  border-radius: var(--radius-md);
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.paginationInfo {
+  color: var(--color-text-muted);
+  font-size: var(--font-sm);
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.paginationBtn {
+  padding: var(--spacing-2) var(--spacing-4);
+  border: 1px solid var(--color-border-default);
+  background: var(--color-surface-secondary);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  transition: all var(--motion-duration-fast);
+}
+
+.paginationBtn:hover:not(:disabled) {
+  background: var(--color-bg-surface-hover);
+  border-color: var(--theme-primary);
+  color: var(--theme-primary);
+}
+
+.paginationBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  padding: 0 var(--spacing-4);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+}
+
+.pageSizeSelector {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+}
+
+.pageSizeSelect {
+  padding: 6px var(--spacing-3);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-secondary);
+  cursor: pointer;
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+}
+
+.pageSizeSelect:hover {
+  border-color: var(--theme-primary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .th, .td {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--font-xs);
+  }
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .paginationControls {
+    justify-content: center;
+  }
+
+  .paginationInfo, .pageSizeSelector {
+    text-align: center;
+    justify-content: center;
+  }
+}

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 /**
  * Bookings API Contract Tests
  *
@@ -7,8 +7,8 @@ import { describe, it, expect } from 'vitest';
 
 // Jest setup will be configured in M0.4
 import type {
-  BookingsListRequest,
-  BookingsListResponse,
+    BookingsListRequest,
+    BookingsListResponse,
 } from '../../shared/api/contracts/bookings';
 
 describe('Bookings List Contract', () => {
@@ -75,6 +75,8 @@ describe('Bookings List Contract', () => {
             customer_loyalty_tier: 'silver',
             customer_status: 'active',
             customer_total_spent: 25000,
+            customer_rating_average: 4.8,
+            customer_rating_count: 12,
             pickup_location: 'Airport Terminal 1',
             destination: 'City Center',
             scheduled_at: '2024-01-15T14:00:00Z',
@@ -124,6 +126,12 @@ describe('Bookings List Contract', () => {
             vehicle_plate: null,
             assigned_at: null,
             assigned_by_name: null,
+            arrived_at_pickup: null,
+            passenger_onboard_at: null,
+            started_at: null,
+            completed_at: null,
+            cancelled_at: null,
+            cancel_reason: null,
             operator_name: 'Vantage Lane',
             operator_rating: null,
             operator_reviews: null,

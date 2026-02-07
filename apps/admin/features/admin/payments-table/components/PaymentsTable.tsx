@@ -10,70 +10,61 @@
  * ✅ Architecture: features → entities
  */
 
-import React, { useEffect, useMemo } from 'react';
-import { 
-  EnterpriseDataTable,
-  usePagination,
-  useSorting,
-  useSelection,
-  useColumnResize,
-  Pagination,
-  TableFilters,
+import {
+    Pagination,
+    TableFilters,
+    TanStackDataTable,
+    toTanStackColumns,
+    useSelection,
 } from '@vantage-lane/ui-core';
-import type { Payment } from '../types';
-import { usePaymentsList } from '../hooks/usePaymentsList';
+import { useEffect, useMemo, useState } from 'react';
 import { usePaymentsFilters } from '../hooks/usePaymentsFilters';
+import { usePaymentsList } from '../hooks/usePaymentsList';
+import { filterPayments } from '../utils/paymentsFiltering';
 import { PaymentsActions } from './PaymentsActions';
+import { paymentsColumns } from './PaymentsColumns';
 import { PaymentsExport } from './PaymentsExport';
 import { PaymentsMetrics } from './PaymentsMetrics';
-import { paymentsColumns } from './PaymentsColumns';
-import { filterPayments } from '../utils/paymentsFiltering';
 import styles from './PaymentsTable.module.css';
 
 export function PaymentsTable() {
   const { data, loading, error } = usePaymentsList();
+  const filtersHook = usePaymentsFilters();
 
-  // Hooks modulare - Enterprise pattern!
-  const pagination = usePagination({ initialPageSize: 25 });
-  const sorting = useSorting({ initialColumnId: 'createdAt', initialDirection: 'desc' });
+  // Selection — keep useSelection for PaymentsActions/Export compatibility
   const selection = useSelection({ 
     data, 
     getRowId: (row, index) => row.id || String(index) 
   });
-  const resize = useColumnResize({
-    initialWidths: {
-      id: 150,
-      bookingId: 150,
-      amount: 120,
-      status: 120,
-      createdAt: 130,
-    }
+
+  // Pagination state
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 25,
+    totalCount: 0,
   });
-  const filtersHook = usePaymentsFilters();
 
-  // Update total count când se încarcă data
-  useEffect(() => {
-    if (data.length > 0) {
-      pagination.setTotalCount(data.length);
-    }
-  }, [data, pagination]);
-
-  // Filter data using utility function
+  // Filter data
   const filteredData = useMemo(() => {
     return filterPayments(data, filtersHook.filters);
   }, [data, filtersHook.filters]);
 
   // Update total count for filtered data
   useEffect(() => {
-    pagination.setTotalCount(filteredData.length);
-  }, [filteredData, pagination]);
+    setPagination((p) => ({ ...p, totalCount: filteredData.length }));
+  }, [filteredData]);
 
-  // Paginate filtered data - slice based on current page
+  // Paginate filtered data
   const paginatedData = useMemo(() => {
     const start = pagination.pageIndex * pagination.pageSize;
     const end = start + pagination.pageSize;
     return filteredData.slice(start, end);
   }, [filteredData, pagination.pageIndex, pagination.pageSize]);
+
+  // Convert existing columns to TanStack format (bridge)
+  const tanStackColumns = useMemo(() => toTanStackColumns(paymentsColumns), []);
+
+  const totalPages = Math.max(1, Math.ceil(pagination.totalCount / pagination.pageSize));
 
   // Error state
   if (error) {
@@ -138,16 +129,14 @@ export function PaymentsTable() {
 
       {/* Table */}
       <div className={styles.tableArea}>
-        <EnterpriseDataTable
+        <TanStackDataTable
           data={paginatedData}
-          selection={selection}
-          sorting={sorting}
-          resize={resize}
-          columns={paymentsColumns}
+          columns={tanStackColumns}
+          getRowId={(row) => row.id || ''}
           loading={loading}
           emptyState="No payment transactions found"
           striped={true}
-          bordered={true}
+          enableResize={true}
           stickyHeader={true}
           ariaLabel="Payments table"
         />
@@ -157,11 +146,11 @@ export function PaymentsTable() {
       <div className={styles.paginationWrapper}>
         <Pagination
           currentPage={pagination.pageIndex + 1}
-          totalPages={pagination.pageCount}
+          totalPages={totalPages}
           totalItems={pagination.totalCount}
           pageSize={pagination.pageSize}
-          onPageChange={(page) => pagination.setPage(page - 1)}
-          onPageSizeChange={pagination.setPageSize}
+          onPageChange={(page) => setPagination((p) => ({ ...p, pageIndex: page - 1 }))}
+          onPageSizeChange={(size) => setPagination((p) => ({ pageIndex: 0, pageSize: size, totalCount: p.totalCount }))}
           showInfo={true}
           showPageSizeSelector={true}
         />

@@ -8,11 +8,11 @@
  * ✅ lucide-react: Check, X
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { Select, Button, Input } from '@vantage-lane/ui-core';
-import { Check, X } from 'lucide-react';
-import { approveVehicle, rejectVehicle, listJobCategories } from '@entities/vehicle';
 import type { JobCategory } from '@entities/vehicle';
+import { approveVehicle, listJobCategories, rejectVehicle } from '@entities/vehicle';
+import { Button, Input, Select } from '@vantage-lane/ui-core';
+import { Check, X } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './VehicleApprovalForm.module.css';
 
 interface VehicleApprovalFormProps {
@@ -86,13 +86,20 @@ export function VehicleApprovalForm({ vehicleId, adminId, onSuccess }: VehicleAp
   };
 
   // Memoize category options to prevent re-creation on every render
-  const categoryOptions: Array<{ value: string; label: string }> = useMemo(() => 
-    categories.map(cat => ({
-      value: cat.name.toLowerCase(),
+  // Map category names to correct database values
+  const categoryOptions: Array<{ value: string; label: string }> = useMemo(() => {
+    const categoryMapping: Record<string, string> = {
+      'Executive': 'exec',
+      'Luxury': 'lux',
+      'SUV': 'suv',
+      'Van': 'van',
+    };
+    
+    return categories.map(cat => ({
+      value: categoryMapping[cat.name] || cat.name.toLowerCase(),
       label: cat.name,
-    })), 
-    [categories]
-  );
+    }));
+  }, [categories]);
 
   return (
     <div className={styles.form}>

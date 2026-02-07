@@ -6,6 +6,13 @@
 import type { BookingsListResponse } from '@admin-shared/api/contracts/bookings';
 import type { BookingRowDTO } from '@entities/booking/types/bookingsList.types';
 
+// Safe numeric parser for DB values (can be string, number, or null)
+function parseNum(val: string | number | null | undefined): number {
+  if (val == null) return 0;
+  if (typeof val === 'number') return val;
+  return parseFloat(val) || 0;
+}
+
 // Status mapping from DB to contract enum
 export function mapDbStatusToContract(
   dbStatus: string
@@ -15,6 +22,7 @@ export function mapDbStatusToContract(
     case 'PENDING':
       return 'pending';
     case 'ASSIGNED':
+    case 'CONFIRMED':
       return 'assigned';
     case 'EN_ROUTE':
     case 'ENROUTE':
@@ -53,39 +61,41 @@ export function transformRowsToResponse(
       
       // Status & flags - map DB values to contract enum
       status: mapDbStatusToContract(row.status),
-      is_urgent: false, // TODO: Calculate from pickup_time < 3h and no driver
-      is_new: false, // TODO: Calculate from created_at < 24h ago
+      is_urgent: row.is_urgent ?? false,
+      is_new: row.is_new ?? false,
       
       // Trip info
-      trip_type: (row.trip_type as 'oneway' | 'return' | 'hourly' | 'fleet') || 'oneway',
-      category: 'EXEC', // TODO: Get from booking data
-      vehicle_model: null, // TODO: Get from vehicle assignment
+      trip_type: (row.trip_type as 'oneway' | 'return' | 'hourly' | 'daily' | 'fleet') || 'oneway',
+      category: (row.vehicle_category?.toUpperCase() as string) || 'EXEC',
+      vehicle_model: row.vehicle_model || null,
       
       // Customer info - handle null/undefined safely
       customer_name: row.customer_name || 'Unknown Customer',
       customer_phone: row.customer_phone || '',
       customer_email: row.customer_email || null,
-      customer_total_bookings: 0, // TODO: Calculate
-      customer_loyalty_tier: null,
-      customer_status: null,
-      customer_total_spent: 0,
+      customer_total_bookings: row.customer_total_rides ?? 0,
+      customer_loyalty_tier: (row.customer_loyalty_tier as 'bronze' | 'silver' | 'gold' | 'platinum' | null) ?? null,
+      customer_status: (row.customer_status as 'active' | 'inactive' | 'suspended' | null) ?? null,
+      customer_total_spent: typeof row.customer_total_spent === 'string' ? parseFloat(row.customer_total_spent) || 0 : (row.customer_total_spent ?? 0),
+      customer_rating_average: row.customer_rating_average ? parseFloat(String(row.customer_rating_average)) : null,
+      customer_rating_count: row.customer_rating_count ? Number(row.customer_rating_count) : null,
       
-      // Locations
-      pickup_location: row.pickup_address,
-      destination: row.dropoff_address,
+      // Locations - use correct RPC field names
+      pickup_location: row.pickup_location || 'Unknown',
+      destination: row.destination || 'Unknown',
       
       // Dates
       scheduled_at: row.pickup_time,
       created_at: row.created_at,
       
-      // Trip details
-      distance_miles: null,
-      duration_min: null,
-      hours: null,
-      passenger_count: null,
-      bag_count: null,
-      flight_number: null,
-      notes: null,
+      // Trip details - use real data from RPC
+      distance_miles: typeof row.distance_miles === 'string' ? parseFloat(row.distance_miles) || null : (row.distance_miles ?? null),
+      duration_min: row.duration_min ?? null,
+      hours: null, // Extracted from destination text for hourly/daily if needed
+      passenger_count: row.passenger_count ?? null,
+      bag_count: row.bag_count ?? null,
+      flight_number: row.flight_number || null,
+      notes: row.notes || null,
       
       // Return trip
       return_date: null,
@@ -98,37 +108,45 @@ export function transformRowsToResponse(
       fleet_v_class: null,
       fleet_suv: null,
       
-      // Pricing - convert string to number
-      fare_amount: typeof row.price_total === 'string' ? parseFloat(row.price_total) || 0 : (row.price_total || 0),
-      base_price: typeof row.price_total === 'string' ? parseFloat(row.price_total) || 0 : (row.price_total || 0),
-      platform_fee: 0,
-      operator_net: typeof row.price_total === 'string' ? parseFloat(row.price_total) || 0 : (row.price_total || 0),
-      driver_payout: 0,
-      platform_commission_pct: null,
-      driver_commission_pct: null,
+      // Pricing - use real data from RPC
+      fare_amount: parseNum(row.price_total),
+      base_price: parseNum(row.price_total),
+      platform_fee: parseNum(row.platform_fee),
+      operator_net: parseNum(row.operator_net),
+      driver_payout: parseNum(row.driver_payout),
+      platform_commission_pct: parseNum(row.platform_commission_pct) || null,
+      driver_commission_pct: parseNum(row.driver_commission_pct) || null,
       paid_services: [],
       free_services: [],
-      payment_method: 'CARD',
-      payment_status: 'pending',
+      payment_method: row.payment_method || 'CARD',
+      payment_status: row.payment_status || 'pending',
       currency: row.currency || 'GBP',
       
-      // Assignment
-      driver_name: row.driver_name,
-      driver_id: row.driver_id,
-      driver_phone: null,
-      driver_email: null,
+      // Assignment - use real data from RPC
+      driver_name: row.driver_name || null,
+      driver_id: row.driver_id || null,
+      driver_phone: row.driver_phone || null,
+      driver_email: row.driver_email || null,
       driver_rating: null,
-      vehicle_id: row.vehicle_id,
-      vehicle_make: null,
-      vehicle_model_name: row.vehicle_name,
-      vehicle_year: null,
-      vehicle_color: null,
-      vehicle_plate: null,
-      assigned_at: null,
+      vehicle_id: row.vehicle_id || null,
+      vehicle_make: row.vehicle_make || null,
+      vehicle_model_name: row.vehicle_model || null,
+      vehicle_year: row.vehicle_year || null,
+      vehicle_color: row.vehicle_color || null,
+      vehicle_plate: row.vehicle_plate || null,
+      assigned_at: row.assigned_at || null,
       assigned_by_name: null,
       
+      // Status timestamps
+      arrived_at_pickup: row.arrived_at_pickup || null,
+      passenger_onboard_at: row.passenger_onboard_at || null,
+      started_at: row.started_at || null,
+      completed_at: row.completed_at || null,
+      cancelled_at: row.cancelled_at || null,
+      cancel_reason: row.cancel_reason || null,
+      
       // Meta
-      operator_name: row.organization_name,
+      operator_name: row.organization_name || null,
       operator_rating: null,
       operator_reviews: null,
       source: 'web' as const,

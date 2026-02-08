@@ -5,7 +5,7 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
-import type { OperatorData, OperatorRow, CreateOperatorPayload, UpdateOperatorPayload } from '../model/types';
+import type { CreateOperatorPayload, OperatorData, OperatorRow, UpdateOperatorPayload } from '../model/types';
 
 /**
  * Map database row (snake_case) to app data (camelCase)
@@ -32,10 +32,10 @@ export async function listOperators(): Promise<OperatorData[]> {
 
   const { data, error } = await supabase
     .from('organizations')
-    .select('*')
+    .select('id, code, name, contact_email, contact_phone, city, is_active, rating_average, created_at')
     .eq('org_type', 'operator')
     .order('created_at', { ascending: false })
-    .limit(1000);
+    .limit(200);
 
   if (error) throw error;
 
@@ -123,9 +123,10 @@ export async function getOperatorDrivers(operatorId: string) {
 
   const { data, error } = await supabase
     .from('drivers')
-    .select('*')
+    .select('id, email, first_name, last_name, phone, is_active, status, created_at')
     .eq('organization_id', operatorId)
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .limit(200);
 
   if (error) throw error;
 
@@ -138,34 +139,34 @@ export async function getOperatorDrivers(operatorId: string) {
 export async function getOperatorStats(operatorId: string) {
   const supabase = createClient();
 
-  // Get drivers count
-  const { data: drivers, error: driversError } = await supabase
+  // Get drivers count (head:true = no rows transferred, only count)
+  const { count: driversCount, error: driversError } = await supabase
     .from('drivers')
-    .select('id')
+    .select('*', { count: 'exact', head: true })
     .eq('organization_id', operatorId);
 
   if (driversError) throw driversError;
 
   // Get vehicles count
-  const { data: vehicles, error: vehiclesError } = await supabase
+  const { count: vehiclesCount, error: vehiclesError } = await supabase
     .from('vehicles')
-    .select('id')
+    .select('*', { count: 'exact', head: true })
     .eq('organization_id', operatorId);
 
   if (vehiclesError) throw vehiclesError;
 
   // Get bookings count
-  const { data: bookings, error: bookingsError } = await supabase
+  const { count: bookingsCount, error: bookingsError } = await supabase
     .from('bookings')
-    .select('id')
+    .select('*', { count: 'exact', head: true })
     .eq('organization_id', operatorId);
 
   if (bookingsError) throw bookingsError;
 
   return {
-    totalDrivers: (drivers || []).length,
-    totalVehicles: (vehicles || []).length,
-    totalBookings: (bookings || []).length,
+    totalDrivers: driversCount || 0,
+    totalVehicles: vehiclesCount || 0,
+    totalBookings: bookingsCount || 0,
     activeDrivers: 0, // TODO: Calculate from driver status
   };
 }

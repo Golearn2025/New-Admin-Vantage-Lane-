@@ -104,17 +104,18 @@ async function getAdminUserData(authUserId: string): Promise<UserInfo> {
 export function useCurrentUser() {
   const [authUserId, setAuthUserId] = useState<string | null>(null);
   
-  // 🚧 DEVELOPMENT: Cache DISABLED pentru fresh auth state
+  // ✅ OPTIMIZED: Cache session for 5 min, no refetch on tab switch
   const { data: session, isLoading: sessionLoading } = useQuery({
     queryKey: ['auth-session'],
     queryFn: getCurrentSession,
-    staleTime: 0, // No cache - sempre fetch fresh
-    gcTime: 0, // No cache storage 
-    refetchOnWindowFocus: true, // Refetch pe tab switch
+    staleTime: 5 * 60 * 1000, // 5 min — session doesn't change often
+    gcTime: 10 * 60 * 1000, // 10 min garbage collection
+    refetchOnWindowFocus: false, // ❌ No refetch on tab switch
+    refetchOnReconnect: false,
     retry: 1,
   });
 
-  // 🚧 DEVELOPMENT: Cache DISABLED pentru fresh user data  
+  // ✅ OPTIMIZED: Cache user data for 5 min, no refetch on tab switch
   const { 
     data: user, 
     isLoading: userLoading, 
@@ -123,9 +124,10 @@ export function useCurrentUser() {
     queryKey: ['current-user', authUserId],
     queryFn: () => getAdminUserData(authUserId!),
     enabled: !!authUserId, // Only run when we have auth user ID
-    staleTime: 0, // No cache - sempre fetch fresh
-    gcTime: 0, // No cache storage
-    refetchOnWindowFocus: true, // Refetch pe tab switch
+    staleTime: 5 * 60 * 1000, // 5 min — user data doesn't change often
+    gcTime: 10 * 60 * 1000, // 10 min garbage collection
+    refetchOnWindowFocus: false, // ❌ No refetch on tab switch
+    refetchOnReconnect: false,
     retry: 2,
   });
 

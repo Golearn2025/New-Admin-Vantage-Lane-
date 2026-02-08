@@ -43,8 +43,8 @@ export function useOperatorMetrics(startDate?: string, endDate?: string) {
   }, [user, startDate, endDate]);
 
   const { data, error, isLoading, mutate } = useSWR<OperatorMetricsResponse>(apiUrl, fetcher, {
-    refreshInterval: 60000, // Refresh every 60 seconds
-    dedupingInterval: 30000, // Dedupe requests for 30 seconds
+    refreshInterval: 300000, // ✅ EGRESS FIX: Refresh every 5 minutes (was 60s)
+    dedupingInterval: 60000, // ✅ EGRESS FIX: Dedupe requests for 60 seconds (was 30s)
     revalidateOnFocus: false, // Don't revalidate on window focus
   });
 

@@ -4,11 +4,11 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
-import type { 
-  DriverData, 
-  DriverRow, 
-  CreateDriverPayload, 
-  UpdateDriverPayload,
+import type {
+    CreateDriverPayload,
+    DriverData,
+    DriverRow,
+    UpdateDriverPayload,
 } from '../model/types';
 
 /**
@@ -34,9 +34,9 @@ export async function listDrivers(): Promise<DriverData[]> {
 
   const { data, error } = await supabase
     .from('drivers')
-    .select('*')
+    .select('id, email, first_name, last_name, phone, is_active, created_at')
     .order('created_at', { ascending: false })
-    .limit(1000);
+    .limit(200);
 
   if (error) throw error;
 

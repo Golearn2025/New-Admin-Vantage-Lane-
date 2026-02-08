@@ -4,8 +4,8 @@
  * Payouts List Hook
  */
 
-import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { useEffect, useState } from 'react';
 import type { Payout } from '../types';
 
 interface LegData {
@@ -37,29 +37,36 @@ export function usePayoutsList() {
         const { data: legs, error: dbError } = await supabase
           .from('booking_legs')
           .select(`
-            *,
+            id,
             assigned_driver_id,
+            driver_payout,
+            payout_status,
+            created_at,
             drivers!inner(
               first_name,
               last_name
             )
           `)
           .not('driver_payout', 'is', null)
-          .order('created_at', { ascending: false });
+          .order('created_at', { ascending: false })
+          .limit(200);
 
         if (dbError) throw dbError;
 
         // Transform to Payout format
-        const payouts: Payout[] = (legs || []).map((leg: LegData) => ({
-          id: leg.id,
-          driverId: leg.assigned_driver_id,
-          driverName: leg.drivers
-            ? `${leg.drivers.first_name} ${leg.drivers.last_name}`.trim()
-            : 'Unknown Driver',
-          amount: Math.round(Number(leg.driver_payout || 0) * 100), // Convert to pence
-          status: leg.payout_status as 'pending' | 'processing' | 'completed' | 'failed',
-          createdAt: leg.created_at,
-        }));
+        const payouts: Payout[] = (legs || []).map((leg: any) => {
+          const driver = Array.isArray(leg.drivers) ? leg.drivers[0] : leg.drivers;
+          return {
+            id: leg.id,
+            driverId: leg.assigned_driver_id,
+            driverName: driver
+              ? `${driver.first_name} ${driver.last_name}`.trim()
+              : 'Unknown Driver',
+            amount: Math.round(Number(leg.driver_payout || 0) * 100), // Convert to pence
+            status: leg.payout_status as 'pending' | 'processing' | 'completed' | 'failed',
+            createdAt: leg.created_at,
+          };
+        });
 
         setData(payouts);
       } catch (e) {

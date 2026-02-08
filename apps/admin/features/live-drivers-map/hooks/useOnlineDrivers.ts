@@ -6,8 +6,8 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import type { OnlineDriversResponse, MapFilters } from '@entities/driver-location';
+import type { MapFilters, OnlineDriversResponse } from '@entities/driver-location';
+import { useCallback, useEffect, useState } from 'react';
 
 interface UseOnlineDriversOptions {
   autoRefresh?: boolean;
@@ -17,8 +17,8 @@ interface UseOnlineDriversOptions {
 
 export function useOnlineDrivers(options: UseOnlineDriversOptions = {}) {
   const { 
-    autoRefresh = true, 
-    refreshInterval = 30000, // 30 seconds
+    autoRefresh = false, // ✅ EGRESS FIX: No auto-polling by default, use manual refresh
+    refreshInterval = 120000, // ✅ EGRESS FIX: 120s fallback if autoRefresh enabled (was 30s)
     filters = { showOnline: true, showBusy: true }
   } = options;
 

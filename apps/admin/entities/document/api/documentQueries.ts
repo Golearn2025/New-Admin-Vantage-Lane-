@@ -20,7 +20,9 @@ export async function listDocuments(filters?: DocumentListFilters): Promise<Docu
     .from('driver_documents')
     .select(
       `
-      *,
+      id, document_type, driver_id, file_name, file_url, status, notes,
+      upload_date, expiry_date, reviewed_by, reviewed_at, rejection_reason,
+      file_size, mime_type, created_at, updated_at,
       driver:drivers!driver_id (
         id,
         first_name,
@@ -45,6 +47,7 @@ export async function listDocuments(filters?: DocumentListFilters): Promise<Docu
     driverQuery = driverQuery.filter('driver.organization_id', 'eq', filters.organizationId);
   }
 
+  driverQuery = driverQuery.limit(500);
   const { data: driverDocs, error: driverError } = await driverQuery;
 
   if (driverError) {
@@ -56,7 +59,9 @@ export async function listDocuments(filters?: DocumentListFilters): Promise<Docu
     .from('vehicle_documents')
     .select(
       `
-      *,
+      id, document_type, vehicle_id, file_name, file_url, status, notes,
+      upload_date, expiry_date, reviewed_by, reviewed_at, rejection_reason,
+      file_size, mime_type, created_at, updated_at,
       vehicle:vehicles!vehicle_id (
         id,
         driver_id,
@@ -81,6 +86,7 @@ export async function listDocuments(filters?: DocumentListFilters): Promise<Docu
     // Will filter client-side below
   }
 
+  vehicleQuery = vehicleQuery.limit(500);
   const { data: vehicleDocs, error: vehicleError } = await vehicleQuery;
 
   if (vehicleError) {
@@ -206,13 +212,15 @@ export async function getDocumentCounts(): Promise<{
   const { data: driverDocs, error: driverError } = await supabase
     .from('driver_documents')
     .select('status')
-    .neq('status', 'replaced');
+    .neq('status', 'replaced')
+    .limit(5000);
 
   // Fetch vehicle documents
   const { data: vehicleDocs, error: vehicleError } = await supabase
     .from('vehicle_documents')
     .select('status')
-    .neq('status', 'replaced');
+    .neq('status', 'replaced')
+    .limit(5000);
 
   if (driverError || vehicleError) {
     console.error('Error fetching document counts:', driverError || vehicleError);

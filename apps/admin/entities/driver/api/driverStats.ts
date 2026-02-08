@@ -14,10 +14,10 @@ export async function getDriverBookings(driverId: string) {
   const { data, error } = await supabase
     .from('bookings')
     .select(`
-      *,
-      pricing:booking_pricing(*),
-      segments:booking_segments(*),
-      services:booking_services(*)
+      id, reference, status, start_at, passenger_count, bag_count, trip_type, category, flight_number, distance_miles, duration_min,
+      pricing:booking_pricing(price, currency, extras_total),
+      segments:booking_segments(seq_no, role, place_text, place_label),
+      services:booking_services(service_code, quantity, unit_price)
     `)
     .eq('assigned_driver_id', driverId)
     .order('start_at', { ascending: false })
@@ -53,8 +53,9 @@ export async function getDriverStats(driverId: string) {
 
   const { data, error } = await supabase
     .from('bookings')
-    .select('*')
-    .eq('assigned_driver_id', driverId);
+    .select('status')
+    .eq('assigned_driver_id', driverId)
+    .limit(5000);
 
   if (error) throw error;
 

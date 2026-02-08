@@ -6,12 +6,12 @@
 
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import { Button, Input, EnterpriseDataTable, Modal } from '@vantage-lane/ui-core';
+import type { AirportFee, PricingConfig } from '@entities/pricing';
 import type { Column } from '@vantage-lane/ui-core';
-import { Save, Edit, X, Plane, Plus } from 'lucide-react';
+import { Button, EnterpriseDataTable, Input, Modal } from '@vantage-lane/ui-core';
+import { Plane, Plus, Save } from 'lucide-react';
+import { useMemo, useState } from 'react';
 import { usePricesManagement } from '../hooks/usePricesManagement';
-import type { PricingConfig, AirportFee } from '@entities/pricing';
 import styles from './PricesManagementPage.module.css';
 
 interface Props {
@@ -23,6 +23,7 @@ export function AirportFeesTab({ config }: Props) {
   const [editingAirport, setEditingAirport] = useState<string | null>(null);
   const [editedFee, setEditedFee] = useState<Partial<AirportFee>>({});
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [newAirportCode, setNewAirportCode] = useState('');
   const [newAirport, setNewAirport] = useState<Partial<AirportFee>>({
     name: '',
     pickup_fee: 0,
@@ -230,6 +231,17 @@ export function AirportFeesTab({ config }: Props) {
       >
         <div style={{ display: 'grid', gap: 'var(--spacing-4)' }}>
           <div>
+            <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Airport Code (IATA)</label>
+            <Input
+              type="text"
+              value={newAirportCode}
+              onChange={(e) => setNewAirportCode(e.target.value.toUpperCase())}
+              placeholder="e.g., LGW"
+              maxLength={4}
+            />
+          </div>
+
+          <div>
             <label style={{ display: 'block', marginBottom: 'var(--spacing-2)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>Airport Name</label>
             <Input
               type="text"
@@ -279,11 +291,20 @@ export function AirportFeesTab({ config }: Props) {
             <Button 
               variant="primary" 
               onClick={async () => {
-                console.log('🆕 Add New Airport:', newAirport);
-                alert('Add New Airport - Coming soon!');
-                setIsAddModalOpen(false);
+                if (!newAirportCode.trim()) return;
+                try {
+                  await updateAirportFee({
+                    airportCode: newAirportCode.toUpperCase().trim(),
+                    fee: newAirport,
+                  });
+                  setNewAirportCode('');
+                  setNewAirport({ name: '', pickup_fee: 0, dropoff_fee: 0, free_wait_minutes: 0 });
+                  setIsAddModalOpen(false);
+                } catch (error) {
+                  console.error('Failed to add airport:', error);
+                }
               }} 
-              disabled={isSaving || !newAirport.name}
+              disabled={isSaving || !newAirport.name || !newAirportCode.trim()}
             >
               <Save className="h-4 w-4" /> Add Airport
             </Button>

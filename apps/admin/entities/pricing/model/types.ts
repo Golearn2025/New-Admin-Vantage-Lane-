@@ -117,6 +117,14 @@ export interface ReturnSettings {
   minimum_hours_between: number;
 }
 
+export interface TimePeriodEntry {
+  start?: string;
+  end?: string;
+  days: number[];
+}
+
+export type TimePeriodConfig = Record<string, TimePeriodEntry>;
+
 export interface PricingConfig {
   id: string;
   config_version: number;
@@ -133,6 +141,7 @@ export interface PricingConfig {
   hourly_settings?: HourlySettings;
   daily_settings?: DailySettings;
   return_settings?: ReturnSettings;
+  time_period_config?: TimePeriodConfig;
   created_at: string;
   updated_at: string;
   notes: string | null;

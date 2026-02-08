@@ -19,6 +19,7 @@ export {
 // Policy Management
 export {
     updateDailySettings,
-    updateFleetSettings, updateGeneralPolicies, updateHourlySettings, updateReturnSettings, updateServicePolicies, updateTimeMultipliers
+    updateEventMultipliers,
+    updateFleetSettings, updateGeneralPolicies, updateHourlySettings, updatePremiumServices, updateReturnSettings, updateServicePolicies, updateTimeMultipliers, updateTimePeriodConfig
 } from './pricingPolicies';
 

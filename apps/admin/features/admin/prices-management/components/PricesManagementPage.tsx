@@ -21,10 +21,11 @@ import styles from './PricesManagementPage.module.css';
 import { ReturnSettingsTab } from './ReturnSettingsTab';
 import { ServicePoliciesTab } from './ServicePoliciesTab';
 import { SurgeMultipliersTab } from './SurgeMultipliersTab';
+import { TimePeriodConfigTab } from './TimePeriodConfigTab';
 import { VehicleTypesTab } from './VehicleTypesTab';
 import { ZoneFeesTab } from './ZoneFeesTab';
 
-type TabType = 'vehicles' | 'airports' | 'surge' | 'premium' | 'zones' | 'services' | 'policies' | 'return' | 'hourly' | 'daily' | 'fleet';
+type TabType = 'vehicles' | 'airports' | 'surge' | 'premium' | 'zones' | 'services' | 'policies' | 'return' | 'hourly' | 'daily' | 'fleet' | 'timePeriods';
 
 export function PricesManagementPage() {
   const { config, loading, error, isSaving, refresh } = usePricesManagement();
@@ -161,6 +162,13 @@ export function PricesManagementPage() {
           <Users className="h-4 w-4" />
           <span>Fleet Settings</span>
         </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'timePeriods' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('timePeriods')}
+        >
+          <Clock className="h-4 w-4" />
+          <span>Time Periods</span>
+        </button>
       </div>
 
       {/* Content */}
@@ -176,6 +184,7 @@ export function PricesManagementPage() {
         {activeTab === 'hourly' && <HourlyHireTab config={config} />}
         {activeTab === 'daily' && <DailyHireTab config={config} />}
         {activeTab === 'fleet' && <FleetSettingsTab config={config} />}
+        {activeTab === 'timePeriods' && <TimePeriodConfigTab config={config} />}
       </div>
     </div>
   );

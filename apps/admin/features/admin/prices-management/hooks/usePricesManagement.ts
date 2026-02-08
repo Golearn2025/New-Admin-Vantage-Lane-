@@ -10,31 +10,34 @@
 'use client';
 
 import {
-    fetchPricingConfig,
-    type DailySettings,
-    type FleetSettings,
-    type GeneralPolicies,
-    type HourlySettings,
-    type PricingConfig,
-    type ReturnSettings,
-    type ServicePolicies,
-    type UpdateAirportFeePayload,
-    type UpdateVehicleTypePayload,
-    type ZoneFee
+  fetchPricingConfig,
+  type DailySettings,
+  type FleetSettings,
+  type GeneralPolicies,
+  type HourlySettings,
+  type PricingConfig,
+  type ReturnSettings,
+  type ServicePolicies,
+  type UpdateAirportFeePayload,
+  type UpdateVehicleTypePayload,
+  type ZoneFee
 } from '@entities/pricing';
 import { useState } from 'react';
 import useSWR from 'swr';
 import {
-    handleUpdateAirportFee as handleUpdateAirportFeeDelegate,
-    handleUpdateDailySettings as handleUpdateDailySettingsDelegate,
-    handleUpdateFleetSettings as handleUpdateFleetSettingsDelegate,
-    handleUpdateGeneralPolicies as handleUpdateGeneralPoliciesDelegate,
-    handleUpdateHourlySettings as handleUpdateHourlySettingsDelegate,
-    handleUpdateReturnSettings as handleUpdateReturnSettingsDelegate,
-    handleUpdateServicePolicies as handleUpdateServicePoliciesDelegate,
-    handleUpdateTimeMultipliers as handleUpdateTimeMultipliersDelegate,
-    handleUpdateVehicleType as handleUpdateVehicleTypeDelegate,
-    handleUpdateZoneFee as handleUpdateZoneFeeDelegate
+  handleUpdateAirportFee as handleUpdateAirportFeeDelegate,
+  handleUpdateDailySettings as handleUpdateDailySettingsDelegate,
+  handleUpdateEventMultipliers as handleUpdateEventMultipliersDelegate,
+  handleUpdateFleetSettings as handleUpdateFleetSettingsDelegate,
+  handleUpdateGeneralPolicies as handleUpdateGeneralPoliciesDelegate,
+  handleUpdateHourlySettings as handleUpdateHourlySettingsDelegate,
+  handleUpdatePremiumServices as handleUpdatePremiumServicesDelegate,
+  handleUpdateReturnSettings as handleUpdateReturnSettingsDelegate,
+  handleUpdateServicePolicies as handleUpdateServicePoliciesDelegate,
+  handleUpdateTimeMultipliers as handleUpdateTimeMultipliersDelegate,
+  handleUpdateTimePeriodConfig as handleUpdateTimePeriodConfigDelegate,
+  handleUpdateVehicleType as handleUpdateVehicleTypeDelegate,
+  handleUpdateZoneFee as handleUpdateZoneFeeDelegate
 } from './handlers';
 
 export function usePricesManagement() {
@@ -102,6 +105,27 @@ export function usePricesManagement() {
     await handleUpdateTimeMultipliersDelegate(config, mutate, setIsSaving, setSaveError, multipliers);
   };
 
+  const handleUpdateEventMultipliers = async (
+    multipliers: PricingConfig['event_multipliers']
+  ) => {
+    if (!config) return;
+    await handleUpdateEventMultipliersDelegate(config, mutate, setIsSaving, setSaveError, multipliers);
+  };
+
+  const handleUpdatePremiumServices = async (
+    services: PricingConfig['premium_services']
+  ) => {
+    if (!config) return;
+    await handleUpdatePremiumServicesDelegate(config, mutate, setIsSaving, setSaveError, services);
+  };
+
+  const handleUpdateTimePeriodConfig = async (
+    timePeriodConfig: PricingConfig['time_period_config']
+  ) => {
+    if (!config) return;
+    await handleUpdateTimePeriodConfigDelegate(config, mutate, setIsSaving, setSaveError, timePeriodConfig);
+  };
+
   return {
     config,
     loading: !config && !error,
@@ -117,6 +141,9 @@ export function usePricesManagement() {
     updateDailySettings: handleUpdateDailySettings,
     updateFleetSettings: handleUpdateFleetSettings,
     updateTimeMultipliers: handleUpdateTimeMultipliers,
+    updateEventMultipliers: handleUpdateEventMultipliers,
+    updatePremiumServices: handleUpdatePremiumServices,
+    updateTimePeriodConfig: handleUpdateTimePeriodConfig,
     refresh: mutate,
   };
 }

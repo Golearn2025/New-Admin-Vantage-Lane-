@@ -1,8 +1,8 @@
-import React from 'react';
-import { Button, Input } from '@vantage-lane/ui-core';
-import type { Column } from '@vantage-lane/ui-core';
-import { Edit, Car, Save, X } from 'lucide-react';
 import type { VehicleTypeRates } from '@entities/pricing';
+import type { Column } from '@vantage-lane/ui-core';
+import { Button, Input } from '@vantage-lane/ui-core';
+import { Car, Edit, Save, X } from 'lucide-react';
+import React from 'react';
 import styles from '../PricesManagementPage.module.css';
 
 export type VehicleRow = {
@@ -13,6 +13,8 @@ export type VehicleRow = {
   perMileAfter6: number;
   perMinute: number;
   minimumFare: number;
+  hourlyInTown: number;
+  hourlyOutTown: number;
   editing?: boolean;
   original?: VehicleTypeRates;
 };
@@ -124,6 +126,40 @@ export function createVehicleColumns(params: {
           />
         ) : (
           `£${row.minimumFare}`
+        ),
+    },
+    {
+      id: 'hourlyInTown',
+      header: 'Hourly (Town)',
+      accessor: (row) => row.hourlyInTown,
+      cell: (row) =>
+        editingType === row.id ? (
+          <Input
+            type="number"
+            value={editedRates.hourly_in_town ?? row.hourlyInTown}
+            onChange={(e) => setEditedRates({ ...editedRates, hourly_in_town: Number(e.target.value) })}
+            min={0}
+            step={5}
+          />
+        ) : (
+          `£${row.hourlyInTown}`
+        ),
+    },
+    {
+      id: 'hourlyOutTown',
+      header: 'Hourly (Out)',
+      accessor: (row) => row.hourlyOutTown,
+      cell: (row) =>
+        editingType === row.id ? (
+          <Input
+            type="number"
+            value={editedRates.hourly_out_town ?? row.hourlyOutTown}
+            onChange={(e) => setEditedRates({ ...editedRates, hourly_out_town: Number(e.target.value) })}
+            min={0}
+            step={5}
+          />
+        ) : (
+          `£${row.hourlyOutTown}`
         ),
     },
     {

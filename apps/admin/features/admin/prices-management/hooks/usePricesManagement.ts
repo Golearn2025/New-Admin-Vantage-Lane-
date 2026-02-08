@@ -9,30 +9,35 @@
 
 'use client';
 
+import {
+  fetchPricingConfig,
+  type DailySettings,
+  type FleetSettings,
+  type GeneralPolicies,
+  type HourlySettings,
+  type PricingConfig,
+  type ReturnSettings,
+  type ServicePolicies,
+  type UpdateAirportFeePayload,
+  type UpdateVehicleTypePayload,
+  type ZoneFee
+} from '@entities/pricing';
 import { useState } from 'react';
 import useSWR from 'swr';
 import {
-  fetchPricingConfig,
-  type PricingConfig,
-  type ZoneFee,
-  type ServicePolicies,
-  type GeneralPolicies,
-  type FleetSettings,
-  type HourlySettings,
-  type ReturnSettings,
-  type UpdateVehicleTypePayload,
-  type UpdateAirportFeePayload,
-} from '@entities/pricing';
-import {
-  handleUpdateVehicleType as handleUpdateVehicleTypeDelegate,
   handleUpdateAirportFee as handleUpdateAirportFeeDelegate,
-  handleUpdateZoneFee as handleUpdateZoneFeeDelegate,
-  handleUpdateServicePolicies as handleUpdateServicePoliciesDelegate,
-  handleUpdateGeneralPolicies as handleUpdateGeneralPoliciesDelegate,
-  handleUpdateReturnSettings as handleUpdateReturnSettingsDelegate,
-  handleUpdateHourlySettings as handleUpdateHourlySettingsDelegate,
+  handleUpdateDailySettings as handleUpdateDailySettingsDelegate,
+  handleUpdateEventMultipliers as handleUpdateEventMultipliersDelegate,
   handleUpdateFleetSettings as handleUpdateFleetSettingsDelegate,
+  handleUpdateGeneralPolicies as handleUpdateGeneralPoliciesDelegate,
+  handleUpdateHourlySettings as handleUpdateHourlySettingsDelegate,
+  handleUpdatePremiumServices as handleUpdatePremiumServicesDelegate,
+  handleUpdateReturnSettings as handleUpdateReturnSettingsDelegate,
+  handleUpdateServicePolicies as handleUpdateServicePoliciesDelegate,
   handleUpdateTimeMultipliers as handleUpdateTimeMultipliersDelegate,
+  handleUpdateTimePeriodConfig as handleUpdateTimePeriodConfigDelegate,
+  handleUpdateVehicleType as handleUpdateVehicleTypeDelegate,
+  handleUpdateZoneFee as handleUpdateZoneFeeDelegate
 } from './handlers';
 
 export function usePricesManagement() {
@@ -83,6 +88,11 @@ export function usePricesManagement() {
     await handleUpdateHourlySettingsDelegate(config, mutate, setIsSaving, setSaveError, settings);
   };
 
+  const handleUpdateDailySettings = async (settings: DailySettings) => {
+    if (!config) return;
+    await handleUpdateDailySettingsDelegate(config, mutate, setIsSaving, setSaveError, settings);
+  };
+
   const handleUpdateFleetSettings = async (settings: FleetSettings) => {
     if (!config) return;
     await handleUpdateFleetSettingsDelegate(config, mutate, setIsSaving, setSaveError, settings);
@@ -93,6 +103,27 @@ export function usePricesManagement() {
   ) => {
     if (!config) return;
     await handleUpdateTimeMultipliersDelegate(config, mutate, setIsSaving, setSaveError, multipliers);
+  };
+
+  const handleUpdateEventMultipliers = async (
+    multipliers: PricingConfig['event_multipliers']
+  ) => {
+    if (!config) return;
+    await handleUpdateEventMultipliersDelegate(config, mutate, setIsSaving, setSaveError, multipliers);
+  };
+
+  const handleUpdatePremiumServices = async (
+    services: PricingConfig['premium_services']
+  ) => {
+    if (!config) return;
+    await handleUpdatePremiumServicesDelegate(config, mutate, setIsSaving, setSaveError, services);
+  };
+
+  const handleUpdateTimePeriodConfig = async (
+    timePeriodConfig: PricingConfig['time_period_config']
+  ) => {
+    if (!config) return;
+    await handleUpdateTimePeriodConfigDelegate(config, mutate, setIsSaving, setSaveError, timePeriodConfig);
   };
 
   return {
@@ -107,8 +138,12 @@ export function usePricesManagement() {
     updateGeneralPolicies: handleUpdateGeneralPolicies,
     updateReturnSettings: handleUpdateReturnSettings,
     updateHourlySettings: handleUpdateHourlySettings,
+    updateDailySettings: handleUpdateDailySettings,
     updateFleetSettings: handleUpdateFleetSettings,
     updateTimeMultipliers: handleUpdateTimeMultipliers,
+    updateEventMultipliers: handleUpdateEventMultipliers,
+    updatePremiumServices: handleUpdatePremiumServices,
+    updateTimePeriodConfig: handleUpdateTimePeriodConfig,
     refresh: mutate,
   };
 }

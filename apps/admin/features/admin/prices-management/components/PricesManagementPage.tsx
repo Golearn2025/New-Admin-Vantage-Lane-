@@ -7,20 +7,25 @@
 
 'use client';
 
-import React, { useState } from 'react';
 import { Button } from '@vantage-lane/ui-core';
-import { Plus, RefreshCw, Car, Plane, TrendingUp, Star, Map, Settings, FileText, RotateCcw, Clock, Users } from 'lucide-react';
+import { Calendar, Car, Clock, FileText, Map, Plane, RefreshCw, RotateCcw, Settings, Star, TrendingUp, Users } from 'lucide-react';
+import { useState } from 'react';
 import { usePricesManagement } from '../hooks/usePricesManagement';
-import { VehicleTypesTab } from './VehicleTypesTab';
 import { AirportFeesTab } from './AirportFeesTab';
-import { SurgeMultipliersTab } from './SurgeMultipliersTab';
-import { PremiumServicesTab } from './PremiumServicesTab';
-import { ZoneFeesTab } from './ZoneFeesTab';
-import { ServicePoliciesTab } from './ServicePoliciesTab';
+import { DailyHireTab } from './DailyHireTab';
+import { FleetSettingsTab } from './FleetSettingsTab';
 import { GeneralPoliciesTab } from './GeneralPoliciesTab';
+import { HourlyHireTab } from './HourlyHireTab';
+import { PremiumServicesTab } from './PremiumServicesTab';
 import styles from './PricesManagementPage.module.css';
+import { ReturnSettingsTab } from './ReturnSettingsTab';
+import { ServicePoliciesTab } from './ServicePoliciesTab';
+import { SurgeMultipliersTab } from './SurgeMultipliersTab';
+import { TimePeriodConfigTab } from './TimePeriodConfigTab';
+import { VehicleTypesTab } from './VehicleTypesTab';
+import { ZoneFeesTab } from './ZoneFeesTab';
 
-type TabType = 'vehicles' | 'airports' | 'surge' | 'premium' | 'zones' | 'services' | 'policies' | 'return' | 'hourly' | 'fleet';
+type TabType = 'vehicles' | 'airports' | 'surge' | 'premium' | 'zones' | 'services' | 'policies' | 'return' | 'hourly' | 'daily' | 'fleet' | 'timePeriods';
 
 export function PricesManagementPage() {
   const { config, loading, error, isSaving, refresh } = usePricesManagement();
@@ -144,11 +149,25 @@ export function PricesManagementPage() {
           <span>Hourly Hire</span>
         </button>
         <button
+          className={`${styles.tab} ${activeTab === 'daily' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('daily')}
+        >
+          <Calendar className="h-4 w-4" />
+          <span>Daily Hire</span>
+        </button>
+        <button
           className={`${styles.tab} ${activeTab === 'fleet' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('fleet')}
         >
           <Users className="h-4 w-4" />
           <span>Fleet Settings</span>
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'timePeriods' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('timePeriods')}
+        >
+          <Clock className="h-4 w-4" />
+          <span>Time Periods</span>
         </button>
       </div>
 
@@ -161,9 +180,11 @@ export function PricesManagementPage() {
         {activeTab === 'zones' && <ZoneFeesTab config={config} />}
         {activeTab === 'services' && <ServicePoliciesTab config={config} />}
         {activeTab === 'policies' && <GeneralPoliciesTab config={config} />}
-        {activeTab === 'return' && <div className={styles.section}><p>Return Settings - Coming soon</p></div>}
-        {activeTab === 'hourly' && <div className={styles.section}><p>Hourly Hire - Coming soon</p></div>}
-        {activeTab === 'fleet' && <div className={styles.section}><p>Fleet Settings - Coming soon</p></div>}
+        {activeTab === 'return' && <ReturnSettingsTab config={config} />}
+        {activeTab === 'hourly' && <HourlyHireTab config={config} />}
+        {activeTab === 'daily' && <DailyHireTab config={config} />}
+        {activeTab === 'fleet' && <FleetSettingsTab config={config} />}
+        {activeTab === 'timePeriods' && <TimePeriodConfigTab config={config} />}
       </div>
     </div>
   );

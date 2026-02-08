@@ -7,15 +7,15 @@
 
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import { EnterpriseDataTable } from '@vantage-lane/ui-core';
-import { createVehicleColumns, type VehicleRow } from './vehicle-types/vehicle-columns';
-import { usePricesManagement } from '../hooks/usePricesManagement';
 import type { PricingConfig, VehicleTypeRates } from '@entities/pricing';
-import { VehicleTypesHeader } from './VehicleTypesHeader';
-import { VehicleTypeCalculationExample } from './VehicleTypeCalculationExample';
+import { EnterpriseDataTable } from '@vantage-lane/ui-core';
+import { useMemo, useState } from 'react';
+import { usePricesManagement } from '../hooks/usePricesManagement';
 import { AddVehicleTypeModal } from './AddVehicleTypeModal';
 import styles from './PricesManagementPage.module.css';
+import { createVehicleColumns, type VehicleRow } from './vehicle-types/vehicle-columns';
+import { VehicleTypeCalculationExample } from './VehicleTypeCalculationExample';
+import { VehicleTypesHeader } from './VehicleTypesHeader';
 
 interface Props {
   config: PricingConfig;
@@ -49,6 +49,8 @@ export function VehicleTypesTab({ config }: Props) {
     perMileAfter6: rates.per_mile_after_6,
     perMinute: rates.per_minute,
     minimumFare: rates.minimum_fare,
+    hourlyInTown: rates.hourly_in_town,
+    hourlyOutTown: rates.hourly_out_town,
     editing: editingType === type,
     original: rates,
   })), 

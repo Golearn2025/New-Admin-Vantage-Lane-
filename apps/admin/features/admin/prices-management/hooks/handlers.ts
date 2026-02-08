@@ -1,4 +1,4 @@
-import { invalidatePricingCache, updateAirportFee, updateFleetSettings, updateGeneralPolicies, updateHourlySettings, updateReturnSettings, updateServicePolicies, updateVehicleType, updateZoneFee, updateTimeMultipliers, type FleetSettings, type GeneralPolicies, type HourlySettings, type ReturnSettings, type ServicePolicies, type UpdateAirportFeePayload, type UpdateVehicleTypePayload, type PricingConfig, type ZoneFee, type PricingConfig as PC } from '@entities/pricing';
+import { invalidatePricingCache, updateAirportFee, updateDailySettings, updateEventMultipliers, updateFleetSettings, updateGeneralPolicies, updateHourlySettings, updatePremiumServices, updateReturnSettings, updateServicePolicies, updateTimeMultipliers, updateTimePeriodConfig, updateVehicleType, updateZoneFee, type DailySettings, type FleetSettings, type GeneralPolicies, type HourlySettings, type PricingConfig as PC, type PricingConfig, type ReturnSettings, type ServicePolicies, type UpdateAirportFeePayload, type UpdateVehicleTypePayload, type ZoneFee } from '@entities/pricing';
 
 // Mutate function type definition
 type MutateFunction<T = PricingConfig> = (data?: T, opts?: { revalidate?: boolean }) => Promise<T | undefined>;
@@ -100,6 +100,16 @@ export async function handleUpdateHourlySettings(config: PricingConfig, mutate: 
   });
 }
 
+export async function handleUpdateDailySettings(config: PricingConfig, mutate: MutateFunction, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, settings: DailySettings) {
+  await performUpdate({
+    action: () => updateDailySettings(config.id, settings),
+    mutate,
+    setIsSaving,
+    setSaveError,
+    successMessage: 'Success: Daily settings updated successfully!',
+  });
+}
+
 export async function handleUpdateFleetSettings(config: PricingConfig, mutate: MutateFunction, setIsSaving: (v: boolean) => void, setSaveError: (v: string | null) => void, settings: FleetSettings) {
   await performUpdate({
     action: () => updateFleetSettings(config.id, settings),
@@ -107,6 +117,38 @@ export async function handleUpdateFleetSettings(config: PricingConfig, mutate: M
     setIsSaving,
     setSaveError,
     successMessage: 'Success: Fleet settings updated successfully!',
+  });
+}
+
+export async function handleUpdateEventMultipliers(
+  config: PricingConfig,
+  mutate: MutateFunction,
+  setIsSaving: (v: boolean) => void,
+  setSaveError: (v: string | null) => void,
+  multipliers: PC['event_multipliers']
+) {
+  await performUpdate({
+    action: () => updateEventMultipliers(config.id, multipliers),
+    mutate,
+    setIsSaving,
+    setSaveError,
+    successMessage: 'Success: Event multipliers updated successfully!',
+  });
+}
+
+export async function handleUpdatePremiumServices(
+  config: PricingConfig,
+  mutate: MutateFunction,
+  setIsSaving: (v: boolean) => void,
+  setSaveError: (v: string | null) => void,
+  services: PC['premium_services']
+) {
+  await performUpdate({
+    action: () => updatePremiumServices(config.id, services),
+    mutate,
+    setIsSaving,
+    setSaveError,
+    successMessage: 'Success: Premium services updated successfully!',
   });
 }
 
@@ -123,5 +165,21 @@ export async function handleUpdateTimeMultipliers(
     setIsSaving,
     setSaveError,
     successMessage: 'Success: Time multipliers updated successfully!',
+  });
+}
+
+export async function handleUpdateTimePeriodConfig(
+  config: PricingConfig,
+  mutate: MutateFunction,
+  setIsSaving: (v: boolean) => void,
+  setSaveError: (v: string | null) => void,
+  timePeriodConfig: PC['time_period_config']
+) {
+  await performUpdate({
+    action: () => updateTimePeriodConfig(config.id, timePeriodConfig),
+    mutate,
+    setIsSaving,
+    setSaveError,
+    successMessage: 'Success: Time period config updated successfully!',
   });
 }

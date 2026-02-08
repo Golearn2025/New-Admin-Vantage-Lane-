@@ -5,7 +5,7 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
-import type { CustomerData, CustomerRow, CreateCustomerPayload, UpdateCustomerPayload } from '../model/types';
+import type { CreateCustomerPayload, CustomerData, CustomerRow, UpdateCustomerPayload } from '../model/types';
 
 /**
  * Map database row (snake_case) to app data (camelCase)
@@ -30,9 +30,9 @@ export async function listCustomers(): Promise<CustomerData[]> {
 
   const { data, error } = await supabase
     .from('customers')
-    .select('*')
+    .select('id, email, first_name, last_name, phone, is_active, created_at')
     .order('created_at', { ascending: false })
-    .limit(1000);
+    .limit(200);
 
   if (error) throw error;
 
@@ -119,14 +119,14 @@ export async function getCustomerBookings(customerId: string) {
   const { data, error } = await supabase
     .from('bookings')
     .select(`
-      *,
-      pricing:booking_pricing(*),
-      segments:booking_segments(*),
-      services:booking_services(*)
+      id, reference, status, start_at, passenger_count, bag_count, trip_type, category, flight_number, distance_miles, duration_min,
+      pricing:booking_pricing(price, currency, extras_total),
+      segments:booking_segments(seq_no, role, place_text, place_label),
+      services:booking_services(service_code, quantity, unit_price)
     `)
     .eq('customer_id', customerId)
     .order('start_at', { ascending: false })
-    .limit(100);
+    .limit(50);
 
   if (error) throw error;
 
@@ -141,8 +141,9 @@ export async function getCustomerStats(customerId: string) {
 
   const { data, error } = await supabase
     .from('bookings')
-    .select('*')
-    .eq('customer_id', customerId);
+    .select('status')
+    .eq('customer_id', customerId)
+    .limit(5000);
 
   if (error) throw error;
 

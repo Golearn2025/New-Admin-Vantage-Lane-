@@ -4,9 +4,9 @@
  * Fetches vehicle data associated with driver
  */
 
-import useSWR from 'swr';
-import type { VehicleData } from '@entities/driver';
 import { createClient } from '@/lib/supabase/client';
+import type { VehicleData } from '@entities/driver';
+import useSWR from 'swr';
 
 interface UseDriverVehicleResult {
   vehicles: VehicleData[]; // Changed to array to support multiple vehicles
@@ -23,7 +23,7 @@ async function fetchDriverVehicles(driverId: string): Promise<VehicleData[]> {
 
   const { data, error } = await supabase
     .from('vehicles')
-    .select('*')
+    .select('id, organization_id, driver_id, category, make, model, year, color, license_plate, insurance_expiry, mot_expiry, passenger_capacity, luggage_capacity, is_active, is_available, approval_status, rejection_reason, approved_by, approved_at, created_at, updated_at')
     .eq('driver_id', driverId)
     .order('created_at', { ascending: false }); // Removed .single() to support multiple vehicles
 

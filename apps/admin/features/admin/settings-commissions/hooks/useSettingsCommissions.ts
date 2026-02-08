@@ -5,9 +5,9 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { getCommissionRates, updateCommissionRates } from '@entities/platform-settings';
+import { useEffect, useState } from 'react';
 import type { OperatorCommission } from '../types';
 
 export function useSettingsCommissions() {
@@ -20,10 +20,9 @@ export function useSettingsCommissions() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      const supabase = createClient();
       
       try {
-        const supabase = createClient();
-        
         // Get current admin user ID (not auth user ID)
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {

@@ -4,21 +4,18 @@
  * Rating breakdowns, platform statistics, and analytics operations
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@/lib/supabase/client';
 import type { RatingBreakdown } from '../model/types';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 /**
  * Get driver rating breakdown
  */
 export async function getDriverRatingBreakdown(driverId: string): Promise<RatingBreakdown> {
   try {
+    const supabase = createClient();
     const { data, error } = await supabase
       .from('rating_statistics')
-      .select('*')
+      .select('five_star_count, four_star_count, three_star_count, two_star_count, one_star_count, total_ratings, current_rating')
       .eq('user_id', driverId)
       .eq('user_type', 'driver')
       .single();
@@ -54,10 +51,13 @@ export async function getDriverRatingBreakdown(driverId: string): Promise<Rating
  */
 export async function getPlatformStatistics() {
   try {
-    // Get overall rating statistics
+    const supabase = createClient();
+
+    // Get overall rating statistics (with safety cap)
     const { data: ratingsData, error: ratingsError } = await supabase
       .from('driver_reviews')
-      .select('rating');
+      .select('rating')
+      .limit(5000);
     
     if (ratingsError) throw ratingsError;
 
@@ -77,10 +77,11 @@ export async function getPlatformStatistics() {
         5.00
     };
 
-    // Get safety incidents breakdown
+    // Get safety incidents breakdown (with safety cap)
     const { data: incidentsData, error: incidentsError } = await supabase
       .from('safety_incidents')
-      .select('admin_investigation_status');
+      .select('admin_investigation_status')
+      .limit(5000);
 
     if (incidentsError) throw incidentsError;
 

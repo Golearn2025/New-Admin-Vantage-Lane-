@@ -30,10 +30,10 @@ export async function listAdmins(): Promise<AdminData[]> {
 
   const { data, error } = await supabase
     .from('admin_users')
-    .select('*')
+    .select('id, email, first_name, last_name, phone, is_active, created_at')
     .in('role', ['admin', 'super_admin'])
     .order('created_at', { ascending: false })
-    .limit(1000);
+    .limit(200);
 
   if (error) throw error;
 

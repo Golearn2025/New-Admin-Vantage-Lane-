@@ -3,12 +3,12 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
-import { UserSchema } from '../model/schema';
 import type { User, UserRole } from '../model/schema';
+import { UserSchema } from '../model/schema';
 
 export async function listUsers(): Promise<User[]> {
   const supabase = createClient();
-  const { data, error } = await supabase.from('drivers').select('*').limit(200);
+  const { data, error } = await supabase.from('drivers').select('id, email, first_name, last_name, status, created_at, updated_at').limit(200);
   if (error) throw error;
   return data.map((item) => UserSchema.parse({
     id: item.id,

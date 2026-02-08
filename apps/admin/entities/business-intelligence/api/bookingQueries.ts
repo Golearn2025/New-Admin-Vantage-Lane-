@@ -5,19 +5,19 @@
 
 import { createClient } from '@/lib/supabase/client';
 import type {
-  BookingStats,
-  PeakHourData,
-  RouteFrequency,
-  VehicleStats,
+    BookingStats,
+    PeakHourData,
+    RouteFrequency,
+    VehicleStats,
 } from './businessIntelligenceTypes';
-
-const supabase = createClient();
 
 export async function fetchBookingStats(): Promise<BookingStats | null> {
   try {
+    const supabase = createClient();
     const { data, error } = await supabase
       .from('bookings')
-      .select('*');
+      .select('status, distance_miles, passenger_count')
+      .limit(5000);
     
     if (error) {
       // Handle error silently
@@ -62,10 +62,12 @@ export async function fetchBookingStats(): Promise<BookingStats | null> {
 
 export async function fetchPeakHoursData(): Promise<PeakHourData[]> {
   try {
+    const supabase = createClient();
     const { data, error } = await supabase
       .from('bookings')
       .select('start_at, status')
-      .not('start_at', 'is', null);
+      .not('start_at', 'is', null)
+      .limit(5000);
     
     if (error || !data || data.length === 0) {
       return [];
@@ -94,11 +96,13 @@ export async function fetchPeakHoursData(): Promise<PeakHourData[]> {
 
 export async function fetchTopRoutes(): Promise<RouteFrequency[]> {
   try {
+    const supabase = createClient();
     const { data, error } = await supabase
       .from('bookings')
       .select('from_location_name, to_location_name, status')
       .not('from_location_name', 'is', null)
-      .not('to_location_name', 'is', null);
+      .not('to_location_name', 'is', null)
+      .limit(5000);
     
     if (error || !data || data.length === 0) {
       return [];
@@ -134,9 +138,11 @@ export async function fetchTopRoutes(): Promise<RouteFrequency[]> {
 
 export async function fetchVehicleStats(): Promise<VehicleStats[]> {
   try {
+    const supabase = createClient();
     const { data, error } = await supabase
       .from('bookings')
-      .select('vehicle_type, status');
+      .select('vehicle_type, status')
+      .limit(5000);
     
     if (error || !data || data.length === 0) {
       return [];

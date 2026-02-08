@@ -7,9 +7,9 @@
 
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { getDriverBookings } from '@entities/driver/api/driverApi';
 import { getCustomerBookings } from '@entities/customer/api/customerApi';
+import { getDriverBookings } from '@entities/driver/api/driverApi';
+import { useEffect, useMemo, useState } from 'react';
 import type { UserType } from '../types';
 import styles from './ProfileActivityTab.module.css';
 
@@ -163,7 +163,7 @@ export function ProfileActivityTab({ userId, userType, className }: ProfileActiv
     async function fetchBookings() {
       try {
         setLoading(true);
-        let data;
+        let data: any[] = [];
         
         if (userType === 'driver') {
           data = await getDriverBookings(userId);

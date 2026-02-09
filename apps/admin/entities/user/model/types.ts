@@ -29,4 +29,5 @@ export interface UnifiedUser {
   status: 'active' | 'inactive';
   createdAt: string;
   deletedAt?: string | null;  // Soft delete timestamp
+  profilePhotoUrl?: string | null;  // Profile photo (drivers, admins)
 }

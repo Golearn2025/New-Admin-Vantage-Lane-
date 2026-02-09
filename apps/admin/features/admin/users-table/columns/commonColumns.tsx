@@ -5,11 +5,38 @@
  * Displays common fields across all user types
  */
 
-import React from 'react';
 import type { UnifiedUser } from '@entities/user';
 import type { Column, RowAction } from '@vantage-lane/ui-core';
-import { UserBadge, RowActions } from '@vantage-lane/ui-core';
+import { RowActions, UserBadge } from '@vantage-lane/ui-core';
 import styles from './commonColumns.module.css';
+
+/**
+ * Get profile photo column (circular avatar)
+ */
+export function getAvatarColumn(): Column<UnifiedUser> {
+  return {
+    id: 'avatar',
+    header: 'Avatar',
+    accessor: (row) => row.profilePhotoUrl || '',
+    cell: (row) => (
+      <div className={styles.avatarCell}>
+        {row.profilePhotoUrl ? (
+          <img
+            src={row.profilePhotoUrl}
+            alt={row.name}
+            className={styles.avatar}
+          />
+        ) : (
+          <div className={styles.avatarPlaceholder}>
+            {row.name?.charAt(0)?.toUpperCase() || '?'}
+          </div>
+        )}
+      </div>
+    ),
+    sortable: false,
+    width: '56px',
+  };
+}
 
 /**
  * Get user type column with badge
@@ -165,6 +192,7 @@ export function getAllUsersColumns(options?: {
   onDelete?: (user: UnifiedUser) => void;
 }): Column<UnifiedUser>[] {
   const columns = [
+    getAvatarColumn(),
     getTypeColumn(),
     getNameColumn(),
     getEmailColumn(),

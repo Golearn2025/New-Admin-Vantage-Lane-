@@ -7,8 +7,8 @@
  */
 
 import { logger } from '@/lib/utils/logger';
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { NextRequest, NextResponse } from 'next/server';
 
 interface UnifiedUser {
   id: string;
@@ -18,6 +18,7 @@ interface UnifiedUser {
   phone: string | null;
   status: 'active' | 'inactive';
   createdAt: string;
+  profilePhotoUrl: string | null;
 }
 
 // Type definitions for database rows
@@ -39,6 +40,7 @@ interface DriverData {
   phone?: string;
   is_active: boolean;
   created_at: string;
+  profile_photo_url?: string;
 }
 
 interface AdminData {
@@ -49,6 +51,7 @@ interface AdminData {
   phone?: string;
   is_active: boolean;
   created_at: string;
+  avatar_url?: string;
 }
 
 interface OperatorData {
@@ -101,13 +104,13 @@ export async function GET(request: NextRequest) {
       
       supabase
         .from('drivers')
-        .select('id, email, first_name, last_name, phone, is_active, created_at')
+        .select('id, email, first_name, last_name, phone, is_active, created_at, profile_photo_url')
         .is('deleted_at', null)
         .limit(1000),
         
       supabase
         .from('admin_users')
-        .select('id, email, first_name, last_name, phone, is_active, created_at')
+        .select('id, email, first_name, last_name, phone, is_active, created_at, avatar_url')
         .is('deleted_at', null)
         .limit(1000),
         
@@ -181,6 +184,7 @@ function mapCustomer(c: CustomerData): UnifiedUser {
     phone: c.phone || null,
     status: c.status === 'active' ? 'active' : 'inactive',
     createdAt: c.created_at,
+    profilePhotoUrl: null,
   };
 }
 
@@ -193,6 +197,7 @@ function mapDriver(d: DriverData): UnifiedUser {
     phone: d.phone || null,
     status: d.is_active ? 'active' : 'inactive',
     createdAt: d.created_at,
+    profilePhotoUrl: d.profile_photo_url || null,
   };
 }
 
@@ -205,6 +210,7 @@ function mapAdmin(a: AdminData): UnifiedUser {
     phone: a.phone || null,
     status: a.is_active ? 'active' : 'inactive',
     createdAt: a.created_at,
+    profilePhotoUrl: a.avatar_url || null,
   };
 }
 
@@ -217,5 +223,6 @@ function mapOperator(o: OperatorData): UnifiedUser {
     phone: o.contact_phone || null,
     status: o.is_active ? 'active' : 'inactive',
     createdAt: o.created_at,
+    profilePhotoUrl: null,
   };
 }

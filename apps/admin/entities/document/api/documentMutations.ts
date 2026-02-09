@@ -186,8 +186,21 @@ export async function bulkApproveDocuments(
       reviewed_at: new Date().toISOString(),
     })
     .in('id', documentIds)
-    .select('id');
+    .select('id, driver_id, document_type, file_url');
   
+  // Sync profile_photo_url to drivers table for any approved profile photos
+  if (driverData) {
+    const profilePhotoDocs = driverData.filter(
+      (d) => d.document_type === 'profile_photo' && d.file_url
+    );
+    for (const doc of profilePhotoDocs) {
+      await supabase
+        .from('drivers')
+        .update({ profile_photo_url: doc.file_url })
+        .eq('id', doc.driver_id);
+    }
+  }
+
   // Update vehicle documents
   const { data: vehicleData, error: vehicleError } = await supabase
     .from('vehicle_documents')

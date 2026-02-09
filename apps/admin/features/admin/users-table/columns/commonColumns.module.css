@@ -4,6 +4,34 @@
  * 100% design tokens - zero hardcoded values
  */
 
+.avatarCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-border-light, #e5e7eb);
+}
+
+.avatarPlaceholder {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary, #4f46e5);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm, 14px);
+  font-weight: var(--font-weight-semibold, 600);
+  border: 2px solid var(--color-primary-light, #818cf8);
+}
+
 .name {
   font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);

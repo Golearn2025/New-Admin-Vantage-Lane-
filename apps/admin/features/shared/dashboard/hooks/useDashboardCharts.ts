@@ -75,6 +75,7 @@ export function useDashboardCharts(apiParams: URLSearchParams): UseDashboardChar
     dedupingInterval: 60 * 1000, // 60s deduplication
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
+    errorRetryCount: 2, // ✅ Stop aggressive retries on 500 errors
   });
 
   // Convert pence to pounds for display - memoized

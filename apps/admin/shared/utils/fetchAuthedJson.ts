@@ -5,8 +5,8 @@
  * Standard enterprise: Authorization Bearer token explicit
  */
 
-import { logger } from '@/lib/utils/logger';
 import { createClient } from '@/lib/supabase/client';
+import { logger } from '@/lib/utils/logger';
 
 // Supabase client pentru auth checks - folosește singleton
 const supabase = createClient();
@@ -104,10 +104,13 @@ export async function fetchAuthedJson<T>(
     return data;
     
   } catch (error) {
-    logger.error('fetchAuthedJson failed', { 
-      url, 
-      error: error instanceof Error ? error.message : String(error) 
-    });
+    const errMsg = error instanceof Error ? error.message : String(error);
+    // Network errors (e.g. auth race condition) are transient — use warn, not error
+    if (errMsg === 'Failed to fetch') {
+      logger.warn('fetchAuthedJson network error (transient)', { url });
+    } else {
+      logger.error('fetchAuthedJson failed', { url, error: errMsg });
+    }
     throw error;
   }
 }

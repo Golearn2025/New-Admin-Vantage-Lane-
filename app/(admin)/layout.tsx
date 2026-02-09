@@ -13,7 +13,6 @@ import { AppShell, UserRole } from '@admin-shared/ui/composed/appshell';
 import { usePathname } from 'next/navigation';
 import { memo, useCallback, useEffect, useMemo } from 'react';
 import { useCurrentUserWithMetrics } from '../../apps/admin/shared/hooks/useCurrentUser';
-import { useNewBookingRealtime } from '../../apps/admin/shared/hooks/useNewBookingRealtime';
 import { startPerformanceMonitoring } from '../../apps/admin/shared/lib/performance-monitoring';
 import styles from './layout.module.css';
 
@@ -73,9 +72,6 @@ const AdminLayoutContent = memo(function AdminLayoutContent({
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
 
-  // 🔊 CRITICAL: Hook-urile TREBUIE să fie primele - înainte de orice condiție!
-  // 🚀 OPTIMIZATION: Move realtime hook here to prevent recreation
-  useNewBookingRealtime();
 
   // 🚀 PERFORMANCE: Start monitoring on mount with cleanup
   useEffect(() => {

@@ -4,27 +4,26 @@
  * NO hardcoded colors - only CSS vars
  */
 
-import React from 'react';
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  TooltipProps,
-  Legend,
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Legend,
+    ResponsiveContainer,
+    Tooltip,
+    TooltipProps,
+    XAxis,
+    YAxis,
 } from 'recharts';
-import styles from './StackedBarChart.module.css';
 import { CHART_COLORS } from '../../theme/palettes';
 import {
-  CHART_MARGIN,
-  CHART_ANIMATION_DURATION,
-  CHART_STROKE_DASH,
-  CHART_BAR_RADIUS,
-  CHART_DEFAULT_HEIGHT,
+    CHART_ANIMATION_DURATION,
+    CHART_BAR_RADIUS,
+    CHART_DEFAULT_HEIGHT,
+    CHART_MARGIN,
+    CHART_STROKE_DASH,
 } from '../constants';
+import styles from './StackedBarChart.module.css';
 
 export type ChartUnit = 'GBP_pence' | 'count' | 'percentage';
 
@@ -121,14 +120,13 @@ export function StackedBarChart({
           {series.map((s, index) => {
             const isLast = index === series.length - 1;
             const baseProps = {
-              key: s.key,
               dataKey: s.key,
               name: s.label,
               stackId: 'stack',
               fill: s.color ?? defaultColors[index % defaultColors.length],
               animationDuration: CHART_ANIMATION_DURATION,
             };
-            return isLast ? <Bar {...baseProps} radius={CHART_BAR_RADIUS} /> : <Bar {...baseProps} />;
+            return isLast ? <Bar key={s.key} {...baseProps} radius={CHART_BAR_RADIUS} /> : <Bar key={s.key} {...baseProps} />;
           })}
         </BarChart>
       </ResponsiveContainer>

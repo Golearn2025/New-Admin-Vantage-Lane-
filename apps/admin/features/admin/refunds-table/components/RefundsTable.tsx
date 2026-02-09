@@ -106,7 +106,10 @@ export function RefundsTable() {
 
   // Update total count for filtered data
   useEffect(() => {
-    setPagination((p) => ({ ...p, totalCount: filteredData.length }));
+    setPagination((p) => {
+      if (p.totalCount === filteredData.length) return p;
+      return { ...p, totalCount: filteredData.length };
+    });
   }, [filteredData]);
 
   // Paginate filtered data

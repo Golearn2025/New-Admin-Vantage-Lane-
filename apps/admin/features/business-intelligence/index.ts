@@ -2,5 +2,6 @@
  * Business Intelligence Feature - Export Barrel
  */
 
-export { BusinessIntelligencePage } from './components/BusinessIntelligencePage';
-export { useBusinessIntelligence } from './hooks/useBusinessIntelligence';
+export { BusinessIntelligencePage } from './components/BIPage';
+export { useBIData } from './hooks/useBIData';
+

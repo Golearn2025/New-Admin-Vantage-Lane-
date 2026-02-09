@@ -1,162 +1,66 @@
 /**
- * RoutesTab Component
+ * RoutesTab — Top routes + demand by time tables
  *
- * Route frequency analysis with top routes and patterns.
- * File: < 200 lines (RULES.md compliant)
+ * REGULA 8: EnterpriseDataTable | REGULA 11: < 200 lines
  */
 
-import React, { useMemo } from 'react';
-import { Card, Badge, Icon, StatCard } from '@vantage-lane/ui-core';
-import { formatNumber } from '@entities/business-intelligence';
-import { EmptyStateCard } from './EmptyStateCard';
-import type { BusinessIntelligenceData } from '@entities/business-intelligence';
-import styles from './RoutesTab.module.css';
+'use client';
 
-interface RoutesTabProps {
-  data: BusinessIntelligenceData | null;
-  hasData: boolean;
-}
+import type { BIData, DemandByHour, RouteData } from '@entities/business-intelligence';
+import { formatCurrency, formatDuration, formatHour, formatMiles, formatNumber } from '@entities/business-intelligence';
+import type { Column } from '@vantage-lane/ui-core';
+import { EnterpriseDataTable, StatCard } from '@vantage-lane/ui-core';
+import { useMemo } from 'react';
+import styles from './BIPage.module.css';
 
-export function RoutesTab({ data, hasData }: RoutesTabProps) {
-  if (!hasData || !data?.topRoutes.length) {
-    return (
-      <EmptyStateCard 
-        type="routes" 
-        icon="trending-up" 
-        title="Route Analysis"
-      />
-    );
-  }
+interface Props { data: BIData }
 
-  const { topRoutes } = data;
+export function RoutesTab({ data }: Props) {
+  const { routes } = data;
 
-  // Memoize route items to prevent re-creation on every render
-  const routeItems = useMemo(() => 
-    topRoutes.slice(0, 10).map((route, index) => (
-      <div key={`${route.pickupLocation}-${route.destination}`} className={styles.routeItem}>
-        <div className={styles.routeRank}>
-          <span className={styles.rankNumber}>#{index + 1}</span>
-        </div>
-        
-        <div className={styles.routeDetails}>
-          <div className={styles.routeInfo}>
-            <div className={styles.routePath}>
-              <Icon name="star" size="sm" />
-              <span className={styles.pickupLocation}>{route.pickupLocation}</span>
-              <Icon name="arrow-right" size="sm" />
-              <span className={styles.destination}>{route.destination}</span>
-            </div>
-            
-            <div className={styles.routeMetrics}>
-              <div className={styles.metric}>
-                <span className={styles.metricLabel}>Frequency:</span>
-                <span className={styles.metricValue}>{formatNumber(route.frequency)} trips</span>
-              </div>
-              <div className={styles.metric}>
-                <span className={styles.metricLabel}>Share:</span>
-                <span className={styles.metricValue}>{route.percentage.toFixed(1)}% of total</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className={styles.routeBadges}>
-            <Badge color="info" variant="outline" size="sm">
-              Popular Route
-            </Badge>
-          </div>
-        </div>
+  const routeColumns: Column<RouteData>[] = useMemo(() => [
+    { id: 'pickup', header: 'Pickup', accessor: (r) => r.pickup, cell: (r) => r.pickup, width: '220px' },
+    { id: 'destination', header: 'Destination', accessor: (r) => r.destination, cell: (r) => r.destination, width: '220px' },
+    { id: 'trips', header: 'Trips', accessor: (r) => r.trips, cell: (r) => formatNumber(r.trips), align: 'right' as const, sortable: true },
+    { id: 'avgMiles', header: 'Avg Distance', accessor: (r) => r.avgMiles ?? 0, cell: (r) => formatMiles(r.avgMiles), align: 'right' as const, sortable: true },
+    { id: 'avgDuration', header: 'Avg Duration', accessor: (r) => r.avgDuration ?? 0, cell: (r) => formatDuration(r.avgDuration), align: 'right' as const },
+    { id: 'revenue', header: 'Revenue', accessor: (r) => r.revenue, cell: (r) => formatCurrency(r.revenue), align: 'right' as const, sortable: true },
+    { id: 'avgPrice', header: 'Avg Price', accessor: (r) => r.avgPrice, cell: (r) => formatCurrency(r.avgPrice), align: 'right' as const, sortable: true },
+  ], []);
 
-        <div className={styles.routeProgress}>
-          <div 
-            className={styles.progressBar}
-            style={{ width: `${(route.frequency / (topRoutes[0]?.frequency || 1)) * 100}%` }}
-          />
-        </div>
-      </div>
-    )), 
-    [topRoutes]
-  );
-  const topRoute = topRoutes[0] || {
-    pickupLocation: 'Unknown',
-    destination: 'Unknown',
-    frequency: 0,
-    percentage: 0
-  };
+  const demandColumns: Column<DemandByHour>[] = useMemo(() => [
+    { id: 'day', header: 'Day', accessor: (r) => r.dayName, cell: (r) => r.dayName, width: '120px', sortable: true },
+    { id: 'hour', header: 'Hour', accessor: (r) => r.hour, cell: (r) => formatHour(r.hour), width: '100px', sortable: true },
+    { id: 'bookings', header: 'Bookings', accessor: (r) => r.bookings, cell: (r) => formatNumber(r.bookings), align: 'right' as const, sortable: true },
+  ], []);
 
   return (
-    <div className={styles.routesContainer}>
-      {/* Route Statistics */}
+    <div className={styles.tabContent}>
       <div className={styles.statsGrid}>
-        <StatCard
-          label="Total Routes"
-          value={formatNumber(topRoutes.length)}
-          chartColor="theme"
-        />
-        
-        <StatCard
-          label="Most Popular"
-          value={`${topRoute.percentage}%`}
-          chartColor="success"
-        />
-        
-        <StatCard
-          label="Top Route Frequency"
-          value={formatNumber(topRoute.frequency)}
-          chartColor="info"
-        />
-        
-        <StatCard
-          label="Route Coverage"
-          value={`${Math.min(100, topRoutes.length * 5)}%`}
-          chartColor="warning"
-        />
+        <StatCard label="Total Legs" value={formatNumber(routes.totalLegs)} chartColor="theme" />
+        <StatCard label="Avg Distance" value={formatMiles(routes.avgDistance)} chartColor="info" />
+        <StatCard label="Avg Duration" value={formatDuration(routes.avgDuration)} chartColor="warning" />
+        <StatCard label="Leg Revenue" value={formatCurrency(routes.totalLegRevenue)} chartColor="success" />
       </div>
 
-      {/* Top Routes List */}
-      <Card className={styles.routesCard || ''}>
-        <div className={styles.routesHeader}>
-          <Icon name="trending-up" size="sm" />
-          <h3 className={styles.routesTitle}>Top Routes</h3>
-          <Badge color="info" variant="outline" size="sm">
-            Live Data
-          </Badge>
-        </div>
+      <h3 className={styles.sectionTitle}>Top Routes by Revenue</h3>
+      <EnterpriseDataTable<RouteData>
+        data={routes.topRoutes}
+        columns={routeColumns}
+        stickyHeader
+        striped
+        ariaLabel="Top routes"
+        emptyState="No route data available"
+      />
 
-        <div className={styles.routesList}>
-          {routeItems}
-        </div>
-      </Card>
-
-      {/* Route Insights */}
-      <Card className={styles.insightsCard || ''}>
-        <div className={styles.insightsHeader}>
-          <Icon name="star" size="sm" />
-          <h3 className={styles.insightsTitle}>Route Insights</h3>
-        </div>
-
-        <div className={styles.insightsList}>
-          <div className={styles.insightItem}>
-            <Icon name="trending-up" size="sm" />
-            <div>
-              <strong>Most Popular:</strong> {topRoute.pickupLocation} → {topRoute.destination} ({topRoute.percentage}% of all rides)
-            </div>
-          </div>
-          
-          <div className={styles.insightItem}>
-            <Icon name="trending-up" size="sm" />
-            <div>
-              <strong>Route Diversity:</strong> {topRoutes.length} unique routes tracked
-            </div>
-          </div>
-          
-          <div className={styles.insightItem}>
-            <Icon name="star" size="sm" />
-            <div>
-              <strong>Optimization:</strong> Focus driver availability on top 3 routes for maximum efficiency
-            </div>
-          </div>
-        </div>
-      </Card>
+      <h3 className={styles.sectionTitle}>Demand by Day & Hour</h3>
+      <EnterpriseDataTable<DemandByHour>
+        data={routes.demandByTime.slice(0, 20)}
+        columns={demandColumns}
+        stickyHeader
+        striped
+        ariaLabel="Demand by time"
+      />
     </div>
   );
 }

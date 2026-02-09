@@ -9,7 +9,7 @@ import type { DriverLocationData } from '@entities/driver-location';
 import mapboxgl, { type Marker } from 'mapbox-gl';
 import { getStatusLabel, mapDriverStatus } from '../../utils/markerHelpers';
 import { getMarkerColor, getMarkerScale } from '../config/markerConfig';
-import { createMarkerElement } from './markerStyles';
+import { createPremiumCarMarker } from './markerStyles';
 
 /**
  * Create driver marker with Mapbox standard API
@@ -28,8 +28,8 @@ export function createDriverMarker(
   const color = getMarkerColor(status);
   const scale = getMarkerScale(isSelected);
 
-  // Create custom marker element
-  const el = createMarkerElement(color, scale);
+  // Create premium car marker element
+  const el = createPremiumCarMarker(color, 0, scale);
 
   // Add driver info as data attributes
   el.dataset.driverId = driver.id;

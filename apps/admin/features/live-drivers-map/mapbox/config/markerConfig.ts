@@ -13,10 +13,10 @@ import type { DriverStatus } from '../../utils/markerHelpers';
  */
 export const MARKER_COLORS = {
   ONLINE: '#22C55E',      // Light green - driver available
-  EN_ROUTE: '#047857',    // Dark green - going to pickup
-  ARRIVED: '#B621FE',     // Violet - arrived at pickup
-  IN_PROGRESS: '#FFD700', // Gold - ride in progress
-  OFFLINE: '#64748B',     // Gray - offline/unavailable
+  EN_ROUTE: '#3B82F6',    // Blue - going to pickup
+  ARRIVED: '#7C3AED',     // Violet - arrived at pickup
+  IN_PROGRESS: '#D4AF37', // Gold - ride in progress
+  OFFLINE: '#9CA3AF',     // Gray - offline/unavailable
 } as const;
 
 /**
@@ -27,6 +27,28 @@ export const MARKER_SCALES = {
   selected: 1.3,
   hover: 1.1,
 } as const;
+
+/**
+ * Vehicle Type Scale Multipliers
+ * Un singur SVG, diferențiat doar prin scale
+ */
+export const SCALE_BY_TYPE = {
+  exec: 1,
+  lux: 1.1,
+  suv: 1.25,
+  van: 1.45,
+} as const;
+
+export type VehicleType = keyof typeof SCALE_BY_TYPE;
+
+/**
+ * Get vehicle scale multiplier
+ */
+export function getVehicleScale(type?: string): number {
+  if (!type) return SCALE_BY_TYPE.exec;
+  const normalized = type.toLowerCase() as VehicleType;
+  return SCALE_BY_TYPE[normalized] ?? SCALE_BY_TYPE.exec;
+}
 
 /**
  * Marker Z-Index Values

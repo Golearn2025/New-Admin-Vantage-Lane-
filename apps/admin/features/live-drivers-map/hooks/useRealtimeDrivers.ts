@@ -94,7 +94,6 @@ export function useRealtimeDrivers(filters: { showOnline: boolean; showBusy: boo
         return;
       }
 
-      console.log('✅ Fetched drivers with location:', data?.length || 0);
 
       // Transform data to match our interface
       const transformedDrivers: DriverLocationData[] = (data || []).map(driver => ({
@@ -116,27 +115,16 @@ export function useRealtimeDrivers(filters: { showOnline: boolean; showBusy: boo
         vehicles: (driver as any).vehicles // Add vehicles array
       }));
 
-      // Debug: Log all drivers before filtering
-      console.log('🔍 All drivers before filtering:', transformedDrivers.map(d => ({
-        name: `${d.firstName} ${d.lastName}`,
-        status: d.onlineStatus,
-        hasLocation: !!(d.currentLatitude && d.currentLongitude)
-      })));
 
       // Apply filters - show only ONLINE and BUSY drivers (hide OFFLINE)
       const filteredDrivers = transformedDrivers.filter(driver => {
         const shouldShow = (driver.onlineStatus === 'online' && filters.showOnline) || 
                           (driver.onlineStatus === 'busy' && filters.showBusy);
         
-        if (!shouldShow) {
-          console.log(`❌ Filtering out ${driver.firstName} ${driver.lastName} - status: ${driver.onlineStatus}`);
-        }
-        
         return shouldShow;
       });
 
-      console.log(`✅ Filtered drivers: ${filteredDrivers.length} online/busy out of ${transformedDrivers.length} total`);
-      console.log('✅ Drivers to show:', filteredDrivers.map(d => `${d.firstName} ${d.lastName} (${d.onlineStatus})`));
+      console.log(`📍 Live map: ${filteredDrivers.length} drivers online`);
 
       setDrivers(filteredDrivers);
       setLastUpdate(new Date());
@@ -149,44 +137,30 @@ export function useRealtimeDrivers(filters: { showOnline: boolean; showBusy: boo
     }
   };
 
-  // Setup Realtime subscription
+  // Setup Realtime subscription on drivers table (primary source — mobile app writes here)
   const setupRealtimeSubscription = () => {
-    console.log('🔄 Setting up Realtime subscription...');
-
-    // Clean up existing channel
     if (channelRef.current) {
       supabase.removeChannel(channelRef.current);
     }
 
-    // Create new channel for drivers table
     const channel = supabase
       .channel('drivers-realtime')
       .on(
         'postgres_changes',
         {
-          event: '*', // Listen to all events: INSERT, UPDATE, DELETE
+          event: '*',
           schema: 'public',
           table: 'drivers'
-          // NO FILTER - filters can block realtime events
         },
         (payload) => {
-          const driverId = (payload.new as any)?.id || (payload.old as any)?.id;
-          console.log('📡 Realtime event:', payload.eventType, 'for driver:', driverId);
           handleRealtimeUpdate(payload);
         }
       )
       .subscribe((status) => {
-        console.log('📡 Realtime status:', status);
         setIsConnected(status === 'SUBSCRIBED');
-        
-        if (status === 'SUBSCRIBED') {
-          console.log('✅ Successfully subscribed to realtime updates!');
-        } else if (status === 'CHANNEL_ERROR') {
+        if (status === 'CHANNEL_ERROR') {
           console.error('❌ Realtime connection failed');
           setError('Realtime connection failed');
-        } else if (status === 'CLOSED') {
-          console.warn('⚠️ Realtime connection closed');
-          setIsConnected(false);
         }
       });
 
@@ -213,19 +187,42 @@ export function useRealtimeDrivers(filters: { showOnline: boolean; showBusy: boo
       case 'UPDATE':
         if (newRecord) {
           const updatedDriver = transformDriverRecord(newRecord);
+          const driverId = updatedDriver.id;
           
           setDrivers(prev => {
-            const filtered = prev.filter(d => d.id !== updatedDriver.id);
-            
-            // Only add if driver should be shown and has location
-            if (shouldShowDriver(updatedDriver) && updatedDriver.currentLatitude && updatedDriver.currentLongitude) {
-              return [...filtered, updatedDriver];
+            const idx = prev.findIndex(d => d.id === driverId);
+            const existing = idx >= 0 ? prev[idx] : null;
+
+            // Driver not in list yet — add if should show
+            if (!existing) {
+              if (shouldShowDriver(updatedDriver) && updatedDriver.currentLatitude && updatedDriver.currentLongitude) {
+                return [...prev, updatedDriver];
+              }
+              return prev;
             }
-            
-            return filtered;
+
+            // Driver went offline — remove
+            if (!shouldShowDriver(updatedDriver)) {
+              return prev.filter(d => d.id !== driverId);
+            }
+
+            // Check if anything changed
+            const posChanged = existing.currentLatitude !== updatedDriver.currentLatitude ||
+              existing.currentLongitude !== updatedDriver.currentLongitude;
+            const statusChanged = existing.onlineStatus !== updatedDriver.onlineStatus;
+
+            if (!posChanged && !statusChanged) return prev;
+
+            // In-place update
+            const updated = [...prev];
+            updated[idx] = Object.assign({}, existing, {
+              currentLatitude: updatedDriver.currentLatitude,
+              currentLongitude: updatedDriver.currentLongitude,
+              onlineStatus: updatedDriver.onlineStatus,
+              locationUpdatedAt: updatedDriver.locationUpdatedAt,
+            });
+            return updated;
           });
-          
-          console.log('🔄 Updated driver:', updatedDriver.firstName, updatedDriver.lastName, `(${updatedDriver.onlineStatus})`);
         }
         break;
 
@@ -267,10 +264,8 @@ export function useRealtimeDrivers(filters: { showOnline: boolean; showBusy: boo
     fetchInitialDrivers();
     setupRealtimeSubscription();
 
-    // Cleanup on unmount
     return () => {
       if (channelRef.current) {
-        console.log('🧹 Cleaning up Realtime subscription...');
         supabase.removeChannel(channelRef.current);
       }
     };

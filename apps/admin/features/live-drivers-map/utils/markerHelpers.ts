@@ -26,18 +26,18 @@ export function getDriverColor(status: DriverStatus): string {
   if (status.main === 'BUSY') {
     switch (status.sub) {
       case 'EN_ROUTE':
-        return '#047857'; // dark green
+        return '#3B82F6'; // blue
       case 'ARRIVED':
-        return '#B621FE'; // violet
+        return '#7C3AED'; // violet
       case 'IN_PROGRESS':
-        return '#FFD700'; // gold
+        return '#D4AF37'; // gold
       default:
         return '#0066FF'; // blue fallback (assigned but no substatus)
     }
   }
   
   // OFFLINE - gray
-  return '#64748B';
+  return '#9CA3AF';
 }
 
 /**

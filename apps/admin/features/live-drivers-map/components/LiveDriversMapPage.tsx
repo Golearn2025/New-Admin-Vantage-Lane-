@@ -9,7 +9,17 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
 import { useRealtimeDrivers } from '../hooks/useRealtimeDrivers';
-import { calculateBearing } from '../utils/smoothMarkerAnimation';
+import { getVehicleScale } from '../mapbox/config/markerConfig';
+import { createDriverMarkerContainer, updateMarkerColor, updateMarkerRotation } from '../mapbox/markers/markerStyles';
+import { getDriverColor, mapDriverStatus } from '../utils/markerHelpers';
+import {
+    feedGpsUpdate, isDriverRegistered,
+    registerDriver,
+    setMapMoving,
+    startEngine, stopEngine,
+    unregisterDriver,
+} from '../utils/predictiveAnimation';
+import { snapToNearestRoad } from '../utils/snapToRoad';
 
 // Set Mapbox token from environment variable
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
@@ -19,12 +29,11 @@ export function LiveDriversMapPage() {
   const map = useRef<mapboxgl.Map | null>(null);
   const markers = useRef<Map<string, mapboxgl.Marker>>(new Map());
   const markerElements = useRef<Map<string, HTMLDivElement>>(new Map());
-  const lastPositions = useRef<Map<string, { lat: number; lng: number }>>(new Map());
+  const lastStatuses = useRef<Map<string, string>>(new Map());
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedDriverId, setSelectedDriverId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const hasInitializedBounds = useRef(false);
-  const isMapMoving = useRef(false);
 
   // Get real driver data from Supabase
   const { drivers, loading: driversLoading } = useRealtimeDrivers({
@@ -32,14 +41,6 @@ export function LiveDriversMapPage() {
     showBusy: true,
   });
 
-  // Debug: Check what data we have
-  useEffect(() => {
-    if (drivers.length > 0) {
-      console.log('🔍 First driver data:', drivers[0]);
-      console.log('🔍 Address field:', (drivers[0] as any).address);
-      console.log('🔍 Vehicles field:', (drivers[0] as any).vehicles);
-    }
-  }, [drivers]);
 
   // Filter and sort drivers
   const filteredDrivers = drivers
@@ -73,25 +74,9 @@ export function LiveDriversMapPage() {
       zoom: 12,
     });
 
-    // Disable transitions când user mută harta (previne marker "floating")
-    map.current.on('movestart', () => {
-      isMapMoving.current = true;
-      console.log('🗺️ Map movestart - disabling transitions for', markers.current.size, 'markers');
-      markers.current.forEach((marker) => {
-        const element = marker.getElement();
-        element.style.transition = 'none';
-      });
-    });
-
-    // Re-enable transitions când user termină de mutat harta
-    map.current.on('moveend', () => {
-      isMapMoving.current = false;
-      console.log('🗺️ Map moveend - re-enabling transitions for', markers.current.size, 'markers');
-      markers.current.forEach((marker) => {
-        const element = marker.getElement();
-        element.style.transition = 'transform 2s linear';
-      });
-    });
+    // Notify animation engine when map is being dragged
+    map.current.on('movestart', () => setMapMoving(true));
+    map.current.on('moveend', () => setMapMoving(false));
 
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
     map.current.addControl(new mapboxgl.ScaleControl(), 'bottom-left');
@@ -101,7 +86,11 @@ export function LiveDriversMapPage() {
       setIsLoaded(true);
     });
 
+    // Start predictive animation engine
+    startEngine();
+
     return () => {
+      stopEngine();
       if (map.current) map.current.remove();
     };
   }, []);
@@ -110,128 +99,60 @@ export function LiveDriversMapPage() {
   useEffect(() => {
     if (!map.current || !isLoaded || driversLoading) return;
 
-    console.log('🔄 Updating', drivers.length, 'driver markers');
 
     // Process each driver
     drivers.forEach((driver) => {
       if (!driver.currentLatitude || !driver.currentLongitude) return;
 
-      const currentPos = { lat: driver.currentLatitude, lng: driver.currentLongitude };
-      const existingMarker = markers.current.get(driver.id);
-      const lastPos = lastPositions.current.get(driver.id);
+      const rawPos = { lat: driver.currentLatitude, lng: driver.currentLongitude };
+      // Snap to nearest road (Uber/Bolt style)
+      const currentPos = snapToNearestRoad(map.current!, rawPos);
 
-      // If marker exists and position changed, animate it smoothly
-      if (existingMarker && lastPos && 
-          (Math.abs(lastPos.lat - currentPos.lat) > 0.00001 || 
-           Math.abs(lastPos.lng - currentPos.lng) > 0.00001)) {
-        
-        console.log(`🚗 Animating ${driver.firstName} from`, lastPos, 'to', currentPos);
+      // If driver is already registered in animation engine, feed new GPS
+      if (isDriverRegistered(driver.id)) {
+        const heading = feedGpsUpdate(driver.id, currentPos);
 
-        // Calculate heading for rotation
-        const heading = calculateBearing(lastPos, currentPos);
-        
-        // Apply CSS transitions for ultra-smooth movement (Uber/Bolt standard)
-        const markerElement = existingMarker.getElement();
-        
-        // Aplică transition DOAR dacă harta NU se mișcă (previne suprascrierea)
-        if (!isMapMoving.current) {
-          markerElement.style.transition = 'transform 2s linear';
+        // Rotate car SVG toward new heading
+        if (heading !== null) {
+          const el = markerElements.current.get(driver.id);
+          if (el) updateMarkerRotation(el, heading, true);
         }
-        
-        // Update position (CSS animates automatically - GPU accelerated)
-        existingMarker.setLngLat([currentPos.lng, currentPos.lat]);
-        
-        // Smooth rotation
-        const carIcon = markerElement.querySelector('svg');
-        if (carIcon && !isMapMoving.current) {
-          carIcon.style.transition = 'transform 2s linear';
-          carIcon.style.transform = `rotate(${heading}deg)`;
-        } else if (carIcon) {
-          carIcon.style.transform = `rotate(${heading}deg)`;
-        }
-        
-        // Update last position
-        lastPositions.current.set(driver.id, currentPos);
-        console.log(`✅ Position updated for ${driver.firstName} with CSS transition`);
 
-        return; // Skip recreating marker
+        // Update color if status changed
+        const prevStatus = lastStatuses.current.get(driver.id);
+        if (prevStatus !== driver.onlineStatus) {
+          const driverStatus = mapDriverStatus(driver.onlineStatus, (driver as any).bookingStatus);
+          const newColor = getDriverColor(driverStatus);
+          const el = markerElements.current.get(driver.id);
+          if (el) updateMarkerColor(el, newColor);
+          lastStatuses.current.set(driver.id, driver.onlineStatus);
+        }
+
+        return; // Engine handles position updates via rAF
       }
 
-      // If marker exists but position hasn't changed, skip
-      if (existingMarker) {
+      // If marker exists but not in engine (shouldn't happen), skip
+      if (markers.current.has(driver.id)) {
         return;
       }
 
       // Create new marker for first time
-      const color = driver.onlineStatus === 'online' ? '#22C55E' : '#FCD34D';
-      const heading = 0;
+      const driverStatus = mapDriverStatus(driver.onlineStatus, (driver as any).bookingStatus);
+      const color = getDriverColor(driverStatus);
 
-      // Create container for marker + labels
-      const container = document.createElement('div');
-      container.style.display = 'flex';
-      container.style.flexDirection = 'column';
-      container.style.alignItems = 'center';
-      container.style.cursor = 'pointer';
-
-      // Name label
-      const nameLabel = document.createElement('div');
-      nameLabel.textContent = `${driver.firstName} ${driver.lastName}`;
-      nameLabel.style.background = 'rgba(0, 0, 0, 0.8)';
-      nameLabel.style.color = 'white';
-      nameLabel.style.padding = '2px 6px';
-      nameLabel.style.borderRadius = '4px';
-      nameLabel.style.fontSize = '11px';
-      nameLabel.style.fontWeight = '600';
-      nameLabel.style.whiteSpace = 'nowrap';
-      nameLabel.style.marginBottom = '2px';
-      container.appendChild(nameLabel);
-
-      // Realistic car icon (top-down view like Uber/Bolt)
-      const carIcon = document.createElement('div');
-      carIcon.innerHTML = `
-        <svg width="40" height="40" viewBox="0 0 40 40" style="transform: rotate(${heading}deg);">
-          <!-- Car body -->
-          <rect x="12" y="8" width="16" height="24" rx="3" fill="${color}" stroke="white" stroke-width="2"/>
-          
-          <!-- Windshield (front) -->
-          <rect x="14" y="10" width="12" height="4" rx="1" fill="rgba(255,255,255,0.3)"/>
-          
-          <!-- Rear window -->
-          <rect x="14" y="26" width="12" height="4" rx="1" fill="rgba(255,255,255,0.3)"/>
-          
-          <!-- Side mirrors -->
-          <circle cx="10" cy="16" r="2" fill="${color}" stroke="white" stroke-width="1"/>
-          <circle cx="30" cy="16" r="2" fill="${color}" stroke="white" stroke-width="1"/>
-          
-          <!-- Direction indicator (arrow at front) -->
-          <path d="M 20 4 L 24 8 L 16 8 Z" fill="white" stroke="white" stroke-width="1"/>
-          
-          <!-- Wheels -->
-          <rect x="10" y="12" width="3" height="6" rx="1" fill="#333"/>
-          <rect x="27" y="12" width="3" height="6" rx="1" fill="#333"/>
-          <rect x="10" y="22" width="3" height="6" rx="1" fill="#333"/>
-          <rect x="27" y="22" width="3" height="6" rx="1" fill="#333"/>
-        </svg>
-      `;
-      carIcon.style.filter = 'drop-shadow(0 3px 6px rgba(0,0,0,0.4))';
-      container.appendChild(carIcon);
-
-      // Vehicle label (license plate) - Find first vehicle with license plate
+      // Get vehicle info for scale + plate
       const vehicles = (driver as any).vehicles || [];
       const vehicle = vehicles.find((v: any) => v?.license_plate) || vehicles[0];
-      if (vehicle?.license_plate) {
-        const plateLabel = document.createElement('div');
-        plateLabel.textContent = vehicle.license_plate;
-        plateLabel.style.background = 'white';
-        plateLabel.style.color = '#1F2937';
-        plateLabel.style.padding = '2px 6px';
-        plateLabel.style.borderRadius = '4px';
-        plateLabel.style.fontSize = '10px';
-        plateLabel.style.fontWeight = '700';
-        plateLabel.style.border = '1px solid #E5E7EB';
-        plateLabel.style.marginTop = '2px';
-        container.appendChild(plateLabel);
-      }
+      const vehicleScale = getVehicleScale(vehicle?.category);
+
+      // Premium marker container (name + SVG + plate)
+      const container = createDriverMarkerContainer({
+        driverName: `${driver.firstName} ${driver.lastName}`,
+        color,
+        rotation: 0,
+        vehicleScale,
+        licensePlate: vehicle?.license_plate,
+      });
 
       // Enhanced popup with more details (NO ADDRESS - just coordinates)
       const vehicleInfo = vehicle ? `${vehicle.make || 'N/A'} ${vehicle.model || ''} ${vehicle.year || ''}` : 'N/A';
@@ -270,8 +191,8 @@ export function LiveDriversMapPage() {
         </div>
       `;
 
-      const marker = new mapboxgl.Marker(container)
-        .setLngLat([driver.currentLongitude, driver.currentLatitude])
+      const marker = new mapboxgl.Marker({ element: container, anchor: 'center' })
+        .setLngLat([currentPos.lng, currentPos.lat])
         .setPopup(new mapboxgl.Popup({ offset: 25, maxWidth: '320px' }).setHTML(popupHTML))
         .addTo(map.current!);
 
@@ -280,10 +201,11 @@ export function LiveDriversMapPage() {
         setSelectedDriverId(driver.id);
       });
 
-      // Store marker and container for animation
+      // Store marker and container, register with animation engine
       markers.current.set(driver.id, marker);
       markerElements.current.set(driver.id, container);
-      lastPositions.current.set(driver.id, currentPos);
+      lastStatuses.current.set(driver.id, driver.onlineStatus);
+      registerDriver(driver.id, marker, currentPos);
     });
 
     // Remove markers for drivers no longer in list
@@ -293,7 +215,8 @@ export function LiveDriversMapPage() {
         marker.remove();
         markers.current.delete(id);
         markerElements.current.delete(id);
-        lastPositions.current.delete(id);
+        lastStatuses.current.delete(id);
+        unregisterDriver(id);
       }
     });
 

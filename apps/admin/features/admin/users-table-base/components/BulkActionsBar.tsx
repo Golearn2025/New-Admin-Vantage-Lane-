@@ -7,7 +7,6 @@
 
 'use client';
 
-import React, { useMemo } from 'react';
 import { Button } from '@vantage-lane/ui-core';
 import styles from './BulkActionsBar.module.css';
 
@@ -16,6 +15,9 @@ export interface BulkActionsBarProps {
   onActivate: () => void;
   onDeactivate: () => void;
   onDelete: () => void;
+  onSetOnline?: () => void;
+  onSetOffline?: () => void;
+  showOnlineOffline?: boolean;
 }
 
 export function BulkActionsBar({
@@ -23,6 +25,9 @@ export function BulkActionsBar({
   onActivate,
   onDeactivate,
   onDelete,
+  onSetOnline,
+  onSetOffline,
+  showOnlineOffline = false,
 }: BulkActionsBarProps) {
   if (selectedCount === 0) return null;
 
@@ -32,6 +37,16 @@ export function BulkActionsBar({
         {selectedCount} user{selectedCount > 1 ? 's' : ''} selected
       </span>
       <div className={styles.bulkButtons}>
+        {showOnlineOffline && onSetOnline && (
+          <Button onClick={onSetOnline} variant="primary" size="sm">
+            🟢 Set Online
+          </Button>
+        )}
+        {showOnlineOffline && onSetOffline && (
+          <Button onClick={onSetOffline} variant="secondary" size="sm">
+            🔴 Set Offline
+          </Button>
+        )}
         <Button onClick={onActivate} variant="secondary" size="sm">
           Activate
         </Button>

@@ -15,7 +15,6 @@ import {
     Pagination,
     TanStackDataTable,
     toTanStackColumns,
-    useSelection,
 } from '@vantage-lane/ui-core';
 import { useCallback, useMemo, useState } from 'react';
 import type { UsersTableBaseProps } from '../types';
@@ -23,11 +22,14 @@ import {
     handleBulkActivate,
     handleBulkDeactivate,
     handleBulkDelete,
+    handleBulkSetOffline,
+    handleBulkSetOnline,
     handleSingleDelete,
     type BulkActionHandlers
 } from '../utils/usersTableHandlers';
 import { BulkActionsBar } from './BulkActionsBar';
 import styles from './UsersTableBase.module.css';
+import type { BulkActionType } from './UsersTableDialogs';
 import { UsersTableDialogs } from './UsersTableDialogs';
 import { UsersTableHeader } from './UsersTableHeader';
 import { UsersTableModals } from './UsersTableModals';
@@ -59,7 +61,7 @@ export function UsersTableBase({
   const [viewUser, setViewUser] = useState<UnifiedUser | null>(null);
   const [editUser, setEditUser] = useState<UnifiedUser | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [bulkAction, setBulkAction] = useState<'activate' | 'deactivate' | 'delete' | null>(null);
+  const [bulkAction, setBulkAction] = useState<BulkActionType>(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
   // Filter by user type
@@ -86,32 +88,33 @@ export function UsersTableBase({
     return filteredData.slice(start, start + pageSize);
   }, [filteredData, currentPage, pageSize]);
 
-  // Selection hook for bulk actions
-  const selection = useSelection<UnifiedUser>({
-    data: paginatedData,
-    getRowId: (user) => user.id,
-  });
+  // Row selection state for TanStack table (record of rowId → boolean)
+  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
-  // Get selected user IDs from selection hook - memoized
+  // Derive selected user IDs from TanStack rowSelection state
   const selectedUserIds = useMemo(() => 
-    Array.from(selection.selectedRows).map((user) => user.id),
-    [selection.selectedRows]
+    Object.keys(rowSelection).filter((id) => rowSelection[id]),
+    [rowSelection]
   );
   const selectedCount = selectedUserIds.length;
+
+  const clearSelection = useCallback(() => setRowSelection({}), []);
 
   // Bulk action handlers
   const bulkHandlerProps: BulkActionHandlers = {
     selectedUserIds,
     userType,
     refetch,
-    clearSelection: selection.clearSelection,
+    clearSelection,
   };
 
   const handleBulkDeleteAction = () => setBulkAction('delete');
   const handleBulkActivateAction = () => setBulkAction('activate');
   const handleBulkDeactivateAction = () => setBulkAction('deactivate');
+  const handleBulkSetOnlineAction = () => setBulkAction('set_online');
+  const handleBulkSetOfflineAction = () => setBulkAction('set_offline');
 
   const confirmBulkAction = useCallback(async () => {
     if (!bulkAction) return;
@@ -127,6 +130,12 @@ export function UsersTableBase({
           break;
         case 'deactivate':
           await handleBulkDeactivate(bulkHandlerProps);
+          break;
+        case 'set_online':
+          await handleBulkSetOnline(bulkHandlerProps);
+          break;
+        case 'set_offline':
+          await handleBulkSetOffline(bulkHandlerProps);
           break;
       }
     } catch (error) {
@@ -196,6 +205,9 @@ export function UsersTableBase({
         onActivate={handleBulkActivateAction}
         onDeactivate={handleBulkDeactivateAction}
         onDelete={handleBulkDeleteAction}
+        onSetOnline={handleBulkSetOnlineAction}
+        onSetOffline={handleBulkSetOfflineAction}
+        showOnlineOffline={userType === 'driver'}
       />
 
       {/* Loading state */}
@@ -218,6 +230,9 @@ export function UsersTableBase({
               maxHeight="calc(100vh - 400px)"
               striped={true}
               enableResize={true}
+              enableSelection={true}
+              rowSelection={rowSelection}
+              onRowSelectionChange={setRowSelection}
               ariaLabel="Users table"
             />
           </div>

@@ -4,7 +4,7 @@
  * Bulk action handlers for user management - focused on business logic
  */
 
-import { bulkDeleteUsers, bulkUpdateUsers } from '@entities/user';
+import { bulkDeleteUsers, bulkSetOnlineStatus, bulkUpdateUsers } from '@entities/user';
 
 export interface BulkActionHandlers {
   selectedUserIds: string[];
@@ -86,4 +86,36 @@ export async function handleSingleDelete({
   } else {
     alert('⚠️ Cannot delete from "All Users" view. Use specific user type pages.');
   }
+}
+
+export async function handleBulkSetOnline({
+  selectedUserIds,
+  userType,
+  refetch,
+  clearSelection
+}: BulkActionHandlers): Promise<void> {
+  if (userType !== 'driver') {
+    alert('⚠️ Online/Offline status is only available for drivers.');
+    return;
+  }
+  await bulkSetOnlineStatus({ driverIds: selectedUserIds, onlineStatus: 'online' });
+  alert(`✅ ${selectedUserIds.length} driver(s) set to ONLINE!`);
+  await refetch();
+  clearSelection();
+}
+
+export async function handleBulkSetOffline({
+  selectedUserIds,
+  userType,
+  refetch,
+  clearSelection
+}: BulkActionHandlers): Promise<void> {
+  if (userType !== 'driver') {
+    alert('⚠️ Online/Offline status is only available for drivers.');
+    return;
+  }
+  await bulkSetOnlineStatus({ driverIds: selectedUserIds, onlineStatus: 'offline' });
+  alert(`✅ ${selectedUserIds.length} driver(s) set to OFFLINE!`);
+  await refetch();
+  clearSelection();
 }

@@ -6,12 +6,15 @@ services:
   - type: web
     name: vantage-admin
     runtime: node
-    region: oregon # or frankfurt for EU
-    plan: starter # free tier
+    # frankfurt = closest region to Supabase eu-west-2 (London)
+    # CRITICAL: oregon caused ConnectTimeoutError to Supabase EU
+    region: frankfurt
+    plan: standard # paid plan - eliminates cold start 502s (starter = free tier with sleep)
     
     # Build & Start
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    # Use pnpm to match workspace lockfile (pnpm-lock.yaml)
+    buildCommand: npm install -g pnpm && pnpm install --frozen-lockfile && pnpm run build
+    startCommand: pnpm run start
     
     # Environment
     env: node
@@ -20,14 +23,18 @@ services:
     healthCheckPath: /api/health
     
     # Auto-deploy
-    branch: main # Change to your production branch
+    branch: main
     
     # Environment Variables
     # NOTE: Set these in Render Dashboard (they won't be committed)
     envVars:
       - key: NODE_ENV
         value: production
-      
+
+      # CRITICAL: Must match your Render service URL
+      - key: NEXT_PUBLIC_SITE_URL
+        value: https://admin.vantage-lane.com
+
       - key: NEXT_PUBLIC_SUPABASE_URL
         sync: false # Set manually in dashboard
       
@@ -41,4 +48,7 @@ services:
         sync: false
       
       - key: GOOGLE_MAPS_API_KEY_SERVER
+        sync: false
+
+      - key: NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
         sync: false

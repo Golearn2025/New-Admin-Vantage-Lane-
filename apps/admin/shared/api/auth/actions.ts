@@ -7,6 +7,7 @@
 
 'use server';
 
+import { createAdminClient } from '@/lib/supabase/admin';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { supaServer } from '../clients/supabase';
@@ -18,30 +19,13 @@ import { supaServer } from '../clients/supabase';
  * @returns Auth result with success/error and redirect
  */
 export async function signInWithPassword(email: string, password: string, rememberMe?: boolean) {
-  const supabase = supaServer(cookies());
+  const cookieStore = cookies();
+  const supabase = supaServer(cookieStore);
 
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
-
-  // Set session persistence based on remember me
-  if (data.session && rememberMe) {
-    // Set longer session cookies for remember me (30 days)
-    cookies().set('sb-access-token', data.session.access_token, {
-      maxAge: 30 * 24 * 60 * 60, // 30 days
-      httpOnly: true,
-      secure: true,
-      sameSite: 'lax',
-    });
-
-    cookies().set('sb-refresh-token', data.session.refresh_token, {
-      maxAge: 30 * 24 * 60 * 60, // 30 days
-      httpOnly: true,
-      secure: true,
-      sameSite: 'lax',
-    });
-  }
 
   if (error) {
     return {
@@ -50,35 +34,39 @@ export async function signInWithPassword(email: string, password: string, rememb
     };
   }
 
-  // Extract role from user metadata (default to 'operator')
-  const role = (data.user?.user_metadata?.role ?? 'operator') as
-    | 'admin'
-    | 'operator'
-    | 'driver'
-    | 'customer'
-    | 'auditor';
+  const userId = data.user?.id;
 
-  // Role-based redirects
-  let redirectTo: string;
+  // Determine redirect based on admin_users table (authoritative source)
+  // Falls back to user_metadata role if not found in admin_users
+  let redirectTo = '/dashboard';
 
-  switch (role) {
-    case 'admin':
+  if (userId) {
+    try {
+      const supabaseAdmin = createAdminClient();
+      const { data: adminUser } = await supabaseAdmin
+        .from('admin_users')
+        .select('role')
+        .eq('auth_user_id', userId)
+        .single();
+
+      if (adminUser) {
+        // User is in admin_users → always go to dashboard
+        redirectTo = '/dashboard';
+      } else {
+        // Not an admin — check user_metadata for role
+        const metaRole = (data.user?.user_metadata?.role ?? 'operator') as string;
+        if (metaRole === 'driver') {
+          redirectTo = '/bookings';
+        } else if (metaRole === 'operator') {
+          redirectTo = '/operator';
+        } else {
+          redirectTo = '/dashboard';
+        }
+      }
+    } catch {
+      // If admin check fails, fall back to dashboard for safety
       redirectTo = '/dashboard';
-      break;
-    case 'operator':
-      redirectTo = '/operator';
-      break;
-    case 'driver':
-      redirectTo = '/bookings';
-      break;
-    case 'customer':
-      redirectTo = '/bookings';
-      break;
-    case 'auditor':
-      redirectTo = '/audit-history';
-      break;
-    default:
-      redirectTo = '/bookings';
+    }
   }
 
   // Server-side redirect

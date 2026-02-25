@@ -213,14 +213,14 @@ export async function getDocumentCounts(): Promise<{
     .from('driver_documents')
     .select('status')
     .neq('status', 'replaced')
-    .limit(5000);
+    .limit(500);
 
   // Fetch vehicle documents
   const { data: vehicleDocs, error: vehicleError } = await supabase
     .from('vehicle_documents')
     .select('status')
     .neq('status', 'replaced')
-    .limit(5000);
+    .limit(500);
 
   if (driverError || vehicleError) {
     console.error('Error fetching document counts:', driverError || vehicleError);

@@ -29,7 +29,7 @@ export async function fetchBookingSummary(): Promise<BookingSummary> {
   const { data: bookings } = await sb
     .from('bookings')
     .select('id, status, booking_pricing(price)')
-    .limit(5000);
+    .limit(500);
 
   const rows = bookings ?? [];
   const total = rows.length;
@@ -63,7 +63,7 @@ export async function fetchBookingSummary(): Promise<BookingSummary> {
   const { data: pricingData } = await sb
     .from('booking_pricing')
     .select('price, platform_fee, driver_payout')
-    .limit(5000);
+    .limit(500);
 
   const pRows = pricingData ?? [];
   const platformProfit = pRows.reduce((s: number, r: Record<string, unknown>) => s + ((r.platform_fee as number) ?? 0), 0);
@@ -86,7 +86,7 @@ export async function fetchRevenueSummary(): Promise<RevenueSummary> {
   const { data: legs } = await sb
     .from('booking_legs')
     .select('vehicle_category, leg_price, driver_payout')
-    .limit(5000);
+    .limit(500);
 
   const catMap = new Map<string, CategoryRevenue>();
   for (const l of (legs ?? [])) {
@@ -112,7 +112,7 @@ export async function fetchRevenueSummary(): Promise<RevenueSummary> {
   const { data: tripData } = await sb
     .from('bookings')
     .select('trip_type, category, booking_pricing(price, platform_fee)')
-    .limit(5000);
+    .limit(500);
 
   const tripMap = new Map<string, TripTypeRevenue>();
   for (const b of (tripData ?? [])) {

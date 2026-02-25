@@ -57,7 +57,7 @@ export async function getPlatformStatistics() {
     const { data: ratingsData, error: ratingsError } = await supabase
       .from('driver_reviews')
       .select('rating')
-      .limit(5000);
+      .limit(500);
     
     if (ratingsError) throw ratingsError;
 
@@ -81,7 +81,7 @@ export async function getPlatformStatistics() {
     const { data: incidentsData, error: incidentsError } = await supabase
       .from('safety_incidents')
       .select('admin_investigation_status')
-      .limit(5000);
+      .limit(500);
 
     if (incidentsError) throw incidentsError;
 

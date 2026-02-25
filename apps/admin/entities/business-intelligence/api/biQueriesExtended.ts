@@ -34,7 +34,7 @@ export async function fetchRoutesSummary(): Promise<RoutesSummary> {
   const { data: legs } = await sb
     .from('booking_legs')
     .select('pickup_location, destination, distance_miles, duration_min, leg_price')
-    .limit(5000);
+    .limit(500);
 
   const rows = legs ?? [];
   const totalLegs = rows.length;
@@ -78,7 +78,7 @@ export async function fetchRoutesSummary(): Promise<RoutesSummary> {
     .from('bookings')
     .select('start_at')
     .not('start_at', 'is', null)
-    .limit(5000);
+    .limit(500);
 
   const demandByTime: DemandByHour[] = [];
   const timeMap = new Map<string, DemandByHour>();
@@ -174,7 +174,7 @@ export async function fetchCustomersSummary(): Promise<CustomersSummary> {
   const { data: bookings } = await sb
     .from('bookings')
     .select('customer_id, booking_pricing(price)')
-    .limit(5000);
+    .limit(500);
 
   const custBookings = new Map<string, { count: number; revenue: number }>();
   for (const b of (bookings ?? [])) {

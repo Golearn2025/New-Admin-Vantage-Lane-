@@ -8,19 +8,19 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import type { BIData } from '@entities/business-intelligence';
 import {
-  fetchBookingSummary,
-  fetchRevenueSummary,
-  fetchRoutesSummary,
-  fetchDriversSummary,
-  fetchFleetSummary,
-  fetchCustomersSummary,
-  calculateHealthScore,
-  generateAllInsights,
-  generateLaunchPlan,
+    calculateHealthScore,
+    fetchBookingSummary,
+    fetchCustomersSummary,
+    fetchDriversSummary,
+    fetchFleetSummary,
+    fetchRevenueSummary,
+    fetchRoutesSummary,
+    generateAllInsights,
+    generateLaunchPlan,
 } from '@entities/business-intelligence';
+import { useCallback, useEffect, useState } from 'react';
 
 interface UseBIDataReturn {
   data: BIData | null;
@@ -39,14 +39,12 @@ export function useBIData(): UseBIDataReturn {
     setError(null);
 
     try {
-      const [bookings, revenue, routes, drivers, fleet, customers] = await Promise.all([
-        fetchBookingSummary(),
-        fetchRevenueSummary(),
-        fetchRoutesSummary(),
-        fetchDriversSummary(),
-        fetchFleetSummary(),
-        fetchCustomersSummary(),
-      ]);
+      const bookings = await fetchBookingSummary();
+      const revenue = await fetchRevenueSummary();
+      const routes = await fetchRoutesSummary();
+      const drivers = await fetchDriversSummary();
+      const fleet = await fetchFleetSummary();
+      const customers = await fetchCustomersSummary();
 
       const partial: BIData = {
         bookings,

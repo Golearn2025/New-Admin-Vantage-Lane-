@@ -8,11 +8,11 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
-import type { 
-  BookingLeg, 
-  BookingLegWithDetails, 
-  CreateBookingLegInput, 
-  UpdateBookingLegInput 
+import type {
+    BookingLeg,
+    BookingLegWithDetails,
+    CreateBookingLegInput,
+    UpdateBookingLegInput
 } from '../model/types';
 
 /**
@@ -27,7 +27,8 @@ export async function getBookingLegs(
     .from('booking_legs')
     .select('*')
     .eq('parent_booking_id', bookingId)
-    .order('leg_number', { ascending: true });
+    .order('leg_number', { ascending: true })
+    .limit(100);
   
   if (error) {
     throw new Error(`Failed to fetch booking legs: ${error.message}`);
@@ -64,7 +65,8 @@ export async function getBookingLegsWithDetails(
       )
     `)
     .eq('parent_booking_id', bookingId)
-    .order('leg_number', { ascending: true });
+    .order('leg_number', { ascending: true })
+    .limit(100);
   
   if (error) {
     throw new Error(`Failed to fetch booking legs with details: ${error.message}`);

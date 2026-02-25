@@ -4,17 +4,14 @@
  * Feedback templates retrieval and management operations
  */
 
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { createClient } from '@/lib/supabase/client';
 
 /**
  * Get feedback templates
  */
 export async function getFeedbackTemplates(templateType?: string) {
   try {
+    const supabase = createClient();
     let query = supabase
       .from('feedback_templates')
       .select('*')

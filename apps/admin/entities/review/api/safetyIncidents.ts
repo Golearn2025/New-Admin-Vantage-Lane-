@@ -4,12 +4,8 @@
  * Safety incidents filtering, updates, and investigation operations
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@/lib/supabase/client';
 import type { SafetyIncident } from '../model/types';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export interface SafetyIncidentsParams {
   page?: number;
@@ -32,6 +28,7 @@ export async function getSafetyIncidents(params: SafetyIncidentsParams = {}) {
   } = params;
 
   try {
+    const supabase = createClient();
     let query = supabase
       .from('safety_incidents')
       .select('*', { count: 'exact' })
@@ -103,6 +100,7 @@ export async function updateSafetyIncidentStatus(
   notes?: string
 ) {
   try {
+    const supabase = createClient();
     const updateData: any = {
       admin_investigation_status: status,
       updated_at: new Date().toISOString(),

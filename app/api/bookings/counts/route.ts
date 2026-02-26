@@ -14,6 +14,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import type { CountsByTripType } from '@features/shared/bookings-table/utils/createBookingTabs';
 import { ZERO_COUNTS } from '@features/shared/bookings-table/utils/createBookingTabs';
 import { withAdminOrOperatorClient, type SecureClientResult } from '@/lib/auth/secure-client';
+export const runtime = 'nodejs';
+
 
 export async function GET(request: NextRequest) {
   try {

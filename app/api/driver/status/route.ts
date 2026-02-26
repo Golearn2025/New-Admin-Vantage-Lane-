@@ -8,6 +8,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { updateDriverStatus, UpdateStatusPayloadSchema } from '@entities/driver-location';
 import { NextRequest, NextResponse } from 'next/server';
+export const runtime = 'nodejs';
+
 
 export async function POST(request: NextRequest) {
   try {

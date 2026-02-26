@@ -7,6 +7,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/utils/logger';
 import { NextResponse } from 'next/server';
+export const runtime = 'nodejs';
+
 
 interface RecentDriver {
   id: string;

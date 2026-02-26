@@ -8,6 +8,8 @@ import { fetchBookingsData } from '@entities/booking/api';
 import { transformBookingsData } from '../list/transform';
 import { withAdminOrOperatorClient, type SecureClientResult } from '@/lib/auth/secure-client';
 import { NextRequest, NextResponse } from 'next/server';
+export const runtime = 'nodejs';
+
 
 export async function GET(
   request: NextRequest,

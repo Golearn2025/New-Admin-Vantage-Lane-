@@ -5,10 +5,12 @@
  * Conform MEMORY 624f883e: project_id fmeonuvmlopkutbjejlo
  */
 
-import { NextResponse } from 'next/server';
 import * as Sentry from "@sentry/nextjs";
+import { NextResponse } from 'next/server';
 
 const { logger } = Sentry;
+
+export const runtime = 'nodejs';
 
 export async function GET() {
   return Sentry.startSpan({

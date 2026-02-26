@@ -11,6 +11,8 @@ import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/utils/logger';
 import { NextResponse } from 'next/server';
 
+export const runtime = 'nodejs';
+
 interface DashboardMetricsResponse {
   // Row 1: Financial Overview
   total_revenue_pence: number;

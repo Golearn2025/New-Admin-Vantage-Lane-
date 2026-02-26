@@ -9,6 +9,8 @@ import { createBooking } from '@entities/booking/api/createBooking';
 import { validateRequest } from '@/lib/api/validateRequest';
 import { CreateBookingSchema } from '@features/admin/booking-create/schema';
 import { logger } from '@/lib/utils/logger';
+export const runtime = 'nodejs';
+
 
 export async function POST(request: Request) {
   try {

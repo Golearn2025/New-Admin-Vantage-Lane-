@@ -15,6 +15,8 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { sendNotificationToDriver } from '@entities/notification';
 import { z } from 'zod';
+export const runtime = 'nodejs';
+
 
 // ✅ Schema validation
 const SendNotificationSchema = z.object({

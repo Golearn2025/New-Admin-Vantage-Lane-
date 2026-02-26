@@ -1,6 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+export const runtime = 'nodejs';
+
 
 export async function POST(request: NextRequest) {
   try {

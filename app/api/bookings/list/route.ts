@@ -9,6 +9,8 @@ import { logger } from '@/lib/utils/logger';
 import type { BookingRowDTO, BookingsListParams } from '@entities/booking/types/bookingsList.types';
 import { NextRequest, NextResponse } from 'next/server';
 import { transformRowsToResponse } from './mappers';
+export const runtime = 'nodejs';
+
 
 export async function GET(request: NextRequest) {
   const startTime = Date.now();

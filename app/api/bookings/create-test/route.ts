@@ -6,6 +6,8 @@
 
 import { NextResponse } from 'next/server';
 import { createTestBooking } from '@entities/booking/api/createTestBooking';
+export const runtime = 'nodejs';
+
 
 export async function POST(request: Request) {
   try {

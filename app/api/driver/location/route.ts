@@ -9,6 +9,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { updateDriverLocation } from '@entities/driver-location';
 import { UpdateLocationPayloadSchema } from '@entities/driver-location';
+export const runtime = 'nodejs';
+
 
 export async function POST(request: NextRequest) {
   try {

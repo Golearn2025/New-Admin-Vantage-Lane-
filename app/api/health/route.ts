@@ -17,6 +17,8 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/utils/logger';
+export const runtime = 'nodejs';
+
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;

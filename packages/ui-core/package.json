@@ -9,55 +9,200 @@
     "**/*.css"
   ],
   "exports": {
-    ".": "./src/index.ts",
-    "./Button": "./src/Button/index.ts",
-    "./FormRow": "./src/FormRow/index.ts",
-    "./ErrorBanner": "./src/ErrorBanner/index.ts",
-    "./AuthCard": "./src/AuthCard/index.ts",
-    "./BrandBackground": "./src/BrandBackground/index.ts",
-    "./BrandName": "./src/BrandName/index.ts",
-    "./Input": "./src/Input/index.ts",
-    "./Card": "./src/Card/index.ts",
-    "./Badge": "./src/Badge/index.ts",
-    "./Modal": "./src/Modal/index.ts",
-    "./Tabs": "./src/Tabs/index.ts",
-    "./DataTable": "./src/DataTable/index.ts",
-    "./TanStackTable": "./src/TanStackTable/index.ts",
-    "./Select": "./src/Select/index.ts",
-    "./Textarea": "./src/Textarea/index.ts",
-    "./Checkbox": "./src/Checkbox/index.ts",
-    "./Pagination": "./src/Pagination/index.ts",
-    "./Avatar": "./src/Avatar/index.ts",
-    "./Icon": "./src/Icon/index.ts",
-    "./LoadingState": "./src/LoadingState/index.ts",
-    "./ThemeSwitcher": "./src/ThemeSwitcher/index.ts",
-    "./StatCard": "./src/StatCard/index.ts",
-    "./MiniMetricCard": "./src/MiniMetricCard/index.ts",
-    "./MetricBarsCard": "./src/MetricBarsCard/index.ts",
-    "./DonutCard": "./src/DonutCard/index.ts",
-    "./ProgressCard": "./src/ProgressCard/index.ts",
-    "./ActivityCard": "./src/ActivityCard/index.ts",
-    "./TableCard": "./src/TableCard/index.ts",
-    "./RatingBreakdown": "./src/RatingBreakdown/index.ts",
-    "./RatingDisplay": "./src/RatingDisplay/index.ts",
-    "./SafetyBadge": "./src/SafetyBadge/index.ts",
-    "./LoginForm": "./src/LoginForm/index.ts",
-    "./ConfirmDialog": "./src/ConfirmDialog/index.ts",
-    "./ActionButton": "./src/ActionButton/index.ts",
-    "./ActionMenu": "./src/ActionMenu/index.ts",
-    "./SaveButton": "./src/SaveButton/index.ts",
-    "./RowActions": "./src/RowActions/index.ts",
-    "./TableActions": "./src/TableActions/index.ts",
-    "./TableFilters": "./src/TableFilters/index.ts",
-    "./FormField": "./src/FormField/index.ts",
-    "./ProfileSection": "./src/ProfileSection/index.ts",
-    "./UserBadge": "./src/UserBadge/index.ts",
-    "./NotificationActions": "./src/NotificationActions/index.ts",
-    "./components/NotificationBell": "./src/components/NotificationBell/index.ts",
-    "./components/StatusBadge": "./src/components/StatusBadge/index.ts",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./Button": {
+      "types": "./src/Button/index.ts",
+      "default": "./src/Button/index.ts"
+    },
+    "./FormRow": {
+      "types": "./src/FormRow/index.ts",
+      "default": "./src/FormRow/index.ts"
+    },
+    "./ErrorBanner": {
+      "types": "./src/ErrorBanner/index.ts",
+      "default": "./src/ErrorBanner/index.ts"
+    },
+    "./AuthCard": {
+      "types": "./src/AuthCard/index.ts",
+      "default": "./src/AuthCard/index.ts"
+    },
+    "./BrandBackground": {
+      "types": "./src/BrandBackground/index.ts",
+      "default": "./src/BrandBackground/index.ts"
+    },
+    "./BrandName": {
+      "types": "./src/BrandName/index.ts",
+      "default": "./src/BrandName/index.ts"
+    },
+    "./Input": {
+      "types": "./src/Input/index.ts",
+      "default": "./src/Input/index.ts"
+    },
+    "./Card": {
+      "types": "./src/Card/index.ts",
+      "default": "./src/Card/index.ts"
+    },
+    "./Badge": {
+      "types": "./src/Badge/index.ts",
+      "default": "./src/Badge/index.ts"
+    },
+    "./Modal": {
+      "types": "./src/Modal/index.ts",
+      "default": "./src/Modal/index.ts"
+    },
+    "./Tabs": {
+      "types": "./src/Tabs/index.ts",
+      "default": "./src/Tabs/index.ts"
+    },
+    "./DataTable": {
+      "types": "./src/DataTable/index.ts",
+      "default": "./src/DataTable/index.ts"
+    },
+    "./TanStackTable": {
+      "types": "./src/TanStackTable/index.ts",
+      "default": "./src/TanStackTable/index.ts"
+    },
+    "./Select": {
+      "types": "./src/Select/index.ts",
+      "default": "./src/Select/index.ts"
+    },
+    "./Textarea": {
+      "types": "./src/Textarea/index.ts",
+      "default": "./src/Textarea/index.ts"
+    },
+    "./Checkbox": {
+      "types": "./src/Checkbox/index.ts",
+      "default": "./src/Checkbox/index.ts"
+    },
+    "./Pagination": {
+      "types": "./src/Pagination/index.ts",
+      "default": "./src/Pagination/index.ts"
+    },
+    "./Avatar": {
+      "types": "./src/Avatar/index.ts",
+      "default": "./src/Avatar/index.ts"
+    },
+    "./Icon": {
+      "types": "./src/Icon/index.ts",
+      "default": "./src/Icon/index.ts"
+    },
+    "./LoadingState": {
+      "types": "./src/LoadingState/index.ts",
+      "default": "./src/LoadingState/index.ts"
+    },
+    "./ThemeSwitcher": {
+      "types": "./src/ThemeSwitcher/index.ts",
+      "default": "./src/ThemeSwitcher/index.ts"
+    },
+    "./StatCard": {
+      "types": "./src/StatCard/index.ts",
+      "default": "./src/StatCard/index.ts"
+    },
+    "./MiniMetricCard": {
+      "types": "./src/MiniMetricCard/index.ts",
+      "default": "./src/MiniMetricCard/index.ts"
+    },
+    "./MetricBarsCard": {
+      "types": "./src/MetricBarsCard/index.ts",
+      "default": "./src/MetricBarsCard/index.ts"
+    },
+    "./DonutCard": {
+      "types": "./src/DonutCard/index.ts",
+      "default": "./src/DonutCard/index.ts"
+    },
+    "./ProgressCard": {
+      "types": "./src/ProgressCard/index.ts",
+      "default": "./src/ProgressCard/index.ts"
+    },
+    "./ActivityCard": {
+      "types": "./src/ActivityCard/index.ts",
+      "default": "./src/ActivityCard/index.ts"
+    },
+    "./TableCard": {
+      "types": "./src/TableCard/index.ts",
+      "default": "./src/TableCard/index.ts"
+    },
+    "./RatingBreakdown": {
+      "types": "./src/RatingBreakdown/index.ts",
+      "default": "./src/RatingBreakdown/index.ts"
+    },
+    "./RatingDisplay": {
+      "types": "./src/RatingDisplay/index.ts",
+      "default": "./src/RatingDisplay/index.ts"
+    },
+    "./SafetyBadge": {
+      "types": "./src/SafetyBadge/index.ts",
+      "default": "./src/SafetyBadge/index.ts"
+    },
+    "./LoginForm": {
+      "types": "./src/LoginForm/index.ts",
+      "default": "./src/LoginForm/index.ts"
+    },
+    "./ConfirmDialog": {
+      "types": "./src/ConfirmDialog/index.ts",
+      "default": "./src/ConfirmDialog/index.ts"
+    },
+    "./ActionButton": {
+      "types": "./src/ActionButton/index.ts",
+      "default": "./src/ActionButton/index.ts"
+    },
+    "./ActionMenu": {
+      "types": "./src/ActionMenu/index.ts",
+      "default": "./src/ActionMenu/index.ts"
+    },
+    "./SaveButton": {
+      "types": "./src/SaveButton/index.ts",
+      "default": "./src/SaveButton/index.ts"
+    },
+    "./RowActions": {
+      "types": "./src/RowActions/index.ts",
+      "default": "./src/RowActions/index.ts"
+    },
+    "./TableActions": {
+      "types": "./src/TableActions/index.ts",
+      "default": "./src/TableActions/index.ts"
+    },
+    "./TableFilters": {
+      "types": "./src/TableFilters/index.ts",
+      "default": "./src/TableFilters/index.ts"
+    },
+    "./FormField": {
+      "types": "./src/FormField/index.ts",
+      "default": "./src/FormField/index.ts"
+    },
+    "./ProfileSection": {
+      "types": "./src/ProfileSection/index.ts",
+      "default": "./src/ProfileSection/index.ts"
+    },
+    "./UserBadge": {
+      "types": "./src/UserBadge/index.ts",
+      "default": "./src/UserBadge/index.ts"
+    },
+    "./NotificationActions": {
+      "types": "./src/NotificationActions/index.ts",
+      "default": "./src/NotificationActions/index.ts"
+    },
+    "./components/NotificationBell": {
+      "types": "./src/components/NotificationBell/index.ts",
+      "default": "./src/components/NotificationBell/index.ts"
+    },
+    "./components/StatusBadge": {
+      "types": "./src/components/StatusBadge/index.ts",
+      "default": "./src/components/StatusBadge/index.ts"
+    },
     "./charts/*": "./src/charts/*",
-    "./theme": "./src/theme/index.ts",
-    "./utils": "./src/utils/index.ts",
+    "./theme": {
+      "types": "./src/theme/index.ts",
+      "default": "./src/theme/index.ts"
+    },
+    "./utils": {
+      "types": "./src/utils/index.ts",
+      "default": "./src/utils/index.ts"
+    },
     "./dist/index.css": "./dist/index.css"
   },
   "files": [

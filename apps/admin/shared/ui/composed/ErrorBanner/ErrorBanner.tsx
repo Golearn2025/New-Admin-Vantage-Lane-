@@ -5,7 +5,7 @@
  * Folosește DOAR design tokens și asigură A11y compliance.
  */
 
-import { Button } from '@vantage-lane/ui-core';
+import { Button } from '@vantage-lane/ui-core/Button';
 import styles from './ErrorBanner.module.css';
 
 export interface ErrorBannerProps {

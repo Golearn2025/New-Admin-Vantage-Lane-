@@ -32,44 +32,37 @@ async function getCurrentSession() {
 async function getAdminUserData(authUserId: string): Promise<UserInfo> {
   const supabase = createClient();
   
-  // Get admin user details
-  const { data: adminUser, error: adminError } = await supabase
-    .from('admin_users')
-    .select('id, email, name, role')
-    .eq('auth_user_id', authUserId)
-    .single();
+  // Get user data from auth.users first
+  const { data: { user: authUser } } = await supabase.auth.getUser();
+  const email = authUser?.email || 'user@example.com';
+  
+  // Check organization_members (new DB schema)
+  // Note: RLS policies should allow users to read their own membership via auth.uid()
+  const { data: membership, error: membershipError } = await supabase
+    .from('organization_members')
+    .select(`
+      role,
+      organization_id,
+      organizations(name)
+    `)
+    .eq('user_id', authUserId)
+    .maybeSingle(); // Use maybeSingle() instead of single() to handle "no rows" gracefully
 
-  if (adminError) {
-    logger.warn('Admin user not found, checking operator/driver:', adminError);
-    
-    // Check if it's an operator
-    const { data: operatorUser } = await supabase
-      .from('user_organization_roles')
-      .select('organization_id, role, is_active')
-      .eq('user_id', authUserId)
-      .eq('is_active', true)
-      .single();
+  // If membership query failed with error (not just "no rows"), log it
+  if (membershipError) {
+    logger.error('Error querying organization_members:', membershipError);
+  }
 
-    if (operatorUser) {
-      // Get user data from Supabase auth.users 
-      const { data: { user: authUser } } = await supabase.auth.getUser();
-      const email = authUser?.email || 'operator@example.com';
-      
-      return {
-        name: email.split('@')[0] || 'Operator',
-        email: email,
-        role: 'operator' as const,
-        auth_user_id: authUserId,
-        organization_id: operatorUser.organization_id,
-      };
-    }
+  // If no membership found, check drivers table
+  if (!membership) {
+    logger.warn('User not found in organization_members, checking drivers');
     
     // Fallback: check if it's a driver
     const { data: driverUser } = await supabase
       .from('drivers')
       .select('id, email, first_name, last_name')
-      .eq('auth_user_id', authUserId)
-      .single();
+      .eq('user_id', authUserId)
+      .maybeSingle();
 
     if (driverUser) {
       return {
@@ -80,42 +73,52 @@ async function getAdminUserData(authUserId: string): Promise<UserInfo> {
       };
     }
 
-    throw new Error('User not found in any table');
+    // User not found in any table - log error but don't throw (prevents infinite loading)
+    logger.error('User not found in organization_members or drivers', { authUserId, email });
+    
+    // Return minimal user info to allow app to render (will show error state instead of infinite loading)
+    return {
+      name: email.split('@')[0] || 'Unknown User',
+      email: email,
+      role: 'operator' as const,
+      auth_user_id: authUserId,
+    };
   }
 
-  // Map role to AppShell role type (admin | operator | driver)
+  // Map organization role to AppShell role type
+  // root/owner/admin → admin, operator → operator, driver → driver
   let appShellRole: 'admin' | 'operator' | 'driver' = 'operator';
-  if (adminUser.role === 'admin' || adminUser.role === 'super_admin') {
+  if (membership.role === 'root' || membership.role === 'owner' || membership.role === 'admin') {
     appShellRole = 'admin';
-  } else if (adminUser.role === 'driver') {
+  } else if (membership.role === 'driver') {
     appShellRole = 'driver';
   } else {
     appShellRole = 'operator';
   }
 
   return {
-    name: adminUser.name || adminUser.email || 'Admin User',
-    email: adminUser.email,
+    name: email.split('@')[0] || 'User',
+    email: email,
     role: appShellRole,
     auth_user_id: authUserId,
+    organization_id: membership.organization_id,
   };
 }
 
 export function useCurrentUser() {
   const [authUserId, setAuthUserId] = useState<string | null>(null);
   
-  // ✅ OPTIMIZED: Cache session for 5 min, no refetch on tab switch
+  // 🚧 DEVELOPMENT: Cache DISABLED pentru fresh auth state
   const { data: session, isLoading: sessionLoading } = useQuery({
     queryKey: ['auth-session'],
     queryFn: getCurrentSession,
-    staleTime: 5 * 60 * 1000, // 5 min — session doesn't change often
-    gcTime: 10 * 60 * 1000, // 10 min garbage collection
-    refetchOnWindowFocus: false, // ❌ No refetch on tab switch
-    refetchOnReconnect: false,
+    staleTime: 0, // No cache - sempre fetch fresh
+    gcTime: 0, // No cache storage 
+    refetchOnWindowFocus: true, // Refetch pe tab switch
     retry: 1,
   });
 
-  // ✅ OPTIMIZED: Cache user data for 5 min, no refetch on tab switch
+  // 🚧 DEVELOPMENT: Cache DISABLED pentru fresh user data  
   const { 
     data: user, 
     isLoading: userLoading, 
@@ -124,10 +127,9 @@ export function useCurrentUser() {
     queryKey: ['current-user', authUserId],
     queryFn: () => getAdminUserData(authUserId!),
     enabled: !!authUserId, // Only run when we have auth user ID
-    staleTime: 5 * 60 * 1000, // 5 min — user data doesn't change often
-    gcTime: 10 * 60 * 1000, // 10 min garbage collection
-    refetchOnWindowFocus: false, // ❌ No refetch on tab switch
-    refetchOnReconnect: false,
+    staleTime: 0, // No cache - sempre fetch fresh
+    gcTime: 0, // No cache storage
+    refetchOnWindowFocus: true, // Refetch pe tab switch
     retry: 2,
   });
 

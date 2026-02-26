@@ -1,8 +1,13 @@
-import { fileURLToPath } from 'url';
+import bundleAnalyzer from '@next/bundle-analyzer';
 import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -12,12 +17,32 @@ const nextConfig = {
 
   // Optimize package imports for faster Fast Refresh
   experimental: {
-    optimizePackageImports: ['@features', '@entities', '@vantage-lane'],
+    optimizePackageImports: [
+      '@features',
+      '@entities', 
+      '@vantage-lane',
+      'lucide-react',
+      'recharts',
+    ],
     // Allow larger file uploads in Server Actions (for document uploads)
     serverActions: {
       bodySizeLimit: '10mb',
     },
   },
+
+  // Modularize imports to reduce bundle size
+  modularizeImports: {
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
+      skipDefaultConversion: true,
+    },
+    'recharts': {
+      transform: 'recharts/es6/{{member}}',
+    },
+  },
+
+  // Enable SWC minification for faster builds
+  swcMinify: true,
 
   // Configure on-demand entries for better HMR
   onDemandEntries: {
@@ -91,4 +116,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

@@ -59,7 +59,9 @@ export type { TableCardProps, TableColumn } from './TableCard';
 // Note: TableRow from TableCard excluded to avoid conflict with DataTable's TableRow component
 
 // Advanced Charts (Recharts)
-export * from './charts';
+// REMOVED: export * from './charts';
+// Charts must be imported directly from @vantage-lane/ui-core/charts to avoid bundling Recharts globally
+// Example: import { BarChartPremium } from '@vantage-lane/ui-core/charts';
 
 // Navigation
 export * from './Tabs';

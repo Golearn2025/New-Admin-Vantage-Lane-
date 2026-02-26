@@ -9,7 +9,15 @@
  * - IN_PROGRESS: Trip in progress
  */
 
-import { BookingsWithTabs } from '@features/shared/bookings-table';
+import dynamic from 'next/dynamic';
+
+const BookingsWithTabs = dynamic(
+  () => import('@features/shared/bookings-table').then(mod => ({ default: mod.BookingsWithTabs })),
+  { 
+    loading: () => <div style={{ padding: '2rem', textAlign: 'center' }}>Loading bookings...</div>,
+    ssr: false 
+  }
+);
 
 // ✅ No statusFilter - Active page shows ALL bookings with dropdown filtering
 export default function ActiveBookingsPage() {

@@ -6,9 +6,18 @@
  * Uses lucide-react icons (no emoji).
  */
 
-import { LoginForm } from '@features/shared/auth-login';
-import { AuthCard, BrandBackground } from '@vantage-lane/ui-core';
+import { AuthCard } from '@vantage-lane/ui-core/AuthCard';
+import { BrandBackground } from '@vantage-lane/ui-core/BrandBackground';
+import dynamic from 'next/dynamic';
 import styles from './login.module.css';
+
+const LoginForm = dynamic(
+  () => import('@features/shared/auth-login').then(mod => ({ default: mod.LoginForm })),
+  { 
+    loading: () => <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>,
+    ssr: false 
+  }
+);
 
 export default function LoginPage() {
   return (

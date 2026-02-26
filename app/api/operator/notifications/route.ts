@@ -33,79 +33,41 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // RBAC check - verify user is admin OR operator (using service role to bypass RLS)
+    // RBAC check - verify user has organization membership (using service role to bypass RLS)
     const { createAdminClient } = await import('@/lib/supabase/admin');
     const supabaseAdmin = createAdminClient();
     
-    const { data: adminUser } = await supabaseAdmin
-      .from('admin_users')
-      .select('role, is_active')
-      .eq('auth_user_id', user.id)
+    const { data: membership } = await supabaseAdmin
+      .from('organization_members')
+      .select('role, organization_id')
+      .eq('user_id', user.id)
       .single();
 
-    // Check if user is operator if not admin
     let organizationId: string | null = null;
     let isAuthorized = false;
 
-    if (adminUser && adminUser.is_active && ['super_admin', 'admin'].includes(adminUser.role)) {
-      // User is admin - can see all notifications
-      isAuthorized = true;
-      organizationId = null; // null = see all
-    } else {
-      // Check if user is operator
-      const { data: operatorUser } = await supabase
-        .from('user_organization_roles')
-        .select('organization_id, role, is_active')
-        .eq('user_id', user.id)
-        .eq('is_active', true)
-        .single();
-
-      if (operatorUser && operatorUser.role === 'admin') {
-        // User is operator - can see only their notifications
+    if (membership) {
+      // root/owner/admin → can see all notifications
+      if (membership.role === 'root' || membership.role === 'owner' || membership.role === 'admin') {
         isAuthorized = true;
-        organizationId = operatorUser.organization_id;
+        organizationId = null; // null = see all
+      }
+      // operator → can see only their notifications
+      else if (membership.role === 'operator') {
+        isAuthorized = true;
+        organizationId = membership.organization_id;
       }
     }
 
     if (!isAuthorized) {
-      return NextResponse.json({ error: 'Forbidden - Admin or Operator access required' }, { status: 403 });
+      return NextResponse.json({ error: 'Forbidden - Organization membership required' }, { status: 403 });
     }
 
-    // Build notification query
-    let notificationsQuery = supabase
-      .from('notifications')
-      .select('id, type, title, message, created_at, read_at, user_id, organization_id, target_type')
-      .order('created_at', { ascending: false })
-      .limit(10);
-
-    // Filter notifications for operator
-    if (organizationId) {
-      // For operators, show notifications that are:
-      // 1. Directed to them specifically (user_id = their user id)
-      // 2. Directed to their organization (organization_id = their org id)  
-      // 3. General operator notifications (target_type = 'operator')
-      notificationsQuery = notificationsQuery.or(
-        `user_id.eq.${user.id},organization_id.eq.${organizationId},and(target_type.eq.operator,user_id.is.null)`
-      );
-    }
-
-    const { data: notifications, error: notificationsError } = await notificationsQuery;
-
-    if (notificationsError) {
-      logger.error('Error fetching notifications', { error: notificationsError.message });
-      return NextResponse.json({ error: 'Failed to fetch notifications' }, { status: 500 });
-    }
-
-    // Map to response format
-    const operatorNotifications: OperatorNotification[] = notifications.map(notification => ({
-      id: notification.id,
-      type: notification.type,
-      title: notification.title,
-      message: notification.message,
-      createdAt: notification.created_at,
-      readAt: notification.read_at,
-      organizationId: notification.organization_id,
-    }));
+    // TODO: Table 'notifications' doesn't exist in new DB yet
+    // Temporarily return empty array to prevent 500 errors
+    logger.warn('Notifications table not available in new DB - returning empty data');
+    
+    const operatorNotifications: OperatorNotification[] = [];
 
     return NextResponse.json(operatorNotifications);
   } catch (error) {

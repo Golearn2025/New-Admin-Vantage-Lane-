@@ -5,7 +5,15 @@
  * (Following architecture: app/ for routing only, features/ for UI logic)
  */
 
-import { LiveDriversMapPage } from '@features/live-drivers-map';
+import dynamic from 'next/dynamic';
+
+const LiveDriversMapPage = dynamic(
+  () => import('@features/live-drivers-map').then(mod => ({ default: mod.LiveDriversMapPage })),
+  { 
+    loading: () => <div style={{ padding: '2rem', textAlign: 'center' }}>Loading map...</div>,
+    ssr: false 
+  }
+);
 
 export default function DriversMapRoute() {
   return <LiveDriversMapPage />;

@@ -43,28 +43,37 @@ export async function signInWithPassword(email: string, password: string, rememb
   if (userId) {
     try {
       const supabaseAdmin = createAdminClient();
-      const { data: adminUser } = await supabaseAdmin
-        .from('admin_users')
+      
+      // Check organization_members (new DB schema)
+      const { data: membership } = await supabaseAdmin
+        .from('organization_members')
         .select('role')
-        .eq('auth_user_id', userId)
+        .eq('user_id', userId)
         .single();
 
-      if (adminUser) {
-        // User is in admin_users → always go to dashboard
-        redirectTo = '/dashboard';
-      } else {
-        // Not an admin — check user_metadata for role
-        const metaRole = (data.user?.user_metadata?.role ?? 'operator') as string;
-        if (metaRole === 'driver') {
-          redirectTo = '/bookings';
-        } else if (metaRole === 'operator') {
-          redirectTo = '/operator';
-        } else {
+      if (membership) {
+        // owner/admin → dashboard
+        if (membership.role === 'owner' || membership.role === 'admin') {
           redirectTo = '/dashboard';
         }
+        // operator → operator dashboard
+        else if (membership.role === 'operator') {
+          redirectTo = '/operator';
+        }
+        // driver → driver dashboard
+        else if (membership.role === 'driver') {
+          redirectTo = '/driver';
+        }
+        // fallback
+        else {
+          redirectTo = '/dashboard';
+        }
+      } else {
+        // Not in organization_members — fallback to dashboard
+        redirectTo = '/dashboard';
       }
     } catch {
-      // If admin check fails, fall back to dashboard for safety
+      // If membership check fails, fall back to dashboard for safety
       redirectTo = '/dashboard';
     }
   }

@@ -32,57 +32,48 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // RBAC check - verify user is admin OR operator (using service role to bypass RLS)
+    // RBAC check - verify user has organization membership (using service role to bypass RLS)
     const { createAdminClient } = await import('@/lib/supabase/admin');
     const supabaseAdmin = createAdminClient();
     
-    const { data: adminUser } = await supabaseAdmin
-      .from('admin_users')
-      .select('role, is_active')
-      .eq('auth_user_id', user.id)
+    const { data: membership } = await supabaseAdmin
+      .from('organization_members')
+      .select(`
+        role,
+        organization_id,
+        organizations!inner (
+          name
+        )
+      `)
+      .eq('user_id', user.id)
       .single();
 
-    // Check if user is operator if not admin
     let organizationId: string | null = null;
     let organizationName: string | null = null;
     let isAuthorized = false;
 
-    if (adminUser && adminUser.is_active && ['super_admin', 'admin'].includes(adminUser.role)) {
-      // User is admin - can see all data
-      isAuthorized = true;
-      organizationId = null; // null = see all organizations
-    } else {
-      // Check if user is operator
-      const { data: operatorUser } = await supabase
-        .from('user_organization_roles')
-        .select(`
-          organization_id, 
-          role, 
-          is_active,
-          organizations!inner (
-            name
-          )
-        `)
-        .eq('user_id', user.id)
-        .eq('is_active', true)
-        .single();
-
-      if (operatorUser && operatorUser.role === 'admin') {
-        // User is operator - can see only their organization data
+    if (membership) {
+      // root/owner/admin → can see all data
+      if (membership.role === 'root' || membership.role === 'owner' || membership.role === 'admin') {
         isAuthorized = true;
-        organizationId = operatorUser.organization_id;
-        organizationName = (operatorUser.organizations as unknown as { name: string })?.name;
+        organizationId = null; // null = see all organizations
+      }
+      // operator → can see only their organization data
+      else if (membership.role === 'operator') {
+        isAuthorized = true;
+        organizationId = membership.organization_id;
+        organizationName = (membership.organizations as unknown as { name: string })?.name;
       }
     }
 
     if (!isAuthorized) {
-      return NextResponse.json({ error: 'Forbidden - Admin or Operator access required' }, { status: 403 });
+      return NextResponse.json({ error: 'Forbidden - Organization membership required' }, { status: 403 });
     }
 
     // Get driver statistics
     let driversQuery = supabase
       .from('drivers')
-      .select('id, is_approved, is_active, organization_id');
+      .select('id, status, organization_id');
 
     // Filter by organization if operator
     if (organizationId) {
@@ -98,28 +89,20 @@ export async function GET() {
 
     // Calculate statistics
     const totalDrivers = drivers.length;
-    const activeDrivers = drivers.filter(d => d.is_active).length;
-    const pendingDrivers = drivers.filter(d => !d.is_approved).length;
+    const activeDrivers = drivers.filter(d => d.status === 'active').length;
+    const pendingDrivers = drivers.filter(d => d.status === 'pending').length;
 
-    // Get booking count from dashboard metrics
-    const { data: metricsData, error: metricsError } = await supabase.rpc('get_dashboard_metrics', {
-      p_start_date: null,
-      p_end_date: null,
-      p_organization_id: organizationId,
-    });
-
-    if (metricsError) {
-      logger.error('Error fetching booking metrics', { error: metricsError.message });
-      return NextResponse.json({ error: 'Failed to fetch booking metrics' }, { status: 500 });
-    }
-
-    const totalBookings = metricsData?.total_bookings || 0;
+    // Get booking count directly from bookings table
+    const { count: totalBookings } = await supabase
+      .from('bookings')
+      .select('*', { count: 'exact', head: true })
+      .eq(organizationId ? 'organization_id' : 'id', organizationId || organizationId);
 
     const stats: OperatorStatsResponse = {
       totalDrivers,
       activeDrivers,
       pendingDrivers,
-      totalBookings,
+      totalBookings: totalBookings || 0,
       ...(organizationId && { organizationId, organizationName }),
     };
 

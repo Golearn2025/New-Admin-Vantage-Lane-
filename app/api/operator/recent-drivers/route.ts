@@ -33,48 +33,40 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // RBAC check - verify user is admin OR operator (using service role to bypass RLS)
+    // RBAC check - verify user has organization membership (using service role to bypass RLS)
     const { createAdminClient } = await import('@/lib/supabase/admin');
     const supabaseAdmin = createAdminClient();
     
-    const { data: adminUser } = await supabaseAdmin
-      .from('admin_users')
-      .select('role, is_active')
-      .eq('auth_user_id', user.id)
+    const { data: membership } = await supabaseAdmin
+      .from('organization_members')
+      .select('role, organization_id')
+      .eq('user_id', user.id)
       .single();
 
-    // Check if user is operator if not admin
     let organizationId: string | null = null;
     let isAuthorized = false;
 
-    if (adminUser && adminUser.is_active && ['super_admin', 'admin'].includes(adminUser.role)) {
-      // User is admin - can see all data
-      isAuthorized = true;
-      organizationId = null; // null = see all organizations
-    } else {
-      // Check if user is operator
-      const { data: operatorUser } = await supabase
-        .from('user_organization_roles')
-        .select('organization_id, role, is_active')
-        .eq('user_id', user.id)
-        .eq('is_active', true)
-        .single();
-
-      if (operatorUser && operatorUser.role === 'admin') {
-        // User is operator - can see only their organization data
+    if (membership) {
+      // root/owner/admin → can see all data
+      if (membership.role === 'root' || membership.role === 'owner' || membership.role === 'admin') {
         isAuthorized = true;
-        organizationId = operatorUser.organization_id;
+        organizationId = null; // null = see all organizations
+      }
+      // operator → can see only their organization data
+      else if (membership.role === 'operator') {
+        isAuthorized = true;
+        organizationId = membership.organization_id;
       }
     }
 
     if (!isAuthorized) {
-      return NextResponse.json({ error: 'Forbidden - Admin or Operator access required' }, { status: 403 });
+      return NextResponse.json({ error: 'Forbidden - Organization membership required' }, { status: 403 });
     }
 
     // Get recent drivers
     let driversQuery = supabase
       .from('drivers')
-      .select('id, first_name, last_name, email, phone, is_approved, is_active, created_at, organization_id')
+      .select('id, first_name, last_name, email, phone, status, created_at, organization_id')
       .order('created_at', { ascending: false })
       .limit(5);
 
@@ -97,11 +89,7 @@ export async function GET() {
       lastName: driver.last_name,
       email: driver.email,
       phone: driver.phone,
-      status: driver.is_approved && driver.is_active 
-        ? 'active' 
-        : !driver.is_approved 
-        ? 'pending' 
-        : 'inactive',
+      status: driver.status as 'active' | 'pending' | 'inactive',
       createdAt: driver.created_at,
     }));
 

@@ -10,8 +10,9 @@
 
 'use client';
 
+import { AuthCard } from '@vantage-lane/ui-core/AuthCard';
+import { BrandBackground } from '@vantage-lane/ui-core/BrandBackground';
 import { useEffect } from 'react';
-import { BrandBackground, AuthCard } from '@vantage-lane/ui-core';
 import styles from './logout.module.css';
 
 export default function LogoutPage() {

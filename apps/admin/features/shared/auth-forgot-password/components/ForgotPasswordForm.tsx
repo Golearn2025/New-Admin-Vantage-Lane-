@@ -8,12 +8,10 @@
 
 'use client';
 
+import { Button } from '@vantage-lane/ui-core/Button';
+import { ErrorBanner } from '@vantage-lane/ui-core/ErrorBanner';
+import { FormRow } from '@vantage-lane/ui-core/FormRow';
 import { CheckCircle } from 'lucide-react';
-import {
-  FormRow,
-  ErrorBanner,
-  Button,
-} from '@vantage-lane/ui-core';
 import { useForgotPasswordForm } from '../hooks/useForgotPasswordForm';
 import styles from './ForgotPasswordForm.module.css';
 

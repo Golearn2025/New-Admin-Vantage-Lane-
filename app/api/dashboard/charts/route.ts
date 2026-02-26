@@ -7,8 +7,8 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
-import { NextResponse } from 'next/server';
 import { logger } from '@/lib/utils/logger';
+import { NextResponse } from 'next/server';
 
 interface ChartDataPoint {
   x: string;
@@ -68,42 +68,34 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // RBAC check - verify user is admin OR operator (using service role to bypass RLS)
+    // RBAC check - verify user has organization membership (using service role to bypass RLS)
     const { createAdminClient } = await import('@/lib/supabase/admin');
     const supabaseAdmin = createAdminClient();
     
-    const { data: adminUser } = await supabaseAdmin
-      .from('admin_users')
-      .select('role, is_active')
-      .eq('auth_user_id', user.id)
+    const { data: membership } = await supabaseAdmin
+      .from('organization_members')
+      .select('role, organization_id')
+      .eq('user_id', user.id)
       .single();
 
-    // Check if user is operator if not admin
     let organizationId: string | null = null;
     let isAuthorized = false;
 
-    if (adminUser && adminUser.is_active && ['super_admin', 'admin'].includes(adminUser.role)) {
-      // User is admin - can see all data
-      isAuthorized = true;
-      organizationId = null; // null = see all organizations
-    } else {
-      // Check if user is operator
-      const { data: operatorUser } = await supabase
-        .from('user_organization_roles')
-        .select('organization_id, role, is_active')
-        .eq('user_id', user.id)
-        .eq('is_active', true)
-        .single();
-
-      if (operatorUser && operatorUser.role === 'admin') {
-        // User is operator - can see only their organization data
+    if (membership) {
+      // root/owner/admin → can see all data
+      if (membership.role === 'root' || membership.role === 'owner' || membership.role === 'admin') {
         isAuthorized = true;
-        organizationId = operatorUser.organization_id;
+        organizationId = null; // null = see all organizations
+      }
+      // operator → can see only their organization data
+      else if (membership.role === 'operator') {
+        isAuthorized = true;
+        organizationId = membership.organization_id;
       }
     }
 
     if (!isAuthorized) {
-      return NextResponse.json({ error: 'Forbidden - Admin or Operator access required' }, { status: 403 });
+      return NextResponse.json({ error: 'Forbidden - Organization membership required' }, { status: 403 });
     }
 
     // Update cache key to include organization filtering
@@ -117,25 +109,15 @@ export async function GET(request: Request) {
       });
     }
 
-    // Call database function with params and organization filtering
-    const { data, error } = await supabase.rpc('get_dashboard_charts', {
-      p_start_date: startDate || undefined,
-      p_end_date: endDate || undefined,
-      p_grouping: grouping,
-      p_organization_id: organizationId || undefined,
-    });
-
-    if (error) {
-      logger.error('Error fetching dashboard charts', { error: error.message });
-      return NextResponse.json({ error: 'Failed to fetch charts' }, { status: 500 });
-    }
-
-    // Parse response
+    // TODO: RPC function get_dashboard_charts doesn't exist in new DB yet
+    // Temporarily return empty data to prevent 500 errors
+    logger.warn('Dashboard charts RPC not available in new DB - returning empty data');
+    
     const charts: DashboardChartsResponse = {
-      weekly_activity: data.weekly_activity || [],
-      revenue_trend: data.revenue_trend || [],
-      status_distribution: data.status_distribution || [],
-      operator_performance: data.operator_performance || [],
+      weekly_activity: [],
+      revenue_trend: [],
+      status_distribution: [],
+      operator_performance: [],
       cached: false,
       timestamp: new Date().toISOString(),
       cacheKey,

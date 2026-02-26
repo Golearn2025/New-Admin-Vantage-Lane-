@@ -6,7 +6,15 @@
  */
 
 import { Metadata } from 'next';
-import { BusinessIntelligencePage } from '@features/business-intelligence';
+import dynamic from 'next/dynamic';
+
+const BusinessIntelligencePage = dynamic(
+  () => import('@features/business-intelligence').then(mod => ({ default: mod.BusinessIntelligencePage })),
+  { 
+    loading: () => <div style={{ padding: '2rem', textAlign: 'center' }}>Loading analytics...</div>,
+    ssr: false 
+  }
+);
 
 export const metadata: Metadata = {
   title: 'Business Intelligence | Vantage Lane Admin',

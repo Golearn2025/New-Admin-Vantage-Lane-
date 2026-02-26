@@ -7,16 +7,17 @@
 
 'use client';
 
-import { NotificationBell, BrandName } from '@vantage-lane/ui-core';
-import type { Notification as NotificationBellType } from '@vantage-lane/ui-core';
 import { useNotificationsContext } from '@admin-shared/providers/NotificationsProvider';
-import { useRouter } from 'next/navigation';
+import { BrandName } from '@vantage-lane/ui-core/BrandName';
+import type { Notification as NotificationBellType } from '@vantage-lane/ui-core/components/NotificationBell';
+import { NotificationBell } from '@vantage-lane/ui-core/components/NotificationBell';
+import { Icon } from '@vantage-lane/ui-icons';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useMemo } from 'react';
 import { useTopbarActions, useUserInitials } from './hooks';
 import styles from './Topbar.module.css';
 import { TopbarProps } from './types';
-import { Icon } from '@vantage-lane/ui-icons';
 import { UserDropdown } from './UserDropdown';
 
 export function Topbar({ role, onMenuToggle, onNavigate, sidebarCollapsed = false, user }: TopbarProps) {

@@ -6,8 +6,9 @@
  * Uses lucide-react icons (CheckCircle, no emoji).
  */
 
-import { BrandBackground, AuthCard } from '@vantage-lane/ui-core';
 import { ForgotPasswordForm } from '@features/shared/auth-forgot-password';
+import { AuthCard } from '@vantage-lane/ui-core/AuthCard';
+import { BrandBackground } from '@vantage-lane/ui-core/BrandBackground';
 import styles from './forgot-password.module.css';
 
 export default function ForgotPasswordPage() {

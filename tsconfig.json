@@ -40,6 +40,7 @@
       "@formatters/*": ["./packages/formatters/src/*"],
       "@styles/*": ["./packages/styles/*"],
       "@vantage-lane/ui-core": ["./packages/ui-core/src"],
+      "@vantage-lane/ui-core/*": ["./packages/ui-core/src/*"],
       "@vantage-lane/ui-icons": ["./packages/ui-icons/src"],
       "@vantage-lane/ui-dashboard": ["./packages/ui-dashboard/src"],
       "@vantage-lane/ui-table": ["./packages/ui-table/src"],

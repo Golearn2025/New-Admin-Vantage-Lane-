@@ -1,21 +1,14 @@
 {
   "name": "@vantage-lane/ui-core",
   "version": "0.1.0",
-  "description": "Core UI primitives (Button, Input, Card, Checkbox)",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "sideEffects": [
-    "**/*.css"
-  ],
+  "private": true,
   "exports": {
-    ".": "./src/index.ts",
-    "./Button": "./src/Button/index.ts",
-    "./FormRow": "./src/FormRow/index.ts",
-    "./ErrorBanner": "./src/ErrorBanner/index.ts",
     "./AuthCard": "./src/AuthCard/index.ts",
     "./BrandBackground": "./src/BrandBackground/index.ts",
     "./BrandName": "./src/BrandName/index.ts",
+    "./Button": "./src/Button/index.ts",
+    "./FormRow": "./src/FormRow/index.ts",
+    "./ErrorBanner": "./src/ErrorBanner/index.ts",
     "./Input": "./src/Input/index.ts",
     "./Card": "./src/Card/index.ts",
     "./Badge": "./src/Badge/index.ts",
@@ -57,16 +50,7 @@
     "./components/StatusBadge": "./src/components/StatusBadge/index.ts",
     "./charts/*": "./src/charts/*",
     "./theme": "./src/theme/index.ts",
-    "./utils": "./src/utils/index.ts",
-    "./dist/index.css": "./dist/index.css"
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit"
+    "./utils": "./src/utils/index.ts"
   },
   "dependencies": {
     "@tanstack/react-table": "^8.21.3",

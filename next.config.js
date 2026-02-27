@@ -15,6 +15,9 @@ const nextConfig = {
   // Double mounting causes memory leaks and server crashes with Supabase Realtime
   reactStrictMode: false,
 
+  // Transpile internal monorepo packages
+  transpilePackages: ['@vantage-lane/ui-core'],
+
   // Optimize package imports for faster Fast Refresh
   experimental: {
     optimizePackageImports: [

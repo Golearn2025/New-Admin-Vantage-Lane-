@@ -1,0 +1,264 @@
+
+> @vantage-lane/admin@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.33
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+Webpack Bundle Analyzer saved report to /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/analyze/nodejs.html
+Webpack Bundle Analyzer saved report to /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/analyze/edge.html
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (118kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+Webpack Bundle Analyzer saved report to /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/analyze/client.html
+ ⚠ Compiled with warnings
+
+./node_modules/require-in-the-middle/index.js
+Critical dependency: require function is used in a way in which dependencies cannot be statically extracted
+
+Import trace for requested module:
+./node_modules/require-in-the-middle/index.js
+./node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+./node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+./node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+./node_modules/@opentelemetry/instrumentation/build/esm/index.js
+./node_modules/@sentry/node/build/cjs/integrations/tracing/postgresjs.js
+./node_modules/@sentry/node/build/cjs/index.js
+./node_modules/@sentry/nextjs/build/cjs/index.server.js
+./app/api/monitoring/security/route.ts
+
+./node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+A Node.js API is used (process.versions at line: 32) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+./node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+./node_modules/@supabase/realtime-js/dist/module/index.js
+./node_modules/@supabase/supabase-js/dist/module/index.js
+./node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+./node_modules/@supabase/ssr/dist/module/index.js
+
+./node_modules/@supabase/supabase-js/dist/module/index.js
+A Node.js API is used (process.version at line: 24) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+./node_modules/@supabase/supabase-js/dist/module/index.js
+./node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+./node_modules/@supabase/ssr/dist/module/index.js
+
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/84) ...
+Driver trips error: n [Error]: Dynamic server usage: Route /api/driver/trips couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/chunks/9276.js:1:58412)
+    at f (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/chunks/9702.js:5:9165)
+    at i (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/bookings/counts/route.js:1:3940)
+    at d (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/driver/trips/route.js:1:1065)
+    at /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
+    at /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24) {
+  description: "Route /api/driver/trips couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+🗺️ Live Drivers API called
+Driver stats error: n [Error]: Dynamic server usage: Route /api/driver/stats couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/chunks/9276.js:1:58412)
+    at f (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/chunks/9702.js:5:9165)
+    at n (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/dashboard/metrics/route.js:1:3000)
+    at d (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/driver/stats/route.js:1:1065)
+    at /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
+    at /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24) {
+  description: "Route /api/driver/stats couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+[2026-02-26T13:16:21.794Z] [ERROR] Unexpected error in bookings list API {
+  error: "Dynamic server usage: Route /api/bookings/list couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  stack: "Error: Dynamic server usage: Route /api/bookings/list couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error\n" +
+    '    at l (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/chunks/9276.js:1:58412)\n' +
+    '    at f (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/auth/logout/route.js:1:3867)\n' +
+    '    at i (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/notifications/history/route.js:1:2071)\n' +
+    '    at _ (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/bookings/list/route.js:1:1161)\n' +
+    '    at /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417\n' +
+    '    at /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/next/dist/server/lib/trace/tracer.js:140:36\n' +
+    '    at NoopContextManager.with (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)\n' +
+    '    at ContextAPI.with (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)\n' +
+    '    at NoopTracer.startActiveSpan (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)\n' +
+    '    at ProxyTracer.startActiveSpan (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)'
+}
+[2026-02-26T13:16:21.816Z] [ERROR] Unexpected error in dashboard metrics API {
+  error: "Dynamic server usage: Route /api/dashboard/metrics couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error"
+}
+Driver earnings error: n [Error]: Dynamic server usage: Route /api/driver/earnings couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/chunks/9276.js:1:58412)
+    at f (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/chunks/9702.js:5:9165)
+    at a (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/driver/earnings/route.js:1:2936)
+    at d (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/driver/earnings/route.js:1:1065)
+    at /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
+    at /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24) {
+  description: "Route /api/driver/earnings couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+[2026-02-26T13:16:22.237Z] [ERROR] Unexpected error in recent drivers API {
+  error: "Dynamic server usage: Route /api/operator/recent-drivers couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error"
+}
+[2026-02-26T13:16:22.238Z] [ERROR] Unexpected error in dashboard charts API {
+  error: "Dynamic server usage: Route /api/dashboard/charts couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error"
+}
+[API] Unexpected error: n [Error]: Dynamic server usage: Route /api/bookings/counts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/chunks/9276.js:1:58412)
+    at f (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/auth/logout/route.js:1:3867)
+    at i (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/notifications/history/route.js:1:2071)
+    at s (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/bookings/counts/route.js:1:3385)
+    at a (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/bookings/counts/route.js:1:3638)
+    at u (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/bookings/counts/route.js:1:3821)
+    at c (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/bookings/counts/route.js:1:1159)
+    at /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
+    at /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19) {
+  description: "Route /api/bookings/counts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+[2026-02-26T13:16:22.247Z] [ERROR] Unexpected error in operator notifications API {
+  error: "Dynamic server usage: Route /api/operator/notifications couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error"
+}
+[2026-02-26T13:16:22.407Z] [ERROR] Users list API error {
+  error: "Dynamic server usage: Route /api/users/list couldn't be rendered statically because it used `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error"
+}
+API error: n [Error]: Dynamic server usage: Route /api/notifications/history couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/chunks/9276.js:1:58412)
+    at f (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/chunks/9702.js:5:9165)
+    at i (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/bookings/counts/route.js:1:3940)
+    at c (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/.next/server/app/api/notifications/history/route.js:1:1064)
+    at /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
+    at /Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/kkk/CascadeProjects/New Admin Vantage Lane 1/New-Admin-Vantage-Lane-/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24) {
+  description: "Route /api/notifications/history couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+[2026-02-26T13:16:22.440Z] [ERROR] Unexpected error in operator stats API {
+  error: "Dynamic server usage: Route /api/operator/stats couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error"
+}
+   Generating static pages (21/84) 
+   Generating static pages (42/84) 
+   Generating static pages (63/84) 
+ ✓ Generating static pages (84/84)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                               Size     First Load JS
+┌ ○ /                                     192 B          88.6 kB
+├ ○ /_not-found                           192 B          88.6 kB
+├ ○ /api-test                             8.04 kB         147 kB
+├ ƒ /api/auth/logout                      0 B                0 B
+├ ƒ /api/bookings/[id]                    0 B                0 B
+├ ƒ /api/bookings/[id]/legs               0 B                0 B
+├ ƒ /api/bookings/counts                  0 B                0 B
+├ ƒ /api/bookings/create                  0 B                0 B
+├ ƒ /api/bookings/create-test             0 B                0 B
+├ ƒ /api/bookings/list                    0 B                0 B
+├ ƒ /api/dashboard/charts                 0 B                0 B
+├ ƒ /api/dashboard/metrics                0 B                0 B
+├ ƒ /api/driver/earnings                  0 B                0 B
+├ ○ /api/driver/live                      0 B                0 B
+├ ƒ /api/driver/location                  0 B                0 B
+├ ƒ /api/driver/stats                     0 B                0 B
+├ ƒ /api/driver/status                    0 B                0 B
+├ ƒ /api/driver/trips                     0 B                0 B
+├ ƒ /api/health                           0 B                0 B
+├ ƒ /api/monitoring/security              0 B                0 B
+├ ƒ /api/notifications/history            0 B                0 B
+├ ƒ /api/operator/notifications           0 B                0 B
+├ ƒ /api/operator/recent-drivers          0 B                0 B
+├ ƒ /api/operator/stats                   0 B                0 B
+├ ƒ /api/test/generate-jobs               0 B                0 B
+├ ƒ /api/users/list                       0 B                0 B
+├ ƒ /api/v1/notifications/send-to-driver  0 B                0 B
+├ ○ /auth/confirm                         20 kB           191 kB
+├ ○ /auth/reset-password                  5.67 kB         142 kB
+├ ○ /bookings                             174 B           201 kB
+├ ƒ /bookings/[id]                        192 B          88.6 kB
+├ ○ /bookings/active                      174 B           201 kB
+├ ○ /bookings/new                         13.1 kB         149 kB
+├ ○ /bookings/past                        174 B           201 kB
+├ ○ /bookings/test-creator                5.13 kB         141 kB
+├ ○ /business-intelligence                16.3 kB         171 kB
+├ ○ /dashboard                            229 B           162 kB
+├ ○ /debug/profile                        1.56 kB         164 kB
+├ ○ /disputes                             192 B          88.6 kB
+├ ○ /documents                            13.7 kB         199 kB
+├ ○ /driver                               296 B           162 kB
+├ ○ /driver/documents                     9.07 kB         172 kB
+├ ○ /drivers-map                          20.2 kB         604 kB
+├ ○ /forgot-password                      4.39 kB        92.8 kB
+├ ○ /invoices                             5.95 kB         183 kB
+├ ○ /login                                5.46 kB        93.9 kB
+├ ○ /logout                               1.39 kB        89.8 kB
+├ ○ /mapbox-test                          1.96 kB         533 kB
+├ ○ /monitoring                           192 B          88.6 kB
+├ ○ /notifications                        12 kB           158 kB
+├ ○ /operator                             219 B           162 kB
+├ ○ /operator/drivers                     1.77 kB        90.2 kB
+├ ○ /payments                             790 B           182 kB
+├ ○ /payments/disputes                    4.83 kB         182 kB
+├ ○ /payments/refunds                     4.58 kB         181 kB
+├ ○ /payments/transactions                230 B           181 kB
+├ ○ /payouts                              4.55 kB         167 kB
+├ ○ /prices                               20.6 kB         200 kB
+├ ○ /prices/history                       192 B          88.6 kB
+├ ○ /project-health                       192 B          88.6 kB
+├ ○ /refunds                              192 B          88.6 kB
+├ ○ /reviews                              12.8 kB         172 kB
+├ ○ /settings                             665 B           155 kB
+├ ○ /settings/commissions                 192 B           155 kB
+├ ○ /settings/legal                       192 B          88.6 kB
+├ ○ /settings/notifications               192 B          88.6 kB
+├ ○ /settings/permissions                 4.92 kB         141 kB
+├ ○ /settings/profile                     1.55 kB         164 kB
+├ ○ /settings/roles                       192 B          88.6 kB
+├ ○ /settings/security                    192 B          88.6 kB
+├ ○ /settings/vehicle-categories          4.07 kB        92.5 kB
+├ ○ /settings/webhooks                    192 B          88.6 kB
+├ ○ /support-tickets                      17.6 kB         172 kB
+├ ƒ /support-tickets/[id]                 192 B          88.6 kB
+├ ○ /test-mapbox                          943 B           532 kB
+├ ○ /test-simple                          192 B          88.6 kB
+├ ○ /test/generate-jobs                   1.99 kB        90.4 kB
+├ ○ /users                                241 B           196 kB
+├ ƒ /users/[id]                           9.04 kB         163 kB
+├ ○ /users/admins                         241 B           196 kB
+├ ○ /users/all                            242 B           196 kB
+├ ○ /users/assign-drivers-to-operators    8.78 kB         151 kB
+├ ○ /users/corporate                      192 B          88.6 kB
+├ ○ /users/customers                      242 B           196 kB
+├ ○ /users/drivers                        571 B           196 kB
+├ ƒ /users/drivers/[id]                   13.9 kB         185 kB
+├ ƒ /users/drivers/[id]/verify            7.75 kB         165 kB
+├ ○ /users/drivers/pending                7.69 kB         172 kB
+├ ○ /users/operators                      241 B           196 kB
+└ ○ /users/trash                          10.5 kB         180 kB
++ First Load JS shared by all             88.4 kB
+  ├ chunks/2117-2168f7066f5517cb.js       31.9 kB
+  ├ chunks/fd9d1056-a413f2625f7c3d97.js   53.6 kB
+  └ other shared chunks (total)           2.88 kB
+
+
+ƒ Middleware                              66.4 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
